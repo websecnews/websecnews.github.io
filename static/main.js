@@ -107,11 +107,11 @@ function getSectionsName(){
 			switch (pageName){
 			
 				case 'blogs_today':
-					jsonPath = "/states/today.json";
+					jsonPath = "/states/blogs_today.json";
 					break
 				
 				case 'blogs_yesterday':
-					jsonPath = "/states/yesterday.json";
+					jsonPath = "/states/blogs_yesterday.json";
 					break;
 				case 'cve_today':
 					jsonPath = "/states/cve_today.json";
@@ -125,7 +125,7 @@ function getSectionsName(){
 					break;
 					
 				default:
-					jsonPath = "/states/today.json";
+					jsonPath = "/states/blogs_today.json";
 					window.currentPage = 'blogs_today';	
 			}
 			if ($(".filterRow").prop("hidden")){
