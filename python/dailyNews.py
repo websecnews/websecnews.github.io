@@ -162,7 +162,7 @@ else: includeFeeds = []
 if args.exclude: excludeFeeds = [i.strip().lower() for i in args.exclude.split(',')]
 else: excludeFeeds = []
 
-print(stateFile)
+print(os.getcwd() + stateFile)
 print(todayFilename)
 print(yesterdayFilename)
 print(includeFeeds)
