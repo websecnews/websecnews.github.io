@@ -162,12 +162,11 @@ else: includeFeeds = []
 if args.exclude: excludeFeeds = [i.strip().lower() for i in args.exclude.split(',')]
 else: excludeFeeds = []
 
-print(os.getcwd() + stateFile)
+print(stateFile)
 print(todayFilename)
 print(yesterdayFilename)
 print(includeFeeds)
 print(excludeFeeds)
-exit()
 
 if not os.path.isfile(stateFile):
     nowTime = datetime.utcnow()
