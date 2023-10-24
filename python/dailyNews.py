@@ -167,7 +167,7 @@ print(todayFilename)
 print(yesterdayFilename)
 print(includeFeeds)
 print(excludeFeeds)
-
+exit()
 
 if not os.path.isfile(stateFile):
     nowTime = datetime.utcnow()
