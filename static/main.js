@@ -84,9 +84,9 @@ function getSectionsName(){
 				
 				aboutContent = '<div class="jumbotron">' + 
 				  '<h1 class="display-5">Hello, friend!</h1>' +
-				  '<p class="lead">My name is Mike and I made this website for infosecurity enthusiasts, bug hunters and everybody who interested in actual infosec news, blogposts and CVEs.</p>' +
+				  '<p class="lead">My name is Mike and I made this website for infosecurity enthusiasts, bug hunters, and everybody interested in actual infosec news, blog posts, and CVEs.</p>' +
 				  '<p class="lead">' + 
-					'You can suggest new RSS feed and I\'ll consider it for inclusion as source of information.'+
+					'You can suggest a new RSS feed and I\'ll consider it for inclusion as a source of information.'+
 				  '</p>' +
 				  '<p class="lead">' +
 					'<ul>' + 
