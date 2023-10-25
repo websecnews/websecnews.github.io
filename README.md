@@ -11,14 +11,14 @@ The information is regularly updates from RSS feeds and other sources. The site 
 
 I'll try to review all the suggestions and I'll add an interesting ones into feed scraper.
 
-## TODO
+## ✅ TODO
 
 - [ ]  Add news section and feeds
 - [ ]  Multithread feed parsing
 - [ ]  BugBounty hacktivity in separeate section
 - [ ]  Collapsible sources on the website
 
-## ℹ️ My links
+## 🔗 My links
 * [X (twitter)](https://twitter.com/m1ke_n1)
 * [Telegram channel (RU only)](https://t.me/WebSecHack)
 * [Personal github](https://github.com/mike-n1)
