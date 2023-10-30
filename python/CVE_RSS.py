@@ -19,6 +19,7 @@ def addItemToRSS(fe, CVEdata):
     CVEid = CVEdata["cveMetadata"]["cveId"]
     link = "https://www.cve.org/CVERecord?id=" + CVEid
     CVEdescr = getEnDescription(CVEdata["containers"]["cna"]["descriptions"]).strip()
+    CVEdescr = re.sub(u'[^\u0020-\uD7FF\u0009\u000A\u000D\uE000-\uFFFD\U00010000-\U0010FFFF]+', '', CVEdescr)
     if "title" in CVEdata["containers"]["cna"]: CVEtitle = html.escape(CVEdata["containers"]["cna"]["title"])
     else:
         maxLen = 140
