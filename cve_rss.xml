@@ -1,5 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Feb 2024 08:26:19 +0000</lastBuildDate><item><title>CVE-2023-52465 | power: supply: Fix null pointer dereference in smb2_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52465</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Feb 2024 14:09:28 +0000</lastBuildDate><item><title>CVE-2021-46904 | net: hso: fix null-ptr-deref during tty device unregistration</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46904</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: hso: fix null-ptr-deref during tty device unregistration
+
+Multiple ttys try to claim the same the minor number causing a double
+unregistration of the same device. The first unregistration succeeds
+but the next one results in a null-ptr-deref.
+
+The get_free_serial_index() function returns an available minor number
+but doesn't assign it immediately. The assignment is done by the caller
+later. But before this assignment, calls to get_free_serial_index()
+would return the same minor number.
+
+Fix this by modifying get_free_serial_index to assign the minor number
+immediately after one is found to be and rename it to obtain_minor()
+to better reflect what it does. Similary, rename set_serial_by_index()
+to release_minor() and modify it to free up the minor number of the
+given hso_serial. Every obtain_minor() should have corresponding
+release_minor() call.</description><pubDate>Sun, 25 Feb 2024 14:09:29 +0000</pubDate></item><item><title>CVE-2021-46905 | net: hso: fix NULL-deref on disconnect regression</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46905</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: hso: fix NULL-deref on disconnect regression
+
+Commit 8a12f8836145 ("net: hso: fix null-ptr-deref during tty device
+unregistration") fixed the racy minor allocation reported by syzbot, but
+introduced an unconditional NULL-pointer dereference on every disconnect
+instead.
+
+Specifically, the serial device table must no longer be accessed after
+the minor has been released by hso_serial_tty_unregister().</description><pubDate>Sun, 25 Feb 2024 14:09:29 +0000</pubDate></item><item><title>CVE-2022-48626 | moxart: fix potential use-after-free on remove path</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48626</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+moxart: fix potential use-after-free on remove path
+
+It was reported that the mmc host structure could be accessed after it
+was freed in moxart_remove(), so fix this by saving the base register of
+the device and using it instead of the pointer dereference.</description><pubDate>Sun, 25 Feb 2024 14:09:30 +0000</pubDate></item><item><title>CVE-2023-52465 | power: supply: Fix null pointer dereference in smb2_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52465</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 power: supply: Fix null pointer dereference in smb2_probe
 
