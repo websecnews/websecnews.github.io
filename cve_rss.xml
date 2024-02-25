@@ -1,5 +1,130 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Feb 2024 07:02:07 +0000</lastBuildDate><item><title>CVE-2024-27359 | Certain WithSecure products allow a Denial of Service because the engine scanner can go into an infinite loop when processing an archive fil...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27359</link><description>Certain WithSecure products allow a Denial of Service because the engine scanner can go into an infinite loop when processing an archive file. This affects WithSecure Client Security 15, WithSecure Server Security 15, WithSecure Email and Server Security 15, WithSecure Elements Endpoint Protection 17 and later, WithSecure Client Security for Mac 15, WithSecure Elements Endpoint Protection for Mac 17 and later, WithSecure Linux Security 64 12.0, WithSecure Linux Protection 12.0, and WithSecure Atlant 1.0.35-1.</description><pubDate>Sun, 25 Feb 2024 07:02:09 +0000</pubDate></item><item><title>CVE-2024-27350 | Amazon Fire OS 7 before 7.6.6.9 and 8 before 8.1.0.3 allows Fire TV applications to establish local ADB (Android Debug Bridge) connections. ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27350</link><description>Amazon Fire OS 7 before 7.6.6.9 and 8 before 8.1.0.3 allows Fire TV applications to establish local ADB (Android Debug Bridge) connections. NOTE: some third parties dispute whether this has security relevance, because an ADB connection is only possible after the (non-default) ADB Debugging option is enabled, and after the initiator of that specific connection attempt has been approved via a full-screen prompt.</description><pubDate>Sun, 25 Feb 2024 03:51:01 +0000</pubDate></item><item><title>CVE-2024-1871 | SourceCodester Employee Management System Project Assignment Report assignp.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1871</link><description>A vulnerability, which was classified as problematic, was found in SourceCodester Employee Management System 1.0. Affected is an unknown function of the file /process/assignp.php of the component Project Assignment Report. The manipulation of the argument pname leads to cross site scripting. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. VDB-254694 is the identifier assigned to this vulnerability.</description><pubDate>Sat, 24 Feb 2024 21:37:45 +0000</pubDate></item><item><title>CVE-2024-0243 | Server-side Request Forgery In Recursive URL Loader</title><link>https://www.cve.org/CVERecord?id=CVE-2024-0243</link><description>With the following crawler configuration:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Feb 2024 08:26:19 +0000</lastBuildDate><item><title>CVE-2023-52465 | power: supply: Fix null pointer dereference in smb2_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52465</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+power: supply: Fix null pointer dereference in smb2_probe
+
+devm_kasprintf and devm_kzalloc return a pointer to dynamically
+allocated memory which can be NULL upon failure.</description><pubDate>Sun, 25 Feb 2024 08:26:20 +0000</pubDate></item><item><title>CVE-2023-52466 | PCI: Avoid potential out-of-bounds read in pci_dev_for_each_resource()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52466</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: Avoid potential out-of-bounds read in pci_dev_for_each_resource()
+
+Coverity complains that pointer in the pci_dev_for_each_resource() may be
+wrong, i.e., might be used for the out-of-bounds read.
+
+There is no actual issue right now because we have another check afterwards
+and the out-of-bounds read is not being performed. In any case it's better
+code with this fixed, hence the proposed change.
+
+As Jonas pointed out "It probably makes the code slightly less performant
+as res will now be checked for being not NULL (which will always be true),
+but I doubt it will be significant (or in any hot paths)."</description><pubDate>Sun, 25 Feb 2024 08:26:20 +0000</pubDate></item><item><title>CVE-2023-52467 | mfd: syscon: Fix null pointer dereference in of_syscon_register()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52467</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mfd: syscon: Fix null pointer dereference in of_syscon_register()
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.</description><pubDate>Sun, 25 Feb 2024 08:26:21 +0000</pubDate></item><item><title>CVE-2023-52468 | class: fix use-after-free in class_register()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52468</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+class: fix use-after-free in class_register()
+
+The lock_class_key is still registered and can be found in
+lock_keys_hash hlist after subsys_private is freed in error
+handler path.A task who iterate over the lock_keys_hash
+later may cause use-after-free.So fix that up and unregister
+the lock_class_key before kfree(cp).
+
+On our platform, a driver fails to kset_register because of
+creating duplicate filename '/class/xxx'.With Kasan enabled,
+it prints a invalid-access bug report.
+
+KASAN bug report:
+
+BUG: KASAN: invalid-access in lockdep_register_key+0x19c/0x1bc
+Write of size 8 at addr 15ffff808b8c0368 by task modprobe/252
+Pointer tag: [15], memory tag: [fe]
+
+CPU: 7 PID: 252 Comm: modprobe Tainted: G        W
+ 6.6.0-mainline-maybe-dirty #1
+
+Call trace:
+dump_backtrace+0x1b0/0x1e4
+show_stack+0x2c/0x40
+dump_stack_lvl+0xac/0xe0
+print_report+0x18c/0x4d8
+kasan_report+0xe8/0x148
+__hwasan_store8_noabort+0x88/0x98
+lockdep_register_key+0x19c/0x1bc
+class_register+0x94/0x1ec
+init_module+0xbc/0xf48 [rfkill]
+do_one_initcall+0x17c/0x72c
+do_init_module+0x19c/0x3f8
+...
+Memory state around the buggy address:
+ffffff808b8c0100: 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a 8a
+ffffff808b8c0200: 8a 8a 8a 8a 8a 8a 8a 8a fe fe fe fe fe fe fe fe
+&gt;ffffff808b8c0300: fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe fe
+                                     ^
+ffffff808b8c0400: 03 03 03 03 03 03 03 03 03 03 03 03 03 03 03 03
+
+As CONFIG_KASAN_GENERIC is not set, Kasan reports invalid-access
+not use-after-free here.In this case, modprobe is manipulating
+the corrupted lock_keys_hash hlish where lock_class_key is already
+freed before.
+
+It's worth noting that this only can happen if lockdep is enabled,
+which is not true for normal system.</description><pubDate>Sun, 25 Feb 2024 08:26:21 +0000</pubDate></item><item><title>CVE-2023-52469 | drivers/amd/pm: fix a use-after-free in kv_parse_power_table</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52469</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drivers/amd/pm: fix a use-after-free in kv_parse_power_table
+
+When ps allocated by kzalloc equals to NULL, kv_parse_power_table
+frees adev-&gt;pm.dpm.ps that allocated before. However, after the control
+flow goes through the following call chains:
+
+kv_parse_power_table
+  |-&gt; kv_dpm_init
+        |-&gt; kv_dpm_sw_init
+	      |-&gt; kv_dpm_fini
+
+The adev-&gt;pm.dpm.ps is used in the for loop of kv_dpm_fini after its
+first free in kv_parse_power_table and causes a use-after-free bug.</description><pubDate>Sun, 25 Feb 2024 08:26:21 +0000</pubDate></item><item><title>CVE-2023-52470 | drm/radeon: check the alloc_workqueue return value in radeon_crtc_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52470</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/radeon: check the alloc_workqueue return value in radeon_crtc_init()
+
+check the alloc_workqueue return value in radeon_crtc_init()
+to avoid null-ptr-deref.</description><pubDate>Sun, 25 Feb 2024 08:26:22 +0000</pubDate></item><item><title>CVE-2023-52471 | ice: Fix some null pointer dereference issues in ice_ptp.c</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52471</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ice: Fix some null pointer dereference issues in ice_ptp.c
+
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.</description><pubDate>Sun, 25 Feb 2024 08:26:22 +0000</pubDate></item><item><title>CVE-2023-52472 | crypto: rsa - add a check for allocation failure</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52472</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: rsa - add a check for allocation failure
+
+Static checkers insist that the mpi_alloc() allocation can fail so add
+a check to prevent a NULL dereference.  Small allocations like this
+can't actually fail in current kernels, but adding a check is very
+simple and makes the static checkers happy.</description><pubDate>Sun, 25 Feb 2024 08:26:22 +0000</pubDate></item><item><title>CVE-2023-52473 | thermal: core: Fix NULL pointer dereference in zone registration error path</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52473</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+thermal: core: Fix NULL pointer dereference in zone registration error path
+
+If device_register() in thermal_zone_device_register_with_trips()
+returns an error, the tz variable is set to NULL and subsequently
+dereferenced in kfree(tz-&gt;tzp).
+
+Commit adc8749b150c ("thermal/drivers/core: Use put_device() if
+device_register() fails") added the tz = NULL assignment in question to
+avoid a possible double-free after dropping the reference to the zone
+device.  However, after commit 4649620d9404 ("thermal: core: Make
+thermal_zone_device_unregister() return after freeing the zone"), that
+assignment has become redundant, because dropping the reference to the
+zone device does not cause the zone object to be freed any more.
+
+Drop it to address the NULL pointer dereference.</description><pubDate>Sun, 25 Feb 2024 08:26:23 +0000</pubDate></item><item><title>CVE-2024-0455 | SSRF on AWS deployed instances of AnythingLLM via /metadata</title><link>https://www.cve.org/CVERecord?id=CVE-2024-0455</link><description>The inclusion of the web scraper for AnythingLLM means that any user with the proper authorization level (manager, admin, and when in single user) could put in the URL
+```
+http://169.254.169.254/latest/meta-data/identity-credentials/ec2/security-credentials/ec2-instance
+```
+which is a special IP and URL that resolves only when the request comes from within an EC2 instance. This would allow the user to see the connection/secret credentials for their specific instance and be able to manage it regardless of who deployed it.
+
+The user would have to have pre-existing knowledge of the hosting infra which the target instance is deployed on, but if sent - would resolve if on EC2 and the proper `iptable` or firewall rule is not configured for their setup.</description><pubDate>Sun, 25 Feb 2024 08:26:23 +0000</pubDate></item><item><title>CVE-2024-27359 | Certain WithSecure products allow a Denial of Service because the engine scanner can go into an infinite loop when processing an archive fil...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27359</link><description>Certain WithSecure products allow a Denial of Service because the engine scanner can go into an infinite loop when processing an archive file. This affects WithSecure Client Security 15, WithSecure Server Security 15, WithSecure Email and Server Security 15, WithSecure Elements Endpoint Protection 17 and later, WithSecure Client Security for Mac 15, WithSecure Elements Endpoint Protection for Mac 17 and later, WithSecure Linux Security 64 12.0, WithSecure Linux Protection 12.0, and WithSecure Atlant 1.0.35-1.</description><pubDate>Sun, 25 Feb 2024 07:02:09 +0000</pubDate></item><item><title>CVE-2024-27350 | Amazon Fire OS 7 before 7.6.6.9 and 8 before 8.1.0.3 allows Fire TV applications to establish local ADB (Android Debug Bridge) connections. ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27350</link><description>Amazon Fire OS 7 before 7.6.6.9 and 8 before 8.1.0.3 allows Fire TV applications to establish local ADB (Android Debug Bridge) connections. NOTE: some third parties dispute whether this has security relevance, because an ADB connection is only possible after the (non-default) ADB Debugging option is enabled, and after the initiator of that specific connection attempt has been approved via a full-screen prompt.</description><pubDate>Sun, 25 Feb 2024 03:51:01 +0000</pubDate></item><item><title>CVE-2024-1871 | SourceCodester Employee Management System Project Assignment Report assignp.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1871</link><description>A vulnerability, which was classified as problematic, was found in SourceCodester Employee Management System 1.0. Affected is an unknown function of the file /process/assignp.php of the component Project Assignment Report. The manipulation of the argument pname leads to cross site scripting. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. VDB-254694 is the identifier assigned to this vulnerability.</description><pubDate>Sat, 24 Feb 2024 21:37:45 +0000</pubDate></item><item><title>CVE-2024-0243 | Server-side Request Forgery In Recursive URL Loader</title><link>https://www.cve.org/CVERecord?id=CVE-2024-0243</link><description>With the following crawler configuration:
 
 ```python
 from bs4 import BeautifulSoup as Soup
