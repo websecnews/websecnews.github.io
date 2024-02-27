@@ -1,5 +1,416 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 27 Feb 2024 09:42:47 +0000</lastBuildDate><item><title>CVE-2021-46921 | locking/qrwlock: Fix ordering in queued_write_lock_slowpath()</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46921</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 27 Feb 2024 09:49:48 +0000</lastBuildDate><item><title>CVE-2021-46923 | fs/mount_setattr: always cleanup mount_kattr</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46923</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/mount_setattr: always cleanup mount_kattr
+
+Make sure that finish_mount_kattr() is called after mount_kattr was
+succesfully built in both the success and failure case to prevent
+leaking any references we took when we built it.  We returned early if
+path lookup failed thereby risking to leak an additional reference we
+took when building mount_kattr when an idmapped mount was requested.</description><pubDate>Tue, 27 Feb 2024 09:49:50 +0000</pubDate></item><item><title>CVE-2021-46924 | NFC: st21nfca: Fix memory leak in device probe and remove</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46924</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFC: st21nfca: Fix memory leak in device probe and remove
+
+'phy-&gt;pending_skb' is alloced when device probe, but forgot to free
+in the error handling path and remove path, this cause memory leak
+as follows:
+
+unreferenced object 0xffff88800bc06800 (size 512):
+  comm "8", pid 11775, jiffies 4295159829 (age 9.032s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [&lt;00000000d66c09ce&gt;] __kmalloc_node_track_caller+0x1ed/0x450
+    [&lt;00000000c93382b3&gt;] kmalloc_reserve+0x37/0xd0
+    [&lt;000000005fea522c&gt;] __alloc_skb+0x124/0x380
+    [&lt;0000000019f29f9a&gt;] st21nfca_hci_i2c_probe+0x170/0x8f2
+
+Fix it by freeing 'pending_skb' in error and remove.</description><pubDate>Tue, 27 Feb 2024 09:49:51 +0000</pubDate></item><item><title>CVE-2021-46925 | net/smc: fix kernel panic caused by race of smc_sock</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46925</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: fix kernel panic caused by race of smc_sock
+
+A crash occurs when smc_cdc_tx_handler() tries to access smc_sock
+but smc_release() has already freed it.
+
+[ 4570.695099] BUG: unable to handle page fault for address: 000000002eae9e88
+[ 4570.696048] #PF: supervisor write access in kernel mode
+[ 4570.696728] #PF: error_code(0x0002) - not-present page
+[ 4570.697401] PGD 0 P4D 0
+[ 4570.697716] Oops: 0002 [#1] PREEMPT SMP NOPTI
+[ 4570.698228] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.16.0-rc4+ #111
+[ 4570.699013] Hardware name: Alibaba Cloud Alibaba Cloud ECS, BIOS 8c24b4c 04/0
+[ 4570.699933] RIP: 0010:_raw_spin_lock+0x1a/0x30
+&lt;...&gt;
+[ 4570.711446] Call Trace:
+[ 4570.711746]  &lt;IRQ&gt;
+[ 4570.711992]  smc_cdc_tx_handler+0x41/0xc0
+[ 4570.712470]  smc_wr_tx_tasklet_fn+0x213/0x560
+[ 4570.712981]  ? smc_cdc_tx_dismisser+0x10/0x10
+[ 4570.713489]  tasklet_action_common.isra.17+0x66/0x140
+[ 4570.714083]  __do_softirq+0x123/0x2f4
+[ 4570.714521]  irq_exit_rcu+0xc4/0xf0
+[ 4570.714934]  common_interrupt+0xba/0xe0
+
+Though smc_cdc_tx_handler() checked the existence of smc connection,
+smc_release() may have already dismissed and released the smc socket
+before smc_cdc_tx_handler() further visits it.
+
+smc_cdc_tx_handler()           |smc_release()
+if (!conn)                     |
+                               |
+                               |smc_cdc_tx_dismiss_slots()
+                               |      smc_cdc_tx_dismisser()
+                               |
+                               |sock_put(&amp;smc-&gt;sk) &lt;- last sock_put,
+                               |                      smc_sock freed
+bh_lock_sock(&amp;smc-&gt;sk) (panic) |
+
+To make sure we won't receive any CDC messages after we free the
+smc_sock, add a refcount on the smc_connection for inflight CDC
+message(posted to the QP but haven't received related CQE), and
+don't release the smc_connection until all the inflight CDC messages
+haven been done, for both success or failed ones.
+
+Using refcount on CDC messages brings another problem: when the link
+is going to be destroyed, smcr_link_clear() will reset the QP, which
+then remove all the pending CQEs related to the QP in the CQ. To make
+sure all the CQEs will always come back so the refcount on the
+smc_connection can always reach 0, smc_ib_modify_qp_reset() was replaced
+by smc_ib_modify_qp_error().
+And remove the timeout in smc_wr_tx_wait_no_pending_sends() since we
+need to wait for all pending WQEs done, or we may encounter use-after-
+free when handling CQEs.
+
+For IB device removal routine, we need to wait for all the QPs on that
+device been destroyed before we can destroy CQs on the device, or
+the refcount on smc_connection won't reach 0 and smc_sock cannot be
+released.</description><pubDate>Tue, 27 Feb 2024 09:49:51 +0000</pubDate></item><item><title>CVE-2021-46926 | ALSA: hda: intel-sdw-acpi: harden detection of controller</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46926</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: intel-sdw-acpi: harden detection of controller
+
+The existing code currently sets a pointer to an ACPI handle before
+checking that it's actually a SoundWire controller. This can lead to
+issues where the graph walk continues and eventually fails, but the
+pointer was set already.
+
+This patch changes the logic so that the information provided to
+the caller is set when a controller is found.</description><pubDate>Tue, 27 Feb 2024 09:49:51 +0000</pubDate></item><item><title>CVE-2021-46927 | nitro_enclaves: Use get_user_pages_unlocked() call to handle mmap assert</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46927</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nitro_enclaves: Use get_user_pages_unlocked() call to handle mmap assert
+
+After commit 5b78ed24e8ec ("mm/pagemap: add mmap_assert_locked()
+annotations to find_vma*()"), the call to get_user_pages() will trigger
+the mmap assert.
+
+static inline void mmap_assert_locked(struct mm_struct *mm)
+{
+	lockdep_assert_held(&amp;mm-&gt;mmap_lock);
+	VM_BUG_ON_MM(!rwsem_is_locked(&amp;mm-&gt;mmap_lock), mm);
+}
+
+[   62.521410] kernel BUG at include/linux/mmap_lock.h:156!
+...........................................................
+[   62.538938] RIP: 0010:find_vma+0x32/0x80
+...........................................................
+[   62.605889] Call Trace:
+[   62.608502]  &lt;TASK&gt;
+[   62.610956]  ? lock_timer_base+0x61/0x80
+[   62.614106]  find_extend_vma+0x19/0x80
+[   62.617195]  __get_user_pages+0x9b/0x6a0
+[   62.620356]  __gup_longterm_locked+0x42d/0x450
+[   62.623721]  ? finish_wait+0x41/0x80
+[   62.626748]  ? __kmalloc+0x178/0x2f0
+[   62.629768]  ne_set_user_memory_region_ioctl.isra.0+0x225/0x6a0 [nitro_enclaves]
+[   62.635776]  ne_enclave_ioctl+0x1cf/0x6d7 [nitro_enclaves]
+[   62.639541]  __x64_sys_ioctl+0x82/0xb0
+[   62.642620]  do_syscall_64+0x3b/0x90
+[   62.645642]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Use get_user_pages_unlocked() when setting the enclave memory regions.
+That's a similar pattern as mmap_read_lock() used together with
+get_user_pages().</description><pubDate>Tue, 27 Feb 2024 09:49:52 +0000</pubDate></item><item><title>CVE-2021-46928 | parisc: Clear stale IIR value on instruction access rights trap</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46928</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+parisc: Clear stale IIR value on instruction access rights trap
+
+When a trap 7 (Instruction access rights) occurs, this means the CPU
+couldn't execute an instruction due to missing execute permissions on
+the memory region.  In this case it seems the CPU didn't even fetched
+the instruction from memory and thus did not store it in the cr19 (IIR)
+register before calling the trap handler. So, the trap handler will find
+some random old stale value in cr19.
+
+This patch simply overwrites the stale IIR value with a constant magic
+"bad food" value (0xbaadf00d), in the hope people don't start to try to
+understand the various random IIR values in trap 7 dumps.</description><pubDate>Tue, 27 Feb 2024 09:49:52 +0000</pubDate></item><item><title>CVE-2021-46929 | sctp: use call_rcu to free endpoint</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46929</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sctp: use call_rcu to free endpoint
+
+This patch is to delay the endpoint free by calling call_rcu() to fix
+another use-after-free issue in sctp_sock_dump():
+
+  BUG: KASAN: use-after-free in __lock_acquire+0x36d9/0x4c20
+  Call Trace:
+    __lock_acquire+0x36d9/0x4c20 kernel/locking/lockdep.c:3218
+    lock_acquire+0x1ed/0x520 kernel/locking/lockdep.c:3844
+    __raw_spin_lock_bh include/linux/spinlock_api_smp.h:135 [inline]
+    _raw_spin_lock_bh+0x31/0x40 kernel/locking/spinlock.c:168
+    spin_lock_bh include/linux/spinlock.h:334 [inline]
+    __lock_sock+0x203/0x350 net/core/sock.c:2253
+    lock_sock_nested+0xfe/0x120 net/core/sock.c:2774
+    lock_sock include/net/sock.h:1492 [inline]
+    sctp_sock_dump+0x122/0xb20 net/sctp/diag.c:324
+    sctp_for_each_transport+0x2b5/0x370 net/sctp/socket.c:5091
+    sctp_diag_dump+0x3ac/0x660 net/sctp/diag.c:527
+    __inet_diag_dump+0xa8/0x140 net/ipv4/inet_diag.c:1049
+    inet_diag_dump+0x9b/0x110 net/ipv4/inet_diag.c:1065
+    netlink_dump+0x606/0x1080 net/netlink/af_netlink.c:2244
+    __netlink_dump_start+0x59a/0x7c0 net/netlink/af_netlink.c:2352
+    netlink_dump_start include/linux/netlink.h:216 [inline]
+    inet_diag_handler_cmd+0x2ce/0x3f0 net/ipv4/inet_diag.c:1170
+    __sock_diag_cmd net/core/sock_diag.c:232 [inline]
+    sock_diag_rcv_msg+0x31d/0x410 net/core/sock_diag.c:263
+    netlink_rcv_skb+0x172/0x440 net/netlink/af_netlink.c:2477
+    sock_diag_rcv+0x2a/0x40 net/core/sock_diag.c:274
+
+This issue occurs when asoc is peeled off and the old sk is freed after
+getting it by asoc-&gt;base.sk and before calling lock_sock(sk).
+
+To prevent the sk free, as a holder of the sk, ep should be alive when
+calling lock_sock(). This patch uses call_rcu() and moves sock_put and
+ep free into sctp_endpoint_destroy_rcu(), so that it's safe to try to
+hold the ep under rcu_read_lock in sctp_transport_traverse_process().
+
+If sctp_endpoint_hold() returns true, it means this ep is still alive
+and we have held it and can continue to dump it; If it returns false,
+it means this ep is dead and can be freed after rcu_read_unlock, and
+we should skip it.
+
+In sctp_sock_dump(), after locking the sk, if this ep is different from
+tsp-&gt;asoc-&gt;ep, it means during this dumping, this asoc was peeled off
+before calling lock_sock(), and the sk should be skipped; If this ep is
+the same with tsp-&gt;asoc-&gt;ep, it means no peeloff happens on this asoc,
+and due to lock_sock, no peeloff will happen either until release_sock.
+
+Note that delaying endpoint free won't delay the port release, as the
+port release happens in sctp_endpoint_destroy() before calling call_rcu().
+Also, freeing endpoint by call_rcu() makes it safe to access the sk by
+asoc-&gt;base.sk in sctp_assocs_seq_show() and sctp_rcv().
+
+Thanks Jones to bring this issue up.
+
+v1-&gt;v2:
+  - improve the changelog.
+  - add kfree(ep) into sctp_endpoint_destroy_rcu(), as Jakub noticed.</description><pubDate>Tue, 27 Feb 2024 09:49:53 +0000</pubDate></item><item><title>CVE-2021-46930 | usb: mtu3: fix list_head check warning</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46930</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: mtu3: fix list_head check warning
+
+This is caused by uninitialization of list_head.
+
+BUG: KASAN: use-after-free in __list_del_entry_valid+0x34/0xe4
+
+Call trace:
+dump_backtrace+0x0/0x298
+show_stack+0x24/0x34
+dump_stack+0x130/0x1a8
+print_address_description+0x88/0x56c
+__kasan_report+0x1b8/0x2a0
+kasan_report+0x14/0x20
+__asan_load8+0x9c/0xa0
+__list_del_entry_valid+0x34/0xe4
+mtu3_req_complete+0x4c/0x300 [mtu3]
+mtu3_gadget_stop+0x168/0x448 [mtu3]
+usb_gadget_unregister_driver+0x204/0x3a0
+unregister_gadget_item+0x44/0xa4</description><pubDate>Tue, 27 Feb 2024 09:49:53 +0000</pubDate></item><item><title>CVE-2021-46931 | net/mlx5e: Wrap the tx reporter dump callback to extract the sq</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46931</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Wrap the tx reporter dump callback to extract the sq
+
+Function mlx5e_tx_reporter_dump_sq() casts its void * argument to struct
+mlx5e_txqsq *, but in TX-timeout-recovery flow the argument is actually
+of type struct mlx5e_tx_timeout_ctx *.
+
+ mlx5_core 0000:08:00.1 enp8s0f1: TX timeout detected
+ mlx5_core 0000:08:00.1 enp8s0f1: TX timeout on queue: 1, SQ: 0x11ec, CQ: 0x146d, SQ Cons: 0x0 SQ Prod: 0x1, usecs since last trans: 21565000
+ BUG: stack guard page was hit at 0000000093f1a2de (stack is 00000000b66ea0dc..000000004d932dae)
+ kernel stack overflow (page fault): 0000 [#1] SMP NOPTI
+ CPU: 5 PID: 95 Comm: kworker/u20:1 Tainted: G W OE 5.13.0_mlnx #1
+ Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+ Workqueue: mlx5e mlx5e_tx_timeout_work [mlx5_core]
+ RIP: 0010:mlx5e_tx_reporter_dump_sq+0xd3/0x180
+ [mlx5_core]
+ Call Trace:
+ mlx5e_tx_reporter_dump+0x43/0x1c0 [mlx5_core]
+ devlink_health_do_dump.part.91+0x71/0xd0
+ devlink_health_report+0x157/0x1b0
+ mlx5e_reporter_tx_timeout+0xb9/0xf0 [mlx5_core]
+ ? mlx5e_tx_reporter_err_cqe_recover+0x1d0/0x1d0
+ [mlx5_core]
+ ? mlx5e_health_queue_dump+0xd0/0xd0 [mlx5_core]
+ ? update_load_avg+0x19b/0x550
+ ? set_next_entity+0x72/0x80
+ ? pick_next_task_fair+0x227/0x340
+ ? finish_task_switch+0xa2/0x280
+   mlx5e_tx_timeout_work+0x83/0xb0 [mlx5_core]
+   process_one_work+0x1de/0x3a0
+   worker_thread+0x2d/0x3c0
+ ? process_one_work+0x3a0/0x3a0
+   kthread+0x115/0x130
+ ? kthread_park+0x90/0x90
+   ret_from_fork+0x1f/0x30
+ --[ end trace 51ccabea504edaff ]---
+ RIP: 0010:mlx5e_tx_reporter_dump_sq+0xd3/0x180
+ PKRU: 55555554
+ Kernel panic - not syncing: Fatal exception
+ Kernel Offset: disabled
+ end Kernel panic - not syncing: Fatal exception
+
+To fix this bug add a wrapper for mlx5e_tx_reporter_dump_sq() which
+extracts the sq from struct mlx5e_tx_timeout_ctx and set it as the
+TX-timeout-recovery flow dump callback.</description><pubDate>Tue, 27 Feb 2024 09:49:53 +0000</pubDate></item><item><title>CVE-2021-46932 | Input: appletouch - initialize work before device registration</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46932</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Input: appletouch - initialize work before device registration
+
+Syzbot has reported warning in __flush_work(). This warning is caused by
+work-&gt;func == NULL, which means missing work initialization.
+
+This may happen, since input_dev-&gt;close() calls
+cancel_work_sync(&amp;dev-&gt;work), but dev-&gt;work initalization happens _after_
+input_register_device() call.
+
+So this patch moves dev-&gt;work initialization before registering input
+device</description><pubDate>Tue, 27 Feb 2024 09:49:54 +0000</pubDate></item><item><title>CVE-2021-46933 | usb: gadget: f_fs: Clear ffs_eventfd in ffs_data_clear.</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46933</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_fs: Clear ffs_eventfd in ffs_data_clear.
+
+ffs_data_clear is indirectly called from both ffs_fs_kill_sb and
+ffs_ep0_release, so it ends up being called twice when userland closes ep0
+and then unmounts f_fs.
+If userland provided an eventfd along with function's USB descriptors, it
+ends up calling eventfd_ctx_put as many times, causing a refcount
+underflow.
+NULL-ify ffs_eventfd to prevent these extraneous eventfd_ctx_put calls.
+
+Also, set epfiles to NULL right after de-allocating it, for readability.
+
+For completeness, ffs_data_clear actually ends up being called thrice, the
+last call being before the whole ffs structure gets freed, so when this
+specific sequence happens there is a second underflow happening (but not
+being reported):
+
+/sys/kernel/debug/tracing# modprobe usb_f_fs
+/sys/kernel/debug/tracing# echo ffs_data_clear &gt; set_ftrace_filter
+/sys/kernel/debug/tracing# echo function &gt; current_tracer
+/sys/kernel/debug/tracing# echo 1 &gt; tracing_on
+(setup gadget, run and kill function userland process, teardown gadget)
+/sys/kernel/debug/tracing# echo 0 &gt; tracing_on
+/sys/kernel/debug/tracing# cat trace
+ smartcard-openp-436     [000] .....  1946.208786: ffs_data_clear &lt;-ffs_data_closed
+ smartcard-openp-431     [000] .....  1946.279147: ffs_data_clear &lt;-ffs_data_closed
+ smartcard-openp-431     [000] .n...  1946.905512: ffs_data_clear &lt;-ffs_data_put
+
+Warning output corresponding to above trace:
+[ 1946.284139] WARNING: CPU: 0 PID: 431 at lib/refcount.c:28 refcount_warn_saturate+0x110/0x15c
+[ 1946.293094] refcount_t: underflow; use-after-free.
+[ 1946.298164] Modules linked in: usb_f_ncm(E) u_ether(E) usb_f_fs(E) hci_uart(E) btqca(E) btrtl(E) btbcm(E) btintel(E) bluetooth(E) nls_ascii(E) nls_cp437(E) vfat(E) fat(E) bcm2835_v4l2(CE) bcm2835_mmal_vchiq(CE) videobuf2_vmalloc(E) videobuf2_memops(E) sha512_generic(E) videobuf2_v4l2(E) sha512_arm(E) videobuf2_common(E) videodev(E) cpufreq_dt(E) snd_bcm2835(CE) brcmfmac(E) mc(E) vc4(E) ctr(E) brcmutil(E) snd_soc_core(E) snd_pcm_dmaengine(E) drbg(E) snd_pcm(E) snd_timer(E) snd(E) soundcore(E) drm_kms_helper(E) cec(E) ansi_cprng(E) rc_core(E) syscopyarea(E) raspberrypi_cpufreq(E) sysfillrect(E) sysimgblt(E) cfg80211(E) max17040_battery(OE) raspberrypi_hwmon(E) fb_sys_fops(E) regmap_i2c(E) ecdh_generic(E) rfkill(E) ecc(E) bcm2835_rng(E) rng_core(E) vchiq(CE) leds_gpio(E) libcomposite(E) fuse(E) configfs(E) ip_tables(E) x_tables(E) autofs4(E) ext4(E) crc16(E) mbcache(E) jbd2(E) crc32c_generic(E) sdhci_iproc(E) sdhci_pltfm(E) sdhci(E)
+[ 1946.399633] CPU: 0 PID: 431 Comm: smartcard-openp Tainted: G         C OE     5.15.0-1-rpi #1  Debian 5.15.3-1
+[ 1946.417950] Hardware name: BCM2835
+[ 1946.425442] Backtrace:
+[ 1946.432048] [&lt;c08d60a0&gt;] (dump_backtrace) from [&lt;c08d62ec&gt;] (show_stack+0x20/0x24)
+[ 1946.448226]  r7:00000009 r6:0000001c r5:c04a948c r4:c0a64e2c
+[ 1946.458412] [&lt;c08d62cc&gt;] (show_stack) from [&lt;c08d9ae0&gt;] (dump_stack+0x28/0x30)
+[ 1946.470380] [&lt;c08d9ab8&gt;] (dump_stack) from [&lt;c0123500&gt;] (__warn+0xe8/0x154)
+[ 1946.482067]  r5:c04a948c r4:c0a71dc8
+[ 1946.490184] [&lt;c0123418&gt;] (__warn) from [&lt;c08d6948&gt;] (warn_slowpath_fmt+0xa0/0xe4)
+[ 1946.506758]  r7:00000009 r6:0000001c r5:c0a71dc8 r4:c0a71e04
+[ 1946.517070] [&lt;c08d68ac&gt;] (warn_slowpath_fmt) from [&lt;c04a948c&gt;] (refcount_warn_saturate+0x110/0x15c)
+[ 1946.535309]  r8:c0100224 r7:c0dfcb84 r6:ffffffff r5:c3b84c00 r4:c24a17c0
+[ 1946.546708] [&lt;c04a937c&gt;] (refcount_warn_saturate) from [&lt;c0380134&gt;] (eventfd_ctx_put+0x48/0x74)
+[ 1946.564476] [&lt;c03800ec&gt;] (eventfd_ctx_put) from [&lt;bf5464e8&gt;] (ffs_data_clear+0xd0/0x118 [usb_f_fs])
+[ 1946.582664]  r5:c3b84c00 r4:c2695b00
+[ 1946.590668] [&lt;bf546418&gt;] (ffs_data_clear [usb_f_fs]) from [&lt;bf547cc0&gt;] (ffs_data_closed+0x9c/0x150 [usb_f_fs])
+[ 1946.609608]  r5:bf54d014 r4:c2695b00
+[ 1946.617522] [&lt;bf547c24&gt;] (ffs_data_closed [usb_f_fs]) from [&lt;bf547da0&gt;] (ffs_fs_kill_sb+0x2c/0x30 [usb_f_fs])
+[ 1946.636217]  r7:c0dfcb
+---truncated---</description><pubDate>Tue, 27 Feb 2024 09:49:54 +0000</pubDate></item><item><title>CVE-2021-46934 | i2c: validate user data in compat ioctl</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46934</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: validate user data in compat ioctl
+
+Wrong user data may cause warning in i2c_transfer(), ex: zero msgs.
+Userspace should not be able to trigger warnings, so this patch adds
+validation checks for user data in compact ioctl to prevent reported
+warnings</description><pubDate>Tue, 27 Feb 2024 09:49:55 +0000</pubDate></item><item><title>CVE-2021-46935 | binder: fix async_free_space accounting for empty parcels</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46935</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+binder: fix async_free_space accounting for empty parcels
+
+In 4.13, commit 74310e06be4d ("android: binder: Move buffer out of area shared with user space")
+fixed a kernel structure visibility issue. As part of that patch,
+sizeof(void *) was used as the buffer size for 0-length data payloads so
+the driver could detect abusive clients sending 0-length asynchronous
+transactions to a server by enforcing limits on async_free_size.
+
+Unfortunately, on the "free" side, the accounting of async_free_space
+did not add the sizeof(void *) back. The result was that up to 8-bytes of
+async_free_space were leaked on every async transaction of 8-bytes or
+less.  These small transactions are uncommon, so this accounting issue
+has gone undetected for several years.
+
+The fix is to use "buffer_size" (the allocated buffer size) instead of
+"size" (the logical buffer size) when updating the async_free_space
+during the free operation. These are the same except for this
+corner case of asynchronous transactions with payloads &lt; 8 bytes.</description><pubDate>Tue, 27 Feb 2024 09:49:55 +0000</pubDate></item><item><title>CVE-2021-46936 | net: fix use-after-free in tw_timer_handler</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46936</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: fix use-after-free in tw_timer_handler
+
+A real world panic issue was found as follow in Linux 5.4.
+
+    BUG: unable to handle page fault for address: ffffde49a863de28
+    PGD 7e6fe62067 P4D 7e6fe62067 PUD 7e6fe63067 PMD f51e064067 PTE 0
+    RIP: 0010:tw_timer_handler+0x20/0x40
+    Call Trace:
+     &lt;IRQ&gt;
+     call_timer_fn+0x2b/0x120
+     run_timer_softirq+0x1ef/0x450
+     __do_softirq+0x10d/0x2b8
+     irq_exit+0xc7/0xd0
+     smp_apic_timer_interrupt+0x68/0x120
+     apic_timer_interrupt+0xf/0x20
+
+This issue was also reported since 2017 in the thread [1],
+unfortunately, the issue was still can be reproduced after fixing
+DCCP.
+
+The ipv4_mib_exit_net is called before tcp_sk_exit_batch when a net
+namespace is destroyed since tcp_sk_ops is registered befrore
+ipv4_mib_ops, which means tcp_sk_ops is in the front of ipv4_mib_ops
+in the list of pernet_list. There will be a use-after-free on
+net-&gt;mib.net_statistics in tw_timer_handler after ipv4_mib_exit_net
+if there are some inflight time-wait timers.
+
+This bug is not introduced by commit f2bf415cfed7 ("mib: add net to
+NET_ADD_STATS_BH") since the net_statistics is a global variable
+instead of dynamic allocation and freeing. Actually, commit
+61a7e26028b9 ("mib: put net statistics on struct net") introduces
+the bug since it put net statistics on struct net and free it when
+net namespace is destroyed.
+
+Moving init_ipv4_mibs() to the front of tcp_init() to fix this bug
+and replace pr_crit() with panic() since continuing is meaningless
+when init_ipv4_mibs() fails.
+
+[1] https://groups.google.com/g/syzkaller/c/p1tn-_Kc6l4/m/smuL_FMAAgAJ?pli=1</description><pubDate>Tue, 27 Feb 2024 09:49:55 +0000</pubDate></item><item><title>CVE-2021-46937 | mm/damon/dbgfs: fix &amp;#x27;struct pid&amp;#x27; leaks in &amp;#x27;dbgfs_target_ids_write()&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46937</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/dbgfs: fix 'struct pid' leaks in 'dbgfs_target_ids_write()'
+
+DAMON debugfs interface increases the reference counts of 'struct pid's
+for targets from the 'target_ids' file write callback
+('dbgfs_target_ids_write()'), but decreases the counts only in DAMON
+monitoring termination callback ('dbgfs_before_terminate()').
+
+Therefore, when 'target_ids' file is repeatedly written without DAMON
+monitoring start/termination, the reference count is not decreased and
+therefore memory for the 'struct pid' cannot be freed.  This commit
+fixes this issue by decreasing the reference counts when 'target_ids' is
+written.</description><pubDate>Tue, 27 Feb 2024 09:49:56 +0000</pubDate></item><item><title>CVE-2021-46921 | locking/qrwlock: Fix ordering in queued_write_lock_slowpath()</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46921</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 locking/qrwlock: Fix ordering in queued_write_lock_slowpath()
 
