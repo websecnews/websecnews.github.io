@@ -1,5 +1,54 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 27 Feb 2024 09:20:38 +0000</lastBuildDate><item><title>CVE-2023-51518 | Apache James server: Privilege escalation via JMX pre-authentication deserialisation</title><link>https://www.cve.org/CVERecord?id=CVE-2023-51518</link><description>Apache James prior to version 3.7.5 and 3.8.0 exposes a JMX endpoint on localhost subject to pre-authentication deserialisation of untrusted data.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 27 Feb 2024 09:42:47 +0000</lastBuildDate><item><title>CVE-2021-46921 | locking/qrwlock: Fix ordering in queued_write_lock_slowpath()</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46921</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+locking/qrwlock: Fix ordering in queued_write_lock_slowpath()
+
+While this code is executed with the wait_lock held, a reader can
+acquire the lock without holding wait_lock.  The writer side loops
+checking the value with the atomic_cond_read_acquire(), but only truly
+acquires the lock when the compare-and-exchange is completed
+successfully which isn’t ordered. This exposes the window between the
+acquire and the cmpxchg to an A-B-A problem which allows reads
+following the lock acquisition to observe values speculatively before
+the write lock is truly acquired.
+
+We've seen a problem in epoll where the reader does a xchg while
+holding the read lock, but the writer can see a value change out from
+under it.
+
+  Writer                                | Reader
+  --------------------------------------------------------------------------------
+  ep_scan_ready_list()                  |
+  |- write_lock_irq()                   |
+      |- queued_write_lock_slowpath()   |
+	|- atomic_cond_read_acquire()   |
+				        | read_lock_irqsave(&amp;ep-&gt;lock, flags);
+     --&gt; (observes value before unlock) |  chain_epi_lockless()
+     |                                  |    epi-&gt;next = xchg(&amp;ep-&gt;ovflist, epi);
+     |                                  | read_unlock_irqrestore(&amp;ep-&gt;lock, flags);
+     |                                  |
+     |     atomic_cmpxchg_relaxed()     |
+     |-- READ_ONCE(ep-&gt;ovflist);        |
+
+A core can order the read of the ovflist ahead of the
+atomic_cmpxchg_relaxed(). Switching the cmpxchg to use acquire
+semantics addresses this issue at which point the atomic_cond_read can
+be switched to use relaxed semantics.
+
+[peterz: use try_cmpxchg()]</description><pubDate>Tue, 27 Feb 2024 09:42:49 +0000</pubDate></item><item><title>CVE-2021-46922 | KEYS: trusted: Fix TPM reservation for seal/unseal</title><link>https://www.cve.org/CVERecord?id=CVE-2021-46922</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KEYS: trusted: Fix TPM reservation for seal/unseal
+
+The original patch 8c657a0590de ("KEYS: trusted: Reserve TPM for seal
+and unseal operations") was correct on the mailing list:
+
+https://lore.kernel.org/linux-integrity/20210128235621.127925-4-jarkko@kernel.org/
+
+But somehow got rebased so that the tpm_try_get_ops() in
+tpm2_seal_trusted() got lost.  This causes an imbalanced put of the
+TPM ops and causes oopses on TIS based hardware.
+
+This fix puts back the lost tpm_try_get_ops()</description><pubDate>Tue, 27 Feb 2024 09:42:49 +0000</pubDate></item><item><title>CVE-2023-51518 | Apache James server: Privilege escalation via JMX pre-authentication deserialisation</title><link>https://www.cve.org/CVERecord?id=CVE-2023-51518</link><description>Apache James prior to version 3.7.5 and 3.8.0 exposes a JMX endpoint on localhost subject to pre-authentication deserialisation of untrusted data.
 Given a deserialisation gadjet, this could be leveraged as part of an exploit chain that could result in privilege escalation.
 Note that by default JMX endpoint is only bound locally.
 
