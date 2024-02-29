@@ -1,5 +1,858 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 29 Feb 2024 15:22:13 +0000</lastBuildDate><item><title>CVE-2024-24818 | EspoCRM weakness in &amp;quot;Forgot password&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-24818</link><description>EspoCRM is an Open Source Customer Relationship Management software. An attacker can inject arbitrary IP or domain in "Password Change" page and redirect victim to malicious page that could lead to  credential stealing or another attack. This vulnerability is fixed in 8.1.2.</description><pubDate>Thu, 29 Feb 2024 15:22:14 +0000</pubDate></item><item><title>CVE-2023-52485 | drm/amd/display: Wake DMCUB before sending a command</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52485</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 29 Feb 2024 15:57:00 +0000</lastBuildDate><item><title>CVE-2023-52486 | drm: Don&amp;#x27;t unref the same fb many times by mistake due to deadlock handling</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52486</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm: Don't unref the same fb many times by mistake due to deadlock handling
+
+If we get a deadlock after the fb lookup in drm_mode_page_flip_ioctl()
+we proceed to unref the fb and then retry the whole thing from the top.
+But we forget to reset the fb pointer back to NULL, and so if we then
+get another error during the retry, before the fb lookup, we proceed
+the unref the same fb again without having gotten another reference.
+The end result is that the fb will (eventually) end up being freed
+while it's still in use.
+
+Reset fb to NULL once we've unreffed it to avoid doing it again
+until we've done another fb lookup.
+
+This turned out to be pretty easy to hit on a DG2 when doing async
+flips (and CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y). The first symptom I
+saw that drm_closefb() simply got stuck in a busy loop while walking
+the framebuffer list. Fortunately I was able to convince it to oops
+instead, and from there it was easier to track down the culprit.</description><pubDate>Thu, 29 Feb 2024 15:57:01 +0000</pubDate></item><item><title>CVE-2023-52487 | net/mlx5e: Fix peer flow lists handling</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52487</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Fix peer flow lists handling
+
+The cited change refactored mlx5e_tc_del_fdb_peer_flow() to only clear DUP
+flag when list of peer flows has become empty. However, if any concurrent
+user holds a reference to a peer flow (for example, the neighbor update
+workqueue task is updating peer flow's parent encap entry concurrently),
+then the flow will not be removed from the peer list and, consecutively,
+DUP flag will remain set. Since mlx5e_tc_del_fdb_peers_flow() calls
+mlx5e_tc_del_fdb_peer_flow() for every possible peer index the algorithm
+will try to remove the flow from eswitch instances that it has never peered
+with causing either NULL pointer dereference when trying to remove the flow
+peer list head of peer_index that was never initialized or a warning if the
+list debug config is enabled[0].
+
+Fix the issue by always removing the peer flow from the list even when not
+releasing the last reference to it.
+
+[0]:
+
+[ 3102.985806] ------------[ cut here ]------------
+[ 3102.986223] list_del corruption, ffff888139110698-&gt;next is NULL
+[ 3102.986757] WARNING: CPU: 2 PID: 22109 at lib/list_debug.c:53 __list_del_entry_valid_or_report+0x4f/0xc0
+[ 3102.987561] Modules linked in: act_ct nf_flow_table bonding act_tunnel_key act_mirred act_skbedit vxlan cls_matchall nfnetlink_cttimeout act_gact cls_flower sch_ingress mlx5_vdpa vringh vhost_iotlb vdpa openvswitch nsh xt_MASQUERADE nf_conntrack_netlink nfnetlink iptable_nat xt_addrtype xt_conntrack nf_nat br_netfilter rpcsec_gss_krb5 auth_rpcg
+ss oid_registry overlay rpcrdma rdma_ucm ib_iser libiscsi scsi_transport_iscsi ib_umad rdma_cm ib_ipoib iw_cm ib_cm mlx5_ib ib_uverbs ib_core mlx5_core [last unloaded: bonding]
+[ 3102.991113] CPU: 2 PID: 22109 Comm: revalidator28 Not tainted 6.6.0-rc6+ #3
+[ 3102.991695] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+[ 3102.992605] RIP: 0010:__list_del_entry_valid_or_report+0x4f/0xc0
+[ 3102.993122] Code: 39 c2 74 56 48 8b 32 48 39 fe 75 62 48 8b 51 08 48 39 f2 75 73 b8 01 00 00 00 c3 48 89 fe 48 c7 c7 48 fd 0a 82 e8 41 0b ad ff &lt;0f&gt; 0b 31 c0 c3 48 89 fe 48 c7 c7 70 fd 0a 82 e8 2d 0b ad ff 0f 0b
+[ 3102.994615] RSP: 0018:ffff8881383e7710 EFLAGS: 00010286
+[ 3102.995078] RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+[ 3102.995670] RDX: 0000000000000001 RSI: ffff88885f89b640 RDI: ffff88885f89b640
+[ 3102.997188] DEL flow 00000000be367878 on port 0
+[ 3102.998594] RBP: dead000000000122 R08: 0000000000000000 R09: c0000000ffffdfff
+[ 3102.999604] R10: 0000000000000008 R11: ffff8881383e7598 R12: dead000000000100
+[ 3103.000198] R13: 0000000000000002 R14: ffff888139110000 R15: ffff888101901240
+[ 3103.000790] FS:  00007f424cde4700(0000) GS:ffff88885f880000(0000) knlGS:0000000000000000
+[ 3103.001486] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 3103.001986] CR2: 00007fd42e8dcb70 CR3: 000000011e68a003 CR4: 0000000000370ea0
+[ 3103.002596] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 3103.003190] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 3103.003787] Call Trace:
+[ 3103.004055]  &lt;TASK&gt;
+[ 3103.004297]  ? __warn+0x7d/0x130
+[ 3103.004623]  ? __list_del_entry_valid_or_report+0x4f/0xc0
+[ 3103.005094]  ? report_bug+0xf1/0x1c0
+[ 3103.005439]  ? console_unlock+0x4a/0xd0
+[ 3103.005806]  ? handle_bug+0x3f/0x70
+[ 3103.006149]  ? exc_invalid_op+0x13/0x60
+[ 3103.006531]  ? asm_exc_invalid_op+0x16/0x20
+[ 3103.007430]  ? __list_del_entry_valid_or_report+0x4f/0xc0
+[ 3103.007910]  mlx5e_tc_del_fdb_peers_flow+0xcf/0x240 [mlx5_core]
+[ 3103.008463]  mlx5e_tc_del_flow+0x46/0x270 [mlx5_core]
+[ 3103.008944]  mlx5e_flow_put+0x26/0x50 [mlx5_core]
+[ 3103.009401]  mlx5e_delete_flower+0x25f/0x380 [mlx5_core]
+[ 3103.009901]  tc_setup_cb_destroy+0xab/0x180
+[ 3103.010292]  fl_hw_destroy_filter+0x99/0xc0 [cls_flower]
+[ 3103.010779]  __fl_delete+0x2d4/0x2f0 [cls_flower]
+[ 3103.0
+---truncated---</description><pubDate>Thu, 29 Feb 2024 15:57:02 +0000</pubDate></item><item><title>CVE-2023-52488 | serial: sc16is7xx: convert from _raw_ to _noinc_ regmap functions for FIFO</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52488</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+serial: sc16is7xx: convert from _raw_ to _noinc_ regmap functions for FIFO
+
+The SC16IS7XX IC supports a burst mode to access the FIFOs where the
+initial register address is sent ($00), followed by all the FIFO data
+without having to resend the register address each time. In this mode, the
+IC doesn't increment the register address for each R/W byte.
+
+The regmap_raw_read() and regmap_raw_write() are functions which can
+perform IO over multiple registers. They are currently used to read/write
+from/to the FIFO, and although they operate correctly in this burst mode on
+the SPI bus, they would corrupt the regmap cache if it was not disabled
+manually. The reason is that when the R/W size is more than 1 byte, these
+functions assume that the register address is incremented and handle the
+cache accordingly.
+
+Convert FIFO R/W functions to use the regmap _noinc_ versions in order to
+remove the manual cache control which was a workaround when using the
+_raw_ versions. FIFO registers are properly declared as volatile so
+cache will not be used/updated for FIFO accesses.</description><pubDate>Thu, 29 Feb 2024 15:57:02 +0000</pubDate></item><item><title>CVE-2023-52489 | mm/sparsemem: fix race in accessing memory_section-&amp;gt;usage</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52489</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/sparsemem: fix race in accessing memory_section-&gt;usage
+
+The below race is observed on a PFN which falls into the device memory
+region with the system memory configuration where PFN's are such that
+[ZONE_NORMAL ZONE_DEVICE ZONE_NORMAL].  Since normal zone start and end
+pfn contains the device memory PFN's as well, the compaction triggered
+will try on the device memory PFN's too though they end up in NOP(because
+pfn_to_online_page() returns NULL for ZONE_DEVICE memory sections).  When
+from other core, the section mappings are being removed for the
+ZONE_DEVICE region, that the PFN in question belongs to, on which
+compaction is currently being operated is resulting into the kernel crash
+with CONFIG_SPASEMEM_VMEMAP enabled.  The crash logs can be seen at [1].
+
+compact_zone()			memunmap_pages
+-------------			---------------
+__pageblock_pfn_to_page
+   ......
+ (a)pfn_valid():
+     valid_section()//return true
+			      (b)__remove_pages()-&gt;
+				  sparse_remove_section()-&gt;
+				    section_deactivate():
+				    [Free the array ms-&gt;usage and set
+				     ms-&gt;usage = NULL]
+     pfn_section_valid()
+     [Access ms-&gt;usage which
+     is NULL]
+
+NOTE: From the above it can be said that the race is reduced to between
+the pfn_valid()/pfn_section_valid() and the section deactivate with
+SPASEMEM_VMEMAP enabled.
+
+The commit b943f045a9af("mm/sparse: fix kernel crash with
+pfn_section_valid check") tried to address the same problem by clearing
+the SECTION_HAS_MEM_MAP with the expectation of valid_section() returns
+false thus ms-&gt;usage is not accessed.
+
+Fix this issue by the below steps:
+
+a) Clear SECTION_HAS_MEM_MAP before freeing the -&gt;usage.
+
+b) RCU protected read side critical section will either return NULL
+   when SECTION_HAS_MEM_MAP is cleared or can successfully access -&gt;usage.
+
+c) Free the -&gt;usage with kfree_rcu() and set ms-&gt;usage = NULL.  No
+   attempt will be made to access -&gt;usage after this as the
+   SECTION_HAS_MEM_MAP is cleared thus valid_section() return false.
+
+Thanks to David/Pavan for their inputs on this patch.
+
+[1] https://lore.kernel.org/linux-mm/994410bb-89aa-d987-1f50-f514903c55aa@quicinc.com/
+
+On Snapdragon SoC, with the mentioned memory configuration of PFN's as
+[ZONE_NORMAL ZONE_DEVICE ZONE_NORMAL], we are able to see bunch of
+issues daily while testing on a device farm.
+
+For this particular issue below is the log.  Though the below log is
+not directly pointing to the pfn_section_valid(){ ms-&gt;usage;}, when we
+loaded this dump on T32 lauterbach tool, it is pointing.
+
+[  540.578056] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000000
+[  540.578068] Mem abort info:
+[  540.578070]   ESR = 0x0000000096000005
+[  540.578073]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  540.578077]   SET = 0, FnV = 0
+[  540.578080]   EA = 0, S1PTW = 0
+[  540.578082]   FSC = 0x05: level 1 translation fault
+[  540.578085] Data abort info:
+[  540.578086]   ISV = 0, ISS = 0x00000005
+[  540.578088]   CM = 0, WnR = 0
+[  540.579431] pstate: 82400005 (Nzcv daif +PAN -UAO +TCO -DIT -SSBSBTYPE=--)
+[  540.579436] pc : __pageblock_pfn_to_page+0x6c/0x14c
+[  540.579454] lr : compact_zone+0x994/0x1058
+[  540.579460] sp : ffffffc03579b510
+[  540.579463] x29: ffffffc03579b510 x28: 0000000000235800 x27:000000000000000c
+[  540.579470] x26: 0000000000235c00 x25: 0000000000000068 x24:ffffffc03579b640
+[  540.579477] x23: 0000000000000001 x22: ffffffc03579b660 x21:0000000000000000
+[  540.579483] x20: 0000000000235bff x19: ffffffdebf7e3940 x18:ffffffdebf66d140
+[  540.579489] x17: 00000000739ba063 x16: 00000000739ba063 x15:00000000009f4bff
+[  540.579495] x14: 0000008000000000 x13: 0000000000000000 x12:0000000000000001
+[  540.579501] x11: 0000000000000000 x10: 0000000000000000 x9 :ffffff897d2cd440
+[  540.579507] x8 : 0000000000000000 x7 : 0000000000000000 x6 :ffffffc03579b5b4
+[  540.579512] x5 : 0000000000027f25 x4 : ffffffc03579b5b8 x3 :0000000000000
+---truncated---</description><pubDate>Thu, 29 Feb 2024 15:57:02 +0000</pubDate></item><item><title>CVE-2023-52490 | mm: migrate: fix getting incorrect page mapping during page migration</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52490</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: migrate: fix getting incorrect page mapping during page migration
+
+When running stress-ng testing, we found below kernel crash after a few hours:
+
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+pc : dentry_name+0xd8/0x224
+lr : pointer+0x22c/0x370
+sp : ffff800025f134c0
+......
+Call trace:
+  dentry_name+0xd8/0x224
+  pointer+0x22c/0x370
+  vsnprintf+0x1ec/0x730
+  vscnprintf+0x2c/0x60
+  vprintk_store+0x70/0x234
+  vprintk_emit+0xe0/0x24c
+  vprintk_default+0x3c/0x44
+  vprintk_func+0x84/0x2d0
+  printk+0x64/0x88
+  __dump_page+0x52c/0x530
+  dump_page+0x14/0x20
+  set_migratetype_isolate+0x110/0x224
+  start_isolate_page_range+0xc4/0x20c
+  offline_pages+0x124/0x474
+  memory_block_offline+0x44/0xf4
+  memory_subsys_offline+0x3c/0x70
+  device_offline+0xf0/0x120
+  ......
+
+After analyzing the vmcore, I found this issue is caused by page migration.
+The scenario is that, one thread is doing page migration, and we will use the
+target page's -&gt;mapping field to save 'anon_vma' pointer between page unmap and
+page move, and now the target page is locked and refcount is 1.
+
+Currently, there is another stress-ng thread performing memory hotplug,
+attempting to offline the target page that is being migrated. It discovers that
+the refcount of this target page is 1, preventing the offline operation, thus
+proceeding to dump the page. However, page_mapping() of the target page may
+return an incorrect file mapping to crash the system in dump_mapping(), since
+the target page-&gt;mapping only saves 'anon_vma' pointer without setting
+PAGE_MAPPING_ANON flag.
+
+There are seveval ways to fix this issue:
+(1) Setting the PAGE_MAPPING_ANON flag for target page's -&gt;mapping when saving
+'anon_vma', but this can confuse PageAnon() for PFN walkers, since the target
+page has not built mappings yet.
+(2) Getting the page lock to call page_mapping() in __dump_page() to avoid crashing
+the system, however, there are still some PFN walkers that call page_mapping()
+without holding the page lock, such as compaction.
+(3) Using target page-&gt;private field to save the 'anon_vma' pointer and 2 bits
+page state, just as page-&gt;mapping records an anonymous page, which can remove
+the page_mapping() impact for PFN walkers and also seems a simple way.
+
+So I choose option 3 to fix this issue, and this can also fix other potential
+issues for PFN walkers, such as compaction.</description><pubDate>Thu, 29 Feb 2024 15:57:03 +0000</pubDate></item><item><title>CVE-2023-52491 | media: mtk-jpeg: Fix use after free bug due to error path handling in mtk_jpeg_dec_device_run</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52491</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mtk-jpeg: Fix use after free bug due to error path handling in mtk_jpeg_dec_device_run
+
+In mtk_jpeg_probe, &amp;jpeg-&gt;job_timeout_work is bound with
+mtk_jpeg_job_timeout_work.
+
+In mtk_jpeg_dec_device_run, if error happens in
+mtk_jpeg_set_dec_dst, it will finally start the worker while
+mark the job as finished by invoking v4l2_m2m_job_finish.
+
+There are two methods to trigger the bug. If we remove the
+module, it which will call mtk_jpeg_remove to make cleanup.
+The possible sequence is as follows, which will cause a
+use-after-free bug.
+
+CPU0                  CPU1
+mtk_jpeg_dec_...    |
+  start worker	    |
+                    |mtk_jpeg_job_timeout_work
+mtk_jpeg_remove     |
+  v4l2_m2m_release  |
+    kfree(m2m_dev); |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev-&gt;curr_ctx //use
+
+If we close the file descriptor, which will call mtk_jpeg_release,
+it will have a similar sequence.
+
+Fix this bug by starting timeout worker only if started jpegdec worker
+successfully. Then v4l2_m2m_job_finish will only be called in
+either mtk_jpeg_job_timeout_work or mtk_jpeg_dec_device_run.</description><pubDate>Thu, 29 Feb 2024 15:57:03 +0000</pubDate></item><item><title>CVE-2023-52492 | dmaengine: fix NULL pointer in channel unregistration function</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52492</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: fix NULL pointer in channel unregistration function
+
+__dma_async_device_channel_register() can fail. In case of failure,
+chan-&gt;local is freed (with free_percpu()), and chan-&gt;local is nullified.
+When dma_async_device_unregister() is called (because of managed API or
+intentionally by DMA controller driver), channels are unconditionally
+unregistered, leading to this NULL pointer:
+[    1.318693] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000d0
+[...]
+[    1.484499] Call trace:
+[    1.486930]  device_del+0x40/0x394
+[    1.490314]  device_unregister+0x20/0x7c
+[    1.494220]  __dma_async_device_channel_unregister+0x68/0xc0
+
+Look at dma_async_device_register() function error path, channel device
+unregistration is done only if chan-&gt;local is not NULL.
+
+Then add the same condition at the beginning of
+__dma_async_device_channel_unregister() function, to avoid NULL pointer
+issue whatever the API used to reach this function.</description><pubDate>Thu, 29 Feb 2024 15:57:03 +0000</pubDate></item><item><title>CVE-2023-52493 | bus: mhi: host: Drop chan lock before queuing buffers</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52493</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bus: mhi: host: Drop chan lock before queuing buffers
+
+Ensure read and write locks for the channel are not taken in succession by
+dropping the read lock from parse_xfer_event() such that a callback given
+to client can potentially queue buffers and acquire the write lock in that
+process. Any queueing of buffers should be done without channel read lock
+acquired as it can result in multiple locks and a soft lockup.
+
+[mani: added fixes tag and cc'ed stable]</description><pubDate>Thu, 29 Feb 2024 15:57:04 +0000</pubDate></item><item><title>CVE-2023-52494 | bus: mhi: host: Add alignment check for event ring read pointer</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52494</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bus: mhi: host: Add alignment check for event ring read pointer
+
+Though we do check the event ring read pointer by "is_valid_ring_ptr"
+to make sure it is in the buffer range, but there is another risk the
+pointer may be not aligned.  Since we are expecting event ring elements
+are 128 bits(struct mhi_ring_element) aligned, an unaligned read pointer
+could lead to multiple issues like DoS or ring buffer memory corruption.
+
+So add a alignment check for event ring read pointer.</description><pubDate>Thu, 29 Feb 2024 15:57:04 +0000</pubDate></item><item><title>CVE-2023-52495 | soc: qcom: pmic_glink_altmode: fix port sanity check</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52495</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: qcom: pmic_glink_altmode: fix port sanity check
+
+The PMIC GLINK altmode driver currently supports at most two ports.
+
+Fix the incomplete port sanity check on notifications to avoid
+accessing and corrupting memory beyond the port array if we ever get a
+notification for an unsupported port.</description><pubDate>Thu, 29 Feb 2024 15:57:05 +0000</pubDate></item><item><title>CVE-2023-52496 | mtd: maps: vmu-flash: Fix the (mtd core) switch to ref counters</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52496</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mtd: maps: vmu-flash: Fix the (mtd core) switch to ref counters
+
+While switching to ref counters for track mtd devices use, the vmu-flash
+driver was forgotten. The reason for reading the ref counter seems
+debatable, but let's just fix the build for now.</description><pubDate>Thu, 29 Feb 2024 15:57:05 +0000</pubDate></item><item><title>CVE-2023-52497 | erofs: fix lz4 inplace decompression</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52497</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: fix lz4 inplace decompression
+
+Currently EROFS can map another compressed buffer for inplace
+decompression, that was used to handle the cases that some pages of
+compressed data are actually not in-place I/O.
+
+However, like most simple LZ77 algorithms, LZ4 expects the compressed
+data is arranged at the end of the decompressed buffer and it
+explicitly uses memmove() to handle overlapping:
+  __________________________________________________________
+ |_ direction of decompression --&gt; ____ |_ compressed data _|
+
+Although EROFS arranges compressed data like this, it typically maps two
+individual virtual buffers so the relative order is uncertain.
+Previously, it was hardly observed since LZ4 only uses memmove() for
+short overlapped literals and x86/arm64 memmove implementations seem to
+completely cover it up and they don't have this issue.  Juhyung reported
+that EROFS data corruption can be found on a new Intel x86 processor.
+After some analysis, it seems that recent x86 processors with the new
+FSRM feature expose this issue with "rep movsb".
+
+Let's strictly use the decompressed buffer for lz4 inplace
+decompression for now.  Later, as an useful improvement, we could try
+to tie up these two buffers together in the correct order.</description><pubDate>Thu, 29 Feb 2024 15:57:05 +0000</pubDate></item><item><title>CVE-2023-52498 | PM: sleep: Fix possible deadlocks in core system-wide PM code</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52498</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PM: sleep: Fix possible deadlocks in core system-wide PM code
+
+It is reported that in low-memory situations the system-wide resume core
+code deadlocks, because async_schedule_dev() executes its argument
+function synchronously if it cannot allocate memory (and not only in
+that case) and that function attempts to acquire a mutex that is already
+held.  Executing the argument function synchronously from within
+dpm_async_fn() may also be problematic for ordering reasons (it may
+cause a consumer device's resume callback to be invoked before a
+requisite supplier device's one, for example).
+
+Address this by changing the code in question to use
+async_schedule_dev_nocall() for scheduling the asynchronous
+execution of device suspend and resume functions and to directly
+run them synchronously if async_schedule_dev_nocall() returns false.</description><pubDate>Thu, 29 Feb 2024 15:57:06 +0000</pubDate></item><item><title>CVE-2024-26608 | ksmbd: fix global oob in ksmbd_nl_policy</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26608</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix global oob in ksmbd_nl_policy
+
+Similar to a reported issue (check the commit b33fb5b801c6 ("net:
+qualcomm: rmnet: fix global oob in rmnet_policy"), my local fuzzer finds
+another global out-of-bounds read for policy ksmbd_nl_policy. See bug
+trace below:
+
+==================================================================
+BUG: KASAN: global-out-of-bounds in validate_nla lib/nlattr.c:386 [inline]
+BUG: KASAN: global-out-of-bounds in __nla_validate_parse+0x24af/0x2750 lib/nlattr.c:600
+Read of size 1 at addr ffffffff8f24b100 by task syz-executor.1/62810
+
+CPU: 0 PID: 62810 Comm: syz-executor.1 Tainted: G                 N 6.1.0 #3
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x8b/0xb3 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:284 [inline]
+ print_report+0x172/0x475 mm/kasan/report.c:395
+ kasan_report+0xbb/0x1c0 mm/kasan/report.c:495
+ validate_nla lib/nlattr.c:386 [inline]
+ __nla_validate_parse+0x24af/0x2750 lib/nlattr.c:600
+ __nla_parse+0x3e/0x50 lib/nlattr.c:697
+ __nlmsg_parse include/net/netlink.h:748 [inline]
+ genl_family_rcv_msg_attrs_parse.constprop.0+0x1b0/0x290 net/netlink/genetlink.c:565
+ genl_family_rcv_msg_doit+0xda/0x330 net/netlink/genetlink.c:734
+ genl_family_rcv_msg net/netlink/genetlink.c:833 [inline]
+ genl_rcv_msg+0x441/0x780 net/netlink/genetlink.c:850
+ netlink_rcv_skb+0x14f/0x410 net/netlink/af_netlink.c:2540
+ genl_rcv+0x24/0x40 net/netlink/genetlink.c:861
+ netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+ netlink_unicast+0x54e/0x800 net/netlink/af_netlink.c:1345
+ netlink_sendmsg+0x930/0xe50 net/netlink/af_netlink.c:1921
+ sock_sendmsg_nosec net/socket.c:714 [inline]
+ sock_sendmsg+0x154/0x190 net/socket.c:734
+ ____sys_sendmsg+0x6df/0x840 net/socket.c:2482
+ ___sys_sendmsg+0x110/0x1b0 net/socket.c:2536
+ __sys_sendmsg+0xf3/0x1c0 net/socket.c:2565
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3b/0x90 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fdd66a8f359
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fdd65e00168 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007fdd66bbcf80 RCX: 00007fdd66a8f359
+RDX: 0000000000000000 RSI: 0000000020000500 RDI: 0000000000000003
+RBP: 00007fdd66ada493 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffc84b81aff R14: 00007fdd65e00300 R15: 0000000000022000
+ &lt;/TASK&gt;
+
+The buggy address belongs to the variable:
+ ksmbd_nl_policy+0x100/0xa80
+
+The buggy address belongs to the physical page:
+page:0000000034f47940 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1ccc4b
+flags: 0x200000000001000(reserved|node=0|zone=2)
+raw: 0200000000001000 ffffea00073312c8 ffffea00073312c8 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffffffff8f24b000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffffff8f24b080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+&gt;ffffffff8f24b100: f9 f9 f9 f9 00 00 f9 f9 f9 f9 f9 f9 00 00 07 f9
+                   ^
+ ffffffff8f24b180: f9 f9 f9 f9 00 05 f9 f9 f9 f9 f9 f9 00 00 00 05
+ ffffffff8f24b200: f9 f9 f9 f9 00 00 03 f9 f9 f9 f9 f9 00 00 04 f9
+==================================================================
+
+To fix it, add a placeholder named __KSMBD_EVENT_MAX and let
+KSMBD_EVENT_MAX to be its original value - 1 according to what other
+netlink families do. Also change two sites that refer the
+KSMBD_EVENT_MAX to correct value.</description><pubDate>Thu, 29 Feb 2024 15:57:06 +0000</pubDate></item><item><title>CVE-2024-26609 | netfilter: nf_tables: reject QUEUE/DROP verdict parameters</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26609</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_tables: reject QUEUE/DROP verdict parameters
+
+This reverts commit e0abdadcc6e1.
+
+core.c:nf_hook_slow assumes that the upper 16 bits of NF_DROP
+verdicts contain a valid errno, i.e. -EPERM, -EHOSTUNREACH or similar,
+or 0.
+
+Due to the reverted commit, its possible to provide a positive
+value, e.g. NF_ACCEPT (1), which results in use-after-free.
+
+Its not clear to me why this commit was made.
+
+NF_QUEUE is not used by nftables; "queue" rules in nftables
+will result in use of "nft_queue" expression.
+
+If we later need to allow specifiying errno values from userspace
+(do not know why), this has to call NF_DROP_GETERR and check that
+"err &lt;= 0" holds true.</description><pubDate>Thu, 29 Feb 2024 15:57:06 +0000</pubDate></item><item><title>CVE-2024-26610 | wifi: iwlwifi: fix a memory corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26610</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: iwlwifi: fix a memory corruption
+
+iwl_fw_ini_trigger_tlv::data is a pointer to a __le32, which means that
+if we copy to iwl_fw_ini_trigger_tlv::data + offset while offset is in
+bytes, we'll write past the buffer.</description><pubDate>Thu, 29 Feb 2024 15:57:07 +0000</pubDate></item><item><title>CVE-2024-26611 | xsk: fix usage of multi-buffer BPF helpers for ZC XDP</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26611</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xsk: fix usage of multi-buffer BPF helpers for ZC XDP
+
+Currently when packet is shrunk via bpf_xdp_adjust_tail() and memory
+type is set to MEM_TYPE_XSK_BUFF_POOL, null ptr dereference happens:
+
+[1136314.192256] BUG: kernel NULL pointer dereference, address:
+0000000000000034
+[1136314.203943] #PF: supervisor read access in kernel mode
+[1136314.213768] #PF: error_code(0x0000) - not-present page
+[1136314.223550] PGD 0 P4D 0
+[1136314.230684] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[1136314.239621] CPU: 8 PID: 54203 Comm: xdpsock Not tainted 6.6.0+ #257
+[1136314.250469] Hardware name: Intel Corporation S2600WFT/S2600WFT,
+BIOS SE5C620.86B.02.01.0008.031920191559 03/19/2019
+[1136314.265615] RIP: 0010:__xdp_return+0x6c/0x210
+[1136314.274653] Code: ad 00 48 8b 47 08 49 89 f8 a8 01 0f 85 9b 01 00 00 0f 1f 44 00 00 f0 41 ff 48 34 75 32 4c 89 c7 e9 79 cd 80 ff 83 fe 03 75 17 &lt;f6&gt; 41 34 01 0f 85 02 01 00 00 48 89 cf e9 22 cc 1e 00 e9 3d d2 86
+[1136314.302907] RSP: 0018:ffffc900089f8db0 EFLAGS: 00010246
+[1136314.312967] RAX: ffffc9003168aed0 RBX: ffff8881c3300000 RCX:
+0000000000000000
+[1136314.324953] RDX: 0000000000000000 RSI: 0000000000000003 RDI:
+ffffc9003168c000
+[1136314.336929] RBP: 0000000000000ae0 R08: 0000000000000002 R09:
+0000000000010000
+[1136314.348844] R10: ffffc9000e495000 R11: 0000000000000040 R12:
+0000000000000001
+[1136314.360706] R13: 0000000000000524 R14: ffffc9003168aec0 R15:
+0000000000000001
+[1136314.373298] FS:  00007f8df8bbcb80(0000) GS:ffff8897e0e00000(0000)
+knlGS:0000000000000000
+[1136314.386105] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[1136314.396532] CR2: 0000000000000034 CR3: 00000001aa912002 CR4:
+00000000007706f0
+[1136314.408377] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[1136314.420173] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[1136314.431890] PKRU: 55555554
+[1136314.439143] Call Trace:
+[1136314.446058]  &lt;IRQ&gt;
+[1136314.452465]  ? __die+0x20/0x70
+[1136314.459881]  ? page_fault_oops+0x15b/0x440
+[1136314.468305]  ? exc_page_fault+0x6a/0x150
+[1136314.476491]  ? asm_exc_page_fault+0x22/0x30
+[1136314.484927]  ? __xdp_return+0x6c/0x210
+[1136314.492863]  bpf_xdp_adjust_tail+0x155/0x1d0
+[1136314.501269]  bpf_prog_ccc47ae29d3b6570_xdp_sock_prog+0x15/0x60
+[1136314.511263]  ice_clean_rx_irq_zc+0x206/0xc60 [ice]
+[1136314.520222]  ? ice_xmit_zc+0x6e/0x150 [ice]
+[1136314.528506]  ice_napi_poll+0x467/0x670 [ice]
+[1136314.536858]  ? ttwu_do_activate.constprop.0+0x8f/0x1a0
+[1136314.546010]  __napi_poll+0x29/0x1b0
+[1136314.553462]  net_rx_action+0x133/0x270
+[1136314.561619]  __do_softirq+0xbe/0x28e
+[1136314.569303]  do_softirq+0x3f/0x60
+
+This comes from __xdp_return() call with xdp_buff argument passed as
+NULL which is supposed to be consumed by xsk_buff_free() call.
+
+To address this properly, in ZC case, a node that represents the frag
+being removed has to be pulled out of xskb_list. Introduce
+appropriate xsk helpers to do such node operation and use them
+accordingly within bpf_xdp_adjust_tail().</description><pubDate>Thu, 29 Feb 2024 15:57:07 +0000</pubDate></item><item><title>CVE-2024-26612 | netfs, fscache: Prevent Oops in fscache_put_cache()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26612</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfs, fscache: Prevent Oops in fscache_put_cache()
+
+This function dereferences "cache" and then checks if it's
+IS_ERR_OR_NULL().  Check first, then dereference.</description><pubDate>Thu, 29 Feb 2024 15:57:07 +0000</pubDate></item><item><title>CVE-2024-26613 | net/rds: Fix UBSAN: array-index-out-of-bounds in rds_cmsg_recv</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26613</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/rds: Fix UBSAN: array-index-out-of-bounds in rds_cmsg_recv
+
+Syzcaller UBSAN crash occurs in rds_cmsg_recv(),
+which reads inc-&gt;i_rx_lat_trace[j + 1] with index 4 (3 + 1),
+but with array size of 4 (RDS_RX_MAX_TRACES).
+Here 'j' is assigned from rs-&gt;rs_rx_trace[i] and in-turn from
+trace.rx_trace_pos[i] in rds_recv_track_latency(),
+with both arrays sized 3 (RDS_MSG_RX_DGRAM_TRACE_MAX). So fix the
+off-by-one bounds check in rds_recv_track_latency() to prevent
+a potential crash in rds_cmsg_recv().
+
+Found by syzcaller:
+=================================================================
+UBSAN: array-index-out-of-bounds in net/rds/recv.c:585:39
+index 4 is out of range for type 'u64 [4]'
+CPU: 1 PID: 8058 Comm: syz-executor228 Not tainted 6.6.0-gd2f51b3516da #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
+BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x136/0x150 lib/dump_stack.c:106
+ ubsan_epilogue lib/ubsan.c:217 [inline]
+ __ubsan_handle_out_of_bounds+0xd5/0x130 lib/ubsan.c:348
+ rds_cmsg_recv+0x60d/0x700 net/rds/recv.c:585
+ rds_recvmsg+0x3fb/0x1610 net/rds/recv.c:716
+ sock_recvmsg_nosec net/socket.c:1044 [inline]
+ sock_recvmsg+0xe2/0x160 net/socket.c:1066
+ __sys_recvfrom+0x1b6/0x2f0 net/socket.c:2246
+ __do_sys_recvfrom net/socket.c:2264 [inline]
+ __se_sys_recvfrom net/socket.c:2260 [inline]
+ __x64_sys_recvfrom+0xe0/0x1b0 net/socket.c:2260
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x40/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+==================================================================</description><pubDate>Thu, 29 Feb 2024 15:57:08 +0000</pubDate></item><item><title>CVE-2024-26614 | tcp: make sure init the accept_queue&amp;#x27;s spinlocks once</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26614</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp: make sure init the accept_queue's spinlocks once
+
+When I run syz's reproduction C program locally, it causes the following
+issue:
+pvqspinlock: lock 0xffff9d181cd5c660 has corrupted value 0x0!
+WARNING: CPU: 19 PID: 21160 at __pv_queued_spin_unlock_slowpath (kernel/locking/qspinlock_paravirt.h:508)
+Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
+RIP: 0010:__pv_queued_spin_unlock_slowpath (kernel/locking/qspinlock_paravirt.h:508)
+Code: 73 56 3a ff 90 c3 cc cc cc cc 8b 05 bb 1f 48 01 85 c0 74 05 c3 cc cc cc cc 8b 17 48 89 fe 48 c7 c7
+30 20 ce 8f e8 ad 56 42 ff &lt;0f&gt; 0b c3 cc cc cc cc 0f 0b 0f 1f 40 00 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffffa8d200604cb8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff9d1ef60e0908
+RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff9d1ef60e0900
+RBP: ffff9d181cd5c280 R08: 0000000000000000 R09: 00000000ffff7fff
+R10: ffffa8d200604b68 R11: ffffffff907dcdc8 R12: 0000000000000000
+R13: ffff9d181cd5c660 R14: ffff9d1813a3f330 R15: 0000000000001000
+FS:  00007fa110184640(0000) GS:ffff9d1ef60c0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000000 CR3: 000000011f65e000 CR4: 00000000000006f0
+Call Trace:
+&lt;IRQ&gt;
+  _raw_spin_unlock (kernel/locking/spinlock.c:186)
+  inet_csk_reqsk_queue_add (net/ipv4/inet_connection_sock.c:1321)
+  inet_csk_complete_hashdance (net/ipv4/inet_connection_sock.c:1358)
+  tcp_check_req (net/ipv4/tcp_minisocks.c:868)
+  tcp_v4_rcv (net/ipv4/tcp_ipv4.c:2260)
+  ip_protocol_deliver_rcu (net/ipv4/ip_input.c:205)
+  ip_local_deliver_finish (net/ipv4/ip_input.c:234)
+  __netif_receive_skb_one_core (net/core/dev.c:5529)
+  process_backlog (./include/linux/rcupdate.h:779)
+  __napi_poll (net/core/dev.c:6533)
+  net_rx_action (net/core/dev.c:6604)
+  __do_softirq (./arch/x86/include/asm/jump_label.h:27)
+  do_softirq (kernel/softirq.c:454 kernel/softirq.c:441)
+&lt;/IRQ&gt;
+&lt;TASK&gt;
+  __local_bh_enable_ip (kernel/softirq.c:381)
+  __dev_queue_xmit (net/core/dev.c:4374)
+  ip_finish_output2 (./include/net/neighbour.h:540 net/ipv4/ip_output.c:235)
+  __ip_queue_xmit (net/ipv4/ip_output.c:535)
+  __tcp_transmit_skb (net/ipv4/tcp_output.c:1462)
+  tcp_rcv_synsent_state_process (net/ipv4/tcp_input.c:6469)
+  tcp_rcv_state_process (net/ipv4/tcp_input.c:6657)
+  tcp_v4_do_rcv (net/ipv4/tcp_ipv4.c:1929)
+  __release_sock (./include/net/sock.h:1121 net/core/sock.c:2968)
+  release_sock (net/core/sock.c:3536)
+  inet_wait_for_connect (net/ipv4/af_inet.c:609)
+  __inet_stream_connect (net/ipv4/af_inet.c:702)
+  inet_stream_connect (net/ipv4/af_inet.c:748)
+  __sys_connect (./include/linux/file.h:45 net/socket.c:2064)
+  __x64_sys_connect (net/socket.c:2073 net/socket.c:2070 net/socket.c:2070)
+  do_syscall_64 (arch/x86/entry/common.c:51 arch/x86/entry/common.c:82)
+  entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:129)
+  RIP: 0033:0x7fa10ff05a3d
+  Code: 5b 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89
+  c2 4d 89 c8 4c 8b 4c 24 08 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d ab a3 0e 00 f7 d8 64 89 01 48
+  RSP: 002b:00007fa110183de8 EFLAGS: 00000202 ORIG_RAX: 000000000000002a
+  RAX: ffffffffffffffda RBX: 0000000020000054 RCX: 00007fa10ff05a3d
+  RDX: 000000000000001c RSI: 0000000020000040 RDI: 0000000000000003
+  RBP: 00007fa110183e20 R08: 0000000000000000 R09: 0000000000000000
+  R10: 0000000000000000 R11: 0000000000000202 R12: 00007fa110184640
+  R13: 0000000000000000 R14: 00007fa10fe8b060 R15: 00007fff73e23b20
+&lt;/TASK&gt;
+
+The issue triggering process is analyzed as follows:
+Thread A                                       Thread B
+tcp_v4_rcv	//receive ack TCP packet       inet_shutdown
+  tcp_check_req                                  tcp_disconnect //disconnect sock
+  ...                                              tcp_set_state(sk, TCP_CLOSE)
+    inet_csk_complete_hashdance                ...
+      inet_csk_reqsk_queue_add         
+---truncated---</description><pubDate>Thu, 29 Feb 2024 15:57:08 +0000</pubDate></item><item><title>CVE-2024-26615 | net/smc: fix illegal rmb_desc access in SMC-D connection dump</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26615</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: fix illegal rmb_desc access in SMC-D connection dump
+
+A crash was found when dumping SMC-D connections. It can be reproduced
+by following steps:
+
+- run nginx/wrk test:
+  smc_run nginx
+  smc_run wrk -t 16 -c 1000 -d &lt;duration&gt; -H 'Connection: Close' &lt;URL&gt;
+
+- continuously dump SMC-D connections in parallel:
+  watch -n 1 'smcss -D'
+
+ BUG: kernel NULL pointer dereference, address: 0000000000000030
+ CPU: 2 PID: 7204 Comm: smcss Kdump: loaded Tainted: G	E      6.7.0+ #55
+ RIP: 0010:__smc_diag_dump.constprop.0+0x5e5/0x620 [smc_diag]
+ Call Trace:
+  &lt;TASK&gt;
+  ? __die+0x24/0x70
+  ? page_fault_oops+0x66/0x150
+  ? exc_page_fault+0x69/0x140
+  ? asm_exc_page_fault+0x26/0x30
+  ? __smc_diag_dump.constprop.0+0x5e5/0x620 [smc_diag]
+  ? __kmalloc_node_track_caller+0x35d/0x430
+  ? __alloc_skb+0x77/0x170
+  smc_diag_dump_proto+0xd0/0xf0 [smc_diag]
+  smc_diag_dump+0x26/0x60 [smc_diag]
+  netlink_dump+0x19f/0x320
+  __netlink_dump_start+0x1dc/0x300
+  smc_diag_handler_dump+0x6a/0x80 [smc_diag]
+  ? __pfx_smc_diag_dump+0x10/0x10 [smc_diag]
+  sock_diag_rcv_msg+0x121/0x140
+  ? __pfx_sock_diag_rcv_msg+0x10/0x10
+  netlink_rcv_skb+0x5a/0x110
+  sock_diag_rcv+0x28/0x40
+  netlink_unicast+0x22a/0x330
+  netlink_sendmsg+0x1f8/0x420
+  __sock_sendmsg+0xb0/0xc0
+  ____sys_sendmsg+0x24e/0x300
+  ? copy_msghdr_from_user+0x62/0x80
+  ___sys_sendmsg+0x7c/0xd0
+  ? __do_fault+0x34/0x160
+  ? do_read_fault+0x5f/0x100
+  ? do_fault+0xb0/0x110
+  ? __handle_mm_fault+0x2b0/0x6c0
+  __sys_sendmsg+0x4d/0x80
+  do_syscall_64+0x69/0x180
+  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+It is possible that the connection is in process of being established
+when we dump it. Assumed that the connection has been registered in a
+link group by smc_conn_create() but the rmb_desc has not yet been
+initialized by smc_buf_create(), thus causing the illegal access to
+conn-&gt;rmb_desc. So fix it by checking before dump.</description><pubDate>Thu, 29 Feb 2024 15:57:08 +0000</pubDate></item><item><title>CVE-2024-26616 | btrfs: scrub: avoid use-after-free when chunk length is not 64K aligned</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26616</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: scrub: avoid use-after-free when chunk length is not 64K aligned
+
+[BUG]
+There is a bug report that, on a ext4-converted btrfs, scrub leads to
+various problems, including:
+
+- "unable to find chunk map" errors
+  BTRFS info (device vdb): scrub: started on devid 1
+  BTRFS critical (device vdb): unable to find chunk map for logical 2214744064 length 4096
+  BTRFS critical (device vdb): unable to find chunk map for logical 2214744064 length 45056
+
+  This would lead to unrepariable errors.
+
+- Use-after-free KASAN reports:
+  ==================================================================
+  BUG: KASAN: slab-use-after-free in __blk_rq_map_sg+0x18f/0x7c0
+  Read of size 8 at addr ffff8881013c9040 by task btrfs/909
+  CPU: 0 PID: 909 Comm: btrfs Not tainted 6.7.0-x64v3-dbg #11 c50636e9419a8354555555245df535e380563b2b
+  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 2023.11-2 12/24/2023
+  Call Trace:
+   &lt;TASK&gt;
+   dump_stack_lvl+0x43/0x60
+   print_report+0xcf/0x640
+   kasan_report+0xa6/0xd0
+   __blk_rq_map_sg+0x18f/0x7c0
+   virtblk_prep_rq.isra.0+0x215/0x6a0 [virtio_blk 19a65eeee9ae6fcf02edfad39bb9ddee07dcdaff]
+   virtio_queue_rqs+0xc4/0x310 [virtio_blk 19a65eeee9ae6fcf02edfad39bb9ddee07dcdaff]
+   blk_mq_flush_plug_list.part.0+0x780/0x860
+   __blk_flush_plug+0x1ba/0x220
+   blk_finish_plug+0x3b/0x60
+   submit_initial_group_read+0x10a/0x290 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   flush_scrub_stripes+0x38e/0x430 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   scrub_stripe+0x82a/0xae0 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   scrub_chunk+0x178/0x200 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   scrub_enumerate_chunks+0x4bc/0xa30 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   btrfs_scrub_dev+0x398/0x810 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   btrfs_ioctl+0x4b9/0x3020 [btrfs e57987a360bed82fe8756dcd3e0de5406ccfe965]
+   __x64_sys_ioctl+0xbd/0x100
+   do_syscall_64+0x5d/0xe0
+   entry_SYSCALL_64_after_hwframe+0x63/0x6b
+  RIP: 0033:0x7f47e5e0952b
+
+- Crash, mostly due to above use-after-free
+
+[CAUSE]
+The converted fs has the following data chunk layout:
+
+    item 2 key (FIRST_CHUNK_TREE CHUNK_ITEM 2214658048) itemoff 16025 itemsize 80
+        length 86016 owner 2 stripe_len 65536 type DATA|single
+
+For above logical bytenr 2214744064, it's at the chunk end
+(2214658048 + 86016 = 2214744064).
+
+This means btrfs_submit_bio() would split the bio, and trigger endio
+function for both of the two halves.
+
+However scrub_submit_initial_read() would only expect the endio function
+to be called once, not any more.
+This means the first endio function would already free the bbio::bio,
+leaving the bvec freed, thus the 2nd endio call would lead to
+use-after-free.
+
+[FIX]
+- Make sure scrub_read_endio() only updates bits in its range
+  Since we may read less than 64K at the end of the chunk, we should not
+  touch the bits beyond chunk boundary.
+
+- Make sure scrub_submit_initial_read() only to read the chunk range
+  This is done by calculating the real number of sectors we need to
+  read, and add sector-by-sector to the bio.
+
+Thankfully the scrub read repair path won't need extra fixes:
+
+- scrub_stripe_submit_repair_read()
+  With above fixes, we won't update error bit for range beyond chunk,
+  thus scrub_stripe_submit_repair_read() should never submit any read
+  beyond the chunk.</description><pubDate>Thu, 29 Feb 2024 15:57:09 +0000</pubDate></item><item><title>CVE-2024-26617 | fs/proc/task_mmu: move mmu notification mechanism inside mm lock</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26617</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/proc/task_mmu: move mmu notification mechanism inside mm lock
+
+Move mmu notification mechanism inside mm lock to prevent race condition
+in other components which depend on it.  The notifier will invalidate
+memory range.  Depending upon the number of iterations, different memory
+ranges would be invalidated.
+
+The following warning would be removed by this patch:
+WARNING: CPU: 0 PID: 5067 at arch/x86/kvm/../../../virt/kvm/kvm_main.c:734 kvm_mmu_notifier_change_pte+0x860/0x960 arch/x86/kvm/../../../virt/kvm/kvm_main.c:734
+
+There is no behavioural and performance change with this patch when
+there is no component registered with the mmu notifier.
+
+[akpm@linux-foundation.org: narrow the scope of `range', per Sean]</description><pubDate>Thu, 29 Feb 2024 15:57:09 +0000</pubDate></item><item><title>CVE-2024-26618 | arm64/sme: Always exit sme_alloc() early with existing storage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26618</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64/sme: Always exit sme_alloc() early with existing storage
+
+When sme_alloc() is called with existing storage and we are not flushing we
+will always allocate new storage, both leaking the existing storage and
+corrupting the state. Fix this by separating the checks for flushing and
+for existing storage as we do for SVE.
+
+Callers that reallocate (eg, due to changing the vector length) should
+call sme_free() themselves.</description><pubDate>Thu, 29 Feb 2024 15:57:10 +0000</pubDate></item><item><title>CVE-2024-26619 | riscv: Fix module loading free order</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26619</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: Fix module loading free order
+
+Reverse order of kfree calls to resolve use-after-free error.</description><pubDate>Thu, 29 Feb 2024 15:57:10 +0000</pubDate></item><item><title>CVE-2024-26620 | s390/vfio-ap: always filter entire AP matrix</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26620</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/vfio-ap: always filter entire AP matrix
+
+The vfio_ap_mdev_filter_matrix function is called whenever a new adapter or
+domain is assigned to the mdev. The purpose of the function is to update
+the guest's AP configuration by filtering the matrix of adapters and
+domains assigned to the mdev. When an adapter or domain is assigned, only
+the APQNs associated with the APID of the new adapter or APQI of the new
+domain are inspected. If an APQN does not reference a queue device bound to
+the vfio_ap device driver, then it's APID will be filtered from the mdev's
+matrix when updating the guest's AP configuration.
+
+Inspecting only the APID of the new adapter or APQI of the new domain will
+result in passing AP queues through to a guest that are not bound to the
+vfio_ap device driver under certain circumstances. Consider the following:
+
+guest's AP configuration (all also assigned to the mdev's matrix):
+14.0004
+14.0005
+14.0006
+16.0004
+16.0005
+16.0006
+
+unassign domain 4
+unbind queue 16.0005
+assign domain 4
+
+When domain 4 is re-assigned, since only domain 4 will be inspected, the
+APQNs that will be examined will be:
+14.0004
+16.0004
+
+Since both of those APQNs reference queue devices that are bound to the
+vfio_ap device driver, nothing will get filtered from the mdev's matrix
+when updating the guest's AP configuration. Consequently, queue 16.0005
+will get passed through despite not being bound to the driver. This
+violates the linux device model requirement that a guest shall only be
+given access to devices bound to the device driver facilitating their
+pass-through.
+
+To resolve this problem, every adapter and domain assigned to the mdev will
+be inspected when filtering the mdev's matrix.</description><pubDate>Thu, 29 Feb 2024 15:57:10 +0000</pubDate></item><item><title>CVE-2024-24818 | EspoCRM weakness in &amp;quot;Forgot password&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-24818</link><description>EspoCRM is an Open Source Customer Relationship Management software. An attacker can inject arbitrary IP or domain in "Password Change" page and redirect victim to malicious page that could lead to  credential stealing or another attack. This vulnerability is fixed in 8.1.2.</description><pubDate>Thu, 29 Feb 2024 15:22:14 +0000</pubDate></item><item><title>CVE-2023-52485 | drm/amd/display: Wake DMCUB before sending a command</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52485</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/amd/display: Wake DMCUB before sending a command
 
