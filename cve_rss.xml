@@ -1,5 +1,98 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 05 Mar 2024 11:11:24 +0000</lastBuildDate><item><title>CVE-2023-5456 | A CWE-798 “Use of Hard-coded Credentials” vulnerability in the MariaDB database of the web application allows a remote unauthenticated attac...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-5456</link><description>A CWE-798 “Use of Hard-coded Credentials” vulnerability in the MariaDB database of the web application allows a remote unauthenticated attacker to access the database service and all included data with the same privileges of the web application. This issue affects: AiLux imx6 bundle below version imx6_1.0.7-2.</description><pubDate>Tue, 05 Mar 2024 11:11:26 +0000</pubDate></item><item><title>CVE-2024-26335 | swftools v0.9.2 was discovered to contain a segmentation violation via the function state_free at swftools/src/swfc-history.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26335</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function state_free at swftools/src/swfc-history.c.</description><pubDate>Tue, 05 Mar 2024 08:56:51 +0000</pubDate></item><item><title>CVE-2024-26337 | swftools v0.9.2 was discovered to contain a segmentation violation via the function s_font at swftools/src/swfc.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26337</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function s_font at swftools/src/swfc.c.</description><pubDate>Tue, 05 Mar 2024 08:43:07 +0000</pubDate></item><item><title>CVE-2024-26339 | swftools v0.9.2 was discovered to contain a strcpy parameter overlap via /home/swftools/src/swfc+0x48318a.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26339</link><description>swftools v0.9.2 was discovered to contain a strcpy parameter overlap via /home/swftools/src/swfc+0x48318a.</description><pubDate>Tue, 05 Mar 2024 08:43:08 +0000</pubDate></item><item><title>CVE-2024-26334 | swftools v0.9.2 was discovered to contain a segmentation violation via the function compileSWFActionCode at swftools/lib/action/actioncompil...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26334</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function compileSWFActionCode at swftools/lib/action/actioncompiler.c.</description><pubDate>Tue, 05 Mar 2024 08:28:28 +0000</pubDate></item><item><title>CVE-2024-20833 | Use after free vulnerability in pub_crypto_recv_msg prior to SMR Mar-2024 Release 1 due to race condition allows local attackers with system...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-20833</link><description>Use after free vulnerability in pub_crypto_recv_msg prior to SMR Mar-2024 Release 1 due to race condition allows local attackers with system privilege to cause memory corruption.</description><pubDate>Tue, 05 Mar 2024 08:16:54 +0000</pubDate></item><item><title>CVE-2024-26333 | swftools v0.9.2 was discovered to contain a segmentation violation via the function free_lines at swftools/lib/modules/swfshape.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26333</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function free_lines at swftools/lib/modules/swfshape.c.</description><pubDate>Tue, 05 Mar 2024 07:58:48 +0000</pubDate></item><item><title>CVE-2023-42419 | Improper Management of Cryptographic Keys in the Maintenance Server in QCOW Air-Gapped Distribution (China Edition)</title><link>https://www.cve.org/CVERecord?id=CVE-2023-42419</link><description>Maintenance Server, in Cybellum's QCOW air-gapped distribution (China Edition), versions 2.15.5 through 2.27, was compiled with a hard-coded private cryptographic key.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 05 Mar 2024 11:20:47 +0000</lastBuildDate><item><title>CVE-2022-48629 | crypto: qcom-rng - ensure buffer for generate is completely filled</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48629</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: qcom-rng - ensure buffer for generate is completely filled
+
+The generate function in struct rng_alg expects that the destination
+buffer is completely filled if the function returns 0. qcom_rng_read()
+can run into a situation where the buffer is partially filled with
+randomness and the remaining part of the buffer is zeroed since
+qcom_rng_generate() doesn't check the return value. This issue can
+be reproduced by running the following from libkcapi:
+
+    kcapi-rng -b 9000000 &gt; OUTFILE
+
+The generated OUTFILE will have three huge sections that contain all
+zeros, and this is caused by the code where the test
+'val &amp; PRNG_STATUS_DATA_AVAIL' fails.
+
+Let's fix this issue by ensuring that qcom_rng_read() always returns
+with a full buffer if the function returns success. Let's also have
+qcom_rng_generate() return the correct value.
+
+Here's some statistics from the ent project
+(https://www.fourmilab.ch/random/) that shows information about the
+quality of the generated numbers:
+
+    $ ent -c qcom-random-before
+    Value Char Occurrences Fraction
+      0           606748   0.067416
+      1            33104   0.003678
+      2            33001   0.003667
+    ...
+    253   �        32883   0.003654
+    254   �        33035   0.003671
+    255   �        33239   0.003693
+
+    Total:       9000000   1.000000
+
+    Entropy = 7.811590 bits per byte.
+
+    Optimum compression would reduce the size
+    of this 9000000 byte file by 2 percent.
+
+    Chi square distribution for 9000000 samples is 9329962.81, and
+    randomly would exceed this value less than 0.01 percent of the
+    times.
+
+    Arithmetic mean value of data bytes is 119.3731 (127.5 = random).
+    Monte Carlo value for Pi is 3.197293333 (error 1.77 percent).
+    Serial correlation coefficient is 0.159130 (totally uncorrelated =
+    0.0).
+
+Without this patch, the results of the chi-square test is 0.01%, and
+the numbers are certainly not random according to ent's project page.
+The results improve with this patch:
+
+    $ ent -c qcom-random-after
+    Value Char Occurrences Fraction
+      0            35432   0.003937
+      1            35127   0.003903
+      2            35424   0.003936
+    ...
+    253   �        35201   0.003911
+    254   �        34835   0.003871
+    255   �        35368   0.003930
+
+    Total:       9000000   1.000000
+
+    Entropy = 7.999979 bits per byte.
+
+    Optimum compression would reduce the size
+    of this 9000000 byte file by 0 percent.
+
+    Chi square distribution for 9000000 samples is 258.77, and randomly
+    would exceed this value 42.24 percent of the times.
+
+    Arithmetic mean value of data bytes is 127.5006 (127.5 = random).
+    Monte Carlo value for Pi is 3.141277333 (error 0.01 percent).
+    Serial correlation coefficient is 0.000468 (totally uncorrelated =
+    0.0).
+
+This change was tested on a Nexus 5 phone (msm8974 SoC).</description><pubDate>Tue, 05 Mar 2024 11:20:49 +0000</pubDate></item><item><title>CVE-2022-48630 | crypto: qcom-rng - fix infinite loop on requests not multiple of WORD_SZ</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48630</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: qcom-rng - fix infinite loop on requests not multiple of WORD_SZ
+
+The commit referenced in the Fixes tag removed the 'break' from the else
+branch in qcom_rng_read(), causing an infinite loop whenever 'max' is
+not a multiple of WORD_SZ. This can be reproduced e.g. by running:
+
+    kcapi-rng -b 67 &gt;/dev/null
+
+There are many ways to fix this without adding back the 'break', but
+they all seem more awkward than simply adding it back, so do just that.
+
+Tested on a machine with Qualcomm Amberwing processor.</description><pubDate>Tue, 05 Mar 2024 11:20:49 +0000</pubDate></item><item><title>CVE-2023-5457 | A CWE-1269 “Product Released in Non-Release Configuration” vulnerability in the Django web framework used by the web application (due to the...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-5457</link><description>A CWE-1269 “Product Released in Non-Release Configuration” vulnerability in the Django web framework used by the web application (due to the “debug” configuration parameter set to “True”) allows a remote unauthenticated attacker to access critical information and have other unspecified impacts to the confidentiality, integrity, and availability of the application. This issue affects: AiLux imx6 bundle below version imx6_1.0.7-2.</description><pubDate>Tue, 05 Mar 2024 11:20:49 +0000</pubDate></item><item><title>CVE-2023-5456 | A CWE-798 “Use of Hard-coded Credentials” vulnerability in the MariaDB database of the web application allows a remote unauthenticated attac...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-5456</link><description>A CWE-798 “Use of Hard-coded Credentials” vulnerability in the MariaDB database of the web application allows a remote unauthenticated attacker to access the database service and all included data with the same privileges of the web application. This issue affects: AiLux imx6 bundle below version imx6_1.0.7-2.</description><pubDate>Tue, 05 Mar 2024 11:11:26 +0000</pubDate></item><item><title>CVE-2024-26335 | swftools v0.9.2 was discovered to contain a segmentation violation via the function state_free at swftools/src/swfc-history.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26335</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function state_free at swftools/src/swfc-history.c.</description><pubDate>Tue, 05 Mar 2024 08:56:51 +0000</pubDate></item><item><title>CVE-2024-26337 | swftools v0.9.2 was discovered to contain a segmentation violation via the function s_font at swftools/src/swfc.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26337</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function s_font at swftools/src/swfc.c.</description><pubDate>Tue, 05 Mar 2024 08:43:07 +0000</pubDate></item><item><title>CVE-2024-26339 | swftools v0.9.2 was discovered to contain a strcpy parameter overlap via /home/swftools/src/swfc+0x48318a.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26339</link><description>swftools v0.9.2 was discovered to contain a strcpy parameter overlap via /home/swftools/src/swfc+0x48318a.</description><pubDate>Tue, 05 Mar 2024 08:43:08 +0000</pubDate></item><item><title>CVE-2024-26334 | swftools v0.9.2 was discovered to contain a segmentation violation via the function compileSWFActionCode at swftools/lib/action/actioncompil...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26334</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function compileSWFActionCode at swftools/lib/action/actioncompiler.c.</description><pubDate>Tue, 05 Mar 2024 08:28:28 +0000</pubDate></item><item><title>CVE-2024-20833 | Use after free vulnerability in pub_crypto_recv_msg prior to SMR Mar-2024 Release 1 due to race condition allows local attackers with system...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-20833</link><description>Use after free vulnerability in pub_crypto_recv_msg prior to SMR Mar-2024 Release 1 due to race condition allows local attackers with system privilege to cause memory corruption.</description><pubDate>Tue, 05 Mar 2024 08:16:54 +0000</pubDate></item><item><title>CVE-2024-26333 | swftools v0.9.2 was discovered to contain a segmentation violation via the function free_lines at swftools/lib/modules/swfshape.c.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26333</link><description>swftools v0.9.2 was discovered to contain a segmentation violation via the function free_lines at swftools/lib/modules/swfshape.c.</description><pubDate>Tue, 05 Mar 2024 07:58:48 +0000</pubDate></item><item><title>CVE-2023-42419 | Improper Management of Cryptographic Keys in the Maintenance Server in QCOW Air-Gapped Distribution (China Edition)</title><link>https://www.cve.org/CVERecord?id=CVE-2023-42419</link><description>Maintenance Server, in Cybellum's QCOW air-gapped distribution (China Edition), versions 2.15.5 through 2.27, was compiled with a hard-coded private cryptographic key.
 
 
 An attacker with administrative privileges &amp; access to the air-gapped server could potentially use this key to run commands on the server.
