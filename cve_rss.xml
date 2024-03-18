@@ -1,5 +1,761 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 18 Mar 2024 10:13:09 +0000</lastBuildDate><item><title>CVE-2024-1604 | Incorrect authorization in BMC Control-M</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1604</link><description>Improper authorization in the report management and creation module of BMC Control-M branches 9.0.20 and 9.0.21 allows logged-in users to read and make unauthorized changes to any reports available within the application, even without proper permissions. The attacker must know the unique identifier of the report they want to manipulate.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 18 Mar 2024 10:28:33 +0000</lastBuildDate><item><title>CVE-2023-52617 | PCI: switchtec: Fix stdev_release() crash after surprise hot remove</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52617</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: switchtec: Fix stdev_release() crash after surprise hot remove
+
+A PCI device hot removal may occur while stdev-&gt;cdev is held open. The call
+to stdev_release() then happens during close or exit, at a point way past
+switchtec_pci_remove(). Otherwise the last ref would vanish with the
+trailing put_device(), just before return.
+
+At that later point in time, the devm cleanup has already removed the
+stdev-&gt;mmio_mrpc mapping. Also, the stdev-&gt;pdev reference was not a counted
+one. Therefore, in DMA mode, the iowrite32() in stdev_release() will cause
+a fatal page fault, and the subsequent dma_free_coherent(), if reached,
+would pass a stale &amp;stdev-&gt;pdev-&gt;dev pointer.
+
+Fix by moving MRPC DMA shutdown into switchtec_pci_remove(), after
+stdev_kill(). Counting the stdev-&gt;pdev ref is now optional, but may prevent
+future accidents.
+
+Reproducible via the script at
+https://lore.kernel.org/r/20231113212150.96410-1-dns@arista.com</description><pubDate>Mon, 18 Mar 2024 10:28:35 +0000</pubDate></item><item><title>CVE-2023-52618 | block/rnbd-srv: Check for unlikely string overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52618</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block/rnbd-srv: Check for unlikely string overflow
+
+Since "dev_search_path" can technically be as large as PATH_MAX,
+there was a risk of truncation when copying it and a second string
+into "full_path" since it was also PATH_MAX sized. The W=1 builds were
+reporting this warning:
+
+drivers/block/rnbd/rnbd-srv.c: In function 'process_msg_open.isra':
+drivers/block/rnbd/rnbd-srv.c:616:51: warning: '%s' directive output may be truncated writing up to 254 bytes into a region of size between 0 and 4095 [-Wformat-truncation=]
+  616 |                 snprintf(full_path, PATH_MAX, "%s/%s",
+      |                                                   ^~
+In function 'rnbd_srv_get_full_path',
+    inlined from 'process_msg_open.isra' at drivers/block/rnbd/rnbd-srv.c:721:14: drivers/block/rnbd/rnbd-srv.c:616:17: note: 'snprintf' output between 2 and 4351 bytes into a destination of size 4096
+  616 |                 snprintf(full_path, PATH_MAX, "%s/%s",
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  617 |                          dev_search_path, dev_name);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To fix this, unconditionally check for truncation (as was already done
+for the case where "%SESSNAME%" was present).</description><pubDate>Mon, 18 Mar 2024 10:28:35 +0000</pubDate></item><item><title>CVE-2023-52619 | pstore/ram: Fix crash when setting number of cpus to an odd number</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52619</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pstore/ram: Fix crash when setting number of cpus to an odd number
+
+When the number of cpu cores is adjusted to 7 or other odd numbers,
+the zone size will become an odd number.
+The address of the zone will become:
+    addr of zone0 = BASE
+    addr of zone1 = BASE + zone_size
+    addr of zone2 = BASE + zone_size*2
+    ...
+The address of zone1/3/5/7 will be mapped to non-alignment va.
+Eventually crashes will occur when accessing these va.
+
+So, use ALIGN_DOWN() to make sure the zone size is even
+to avoid this bug.</description><pubDate>Mon, 18 Mar 2024 10:28:35 +0000</pubDate></item><item><title>CVE-2024-26639 | mm, kmsan: fix infinite recursion due to RCU critical section</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26639</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm, kmsan: fix infinite recursion due to RCU critical section
+
+Alexander Potapenko writes in [1]: "For every memory access in the code
+instrumented by KMSAN we call kmsan_get_metadata() to obtain the metadata
+for the memory being accessed.  For virtual memory the metadata pointers
+are stored in the corresponding `struct page`, therefore we need to call
+virt_to_page() to get them.
+
+According to the comment in arch/x86/include/asm/page.h,
+virt_to_page(kaddr) returns a valid pointer iff virt_addr_valid(kaddr) is
+true, so KMSAN needs to call virt_addr_valid() as well.
+
+To avoid recursion, kmsan_get_metadata() must not call instrumented code,
+therefore ./arch/x86/include/asm/kmsan.h forks parts of
+arch/x86/mm/physaddr.c to check whether a virtual address is valid or not.
+
+But the introduction of rcu_read_lock() to pfn_valid() added instrumented
+RCU API calls to virt_to_page_or_null(), which is called by
+kmsan_get_metadata(), so there is an infinite recursion now.  I do not
+think it is correct to stop that recursion by doing
+kmsan_enter_runtime()/kmsan_exit_runtime() in kmsan_get_metadata(): that
+would prevent instrumented functions called from within the runtime from
+tracking the shadow values, which might introduce false positives."
+
+Fix the issue by switching pfn_valid() to the _sched() variant of
+rcu_read_lock/unlock(), which does not require calling into RCU.  Given
+the critical section in pfn_valid() is very small, this is a reasonable
+trade-off (with preemptible RCU).
+
+KMSAN further needs to be careful to suppress calls into the scheduler,
+which would be another source of recursion.  This can be done by wrapping
+the call to pfn_valid() into preempt_disable/enable_no_resched().  The
+downside is that this sacrifices breaking scheduling guarantees; however,
+a kernel compiled with KMSAN has already given up any performance
+guarantees due to being heavily instrumented.
+
+Note, KMSAN code already disables tracing via Makefile, and since mmzone.h
+is included, it is not necessary to use the notrace variant, which is
+generally preferred in all other cases.</description><pubDate>Mon, 18 Mar 2024 10:28:36 +0000</pubDate></item><item><title>CVE-2024-26640 | tcp: add sanity checks to rx zerocopy</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26640</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp: add sanity checks to rx zerocopy
+
+TCP rx zerocopy intent is to map pages initially allocated
+from NIC drivers, not pages owned by a fs.
+
+This patch adds to can_map_frag() these additional checks:
+
+- Page must not be a compound one.
+- page-&gt;mapping must be NULL.
+
+This fixes the panic reported by ZhangPeng.
+
+syzbot was able to loopback packets built with sendfile(),
+mapping pages owned by an ext4 file to TCP rx zerocopy.
+
+r3 = socket$inet_tcp(0x2, 0x1, 0x0)
+mmap(&amp;(0x7f0000ff9000/0x4000)=nil, 0x4000, 0x0, 0x12, r3, 0x0)
+r4 = socket$inet_tcp(0x2, 0x1, 0x0)
+bind$inet(r4, &amp;(0x7f0000000000)={0x2, 0x4e24, @multicast1}, 0x10)
+connect$inet(r4, &amp;(0x7f00000006c0)={0x2, 0x4e24, @empty}, 0x10)
+r5 = openat$dir(0xffffffffffffff9c, &amp;(0x7f00000000c0)='./file0\x00',
+    0x181e42, 0x0)
+fallocate(r5, 0x0, 0x0, 0x85b8)
+sendfile(r4, r5, 0x0, 0x8ba0)
+getsockopt$inet_tcp_TCP_ZEROCOPY_RECEIVE(r4, 0x6, 0x23,
+    &amp;(0x7f00000001c0)={&amp;(0x7f0000ffb000/0x3000)=nil, 0x3000, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0}, &amp;(0x7f0000000440)=0x40)
+r6 = openat$dir(0xffffffffffffff9c, &amp;(0x7f00000000c0)='./file0\x00',
+    0x181e42, 0x0)</description><pubDate>Mon, 18 Mar 2024 10:28:36 +0000</pubDate></item><item><title>CVE-2024-26641 | ip6_tunnel: make sure to pull inner header in __ip6_tnl_rcv()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26641</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ip6_tunnel: make sure to pull inner header in __ip6_tnl_rcv()
+
+syzbot found __ip6_tnl_rcv() could access unitiliazed data [1].
+
+Call pskb_inet_may_pull() to fix this, and initialize ipv6h
+variable after this call as it can change skb-&gt;head.
+
+[1]
+ BUG: KMSAN: uninit-value in __INET_ECN_decapsulate include/net/inet_ecn.h:253 [inline]
+ BUG: KMSAN: uninit-value in INET_ECN_decapsulate include/net/inet_ecn.h:275 [inline]
+ BUG: KMSAN: uninit-value in IP6_ECN_decapsulate+0x7df/0x1e50 include/net/inet_ecn.h:321
+  __INET_ECN_decapsulate include/net/inet_ecn.h:253 [inline]
+  INET_ECN_decapsulate include/net/inet_ecn.h:275 [inline]
+  IP6_ECN_decapsulate+0x7df/0x1e50 include/net/inet_ecn.h:321
+  ip6ip6_dscp_ecn_decapsulate+0x178/0x1b0 net/ipv6/ip6_tunnel.c:727
+  __ip6_tnl_rcv+0xd4e/0x1590 net/ipv6/ip6_tunnel.c:845
+  ip6_tnl_rcv+0xce/0x100 net/ipv6/ip6_tunnel.c:888
+ gre_rcv+0x143f/0x1870
+  ip6_protocol_deliver_rcu+0xda6/0x2a60 net/ipv6/ip6_input.c:438
+  ip6_input_finish net/ipv6/ip6_input.c:483 [inline]
+  NF_HOOK include/linux/netfilter.h:314 [inline]
+  ip6_input+0x15d/0x430 net/ipv6/ip6_input.c:492
+  ip6_mc_input+0xa7e/0xc80 net/ipv6/ip6_input.c:586
+  dst_input include/net/dst.h:461 [inline]
+  ip6_rcv_finish+0x5db/0x870 net/ipv6/ip6_input.c:79
+  NF_HOOK include/linux/netfilter.h:314 [inline]
+  ipv6_rcv+0xda/0x390 net/ipv6/ip6_input.c:310
+  __netif_receive_skb_one_core net/core/dev.c:5532 [inline]
+  __netif_receive_skb+0x1a6/0x5a0 net/core/dev.c:5646
+  netif_receive_skb_internal net/core/dev.c:5732 [inline]
+  netif_receive_skb+0x58/0x660 net/core/dev.c:5791
+  tun_rx_batched+0x3ee/0x980 drivers/net/tun.c:1555
+  tun_get_user+0x53af/0x66d0 drivers/net/tun.c:2002
+  tun_chr_write_iter+0x3af/0x5d0 drivers/net/tun.c:2048
+  call_write_iter include/linux/fs.h:2084 [inline]
+  new_sync_write fs/read_write.c:497 [inline]
+  vfs_write+0x786/0x1200 fs/read_write.c:590
+  ksys_write+0x20f/0x4c0 fs/read_write.c:643
+  __do_sys_write fs/read_write.c:655 [inline]
+  __se_sys_write fs/read_write.c:652 [inline]
+  __x64_sys_write+0x93/0xd0 fs/read_write.c:652
+  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+  do_syscall_64+0x6d/0x140 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Uninit was created at:
+  slab_post_alloc_hook+0x129/0xa70 mm/slab.h:768
+  slab_alloc_node mm/slub.c:3478 [inline]
+  kmem_cache_alloc_node+0x5e9/0xb10 mm/slub.c:3523
+  kmalloc_reserve+0x13d/0x4a0 net/core/skbuff.c:560
+  __alloc_skb+0x318/0x740 net/core/skbuff.c:651
+  alloc_skb include/linux/skbuff.h:1286 [inline]
+  alloc_skb_with_frags+0xc8/0xbd0 net/core/skbuff.c:6334
+  sock_alloc_send_pskb+0xa80/0xbf0 net/core/sock.c:2787
+  tun_alloc_skb drivers/net/tun.c:1531 [inline]
+  tun_get_user+0x1e8a/0x66d0 drivers/net/tun.c:1846
+  tun_chr_write_iter+0x3af/0x5d0 drivers/net/tun.c:2048
+  call_write_iter include/linux/fs.h:2084 [inline]
+  new_sync_write fs/read_write.c:497 [inline]
+  vfs_write+0x786/0x1200 fs/read_write.c:590
+  ksys_write+0x20f/0x4c0 fs/read_write.c:643
+  __do_sys_write fs/read_write.c:655 [inline]
+  __se_sys_write fs/read_write.c:652 [inline]
+  __x64_sys_write+0x93/0xd0 fs/read_write.c:652
+  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+  do_syscall_64+0x6d/0x140 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+CPU: 0 PID: 5034 Comm: syz-executor331 Not tainted 6.7.0-syzkaller-00562-g9f8413c4a66f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023</description><pubDate>Mon, 18 Mar 2024 10:28:36 +0000</pubDate></item><item><title>CVE-2023-52609 | binder: fix race between mmput() and do_exit()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52609</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+binder: fix race between mmput() and do_exit()
+
+Task A calls binder_update_page_range() to allocate and insert pages on
+a remote address space from Task B. For this, Task A pins the remote mm
+via mmget_not_zero() first. This can race with Task B do_exit() and the
+final mmput() refcount decrement will come from Task A.
+
+  Task A            | Task B
+  ------------------+------------------
+  mmget_not_zero()  |
+                    |  do_exit()
+                    |    exit_mm()
+                    |      mmput()
+  mmput()           |
+    exit_mmap()     |
+      remove_vma()  |
+        fput()      |
+
+In this case, the work of ____fput() from Task B is queued up in Task A
+as TWA_RESUME. So in theory, Task A returns to userspace and the cleanup
+work gets executed. However, Task A instead sleep, waiting for a reply
+from Task B that never comes (it's dead).
+
+This means the binder_deferred_release() is blocked until an unrelated
+binder event forces Task A to go back to userspace. All the associated
+death notifications will also be delayed until then.
+
+In order to fix this use mmput_async() that will schedule the work in
+the corresponding mm-&gt;async_put_work WQ instead of Task A.</description><pubDate>Mon, 18 Mar 2024 10:28:37 +0000</pubDate></item><item><title>CVE-2023-52610 | net/sched: act_ct: fix skb leak and crash on ooo frags</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52610</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sched: act_ct: fix skb leak and crash on ooo frags
+
+act_ct adds skb-&gt;users before defragmentation. If frags arrive in order,
+the last frag's reference is reset in:
+
+  inet_frag_reasm_prepare
+    skb_morph
+
+which is not straightforward.
+
+However when frags arrive out of order, nobody unref the last frag, and
+all frags are leaked. The situation is even worse, as initiating packet
+capture can lead to a crash[0] when skb has been cloned and shared at the
+same time.
+
+Fix the issue by removing skb_get() before defragmentation. act_ct
+returns TC_ACT_CONSUMED when defrag failed or in progress.
+
+[0]:
+[  843.804823] ------------[ cut here ]------------
+[  843.809659] kernel BUG at net/core/skbuff.c:2091!
+[  843.814516] invalid opcode: 0000 [#1] PREEMPT SMP
+[  843.819296] CPU: 7 PID: 0 Comm: swapper/7 Kdump: loaded Tainted: G S 6.7.0-rc3 #2
+[  843.824107] Hardware name: XFUSION 1288H V6/BC13MBSBD, BIOS 1.29 11/25/2022
+[  843.828953] RIP: 0010:pskb_expand_head+0x2ac/0x300
+[  843.833805] Code: 8b 70 28 48 85 f6 74 82 48 83 c6 08 bf 01 00 00 00 e8 38 bd ff ff 8b 83 c0 00 00 00 48 03 83 c8 00 00 00 e9 62 ff ff ff 0f 0b &lt;0f&gt; 0b e8 8d d0 ff ff e9 b3 fd ff ff 81 7c 24 14 40 01 00 00 4c 89
+[  843.843698] RSP: 0018:ffffc9000cce07c0 EFLAGS: 00010202
+[  843.848524] RAX: 0000000000000002 RBX: ffff88811a211d00 RCX: 0000000000000820
+[  843.853299] RDX: 0000000000000640 RSI: 0000000000000000 RDI: ffff88811a211d00
+[  843.857974] RBP: ffff888127d39518 R08: 00000000bee97314 R09: 0000000000000000
+[  843.862584] R10: 0000000000000000 R11: ffff8881109f0000 R12: 0000000000000880
+[  843.867147] R13: ffff888127d39580 R14: 0000000000000640 R15: ffff888170f7b900
+[  843.871680] FS:  0000000000000000(0000) GS:ffff889ffffc0000(0000) knlGS:0000000000000000
+[  843.876242] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  843.880778] CR2: 00007fa42affcfb8 CR3: 000000011433a002 CR4: 0000000000770ef0
+[  843.885336] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  843.889809] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  843.894229] PKRU: 55555554
+[  843.898539] Call Trace:
+[  843.902772]  &lt;IRQ&gt;
+[  843.906922]  ? __die_body+0x1e/0x60
+[  843.911032]  ? die+0x3c/0x60
+[  843.915037]  ? do_trap+0xe2/0x110
+[  843.918911]  ? pskb_expand_head+0x2ac/0x300
+[  843.922687]  ? do_error_trap+0x65/0x80
+[  843.926342]  ? pskb_expand_head+0x2ac/0x300
+[  843.929905]  ? exc_invalid_op+0x50/0x60
+[  843.933398]  ? pskb_expand_head+0x2ac/0x300
+[  843.936835]  ? asm_exc_invalid_op+0x1a/0x20
+[  843.940226]  ? pskb_expand_head+0x2ac/0x300
+[  843.943580]  inet_frag_reasm_prepare+0xd1/0x240
+[  843.946904]  ip_defrag+0x5d4/0x870
+[  843.950132]  nf_ct_handle_fragments+0xec/0x130 [nf_conntrack]
+[  843.953334]  tcf_ct_act+0x252/0xd90 [act_ct]
+[  843.956473]  ? tcf_mirred_act+0x516/0x5a0 [act_mirred]
+[  843.959657]  tcf_action_exec+0xa1/0x160
+[  843.962823]  fl_classify+0x1db/0x1f0 [cls_flower]
+[  843.966010]  ? skb_clone+0x53/0xc0
+[  843.969173]  tcf_classify+0x24d/0x420
+[  843.972333]  tc_run+0x8f/0xf0
+[  843.975465]  __netif_receive_skb_core+0x67a/0x1080
+[  843.978634]  ? dev_gro_receive+0x249/0x730
+[  843.981759]  __netif_receive_skb_list_core+0x12d/0x260
+[  843.984869]  netif_receive_skb_list_internal+0x1cb/0x2f0
+[  843.987957]  ? mlx5e_handle_rx_cqe_mpwrq_rep+0xfa/0x1a0 [mlx5_core]
+[  843.991170]  napi_complete_done+0x72/0x1a0
+[  843.994305]  mlx5e_napi_poll+0x28c/0x6d0 [mlx5_core]
+[  843.997501]  __napi_poll+0x25/0x1b0
+[  844.000627]  net_rx_action+0x256/0x330
+[  844.003705]  __do_softirq+0xb3/0x29b
+[  844.006718]  irq_exit_rcu+0x9e/0xc0
+[  844.009672]  common_interrupt+0x86/0xa0
+[  844.012537]  &lt;/IRQ&gt;
+[  844.015285]  &lt;TASK&gt;
+[  844.017937]  asm_common_interrupt+0x26/0x40
+[  844.020591] RIP: 0010:acpi_safe_halt+0x1b/0x20
+[  844.023247] Code: ff 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 65 48 8b 04 25 00 18 03 00 48 8b 00 a8 08 75 0c 66 90 0f 00 2d 81 d0 44 00 fb
+---truncated---</description><pubDate>Mon, 18 Mar 2024 10:28:37 +0000</pubDate></item><item><title>CVE-2023-52611 | wifi: rtw88: sdio: Honor the host max_req_size in the RX path</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52611</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: rtw88: sdio: Honor the host max_req_size in the RX path
+
+Lukas reports skb_over_panic errors on his Banana Pi BPI-CM4 which comes
+with an Amlogic A311D (G12B) SoC and a RTL8822CS SDIO wifi/Bluetooth
+combo card. The error he observed is identical to what has been fixed
+in commit e967229ead0e ("wifi: rtw88: sdio: Check the HISR RX_REQUEST
+bit in rtw_sdio_rx_isr()") but that commit didn't fix Lukas' problem.
+
+Lukas found that disabling or limiting RX aggregation works around the
+problem for some time (but does not fully fix it). In the following
+discussion a few key topics have been discussed which have an impact on
+this problem:
+- The Amlogic A311D (G12B) SoC has a hardware bug in the SDIO controller
+  which prevents DMA transfers. Instead all transfers need to go through
+  the controller SRAM which limits transfers to 1536 bytes
+- rtw88 chips don't split incoming (RX) packets, so if a big packet is
+  received this is forwarded to the host in it's original form
+- rtw88 chips can do RX aggregation, meaning more multiple incoming
+  packets can be pulled by the host from the card with one MMC/SDIO
+  transfer. This Depends on settings in the REG_RXDMA_AGG_PG_TH
+  register (BIT_RXDMA_AGG_PG_TH limits the number of packets that will
+  be aggregated, BIT_DMA_AGG_TO_V1 configures a timeout for aggregation
+  and BIT_EN_PRE_CALC makes the chip honor the limits more effectively)
+
+Use multiple consecutive reads in rtw_sdio_read_port() and limit the
+number of bytes which are copied by the host from the card in one
+MMC/SDIO transfer. This allows receiving a buffer that's larger than
+the hosts max_req_size (number of bytes which can be transferred in
+one MMC/SDIO transfer). As a result of this the skb_over_panic error
+is gone as the rtw88 driver is now able to receive more than 1536 bytes
+from the card (either because the incoming packet is larger than that
+or because multiple packets have been aggregated).
+
+In case of an receive errors (-EILSEQ has been observed by Lukas) we
+need to drain the remaining data from the card's buffer, otherwise the
+card will return corrupt data for the next rtw_sdio_read_port() call.</description><pubDate>Mon, 18 Mar 2024 10:28:38 +0000</pubDate></item><item><title>CVE-2023-52612 | crypto: scomp - fix req-&amp;gt;dst buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52612</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: scomp - fix req-&gt;dst buffer overflow
+
+The req-&gt;dst buffer size should be checked before copying from the
+scomp_scratch-&gt;dst to avoid req-&gt;dst buffer overflow problem.</description><pubDate>Mon, 18 Mar 2024 10:28:38 +0000</pubDate></item><item><title>CVE-2023-52613 | drivers/thermal/loongson2_thermal: Fix incorrect PTR_ERR() judgment</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52613</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drivers/thermal/loongson2_thermal: Fix incorrect PTR_ERR() judgment
+
+PTR_ERR() returns -ENODEV when thermal-zones are undefined, and we need
+-ENODEV as the right value for comparison.
+
+Otherwise, tz-&gt;type is NULL when thermal-zones is undefined, resulting
+in the following error:
+
+[   12.290030] CPU 1 Unable to handle kernel paging request at virtual address fffffffffffffff1, era == 900000000355f410, ra == 90000000031579b8
+[   12.302877] Oops[#1]:
+[   12.305190] CPU: 1 PID: 181 Comm: systemd-udevd Not tainted 6.6.0-rc7+ #5385
+[   12.312304] pc 900000000355f410 ra 90000000031579b8 tp 90000001069e8000 sp 90000001069eba10
+[   12.320739] a0 0000000000000000 a1 fffffffffffffff1 a2 0000000000000014 a3 0000000000000001
+[   12.329173] a4 90000001069eb990 a5 0000000000000001 a6 0000000000001001 a7 900000010003431c
+[   12.337606] t0 fffffffffffffff1 t1 54567fd5da9b4fd4 t2 900000010614ec40 t3 00000000000dc901
+[   12.346041] t4 0000000000000000 t5 0000000000000004 t6 900000010614ee20 t7 900000000d00b790
+[   12.354472] t8 00000000000dc901 u0 54567fd5da9b4fd4 s9 900000000402ae10 s0 900000010614ec40
+[   12.362916] s1 90000000039fced0 s2 ffffffffffffffed s3 ffffffffffffffed s4 9000000003acc000
+[   12.362931] s5 0000000000000004 s6 fffffffffffff000 s7 0000000000000490 s8 90000001028b2ec8
+[   12.362938]    ra: 90000000031579b8 thermal_add_hwmon_sysfs+0x258/0x300
+[   12.386411]   ERA: 900000000355f410 strscpy+0xf0/0x160
+[   12.391626]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+[   12.397898]  PRMD: 00000004 (PPLV0 +PIE -PWE)
+[   12.403678]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+[   12.409859]  ECFG: 00071c1c (LIE=2-4,10-12 VS=7)
+[   12.415882] ESTAT: 00010000 [PIL] (IS= ECode=1 EsubCode=0)
+[   12.415907]  BADV: fffffffffffffff1
+[   12.415911]  PRID: 0014a000 (Loongson-64bit, Loongson-2K1000)
+[   12.415917] Modules linked in: loongson2_thermal(+) vfat fat uio_pdrv_genirq uio fuse zram zsmalloc
+[   12.415950] Process systemd-udevd (pid: 181, threadinfo=00000000358b9718, task=00000000ace72fe3)
+[   12.415961] Stack : 0000000000000dc0 54567fd5da9b4fd4 900000000402ae10 9000000002df9358
+[   12.415982]         ffffffffffffffed 0000000000000004 9000000107a10aa8 90000001002a3410
+[   12.415999]         ffffffffffffffed ffffffffffffffed 9000000107a11268 9000000003157ab0
+[   12.416016]         9000000107a10aa8 ffffff80020fc0c8 90000001002a3410 ffffffffffffffed
+[   12.416032]         0000000000000024 ffffff80020cc1e8 900000000402b2a0 9000000003acc000
+[   12.416048]         90000001002a3410 0000000000000000 ffffff80020f4030 90000001002a3410
+[   12.416065]         0000000000000000 9000000002df6808 90000001002a3410 0000000000000000
+[   12.416081]         ffffff80020f4030 0000000000000000 90000001002a3410 9000000002df2ba8
+[   12.416097]         00000000000000b4 90000001002a34f4 90000001002a3410 0000000000000002
+[   12.416114]         ffffff80020f4030 fffffffffffffff0 90000001002a3410 9000000002df2f30
+[   12.416131]         ...
+[   12.416138] Call Trace:
+[   12.416142] [&lt;900000000355f410&gt;] strscpy+0xf0/0x160
+[   12.416167] [&lt;90000000031579b8&gt;] thermal_add_hwmon_sysfs+0x258/0x300
+[   12.416183] [&lt;9000000003157ab0&gt;] devm_thermal_add_hwmon_sysfs+0x50/0xe0
+[   12.416200] [&lt;ffffff80020cc1e8&gt;] loongson2_thermal_probe+0x128/0x200 [loongson2_thermal]
+[   12.416232] [&lt;9000000002df6808&gt;] platform_probe+0x68/0x140
+[   12.416249] [&lt;9000000002df2ba8&gt;] really_probe+0xc8/0x3c0
+[   12.416269] [&lt;9000000002df2f30&gt;] __driver_probe_device+0x90/0x180
+[   12.416286] [&lt;9000000002df3058&gt;] driver_probe_device+0x38/0x160
+[   12.416302] [&lt;9000000002df33a8&gt;] __driver_attach+0xa8/0x200
+[   12.416314] [&lt;9000000002deffec&gt;] bus_for_each_dev+0x8c/0x120
+[   12.416330] [&lt;9000000002df198c&gt;] bus_add_driver+0x10c/0x2a0
+[   12.416346] [&lt;9000000002df46b4&gt;] driver_register+0x74/0x160
+[   12.416358] [&lt;90000000022201a4&gt;] do_one_initcall+0x84/0x220
+[   12.416372] [&lt;90000000022f3ab8&gt;] do_init_module+0x58/0x2c0
+[
+---truncated---</description><pubDate>Mon, 18 Mar 2024 10:28:38 +0000</pubDate></item><item><title>CVE-2023-52614 | PM / devfreq: Fix buffer overflow in trans_stat_show</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52614</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PM / devfreq: Fix buffer overflow in trans_stat_show
+
+Fix buffer overflow in trans_stat_show().
+
+Convert simple snprintf to the more secure scnprintf with size of
+PAGE_SIZE.
+
+Add condition checking if we are exceeding PAGE_SIZE and exit early from
+loop. Also add at the end a warning that we exceeded PAGE_SIZE and that
+stats is disabled.
+
+Return -EFBIG in the case where we don't have enough space to write the
+full transition table.
+
+Also document in the ABI that this function can return -EFBIG error.</description><pubDate>Mon, 18 Mar 2024 10:28:39 +0000</pubDate></item><item><title>CVE-2023-52615 | hwrng: core - Fix page fault dead lock on mmap-ed hwrng</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52615</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+hwrng: core - Fix page fault dead lock on mmap-ed hwrng
+
+There is a dead-lock in the hwrng device read path.  This triggers
+when the user reads from /dev/hwrng into memory also mmap-ed from
+/dev/hwrng.  The resulting page fault triggers a recursive read
+which then dead-locks.
+
+Fix this by using a stack buffer when calling copy_to_user.</description><pubDate>Mon, 18 Mar 2024 10:28:39 +0000</pubDate></item><item><title>CVE-2023-52616 | crypto: lib/mpi - Fix unexpected pointer access in mpi_ec_init</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52616</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: lib/mpi - Fix unexpected pointer access in mpi_ec_init
+
+When the mpi_ec_ctx structure is initialized, some fields are not
+cleared, causing a crash when referencing the field when the
+structure was released. Initially, this issue was ignored because
+memory for mpi_ec_ctx is allocated with the __GFP_ZERO flag.
+For example, this error will be triggered when calculating the
+Za value for SM2 separately.</description><pubDate>Mon, 18 Mar 2024 10:28:39 +0000</pubDate></item><item><title>CVE-2024-26631 | ipv6: mcast: fix data-race in ipv6_mc_down / mld_ifc_work</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26631</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv6: mcast: fix data-race in ipv6_mc_down / mld_ifc_work
+
+idev-&gt;mc_ifc_count can be written over without proper locking.
+
+Originally found by syzbot [1], fix this issue by encapsulating calls
+to mld_ifc_stop_work() (and mld_gq_stop_work() for good measure) with
+mutex_lock() and mutex_unlock() accordingly as these functions
+should only be called with mc_lock per their declarations.
+
+[1]
+BUG: KCSAN: data-race in ipv6_mc_down / mld_ifc_work
+
+write to 0xffff88813a80c832 of 1 bytes by task 3771 on cpu 0:
+ mld_ifc_stop_work net/ipv6/mcast.c:1080 [inline]
+ ipv6_mc_down+0x10a/0x280 net/ipv6/mcast.c:2725
+ addrconf_ifdown+0xe32/0xf10 net/ipv6/addrconf.c:3949
+ addrconf_notify+0x310/0x980
+ notifier_call_chain kernel/notifier.c:93 [inline]
+ raw_notifier_call_chain+0x6b/0x1c0 kernel/notifier.c:461
+ __dev_notify_flags+0x205/0x3d0
+ dev_change_flags+0xab/0xd0 net/core/dev.c:8685
+ do_setlink+0x9f6/0x2430 net/core/rtnetlink.c:2916
+ rtnl_group_changelink net/core/rtnetlink.c:3458 [inline]
+ __rtnl_newlink net/core/rtnetlink.c:3717 [inline]
+ rtnl_newlink+0xbb3/0x1670 net/core/rtnetlink.c:3754
+ rtnetlink_rcv_msg+0x807/0x8c0 net/core/rtnetlink.c:6558
+ netlink_rcv_skb+0x126/0x220 net/netlink/af_netlink.c:2545
+ rtnetlink_rcv+0x1c/0x20 net/core/rtnetlink.c:6576
+ netlink_unicast_kernel net/netlink/af_netlink.c:1342 [inline]
+ netlink_unicast+0x589/0x650 net/netlink/af_netlink.c:1368
+ netlink_sendmsg+0x66e/0x770 net/netlink/af_netlink.c:1910
+ ...
+
+write to 0xffff88813a80c832 of 1 bytes by task 22 on cpu 1:
+ mld_ifc_work+0x54c/0x7b0 net/ipv6/mcast.c:2653
+ process_one_work kernel/workqueue.c:2627 [inline]
+ process_scheduled_works+0x5b8/0xa30 kernel/workqueue.c:2700
+ worker_thread+0x525/0x730 kernel/workqueue.c:2781
+ ...</description><pubDate>Mon, 18 Mar 2024 10:28:40 +0000</pubDate></item><item><title>CVE-2024-26632 | block: Fix iterating over an empty bio with bio_for_each_folio_all</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26632</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: Fix iterating over an empty bio with bio_for_each_folio_all
+
+If the bio contains no data, bio_first_folio() calls page_folio() on a
+NULL pointer and oopses.  Move the test that we've reached the end of
+the bio from bio_next_folio() to bio_first_folio().
+
+[axboe: add unlikely() to error case]</description><pubDate>Mon, 18 Mar 2024 10:28:40 +0000</pubDate></item><item><title>CVE-2024-26633 | ip6_tunnel: fix NEXTHDR_FRAGMENT handling in ip6_tnl_parse_tlv_enc_lim()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26633</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ip6_tunnel: fix NEXTHDR_FRAGMENT handling in ip6_tnl_parse_tlv_enc_lim()
+
+syzbot pointed out [1] that NEXTHDR_FRAGMENT handling is broken.
+
+Reading frag_off can only be done if we pulled enough bytes
+to skb-&gt;head. Currently we might access garbage.
+
+[1]
+BUG: KMSAN: uninit-value in ip6_tnl_parse_tlv_enc_lim+0x94f/0xbb0
+ip6_tnl_parse_tlv_enc_lim+0x94f/0xbb0
+ipxip6_tnl_xmit net/ipv6/ip6_tunnel.c:1326 [inline]
+ip6_tnl_start_xmit+0xab2/0x1a70 net/ipv6/ip6_tunnel.c:1432
+__netdev_start_xmit include/linux/netdevice.h:4940 [inline]
+netdev_start_xmit include/linux/netdevice.h:4954 [inline]
+xmit_one net/core/dev.c:3548 [inline]
+dev_hard_start_xmit+0x247/0xa10 net/core/dev.c:3564
+__dev_queue_xmit+0x33b8/0x5130 net/core/dev.c:4349
+dev_queue_xmit include/linux/netdevice.h:3134 [inline]
+neigh_connected_output+0x569/0x660 net/core/neighbour.c:1592
+neigh_output include/net/neighbour.h:542 [inline]
+ip6_finish_output2+0x23a9/0x2b30 net/ipv6/ip6_output.c:137
+ip6_finish_output+0x855/0x12b0 net/ipv6/ip6_output.c:222
+NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ip6_output+0x323/0x610 net/ipv6/ip6_output.c:243
+dst_output include/net/dst.h:451 [inline]
+ip6_local_out+0xe9/0x140 net/ipv6/output_core.c:155
+ip6_send_skb net/ipv6/ip6_output.c:1952 [inline]
+ip6_push_pending_frames+0x1f9/0x560 net/ipv6/ip6_output.c:1972
+rawv6_push_pending_frames+0xbe8/0xdf0 net/ipv6/raw.c:582
+rawv6_sendmsg+0x2b66/0x2e70 net/ipv6/raw.c:920
+inet_sendmsg+0x105/0x190 net/ipv4/af_inet.c:847
+sock_sendmsg_nosec net/socket.c:730 [inline]
+__sock_sendmsg net/socket.c:745 [inline]
+____sys_sendmsg+0x9c2/0xd60 net/socket.c:2584
+___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
+__sys_sendmsg net/socket.c:2667 [inline]
+__do_sys_sendmsg net/socket.c:2676 [inline]
+__se_sys_sendmsg net/socket.c:2674 [inline]
+__x64_sys_sendmsg+0x307/0x490 net/socket.c:2674
+do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+do_syscall_64+0x44/0x110 arch/x86/entry/common.c:83
+entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Uninit was created at:
+slab_post_alloc_hook+0x129/0xa70 mm/slab.h:768
+slab_alloc_node mm/slub.c:3478 [inline]
+__kmem_cache_alloc_node+0x5c9/0x970 mm/slub.c:3517
+__do_kmalloc_node mm/slab_common.c:1006 [inline]
+__kmalloc_node_track_caller+0x118/0x3c0 mm/slab_common.c:1027
+kmalloc_reserve+0x249/0x4a0 net/core/skbuff.c:582
+pskb_expand_head+0x226/0x1a00 net/core/skbuff.c:2098
+__pskb_pull_tail+0x13b/0x2310 net/core/skbuff.c:2655
+pskb_may_pull_reason include/linux/skbuff.h:2673 [inline]
+pskb_may_pull include/linux/skbuff.h:2681 [inline]
+ip6_tnl_parse_tlv_enc_lim+0x901/0xbb0 net/ipv6/ip6_tunnel.c:408
+ipxip6_tnl_xmit net/ipv6/ip6_tunnel.c:1326 [inline]
+ip6_tnl_start_xmit+0xab2/0x1a70 net/ipv6/ip6_tunnel.c:1432
+__netdev_start_xmit include/linux/netdevice.h:4940 [inline]
+netdev_start_xmit include/linux/netdevice.h:4954 [inline]
+xmit_one net/core/dev.c:3548 [inline]
+dev_hard_start_xmit+0x247/0xa10 net/core/dev.c:3564
+__dev_queue_xmit+0x33b8/0x5130 net/core/dev.c:4349
+dev_queue_xmit include/linux/netdevice.h:3134 [inline]
+neigh_connected_output+0x569/0x660 net/core/neighbour.c:1592
+neigh_output include/net/neighbour.h:542 [inline]
+ip6_finish_output2+0x23a9/0x2b30 net/ipv6/ip6_output.c:137
+ip6_finish_output+0x855/0x12b0 net/ipv6/ip6_output.c:222
+NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ip6_output+0x323/0x610 net/ipv6/ip6_output.c:243
+dst_output include/net/dst.h:451 [inline]
+ip6_local_out+0xe9/0x140 net/ipv6/output_core.c:155
+ip6_send_skb net/ipv6/ip6_output.c:1952 [inline]
+ip6_push_pending_frames+0x1f9/0x560 net/ipv6/ip6_output.c:1972
+rawv6_push_pending_frames+0xbe8/0xdf0 net/ipv6/raw.c:582
+rawv6_sendmsg+0x2b66/0x2e70 net/ipv6/raw.c:920
+inet_sendmsg+0x105/0x190 net/ipv4/af_inet.c:847
+sock_sendmsg_nosec net/socket.c:730 [inline]
+__sock_sendmsg net/socket.c:745 [inline]
+____sys_sendmsg+0x9c2/0xd60 net/socket.c:2584
+___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
+__sys_sendmsg net/socket.c:2667 [inline]
+__do_sys_sendms
+---truncated---</description><pubDate>Mon, 18 Mar 2024 10:28:40 +0000</pubDate></item><item><title>CVE-2024-26634 | net: fix removing a namespace with conflicting altnames</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26634</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: fix removing a namespace with conflicting altnames
+
+Mark reports a BUG() when a net namespace is removed.
+
+    kernel BUG at net/core/dev.c:11520!
+
+Physical interfaces moved outside of init_net get "refunded"
+to init_net when that namespace disappears. The main interface
+name may get overwritten in the process if it would have
+conflicted. We need to also discard all conflicting altnames.
+Recent fixes addressed ensuring that altnames get moved
+with the main interface, which surfaced this problem.</description><pubDate>Mon, 18 Mar 2024 10:28:41 +0000</pubDate></item><item><title>CVE-2024-26635 | llc: Drop support for ETH_P_TR_802_2.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26635</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+llc: Drop support for ETH_P_TR_802_2.
+
+syzbot reported an uninit-value bug below. [0]
+
+llc supports ETH_P_802_2 (0x0004) and used to support ETH_P_TR_802_2
+(0x0011), and syzbot abused the latter to trigger the bug.
+
+  write$tun(r0, &amp;(0x7f0000000040)={@val={0x0, 0x11}, @val, @mpls={[], @llc={@snap={0xaa, 0x1, ')', "90e5dd"}}}}, 0x16)
+
+llc_conn_handler() initialises local variables {saddr,daddr}.mac
+based on skb in llc_pdu_decode_sa()/llc_pdu_decode_da() and passes
+them to __llc_lookup().
+
+However, the initialisation is done only when skb-&gt;protocol is
+htons(ETH_P_802_2), otherwise, __llc_lookup_established() and
+__llc_lookup_listener() will read garbage.
+
+The missing initialisation existed prior to commit 211ed865108e
+("net: delete all instances of special processing for token ring").
+
+It removed the part to kick out the token ring stuff but forgot to
+close the door allowing ETH_P_TR_802_2 packets to sneak into llc_rcv().
+
+Let's remove llc_tr_packet_type and complete the deprecation.
+
+[0]:
+BUG: KMSAN: uninit-value in __llc_lookup_established+0xe9d/0xf90
+ __llc_lookup_established+0xe9d/0xf90
+ __llc_lookup net/llc/llc_conn.c:611 [inline]
+ llc_conn_handler+0x4bd/0x1360 net/llc/llc_conn.c:791
+ llc_rcv+0xfbb/0x14a0 net/llc/llc_input.c:206
+ __netif_receive_skb_one_core net/core/dev.c:5527 [inline]
+ __netif_receive_skb+0x1a6/0x5a0 net/core/dev.c:5641
+ netif_receive_skb_internal net/core/dev.c:5727 [inline]
+ netif_receive_skb+0x58/0x660 net/core/dev.c:5786
+ tun_rx_batched+0x3ee/0x980 drivers/net/tun.c:1555
+ tun_get_user+0x53af/0x66d0 drivers/net/tun.c:2002
+ tun_chr_write_iter+0x3af/0x5d0 drivers/net/tun.c:2048
+ call_write_iter include/linux/fs.h:2020 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x8ef/0x1490 fs/read_write.c:584
+ ksys_write+0x20f/0x4c0 fs/read_write.c:637
+ __do_sys_write fs/read_write.c:649 [inline]
+ __se_sys_write fs/read_write.c:646 [inline]
+ __x64_sys_write+0x93/0xd0 fs/read_write.c:646
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x44/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+Local variable daddr created at:
+ llc_conn_handler+0x53/0x1360 net/llc/llc_conn.c:783
+ llc_rcv+0xfbb/0x14a0 net/llc/llc_input.c:206
+
+CPU: 1 PID: 5004 Comm: syz-executor994 Not tainted 6.6.0-syzkaller-14500-g1c41041124bd #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/09/2023</description><pubDate>Mon, 18 Mar 2024 10:28:41 +0000</pubDate></item><item><title>CVE-2024-26636 | llc: make llc_ui_sendmsg() more robust against bonding changes</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26636</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+llc: make llc_ui_sendmsg() more robust against bonding changes
+
+syzbot was able to trick llc_ui_sendmsg(), allocating an skb with no
+headroom, but subsequently trying to push 14 bytes of Ethernet header [1]
+
+Like some others, llc_ui_sendmsg() releases the socket lock before
+calling sock_alloc_send_skb().
+Then it acquires it again, but does not redo all the sanity checks
+that were performed.
+
+This fix:
+
+- Uses LL_RESERVED_SPACE() to reserve space.
+- Check all conditions again after socket lock is held again.
+- Do not account Ethernet header for mtu limitation.
+
+[1]
+
+skbuff: skb_under_panic: text:ffff800088baa334 len:1514 put:14 head:ffff0000c9c37000 data:ffff0000c9c36ff2 tail:0x5dc end:0x6c0 dev:bond0
+
+ kernel BUG at net/core/skbuff.c:193 !
+Internal error: Oops - BUG: 00000000f2000800 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 6875 Comm: syz-executor.0 Not tainted 6.7.0-rc8-syzkaller-00101-g0802e17d9aca-dirty #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+ pc : skb_panic net/core/skbuff.c:189 [inline]
+ pc : skb_under_panic+0x13c/0x140 net/core/skbuff.c:203
+ lr : skb_panic net/core/skbuff.c:189 [inline]
+ lr : skb_under_panic+0x13c/0x140 net/core/skbuff.c:203
+sp : ffff800096f97000
+x29: ffff800096f97010 x28: ffff80008cc8d668 x27: dfff800000000000
+x26: ffff0000cb970c90 x25: 00000000000005dc x24: ffff0000c9c36ff2
+x23: ffff0000c9c37000 x22: 00000000000005ea x21: 00000000000006c0
+x20: 000000000000000e x19: ffff800088baa334 x18: 1fffe000368261ce
+x17: ffff80008e4ed000 x16: ffff80008a8310f8 x15: 0000000000000001
+x14: 1ffff00012df2d58 x13: 0000000000000000 x12: 0000000000000000
+x11: 0000000000000001 x10: 0000000000ff0100 x9 : e28a51f1087e8400
+x8 : e28a51f1087e8400 x7 : ffff80008028f8d0 x6 : 0000000000000000
+x5 : 0000000000000001 x4 : 0000000000000001 x3 : ffff800082b78714
+x2 : 0000000000000001 x1 : 0000000100000000 x0 : 0000000000000089
+Call trace:
+  skb_panic net/core/skbuff.c:189 [inline]
+  skb_under_panic+0x13c/0x140 net/core/skbuff.c:203
+  skb_push+0xf0/0x108 net/core/skbuff.c:2451
+  eth_header+0x44/0x1f8 net/ethernet/eth.c:83
+  dev_hard_header include/linux/netdevice.h:3188 [inline]
+  llc_mac_hdr_init+0x110/0x17c net/llc/llc_output.c:33
+  llc_sap_action_send_xid_c+0x170/0x344 net/llc/llc_s_ac.c:85
+  llc_exec_sap_trans_actions net/llc/llc_sap.c:153 [inline]
+  llc_sap_next_state net/llc/llc_sap.c:182 [inline]
+  llc_sap_state_process+0x1ec/0x774 net/llc/llc_sap.c:209
+  llc_build_and_send_xid_pkt+0x12c/0x1c0 net/llc/llc_sap.c:270
+  llc_ui_sendmsg+0x7bc/0xb1c net/llc/af_llc.c:997
+  sock_sendmsg_nosec net/socket.c:730 [inline]
+  __sock_sendmsg net/socket.c:745 [inline]
+  sock_sendmsg+0x194/0x274 net/socket.c:767
+  splice_to_socket+0x7cc/0xd58 fs/splice.c:881
+  do_splice_from fs/splice.c:933 [inline]
+  direct_splice_actor+0xe4/0x1c0 fs/splice.c:1142
+  splice_direct_to_actor+0x2a0/0x7e4 fs/splice.c:1088
+  do_splice_direct+0x20c/0x348 fs/splice.c:1194
+  do_sendfile+0x4bc/0xc70 fs/read_write.c:1254
+  __do_sys_sendfile64 fs/read_write.c:1322 [inline]
+  __se_sys_sendfile64 fs/read_write.c:1308 [inline]
+  __arm64_sys_sendfile64+0x160/0x3b4 fs/read_write.c:1308
+  __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+  invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
+  el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
+  do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
+  el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
+  el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
+  el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:595
+Code: aa1803e6 aa1903e7 a90023f5 94792f6a (d4210000)</description><pubDate>Mon, 18 Mar 2024 10:28:41 +0000</pubDate></item><item><title>CVE-2024-26637 | wifi: ath11k: rely on mac80211 debugfs handling for vif</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26637</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath11k: rely on mac80211 debugfs handling for vif
+
+mac80211 started to delete debugfs entries in certain cases, causing a
+ath11k to crash when it tried to delete the entries later. Fix this by
+relying on mac80211 to delete the entries when appropriate and adding
+them from the vif_add_debugfs handler.</description><pubDate>Mon, 18 Mar 2024 10:28:42 +0000</pubDate></item><item><title>CVE-2024-26638 | nbd: always initialize struct msghdr completely</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26638</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nbd: always initialize struct msghdr completely
+
+syzbot complains that msg-&gt;msg_get_inq value can be uninitialized [1]
+
+struct msghdr got many new fields recently, we should always make
+sure their values is zero by default.
+
+[1]
+ BUG: KMSAN: uninit-value in tcp_recvmsg+0x686/0xac0 net/ipv4/tcp.c:2571
+  tcp_recvmsg+0x686/0xac0 net/ipv4/tcp.c:2571
+  inet_recvmsg+0x131/0x580 net/ipv4/af_inet.c:879
+  sock_recvmsg_nosec net/socket.c:1044 [inline]
+  sock_recvmsg+0x12b/0x1e0 net/socket.c:1066
+  __sock_xmit+0x236/0x5c0 drivers/block/nbd.c:538
+  nbd_read_reply drivers/block/nbd.c:732 [inline]
+  recv_work+0x262/0x3100 drivers/block/nbd.c:863
+  process_one_work kernel/workqueue.c:2627 [inline]
+  process_scheduled_works+0x104e/0x1e70 kernel/workqueue.c:2700
+  worker_thread+0xf45/0x1490 kernel/workqueue.c:2781
+  kthread+0x3ed/0x540 kernel/kthread.c:388
+  ret_from_fork+0x66/0x80 arch/x86/kernel/process.c:147
+  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+
+Local variable msg created at:
+  __sock_xmit+0x4c/0x5c0 drivers/block/nbd.c:513
+  nbd_read_reply drivers/block/nbd.c:732 [inline]
+  recv_work+0x262/0x3100 drivers/block/nbd.c:863
+
+CPU: 1 PID: 7465 Comm: kworker/u5:1 Not tainted 6.7.0-rc7-syzkaller-00041-gf016f7547aee #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Workqueue: nbd5-recv recv_work</description><pubDate>Mon, 18 Mar 2024 10:28:42 +0000</pubDate></item><item><title>CVE-2024-1604 | Incorrect authorization in BMC Control-M</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1604</link><description>Improper authorization in the report management and creation module of BMC Control-M branches 9.0.20 and 9.0.21 allows logged-in users to read and make unauthorized changes to any reports available within the application, even without proper permissions. The attacker must know the unique identifier of the report they want to manipulate.
 
 Fix for 9.0.20 branch was released in version 9.0.20.238. Fix for 9.0.21 branch was released in version 9.0.21.201.</description><pubDate>Mon, 18 Mar 2024 10:13:10 +0000</pubDate></item><item><title>CVE-2024-1605 | DLL side-loading in BMC Control-M</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1605</link><description>BMC Control-M  branches 9.0.20 and 9.0.21 upon user login load all Dynamic Link Libraries (DLL)  from a directory that grants Write and Read permissions to all users. Leveraging it leads to loading of a potentially malicious libraries, which will execute with the application's privileges. 
 
