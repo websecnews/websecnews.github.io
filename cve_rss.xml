@@ -1,5 +1,156 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 26 Mar 2024 17:36:49 +0000</lastBuildDate><item><title>CVE-2024-2895 | Tenda AC7 WifiWpsOOB formWifiWpsOOB stack-based overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-2895</link><description>A vulnerability was found in Tenda AC7 15.03.06.44. It has been declared as critical. This vulnerability affects the function formWifiWpsOOB of the file /goform/WifiWpsOOB. The manipulation of the argument index leads to stack-based buffer overflow. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. VDB-257938 is the identifier assigned to this vulnerability. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 26 Mar 2024 17:36:51 +0000</pubDate></item><item><title>CVE-2024-1313 | Users outside an organization can delete a snapshot with its key</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1313</link><description>It is possible for a user in a different organization from the owner of a snapshot to bypass authorization and delete a snapshot by issuing a DELETE request to /api/snapshots/&lt;key&gt; using its view key. This functionality is intended to only be available to individuals with the permission to write/edit to the snapshot in question, but due to a bug in the authorization logic, deletion requests issued by an unprivileged user in a different organization than the snapshot owner are treated as authorized.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 26 Mar 2024 17:57:46 +0000</lastBuildDate><item><title>CVE-2023-52624 | drm/amd/display: Wake DMCUB before executing GPINT commands</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52624</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Wake DMCUB before executing GPINT commands
+
+[Why]
+DMCUB can be in idle when we attempt to interface with the HW through
+the GPINT mailbox resulting in a system hang.
+
+[How]
+Add dc_wake_and_execute_gpint() to wrap the wake, execute, sleep
+sequence.
+
+If the GPINT executes successfully then DMCUB will be put back into
+sleep after the optional response is returned.
+
+It functions similar to the inbox command interface.</description><pubDate>Tue, 26 Mar 2024 17:57:48 +0000</pubDate></item><item><title>CVE-2023-52625 | drm/amd/display: Refactor DMCUB enter/exit idle interface</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52625</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Refactor DMCUB enter/exit idle interface
+
+[Why]
+We can hang in place trying to send commands when the DMCUB isn't
+powered on.
+
+[How]
+We need to exit out of the idle state prior to sending a command,
+but the process that performs the exit also invokes a command itself.
+
+Fixing this issue involves the following:
+
+1. Using a software state to track whether or not we need to start
+   the process to exit idle or notify idle.
+
+It's possible for the hardware to have exited an idle state without
+driver knowledge, but entering one is always restricted to a driver
+allow - which makes the SW state vs HW state mismatch issue purely one
+of optimization, which should seldomly be hit, if at all.
+
+2. Refactor any instances of exit/notify idle to use a single wrapper
+   that maintains this SW state.
+
+This works simialr to dc_allow_idle_optimizations, but works at the
+DMCUB level and makes sure the state is marked prior to any notify/exit
+idle so we don't enter an infinite loop.
+
+3. Make sure we exit out of idle prior to sending any commands or
+   waiting for DMCUB idle.
+
+This patch takes care of 1/2. A future patch will take care of wrapping
+DMCUB command submission with calls to this new interface.</description><pubDate>Tue, 26 Mar 2024 17:57:48 +0000</pubDate></item><item><title>CVE-2023-52626 | net/mlx5e: Fix operation precedence bug in port timestamping napi_poll context</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52626</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Fix operation precedence bug in port timestamping napi_poll context
+
+Indirection (*) is of lower precedence than postfix increment (++). Logic
+in napi_poll context would cause an out-of-bound read by first increment
+the pointer address by byte address space and then dereference the value.
+Rather, the intended logic was to dereference first and then increment the
+underlying value.</description><pubDate>Tue, 26 Mar 2024 17:57:48 +0000</pubDate></item><item><title>CVE-2023-52627 | iio: adc: ad7091r: Allow users to configure device events</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52627</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: ad7091r: Allow users to configure device events
+
+AD7091R-5 devices are supported by the ad7091r-5 driver together with
+the ad7091r-base driver. Those drivers declared iio events for notifying
+user space when ADC readings fall bellow the thresholds of low limit
+registers or above the values set in high limit registers.
+However, to configure iio events and their thresholds, a set of callback
+functions must be implemented and those were not present until now.
+The consequence of trying to configure ad7091r-5 events without the
+proper callback functions was a null pointer dereference in the kernel
+because the pointers to the callback functions were not set.
+
+Implement event configuration callbacks allowing users to read/write
+event thresholds and enable/disable event generation.
+
+Since the event spec structs are generic to AD7091R devices, also move
+those from the ad7091r-5 driver the base driver so they can be reused
+when support for ad7091r-2/-4/-8 be added.</description><pubDate>Tue, 26 Mar 2024 17:57:49 +0000</pubDate></item><item><title>CVE-2024-26646 | thermal: intel: hfi: Add syscore callbacks for system-wide PM</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26646</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+thermal: intel: hfi: Add syscore callbacks for system-wide PM
+
+The kernel allocates a memory buffer and provides its location to the
+hardware, which uses it to update the HFI table. This allocation occurs
+during boot and remains constant throughout runtime.
+
+When resuming from hibernation, the restore kernel allocates a second
+memory buffer and reprograms the HFI hardware with the new location as
+part of a normal boot. The location of the second memory buffer may
+differ from the one allocated by the image kernel.
+
+When the restore kernel transfers control to the image kernel, its HFI
+buffer becomes invalid, potentially leading to memory corruption if the
+hardware writes to it (the hardware continues to use the buffer from the
+restore kernel).
+
+It is also possible that the hardware "forgets" the address of the memory
+buffer when resuming from "deep" suspend. Memory corruption may also occur
+in such a scenario.
+
+To prevent the described memory corruption, disable HFI when preparing to
+suspend or hibernate. Enable it when resuming.
+
+Add syscore callbacks to handle the package of the boot CPU (packages of
+non-boot CPUs are handled via CPU offline). Syscore ops always run on the
+boot CPU. Additionally, HFI only needs to be disabled during "deep" suspend
+and hibernation. Syscore ops only run in these cases.
+
+[ rjw: Comment adjustment, subject and changelog edits ]</description><pubDate>Tue, 26 Mar 2024 17:57:49 +0000</pubDate></item><item><title>CVE-2024-26647 | drm/amd/display: Fix late derefrence &amp;#x27;dsc&amp;#x27; check in &amp;#x27;link_set_dsc_pps_packet()&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26647</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix late derefrence 'dsc' check in 'link_set_dsc_pps_packet()'
+
+In link_set_dsc_pps_packet(), 'struct display_stream_compressor *dsc'
+was dereferenced in a DC_LOGGER_INIT(dsc-&gt;ctx-&gt;logger); before the 'dsc'
+NULL pointer check.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dpms.c:905 link_set_dsc_pps_packet() warn: variable dereferenced before check 'dsc' (see line 903)</description><pubDate>Tue, 26 Mar 2024 17:57:49 +0000</pubDate></item><item><title>CVE-2024-26648 | drm/amd/display: Fix variable deferencing before NULL check in edp_setup_replay()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26648</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix variable deferencing before NULL check in edp_setup_replay()
+
+In edp_setup_replay(), 'struct dc *dc' &amp; 'struct dmub_replay *replay'
+was dereferenced before the pointer 'link' &amp; 'replay' NULL check.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_edp_panel_control.c:947 edp_setup_replay() warn: variable dereferenced before check 'link' (see line 933)</description><pubDate>Tue, 26 Mar 2024 17:57:50 +0000</pubDate></item><item><title>CVE-2024-26649 | drm/amdgpu: Fix the null pointer when load rlc firmware</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26649</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Fix the null pointer when load rlc firmware
+
+If the RLC firmware is invalid because of wrong header size,
+the pointer to the rlc firmware is released in function
+amdgpu_ucode_request. There will be a null pointer error
+in subsequent use. So skip validation to fix it.</description><pubDate>Tue, 26 Mar 2024 17:57:50 +0000</pubDate></item><item><title>CVE-2024-26650 | platform/x86: p2sb: Allow p2sb_bar() calls during PCI device probe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26650</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86: p2sb: Allow p2sb_bar() calls during PCI device probe
+
+p2sb_bar() unhides P2SB device to get resources from the device. It
+guards the operation by locking pci_rescan_remove_lock so that parallel
+rescans do not find the P2SB device. However, this lock causes deadlock
+when PCI bus rescan is triggered by /sys/bus/pci/rescan. The rescan
+locks pci_rescan_remove_lock and probes PCI devices. When PCI devices
+call p2sb_bar() during probe, it locks pci_rescan_remove_lock again.
+Hence the deadlock.
+
+To avoid the deadlock, do not lock pci_rescan_remove_lock in p2sb_bar().
+Instead, do the lock at fs_initcall. Introduce p2sb_cache_resources()
+for fs_initcall which gets and caches the P2SB resources. At p2sb_bar(),
+refer the cache and return to the caller.
+
+Before operating the device at P2SB DEVFN for resource cache, check
+that its device class is PCI_CLASS_MEMORY_OTHER 0x0580 that PCH
+specifications define. This avoids unexpected operation to other devices
+at the same DEVFN.
+
+Tested-by Klara Modin &lt;klarasmodin@gmail.com&gt;</description><pubDate>Tue, 26 Mar 2024 17:57:50 +0000</pubDate></item><item><title>CVE-2024-2895 | Tenda AC7 WifiWpsOOB formWifiWpsOOB stack-based overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-2895</link><description>A vulnerability was found in Tenda AC7 15.03.06.44. It has been declared as critical. This vulnerability affects the function formWifiWpsOOB of the file /goform/WifiWpsOOB. The manipulation of the argument index leads to stack-based buffer overflow. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. VDB-257938 is the identifier assigned to this vulnerability. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 26 Mar 2024 17:36:51 +0000</pubDate></item><item><title>CVE-2024-1313 | Users outside an organization can delete a snapshot with its key</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1313</link><description>It is possible for a user in a different organization from the owner of a snapshot to bypass authorization and delete a snapshot by issuing a DELETE request to /api/snapshots/&lt;key&gt; using its view key. This functionality is intended to only be available to individuals with the permission to write/edit to the snapshot in question, but due to a bug in the authorization logic, deletion requests issued by an unprivileged user in a different organization than the snapshot owner are treated as authorized.
 
 Grafana Labs would like to thank Ravid Mazon and Jay Chen of Palo 
 Alto Research for discovering and disclosing this vulnerability.
