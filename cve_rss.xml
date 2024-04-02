@@ -1,5 +1,284 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:19:50 +0000</lastBuildDate><item><title>CVE-2024-26656 | drm/amdgpu: fix use-after-free bug</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26656</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:31:13 +0000</lastBuildDate><item><title>CVE-2023-52630 | blk-iocost: Fix an UBSAN shift-out-of-bounds warning</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52630</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+blk-iocost: Fix an UBSAN shift-out-of-bounds warning
+
+When iocg_kick_delay() is called from a CPU different than the one which set
+the delay, @now may be in the past of @iocg-&gt;delay_at leading to the
+following warning:
+
+  UBSAN: shift-out-of-bounds in block/blk-iocost.c:1359:23
+  shift exponent 18446744073709 is too large for 64-bit type 'u64' (aka 'unsigned long long')
+  ...
+  Call Trace:
+   &lt;TASK&gt;
+   dump_stack_lvl+0x79/0xc0
+   __ubsan_handle_shift_out_of_bounds+0x2ab/0x300
+   iocg_kick_delay+0x222/0x230
+   ioc_rqos_merge+0x1d7/0x2c0
+   __rq_qos_merge+0x2c/0x80
+   bio_attempt_back_merge+0x83/0x190
+   blk_attempt_plug_merge+0x101/0x150
+   blk_mq_submit_bio+0x2b1/0x720
+   submit_bio_noacct_nocheck+0x320/0x3e0
+   __swap_writepage+0x2ab/0x9d0
+
+The underflow itself doesn't really affect the behavior in any meaningful
+way; however, the past timestamp may exaggerate the delay amount calculated
+later in the code, which shouldn't be a material problem given the nature of
+the delay mechanism.
+
+If @now is in the past, this CPU is racing another CPU which recently set up
+the delay and there's nothing this CPU can contribute w.r.t. the delay.
+Let's bail early from iocg_kick_delay() in such cases.</description><pubDate>Tue, 02 Apr 2024 06:31:15 +0000</pubDate></item><item><title>CVE-2023-52631 | fs/ntfs3: Fix an NULL dereference bug</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52631</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/ntfs3: Fix an NULL dereference bug
+
+The issue here is when this is called from ntfs_load_attr_list().  The
+"size" comes from le32_to_cpu(attr-&gt;res.data_size) so it can't overflow
+on a 64bit systems but on 32bit systems the "+ 1023" can overflow and
+the result is zero.  This means that the kmalloc will succeed by
+returning the ZERO_SIZE_PTR and then the memcpy() will crash with an
+Oops on the next line.</description><pubDate>Tue, 02 Apr 2024 06:31:16 +0000</pubDate></item><item><title>CVE-2024-21834 | Arkui has a type confusion vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-21834</link><description>in OpenHarmony v3.2.4 and prior versions allow a local attacker cause apps crash through type confusion.</description><pubDate>Tue, 02 Apr 2024 06:31:16 +0000</pubDate></item><item><title>CVE-2024-22092 | Bundlemanager has an authentication bypass vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22092</link><description>in OpenHarmony v3.2.4 and prior versions allow a remote attacker bypass permission verification to install apps, although these require user action.</description><pubDate>Tue, 02 Apr 2024 06:31:16 +0000</pubDate></item><item><title>CVE-2024-22098 | AVSession has a use after free vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22098</link><description>in OpenHarmony v3.2.4 and prior versions allow a local attacker arbitrary code execution in any apps through use after free.</description><pubDate>Tue, 02 Apr 2024 06:31:17 +0000</pubDate></item><item><title>CVE-2024-22177 | Audio has an improper preservation of permissions vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22177</link><description>in OpenHarmony v3.2.4 and prior versions allow a local attacker cause apps crash through get permission.</description><pubDate>Tue, 02 Apr 2024 06:31:17 +0000</pubDate></item><item><title>CVE-2024-22180 | Camera has a use after free vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22180</link><description>in OpenHarmony v4.0.0 and prior versions allow a local attacker cause DOS through use after free.</description><pubDate>Tue, 02 Apr 2024 06:31:17 +0000</pubDate></item><item><title>CVE-2024-24581 | Arkcompiler runtime has an out-of-bounds write vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-24581</link><description>in OpenHarmony v4.0.0 and prior versions allow a local attacker arbitrary code execution through out-of-bounds write.</description><pubDate>Tue, 02 Apr 2024 06:31:18 +0000</pubDate></item><item><title>CVE-2024-26658 | bcachefs: grab s_umount only if snapshotting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26658</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bcachefs: grab s_umount only if snapshotting
+
+When I was testing mongodb over bcachefs with compression,
+there is a lockdep warning when snapshotting mongodb data volume.
+
+$ cat test.sh
+prog=bcachefs
+
+$prog subvolume create /mnt/data
+$prog subvolume create /mnt/data/snapshots
+
+while true;do
+    $prog subvolume snapshot /mnt/data /mnt/data/snapshots/$(date +%s)
+    sleep 1s
+done
+
+$ cat /etc/mongodb.conf
+systemLog:
+  destination: file
+  logAppend: true
+  path: /mnt/data/mongod.log
+
+storage:
+  dbPath: /mnt/data/
+
+lockdep reports:
+[ 3437.452330] ======================================================
+[ 3437.452750] WARNING: possible circular locking dependency detected
+[ 3437.453168] 6.7.0-rc7-custom+ #85 Tainted: G            E
+[ 3437.453562] ------------------------------------------------------
+[ 3437.453981] bcachefs/35533 is trying to acquire lock:
+[ 3437.454325] ffffa0a02b2b1418 (sb_writers#10){.+.+}-{0:0}, at: filename_create+0x62/0x190
+[ 3437.454875]
+               but task is already holding lock:
+[ 3437.455268] ffffa0a02b2b10e0 (&amp;type-&gt;s_umount_key#48){.+.+}-{3:3}, at: bch2_fs_file_ioctl+0x232/0xc90 [bcachefs]
+[ 3437.456009]
+               which lock already depends on the new lock.
+
+[ 3437.456553]
+               the existing dependency chain (in reverse order) is:
+[ 3437.457054]
+               -&gt; #3 (&amp;type-&gt;s_umount_key#48){.+.+}-{3:3}:
+[ 3437.457507]        down_read+0x3e/0x170
+[ 3437.457772]        bch2_fs_file_ioctl+0x232/0xc90 [bcachefs]
+[ 3437.458206]        __x64_sys_ioctl+0x93/0xd0
+[ 3437.458498]        do_syscall_64+0x42/0xf0
+[ 3437.458779]        entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[ 3437.459155]
+               -&gt; #2 (&amp;c-&gt;snapshot_create_lock){++++}-{3:3}:
+[ 3437.459615]        down_read+0x3e/0x170
+[ 3437.459878]        bch2_truncate+0x82/0x110 [bcachefs]
+[ 3437.460276]        bchfs_truncate+0x254/0x3c0 [bcachefs]
+[ 3437.460686]        notify_change+0x1f1/0x4a0
+[ 3437.461283]        do_truncate+0x7f/0xd0
+[ 3437.461555]        path_openat+0xa57/0xce0
+[ 3437.461836]        do_filp_open+0xb4/0x160
+[ 3437.462116]        do_sys_openat2+0x91/0xc0
+[ 3437.462402]        __x64_sys_openat+0x53/0xa0
+[ 3437.462701]        do_syscall_64+0x42/0xf0
+[ 3437.462982]        entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[ 3437.463359]
+               -&gt; #1 (&amp;sb-&gt;s_type-&gt;i_mutex_key#15){+.+.}-{3:3}:
+[ 3437.463843]        down_write+0x3b/0xc0
+[ 3437.464223]        bch2_write_iter+0x5b/0xcc0 [bcachefs]
+[ 3437.464493]        vfs_write+0x21b/0x4c0
+[ 3437.464653]        ksys_write+0x69/0xf0
+[ 3437.464839]        do_syscall_64+0x42/0xf0
+[ 3437.465009]        entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[ 3437.465231]
+               -&gt; #0 (sb_writers#10){.+.+}-{0:0}:
+[ 3437.465471]        __lock_acquire+0x1455/0x21b0
+[ 3437.465656]        lock_acquire+0xc6/0x2b0
+[ 3437.465822]        mnt_want_write+0x46/0x1a0
+[ 3437.465996]        filename_create+0x62/0x190
+[ 3437.466175]        user_path_create+0x2d/0x50
+[ 3437.466352]        bch2_fs_file_ioctl+0x2ec/0xc90 [bcachefs]
+[ 3437.466617]        __x64_sys_ioctl+0x93/0xd0
+[ 3437.466791]        do_syscall_64+0x42/0xf0
+[ 3437.466957]        entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[ 3437.467180]
+               other info that might help us debug this:
+
+[ 3437.469670] 2 locks held by bcachefs/35533:
+               other info that might help us debug this:
+
+[ 3437.467507] Chain exists of:
+                 sb_writers#10 --&gt; &amp;c-&gt;snapshot_create_lock --&gt; &amp;type-&gt;s_umount_key#48
+
+[ 3437.467979]  Possible unsafe locking scenario:
+
+[ 3437.468223]        CPU0                    CPU1
+[ 3437.468405]        ----                    ----
+[ 3437.468585]   rlock(&amp;type-&gt;s_umount_key#48);
+[ 3437.468758]                                lock(&amp;c-&gt;snapshot_create_lock);
+[ 3437.469030]                                lock(&amp;type-&gt;s_umount_key#48);
+[ 3437.469291]   rlock(sb_writers#10);
+[ 3437.469434]
+                *** DEADLOCK ***
+
+[ 3437.469
+---truncated---</description><pubDate>Tue, 02 Apr 2024 06:31:18 +0000</pubDate></item><item><title>CVE-2024-26659 | xhci: handle isoc Babble and Buffer Overrun events properly</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26659</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xhci: handle isoc Babble and Buffer Overrun events properly
+
+xHCI 4.9 explicitly forbids assuming that the xHC has released its
+ownership of a multi-TRB TD when it reports an error on one of the
+early TRBs. Yet the driver makes such assumption and releases the TD,
+allowing the remaining TRBs to be freed or overwritten by new TDs.
+
+The xHC should also report completion of the final TRB due to its IOC
+flag being set by us, regardless of prior errors. This event cannot
+be recognized if the TD has already been freed earlier, resulting in
+"Transfer event TRB DMA ptr not part of current TD" error message.
+
+Fix this by reusing the logic for processing isoc Transaction Errors.
+This also handles hosts which fail to report the final completion.
+
+Fix transfer length reporting on Babble errors. They may be caused by
+device malfunction, no guarantee that the buffer has been filled.</description><pubDate>Tue, 02 Apr 2024 06:31:19 +0000</pubDate></item><item><title>CVE-2024-26660 | drm/amd/display: Implement bounds check for stream encoder creation in DCN301</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26660</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Implement bounds check for stream encoder creation in DCN301
+
+'stream_enc_regs' array is an array of dcn10_stream_enc_registers
+structures. The array is initialized with four elements, corresponding
+to the four calls to stream_enc_regs() in the array initializer. This
+means that valid indices for this array are 0, 1, 2, and 3.
+
+The error message 'stream_enc_regs' 4 &lt;= 5 below, is indicating that
+there is an attempt to access this array with an index of 5, which is
+out of bounds. This could lead to undefined behavior
+
+Here, eng_id is used as an index to access the stream_enc_regs array. If
+eng_id is 5, this would result in an out-of-bounds access on the
+stream_enc_regs array.
+
+Thus fixing Buffer overflow error in dcn301_stream_encoder_create
+reported by Smatch:
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn301/dcn301_resource.c:1011 dcn301_stream_encoder_create() error: buffer overflow 'stream_enc_regs' 4 &lt;= 5</description><pubDate>Tue, 02 Apr 2024 06:31:19 +0000</pubDate></item><item><title>CVE-2024-26661 | drm/amd/display: Add NULL test for &amp;#x27;timing generator&amp;#x27; in &amp;#x27;dcn21_set_pipe()&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26661</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Add NULL test for 'timing generator' in 'dcn21_set_pipe()'
+
+In "u32 otg_inst = pipe_ctx-&gt;stream_res.tg-&gt;inst;"
+pipe_ctx-&gt;stream_res.tg could be NULL, it is relying on the caller to
+ensure the tg is not NULL.</description><pubDate>Tue, 02 Apr 2024 06:31:19 +0000</pubDate></item><item><title>CVE-2024-26662 | drm/amd/display: Fix &amp;#x27;panel_cntl&amp;#x27; could be null in &amp;#x27;dcn21_set_backlight_level()&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26662</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix 'panel_cntl' could be null in 'dcn21_set_backlight_level()'
+
+'panel_cntl' structure used to control the display panel could be null,
+dereferencing it could lead to a null pointer access.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn21/dcn21_hwseq.c:269 dcn21_set_backlight_level() error: we previously assumed 'panel_cntl' could be null (see line 250)</description><pubDate>Tue, 02 Apr 2024 06:31:20 +0000</pubDate></item><item><title>CVE-2024-26663 | tipc: Check the bearer type before calling tipc_udp_nl_bearer_add()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26663</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tipc: Check the bearer type before calling tipc_udp_nl_bearer_add()
+
+syzbot reported the following general protection fault [1]:
+
+general protection fault, probably for non-canonical address 0xdffffc0000000010: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000080-0x0000000000000087]
+...
+RIP: 0010:tipc_udp_is_known_peer+0x9c/0x250 net/tipc/udp_media.c:291
+...
+Call Trace:
+ &lt;TASK&gt;
+ tipc_udp_nl_bearer_add+0x212/0x2f0 net/tipc/udp_media.c:646
+ tipc_nl_bearer_add+0x21e/0x360 net/tipc/bearer.c:1089
+ genl_family_rcv_msg_doit+0x1fc/0x2e0 net/netlink/genetlink.c:972
+ genl_family_rcv_msg net/netlink/genetlink.c:1052 [inline]
+ genl_rcv_msg+0x561/0x800 net/netlink/genetlink.c:1067
+ netlink_rcv_skb+0x16b/0x440 net/netlink/af_netlink.c:2544
+ genl_rcv+0x28/0x40 net/netlink/genetlink.c:1076
+ netlink_unicast_kernel net/netlink/af_netlink.c:1341 [inline]
+ netlink_unicast+0x53b/0x810 net/netlink/af_netlink.c:1367
+ netlink_sendmsg+0x8b7/0xd70 net/netlink/af_netlink.c:1909
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg+0xd5/0x180 net/socket.c:745
+ ____sys_sendmsg+0x6ac/0x940 net/socket.c:2584
+ ___sys_sendmsg+0x135/0x1d0 net/socket.c:2638
+ __sys_sendmsg+0x117/0x1e0 net/socket.c:2667
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x40/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+
+The cause of this issue is that when tipc_nl_bearer_add() is called with
+the TIPC_NLA_BEARER_UDP_OPTS attribute, tipc_udp_nl_bearer_add() is called
+even if the bearer is not UDP.
+
+tipc_udp_is_known_peer() called by tipc_udp_nl_bearer_add() assumes that
+the media_ptr field of the tipc_bearer has an udp_bearer type object, so
+the function goes crazy for non-UDP bearers.
+
+This patch fixes the issue by checking the bearer type before calling
+tipc_udp_nl_bearer_add() in tipc_nl_bearer_add().</description><pubDate>Tue, 02 Apr 2024 06:31:20 +0000</pubDate></item><item><title>CVE-2024-26664 | hwmon: (coretemp) Fix out-of-bounds memory access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26664</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+hwmon: (coretemp) Fix out-of-bounds memory access
+
+Fix a bug that pdata-&gt;cpu_map[] is set before out-of-bounds check.
+The problem might be triggered on systems with more than 128 cores per
+package.</description><pubDate>Tue, 02 Apr 2024 06:31:21 +0000</pubDate></item><item><title>CVE-2024-26665 | tunnels: fix out of bounds access when building IPv6 PMTU error</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26665</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tunnels: fix out of bounds access when building IPv6 PMTU error
+
+If the ICMPv6 error is built from a non-linear skb we get the following
+splat,
+
+  BUG: KASAN: slab-out-of-bounds in do_csum+0x220/0x240
+  Read of size 4 at addr ffff88811d402c80 by task netperf/820
+  CPU: 0 PID: 820 Comm: netperf Not tainted 6.8.0-rc1+ #543
+  ...
+   kasan_report+0xd8/0x110
+   do_csum+0x220/0x240
+   csum_partial+0xc/0x20
+   skb_tunnel_check_pmtu+0xeb9/0x3280
+   vxlan_xmit_one+0x14c2/0x4080
+   vxlan_xmit+0xf61/0x5c00
+   dev_hard_start_xmit+0xfb/0x510
+   __dev_queue_xmit+0x7cd/0x32a0
+   br_dev_queue_push_xmit+0x39d/0x6a0
+
+Use skb_checksum instead of csum_partial who cannot deal with non-linear
+SKBs.</description><pubDate>Tue, 02 Apr 2024 06:31:21 +0000</pubDate></item><item><title>CVE-2024-26666 | wifi: mac80211: fix RCU use in TDLS fast-xmit</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26666</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mac80211: fix RCU use in TDLS fast-xmit
+
+This looks up the link under RCU protection, but isn't
+guaranteed to actually have protection. Fix that.</description><pubDate>Tue, 02 Apr 2024 06:31:21 +0000</pubDate></item><item><title>CVE-2024-26667 | drm/msm/dpu: check for valid hw_pp in dpu_encoder_helper_phys_cleanup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26667</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/msm/dpu: check for valid hw_pp in dpu_encoder_helper_phys_cleanup
+
+The commit 8b45a26f2ba9 ("drm/msm/dpu: reserve cdm blocks for writeback
+in case of YUV output") introduced a smatch warning about another
+conditional block in dpu_encoder_helper_phys_cleanup() which had assumed
+hw_pp will always be valid which may not necessarily be true.
+
+Lets fix the other conditional block by making sure hw_pp is valid
+before dereferencing it.
+
+Patchwork: https://patchwork.freedesktop.org/patch/574878/</description><pubDate>Tue, 02 Apr 2024 06:31:22 +0000</pubDate></item><item><title>CVE-2024-28226 | Fs has an improper input validation vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28226</link><description>in OpenHarmony v4.0.0 and prior versions allow a remote attacker cause DOS through improper input.</description><pubDate>Tue, 02 Apr 2024 06:31:22 +0000</pubDate></item><item><title>CVE-2024-28951 | Arkcompiler runtime has a use after free vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28951</link><description>in OpenHarmony v4.0.0 and prior versions allow a local attacker arbitrary code execution in pre-installed apps through use after free.</description><pubDate>Tue, 02 Apr 2024 06:31:23 +0000</pubDate></item><item><title>CVE-2024-29074 | Telephony has an improper input validation vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29074</link><description>in OpenHarmony v3.2.4 and prior versions allow a local attacker arbitrary code execution in any apps through improper input.</description><pubDate>Tue, 02 Apr 2024 06:31:23 +0000</pubDate></item><item><title>CVE-2024-29086 | Arkcompiler runtime has a stack overflow svulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29086</link><description>in OpenHarmony v3.2.4 and prior versions allow a local attacker cause DOS through stack overflow.</description><pubDate>Tue, 02 Apr 2024 06:31:23 +0000</pubDate></item><item><title>CVE-2024-26656 | drm/amdgpu: fix use-after-free bug</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26656</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/amdgpu: fix use-after-free bug
 
