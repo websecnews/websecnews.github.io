@@ -1,5 +1,240 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:46:27 +0000</lastBuildDate><item><title>CVE-2024-26668 | netfilter: nft_limit: reject configurations that cause integer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26668</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:53:18 +0000</lastBuildDate><item><title>CVE-2023-52632 | drm/amdkfd: Fix lock dependency warning with srcu</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52632</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: Fix lock dependency warning with srcu
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.5.0-kfd-yangp #2289 Not tainted
+------------------------------------------------------
+kworker/0:2/996 is trying to acquire lock:
+        (srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x5/0x1a0
+
+but task is already holding lock:
+        ((work_completion)(&amp;svms-&gt;deferred_list_work)){+.+.}-{0:0}, at:
+	process_one_work+0x211/0x560
+
+which lock already depends on the new lock.
+
+the existing dependency chain (in reverse order) is:
+
+-&gt; #3 ((work_completion)(&amp;svms-&gt;deferred_list_work)){+.+.}-{0:0}:
+        __flush_work+0x88/0x4f0
+        svm_range_list_lock_and_flush_work+0x3d/0x110 [amdgpu]
+        svm_range_set_attr+0xd6/0x14c0 [amdgpu]
+        kfd_ioctl+0x1d1/0x630 [amdgpu]
+        __x64_sys_ioctl+0x88/0xc0
+
+-&gt; #2 (&amp;info-&gt;lock#2){+.+.}-{3:3}:
+        __mutex_lock+0x99/0xc70
+        amdgpu_amdkfd_gpuvm_restore_process_bos+0x54/0x740 [amdgpu]
+        restore_process_helper+0x22/0x80 [amdgpu]
+        restore_process_worker+0x2d/0xa0 [amdgpu]
+        process_one_work+0x29b/0x560
+        worker_thread+0x3d/0x3d0
+
+-&gt; #1 ((work_completion)(&amp;(&amp;process-&gt;restore_work)-&gt;work)){+.+.}-{0:0}:
+        __flush_work+0x88/0x4f0
+        __cancel_work_timer+0x12c/0x1c0
+        kfd_process_notifier_release_internal+0x37/0x1f0 [amdgpu]
+        __mmu_notifier_release+0xad/0x240
+        exit_mmap+0x6a/0x3a0
+        mmput+0x6a/0x120
+        do_exit+0x322/0xb90
+        do_group_exit+0x37/0xa0
+        __x64_sys_exit_group+0x18/0x20
+        do_syscall_64+0x38/0x80
+
+-&gt; #0 (srcu){.+.+}-{0:0}:
+        __lock_acquire+0x1521/0x2510
+        lock_sync+0x5f/0x90
+        __synchronize_srcu+0x4f/0x1a0
+        __mmu_notifier_release+0x128/0x240
+        exit_mmap+0x6a/0x3a0
+        mmput+0x6a/0x120
+        svm_range_deferred_list_work+0x19f/0x350 [amdgpu]
+        process_one_work+0x29b/0x560
+        worker_thread+0x3d/0x3d0
+
+other info that might help us debug this:
+Chain exists of:
+  srcu --&gt; &amp;info-&gt;lock#2 --&gt; (work_completion)(&amp;svms-&gt;deferred_list_work)
+
+Possible unsafe locking scenario:
+
+        CPU0                    CPU1
+        ----                    ----
+        lock((work_completion)(&amp;svms-&gt;deferred_list_work));
+                        lock(&amp;info-&gt;lock#2);
+			lock((work_completion)(&amp;svms-&gt;deferred_list_work));
+        sync(srcu);</description><pubDate>Tue, 02 Apr 2024 06:53:20 +0000</pubDate></item><item><title>CVE-2023-52633 | um: time-travel: fix time corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52633</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+um: time-travel: fix time corruption
+
+In 'basic' time-travel mode (without =inf-cpu or =ext), we
+still get timer interrupts. These can happen at arbitrary
+points in time, i.e. while in timer_read(), which pushes
+time forward just a little bit. Then, if we happen to get
+the interrupt after calculating the new time to push to,
+but before actually finishing that, the interrupt will set
+the time to a value that's incompatible with the forward,
+and we'll crash because time goes backwards when we do the
+forwarding.
+
+Fix this by reading the time_travel_time, calculating the
+adjustment, and doing the adjustment all with interrupts
+disabled.</description><pubDate>Tue, 02 Apr 2024 06:53:20 +0000</pubDate></item><item><title>CVE-2023-52634 | drm/amd/display: Fix disable_otg_wa logic</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52634</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix disable_otg_wa logic
+
+[Why]
+When switching to another HDMI mode, we are unnecesarilly
+disabling/enabling FIFO causing both HPO and DIG registers to be set at
+the same time when only HPO is supposed to be set.
+
+This can lead to a system hang the next time we change refresh rates as
+there are cases when we don't disable OTG/FIFO but FIFO is enabled when
+it isn't supposed to be.
+
+[How]
+Removing the enable/disable FIFO entirely.</description><pubDate>Tue, 02 Apr 2024 06:53:21 +0000</pubDate></item><item><title>CVE-2023-52635 | PM / devfreq: Synchronize devfreq_monitor_[start/stop]</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52635</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PM / devfreq: Synchronize devfreq_monitor_[start/stop]
+
+There is a chance if a frequent switch of the governor
+done in a loop result in timer list corruption where
+timer cancel being done from two place one from
+cancel_delayed_work_sync() and followed by expire_timers()
+can be seen from the traces[1].
+
+while true
+do
+        echo "simple_ondemand" &gt; /sys/class/devfreq/1d84000.ufshc/governor
+        echo "performance" &gt; /sys/class/devfreq/1d84000.ufshc/governor
+done
+
+It looks to be issue with devfreq driver where
+device_monitor_[start/stop] need to synchronized so that
+delayed work should get corrupted while it is either
+being queued or running or being cancelled.
+
+Let's use polling flag and devfreq lock to synchronize the
+queueing the timer instance twice and work data being
+corrupted.
+
+[1]
+...
+..
+&lt;idle&gt;-0    [003]   9436.209662:  timer_cancel   timer=0xffffff80444f0428
+&lt;idle&gt;-0    [003]   9436.209664:  timer_expire_entry   timer=0xffffff80444f0428  now=0x10022da1c  function=__typeid__ZTSFvP10timer_listE_global_addr  baseclk=0x10022da1c
+&lt;idle&gt;-0    [003]   9436.209718:  timer_expire_exit   timer=0xffffff80444f0428
+kworker/u16:6-14217    [003]   9436.209863:  timer_start   timer=0xffffff80444f0428  function=__typeid__ZTSFvP10timer_listE_global_addr  expires=0x10022da2b  now=0x10022da1c  flags=182452227
+vendor.xxxyyy.ha-1593    [004]   9436.209888:  timer_cancel   timer=0xffffff80444f0428
+vendor.xxxyyy.ha-1593    [004]   9436.216390:  timer_init   timer=0xffffff80444f0428
+vendor.xxxyyy.ha-1593    [004]   9436.216392:  timer_start   timer=0xffffff80444f0428  function=__typeid__ZTSFvP10timer_listE_global_addr  expires=0x10022da2c  now=0x10022da1d  flags=186646532
+vendor.xxxyyy.ha-1593    [005]   9436.220992:  timer_cancel   timer=0xffffff80444f0428
+xxxyyyTraceManag-7795    [004]   9436.261641:  timer_cancel   timer=0xffffff80444f0428
+
+[2]
+
+ 9436.261653][    C4] Unable to handle kernel paging request at virtual address dead00000000012a
+[ 9436.261664][    C4] Mem abort info:
+[ 9436.261666][    C4]   ESR = 0x96000044
+[ 9436.261669][    C4]   EC = 0x25: DABT (current EL), IL = 32 bits
+[ 9436.261671][    C4]   SET = 0, FnV = 0
+[ 9436.261673][    C4]   EA = 0, S1PTW = 0
+[ 9436.261675][    C4] Data abort info:
+[ 9436.261677][    C4]   ISV = 0, ISS = 0x00000044
+[ 9436.261680][    C4]   CM = 0, WnR = 1
+[ 9436.261682][    C4] [dead00000000012a] address between user and kernel address ranges
+[ 9436.261685][    C4] Internal error: Oops: 96000044 [#1] PREEMPT SMP
+[ 9436.261701][    C4] Skip md ftrace buffer dump for: 0x3a982d0
+...
+
+[ 9436.262138][    C4] CPU: 4 PID: 7795 Comm: TraceManag Tainted: G S      W  O      5.10.149-android12-9-o-g17f915d29d0c #1
+[ 9436.262141][    C4] Hardware name: Qualcomm Technologies, Inc.  (DT)
+[ 9436.262144][    C4] pstate: 22400085 (nzCv daIf +PAN -UAO +TCO BTYPE=--)
+[ 9436.262161][    C4] pc : expire_timers+0x9c/0x438
+[ 9436.262164][    C4] lr : expire_timers+0x2a4/0x438
+[ 9436.262168][    C4] sp : ffffffc010023dd0
+[ 9436.262171][    C4] x29: ffffffc010023df0 x28: ffffffd0636fdc18
+[ 9436.262178][    C4] x27: ffffffd063569dd0 x26: ffffffd063536008
+[ 9436.262182][    C4] x25: 0000000000000001 x24: ffffff88f7c69280
+[ 9436.262185][    C4] x23: 00000000000000e0 x22: dead000000000122
+[ 9436.262188][    C4] x21: 000000010022da29 x20: ffffff8af72b4e80
+[ 9436.262191][    C4] x19: ffffffc010023e50 x18: ffffffc010025038
+[ 9436.262195][    C4] x17: 0000000000000240 x16: 0000000000000201
+[ 9436.262199][    C4] x15: ffffffffffffffff x14: ffffff889f3c3100
+[ 9436.262203][    C4] x13: ffffff889f3c3100 x12: 00000000049f56b8
+[ 9436.262207][    C4] x11: 00000000049f56b8 x10: 00000000ffffffff
+[ 9436.262212][    C4] x9 : ffffffc010023e50 x8 : dead000000000122
+[ 9436.262216][    C4] x7 : ffffffffffffffff x6 : ffffffc0100239d8
+[ 9436.262220][    C4] x5 : 0000000000000000 x4 : 0000000000000101
+[ 9436.262223][    C4] x3 : 0000000000000080 x2 : ffffff8
+---truncated---</description><pubDate>Tue, 02 Apr 2024 06:53:21 +0000</pubDate></item><item><title>CVE-2024-26671 | blk-mq: fix IO hang from sbitmap wakeup race</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26671</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+blk-mq: fix IO hang from sbitmap wakeup race
+
+In blk_mq_mark_tag_wait(), __add_wait_queue() may be re-ordered
+with the following blk_mq_get_driver_tag() in case of getting driver
+tag failure.
+
+Then in __sbitmap_queue_wake_up(), waitqueue_active() may not observe
+the added waiter in blk_mq_mark_tag_wait() and wake up nothing, meantime
+blk_mq_mark_tag_wait() can't get driver tag successfully.
+
+This issue can be reproduced by running the following test in loop, and
+fio hang can be observed in &lt; 30min when running it on my test VM
+in laptop.
+
+	modprobe -r scsi_debug
+	modprobe scsi_debug delay=0 dev_size_mb=4096 max_queue=1 host_max_queue=1 submit_queues=4
+	dev=`ls -d /sys/bus/pseudo/drivers/scsi_debug/adapter*/host*/target*/*/block/* | head -1 | xargs basename`
+	fio --filename=/dev/"$dev" --direct=1 --rw=randrw --bs=4k --iodepth=1 \
+       		--runtime=100 --numjobs=40 --time_based --name=test \
+        	--ioengine=libaio
+
+Fix the issue by adding one explicit barrier in blk_mq_mark_tag_wait(), which
+is just fine in case of running out of tag.</description><pubDate>Tue, 02 Apr 2024 06:53:21 +0000</pubDate></item><item><title>CVE-2024-26672 | drm/amdgpu: Fix variable &amp;#x27;mca_funcs&amp;#x27; dereferenced before NULL check in &amp;#x27;amdgpu_mca_smu_get_mca_entry()&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26672</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Fix variable 'mca_funcs' dereferenced before NULL check in 'amdgpu_mca_smu_get_mca_entry()'
+
+Fixes the below:
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c:377 amdgpu_mca_smu_get_mca_entry() warn: variable dereferenced before check 'mca_funcs' (see line 368)
+
+357 int amdgpu_mca_smu_get_mca_entry(struct amdgpu_device *adev,
+				     enum amdgpu_mca_error_type type,
+358                                  int idx, struct mca_bank_entry *entry)
+359 {
+360         const struct amdgpu_mca_smu_funcs *mca_funcs =
+						adev-&gt;mca.mca_funcs;
+361         int count;
+362
+363         switch (type) {
+364         case AMDGPU_MCA_ERROR_TYPE_UE:
+365                 count = mca_funcs-&gt;max_ue_count;
+
+mca_funcs is dereferenced here.
+
+366                 break;
+367         case AMDGPU_MCA_ERROR_TYPE_CE:
+368                 count = mca_funcs-&gt;max_ce_count;
+
+mca_funcs is dereferenced here.
+
+369                 break;
+370         default:
+371                 return -EINVAL;
+372         }
+373
+374         if (idx &gt;= count)
+375                 return -EINVAL;
+376
+377         if (mca_funcs &amp;&amp; mca_funcs-&gt;mca_get_mca_entry)
+	        ^^^^^^^^^
+
+Checked too late!</description><pubDate>Tue, 02 Apr 2024 06:53:22 +0000</pubDate></item><item><title>CVE-2024-2839 | The Colibri Page Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's 'colibri_post_title' shortcode i...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-2839</link><description>The Colibri Page Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's 'colibri_post_title' shortcode in all versions up to, and including, 1.0.263 due to insufficient input sanitization and output escaping on user supplied attributes such as 'heading_type'. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Tue, 02 Apr 2024 06:53:22 +0000</pubDate></item><item><title>CVE-2024-2925 | The Beaver Builder – WordPress Page Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's Button Widget...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-2925</link><description>The Beaver Builder – WordPress Page Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's Button Widget in all versions up to, and including, 2.8.0.5 due to insufficient input sanitization and output escaping on user supplied attributes. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Tue, 02 Apr 2024 06:53:22 +0000</pubDate></item><item><title>CVE-2024-26668 | netfilter: nft_limit: reject configurations that cause integer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26668</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfilter: nft_limit: reject configurations that cause integer overflow
 
