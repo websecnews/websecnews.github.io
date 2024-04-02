@@ -1,5 +1,373 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 07:00:08 +0000</lastBuildDate><item><title>CVE-2024-26673 | netfilter: nft_ct: sanitize layer 3 and 4 protocol number in custom expectations</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26673</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 07:16:06 +0000</lastBuildDate><item><title>CVE-2023-52636 | libceph: just wait for more data to be available on the socket</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52636</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+libceph: just wait for more data to be available on the socket
+
+A short read may occur while reading the message footer from the
+socket.  Later, when the socket is ready for another read, the
+messenger invokes all read_partial_*() handlers, including
+read_partial_sparse_msg_data().  The expectation is that
+read_partial_sparse_msg_data() would bail, allowing the messenger to
+invoke read_partial() for the footer and pick up where it left off.
+
+However read_partial_sparse_msg_data() violates that and ends up
+calling into the state machine in the OSD client.  The sparse-read
+state machine assumes that it's a new op and interprets some piece of
+the footer as the sparse-read header and returns bogus extents/data
+length, etc.
+
+To determine whether read_partial_sparse_msg_data() should bail, let's
+reuse cursor-&gt;total_resid.  Because once it reaches to zero that means
+all the extents and data have been successfully received in last read,
+else it could break out when partially reading any of the extents and
+data.  And then osd_sparse_read() could continue where it left off.
+
+[ idryomov: changelog ]</description><pubDate>Tue, 02 Apr 2024 07:16:07 +0000</pubDate></item><item><title>CVE-2024-26674 | x86/lib: Revert to _ASM_EXTABLE_UA() for {get,put}_user() fixups</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26674</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/lib: Revert to _ASM_EXTABLE_UA() for {get,put}_user() fixups
+
+During memory error injection test on kernels &gt;= v6.4, the kernel panics
+like below. However, this issue couldn't be reproduced on kernels &lt;= v6.3.
+
+  mce: [Hardware Error]: CPU 296: Machine Check Exception: f Bank 1: bd80000000100134
+  mce: [Hardware Error]: RIP 10:&lt;ffffffff821b9776&gt; {__get_user_nocheck_4+0x6/0x20}
+  mce: [Hardware Error]: TSC 411a93533ed ADDR 346a8730040 MISC 86
+  mce: [Hardware Error]: PROCESSOR 0:a06d0 TIME 1706000767 SOCKET 1 APIC 211 microcode 80001490
+  mce: [Hardware Error]: Run the above through 'mcelog --ascii'
+  mce: [Hardware Error]: Machine check: Data load in unrecoverable area of kernel
+  Kernel panic - not syncing: Fatal local machine check
+
+The MCA code can recover from an in-kernel #MC if the fixup type is
+EX_TYPE_UACCESS, explicitly indicating that the kernel is attempting to
+access userspace memory. However, if the fixup type is EX_TYPE_DEFAULT
+the only thing that is raised for an in-kernel #MC is a panic.
+
+ex_handler_uaccess() would warn if users gave a non-canonical addresses
+(with bit 63 clear) to {get, put}_user(), which was unexpected.
+
+Therefore, commit
+
+  b19b74bc99b1 ("x86/mm: Rework address range check in get_user() and put_user()")
+
+replaced _ASM_EXTABLE_UA() with _ASM_EXTABLE() for {get, put}_user()
+fixups. However, the new fixup type EX_TYPE_DEFAULT results in a panic.
+
+Commit
+
+  6014bc27561f ("x86-64: make access_ok() independent of LAM")
+
+added the check gp_fault_address_ok() right before the WARN_ONCE() in
+ex_handler_uaccess() to not warn about non-canonical user addresses due
+to LAM.
+
+With that in place, revert back to _ASM_EXTABLE_UA() for {get,put}_user()
+exception fixups in order to be able to handle in-kernel MCEs correctly
+again.
+
+  [ bp: Massage commit message. ]</description><pubDate>Tue, 02 Apr 2024 07:16:08 +0000</pubDate></item><item><title>CVE-2024-26675 | ppp_async: limit MRU to 64K</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26675</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ppp_async: limit MRU to 64K
+
+syzbot triggered a warning [1] in __alloc_pages():
+
+WARN_ON_ONCE_GFP(order &gt; MAX_PAGE_ORDER, gfp)
+
+Willem fixed a similar issue in commit c0a2a1b0d631 ("ppp: limit MRU to 64K")
+
+Adopt the same sanity check for ppp_async_ioctl(PPPIOCSMRU)
+
+[1]:
+
+ WARNING: CPU: 1 PID: 11 at mm/page_alloc.c:4543 __alloc_pages+0x308/0x698 mm/page_alloc.c:4543
+Modules linked in:
+CPU: 1 PID: 11 Comm: kworker/u4:0 Not tainted 6.8.0-rc2-syzkaller-g41bccc98fb79 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Workqueue: events_unbound flush_to_ldisc
+pstate: 204000c5 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+ pc : __alloc_pages+0x308/0x698 mm/page_alloc.c:4543
+ lr : __alloc_pages+0xc8/0x698 mm/page_alloc.c:4537
+sp : ffff800093967580
+x29: ffff800093967660 x28: ffff8000939675a0 x27: dfff800000000000
+x26: ffff70001272ceb4 x25: 0000000000000000 x24: ffff8000939675c0
+x23: 0000000000000000 x22: 0000000000060820 x21: 1ffff0001272ceb8
+x20: ffff8000939675e0 x19: 0000000000000010 x18: ffff800093967120
+x17: ffff800083bded5c x16: ffff80008ac97500 x15: 0000000000000005
+x14: 1ffff0001272cebc x13: 0000000000000000 x12: 0000000000000000
+x11: ffff70001272cec1 x10: 1ffff0001272cec0 x9 : 0000000000000001
+x8 : ffff800091c91000 x7 : 0000000000000000 x6 : 000000000000003f
+x5 : 00000000ffffffff x4 : 0000000000000000 x3 : 0000000000000020
+x2 : 0000000000000008 x1 : 0000000000000000 x0 : ffff8000939675e0
+Call trace:
+  __alloc_pages+0x308/0x698 mm/page_alloc.c:4543
+  __alloc_pages_node include/linux/gfp.h:238 [inline]
+  alloc_pages_node include/linux/gfp.h:261 [inline]
+  __kmalloc_large_node+0xbc/0x1fc mm/slub.c:3926
+  __do_kmalloc_node mm/slub.c:3969 [inline]
+  __kmalloc_node_track_caller+0x418/0x620 mm/slub.c:4001
+  kmalloc_reserve+0x17c/0x23c net/core/skbuff.c:590
+  __alloc_skb+0x1c8/0x3d8 net/core/skbuff.c:651
+  __netdev_alloc_skb+0xb8/0x3e8 net/core/skbuff.c:715
+  netdev_alloc_skb include/linux/skbuff.h:3235 [inline]
+  dev_alloc_skb include/linux/skbuff.h:3248 [inline]
+  ppp_async_input drivers/net/ppp/ppp_async.c:863 [inline]
+  ppp_asynctty_receive+0x588/0x186c drivers/net/ppp/ppp_async.c:341
+  tty_ldisc_receive_buf+0x12c/0x15c drivers/tty/tty_buffer.c:390
+  tty_port_default_receive_buf+0x74/0xac drivers/tty/tty_port.c:37
+  receive_buf drivers/tty/tty_buffer.c:444 [inline]
+  flush_to_ldisc+0x284/0x6e4 drivers/tty/tty_buffer.c:494
+  process_one_work+0x694/0x1204 kernel/workqueue.c:2633
+  process_scheduled_works kernel/workqueue.c:2706 [inline]
+  worker_thread+0x938/0xef4 kernel/workqueue.c:2787
+  kthread+0x288/0x310 kernel/kthread.c:388
+  ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:860</description><pubDate>Tue, 02 Apr 2024 07:16:08 +0000</pubDate></item><item><title>CVE-2024-26676 | af_unix: Call kfree_skb() for dead unix_(sk)-&amp;gt;oob_skb in GC.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26676</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+af_unix: Call kfree_skb() for dead unix_(sk)-&gt;oob_skb in GC.
+
+syzbot reported a warning [0] in __unix_gc() with a repro, which
+creates a socketpair and sends one socket's fd to itself using the
+peer.
+
+  socketpair(AF_UNIX, SOCK_STREAM, 0, [3, 4]) = 0
+  sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="\360", iov_len=1}],
+          msg_iovlen=1, msg_control=[{cmsg_len=20, cmsg_level=SOL_SOCKET,
+                                      cmsg_type=SCM_RIGHTS, cmsg_data=[3]}],
+          msg_controllen=24, msg_flags=0}, MSG_OOB|MSG_PROBE|MSG_DONTWAIT|MSG_ZEROCOPY) = 1
+
+This forms a self-cyclic reference that GC should finally untangle
+but does not due to lack of MSG_OOB handling, resulting in memory
+leak.
+
+Recently, commit 11498715f266 ("af_unix: Remove io_uring code for
+GC.") removed io_uring's dead code in GC and revealed the problem.
+
+The code was executed at the final stage of GC and unconditionally
+moved all GC candidates from gc_candidates to gc_inflight_list.
+That papered over the reported problem by always making the following
+WARN_ON_ONCE(!list_empty(&amp;gc_candidates)) false.
+
+The problem has been there since commit 2aab4b969002 ("af_unix: fix
+struct pid leaks in OOB support") added full scm support for MSG_OOB
+while fixing another bug.
+
+To fix this problem, we must call kfree_skb() for unix_sk(sk)-&gt;oob_skb
+if the socket still exists in gc_candidates after purging collected skb.
+
+Then, we need to set NULL to oob_skb before calling kfree_skb() because
+it calls last fput() and triggers unix_release_sock(), where we call
+duplicate kfree_skb(u-&gt;oob_skb) if not NULL.
+
+Note that the leaked socket remained being linked to a global list, so
+kmemleak also could not detect it.  We need to check /proc/net/protocol
+to notice the unfreed socket.
+
+[0]:
+WARNING: CPU: 0 PID: 2863 at net/unix/garbage.c:345 __unix_gc+0xc74/0xe80 net/unix/garbage.c:345
+Modules linked in:
+CPU: 0 PID: 2863 Comm: kworker/u4:11 Not tainted 6.8.0-rc1-syzkaller-00583-g1701940b1a02 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
+Workqueue: events_unbound __unix_gc
+RIP: 0010:__unix_gc+0xc74/0xe80 net/unix/garbage.c:345
+Code: 8b 5c 24 50 e9 86 f8 ff ff e8 f8 e4 22 f8 31 d2 48 c7 c6 30 6a 69 89 4c 89 ef e8 97 ef ff ff e9 80 f9 ff ff e8 dd e4 22 f8 90 &lt;0f&gt; 0b 90 e9 7b fd ff ff 48 89 df e8 5c e7 7c f8 e9 d3 f8 ff ff e8
+RSP: 0018:ffffc9000b03fba0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffffc9000b03fc10 RCX: ffffffff816c493e
+RDX: ffff88802c02d940 RSI: ffffffff896982f3 RDI: ffffc9000b03fb30
+RBP: ffffc9000b03fce0 R08: 0000000000000001 R09: fffff52001607f66
+R10: 0000000000000003 R11: 0000000000000002 R12: dffffc0000000000
+R13: ffffc9000b03fc10 R14: ffffc9000b03fc10 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005559c8677a60 CR3: 000000000d57a000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ &lt;TASK&gt;
+ process_one_work+0x889/0x15e0 kernel/workqueue.c:2633
+ process_scheduled_works kernel/workqueue.c:2706 [inline]
+ worker_thread+0x8b9/0x12a0 kernel/workqueue.c:2787
+ kthread+0x2c6/0x3b0 kernel/kthread.c:388
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:242
+ &lt;/TASK&gt;</description><pubDate>Tue, 02 Apr 2024 07:16:08 +0000</pubDate></item><item><title>CVE-2024-26677 | rxrpc: Fix delayed ACKs to not set the reference serial number</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26677</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rxrpc: Fix delayed ACKs to not set the reference serial number
+
+Fix the construction of delayed ACKs to not set the reference serial number
+as they can't be used as an RTT reference.</description><pubDate>Tue, 02 Apr 2024 07:16:09 +0000</pubDate></item><item><title>CVE-2024-26678 | x86/efistub: Use 1:1 file:memory mapping for PE/COFF .compat section</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26678</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/efistub: Use 1:1 file:memory mapping for PE/COFF .compat section
+
+The .compat section is a dummy PE section that contains the address of
+the 32-bit entrypoint of the 64-bit kernel image if it is bootable from
+32-bit firmware (i.e., CONFIG_EFI_MIXED=y)
+
+This section is only 8 bytes in size and is only referenced from the
+loader, and so it is placed at the end of the memory view of the image,
+to avoid the need for padding it to 4k, which is required for sections
+appearing in the middle of the image.
+
+Unfortunately, this violates the PE/COFF spec, and even if most EFI
+loaders will work correctly (including the Tianocore reference
+implementation), PE loaders do exist that reject such images, on the
+basis that both the file and memory views of the file contents should be
+described by the section headers in a monotonically increasing manner
+without leaving any gaps.
+
+So reorganize the sections to avoid this issue. This results in a slight
+padding overhead (&lt; 4k) which can be avoided if desired by disabling
+CONFIG_EFI_MIXED (which is only needed in rare cases these days)</description><pubDate>Tue, 02 Apr 2024 07:16:09 +0000</pubDate></item><item><title>CVE-2024-26679 | inet: read sk-&amp;gt;sk_family once in inet_recv_error()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26679</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+inet: read sk-&gt;sk_family once in inet_recv_error()
+
+inet_recv_error() is called without holding the socket lock.
+
+IPv6 socket could mutate to IPv4 with IPV6_ADDRFORM
+socket option and trigger a KCSAN warning.</description><pubDate>Tue, 02 Apr 2024 07:16:09 +0000</pubDate></item><item><title>CVE-2024-26680 | net: atlantic: Fix DMA mapping for PTP hwts ring</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26680</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: atlantic: Fix DMA mapping for PTP hwts ring
+
+Function aq_ring_hwts_rx_alloc() maps extra AQ_CFG_RXDS_DEF bytes
+for PTP HWTS ring but then generic aq_ring_free() does not take this
+into account.
+Create and use a specific function to free HWTS ring to fix this
+issue.
+
+Trace:
+[  215.351607] ------------[ cut here ]------------
+[  215.351612] DMA-API: atlantic 0000:4b:00.0: device driver frees DMA memory with different size [device address=0x00000000fbdd0000] [map size=34816 bytes] [unmap size=32768 bytes]
+[  215.351635] WARNING: CPU: 33 PID: 10759 at kernel/dma/debug.c:988 check_unmap+0xa6f/0x2360
+...
+[  215.581176] Call Trace:
+[  215.583632]  &lt;TASK&gt;
+[  215.585745]  ? show_trace_log_lvl+0x1c4/0x2df
+[  215.590114]  ? show_trace_log_lvl+0x1c4/0x2df
+[  215.594497]  ? debug_dma_free_coherent+0x196/0x210
+[  215.599305]  ? check_unmap+0xa6f/0x2360
+[  215.603147]  ? __warn+0xca/0x1d0
+[  215.606391]  ? check_unmap+0xa6f/0x2360
+[  215.610237]  ? report_bug+0x1ef/0x370
+[  215.613921]  ? handle_bug+0x3c/0x70
+[  215.617423]  ? exc_invalid_op+0x14/0x50
+[  215.621269]  ? asm_exc_invalid_op+0x16/0x20
+[  215.625480]  ? check_unmap+0xa6f/0x2360
+[  215.629331]  ? mark_lock.part.0+0xca/0xa40
+[  215.633445]  debug_dma_free_coherent+0x196/0x210
+[  215.638079]  ? __pfx_debug_dma_free_coherent+0x10/0x10
+[  215.643242]  ? slab_free_freelist_hook+0x11d/0x1d0
+[  215.648060]  dma_free_attrs+0x6d/0x130
+[  215.651834]  aq_ring_free+0x193/0x290 [atlantic]
+[  215.656487]  aq_ptp_ring_free+0x67/0x110 [atlantic]
+...
+[  216.127540] ---[ end trace 6467e5964dd2640b ]---
+[  216.132160] DMA-API: Mapped at:
+[  216.132162]  debug_dma_alloc_coherent+0x66/0x2f0
+[  216.132165]  dma_alloc_attrs+0xf5/0x1b0
+[  216.132168]  aq_ring_hwts_rx_alloc+0x150/0x1f0 [atlantic]
+[  216.132193]  aq_ptp_ring_alloc+0x1bb/0x540 [atlantic]
+[  216.132213]  aq_nic_init+0x4a1/0x760 [atlantic]</description><pubDate>Tue, 02 Apr 2024 07:16:10 +0000</pubDate></item><item><title>CVE-2024-26681 | netdevsim: avoid potential loop in nsim_dev_trap_report_work()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26681</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netdevsim: avoid potential loop in nsim_dev_trap_report_work()
+
+Many syzbot reports include the following trace [1]
+
+If nsim_dev_trap_report_work() can not grab the mutex,
+it should rearm itself at least one jiffie later.
+
+[1]
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 32383 Comm: kworker/0:2 Not tainted 6.8.0-rc2-syzkaller-00031-g861c0981648f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/17/2023
+Workqueue: events nsim_dev_trap_report_work
+ RIP: 0010:bytes_is_nonzero mm/kasan/generic.c:89 [inline]
+ RIP: 0010:memory_is_nonzero mm/kasan/generic.c:104 [inline]
+ RIP: 0010:memory_is_poisoned_n mm/kasan/generic.c:129 [inline]
+ RIP: 0010:memory_is_poisoned mm/kasan/generic.c:161 [inline]
+ RIP: 0010:check_region_inline mm/kasan/generic.c:180 [inline]
+ RIP: 0010:kasan_check_range+0x101/0x190 mm/kasan/generic.c:189
+Code: 07 49 39 d1 75 0a 45 3a 11 b8 01 00 00 00 7c 0b 44 89 c2 e8 21 ed ff ff 83 f0 01 5b 5d 41 5c c3 48 85 d2 74 4f 48 01 ea eb 09 &lt;48&gt; 83 c0 01 48 39 d0 74 41 80 38 00 74 f2 eb b6 41 bc 08 00 00 00
+RSP: 0018:ffffc90012dcf998 EFLAGS: 00000046
+RAX: fffffbfff258af1e RBX: fffffbfff258af1f RCX: ffffffff8168eda3
+RDX: fffffbfff258af1f RSI: 0000000000000004 RDI: ffffffff92c578f0
+RBP: fffffbfff258af1e R08: 0000000000000000 R09: fffffbfff258af1e
+R10: ffffffff92c578f3 R11: ffffffff8acbcbc0 R12: 0000000000000002
+R13: ffff88806db38400 R14: 1ffff920025b9f42 R15: ffffffff92c578e8
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c00994e078 CR3: 000000002c250000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ &lt;NMI&gt;
+ &lt;/NMI&gt;
+ &lt;TASK&gt;
+  instrument_atomic_read include/linux/instrumented.h:68 [inline]
+  atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
+  queued_spin_is_locked include/asm-generic/qspinlock.h:57 [inline]
+  debug_spin_unlock kernel/locking/spinlock_debug.c:101 [inline]
+  do_raw_spin_unlock+0x53/0x230 kernel/locking/spinlock_debug.c:141
+  __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:150 [inline]
+  _raw_spin_unlock_irqrestore+0x22/0x70 kernel/locking/spinlock.c:194
+  debug_object_activate+0x349/0x540 lib/debugobjects.c:726
+  debug_work_activate kernel/workqueue.c:578 [inline]
+  insert_work+0x30/0x230 kernel/workqueue.c:1650
+  __queue_work+0x62e/0x11d0 kernel/workqueue.c:1802
+  __queue_delayed_work+0x1bf/0x270 kernel/workqueue.c:1953
+  queue_delayed_work_on+0x106/0x130 kernel/workqueue.c:1989
+  queue_delayed_work include/linux/workqueue.h:563 [inline]
+  schedule_delayed_work include/linux/workqueue.h:677 [inline]
+  nsim_dev_trap_report_work+0x9c0/0xc80 drivers/net/netdevsim/dev.c:842
+  process_one_work+0x886/0x15d0 kernel/workqueue.c:2633
+  process_scheduled_works kernel/workqueue.c:2706 [inline]
+  worker_thread+0x8b9/0x1290 kernel/workqueue.c:2787
+  kthread+0x2c6/0x3a0 kernel/kthread.c:388
+  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:242
+ &lt;/TASK&gt;</description><pubDate>Tue, 02 Apr 2024 07:16:10 +0000</pubDate></item><item><title>CVE-2024-26682 | wifi: mac80211: improve CSA/ECSA connection refusal</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26682</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mac80211: improve CSA/ECSA connection refusal
+
+As mentioned in the previous commit, we pretty quickly found
+that some APs have ECSA elements stuck in their probe response,
+so using that to not attempt to connect while CSA is happening
+we never connect to such an AP.
+
+Improve this situation by checking more carefully and ignoring
+the ECSA if cfg80211 has previously detected the ECSA element
+being stuck in the probe response.
+
+Additionally, allow connecting to an AP that's switching to a
+channel it's already using, unless it's using quiet mode. In
+this case, we may just have to adjust bandwidth later. If it's
+actually switching channels, it's better not to try to connect
+in the middle of that.</description><pubDate>Tue, 02 Apr 2024 07:16:10 +0000</pubDate></item><item><title>CVE-2024-26683 | wifi: cfg80211: detect stuck ECSA element in probe resp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26683</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: cfg80211: detect stuck ECSA element in probe resp
+
+We recently added some validation that we don't try to
+connect to an AP that is currently in a channel switch
+process, since that might want the channel to be quiet
+or we might not be able to connect in time to hear the
+switching in a beacon. This was in commit c09c4f31998b
+("wifi: mac80211: don't connect to an AP while it's in
+a CSA process").
+
+However, we promptly got a report that this caused new
+connection failures, and it turns out that the AP that
+we now cannot connect to is permanently advertising an
+extended channel switch announcement, even with quiet.
+The AP in question was an Asus RT-AC53, with firmware
+3.0.0.4.380_10760-g21a5898.
+
+As a first step, attempt to detect that we're dealing
+with such a situation, so mac80211 can use this later.</description><pubDate>Tue, 02 Apr 2024 07:16:11 +0000</pubDate></item><item><title>CVE-2024-26684 | net: stmmac: xgmac: fix handling of DPP safety error for DMA channels</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26684</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: stmmac: xgmac: fix handling of DPP safety error for DMA channels
+
+Commit 56e58d6c8a56 ("net: stmmac: Implement Safety Features in
+XGMAC core") checks and reports safety errors, but leaves the
+Data Path Parity Errors for each channel in DMA unhandled at all, lead to
+a storm of interrupt.
+Fix it by checking and clearing the DMA_DPP_Interrupt_Status register.</description><pubDate>Tue, 02 Apr 2024 07:16:11 +0000</pubDate></item><item><title>CVE-2024-29276 | An issue was discovered in seeyonOA version 8, allows remote attackers to execute arbitrary code via the importProcess method in WorkFlowDes...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29276</link><description>An issue was discovered in seeyonOA version 8, allows remote attackers to execute arbitrary code via the importProcess method in WorkFlowDesignerController.class component.</description><pubDate>Tue, 02 Apr 2024 07:16:11 +0000</pubDate></item><item><title>CVE-2024-26673 | netfilter: nft_ct: sanitize layer 3 and 4 protocol number in custom expectations</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26673</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfilter: nft_ct: sanitize layer 3 and 4 protocol number in custom expectations
 
