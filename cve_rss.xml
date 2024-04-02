@@ -1,5 +1,165 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:31:13 +0000</lastBuildDate><item><title>CVE-2023-52630 | blk-iocost: Fix an UBSAN shift-out-of-bounds warning</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52630</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 02 Apr 2024 06:46:27 +0000</lastBuildDate><item><title>CVE-2024-26668 | netfilter: nft_limit: reject configurations that cause integer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26668</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nft_limit: reject configurations that cause integer overflow
+
+Reject bogus configs where internal token counter wraps around.
+This only occurs with very very large requests, such as 17gbyte/s.
+
+Its better to reject this rather than having incorrect ratelimit.</description><pubDate>Tue, 02 Apr 2024 06:46:29 +0000</pubDate></item><item><title>CVE-2024-26669 | net/sched: flower: Fix chain template offload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26669</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sched: flower: Fix chain template offload
+
+When a qdisc is deleted from a net device the stack instructs the
+underlying driver to remove its flow offload callback from the
+associated filter block using the 'FLOW_BLOCK_UNBIND' command. The stack
+then continues to replay the removal of the filters in the block for
+this driver by iterating over the chains in the block and invoking the
+'reoffload' operation of the classifier being used. In turn, the
+classifier in its 'reoffload' operation prepares and emits a
+'FLOW_CLS_DESTROY' command for each filter.
+
+However, the stack does not do the same for chain templates and the
+underlying driver never receives a 'FLOW_CLS_TMPLT_DESTROY' command when
+a qdisc is deleted. This results in a memory leak [1] which can be
+reproduced using [2].
+
+Fix by introducing a 'tmplt_reoffload' operation and have the stack
+invoke it with the appropriate arguments as part of the replay.
+Implement the operation in the sole classifier that supports chain
+templates (flower) by emitting the 'FLOW_CLS_TMPLT_{CREATE,DESTROY}'
+command based on whether a flow offload callback is being bound to a
+filter block or being unbound from one.
+
+As far as I can tell, the issue happens since cited commit which
+reordered tcf_block_offload_unbind() before tcf_block_flush_all_chains()
+in __tcf_block_put(). The order cannot be reversed as the filter block
+is expected to be freed after flushing all the chains.
+
+[1]
+unreferenced object 0xffff888107e28800 (size 2048):
+  comm "tc", pid 1079, jiffies 4294958525 (age 3074.287s)
+  hex dump (first 32 bytes):
+    b1 a6 7c 11 81 88 ff ff e0 5b b3 10 81 88 ff ff  ..|......[......
+    01 00 00 00 00 00 00 00 e0 aa b0 84 ff ff ff ff  ................
+  backtrace:
+    [&lt;ffffffff81c06a68&gt;] __kmem_cache_alloc_node+0x1e8/0x320
+    [&lt;ffffffff81ab374e&gt;] __kmalloc+0x4e/0x90
+    [&lt;ffffffff832aec6d&gt;] mlxsw_sp_acl_ruleset_get+0x34d/0x7a0
+    [&lt;ffffffff832bc195&gt;] mlxsw_sp_flower_tmplt_create+0x145/0x180
+    [&lt;ffffffff832b2e1a&gt;] mlxsw_sp_flow_block_cb+0x1ea/0x280
+    [&lt;ffffffff83a10613&gt;] tc_setup_cb_call+0x183/0x340
+    [&lt;ffffffff83a9f85a&gt;] fl_tmplt_create+0x3da/0x4c0
+    [&lt;ffffffff83a22435&gt;] tc_ctl_chain+0xa15/0x1170
+    [&lt;ffffffff838a863c&gt;] rtnetlink_rcv_msg+0x3cc/0xed0
+    [&lt;ffffffff83ac87f0&gt;] netlink_rcv_skb+0x170/0x440
+    [&lt;ffffffff83ac6270&gt;] netlink_unicast+0x540/0x820
+    [&lt;ffffffff83ac6e28&gt;] netlink_sendmsg+0x8d8/0xda0
+    [&lt;ffffffff83793def&gt;] ____sys_sendmsg+0x30f/0xa80
+    [&lt;ffffffff8379d29a&gt;] ___sys_sendmsg+0x13a/0x1e0
+    [&lt;ffffffff8379d50c&gt;] __sys_sendmsg+0x11c/0x1f0
+    [&lt;ffffffff843b9ce0&gt;] do_syscall_64+0x40/0xe0
+unreferenced object 0xffff88816d2c0400 (size 1024):
+  comm "tc", pid 1079, jiffies 4294958525 (age 3074.287s)
+  hex dump (first 32 bytes):
+    40 00 00 00 00 00 00 00 57 f6 38 be 00 00 00 00  @.......W.8.....
+    10 04 2c 6d 81 88 ff ff 10 04 2c 6d 81 88 ff ff  ..,m......,m....
+  backtrace:
+    [&lt;ffffffff81c06a68&gt;] __kmem_cache_alloc_node+0x1e8/0x320
+    [&lt;ffffffff81ab36c1&gt;] __kmalloc_node+0x51/0x90
+    [&lt;ffffffff81a8ed96&gt;] kvmalloc_node+0xa6/0x1f0
+    [&lt;ffffffff82827d03&gt;] bucket_table_alloc.isra.0+0x83/0x460
+    [&lt;ffffffff82828d2b&gt;] rhashtable_init+0x43b/0x7c0
+    [&lt;ffffffff832aed48&gt;] mlxsw_sp_acl_ruleset_get+0x428/0x7a0
+    [&lt;ffffffff832bc195&gt;] mlxsw_sp_flower_tmplt_create+0x145/0x180
+    [&lt;ffffffff832b2e1a&gt;] mlxsw_sp_flow_block_cb+0x1ea/0x280
+    [&lt;ffffffff83a10613&gt;] tc_setup_cb_call+0x183/0x340
+    [&lt;ffffffff83a9f85a&gt;] fl_tmplt_create+0x3da/0x4c0
+    [&lt;ffffffff83a22435&gt;] tc_ctl_chain+0xa15/0x1170
+    [&lt;ffffffff838a863c&gt;] rtnetlink_rcv_msg+0x3cc/0xed0
+    [&lt;ffffffff83ac87f0&gt;] netlink_rcv_skb+0x170/0x440
+    [&lt;ffffffff83ac6270&gt;] netlink_unicast+0x540/0x820
+    [&lt;ffffffff83ac6e28&gt;] netlink_sendmsg+0x8d8/0xda0
+    [&lt;ffffffff83793def&gt;] ____sys_sendmsg+0x30f/0xa80
+
+[2]
+ # tc qdisc add dev swp1 clsact
+ # tc chain add dev swp1 ingress proto ip chain 1 flower dst_ip 0.0.0.0/32
+ # tc qdisc del dev
+---truncated---</description><pubDate>Tue, 02 Apr 2024 06:46:29 +0000</pubDate></item><item><title>CVE-2024-26670 | arm64: entry: fix ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26670</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: entry: fix ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+
+Currently the ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD workaround isn't
+quite right, as it is supposed to be applied after the last explicit
+memory access, but is immediately followed by an LDR.
+
+The ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD workaround is used to
+handle Cortex-A520 erratum 2966298 and Cortex-A510 erratum 3117295,
+which are described in:
+
+* https://developer.arm.com/documentation/SDEN2444153/0600/?lang=en
+* https://developer.arm.com/documentation/SDEN1873361/1600/?lang=en
+
+In both cases the workaround is described as:
+
+| If pagetable isolation is disabled, the context switch logic in the
+| kernel can be updated to execute the following sequence on affected
+| cores before exiting to EL0, and after all explicit memory accesses:
+|
+| 1. A non-shareable TLBI to any context and/or address, including
+|    unused contexts or addresses, such as a `TLBI VALE1 Xzr`.
+|
+| 2. A DSB NSH to guarantee completion of the TLBI.
+
+The important part being that the TLBI+DSB must be placed "after all
+explicit memory accesses".
+
+Unfortunately, as-implemented, the TLBI+DSB is immediately followed by
+an LDR, as we have:
+
+| alternative_if ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+| 	tlbi	vale1, xzr
+| 	dsb	nsh
+| alternative_else_nop_endif
+| alternative_if_not ARM64_UNMAP_KERNEL_AT_EL0
+| 	ldr	lr, [sp, #S_LR]
+| 	add	sp, sp, #PT_REGS_SIZE		// restore sp
+| 	eret
+| alternative_else_nop_endif
+|
+| [ ... KPTI exception return path ... ]
+
+This patch fixes this by reworking the logic to place the TLBI+DSB
+immediately before the ERET, after all explicit memory accesses.
+
+The ERET is currently in a separate alternative block, and alternatives
+cannot be nested. To account for this, the alternative block for
+ARM64_UNMAP_KERNEL_AT_EL0 is replaced with a single alternative branch
+to skip the KPTI logic, with the new shape of the logic being:
+
+| alternative_insn "b .L_skip_tramp_exit_\@", nop, ARM64_UNMAP_KERNEL_AT_EL0
+| 	[ ... KPTI exception return path ... ]
+| .L_skip_tramp_exit_\@:
+|
+| 	ldr	lr, [sp, #S_LR]
+| 	add	sp, sp, #PT_REGS_SIZE		// restore sp
+|
+| alternative_if ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+| 	tlbi	vale1, xzr
+| 	dsb	nsh
+| alternative_else_nop_endif
+| 	eret
+
+The new structure means that the workaround is only applied when KPTI is
+not in use; this is fine as noted in the documented implications of the
+erratum:
+
+| Pagetable isolation between EL0 and higher level ELs prevents the
+| issue from occurring.
+
+... and as per the workaround description quoted above, the workaround
+is only necessary "If pagetable isolation is disabled".</description><pubDate>Tue, 02 Apr 2024 06:46:29 +0000</pubDate></item><item><title>CVE-2023-52630 | blk-iocost: Fix an UBSAN shift-out-of-bounds warning</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52630</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 blk-iocost: Fix an UBSAN shift-out-of-bounds warning
 
