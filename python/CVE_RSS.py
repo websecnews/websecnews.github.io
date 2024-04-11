@@ -9,6 +9,7 @@ import html
 from feedgen.feed import FeedGenerator
 import feedparser
 import sys
+import time
 
 def getEnDescription(json):
     for lang in json:
@@ -39,6 +40,17 @@ def addItemToRSS(fe, CVEdata):
     
     fe.pubDate(pubdate)
     
+    return
+
+
+def addExistingItemToRSS(fe, CVEid):
+    for entry in rss.entries:
+        link = "https://www.cve.org/CVERecord?id=" + CVEid
+        if (entry['links'][0]['href'] == link):
+            fe.title(entry.title)
+            fe.link(href=link)
+            fe.description(entry.description)
+            fe.pubDate(entry.published)
     return
 
 def getCVEdate(CVEid):
@@ -89,24 +101,29 @@ else:
     rss = feedparser.parse(RSS_FEED)
     for entry in rss.entries:
         knownURLs.append(entry['links'][0]['href'])
-
+now = time.time()
 new_commits = repo.get_commits(since=daysAgo)
 print(new_commits.totalCount)
-
 for commit in new_commits:
     if "(0 new |" in commit.commit.message:
         continue
-    newFiles = getNewCVE(commit.files)
+    commitFiles = commit.files
+    newFiles = getNewCVE(commitFiles)
     for fileCVE in newFiles:
-        CVEdata = json.loads(repo.get_contents(fileCVE.filename).decoded_content.decode())
-        CVEURL = "https://www.cve.org/CVERecord?id=" + CVEdata["cveMetadata"]["cveId"]
-        if (CVEdata['cveMetadata']['state'].lower() != 'PUBLISHED'.lower()):
-            continue
-        if (not hasNewItem and CVEURL not in knownURLs):
-            hasNewItem = True
-        fe = fg.add_entry(order='append')
-        addItemToRSS(fe, CVEdata)
+        #print(fileCVE.filename)
+        CVEid = re.search(r"cves[/\d/x]+/(CVE-[\d]+-[\d]+)\.json", fileCVE.filename).group(1)
+        if ("https://www.cve.org/CVERecord?id=" + CVEid in knownURLs):
+            fe = fg.add_entry(order='append')
+            addExistingItemToRSS(fe, CVEid)
+        else:
+            CVEdata = json.loads(repo.get_contents(fileCVE.filename).decoded_content.decode())
+            if (CVEdata['cveMetadata']['state'].lower() != 'PUBLISHED'.lower()):
+                continue
+            if (not hasNewItem):
+                print("New CVE {}".format(CVEdata["cveMetadata"]["cveId"]))
+                hasNewItem = True
+            fe = fg.add_entry(order='append')
+            addItemToRSS(fe, CVEdata)
 if (hasNewItem):
     print("New CVE in feed!")
     fg.rss_file(RSS_FEED)
-        
