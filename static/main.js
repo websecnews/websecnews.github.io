@@ -103,7 +103,7 @@ function getSectionsName(){
 		function fillPage(pageName){
 			
 			window.currentPage = pageName;	
-			
+			console.log(pageName)
 			switch (pageName){
 			
 				case 'blogs_today':
@@ -118,6 +118,12 @@ function getSectionsName(){
 					break;
 				case 'cve_yesterday':
 					jsonPath = "/states/cve_yesterday.json";
+					break;
+				case 'advisories_today':
+					jsonPath = "/states/advisories_today.json";
+					break;
+				case 'advisories_yesterday':
+					jsonPath = "/states/advisories_yesterday.json";
 					break;
 				case 'about':
 					generateAbout();
