@@ -2,13 +2,14 @@ import feedparser
 import json
 import requests
 from datetime import datetime
-from time import mktime
+from datetime import timezone
 import html
 import telebot
 import dateparser
 import os
 import sys
 import argparse
+import calendar
 
 
 
@@ -55,7 +56,12 @@ class Feeds:
 
     def getFeed(self, source, feedName):
         rssURL = self.sources[source][feedName]['rss']
-        rss = feedparser.parse(rssURL)
+        try:
+            content = requests.get(rssURL, headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.90 Safari/537.36", "Accept-Language": "en-US;q=0.9,en;q=0.8"}, timeout=10).content
+        except Exception as e:
+            print("Feed {} is not available!".format(rssURL))
+            return None
+        rss = feedparser.parse(content)
 
         return rss
 
@@ -68,12 +74,12 @@ class Feeds:
         return clearEntry
 
     def getDate(self, entry):
-        if hasattr(entry, 'published_parsed'):
-            pubDate = datetime.fromtimestamp(mktime(entry.published_parsed))
-        elif hasattr(entry, 'updated_parsed'):
-            pubDate = datetime.fromtimestamp(mktime(entry.updated_parsed))
+        if hasattr(entry, 'published'):
+            pubDate = dateparser.parse(entry.published, settings={'TIMEZONE': 'UTC'})
+        elif hasattr(entry, 'updated'):
+            pubDate = dateparser.parse(entry.updated, settings={'TIMEZONE': 'UTC'})
         else:
-            pubDate = dateparser.parse(entry.updated_date)
+            pubDate = dateparser.parse(entry.updated_date, settings={'TIMEZONE': 'UTC'})
             
         return pubDate
         
@@ -91,6 +97,8 @@ class Feeds:
                 empty = not title in self.newInfo
                 try:
                     feedInfo = self.getFeed(src, feed)
+                    if feedInfo == None:
+                        continue
                 except Exception as e:
                     print(e)
                     continue
@@ -98,6 +106,10 @@ class Feeds:
                     feedInfo.entries.reverse()
                 for entry in feedInfo.entries:
                     pubDate = self.getDate(entry)
+                    # print(entry.title)
+                    # print(timeBorder)
+                    # print(pubDate)
+                    # exit()
                     if (pubDate > timeBorder):
                         currentEntry = self.parseEntry(entry)
                         if empty:
@@ -174,7 +186,7 @@ if not os.path.isfile(stateFile):
     with open(stateFile, "w") as file:
         json.dump({"lastRun": str(nowTime.date())}, file)
     feedConfig = Feeds(feedFilePath)
-    feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y'))
+    feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y').replace(tzinfo=timezone.utc))
     feedConfig.saveNewsToJson(todayFilename)
 else:
     nowTime = datetime.utcnow()
@@ -188,22 +200,12 @@ else:
         with open(stateFile, "w") as file:
             json.dump({"lastRun": str(nowTime.date())}, file)
         feedConfig = Feeds(feedFilePath)
-        feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y'))
+        feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y').replace(tzinfo=timezone.utc))
         feedConfig.saveNewsToJson(todayFilename)
     else:
         print("Same day, updating...!")
         with open(stateFile, "w") as file:
             json.dump({"lastRun": str(nowTime.date())}, file)
         feedConfig = Feeds(feedFilePath, todayFilename)
-        feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y'))
+        feedConfig.getNewInfo(datetime.strptime(nowTime.strftime("%m-%d-%Y"), '%m-%d-%Y').replace(tzinfo=timezone.utc))
         feedConfig.saveNewsToJson(todayFilename)
-    
-
-
-
-
-
-
-
-
-
