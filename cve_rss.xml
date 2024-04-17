@@ -1,5 +1,408 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 17 Apr 2024 09:53:55 +0000</lastBuildDate><item><title>CVE-2024-32510 | WordPress WP Cost Estimation &amp;amp; Payment Forms Builder plugin &amp;lt;= 10.1.75 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32510</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Loopus WP Cost Estimation &amp; Payment Forms Builder allows Reflected XSS.This issue affects WP Cost Estimation &amp; Payment Forms Builder: from n/a through 10.1.75.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2024-32526 | WordPress Easy Textillate plugin &amp;lt;= 2.02 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32526</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Flector Easy Textillate allows Stored XSS.This issue affects Easy Textillate: from n/a through 2.02.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2024-32527 | WordPress Jotform Online Forms plugin &amp;lt;= 1.3.1 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32527</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Jotform Jotform Online Forms allows Stored XSS.This issue affects Jotform Online Forms: from n/a through 1.3.1.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2023-52642 | media: rc: bpf attach/detach requires write permission</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52642</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 17 Apr 2024 10:11:25 +0000</lastBuildDate><item><title>CVE-2024-1350 | WordPress Honeypot for WP Comment plugin &amp;lt;= 2.2.3 - Arbitrary File Deletion vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-1350</link><description>Missing Authorization vulnerability in Prasidhda Malla Honeypot for WP Comment.This issue affects Honeypot for WP Comment: from n/a through 2.2.3.</description><pubDate>Wed, 17 Apr 2024 10:11:26 +0000</pubDate></item><item><title>CVE-2024-26832 | mm: zswap: fix missing folio cleanup in writeback race path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26832</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: zswap: fix missing folio cleanup in writeback race path
+
+In zswap_writeback_entry(), after we get a folio from
+__read_swap_cache_async(), we grab the tree lock again to check that the
+swap entry was not invalidated and recycled.  If it was, we delete the
+folio we just added to the swap cache and exit.
+
+However, __read_swap_cache_async() returns the folio locked when it is
+newly allocated, which is always true for this path, and the folio is
+ref'd.  Make sure to unlock and put the folio before returning.
+
+This was discovered by code inspection, probably because this path handles
+a race condition that should not happen often, and the bug would not crash
+the system, it will only strand the folio indefinitely.</description><pubDate>Wed, 17 Apr 2024 10:11:27 +0000</pubDate></item><item><title>CVE-2024-26833 | drm/amd/display: Fix memory leak in dm_sw_fini()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26833</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix memory leak in dm_sw_fini()
+
+After destroying dmub_srv, the memory associated with it is
+not freed, causing a memory leak:
+
+unreferenced object 0xffff896302b45800 (size 1024):
+  comm "(udev-worker)", pid 222, jiffies 4294894636
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 6265fd77):
+    [&lt;ffffffff993495ed&gt;] kmalloc_trace+0x29d/0x340
+    [&lt;ffffffffc0ea4a94&gt;] dm_dmub_sw_init+0xb4/0x450 [amdgpu]
+    [&lt;ffffffffc0ea4e55&gt;] dm_sw_init+0x15/0x2b0 [amdgpu]
+    [&lt;ffffffffc0ba8557&gt;] amdgpu_device_init+0x1417/0x24e0 [amdgpu]
+    [&lt;ffffffffc0bab285&gt;] amdgpu_driver_load_kms+0x15/0x190 [amdgpu]
+    [&lt;ffffffffc0ba09c7&gt;] amdgpu_pci_probe+0x187/0x4e0 [amdgpu]
+    [&lt;ffffffff9968fd1e&gt;] local_pci_probe+0x3e/0x90
+    [&lt;ffffffff996918a3&gt;] pci_device_probe+0xc3/0x230
+    [&lt;ffffffff99805872&gt;] really_probe+0xe2/0x480
+    [&lt;ffffffff99805c98&gt;] __driver_probe_device+0x78/0x160
+    [&lt;ffffffff99805daf&gt;] driver_probe_device+0x1f/0x90
+    [&lt;ffffffff9980601e&gt;] __driver_attach+0xce/0x1c0
+    [&lt;ffffffff99803170&gt;] bus_for_each_dev+0x70/0xc0
+    [&lt;ffffffff99804822&gt;] bus_add_driver+0x112/0x210
+    [&lt;ffffffff99807245&gt;] driver_register+0x55/0x100
+    [&lt;ffffffff990012d1&gt;] do_one_initcall+0x41/0x300
+
+Fix this by freeing dmub_srv after destroying it.</description><pubDate>Wed, 17 Apr 2024 10:11:27 +0000</pubDate></item><item><title>CVE-2024-26834 | netfilter: nft_flow_offload: release dst in case direct xmit path is used</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26834</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nft_flow_offload: release dst in case direct xmit path is used
+
+Direct xmit does not use it since it calls dev_queue_xmit() to send
+packets, hence it calls dst_release().
+
+kmemleak reports:
+
+unreferenced object 0xffff88814f440900 (size 184):
+  comm "softirq", pid 0, jiffies 4294951896
+  hex dump (first 32 bytes):
+    00 60 5b 04 81 88 ff ff 00 e6 e8 82 ff ff ff ff  .`[.............
+    21 0b 50 82 ff ff ff ff 00 00 00 00 00 00 00 00  !.P.............
+  backtrace (crc cb2bf5d6):
+    [&lt;000000003ee17107&gt;] kmem_cache_alloc+0x286/0x340
+    [&lt;0000000021a5de2c&gt;] dst_alloc+0x43/0xb0
+    [&lt;00000000f0671159&gt;] rt_dst_alloc+0x2e/0x190
+    [&lt;00000000fe5092c9&gt;] __mkroute_output+0x244/0x980
+    [&lt;000000005fb96fb0&gt;] ip_route_output_flow+0xc0/0x160
+    [&lt;0000000045367433&gt;] nf_ip_route+0xf/0x30
+    [&lt;0000000085da1d8e&gt;] nf_route+0x2d/0x60
+    [&lt;00000000d1ecd1cb&gt;] nft_flow_route+0x171/0x6a0 [nft_flow_offload]
+    [&lt;00000000d9b2fb60&gt;] nft_flow_offload_eval+0x4e8/0x700 [nft_flow_offload]
+    [&lt;000000009f447dbb&gt;] expr_call_ops_eval+0x53/0x330 [nf_tables]
+    [&lt;00000000072e1be6&gt;] nft_do_chain+0x17c/0x840 [nf_tables]
+    [&lt;00000000d0551029&gt;] nft_do_chain_inet+0xa1/0x210 [nf_tables]
+    [&lt;0000000097c9d5c6&gt;] nf_hook_slow+0x5b/0x160
+    [&lt;0000000005eccab1&gt;] ip_forward+0x8b6/0x9b0
+    [&lt;00000000553a269b&gt;] ip_rcv+0x221/0x230
+    [&lt;00000000412872e5&gt;] __netif_receive_skb_one_core+0xfe/0x110</description><pubDate>Wed, 17 Apr 2024 10:11:27 +0000</pubDate></item><item><title>CVE-2024-26835 | netfilter: nf_tables: set dormant flag on hook register failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26835</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_tables: set dormant flag on hook register failure
+
+We need to set the dormant flag again if we fail to register
+the hooks.
+
+During memory pressure hook registration can fail and we end up
+with a table marked as active but no registered hooks.
+
+On table/base chain deletion, nf_tables will attempt to unregister
+the hook again which yields a warn splat from the nftables core.</description><pubDate>Wed, 17 Apr 2024 10:11:28 +0000</pubDate></item><item><title>CVE-2024-26836 | platform/x86: think-lmi: Fix password opcode ordering for workstations</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26836</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86: think-lmi: Fix password opcode ordering for workstations
+
+The Lenovo workstations require the password opcode to be run before
+the attribute value is changed (if Admin password is enabled).
+
+Tested on some Thinkpads to confirm they are OK with this order too.</description><pubDate>Wed, 17 Apr 2024 10:11:28 +0000</pubDate></item><item><title>CVE-2024-26837 | net: bridge: switchdev: Skip MDB replays of deferred events on offload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26837</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: bridge: switchdev: Skip MDB replays of deferred events on offload
+
+Before this change, generation of the list of MDB events to replay
+would race against the creation of new group memberships, either from
+the IGMP/MLD snooping logic or from user configuration.
+
+While new memberships are immediately visible to walkers of
+br-&gt;mdb_list, the notification of their existence to switchdev event
+subscribers is deferred until a later point in time. So if a replay
+list was generated during a time that overlapped with such a window,
+it would also contain a replay of the not-yet-delivered event.
+
+The driver would thus receive two copies of what the bridge internally
+considered to be one single event. On destruction of the bridge, only
+a single membership deletion event was therefore sent. As a
+consequence of this, drivers which reference count memberships (at
+least DSA), would be left with orphan groups in their hardware
+database when the bridge was destroyed.
+
+This is only an issue when replaying additions. While deletion events
+may still be pending on the deferred queue, they will already have
+been removed from br-&gt;mdb_list, so no duplicates can be generated in
+that scenario.
+
+To a user this meant that old group memberships, from a bridge in
+which a port was previously attached, could be reanimated (in
+hardware) when the port joined a new bridge, without the new bridge's
+knowledge.
+
+For example, on an mv88e6xxx system, create a snooping bridge and
+immediately add a port to it:
+
+    root@infix-06-0b-00:~$ ip link add dev br0 up type bridge mcast_snooping 1 &amp;&amp; \
+    &gt; ip link set dev x3 up master br0
+
+And then destroy the bridge:
+
+    root@infix-06-0b-00:~$ ip link del dev br0
+    root@infix-06-0b-00:~$ mvls atu
+    ADDRESS             FID  STATE      Q  F  0  1  2  3  4  5  6  7  8  9  a
+    DEV:0 Marvell 88E6393X
+    33:33:00:00:00:6a     1  static     -  -  0  .  .  .  .  .  .  .  .  .  .
+    33:33:ff:87:e4:3f     1  static     -  -  0  .  .  .  .  .  .  .  .  .  .
+    ff:ff:ff:ff:ff:ff     1  static     -  -  0  1  2  3  4  5  6  7  8  9  a
+    root@infix-06-0b-00:~$
+
+The two IPv6 groups remain in the hardware database because the
+port (x3) is notified of the host's membership twice: once via the
+original event and once via a replay. Since only a single delete
+notification is sent, the count remains at 1 when the bridge is
+destroyed.
+
+Then add the same port (or another port belonging to the same hardware
+domain) to a new bridge, this time with snooping disabled:
+
+    root@infix-06-0b-00:~$ ip link add dev br1 up type bridge mcast_snooping 0 &amp;&amp; \
+    &gt; ip link set dev x3 up master br1
+
+All multicast, including the two IPv6 groups from br0, should now be
+flooded, according to the policy of br1. But instead the old
+memberships are still active in the hardware database, causing the
+switch to only forward traffic to those groups towards the CPU (port
+0).
+
+Eliminate the race in two steps:
+
+1. Grab the write-side lock of the MDB while generating the replay
+   list.
+
+This prevents new memberships from showing up while we are generating
+the replay list. But it leaves the scenario in which a deferred event
+was already generated, but not delivered, before we grabbed the
+lock. Therefore:
+
+2. Make sure that no deferred version of a replay event is already
+   enqueued to the switchdev deferred queue, before adding it to the
+   replay list, when replaying additions.</description><pubDate>Wed, 17 Apr 2024 10:11:28 +0000</pubDate></item><item><title>CVE-2024-26838 | RDMA/irdma: Fix KASAN issue with tasklet</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26838</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/irdma: Fix KASAN issue with tasklet
+
+KASAN testing revealed the following issue assocated with freeing an IRQ.
+
+[50006.466686] Call Trace:
+[50006.466691]  &lt;IRQ&gt;
+[50006.489538]  dump_stack+0x5c/0x80
+[50006.493475]  print_address_description.constprop.6+0x1a/0x150
+[50006.499872]  ? irdma_sc_process_ceq+0x483/0x790 [irdma]
+[50006.505742]  ? irdma_sc_process_ceq+0x483/0x790 [irdma]
+[50006.511644]  kasan_report.cold.11+0x7f/0x118
+[50006.516572]  ? irdma_sc_process_ceq+0x483/0x790 [irdma]
+[50006.522473]  irdma_sc_process_ceq+0x483/0x790 [irdma]
+[50006.528232]  irdma_process_ceq+0xb2/0x400 [irdma]
+[50006.533601]  ? irdma_hw_flush_wqes_callback+0x370/0x370 [irdma]
+[50006.540298]  irdma_ceq_dpc+0x44/0x100 [irdma]
+[50006.545306]  tasklet_action_common.isra.14+0x148/0x2c0
+[50006.551096]  __do_softirq+0x1d0/0xaf8
+[50006.555396]  irq_exit_rcu+0x219/0x260
+[50006.559670]  irq_exit+0xa/0x20
+[50006.563320]  smp_apic_timer_interrupt+0x1bf/0x690
+[50006.568645]  apic_timer_interrupt+0xf/0x20
+[50006.573341]  &lt;/IRQ&gt;
+
+The issue is that a tasklet could be pending on another core racing
+the delete of the irq.
+
+Fix by insuring any scheduled tasklet is killed after deleting the
+irq.</description><pubDate>Wed, 17 Apr 2024 10:11:29 +0000</pubDate></item><item><title>CVE-2024-26839 | IB/hfi1: Fix a memleak in init_credit_return</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26839</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+IB/hfi1: Fix a memleak in init_credit_return
+
+When dma_alloc_coherent fails to allocate dd-&gt;cr_base[i].va,
+init_credit_return should deallocate dd-&gt;cr_base and
+dd-&gt;cr_base[i] that allocated before. Or those resources
+would be never freed and a memleak is triggered.</description><pubDate>Wed, 17 Apr 2024 10:11:29 +0000</pubDate></item><item><title>CVE-2024-26840 | cachefiles: fix memory leak in cachefiles_add_cache()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26840</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cachefiles: fix memory leak in cachefiles_add_cache()
+
+The following memory leak was reported after unbinding /dev/cachefiles:
+
+==================================================================
+unreferenced object 0xffff9b674176e3c0 (size 192):
+  comm "cachefilesd2", pid 680, jiffies 4294881224
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc ea38a44b):
+    [&lt;ffffffff8eb8a1a5&gt;] kmem_cache_alloc+0x2d5/0x370
+    [&lt;ffffffff8e917f86&gt;] prepare_creds+0x26/0x2e0
+    [&lt;ffffffffc002eeef&gt;] cachefiles_determine_cache_security+0x1f/0x120
+    [&lt;ffffffffc00243ec&gt;] cachefiles_add_cache+0x13c/0x3a0
+    [&lt;ffffffffc0025216&gt;] cachefiles_daemon_write+0x146/0x1c0
+    [&lt;ffffffff8ebc4a3b&gt;] vfs_write+0xcb/0x520
+    [&lt;ffffffff8ebc5069&gt;] ksys_write+0x69/0xf0
+    [&lt;ffffffff8f6d4662&gt;] do_syscall_64+0x72/0x140
+    [&lt;ffffffff8f8000aa&gt;] entry_SYSCALL_64_after_hwframe+0x6e/0x76
+==================================================================
+
+Put the reference count of cache_cred in cachefiles_daemon_unbind() to
+fix the problem. And also put cache_cred in cachefiles_add_cache() error
+branch to avoid memory leaks.</description><pubDate>Wed, 17 Apr 2024 10:11:29 +0000</pubDate></item><item><title>CVE-2024-26841 | LoongArch: Update cpu_sibling_map when disabling nonboot CPUs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26841</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+LoongArch: Update cpu_sibling_map when disabling nonboot CPUs
+
+Update cpu_sibling_map when disabling nonboot CPUs by defining &amp; calling
+clear_cpu_sibling_map(), otherwise we get such errors on SMT systems:
+
+jump label: negative count!
+WARNING: CPU: 6 PID: 45 at kernel/jump_label.c:263 __static_key_slow_dec_cpuslocked+0xec/0x100
+CPU: 6 PID: 45 Comm: cpuhp/6 Not tainted 6.8.0-rc5+ #1340
+pc 90000000004c302c ra 90000000004c302c tp 90000001005bc000 sp 90000001005bfd20
+a0 000000000000001b a1 900000000224c278 a2 90000001005bfb58 a3 900000000224c280
+a4 900000000224c278 a5 90000001005bfb50 a6 0000000000000001 a7 0000000000000001
+t0 ce87a4763eb5234a t1 ce87a4763eb5234a t2 0000000000000000 t3 0000000000000000
+t4 0000000000000006 t5 0000000000000000 t6 0000000000000064 t7 0000000000001964
+t8 000000000009ebf6 u0 9000000001f2a068 s9 0000000000000000 s0 900000000246a2d8
+s1 ffffffffffffffff s2 ffffffffffffffff s3 90000000021518c0 s4 0000000000000040
+s5 9000000002151058 s6 9000000009828e40 s7 00000000000000b4 s8 0000000000000006
+   ra: 90000000004c302c __static_key_slow_dec_cpuslocked+0xec/0x100
+  ERA: 90000000004c302c __static_key_slow_dec_cpuslocked+0xec/0x100
+ CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+ PRMD: 00000004 (PPLV0 +PIE -PWE)
+ EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+ ECFG: 00071c1c (LIE=2-4,10-12 VS=7)
+ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
+ PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
+CPU: 6 PID: 45 Comm: cpuhp/6 Not tainted 6.8.0-rc5+ #1340
+Stack : 0000000000000000 900000000203f258 900000000179afc8 90000001005bc000
+        90000001005bf980 0000000000000000 90000001005bf988 9000000001fe0be0
+        900000000224c280 900000000224c278 90000001005bf8c0 0000000000000001
+        0000000000000001 ce87a4763eb5234a 0000000007f38000 90000001003f8cc0
+        0000000000000000 0000000000000006 0000000000000000 4c206e6f73676e6f
+        6f4c203a656d616e 000000000009ec99 0000000007f38000 0000000000000000
+        900000000214b000 9000000001fe0be0 0000000000000004 0000000000000000
+        0000000000000107 0000000000000009 ffffffffffafdabe 00000000000000b4
+        0000000000000006 90000000004c302c 9000000000224528 00005555939a0c7c
+        00000000000000b0 0000000000000004 0000000000000000 0000000000071c1c
+        ...
+Call Trace:
+[&lt;9000000000224528&gt;] show_stack+0x48/0x1a0
+[&lt;900000000179afc8&gt;] dump_stack_lvl+0x78/0xa0
+[&lt;9000000000263ed0&gt;] __warn+0x90/0x1a0
+[&lt;90000000017419b8&gt;] report_bug+0x1b8/0x280
+[&lt;900000000179c564&gt;] do_bp+0x264/0x420
+[&lt;90000000004c302c&gt;] __static_key_slow_dec_cpuslocked+0xec/0x100
+[&lt;90000000002b4d7c&gt;] sched_cpu_deactivate+0x2fc/0x300
+[&lt;9000000000266498&gt;] cpuhp_invoke_callback+0x178/0x8a0
+[&lt;9000000000267f70&gt;] cpuhp_thread_fun+0xf0/0x240
+[&lt;90000000002a117c&gt;] smpboot_thread_fn+0x1dc/0x2e0
+[&lt;900000000029a720&gt;] kthread+0x140/0x160
+[&lt;9000000000222288&gt;] ret_from_kernel_thread+0xc/0xa4</description><pubDate>Wed, 17 Apr 2024 10:11:30 +0000</pubDate></item><item><title>CVE-2024-26842 | scsi: ufs: core: Fix shift issue in ufshcd_clear_cmd()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26842</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: core: Fix shift issue in ufshcd_clear_cmd()
+
+When task_tag &gt;= 32 (in MCQ mode) and sizeof(unsigned int) == 4, 1U &lt;&lt;
+task_tag will out of bounds for a u32 mask. Fix this up to prevent
+SHIFT_ISSUE (bitwise shifts that are out of bounds for their data type).
+
+[name:debug_monitors&amp;]Unexpected kernel BRK exception at EL1
+[name:traps&amp;]Internal error: BRK handler: 00000000f2005514 [#1] PREEMPT SMP
+[name:mediatek_cpufreq_hw&amp;]cpufreq stop DVFS log done
+[name:mrdump&amp;]Kernel Offset: 0x1ba5800000 from 0xffffffc008000000
+[name:mrdump&amp;]PHYS_OFFSET: 0x80000000
+[name:mrdump&amp;]pstate: 22400005 (nzCv daif +PAN -UAO)
+[name:mrdump&amp;]pc : [0xffffffdbaf52bb2c] ufshcd_clear_cmd+0x280/0x288
+[name:mrdump&amp;]lr : [0xffffffdbaf52a774] ufshcd_wait_for_dev_cmd+0x3e4/0x82c
+[name:mrdump&amp;]sp : ffffffc0081471b0
+&lt;snip&gt;
+Workqueue: ufs_eh_wq_0 ufshcd_err_handler
+Call trace:
+ dump_backtrace+0xf8/0x144
+ show_stack+0x18/0x24
+ dump_stack_lvl+0x78/0x9c
+ dump_stack+0x18/0x44
+ mrdump_common_die+0x254/0x480 [mrdump]
+ ipanic_die+0x20/0x30 [mrdump]
+ notify_die+0x15c/0x204
+ die+0x10c/0x5f8
+ arm64_notify_die+0x74/0x13c
+ do_debug_exception+0x164/0x26c
+ el1_dbg+0x64/0x80
+ el1h_64_sync_handler+0x3c/0x90
+ el1h_64_sync+0x68/0x6c
+ ufshcd_clear_cmd+0x280/0x288
+ ufshcd_wait_for_dev_cmd+0x3e4/0x82c
+ ufshcd_exec_dev_cmd+0x5bc/0x9ac
+ ufshcd_verify_dev_init+0x84/0x1c8
+ ufshcd_probe_hba+0x724/0x1ce0
+ ufshcd_host_reset_and_restore+0x260/0x574
+ ufshcd_reset_and_restore+0x138/0xbd0
+ ufshcd_err_handler+0x1218/0x2f28
+ process_one_work+0x5fc/0x1140
+ worker_thread+0x7d8/0xe20
+ kthread+0x25c/0x468
+ ret_from_fork+0x10/0x20</description><pubDate>Wed, 17 Apr 2024 10:11:30 +0000</pubDate></item><item><title>CVE-2024-26843 | efi: runtime: Fix potential overflow of soft-reserved region size</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26843</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efi: runtime: Fix potential overflow of soft-reserved region size
+
+md_size will have been narrowed if we have &gt;= 4GB worth of pages in a
+soft-reserved region.</description><pubDate>Wed, 17 Apr 2024 10:11:30 +0000</pubDate></item><item><title>CVE-2024-26844 | block: Fix WARNING in _copy_from_iter</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26844</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: Fix WARNING in _copy_from_iter
+
+Syzkaller reports a warning in _copy_from_iter because an
+iov_iter is supposedly used in the wrong direction. The reason
+is that syzcaller managed to generate a request with
+a transfer direction of SG_DXFER_TO_FROM_DEV. This instructs
+the kernel to copy user buffers into the kernel, read into
+the copied buffers and then copy the data back to user space.
+
+Thus the iovec is used in both directions.
+
+Detect this situation in the block layer and construct a new
+iterator with the correct direction for the copy-in.</description><pubDate>Wed, 17 Apr 2024 10:11:31 +0000</pubDate></item><item><title>CVE-2024-26845 | scsi: target: core: Add TMF to tmr_list handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26845</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: target: core: Add TMF to tmr_list handling
+
+An abort that is responded to by iSCSI itself is added to tmr_list but does
+not go to target core. A LUN_RESET that goes through tmr_list takes a
+refcounter on the abort and waits for completion. However, the abort will
+be never complete because it was not started in target core.
+
+ Unable to locate ITT: 0x05000000 on CID: 0
+ Unable to locate RefTaskTag: 0x05000000 on CID: 0.
+ wait_for_tasks: Stopping tmf LUN_RESET with tag 0x0 ref_task_tag 0x0 i_state 34 t_state ISTATE_PROCESSING refcnt 2 transport_state active,stop,fabric_stop
+ wait for tasks: tmf LUN_RESET with tag 0x0 ref_task_tag 0x0 i_state 34 t_state ISTATE_PROCESSING refcnt 2 transport_state active,stop,fabric_stop
+...
+ INFO: task kworker/0:2:49 blocked for more than 491 seconds.
+ task:kworker/0:2     state:D stack:    0 pid:   49 ppid:     2 flags:0x00000800
+ Workqueue: events target_tmr_work [target_core_mod]
+Call Trace:
+ __switch_to+0x2c4/0x470
+ _schedule+0x314/0x1730
+ schedule+0x64/0x130
+ schedule_timeout+0x168/0x430
+ wait_for_completion+0x140/0x270
+ target_put_cmd_and_wait+0x64/0xb0 [target_core_mod]
+ core_tmr_lun_reset+0x30/0xa0 [target_core_mod]
+ target_tmr_work+0xc8/0x1b0 [target_core_mod]
+ process_one_work+0x2d4/0x5d0
+ worker_thread+0x78/0x6c0
+
+To fix this, only add abort to tmr_list if it will be handled by target
+core.</description><pubDate>Wed, 17 Apr 2024 10:11:31 +0000</pubDate></item><item><title>CVE-2024-26846 | nvme-fc: do not wait in vain when unloading module</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26846</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme-fc: do not wait in vain when unloading module
+
+The module exit path has race between deleting all controllers and
+freeing 'left over IDs'. To prevent double free a synchronization
+between nvme_delete_ctrl and ida_destroy has been added by the initial
+commit.
+
+There is some logic around trying to prevent from hanging forever in
+wait_for_completion, though it does not handling all cases. E.g.
+blktests is able to reproduce the situation where the module unload
+hangs forever.
+
+If we completely rely on the cleanup code executed from the
+nvme_delete_ctrl path, all IDs will be freed eventually. This makes
+calling ida_destroy unnecessary. We only have to ensure that all
+nvme_delete_ctrl code has been executed before we leave
+nvme_fc_exit_module. This is done by flushing the nvme_delete_wq
+workqueue.
+
+While at it, remove the unused nvme_fc_wq workqueue too.</description><pubDate>Wed, 17 Apr 2024 10:11:31 +0000</pubDate></item><item><title>CVE-2024-26829 | media: ir_toy: fix a memleak in irtoy_tx</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26829</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: ir_toy: fix a memleak in irtoy_tx
+
+When irtoy_command fails, buf should be freed since it is allocated by
+irtoy_tx, or there is a memleak.</description><pubDate>Wed, 17 Apr 2024 10:11:32 +0000</pubDate></item><item><title>CVE-2024-32130 | WordPress Payment Forms for Paystack plugin &amp;lt;= 3.4.1 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32130</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Paystack Payment Forms for Paystack allows Stored XSS.This issue affects Payment Forms for Paystack: from n/a through 3.4.1.</description><pubDate>Wed, 17 Apr 2024 10:11:32 +0000</pubDate></item><item><title>CVE-2024-32456 | WordPress Envo Extra plugin &amp;lt;= 1.8.11 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32456</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in EnvoThemes Envo Extra allows Stored XSS.This issue affects Envo Extra: from n/a through 1.8.11.</description><pubDate>Wed, 17 Apr 2024 10:11:33 +0000</pubDate></item><item><title>CVE-2024-32457 | WordPress Elements Plus! plugin &amp;lt;= 2.16.3 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32457</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in The CSSIgniter Team Elements Plus! allows Stored XSS.This issue affects Elements Plus!: from n/a through 2.16.3.</description><pubDate>Wed, 17 Apr 2024 10:11:34 +0000</pubDate></item><item><title>CVE-2024-32505 | WordPress ElementsKit Elementor addons plugin &amp;lt;= 3.0.6 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32505</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Wpmet Elements kit Elementor addons allows Stored XSS.This issue affects Elements kit Elementor addons: from n/a through 3.0.6.</description><pubDate>Wed, 17 Apr 2024 10:11:34 +0000</pubDate></item><item><title>CVE-2024-32508 | WordPress DethemeKit For Elementor plugin &amp;lt;= 2.0.2 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32508</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in deTheme DethemeKit For Elementor allows Stored XSS.This issue affects DethemeKit For Elementor: from n/a through 2.0.2.</description><pubDate>Wed, 17 Apr 2024 10:11:34 +0000</pubDate></item><item><title>CVE-2024-32510 | WordPress WP Cost Estimation &amp;amp; Payment Forms Builder plugin &amp;lt;= 10.1.75 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32510</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Loopus WP Cost Estimation &amp; Payment Forms Builder allows Reflected XSS.This issue affects WP Cost Estimation &amp; Payment Forms Builder: from n/a through 10.1.75.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2024-32526 | WordPress Easy Textillate plugin &amp;lt;= 2.02 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32526</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Flector Easy Textillate allows Stored XSS.This issue affects Easy Textillate: from n/a through 2.02.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2024-32527 | WordPress Jotform Online Forms plugin &amp;lt;= 1.3.1 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32527</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Jotform Jotform Online Forms allows Stored XSS.This issue affects Jotform Online Forms: from n/a through 1.3.1.</description><pubDate>Wed, 17 Apr 2024 09:53:57 +0000</pubDate></item><item><title>CVE-2023-52642 | media: rc: bpf attach/detach requires write permission</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52642</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 media: rc: bpf attach/detach requires write permission
 
@@ -192,12 +595,12 @@ Reproducer:
 [root@host ~]# ip link set enp2s0f0v0 up
 [root@host ~]# ip link set enp2s0f0 vf 0 mac fe:6c:b5:da:c7:7d
 [root@host ~]# ip link show enp2s0f0
-23: enp2s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+23: enp2s0f0:  mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
     link/ether 3c:ec:ef:b7:dd:04 brd ff:ff:ff:ff:ff:ff
     vf 0     link/ether fe:6c:b5:da:c7:7d brd ff:ff:ff:ff:ff:ff, spoof checking on, link-state auto, trust off
 [root@host ~]# ip link set enp2s0f0v0 down
 [root@host ~]# ip link show enp2s0f0
-23: enp2s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+23: enp2s0f0:  mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
     link/ether 3c:ec:ef:b7:dd:04 brd ff:ff:ff:ff:ff:ff
     vf 0     link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff, spoof checking on, link-state auto, trust off</description><pubDate>Wed, 17 Apr 2024 09:54:03 +0000</pubDate></item><item><title>CVE-2024-26831 | net/handshake: Fix handshake_req_destroy_test1</title><link>https://www.cve.org/CVERecord?id=CVE-2024-26831</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -223,7 +626,7 @@ final close is complete before it checks the pointer.
 We cannot use a completion here because if -&gt;hp_destroy is never
 called (ie, there is an API bug) then the test will hang.
 
-Reported by: Guenter Roeck &lt;linux@roeck-us.net&gt;</description><pubDate>Wed, 17 Apr 2024 09:54:03 +0000</pubDate></item><item><title>CVE-2024-32528 | WordPress WP Dynamic Keywords Injector plugin &amp;lt;= 2.3.18 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32528</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Seerox WP Dynamic Keywords Injector allows Reflected XSS.This issue affects WP Dynamic Keywords Injector: from n/a through 2.3.18.</description><pubDate>Wed, 17 Apr 2024 09:54:04 +0000</pubDate></item><item><title>CVE-2024-32529 | WordPress Yoga Schedule Momoyoga plugin &amp;lt;= 2.7.0 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32529</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Momoyoga Yoga Schedule Momoyoga allows Stored XSS.This issue affects Yoga Schedule Momoyoga: from n/a through 2.7.0.</description><pubDate>Wed, 17 Apr 2024 09:44:07 +0000</pubDate></item><item><title>CVE-2024-32530 | WordPress Simple Testimonials Showcase plugin &amp;lt;= 1.1.5 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32530</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in PressTigers Simple Testimonials Showcase allows Stored XSS.This issue affects Simple Testimonials Showcase: from n/a through 1.1.5.</description><pubDate>Wed, 17 Apr 2024 09:34:21 +0000</pubDate></item><item><title>CVE-2024-32531 | WordPress GuCherry Blog theme &amp;lt;= 1.1.8 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32531</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Everest themes GuCherry Blog allows Reflected XSS.This issue affects GuCherry Blog: from n/a through 1.1.8.</description><pubDate>Wed, 17 Apr 2024 09:34:21 +0000</pubDate></item><item><title>CVE-2023-44227 | WordPress Simple File List Plugin &amp;lt;= 6.1.9 is vulnerable to Arbitrary File Deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2023-44227</link><description>Missing Authorization vulnerability in Mitchell Bennis Simple File List.This issue affects Simple File List: from n/a through 6.1.9.</description><pubDate>Wed, 17 Apr 2024 09:34:22 +0000</pubDate></item><item><title>CVE-2023-36505 | WordPress Ninja Forms Plugin &amp;lt;= 3.6.24 is vulnerable to Arbitrary File Deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36505</link><description>Improper Input Validation vulnerability in Saturday Drive Ninja Forms Contact Form.This issue affects Ninja Forms Contact Form : from n/a through 3.6.24.</description><pubDate>Wed, 17 Apr 2024 09:23:46 +0000</pubDate></item><item><title>CVE-2023-25043 | WordPress Data Tables Generator by Supsystic Plugin &amp;lt;= 1.10.25 is vulnerable to Broken Access Control</title><link>https://www.cve.org/CVERecord?id=CVE-2023-25043</link><description>Incorrect Authorization vulnerability in Supsystic Data Tables Generator.This issue affects Data Tables Generator: from n/a through 1.10.25.</description><pubDate>Wed, 17 Apr 2024 09:08:57 +0000</pubDate></item><item><title>CVE-2024-32533 | WordPress LH Add Media From Url plugin &amp;lt;= 1.22 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32533</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Peter Shaw LH Add Media From Url allows Reflected XSS.This issue affects LH Add Media From Url: from n/a through 1.22.</description><pubDate>Wed, 17 Apr 2024 08:53:03 +0000</pubDate></item><item><title>CVE-2024-32534 | WordPress Form Maker plugin &amp;lt;= 1.15.23 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32534</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in 10Web Form Builder Team Form Maker by 10Web allows Stored XSS.This issue affects Form Maker by 10Web: from n/a through 1.15.23.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-32535 | WordPress Access Category Password plugin &amp;lt;= 1.5.1 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32535</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Jojaba Access Category Password allows Reflected XSS.This issue affects Access Category Password: from n/a through 1.5.1.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-32536 | WordPress WP TradingView plugin &amp;lt;= 1.7 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32536</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Trade Pips WP TradingView allows Stored XSS.This issue affects WP TradingView: from n/a through 1.7.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-24856 | NULL pointer deference in acpi_db_convert_to_package of Linux acpi module</title><link>https://www.cve.org/CVERecord?id=CVE-2024-24856</link><description>The memory allocation function ACPI_ALLOCATE_ZEROED does not guarantee a
+Reported by: Guenter Roeck</description><pubDate>Wed, 17 Apr 2024 09:54:03 +0000</pubDate></item><item><title>CVE-2024-32528 | WordPress WP Dynamic Keywords Injector plugin &amp;lt;= 2.3.18 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32528</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Seerox WP Dynamic Keywords Injector allows Reflected XSS.This issue affects WP Dynamic Keywords Injector: from n/a through 2.3.18.</description><pubDate>Wed, 17 Apr 2024 09:54:04 +0000</pubDate></item><item><title>CVE-2024-32529 | WordPress Yoga Schedule Momoyoga plugin &amp;lt;= 2.7.0 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32529</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Momoyoga Yoga Schedule Momoyoga allows Stored XSS.This issue affects Yoga Schedule Momoyoga: from n/a through 2.7.0.</description><pubDate>Wed, 17 Apr 2024 09:44:07 +0000</pubDate></item><item><title>CVE-2024-32530 | WordPress Simple Testimonials Showcase plugin &amp;lt;= 1.1.5 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32530</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in PressTigers Simple Testimonials Showcase allows Stored XSS.This issue affects Simple Testimonials Showcase: from n/a through 1.1.5.</description><pubDate>Wed, 17 Apr 2024 09:34:21 +0000</pubDate></item><item><title>CVE-2024-32531 | WordPress GuCherry Blog theme &amp;lt;= 1.1.8 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32531</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Everest themes GuCherry Blog allows Reflected XSS.This issue affects GuCherry Blog: from n/a through 1.1.8.</description><pubDate>Wed, 17 Apr 2024 09:34:21 +0000</pubDate></item><item><title>CVE-2023-44227 | WordPress Simple File List Plugin &amp;lt;= 6.1.9 is vulnerable to Arbitrary File Deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2023-44227</link><description>Missing Authorization vulnerability in Mitchell Bennis Simple File List.This issue affects Simple File List: from n/a through 6.1.9.</description><pubDate>Wed, 17 Apr 2024 09:34:22 +0000</pubDate></item><item><title>CVE-2023-36505 | WordPress Ninja Forms Plugin &amp;lt;= 3.6.24 is vulnerable to Arbitrary File Deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36505</link><description>Improper Input Validation vulnerability in Saturday Drive Ninja Forms Contact Form.This issue affects Ninja Forms Contact Form : from n/a through 3.6.24.</description><pubDate>Wed, 17 Apr 2024 09:23:46 +0000</pubDate></item><item><title>CVE-2023-25043 | WordPress Data Tables Generator by Supsystic Plugin &amp;lt;= 1.10.25 is vulnerable to Broken Access Control</title><link>https://www.cve.org/CVERecord?id=CVE-2023-25043</link><description>Incorrect Authorization vulnerability in Supsystic Data Tables Generator.This issue affects Data Tables Generator: from n/a through 1.10.25.</description><pubDate>Wed, 17 Apr 2024 09:08:57 +0000</pubDate></item><item><title>CVE-2024-32533 | WordPress LH Add Media From Url plugin &amp;lt;= 1.22 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32533</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Peter Shaw LH Add Media From Url allows Reflected XSS.This issue affects LH Add Media From Url: from n/a through 1.22.</description><pubDate>Wed, 17 Apr 2024 08:53:03 +0000</pubDate></item><item><title>CVE-2024-32534 | WordPress Form Maker plugin &amp;lt;= 1.15.23 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32534</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in 10Web Form Builder Team Form Maker by 10Web allows Stored XSS.This issue affects Form Maker by 10Web: from n/a through 1.15.23.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-32535 | WordPress Access Category Password plugin &amp;lt;= 1.5.1 - Reflected Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32535</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Jojaba Access Category Password allows Reflected XSS.This issue affects Access Category Password: from n/a through 1.5.1.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-32536 | WordPress WP TradingView plugin &amp;lt;= 1.7 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32536</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Trade Pips WP TradingView allows Stored XSS.This issue affects WP TradingView: from n/a through 1.7.</description><pubDate>Wed, 17 Apr 2024 08:53:04 +0000</pubDate></item><item><title>CVE-2024-24856 | NULL pointer deference in acpi_db_convert_to_package of Linux acpi module</title><link>https://www.cve.org/CVERecord?id=CVE-2024-24856</link><description>The memory allocation function ACPI_ALLOCATE_ZEROED does not guarantee a
 successful allocation, but the subsequent code directly dereferences the
 pointer that receives it, which may lead to null pointer dereference.
 
