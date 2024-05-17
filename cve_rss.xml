@@ -1,5 +1,136 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 13:36:48 +0000</lastBuildDate><item><title>CVE-2024-5047 | SourceCodester Student Management System controller.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5047</link><description>A vulnerability classified as critical has been found in SourceCodester Student Management System 1.0. Affected is an unknown function of the file /student/controller.php. The manipulation of the argument photo leads to unrestricted upload. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-264744.</description><pubDate>Fri, 17 May 2024 13:36:49 +0000</pubDate></item><item><title>CVE-2024-5048 | code-projects Budget Management index.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5048</link><description>A vulnerability classified as critical was found in code-projects Budget Management 1.0. Affected by this vulnerability is an unknown functionality of the file /index.php. The manipulation of the argument edit leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The identifier VDB-264745 was assigned to this vulnerability.</description><pubDate>Fri, 17 May 2024 13:36:50 +0000</pubDate></item><item><title>CVE-2024-35795 | drm/amdgpu: fix deadlock while reading mqd from debugfs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35795</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 13:56:10 +0000</lastBuildDate><item><title>CVE-2024-35832 | bcachefs: kvfree bch_fs::snapshots in bch2_fs_snapshots_exit</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35832</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bcachefs: kvfree bch_fs::snapshots in bch2_fs_snapshots_exit
+
+bch_fs::snapshots is allocated by kvzalloc in __snapshot_t_mut.
+It should be freed by kvfree not kfree.
+Or umount will triger:
+
+[  406.829178 ] BUG: unable to handle page fault for address: ffffe7b487148008
+[  406.830676 ] #PF: supervisor read access in kernel mode
+[  406.831643 ] #PF: error_code(0x0000) - not-present page
+[  406.832487 ] PGD 0 P4D 0
+[  406.832898 ] Oops: 0000 [#1] PREEMPT SMP PTI
+[  406.833512 ] CPU: 2 PID: 1754 Comm: umount Kdump: loaded Tainted: G           OE      6.7.0-rc7-custom+ #90
+[  406.834746 ] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.16.3-1-1 04/01/2014
+[  406.835796 ] RIP: 0010:kfree+0x62/0x140
+[  406.836197 ] Code: 80 48 01 d8 0f 82 e9 00 00 00 48 c7 c2 00 00 00 80 48 2b 15 78 9f 1f 01 48 01 d0 48 c1 e8 0c 48 c1 e0 06 48 03 05 56 9f 1f 01 &lt;48&gt; 8b 50 08 48 89 c7 f6 c2 01 0f 85 b0 00 00 00 66 90 48 8b 07 f6
+[  406.837810 ] RSP: 0018:ffffb9d641607e48 EFLAGS: 00010286
+[  406.838213 ] RAX: ffffe7b487148000 RBX: ffffb9d645200000 RCX: ffffb9d641607dc4
+[  406.838738 ] RDX: 000065bb00000000 RSI: ffffffffc0d88b84 RDI: ffffb9d645200000
+[  406.839217 ] RBP: ffff9a4625d00068 R08: 0000000000000001 R09: 0000000000000001
+[  406.839650 ] R10: 0000000000000001 R11: 000000000000001f R12: ffff9a4625d4da80
+[  406.840055 ] R13: ffff9a4625d00000 R14: ffffffffc0e2eb20 R15: 0000000000000000
+[  406.840451 ] FS:  00007f0a264ffb80(0000) GS:ffff9a4e2d500000(0000) knlGS:0000000000000000
+[  406.840851 ] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  406.841125 ] CR2: ffffe7b487148008 CR3: 000000018c4d2000 CR4: 00000000000006f0
+[  406.841464 ] Call Trace:
+[  406.841583 ]  &lt;TASK&gt;
+[  406.841682 ]  ? __die+0x1f/0x70
+[  406.841828 ]  ? page_fault_oops+0x159/0x470
+[  406.842014 ]  ? fixup_exception+0x22/0x310
+[  406.842198 ]  ? exc_page_fault+0x1ed/0x200
+[  406.842382 ]  ? asm_exc_page_fault+0x22/0x30
+[  406.842574 ]  ? bch2_fs_release+0x54/0x280 [bcachefs]
+[  406.842842 ]  ? kfree+0x62/0x140
+[  406.842988 ]  ? kfree+0x104/0x140
+[  406.843138 ]  bch2_fs_release+0x54/0x280 [bcachefs]
+[  406.843390 ]  kobject_put+0xb7/0x170
+[  406.843552 ]  deactivate_locked_super+0x2f/0xa0
+[  406.843756 ]  cleanup_mnt+0xba/0x150
+[  406.843917 ]  task_work_run+0x59/0xa0
+[  406.844083 ]  exit_to_user_mode_prepare+0x197/0x1a0
+[  406.844302 ]  syscall_exit_to_user_mode+0x16/0x40
+[  406.844510 ]  do_syscall_64+0x4e/0xf0
+[  406.844675 ]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[  406.844907 ] RIP: 0033:0x7f0a2664e4fb</description><pubDate>Fri, 17 May 2024 13:56:12 +0000</pubDate></item><item><title>CVE-2024-35833 | dmaengine: fsl-qdma: Fix a memory leak related to the queue command DMA</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35833</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: fsl-qdma: Fix a memory leak related to the queue command DMA
+
+This dma_alloc_coherent() is undone neither in the remove function, nor in
+the error handling path of fsl_qdma_probe().
+
+Switch to the managed version to fix both issues.</description><pubDate>Fri, 17 May 2024 13:56:12 +0000</pubDate></item><item><title>CVE-2023-52661 | drm/tegra: rgb: Fix missing clk_put() in the error handling paths of tegra_dc_rgb_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52661</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/tegra: rgb: Fix missing clk_put() in the error handling paths of tegra_dc_rgb_probe()
+
+If clk_get_sys(..., "pll_d2_out0") fails, the clk_get_sys() call must be
+undone.
+
+Add the missing clk_put and a new 'put_pll_d_out0' label in the error
+handling path, and use it.</description><pubDate>Fri, 17 May 2024 13:56:13 +0000</pubDate></item><item><title>CVE-2023-52662 | drm/vmwgfx: fix a memleak in vmw_gmrid_man_get_node</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52662</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vmwgfx: fix a memleak in vmw_gmrid_man_get_node
+
+When ida_alloc_max fails, resources allocated before should be freed,
+including *res allocated by kmalloc and ttm_resource_init.</description><pubDate>Fri, 17 May 2024 13:56:13 +0000</pubDate></item><item><title>CVE-2023-52663 | ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52663</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()
+
+Driver uses kasprintf() to initialize fw_{code,data}_bin members of
+struct acp_dev_data, but kfree() is never called to deallocate the
+memory, which results in a memory leak.
+
+Fix the issue by switching to devm_kasprintf(). Additionally, ensure the
+allocation was successful by checking the pointer validity.</description><pubDate>Fri, 17 May 2024 13:56:13 +0000</pubDate></item><item><title>CVE-2023-52664 | net: atlantic: eliminate double free in error handling logic</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52664</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: atlantic: eliminate double free in error handling logic
+
+Driver has a logic leak in ring data allocation/free,
+where aq_ring_free could be called multiple times on same ring,
+if system is under stress and got memory allocation error.
+
+Ring pointer was used as an indicator of failure, but this is
+not correct since only ring data is allocated/deallocated.
+Ring itself is an array member.
+
+Changing ring allocation functions to return error code directly.
+This simplifies error handling and eliminates aq_ring_free
+on higher layer.</description><pubDate>Fri, 17 May 2024 13:56:14 +0000</pubDate></item><item><title>CVE-2024-34919 | An arbitrary file upload vulnerability in the component \modstudent\controller.php of Pisay Online E-Learning System using PHP/MySQL v1.0 al...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34919</link><description>An arbitrary file upload vulnerability in the component \modstudent\controller.php of Pisay Online E-Learning System using PHP/MySQL v1.0 allows attackers to execute arbitrary code via uploading a crafted file.</description><pubDate>Fri, 17 May 2024 13:56:14 +0000</pubDate></item><item><title>CVE-2024-34982 | An arbitrary file upload vulnerability in the component /include/file.php of lylme_spage v1.9.5 allows attackers to execute arbitrary code v...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34982</link><description>An arbitrary file upload vulnerability in the component /include/file.php of lylme_spage v1.9.5 allows attackers to execute arbitrary code via uploading a crafted file.</description><pubDate>Fri, 17 May 2024 13:56:14 +0000</pubDate></item><item><title>CVE-2024-35827 | io_uring/net: fix overflow check in io_recvmsg_mshot_prep()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35827</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring/net: fix overflow check in io_recvmsg_mshot_prep()
+
+The "controllen" variable is type size_t (unsigned long).  Casting it
+to int could lead to an integer underflow.
+
+The check_add_overflow() function considers the type of the destination
+which is type int.  If we add two positive values and the result cannot
+fit in an integer then that's counted as an overflow.
+
+However, if we cast "controllen" to an int and it turns negative, then
+negative values *can* fit into an int type so there is no overflow.
+
+Good: 100 + (unsigned long)-4 = 96  &lt;-- overflow
+ Bad: 100 + (int)-4 = 96 &lt;-- no overflow
+
+I deleted the cast of the sizeof() as well.  That's not a bug but the
+cast is unnecessary.</description><pubDate>Fri, 17 May 2024 13:56:15 +0000</pubDate></item><item><title>CVE-2024-35828 | wifi: libertas: fix some memleaks in lbs_allocate_cmd_buffer()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35828</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: libertas: fix some memleaks in lbs_allocate_cmd_buffer()
+
+In the for statement of lbs_allocate_cmd_buffer(), if the allocation of
+cmdarray[i].cmdbuf fails, both cmdarray and cmdarray[i].cmdbuf needs to
+be freed. Otherwise, there will be memleaks in lbs_allocate_cmd_buffer().</description><pubDate>Fri, 17 May 2024 13:56:15 +0000</pubDate></item><item><title>CVE-2024-35829 | drm/lima: fix a memleak in lima_heap_alloc</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35829</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/lima: fix a memleak in lima_heap_alloc
+
+When lima_vm_map_bo fails, the resources need to be deallocated, or
+there will be memleaks.</description><pubDate>Fri, 17 May 2024 13:56:15 +0000</pubDate></item><item><title>CVE-2024-35830 | media: tc358743: register v4l2 async device only after successful setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35830</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: tc358743: register v4l2 async device only after successful setup
+
+Ensure the device has been setup correctly before registering the v4l2
+async device, thus allowing userspace to access.</description><pubDate>Fri, 17 May 2024 13:56:16 +0000</pubDate></item><item><title>CVE-2024-35831 | io_uring: Fix release of pinned pages when __io_uaddr_map fails</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35831</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: Fix release of pinned pages when __io_uaddr_map fails
+
+Looking at the error path of __io_uaddr_map, if we fail after pinning
+the pages for any reasons, ret will be set to -EINVAL and the error
+handler won't properly release the pinned pages.
+
+I didn't manage to trigger it without forcing a failure, but it can
+happen in real life when memory is heavily fragmented.</description><pubDate>Fri, 17 May 2024 13:56:16 +0000</pubDate></item><item><title>CVE-2024-5047 | SourceCodester Student Management System controller.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5047</link><description>A vulnerability classified as critical has been found in SourceCodester Student Management System 1.0. Affected is an unknown function of the file /student/controller.php. The manipulation of the argument photo leads to unrestricted upload. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-264744.</description><pubDate>Fri, 17 May 2024 13:36:49 +0000</pubDate></item><item><title>CVE-2024-5048 | code-projects Budget Management index.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5048</link><description>A vulnerability classified as critical was found in code-projects Budget Management 1.0. Affected by this vulnerability is an unknown functionality of the file /index.php. The manipulation of the argument edit leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The identifier VDB-264745 was assigned to this vulnerability.</description><pubDate>Fri, 17 May 2024 13:36:50 +0000</pubDate></item><item><title>CVE-2024-35795 | drm/amdgpu: fix deadlock while reading mqd from debugfs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35795</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/amdgpu: fix deadlock while reading mqd from debugfs
 
@@ -13,7 +144,7 @@ wasn't able to reproduce that part when reading by hand):
 [ 1318.017107][ T1082] 6.8.0-rc7-00015-ge0c8221b72c0 #17 Not tainted
 [ 1318.017598][ T1082] ------------------------------------------------------
 [ 1318.018096][ T1082] tar/1082 is trying to acquire lock:
-[ 1318.018585][ T1082] ffff98c44175d6a0 (&amp;mm-&gt;mmap_lock){++++}-{3:3}, at: __might_fault+0x40/0x80
+[ 1318.018585][ T1082] ffff98c44175d6a0 (&amp;amp;mm-&gt;mmap_lock){++++}-{3:3}, at: __might_fault+0x40/0x80
 [ 1318.019084][ T1082]
 [ 1318.019084][ T1082] but task is already holding lock:
 [ 1318.020052][ T1082] ffff98c4c13f55f8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: amdgpu_debugfs_mqd_read+0x6a/0x250 [amdgpu]
@@ -41,7 +172,7 @@ wasn't able to reproduce that part when reading by hand):
 [ 1318.031168][ T1082]        ret_from_fork+0x2c/0x40
 [ 1318.031598][ T1082]        ret_from_fork_asm+0x11/0x20
 [ 1318.032011][ T1082]
-[ 1318.032011][ T1082] -&gt; #0 (&amp;mm-&gt;mmap_lock){++++}-{3:3}:
+[ 1318.032011][ T1082] -&gt; #0 (&amp;amp;mm-&gt;mmap_lock){++++}-{3:3}:
 [ 1318.032778][ T1082]        __lock_acquire+0x14bf/0x2680
 [ 1318.033141][ T1082]        lock_acquire+0xcd/0x2c0
 [ 1318.033487][ T1082]        __might_fault+0x58/0x80
@@ -55,7 +186,7 @@ wasn't able to reproduce that part when reading by hand):
 [ 1318.035664][ T1082] other info that might help us debug this:
 [ 1318.035664][ T1082]
 [ 1318.036487][ T1082] Chain exists of:
-[ 1318.036487][ T1082]   &amp;mm-&gt;mmap_lock --&gt; reservation_ww_class_acquire --&gt; reservation_ww_class_mutex
+[ 1318.036487][ T1082]   &amp;amp;mm-&gt;mmap_lock --&gt; reservation_ww_class_acquire --&gt; reservation_ww_class_mutex
 [ 1318.036487][ T1082]
 [ 1318.037310][ T1082]  Possible unsafe locking scenario:
 [ 1318.037310][ T1082]
@@ -64,7 +195,7 @@ wasn't able to reproduce that part when reading by hand):
 [ 1318.038350][ T1082]   lock(reservation_ww_class_mutex);
 [ 1318.038590][ T1082]                                lock(reservation_ww_class_acquire);
 [ 1318.038839][ T1082]                                lock(reservation_ww_class_mutex);
-[ 1318.039083][ T1082]   rlock(&amp;mm-&gt;mmap_lock);
+[ 1318.039083][ T1082]   rlock(&amp;amp;mm-&gt;mmap_lock);
 [ 1318.039328][ T1082]
 [ 1318.039328][ T1082]  *** DEADLOCK ***
 [ 1318.039328][ T1082]
@@ -126,11 +257,11 @@ To prevent concurrent reads for the same extent buffer,
 read_extent_buffer_pages() performs these checks:
 
     /* (1) */
-    if (test_bit(EXTENT_BUFFER_UPTODATE, &amp;eb-&gt;bflags))
+    if (test_bit(EXTENT_BUFFER_UPTODATE, &amp;amp;eb-&gt;bflags))
         return 0;
 
     /* (2) */
-    if (test_and_set_bit(EXTENT_BUFFER_READING, &amp;eb-&gt;bflags))
+    if (test_and_set_bit(EXTENT_BUFFER_READING, &amp;amp;eb-&gt;bflags))
         goto done;
 
 At this point, it seems safe to start the actual read operation. Once
@@ -140,7 +271,7 @@ that completes, end_bbio_meta_read() does
     set_extent_buffer_uptodate(eb);
 
     /* (4) */
-    clear_bit(EXTENT_BUFFER_READING, &amp;eb-&gt;bflags);
+    clear_bit(EXTENT_BUFFER_READING, &amp;amp;eb-&gt;bflags);
 
 Normally, this is enough to ensure only one read happens, and all other
 callers wait for it to finish before returning.  Unfortunately, there is
@@ -313,7 +444,7 @@ reproduced on a smaller file system for convenience by explicitly
 turning off resize_inode. An on-line resize across an 8 GiB boundary (the
 size of a meta block group in this setup) then leads to a corruption:
 
-  dev=/dev/&lt;some_dev&gt; # should be &gt;= 16 GiB
+  dev=/dev/ # should be &gt;= 16 GiB
   mkdir -p /corruption
   /sbin/mke2fs -t ext4 -b 4096 -O ^resize_inode $dev $((2 * 2**21 - 2**15))
   mount -t ext4 $dev /corruption
@@ -424,7 +555,7 @@ to start init a timeout worker:
         -&gt;brcmf_cfg80211_attach
           -&gt;wl_init_priv
             -&gt;brcmf_init_escan
-              -&gt;INIT_WORK(&amp;cfg-&gt;escan_timeout_work,
+              -&gt;INIT_WORK(&amp;amp;cfg-&gt;escan_timeout_work,
 		  brcmf_cfg80211_escan_timeout_worker);
 
 If we disconnect the USB by hotplug, it will call
