@@ -1,5 +1,359 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 11:58:44 +0000</lastBuildDate><item><title>CVE-2023-52657 | Revert &amp;quot;drm/amd/pm: resolve reboot exception for si oland&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52657</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 12:33:54 +0000</lastBuildDate><item><title>CVE-2024-35784 | btrfs: fix deadlock with fiemap and extent locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35784</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: fix deadlock with fiemap and extent locking
+
+While working on the patchset to remove extent locking I got a lockdep
+splat with fiemap and pagefaulting with my new extent lock replacement
+lock.
+
+This deadlock exists with our normal code, we just don't have lockdep
+annotations with the extent locking so we've never noticed it.
+
+Since we're copying the fiemap extent to user space on every iteration
+we have the chance of pagefaulting.  Because we hold the extent lock for
+the entire range we could mkwrite into a range in the file that we have
+mmap'ed.  This would deadlock with the following stack trace
+
+[&lt;0&gt;] lock_extent+0x28d/0x2f0
+[&lt;0&gt;] btrfs_page_mkwrite+0x273/0x8a0
+[&lt;0&gt;] do_page_mkwrite+0x50/0xb0
+[&lt;0&gt;] do_fault+0xc1/0x7b0
+[&lt;0&gt;] __handle_mm_fault+0x2fa/0x460
+[&lt;0&gt;] handle_mm_fault+0xa4/0x330
+[&lt;0&gt;] do_user_addr_fault+0x1f4/0x800
+[&lt;0&gt;] exc_page_fault+0x7c/0x1e0
+[&lt;0&gt;] asm_exc_page_fault+0x26/0x30
+[&lt;0&gt;] rep_movs_alternative+0x33/0x70
+[&lt;0&gt;] _copy_to_user+0x49/0x70
+[&lt;0&gt;] fiemap_fill_next_extent+0xc8/0x120
+[&lt;0&gt;] emit_fiemap_extent+0x4d/0xa0
+[&lt;0&gt;] extent_fiemap+0x7f8/0xad0
+[&lt;0&gt;] btrfs_fiemap+0x49/0x80
+[&lt;0&gt;] __x64_sys_ioctl+0x3e1/0xb50
+[&lt;0&gt;] do_syscall_64+0x94/0x1a0
+[&lt;0&gt;] entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+I wrote an fstest to reproduce this deadlock without my replacement lock
+and verified that the deadlock exists with our existing locking.
+
+To fix this simply don't take the extent lock for the entire duration of
+the fiemap.  This is safe in general because we keep track of where we
+are when we're searching the tree, so if an ordered extent updates in
+the middle of our fiemap call we'll still emit the correct extents
+because we know what offset we were on before.
+
+The only place we maintain the lock is searching delalloc.  Since the
+delalloc stuff can change during writeback we want to lock the extent
+range so we have a consistent view of delalloc at the time we're
+checking to see if we need to set the delalloc flag.
+
+With this patch applied we no longer deadlock with my testcase.</description><pubDate>Fri, 17 May 2024 12:33:56 +0000</pubDate></item><item><title>CVE-2024-35785 | tee: optee: Fix kernel panic caused by incorrect error handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35785</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tee: optee: Fix kernel panic caused by incorrect error handling
+
+The error path while failing to register devices on the TEE bus has a
+bug leading to kernel panic as follows:
+
+[   15.398930] Unable to handle kernel paging request at virtual address ffff07ed00626d7c
+[   15.406913] Mem abort info:
+[   15.409722]   ESR = 0x0000000096000005
+[   15.413490]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   15.418814]   SET = 0, FnV = 0
+[   15.421878]   EA = 0, S1PTW = 0
+[   15.425031]   FSC = 0x05: level 1 translation fault
+[   15.429922] Data abort info:
+[   15.432813]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+[   15.438310]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[   15.443372]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[   15.448697] swapper pgtable: 4k pages, 48-bit VAs, pgdp=00000000d9e3e000
+[   15.455413] [ffff07ed00626d7c] pgd=1800000bffdf9003, p4d=1800000bffdf9003, pud=0000000000000000
+[   15.464146] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+
+Commit 7269cba53d90 ("tee: optee: Fix supplicant based device enumeration")
+lead to the introduction of this bug. So fix it appropriately.</description><pubDate>Fri, 17 May 2024 12:33:56 +0000</pubDate></item><item><title>CVE-2024-35786 | drm/nouveau: fix stale locked mutex in nouveau_gem_ioctl_pushbuf</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35786</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/nouveau: fix stale locked mutex in nouveau_gem_ioctl_pushbuf
+
+If VM_BIND is enabled on the client the legacy submission ioctl can't be
+used, however if a client tries to do so regardless it will return an
+error. In this case the clients mutex remained unlocked leading to a
+deadlock inside nouveau_drm_postclose or any other nouveau ioctl call.</description><pubDate>Fri, 17 May 2024 12:33:57 +0000</pubDate></item><item><title>CVE-2024-35787 | md/md-bitmap: fix incorrect usage for sb_index</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35787</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/md-bitmap: fix incorrect usage for sb_index
+
+Commit d7038f951828 ("md-bitmap: don't use -&gt;index for pages backing the
+bitmap file") removed page-&gt;index from bitmap code, but left wrong code
+logic for clustered-md. current code never set slot offset for cluster
+nodes, will sometimes cause crash in clustered env.
+
+Call trace (partly):
+ md_bitmap_file_set_bit+0x110/0x1d8 [md_mod]
+ md_bitmap_startwrite+0x13c/0x240 [md_mod]
+ raid1_make_request+0x6b0/0x1c08 [raid1]
+ md_handle_request+0x1dc/0x368 [md_mod]
+ md_submit_bio+0x80/0xf8 [md_mod]
+ __submit_bio+0x178/0x300
+ submit_bio_noacct_nocheck+0x11c/0x338
+ submit_bio_noacct+0x134/0x614
+ submit_bio+0x28/0xdc
+ submit_bh_wbc+0x130/0x1cc
+ submit_bh+0x1c/0x28</description><pubDate>Fri, 17 May 2024 12:33:57 +0000</pubDate></item><item><title>CVE-2024-35788 | drm/amd/display: Fix bounds check for dcn35 DcfClocks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35788</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix bounds check for dcn35 DcfClocks
+
+[Why]
+NumFclkLevelsEnabled is used for DcfClocks bounds check
+instead of designated NumDcfClkLevelsEnabled.
+That can cause array index out-of-bounds access.
+
+[How]
+Use designated variable for dcn35 DcfClocks bounds check.</description><pubDate>Fri, 17 May 2024 12:33:57 +0000</pubDate></item><item><title>CVE-2024-35789 | wifi: mac80211: check/clear fast rx for non-4addr sta VLAN changes</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35789</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mac80211: check/clear fast rx for non-4addr sta VLAN changes
+
+When moving a station out of a VLAN and deleting the VLAN afterwards, the
+fast_rx entry still holds a pointer to the VLAN's netdev, which can cause
+use-after-free bugs. Fix this by immediately calling ieee80211_check_fast_rx
+after the VLAN change.</description><pubDate>Fri, 17 May 2024 12:33:58 +0000</pubDate></item><item><title>CVE-2024-35790 | usb: typec: altmodes/displayport: create sysfs nodes as driver&amp;#x27;s default device attribute group</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35790</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: altmodes/displayport: create sysfs nodes as driver's default device attribute group
+
+The DisplayPort driver's sysfs nodes may be present to the userspace before
+typec_altmode_set_drvdata() completes in dp_altmode_probe. This means that
+a sysfs read can trigger a NULL pointer error by deferencing dp-&gt;hpd in
+hpd_show or dp-&gt;lock in pin_assignment_show, as dev_get_drvdata() returns
+NULL in those cases.
+
+Remove manual sysfs node creation in favor of adding attribute group as
+default for devices bound to the driver. The ATTRIBUTE_GROUPS() macro is
+not used here otherwise the path to the sysfs nodes is no longer compliant
+with the ABI.</description><pubDate>Fri, 17 May 2024 12:33:58 +0000</pubDate></item><item><title>CVE-2024-35791 | KVM: SVM: Flush pages under kvm-&amp;gt;lock to fix UAF in svm_register_enc_region()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35791</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: SVM: Flush pages under kvm-&gt;lock to fix UAF in svm_register_enc_region()
+
+Do the cache flush of converted pages in svm_register_enc_region() before
+dropping kvm-&gt;lock to fix use-after-free issues where region and/or its
+array of pages could be freed by a different task, e.g. if userspace has
+__unregister_enc_region_locked() already queued up for the region.
+
+Note, the "obvious" alternative of using local variables doesn't fully
+resolve the bug, as region-&gt;pages is also dynamically allocated.  I.e. the
+region structure itself would be fine, but region-&gt;pages could be freed.
+
+Flushing multiple pages under kvm-&gt;lock is unfortunate, but the entire
+flow is a rare slow path, and the manual flush is only needed on CPUs that
+lack coherency for encrypted memory.</description><pubDate>Fri, 17 May 2024 12:33:58 +0000</pubDate></item><item><title>CVE-2024-35792 | crypto: rk3288 - Fix use after free in unprepare</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35792</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: rk3288 - Fix use after free in unprepare
+
+The unprepare call must be carried out before the finalize call
+as the latter can free the request.</description><pubDate>Fri, 17 May 2024 12:33:59 +0000</pubDate></item><item><title>CVE-2024-35793 | debugfs: fix wait/cancellation handling during remove</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35793</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+debugfs: fix wait/cancellation handling during remove
+
+Ben Greear further reports deadlocks during concurrent debugfs
+remove while files are being accessed, even though the code in
+question now uses debugfs cancellations. Turns out that despite
+all the review on the locking, we missed completely that the
+logic is wrong: if the refcount hits zero we can finish (and
+need not wait for the completion), but if it doesn't we have
+to trigger all the cancellations. As written, we can _never_
+get into the loop triggering the cancellations. Fix this, and
+explain it better while at it.</description><pubDate>Fri, 17 May 2024 12:33:59 +0000</pubDate></item><item><title>CVE-2024-35794 | dm-raid: really frozen sync_thread during suspend</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35794</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dm-raid: really frozen sync_thread during suspend
+
+1) commit f52f5c71f3d4 ("md: fix stopping sync thread") remove
+   MD_RECOVERY_FROZEN from __md_stop_writes() and doesn't realize that
+   dm-raid relies on __md_stop_writes() to frozen sync_thread
+   indirectly. Fix this problem by adding MD_RECOVERY_FROZEN in
+   md_stop_writes(), and since stop_sync_thread() is only used for
+   dm-raid in this case, also move stop_sync_thread() to
+   md_stop_writes().
+2) The flag MD_RECOVERY_FROZEN doesn't mean that sync thread is frozen,
+   it only prevent new sync_thread to start, and it can't stop the
+   running sync thread; In order to frozen sync_thread, after seting the
+   flag, stop_sync_thread() should be used.
+3) The flag MD_RECOVERY_FROZEN doesn't mean that writes are stopped, use
+   it as condition for md_stop_writes() in raid_postsuspend() doesn't
+   look correct. Consider that reentrant stop_sync_thread() do nothing,
+   always call md_stop_writes() in raid_postsuspend().
+4) raid_message can set/clear the flag MD_RECOVERY_FROZEN at anytime,
+   and if MD_RECOVERY_FROZEN is cleared while the array is suspended,
+   new sync_thread can start unexpected. Fix this by disallow
+   raid_message() to change sync_thread status during suspend.
+
+Note that after commit f52f5c71f3d4 ("md: fix stopping sync thread"), the
+test shell/lvconvert-raid-reshape.sh start to hang in stop_sync_thread(),
+and with previous fixes, the test won't hang there anymore, however, the
+test will still fail and complain that ext4 is corrupted. And with this
+patch, the test won't hang due to stop_sync_thread() or fail due to ext4
+is corrupted anymore. However, there is still a deadlock related to
+dm-raid456 that will be fixed in following patches.</description><pubDate>Fri, 17 May 2024 12:34:00 +0000</pubDate></item><item><title>CVE-2024-5045 | SourceCodester Online Birth Certificate Management System admin file access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5045</link><description>A vulnerability was found in SourceCodester Online Birth Certificate Management System 1.0. It has been declared as problematic. This vulnerability affects unknown code of the file /admin. The manipulation leads to files or directories accessible. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. VDB-264742 is the identifier assigned to this vulnerability.</description><pubDate>Fri, 17 May 2024 12:34:00 +0000</pubDate></item><item><title>CVE-2023-52659 | x86/mm: Ensure input to pfn_to_kaddr() is treated as a 64-bit type</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52659</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/mm: Ensure input to pfn_to_kaddr() is treated as a 64-bit type
+
+On 64-bit platforms, the pfn_to_kaddr() macro requires that the input
+value is 64 bits in order to ensure that valid address bits don't get
+lost when shifting that input by PAGE_SHIFT to calculate the physical
+address to provide a virtual address for.
+
+One such example is in pvalidate_pages() (used by SEV-SNP guests), where
+the GFN in the struct used for page-state change requests is a 40-bit
+bit-field, so attempts to pass this GFN field directly into
+pfn_to_kaddr() ends up causing guest crashes when dealing with addresses
+above the 1TB range due to the above.
+
+Fix this issue with SEV-SNP guests, as well as any similar cases that
+might cause issues in current/future code, by using an inline function,
+instead of a macro, so that the input is implicitly cast to the
+expected 64-bit input type prior to performing the shift operation.
+
+While it might be argued that the issue is on the caller side, other
+archs/macros have taken similar approaches to deal with instances like
+this, such as ARM explicitly casting the input to phys_addr_t:
+
+  e48866647b48 ("ARM: 8396/1: use phys_addr_t in pfn_to_kaddr()")
+
+A C inline function is even better though.
+
+[ mingo: Refined the changelog some more &amp; added __always_inline. ]</description><pubDate>Fri, 17 May 2024 12:34:01 +0000</pubDate></item><item><title>CVE-2023-52660 | media: rkisp1: Fix IRQ handling due to shared interrupts</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52660</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: rkisp1: Fix IRQ handling due to shared interrupts
+
+The driver requests the interrupts as IRQF_SHARED, so the interrupt
+handlers can be called at any time. If such a call happens while the ISP
+is powered down, the SoC will hang as the driver tries to access the
+ISP registers.
+
+This can be reproduced even without the platform sharing the IRQ line:
+Enable CONFIG_DEBUG_SHIRQ and unload the driver, and the board will
+hang.
+
+Fix this by adding a new field, 'irqs_enabled', which is used to bail
+out from the interrupt handler when the ISP is not operational.</description><pubDate>Fri, 17 May 2024 12:34:01 +0000</pubDate></item><item><title>CVE-2024-27432 | net: ethernet: mtk_eth_soc: fix PPE hanging issue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27432</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ethernet: mtk_eth_soc: fix PPE hanging issue
+
+A patch to resolve an issue was found in MediaTek's GPL-licensed SDK:
+In the mtk_ppe_stop() function, the PPE scan mode is not disabled before
+disabling the PPE. This can potentially lead to a hang during the process
+of disabling the PPE.
+
+Without this patch, the PPE may experience a hang during the reboot test.</description><pubDate>Fri, 17 May 2024 12:34:01 +0000</pubDate></item><item><title>CVE-2024-27433 | clk: mediatek: mt7622-apmixedsys: Fix an error handling path in clk_mt8135_apmixed_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27433</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: mediatek: mt7622-apmixedsys: Fix an error handling path in clk_mt8135_apmixed_probe()
+
+'clk_data' is allocated with mtk_devm_alloc_clk_data(). So calling
+mtk_free_clk_data() explicitly in the remove function would lead to a
+double-free.
+
+Remove the redundant call.</description><pubDate>Fri, 17 May 2024 12:34:02 +0000</pubDate></item><item><title>CVE-2024-27434 | wifi: iwlwifi: mvm: don&amp;#x27;t set the MFP flag for the GTK</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27434</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: iwlwifi: mvm: don't set the MFP flag for the GTK
+
+The firmware doesn't need the MFP flag for the GTK, it can even make the
+firmware crash. in case the AP is configured with: group cipher TKIP and
+MFPC. We would send the GTK with cipher = TKIP and MFP which is of course
+not possible.</description><pubDate>Fri, 17 May 2024 12:34:02 +0000</pubDate></item><item><title>CVE-2024-27435 | nvme: fix reconnection fail due to reserved tag allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27435</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme: fix reconnection fail due to reserved tag allocation
+
+We found a issue on production environment while using NVMe over RDMA,
+admin_q reconnect failed forever while remote target and network is ok.
+After dig into it, we found it may caused by a ABBA deadlock due to tag
+allocation. In my case, the tag was hold by a keep alive request
+waiting inside admin_q, as we quiesced admin_q while reset ctrl, so the
+request maked as idle and will not process before reset success. As
+fabric_q shares tagset with admin_q, while reconnect remote target, we
+need a tag for connect command, but the only one reserved tag was held
+by keep alive command which waiting inside admin_q. As a result, we
+failed to reconnect admin_q forever. In order to fix this issue, I
+think we should keep two reserved tags for admin queue.</description><pubDate>Fri, 17 May 2024 12:34:02 +0000</pubDate></item><item><title>CVE-2024-27436 | ALSA: usb-audio: Stop parsing channels bits when all channels are found.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27436</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: usb-audio: Stop parsing channels bits when all channels are found.
+
+If a usb audio device sets more bits than the amount of channels
+it could write outside of the map array.</description><pubDate>Fri, 17 May 2024 12:34:03 +0000</pubDate></item><item><title>CVE-2023-52658 | Revert &amp;quot;net/mlx5: Block entering switchdev mode with ns inconsistency&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52658</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "net/mlx5: Block entering switchdev mode with ns inconsistency"
+
+This reverts commit 662404b24a4c4d839839ed25e3097571f5938b9b.
+The revert is required due to the suspicion it is not good for anything
+and cause crash.</description><pubDate>Fri, 17 May 2024 12:34:03 +0000</pubDate></item><item><title>CVE-2024-27419 | netrom: Fix data-races around sysctl_net_busy_read</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27419</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix data-races around sysctl_net_busy_read
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:04 +0000</pubDate></item><item><title>CVE-2024-27420 | netrom: Fix a data-race around sysctl_netrom_link_fails_count</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27420</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_link_fails_count
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:04 +0000</pubDate></item><item><title>CVE-2024-27421 | netrom: Fix a data-race around sysctl_netrom_routing_control</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27421</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_routing_control
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:05 +0000</pubDate></item><item><title>CVE-2024-27422 | netrom: Fix a data-race around sysctl_netrom_transport_no_activity_timeout</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27422</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_no_activity_timeout
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:05 +0000</pubDate></item><item><title>CVE-2024-27423 | netrom: Fix a data-race around sysctl_netrom_transport_requested_window_size</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27423</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_requested_window_size
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:05 +0000</pubDate></item><item><title>CVE-2024-27424 | netrom: Fix a data-race around sysctl_netrom_transport_busy_delay</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27424</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_busy_delay
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:06 +0000</pubDate></item><item><title>CVE-2024-27425 | netrom: Fix a data-race around sysctl_netrom_transport_acknowledge_delay</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27425</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_acknowledge_delay
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:06 +0000</pubDate></item><item><title>CVE-2024-27426 | netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27426</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:06 +0000</pubDate></item><item><title>CVE-2024-27427 | netrom: Fix a data-race around sysctl_netrom_transport_timeout</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27427</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_transport_timeout
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:07 +0000</pubDate></item><item><title>CVE-2024-27428 | netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27428</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser
+
+We need to protect the reader reading the sysctl value because the
+value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:07 +0000</pubDate></item><item><title>CVE-2024-27429 | netrom: Fix a data-race around sysctl_netrom_obsolescence_count_initialiser</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27429</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_obsolescence_count_initialiser
+
+We need to protect the reader reading the sysctl value
+because the value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:07 +0000</pubDate></item><item><title>CVE-2024-27430 | netrom: Fix a data-race around sysctl_netrom_default_path_quality</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27430</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netrom: Fix a data-race around sysctl_netrom_default_path_quality
+
+We need to protect the reader reading sysctl_netrom_default_path_quality
+because the value can be changed concurrently.</description><pubDate>Fri, 17 May 2024 12:34:08 +0000</pubDate></item><item><title>CVE-2024-27431 | cpumap: Zero-initialise xdp_rxq_info struct before running XDP program</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27431</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpumap: Zero-initialise xdp_rxq_info struct before running XDP program
+
+When running an XDP program that is attached to a cpumap entry, we don't
+initialise the xdp_rxq_info data structure being used in the xdp_buff
+that backs the XDP program invocation. Tobias noticed that this leads to
+random values being returned as the xdp_md-&gt;rx_queue_index value for XDP
+programs running in a cpumap.
+
+This means we're basically returning the contents of the uninitialised
+memory, which is bad. Fix this by zero-initialising the rxq data
+structure before running the XDP program.</description><pubDate>Fri, 17 May 2024 12:34:08 +0000</pubDate></item><item><title>CVE-2024-5055 | Vulnerability of uncontrolled resource consumption in XAMPP</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5055</link><description>Uncontrolled resource consumption vulnerability in XAMPP Windows, versions 7.3.2 and earlier. This vulnerability exists when XAMPP attempts to process many incomplete HTTP requests, resulting in resource consumption and system crashes.</description><pubDate>Fri, 17 May 2024 12:34:08 +0000</pubDate></item><item><title>CVE-2023-52657 | Revert &amp;quot;drm/amd/pm: resolve reboot exception for si oland&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52657</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 Revert "drm/amd/pm: resolve reboot exception for si oland"
 
@@ -85,7 +439,7 @@ removed the `break` statement and led to an error logic of the flags
 writing back at the end of this function.
 
 if (have_flags)
-    memcpy(nla_data(attr), &amp;flags, sizeof(flags));
+    memcpy(nla_data(attr), &amp;amp;flags, sizeof(flags));
     // attr should point to IFLA_BRIDGE_FLAGS NLA !!!
 
 Before the mentioned commit, the `attr` is granted to be IFLA_BRIDGE_FLAGS.
