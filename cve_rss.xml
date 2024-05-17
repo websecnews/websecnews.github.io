@@ -1,5 +1,185 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:29:32 +0000</lastBuildDate><item><title>CVE-2023-52674 | ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52674</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:39:20 +0000</lastBuildDate><item><title>CVE-2023-52684 | firmware: qcom: qseecom: fix memory leaks in error paths</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52684</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware: qcom: qseecom: fix memory leaks in error paths
+
+Fix instances of returning error codes directly instead of jumping to
+the relevant labels where memory allocated for the SCM calls would be
+freed.</description><pubDate>Fri, 17 May 2024 14:39:21 +0000</pubDate></item><item><title>CVE-2023-52685 | pstore: ram_core: fix possible overflow in persistent_ram_init_ecc()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52685</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pstore: ram_core: fix possible overflow in persistent_ram_init_ecc()
+
+In persistent_ram_init_ecc(), on 64-bit arches DIV_ROUND_UP() will return
+64-bit value since persistent_ram_zone::buffer_size has type size_t which
+is derived from the 64-bit *unsigned long*, while the ecc_blocks variable
+this value gets assigned to has (always 32-bit) *int* type.  Even if that
+value fits into *int* type, an overflow is still possible when calculating
+the size_t typed ecc_total variable further below since there's no cast to
+any 64-bit type before multiplication.  Declaring the ecc_blocks variable
+as *size_t* should fix this mess...
+
+Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+analysis tool.</description><pubDate>Fri, 17 May 2024 14:39:22 +0000</pubDate></item><item><title>CVE-2023-52686 | powerpc/powernv: Add a null pointer check in opal_event_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52686</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/powernv: Add a null pointer check in opal_event_init()
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.</description><pubDate>Fri, 17 May 2024 14:39:22 +0000</pubDate></item><item><title>CVE-2023-52692 | ALSA: scarlett2: Add missing error check to scarlett2_usb_set_config()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52692</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: scarlett2: Add missing error check to scarlett2_usb_set_config()
+
+scarlett2_usb_set_config() calls scarlett2_usb_get() but was not
+checking the result. Return the error if it fails rather than
+continuing with an invalid value.</description><pubDate>Fri, 17 May 2024 14:39:22 +0000</pubDate></item><item><title>CVE-2023-52693 | ACPI: video: check for error while searching for backlight device parent</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52693</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ACPI: video: check for error while searching for backlight device parent
+
+If acpi_get_parent() called in acpi_video_dev_register_backlight()
+fails, for example, because acpi_ut_acquire_mutex() fails inside
+acpi_get_parent), this can lead to incorrect (uninitialized)
+acpi_parent handle being passed to acpi_get_pci_dev() for detecting
+the parent pci device.
+
+Check acpi_get_parent() result and set parent device only in case of success.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Fri, 17 May 2024 14:39:23 +0000</pubDate></item><item><title>CVE-2023-52694 | drm/bridge: tpd12s015: Drop buggy __exit annotation for remove function</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52694</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/bridge: tpd12s015: Drop buggy __exit annotation for remove function
+
+With tpd12s015_remove() marked with __exit this function is discarded
+when the driver is compiled as a built-in. The result is that when the
+driver unbinds there is no cleanup done which results in resource
+leakage or worse.</description><pubDate>Fri, 17 May 2024 14:39:23 +0000</pubDate></item><item><title>CVE-2023-52695 | drm/amd/display: Check writeback connectors in create_validate_stream_for_sink</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52695</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Check writeback connectors in create_validate_stream_for_sink
+
+[WHY &amp; HOW]
+This is to check connector type to avoid
+unhandled null pointer for writeback connectors.</description><pubDate>Fri, 17 May 2024 14:39:23 +0000</pubDate></item><item><title>CVE-2023-52696 | powerpc/powernv: Add a null pointer check in opal_powercap_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52696</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/powernv: Add a null pointer check in opal_powercap_init()
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.</description><pubDate>Fri, 17 May 2024 14:39:24 +0000</pubDate></item><item><title>CVE-2023-52697 | ASoC: Intel: sof_sdw_rt_sdca_jack_common: ctx-&amp;gt;headset_codec_dev = NULL</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52697</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: Intel: sof_sdw_rt_sdca_jack_common: ctx-&gt;headset_codec_dev = NULL
+
+sof_sdw_rt_sdca_jack_exit() are used by different codecs, and some of
+them use the same dai name.
+For example, rt712 and rt713 both use "rt712-sdca-aif1" and
+sof_sdw_rt_sdca_jack_exit().
+As a result, sof_sdw_rt_sdca_jack_exit() will be called twice by
+mc_dailink_exit_loop(). Set ctx-&gt;headset_codec_dev = NULL; after
+put_device(ctx-&gt;headset_codec_dev); to avoid ctx-&gt;headset_codec_dev
+being put twice.</description><pubDate>Fri, 17 May 2024 14:39:24 +0000</pubDate></item><item><title>CVE-2023-52698 | calipso: fix memory leak in netlbl_calipso_add_pass()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52698</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+calipso: fix memory leak in netlbl_calipso_add_pass()
+
+If IPv6 support is disabled at boot (ipv6.disable=1),
+the calipso_init() -&gt; netlbl_calipso_ops_register() function isn't called,
+and the netlbl_calipso_ops_get() function always returns NULL.
+In this case, the netlbl_calipso_add_pass() function allocates memory
+for the doi_def variable but doesn't free it with the calipso_doi_free().
+
+BUG: memory leak
+unreferenced object 0xffff888011d68180 (size 64):
+  comm "syz-executor.1", pid 10746, jiffies 4295410986 (age 17.928s)
+  hex dump (first 32 bytes):
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [&lt;...&gt;] kmalloc include/linux/slab.h:552 [inline]
+    [&lt;...&gt;] netlbl_calipso_add_pass net/netlabel/netlabel_calipso.c:76 [inline]
+    [&lt;...&gt;] netlbl_calipso_add+0x22e/0x4f0 net/netlabel/netlabel_calipso.c:111
+    [&lt;...&gt;] genl_family_rcv_msg_doit+0x22f/0x330 net/netlink/genetlink.c:739
+    [&lt;...&gt;] genl_family_rcv_msg net/netlink/genetlink.c:783 [inline]
+    [&lt;...&gt;] genl_rcv_msg+0x341/0x5a0 net/netlink/genetlink.c:800
+    [&lt;...&gt;] netlink_rcv_skb+0x14d/0x440 net/netlink/af_netlink.c:2515
+    [&lt;...&gt;] genl_rcv+0x29/0x40 net/netlink/genetlink.c:811
+    [&lt;...&gt;] netlink_unicast_kernel net/netlink/af_netlink.c:1313 [inline]
+    [&lt;...&gt;] netlink_unicast+0x54b/0x800 net/netlink/af_netlink.c:1339
+    [&lt;...&gt;] netlink_sendmsg+0x90a/0xdf0 net/netlink/af_netlink.c:1934
+    [&lt;...&gt;] sock_sendmsg_nosec net/socket.c:651 [inline]
+    [&lt;...&gt;] sock_sendmsg+0x157/0x190 net/socket.c:671
+    [&lt;...&gt;] ____sys_sendmsg+0x712/0x870 net/socket.c:2342
+    [&lt;...&gt;] ___sys_sendmsg+0xf8/0x170 net/socket.c:2396
+    [&lt;...&gt;] __sys_sendmsg+0xea/0x1b0 net/socket.c:2429
+    [&lt;...&gt;] do_syscall_64+0x30/0x40 arch/x86/entry/common.c:46
+    [&lt;...&gt;] entry_SYSCALL_64_after_hwframe+0x61/0xc6
+
+Found by InfoTeCS on behalf of Linux Verification Center
+(linuxtesting.org) with Syzkaller
+
+[PM: merged via the LSM tree at Jakub Kicinski request]</description><pubDate>Fri, 17 May 2024 14:39:24 +0000</pubDate></item><item><title>CVE-2024-35839 | netfilter: bridge: replace physindev with physinif in nf_bridge_info</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35839</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: bridge: replace physindev with physinif in nf_bridge_info
+
+An skb can be added to a neigh-&gt;arp_queue while waiting for an arp
+reply. Where original skb's skb-&gt;dev can be different to neigh's
+neigh-&gt;dev. For instance in case of bridging dnated skb from one veth to
+another, the skb would be added to a neigh-&gt;arp_queue of the bridge.
+
+As skb-&gt;dev can be reset back to nf_bridge-&gt;physindev and used, and as
+there is no explicit mechanism that prevents this physindev from been
+freed under us (for instance neigh_flush_dev doesn't cleanup skbs from
+different device's neigh queue) we can crash on e.g. this stack:
+
+arp_process
+  neigh_update
+    skb = __skb_dequeue(&amp;neigh-&gt;arp_queue)
+      neigh_resolve_output(..., skb)
+        ...
+          br_nf_dev_xmit
+            br_nf_pre_routing_finish_bridge_slow
+              skb-&gt;dev = nf_bridge-&gt;physindev
+              br_handle_frame_finish
+
+Let's use plain ifindex instead of net_device link. To peek into the
+original net_device we will use dev_get_by_index_rcu(). Thus either we
+get device and are safe to use it or we don't get it and drop skb.</description><pubDate>Fri, 17 May 2024 14:39:25 +0000</pubDate></item><item><title>CVE-2024-35840 | mptcp: use OPTION_MPTCP_MPJ_SYNACK in subflow_finish_connect()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35840</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mptcp: use OPTION_MPTCP_MPJ_SYNACK in subflow_finish_connect()
+
+subflow_finish_connect() uses four fields (backup, join_id, thmac, none)
+that may contain garbage unless OPTION_MPTCP_MPJ_SYNACK has been set
+in mptcp_parse_option()</description><pubDate>Fri, 17 May 2024 14:39:25 +0000</pubDate></item><item><title>CVE-2024-35841 | net: tls, fix WARNIING in __sk_msg_free</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35841</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: tls, fix WARNIING in __sk_msg_free
+
+A splice with MSG_SPLICE_PAGES will cause tls code to use the
+tls_sw_sendmsg_splice path in the TLS sendmsg code to move the user
+provided pages from the msg into the msg_pl. This will loop over the
+msg until msg_pl is full, checked by sk_msg_full(msg_pl). The user
+can also set the MORE flag to hint stack to delay sending until receiving
+more pages and ideally a full buffer.
+
+If the user adds more pages to the msg than can fit in the msg_pl
+scatterlist (MAX_MSG_FRAGS) we should ignore the MORE flag and send
+the buffer anyways.
+
+What actually happens though is we abort the msg to msg_pl scatterlist
+setup and then because we forget to set 'full record' indicating we
+can no longer consume data without a send we fallthrough to the 'continue'
+path which will check if msg_data_left(msg) has more bytes to send and
+then attempts to fit them in the already full msg_pl. Then next
+iteration of sender doing send will encounter a full msg_pl and throw
+the warning in the syzbot report.
+
+To fix simply check if we have a full_record in splice code path and
+if not send the msg regardless of MORE flag.</description><pubDate>Fri, 17 May 2024 14:39:25 +0000</pubDate></item><item><title>CVE-2024-35842 | ASoC: mediatek: sof-common: Add NULL check for normal_link string</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35842</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: mediatek: sof-common: Add NULL check for normal_link string
+
+It's not granted that all entries of struct sof_conn_stream declare
+a `normal_link` (a non-SOF, direct link) string, and this is the case
+for SoCs that support only SOF paths (hence do not support both direct
+and SOF usecases).
+
+For example, in the case of MT8188 there is no normal_link string in
+any of the sof_conn_stream entries and there will be more drivers
+doing that in the future.
+
+To avoid possible NULL pointer KPs, add a NULL check for `normal_link`.</description><pubDate>Fri, 17 May 2024 14:39:26 +0000</pubDate></item><item><title>CVE-2024-5051 | SourceCodester Gas Agency Management System edituser.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5051</link><description>A vulnerability has been found in SourceCodester Gas Agency Management System 1.0 and classified as critical. This vulnerability affects unknown code of the file edituser.php. The manipulation of the argument id leads to sql injection. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-264748.</description><pubDate>Fri, 17 May 2024 14:39:26 +0000</pubDate></item><item><title>CVE-2023-52674 | ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52674</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()
 
