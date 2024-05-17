@@ -1,5 +1,372 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:49:36 +0000</lastBuildDate><item><title>CVE-2024-35843 | iommu/vt-d: Use device rbtree in iopf reporting path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35843</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:59:16 +0000</lastBuildDate><item><title>CVE-2024-35846 | mm: zswap: fix shrinker NULL crash with cgroup_disable=memory</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35846</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: zswap: fix shrinker NULL crash with cgroup_disable=memory
+
+Christian reports a NULL deref in zswap that he bisected down to the zswap
+shrinker.  The issue also cropped up in the bug trackers of libguestfs [1]
+and the Red Hat bugzilla [2].
+
+The problem is that when memcg is disabled with the boot time flag, the
+zswap shrinker might get called with sc-&gt;memcg == NULL.  This is okay in
+many places, like the lruvec operations.  But it crashes in
+memcg_page_state() - which is only used due to the non-node accounting of
+cgroup's the zswap memory to begin with.
+
+Nhat spotted that the memcg can be NULL in the memcg-disabled case, and I
+was then able to reproduce the crash locally as well.
+
+[1] https://github.com/libguestfs/libguestfs/issues/139
+[2] https://bugzilla.redhat.com/show_bug.cgi?id=2275252</description><pubDate>Fri, 17 May 2024 14:59:18 +0000</pubDate></item><item><title>CVE-2024-35847 | irqchip/gic-v3-its: Prevent double free on error</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35847</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+irqchip/gic-v3-its: Prevent double free on error
+
+The error handling path in its_vpe_irq_domain_alloc() causes a double free
+when its_vpe_init() fails after successfully allocating at least one
+interrupt. This happens because its_vpe_irq_domain_free() frees the
+interrupts along with the area bitmap and the vprop_page and
+its_vpe_irq_domain_alloc() subsequently frees the area bitmap and the
+vprop_page again.
+
+Fix this by unconditionally invoking its_vpe_irq_domain_free() which
+handles all cases correctly and by removing the bitmap/vprop_page freeing
+from its_vpe_irq_domain_alloc().
+
+[ tglx: Massaged change log ]</description><pubDate>Fri, 17 May 2024 14:59:18 +0000</pubDate></item><item><title>CVE-2024-35848 | eeprom: at24: fix memory corruption race condition</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35848</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+eeprom: at24: fix memory corruption race condition
+
+If the eeprom is not accessible, an nvmem device will be registered, the
+read will fail, and the device will be torn down. If another driver
+accesses the nvmem device after the teardown, it will reference
+invalid memory.
+
+Move the failure point before registering the nvmem device.</description><pubDate>Fri, 17 May 2024 14:59:19 +0000</pubDate></item><item><title>CVE-2024-35849 | btrfs: fix information leak in btrfs_ioctl_logical_to_ino()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35849</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: fix information leak in btrfs_ioctl_logical_to_ino()
+
+Syzbot reported the following information leak for in
+btrfs_ioctl_logical_to_ino():
+
+  BUG: KMSAN: kernel-infoleak in instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+  BUG: KMSAN: kernel-infoleak in _copy_to_user+0xbc/0x110 lib/usercopy.c:40
+   instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+   _copy_to_user+0xbc/0x110 lib/usercopy.c:40
+   copy_to_user include/linux/uaccess.h:191 [inline]
+   btrfs_ioctl_logical_to_ino+0x440/0x750 fs/btrfs/ioctl.c:3499
+   btrfs_ioctl+0x714/0x1260
+   vfs_ioctl fs/ioctl.c:51 [inline]
+   __do_sys_ioctl fs/ioctl.c:904 [inline]
+   __se_sys_ioctl+0x261/0x450 fs/ioctl.c:890
+   __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:890
+   x64_sys_call+0x1883/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:17
+   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+   do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+  Uninit was created at:
+   __kmalloc_large_node+0x231/0x370 mm/slub.c:3921
+   __do_kmalloc_node mm/slub.c:3954 [inline]
+   __kmalloc_node+0xb07/0x1060 mm/slub.c:3973
+   kmalloc_node include/linux/slab.h:648 [inline]
+   kvmalloc_node+0xc0/0x2d0 mm/util.c:634
+   kvmalloc include/linux/slab.h:766 [inline]
+   init_data_container+0x49/0x1e0 fs/btrfs/backref.c:2779
+   btrfs_ioctl_logical_to_ino+0x17c/0x750 fs/btrfs/ioctl.c:3480
+   btrfs_ioctl+0x714/0x1260
+   vfs_ioctl fs/ioctl.c:51 [inline]
+   __do_sys_ioctl fs/ioctl.c:904 [inline]
+   __se_sys_ioctl+0x261/0x450 fs/ioctl.c:890
+   __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:890
+   x64_sys_call+0x1883/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:17
+   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+   do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+  Bytes 40-65535 of 65536 are uninitialized
+  Memory access of size 65536 starts at ffff888045a40000
+
+This happens, because we're copying a 'struct btrfs_data_container' back
+to user-space. This btrfs_data_container is allocated in
+'init_data_container()' via kvmalloc(), which does not zero-fill the
+memory.
+
+Fix this by using kvzalloc() which zeroes out the memory on allocation.</description><pubDate>Fri, 17 May 2024 14:59:19 +0000</pubDate></item><item><title>CVE-2024-35850 | Bluetooth: qca: fix NULL-deref on non-serdev setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35850</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: qca: fix NULL-deref on non-serdev setup
+
+Qualcomm ROME controllers can be registered from the Bluetooth line
+discipline and in this case the HCI UART serdev pointer is NULL.
+
+Add the missing sanity check to prevent a NULL-pointer dereference when
+setup() is called for a non-serdev controller.</description><pubDate>Fri, 17 May 2024 14:59:19 +0000</pubDate></item><item><title>CVE-2024-35851 | Bluetooth: qca: fix NULL-deref on non-serdev suspend</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35851</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: qca: fix NULL-deref on non-serdev suspend
+
+Qualcomm ROME controllers can be registered from the Bluetooth line
+discipline and in this case the HCI UART serdev pointer is NULL.
+
+Add the missing sanity check to prevent a NULL-pointer dereference when
+wakeup() is called for a non-serdev controller during suspend.
+
+Just return true for now to restore the original behaviour and address
+the crash with pre-6.2 kernels, which do not have commit e9b3e5b8c657
+("Bluetooth: hci_qca: only assign wakeup with serial port support") that
+causes the crash to happen already at setup() time.</description><pubDate>Fri, 17 May 2024 14:59:20 +0000</pubDate></item><item><title>CVE-2024-35852 | mlxsw: spectrum_acl_tcam: Fix memory leak when canceling rehash work</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35852</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mlxsw: spectrum_acl_tcam: Fix memory leak when canceling rehash work
+
+The rehash delayed work is rescheduled with a delay if the number of
+credits at end of the work is not negative as supposedly it means that
+the migration ended. Otherwise, it is rescheduled immediately.
+
+After "mlxsw: spectrum_acl_tcam: Fix possible use-after-free during
+rehash" the above is no longer accurate as a non-negative number of
+credits is no longer indicative of the migration being done. It can also
+happen if the work encountered an error in which case the migration will
+resume the next time the work is scheduled.
+
+The significance of the above is that it is possible for the work to be
+pending and associated with hints that were allocated when the migration
+started. This leads to the hints being leaked [1] when the work is
+canceled while pending as part of ACL region dismantle.
+
+Fix by freeing the hints if hints are associated with a work that was
+canceled while pending.
+
+Blame the original commit since the reliance on not having a pending
+work associated with hints is fragile.
+
+[1]
+unreferenced object 0xffff88810e7c3000 (size 256):
+  comm "kworker/0:16", pid 176, jiffies 4295460353
+  hex dump (first 32 bytes):
+    00 30 95 11 81 88 ff ff 61 00 00 00 00 00 00 80  .0......a.......
+    00 00 61 00 40 00 00 00 00 00 00 00 04 00 00 00  ..a.@...........
+  backtrace (crc 2544ddb9):
+    [&lt;00000000cf8cfab3&gt;] kmalloc_trace+0x23f/0x2a0
+    [&lt;000000004d9a1ad9&gt;] objagg_hints_get+0x42/0x390
+    [&lt;000000000b143cf3&gt;] mlxsw_sp_acl_erp_rehash_hints_get+0xca/0x400
+    [&lt;0000000059bdb60a&gt;] mlxsw_sp_acl_tcam_vregion_rehash_work+0x868/0x1160
+    [&lt;00000000e81fd734&gt;] process_one_work+0x59c/0xf20
+    [&lt;00000000ceee9e81&gt;] worker_thread+0x799/0x12c0
+    [&lt;00000000bda6fe39&gt;] kthread+0x246/0x300
+    [&lt;0000000070056d23&gt;] ret_from_fork+0x34/0x70
+    [&lt;00000000dea2b93e&gt;] ret_from_fork_asm+0x1a/0x30</description><pubDate>Fri, 17 May 2024 14:59:20 +0000</pubDate></item><item><title>CVE-2024-35853 | mlxsw: spectrum_acl_tcam: Fix memory leak during rehash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35853</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mlxsw: spectrum_acl_tcam: Fix memory leak during rehash
+
+The rehash delayed work migrates filters from one region to another.
+This is done by iterating over all chunks (all the filters with the same
+priority) in the region and in each chunk iterating over all the
+filters.
+
+If the migration fails, the code tries to migrate the filters back to
+the old region. However, the rollback itself can also fail in which case
+another migration will be erroneously performed. Besides the fact that
+this ping pong is not a very good idea, it also creates a problem.
+
+Each virtual chunk references two chunks: The currently used one
+('vchunk-&gt;chunk') and a backup ('vchunk-&gt;chunk2'). During migration the
+first holds the chunk we want to migrate filters to and the second holds
+the chunk we are migrating filters from.
+
+The code currently assumes - but does not verify - that the backup chunk
+does not exist (NULL) if the currently used chunk does not reference the
+target region. This assumption breaks when we are trying to rollback a
+rollback, resulting in the backup chunk being overwritten and leaked
+[1].
+
+Fix by not rolling back a failed rollback and add a warning to avoid
+future cases.
+
+[1]
+WARNING: CPU: 5 PID: 1063 at lib/parman.c:291 parman_destroy+0x17/0x20
+Modules linked in:
+CPU: 5 PID: 1063 Comm: kworker/5:11 Tainted: G        W          6.9.0-rc2-custom-00784-gc6a05c468a0b #14
+Hardware name: Mellanox Technologies Ltd. MSN3700/VMOD0005, BIOS 5.11 01/06/2019
+Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
+RIP: 0010:parman_destroy+0x17/0x20
+[...]
+Call Trace:
+ &lt;TASK&gt;
+ mlxsw_sp_acl_atcam_region_fini+0x19/0x60
+ mlxsw_sp_acl_tcam_region_destroy+0x49/0xf0
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x1f1/0x470
+ process_one_work+0x151/0x370
+ worker_thread+0x2cb/0x3e0
+ kthread+0xd0/0x100
+ ret_from_fork+0x34/0x50
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;</description><pubDate>Fri, 17 May 2024 14:59:20 +0000</pubDate></item><item><title>CVE-2024-35854 | mlxsw: spectrum_acl_tcam: Fix possible use-after-free during rehash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35854</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mlxsw: spectrum_acl_tcam: Fix possible use-after-free during rehash
+
+The rehash delayed work migrates filters from one region to another
+according to the number of available credits.
+
+The migrated from region is destroyed at the end of the work if the
+number of credits is non-negative as the assumption is that this is
+indicative of migration being complete. This assumption is incorrect as
+a non-negative number of credits can also be the result of a failed
+migration.
+
+The destruction of a region that still has filters referencing it can
+result in a use-after-free [1].
+
+Fix by not destroying the region if migration failed.
+
+[1]
+BUG: KASAN: slab-use-after-free in mlxsw_sp_acl_ctcam_region_entry_remove+0x21d/0x230
+Read of size 8 at addr ffff8881735319e8 by task kworker/0:31/3858
+
+CPU: 0 PID: 3858 Comm: kworker/0:31 Tainted: G        W          6.9.0-rc2-custom-00782-gf2275c2157d8 #5
+Hardware name: Mellanox Technologies Ltd. MSN3700/VMOD0005, BIOS 5.11 01/06/2019
+Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0xc6/0x120
+ print_report+0xce/0x670
+ kasan_report+0xd7/0x110
+ mlxsw_sp_acl_ctcam_region_entry_remove+0x21d/0x230
+ mlxsw_sp_acl_ctcam_entry_del+0x2e/0x70
+ mlxsw_sp_acl_atcam_entry_del+0x81/0x210
+ mlxsw_sp_acl_tcam_vchunk_migrate_all+0x3cd/0xb50
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x157/0x1300
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+Allocated by task 174:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x8f/0xa0
+ __kmalloc+0x19c/0x360
+ mlxsw_sp_acl_tcam_region_create+0xdf/0x9c0
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x954/0x1300
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30
+
+Freed by task 7:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ poison_slab_object+0x102/0x170
+ __kasan_slab_free+0x14/0x30
+ kfree+0xc1/0x290
+ mlxsw_sp_acl_tcam_region_destroy+0x272/0x310
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x731/0x1300
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30</description><pubDate>Fri, 17 May 2024 14:59:21 +0000</pubDate></item><item><title>CVE-2024-35855 | mlxsw: spectrum_acl_tcam: Fix possible use-after-free during activity update</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35855</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mlxsw: spectrum_acl_tcam: Fix possible use-after-free during activity update
+
+The rule activity update delayed work periodically traverses the list of
+configured rules and queries their activity from the device.
+
+As part of this task it accesses the entry pointed by 'ventry-&gt;entry',
+but this entry can be changed concurrently by the rehash delayed work,
+leading to a use-after-free [1].
+
+Fix by closing the race and perform the activity query under the
+'vregion-&gt;lock' mutex.
+
+[1]
+BUG: KASAN: slab-use-after-free in mlxsw_sp_acl_tcam_flower_rule_activity_get+0x121/0x140
+Read of size 8 at addr ffff8881054ed808 by task kworker/0:18/181
+
+CPU: 0 PID: 181 Comm: kworker/0:18 Not tainted 6.9.0-rc2-custom-00781-gd5ab772d32f7 #2
+Hardware name: Mellanox Technologies Ltd. MSN3700/VMOD0005, BIOS 5.11 01/06/2019
+Workqueue: mlxsw_core mlxsw_sp_acl_rule_activity_update_work
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0xc6/0x120
+ print_report+0xce/0x670
+ kasan_report+0xd7/0x110
+ mlxsw_sp_acl_tcam_flower_rule_activity_get+0x121/0x140
+ mlxsw_sp_acl_rule_activity_update_work+0x219/0x400
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+Allocated by task 1039:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x8f/0xa0
+ __kmalloc+0x19c/0x360
+ mlxsw_sp_acl_tcam_entry_create+0x7b/0x1f0
+ mlxsw_sp_acl_tcam_vchunk_migrate_all+0x30d/0xb50
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x157/0x1300
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30
+
+Freed by task 1039:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ poison_slab_object+0x102/0x170
+ __kasan_slab_free+0x14/0x30
+ kfree+0xc1/0x290
+ mlxsw_sp_acl_tcam_vchunk_migrate_all+0x3d7/0xb50
+ mlxsw_sp_acl_tcam_vregion_rehash_work+0x157/0x1300
+ process_one_work+0x8eb/0x19b0
+ worker_thread+0x6c9/0xf70
+ kthread+0x2c9/0x3b0
+ ret_from_fork+0x4d/0x80
+ ret_from_fork_asm+0x1a/0x30</description><pubDate>Fri, 17 May 2024 14:59:21 +0000</pubDate></item><item><title>CVE-2024-35856 | Bluetooth: btusb: mediatek: Fix double free of skb in coredump</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35856</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: btusb: mediatek: Fix double free of skb in coredump
+
+hci_devcd_append() would free the skb on error so the caller don't
+have to free it again otherwise it would cause the double free of skb.
+
+Reported-by : Dan Carpenter &lt;dan.carpenter@linaro.org&gt;</description><pubDate>Fri, 17 May 2024 14:59:21 +0000</pubDate></item><item><title>CVE-2024-35857 | icmp: prevent possible NULL dereferences from icmp_build_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35857</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+icmp: prevent possible NULL dereferences from icmp_build_probe()
+
+First problem is a double call to __in_dev_get_rcu(), because
+the second one could return NULL.
+
+if (__in_dev_get_rcu(dev) &amp;&amp; __in_dev_get_rcu(dev)-&gt;ifa_list)
+
+Second problem is a read from dev-&gt;ip6_ptr with no NULL check:
+
+if (!list_empty(&amp;rcu_dereference(dev-&gt;ip6_ptr)-&gt;addr_list))
+
+Use the correct RCU API to fix these.
+
+v2: add missing include &lt;net/addrconf.h&gt;</description><pubDate>Fri, 17 May 2024 14:59:22 +0000</pubDate></item><item><title>CVE-2024-35858 | net: bcmasp: fix memory leak when bringing down interface</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35858</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: bcmasp: fix memory leak when bringing down interface
+
+When bringing down the TX rings we flush the rings but forget to
+reclaimed the flushed packets. This leads to a memory leak since we
+do not free the dma mapped buffers. This also leads to tx control
+block corruption when bringing down the interface for power
+management.</description><pubDate>Fri, 17 May 2024 14:59:22 +0000</pubDate></item><item><title>CVE-2024-35859 | block: fix module reference leakage from bdev_open_by_dev error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35859</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: fix module reference leakage from bdev_open_by_dev error path
+
+At the time bdev_may_open() is called, module reference is grabbed
+already, hence module reference should be released if bdev_may_open()
+failed.
+
+This problem is found by code review.</description><pubDate>Fri, 17 May 2024 14:59:22 +0000</pubDate></item><item><title>CVE-2024-35843 | iommu/vt-d: Use device rbtree in iopf reporting path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35843</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 iommu/vt-d: Use device rbtree in iopf reporting path
 
