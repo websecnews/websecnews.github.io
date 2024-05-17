@@ -1,5 +1,187 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 11:48:48 +0000</lastBuildDate><item><title>CVE-2024-27402 | phonet/pep: fix racy skb_queue_empty() use</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27402</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 11:58:44 +0000</lastBuildDate><item><title>CVE-2023-52657 | Revert &amp;quot;drm/amd/pm: resolve reboot exception for si oland&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52657</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "drm/amd/pm: resolve reboot exception for si oland"
+
+This reverts commit e490d60a2f76bff636c68ce4fe34c1b6c34bbd86.
+
+This causes hangs on SI when DC is enabled and errors on driver
+reboot and power off cycles.</description><pubDate>Fri, 17 May 2024 11:58:46 +0000</pubDate></item><item><title>CVE-2024-27408 | dmaengine: dw-edma: eDMA: Add sync read before starting the DMA transfer in remote setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27408</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: dw-edma: eDMA: Add sync read before starting the DMA transfer in remote setup
+
+The Linked list element and pointer are not stored in the same memory as
+the eDMA controller register. If the doorbell register is toggled before
+the full write of the linked list a race condition error will occur.
+In remote setup we can only use a readl to the memory to assure the full
+write has occurred.</description><pubDate>Fri, 17 May 2024 11:58:46 +0000</pubDate></item><item><title>CVE-2024-27409 | dmaengine: dw-edma: HDMA: Add sync read before starting the DMA transfer in remote setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27409</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: dw-edma: HDMA: Add sync read before starting the DMA transfer in remote setup
+
+The Linked list element and pointer are not stored in the same memory as
+the HDMA controller register. If the doorbell register is toggled before
+the full write of the linked list a race condition error will occur.
+In remote setup we can only use a readl to the memory to assure the full
+write has occurred.</description><pubDate>Fri, 17 May 2024 11:58:46 +0000</pubDate></item><item><title>CVE-2024-27410 | wifi: nl80211: reject iftype change with mesh ID change</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27410</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: nl80211: reject iftype change with mesh ID change
+
+It's currently possible to change the mesh ID when the
+interface isn't yet in mesh mode, at the same time as
+changing it into mesh mode. This leads to an overwrite
+of data in the wdev-&gt;u union for the interface type it
+currently has, causing cfg80211_change_iface() to do
+wrong things when switching.
+
+We could probably allow setting an interface to mesh
+while setting the mesh ID at the same time by doing a
+different order of operations here, but realistically
+there's no userspace that's going to do this, so just
+disallow changes in iftype when setting mesh ID.</description><pubDate>Fri, 17 May 2024 11:58:47 +0000</pubDate></item><item><title>CVE-2024-27411 | drm/nouveau: keep DMA buffers required for suspend/resume</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27411</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/nouveau: keep DMA buffers required for suspend/resume
+
+Nouveau deallocates a few buffers post GPU init which are required for GPU suspend/resume to function correctly.
+This is likely not as big an issue on systems where the NVGPU is the only GPU, but on multi-GPU set ups it leads to a regression where the kernel module errors and results in a system-wide rendering freeze.
+
+This commit addresses that regression by moving the two buffers required for suspend and resume to be deallocated at driver unload instead of post init.</description><pubDate>Fri, 17 May 2024 11:58:47 +0000</pubDate></item><item><title>CVE-2024-27412 | power: supply: bq27xxx-i2c: Do not free non existing IRQ</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27412</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+power: supply: bq27xxx-i2c: Do not free non existing IRQ
+
+The bq27xxx i2c-client may not have an IRQ, in which case
+client-&gt;irq will be 0. bq27xxx_battery_i2c_probe() already has
+an if (client-&gt;irq) check wrapping the request_threaded_irq().
+
+But bq27xxx_battery_i2c_remove() unconditionally calls
+free_irq(client-&gt;irq) leading to:
+
+[  190.310742] ------------[ cut here ]------------
+[  190.310843] Trying to free already-free IRQ 0
+[  190.310861] WARNING: CPU: 2 PID: 1304 at kernel/irq/manage.c:1893 free_irq+0x1b8/0x310
+
+Followed by a backtrace when unbinding the driver. Add
+an if (client-&gt;irq) to bq27xxx_battery_i2c_remove() mirroring
+probe() to fix this.</description><pubDate>Fri, 17 May 2024 11:58:48 +0000</pubDate></item><item><title>CVE-2024-27413 | efi/capsule-loader: fix incorrect allocation size</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27413</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efi/capsule-loader: fix incorrect allocation size
+
+gcc-14 notices that the allocation with sizeof(void) on 32-bit architectures
+is not enough for a 64-bit phys_addr_t:
+
+drivers/firmware/efi/capsule-loader.c: In function 'efi_capsule_open':
+drivers/firmware/efi/capsule-loader.c:295:24: error: allocation of insufficient size '4' for type 'phys_addr_t' {aka 'long long unsigned int'} with size '8' [-Werror=alloc-size]
+  295 |         cap_info-&gt;phys = kzalloc(sizeof(void *), GFP_KERNEL);
+      |                        ^
+
+Use the correct type instead here.</description><pubDate>Fri, 17 May 2024 11:58:48 +0000</pubDate></item><item><title>CVE-2024-27414 | rtnetlink: fix error logic of IFLA_BRIDGE_FLAGS writing back</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27414</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rtnetlink: fix error logic of IFLA_BRIDGE_FLAGS writing back
+
+In the commit d73ef2d69c0d ("rtnetlink: let rtnl_bridge_setlink checks
+IFLA_BRIDGE_MODE length"), an adjustment was made to the old loop logic
+in the function `rtnl_bridge_setlink` to enable the loop to also check
+the length of the IFLA_BRIDGE_MODE attribute. However, this adjustment
+removed the `break` statement and led to an error logic of the flags
+writing back at the end of this function.
+
+if (have_flags)
+    memcpy(nla_data(attr), &amp;flags, sizeof(flags));
+    // attr should point to IFLA_BRIDGE_FLAGS NLA !!!
+
+Before the mentioned commit, the `attr` is granted to be IFLA_BRIDGE_FLAGS.
+However, this is not necessarily true fow now as the updated loop will let
+the attr point to the last NLA, even an invalid NLA which could cause
+overflow writes.
+
+This patch introduces a new variable `br_flag` to save the NLA pointer
+that points to IFLA_BRIDGE_FLAGS and uses it to resolve the mentioned
+error logic.</description><pubDate>Fri, 17 May 2024 11:58:48 +0000</pubDate></item><item><title>CVE-2024-27415 | netfilter: bridge: confirm multicast packets before passing them up the stack</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27415</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: bridge: confirm multicast packets before passing them up the stack
+
+conntrack nf_confirm logic cannot handle cloned skbs referencing
+the same nf_conn entry, which will happen for multicast (broadcast)
+frames on bridges.
+
+ Example:
+    macvlan0
+       |
+      br0
+     /  \
+  ethX    ethY
+
+ ethX (or Y) receives a L2 multicast or broadcast packet containing
+ an IP packet, flow is not yet in conntrack table.
+
+ 1. skb passes through bridge and fake-ip (br_netfilter)Prerouting.
+    -&gt; skb-&gt;_nfct now references a unconfirmed entry
+ 2. skb is broad/mcast packet. bridge now passes clones out on each bridge
+    interface.
+ 3. skb gets passed up the stack.
+ 4. In macvlan case, macvlan driver retains clone(s) of the mcast skb
+    and schedules a work queue to send them out on the lower devices.
+
+    The clone skb-&gt;_nfct is not a copy, it is the same entry as the
+    original skb.  The macvlan rx handler then returns RX_HANDLER_PASS.
+ 5. Normal conntrack hooks (in NF_INET_LOCAL_IN) confirm the orig skb.
+
+The Macvlan broadcast worker and normal confirm path will race.
+
+This race will not happen if step 2 already confirmed a clone. In that
+case later steps perform skb_clone() with skb-&gt;_nfct already confirmed (in
+hash table).  This works fine.
+
+But such confirmation won't happen when eb/ip/nftables rules dropped the
+packets before they reached the nf_confirm step in postrouting.
+
+Pablo points out that nf_conntrack_bridge doesn't allow use of stateful
+nat, so we can safely discard the nf_conn entry and let inet call
+conntrack again.
+
+This doesn't work for bridge netfilter: skb could have a nat
+transformation. Also bridge nf prevents re-invocation of inet prerouting
+via 'sabotage_in' hook.
+
+Work around this problem by explicit confirmation of the entry at LOCAL_IN
+time, before upper layer has a chance to clone the unconfirmed entry.
+
+The downside is that this disables NAT and conntrack helpers.
+
+Alternative fix would be to add locking to all code parts that deal with
+unconfirmed packets, but even if that could be done in a sane way this
+opens up other problems, for example:
+
+-m physdev --physdev-out eth0 -j SNAT --snat-to 1.2.3.4
+-m physdev --physdev-out eth1 -j SNAT --snat-to 1.2.3.5
+
+For multicast case, only one of such conflicting mappings will be
+created, conntrack only handles 1:1 NAT mappings.
+
+Users should set create a setup that explicitly marks such traffic
+NOTRACK (conntrack bypass) to avoid this, but we cannot auto-bypass
+them, ruleset might have accept rules for untracked traffic already,
+so user-visible behaviour would change.</description><pubDate>Fri, 17 May 2024 11:58:49 +0000</pubDate></item><item><title>CVE-2024-27416 | Bluetooth: hci_event: Fix handling of HCI_EV_IO_CAPA_REQUEST</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27416</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: hci_event: Fix handling of HCI_EV_IO_CAPA_REQUEST
+
+If we received HCI_EV_IO_CAPA_REQUEST while
+HCI_OP_READ_REMOTE_EXT_FEATURES is yet to be responded assume the remote
+does support SSP since otherwise this event shouldn't be generated.</description><pubDate>Fri, 17 May 2024 11:58:49 +0000</pubDate></item><item><title>CVE-2024-27417 | ipv6: fix potential &amp;quot;struct net&amp;quot; leak in inet6_rtm_getaddr()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27417</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv6: fix potential "struct net" leak in inet6_rtm_getaddr()
+
+It seems that if userspace provides a correct IFA_TARGET_NETNSID value
+but no IFA_ADDRESS and IFA_LOCAL attributes, inet6_rtm_getaddr()
+returns -EINVAL with an elevated "struct net" refcount.</description><pubDate>Fri, 17 May 2024 11:58:49 +0000</pubDate></item><item><title>CVE-2024-27418 | net: mctp: take ownership of skb in mctp_local_output</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27418</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: mctp: take ownership of skb in mctp_local_output
+
+Currently, mctp_local_output only takes ownership of skb on success, and
+we may leak an skb if mctp_local_output fails in specific states; the
+skb ownership isn't transferred until the actual output routing occurs.
+
+Instead, make mctp_local_output free the skb on all error paths up to
+the route action, so it always consumes the passed skb.</description><pubDate>Fri, 17 May 2024 11:58:50 +0000</pubDate></item><item><title>CVE-2024-27402 | phonet/pep: fix racy skb_queue_empty() use</title><link>https://www.cve.org/CVERecord?id=CVE-2024-27402</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 phonet/pep: fix racy skb_queue_empty() use
 
