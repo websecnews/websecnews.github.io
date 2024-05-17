@@ -1,5 +1,712 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 13:26:10 +0000</lastBuildDate><item><title>CVE-2024-5042 | Submariner-operator: rbac permissions can allow for the spread of node compromises</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5042</link><description>A flaw was found in the Submariner project. Due to unnecessary role-based access control permissions, a privileged attacker can run a malicious container on a node that may allow them to steal service account tokens and further compromise other nodes and potentially the entire cluster.</description><pubDate>Fri, 17 May 2024 13:26:12 +0000</pubDate></item><item><title>CVE-2024-5046 | SourceCodester Online Examination System registeracc.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5046</link><description>A vulnerability was found in SourceCodester Online Examination System 1.0. It has been rated as critical. This issue affects some unknown processing of the file registeracc.php. The manipulation of the argument email leads to sql injection. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-264743.</description><pubDate>Fri, 17 May 2024 13:12:18 +0000</pubDate></item><item><title>CVE-2024-35784 | btrfs: fix deadlock with fiemap and extent locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35784</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 13:36:48 +0000</lastBuildDate><item><title>CVE-2024-5047 | SourceCodester Student Management System controller.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5047</link><description>A vulnerability classified as critical has been found in SourceCodester Student Management System 1.0. Affected is an unknown function of the file /student/controller.php. The manipulation of the argument photo leads to unrestricted upload. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-264744.</description><pubDate>Fri, 17 May 2024 13:36:49 +0000</pubDate></item><item><title>CVE-2024-5048 | code-projects Budget Management index.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5048</link><description>A vulnerability classified as critical was found in code-projects Budget Management 1.0. Affected by this vulnerability is an unknown functionality of the file /index.php. The manipulation of the argument edit leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The identifier VDB-264745 was assigned to this vulnerability.</description><pubDate>Fri, 17 May 2024 13:36:50 +0000</pubDate></item><item><title>CVE-2024-35795 | drm/amdgpu: fix deadlock while reading mqd from debugfs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35795</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: fix deadlock while reading mqd from debugfs
+
+An errant disk backup on my desktop got into debugfs and triggered the
+following deadlock scenario in the amdgpu debugfs files. The machine
+also hard-resets immediately after those lines are printed (although I
+wasn't able to reproduce that part when reading by hand):
+
+[ 1318.016074][ T1082] ======================================================
+[ 1318.016607][ T1082] WARNING: possible circular locking dependency detected
+[ 1318.017107][ T1082] 6.8.0-rc7-00015-ge0c8221b72c0 #17 Not tainted
+[ 1318.017598][ T1082] ------------------------------------------------------
+[ 1318.018096][ T1082] tar/1082 is trying to acquire lock:
+[ 1318.018585][ T1082] ffff98c44175d6a0 (&amp;mm-&gt;mmap_lock){++++}-{3:3}, at: __might_fault+0x40/0x80
+[ 1318.019084][ T1082]
+[ 1318.019084][ T1082] but task is already holding lock:
+[ 1318.020052][ T1082] ffff98c4c13f55f8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: amdgpu_debugfs_mqd_read+0x6a/0x250 [amdgpu]
+[ 1318.020607][ T1082]
+[ 1318.020607][ T1082] which lock already depends on the new lock.
+[ 1318.020607][ T1082]
+[ 1318.022081][ T1082]
+[ 1318.022081][ T1082] the existing dependency chain (in reverse order) is:
+[ 1318.023083][ T1082]
+[ 1318.023083][ T1082] -&gt; #2 (reservation_ww_class_mutex){+.+.}-{3:3}:
+[ 1318.024114][ T1082]        __ww_mutex_lock.constprop.0+0xe0/0x12f0
+[ 1318.024639][ T1082]        ww_mutex_lock+0x32/0x90
+[ 1318.025161][ T1082]        dma_resv_lockdep+0x18a/0x330
+[ 1318.025683][ T1082]        do_one_initcall+0x6a/0x350
+[ 1318.026210][ T1082]        kernel_init_freeable+0x1a3/0x310
+[ 1318.026728][ T1082]        kernel_init+0x15/0x1a0
+[ 1318.027242][ T1082]        ret_from_fork+0x2c/0x40
+[ 1318.027759][ T1082]        ret_from_fork_asm+0x11/0x20
+[ 1318.028281][ T1082]
+[ 1318.028281][ T1082] -&gt; #1 (reservation_ww_class_acquire){+.+.}-{0:0}:
+[ 1318.029297][ T1082]        dma_resv_lockdep+0x16c/0x330
+[ 1318.029790][ T1082]        do_one_initcall+0x6a/0x350
+[ 1318.030263][ T1082]        kernel_init_freeable+0x1a3/0x310
+[ 1318.030722][ T1082]        kernel_init+0x15/0x1a0
+[ 1318.031168][ T1082]        ret_from_fork+0x2c/0x40
+[ 1318.031598][ T1082]        ret_from_fork_asm+0x11/0x20
+[ 1318.032011][ T1082]
+[ 1318.032011][ T1082] -&gt; #0 (&amp;mm-&gt;mmap_lock){++++}-{3:3}:
+[ 1318.032778][ T1082]        __lock_acquire+0x14bf/0x2680
+[ 1318.033141][ T1082]        lock_acquire+0xcd/0x2c0
+[ 1318.033487][ T1082]        __might_fault+0x58/0x80
+[ 1318.033814][ T1082]        amdgpu_debugfs_mqd_read+0x103/0x250 [amdgpu]
+[ 1318.034181][ T1082]        full_proxy_read+0x55/0x80
+[ 1318.034487][ T1082]        vfs_read+0xa7/0x360
+[ 1318.034788][ T1082]        ksys_read+0x70/0xf0
+[ 1318.035085][ T1082]        do_syscall_64+0x94/0x180
+[ 1318.035375][ T1082]        entry_SYSCALL_64_after_hwframe+0x46/0x4e
+[ 1318.035664][ T1082]
+[ 1318.035664][ T1082] other info that might help us debug this:
+[ 1318.035664][ T1082]
+[ 1318.036487][ T1082] Chain exists of:
+[ 1318.036487][ T1082]   &amp;mm-&gt;mmap_lock --&gt; reservation_ww_class_acquire --&gt; reservation_ww_class_mutex
+[ 1318.036487][ T1082]
+[ 1318.037310][ T1082]  Possible unsafe locking scenario:
+[ 1318.037310][ T1082]
+[ 1318.037838][ T1082]        CPU0                    CPU1
+[ 1318.038101][ T1082]        ----                    ----
+[ 1318.038350][ T1082]   lock(reservation_ww_class_mutex);
+[ 1318.038590][ T1082]                                lock(reservation_ww_class_acquire);
+[ 1318.038839][ T1082]                                lock(reservation_ww_class_mutex);
+[ 1318.039083][ T1082]   rlock(&amp;mm-&gt;mmap_lock);
+[ 1318.039328][ T1082]
+[ 1318.039328][ T1082]  *** DEADLOCK ***
+[ 1318.039328][ T1082]
+[ 1318.040029][ T1082] 1 lock held by tar/1082:
+[ 1318.040259][ T1082]  #0: ffff98c4c13f55f8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: amdgpu_debugfs_mqd_read+0x6a/0x250 [amdgpu]
+[ 1318.040560][ T1082]
+[ 1318.040560][ T1082] stack backtrace:
+[
+---truncated---</description><pubDate>Fri, 17 May 2024 13:36:50 +0000</pubDate></item><item><title>CVE-2024-35796 | net: ll_temac: platform_get_resource replaced by wrong function</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35796</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ll_temac: platform_get_resource replaced by wrong function
+
+The function platform_get_resource was replaced with
+devm_platform_ioremap_resource_byname and is called using 0 as name.
+
+This eventually ends up in platform_get_resource_byname in the call
+stack, where it causes a null pointer in strcmp.
+
+	if (type == resource_type(r) &amp;&amp; !strcmp(r-&gt;name, name))
+
+It should have been replaced with devm_platform_ioremap_resource.</description><pubDate>Fri, 17 May 2024 13:36:51 +0000</pubDate></item><item><title>CVE-2024-35797 | mm: cachestat: fix two shmem bugs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35797</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: cachestat: fix two shmem bugs
+
+When cachestat on shmem races with swapping and invalidation, there
+are two possible bugs:
+
+1) A swapin error can have resulted in a poisoned swap entry in the
+   shmem inode's xarray. Calling get_shadow_from_swap_cache() on it
+   will result in an out-of-bounds access to swapper_spaces[].
+
+   Validate the entry with non_swap_entry() before going further.
+
+2) When we find a valid swap entry in the shmem's inode, the shadow
+   entry in the swapcache might not exist yet: swap IO is still in
+   progress and we're before __remove_mapping; swapin, invalidation,
+   or swapoff have removed the shadow from swapcache after we saw the
+   shmem swap entry.
+
+   This will send a NULL to workingset_test_recent(). The latter
+   purely operates on pointer bits, so it won't crash - node 0, memcg
+   ID 0, eviction timestamp 0, etc. are all valid inputs - but it's a
+   bogus test. In theory that could result in a false "recently
+   evicted" count.
+
+   Such a false positive wouldn't be the end of the world. But for
+   code clarity and (future) robustness, be explicit about this case.
+
+   Bail on get_shadow_from_swap_cache() returning NULL.</description><pubDate>Fri, 17 May 2024 13:36:51 +0000</pubDate></item><item><title>CVE-2024-35798 | btrfs: fix race in read_extent_buffer_pages()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35798</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: fix race in read_extent_buffer_pages()
+
+There are reports from tree-checker that detects corrupted nodes,
+without any obvious pattern so possibly an overwrite in memory.
+After some debugging it turns out there's a race when reading an extent
+buffer the uptodate status can be missed.
+
+To prevent concurrent reads for the same extent buffer,
+read_extent_buffer_pages() performs these checks:
+
+    /* (1) */
+    if (test_bit(EXTENT_BUFFER_UPTODATE, &amp;eb-&gt;bflags))
+        return 0;
+
+    /* (2) */
+    if (test_and_set_bit(EXTENT_BUFFER_READING, &amp;eb-&gt;bflags))
+        goto done;
+
+At this point, it seems safe to start the actual read operation. Once
+that completes, end_bbio_meta_read() does
+
+    /* (3) */
+    set_extent_buffer_uptodate(eb);
+
+    /* (4) */
+    clear_bit(EXTENT_BUFFER_READING, &amp;eb-&gt;bflags);
+
+Normally, this is enough to ensure only one read happens, and all other
+callers wait for it to finish before returning.  Unfortunately, there is
+a racey interleaving:
+
+    Thread A | Thread B | Thread C
+    ---------+----------+---------
+       (1)   |          |
+             |    (1)   |
+       (2)   |          |
+       (3)   |          |
+       (4)   |          |
+             |    (2)   |
+             |          |    (1)
+
+When this happens, thread B kicks of an unnecessary read. Worse, thread
+C will see UPTODATE set and return immediately, while the read from
+thread B is still in progress.  This race could result in tree-checker
+errors like this as the extent buffer is concurrently modified:
+
+    BTRFS critical (device dm-0): corrupted node, root=256
+    block=8550954455682405139 owner mismatch, have 11858205567642294356
+    expect [256, 18446744073709551360]
+
+Fix it by testing UPTODATE again after setting the READING bit, and if
+it's been set, skip the unnecessary read.
+
+[ minor update of changelog ]</description><pubDate>Fri, 17 May 2024 13:36:51 +0000</pubDate></item><item><title>CVE-2024-35799 | drm/amd/display: Prevent crash when disable stream</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35799</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Prevent crash when disable stream
+
+[Why]
+Disabling stream encoder invokes a function that no longer exists.
+
+[How]
+Check if the function declaration is NULL in disable stream encoder.</description><pubDate>Fri, 17 May 2024 13:36:52 +0000</pubDate></item><item><title>CVE-2024-35800 | efi: fix panic in kdump kernel</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35800</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efi: fix panic in kdump kernel
+
+Check if get_next_variable() is actually valid pointer before
+calling it. In kdump kernel this method is set to NULL that causes
+panic during the kexec-ed kernel boot.
+
+Tested with QEMU and OVMF firmware.</description><pubDate>Fri, 17 May 2024 13:36:52 +0000</pubDate></item><item><title>CVE-2024-35801 | x86/fpu: Keep xfd_state in sync with MSR_IA32_XFD</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35801</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/fpu: Keep xfd_state in sync with MSR_IA32_XFD
+
+Commit 672365477ae8 ("x86/fpu: Update XFD state where required") and
+commit 8bf26758ca96 ("x86/fpu: Add XFD state to fpstate") introduced a
+per CPU variable xfd_state to keep the MSR_IA32_XFD value cached, in
+order to avoid unnecessary writes to the MSR.
+
+On CPU hotplug MSR_IA32_XFD is reset to the init_fpstate.xfd, which
+wipes out any stale state. But the per CPU cached xfd value is not
+reset, which brings them out of sync.
+
+As a consequence a subsequent xfd_update_state() might fail to update
+the MSR which in turn can result in XRSTOR raising a #NM in kernel
+space, which crashes the kernel.
+
+To fix this, introduce xfd_set_state() to write xfd_state together
+with MSR_IA32_XFD, and use it in all places that set MSR_IA32_XFD.</description><pubDate>Fri, 17 May 2024 13:36:52 +0000</pubDate></item><item><title>CVE-2024-35802 | x86/sev: Fix position dependent variable references in startup code</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35802</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/sev: Fix position dependent variable references in startup code
+
+The early startup code executes from a 1:1 mapping of memory, which
+differs from the mapping that the code was linked and/or relocated to
+run at. The latter mapping is not active yet at this point, and so
+symbol references that rely on it will fault.
+
+Given that the core kernel is built without -fPIC, symbol references are
+typically emitted as absolute, and so any such references occuring in
+the early startup code will therefore crash the kernel.
+
+While an attempt was made to work around this for the early SEV/SME
+startup code, by forcing RIP-relative addressing for certain global
+SEV/SME variables via inline assembly (see snp_cpuid_get_table() for
+example), RIP-relative addressing must be pervasively enforced for
+SEV/SME global variables when accessed prior to page table fixups.
+
+__startup_64() already handles this issue for select non-SEV/SME global
+variables using fixup_pointer(), which adjusts the pointer relative to a
+`physaddr` argument. To avoid having to pass around this `physaddr`
+argument across all functions needing to apply pointer fixups, introduce
+a macro RIP_RELATIVE_REF() which generates a RIP-relative reference to
+a given global variable. It is used where necessary to force
+RIP-relative accesses to global variables.
+
+For backporting purposes, this patch makes no attempt at cleaning up
+other occurrences of this pattern, involving either inline asm or
+fixup_pointer(). Those will be addressed later.
+
+  [ bp: Call it "rip_rel_ref" everywhere like other code shortens
+    "rIP-relative reference" and make the asm wrapper __always_inline. ]</description><pubDate>Fri, 17 May 2024 13:36:53 +0000</pubDate></item><item><title>CVE-2024-35803 | x86/efistub: Call mixed mode boot services on the firmware&amp;#x27;s stack</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35803</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/efistub: Call mixed mode boot services on the firmware's stack
+
+Normally, the EFI stub calls into the EFI boot services using the stack
+that was live when the stub was entered. According to the UEFI spec,
+this stack needs to be at least 128k in size - this might seem large but
+all asynchronous processing and event handling in EFI runs from the same
+stack and so quite a lot of space may be used in practice.
+
+In mixed mode, the situation is a bit different: the bootloader calls
+the 32-bit EFI stub entry point, which calls the decompressor's 32-bit
+entry point, where the boot stack is set up, using a fixed allocation
+of 16k. This stack is still in use when the EFI stub is started in
+64-bit mode, and so all calls back into the EFI firmware will be using
+the decompressor's limited boot stack.
+
+Due to the placement of the boot stack right after the boot heap, any
+stack overruns have gone unnoticed. However, commit
+
+  5c4feadb0011983b ("x86/decompressor: Move global symbol references to C code")
+
+moved the definition of the boot heap into C code, and now the boot
+stack is placed right at the base of BSS, where any overruns will
+corrupt the end of the .data section.
+
+While it would be possible to work around this by increasing the size of
+the boot stack, doing so would affect all x86 systems, and mixed mode
+systems are a tiny (and shrinking) fraction of the x86 installed base.
+
+So instead, record the firmware stack pointer value when entering from
+the 32-bit firmware, and switch to this stack every time a EFI boot
+service call is made.</description><pubDate>Fri, 17 May 2024 13:36:53 +0000</pubDate></item><item><title>CVE-2024-35804 | KVM: x86: Mark target gfn of emulated atomic instruction as dirty</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35804</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: x86: Mark target gfn of emulated atomic instruction as dirty
+
+When emulating an atomic access on behalf of the guest, mark the target
+gfn dirty if the CMPXCHG by KVM is attempted and doesn't fault.  This
+fixes a bug where KVM effectively corrupts guest memory during live
+migration by writing to guest memory without informing userspace that the
+page is dirty.
+
+Marking the page dirty got unintentionally dropped when KVM's emulated
+CMPXCHG was converted to do a user access.  Before that, KVM explicitly
+mapped the guest page into kernel memory, and marked the page dirty during
+the unmap phase.
+
+Mark the page dirty even if the CMPXCHG fails, as the old data is written
+back on failure, i.e. the page is still written.  The value written is
+guaranteed to be the same because the operation is atomic, but KVM's ABI
+is that all writes are dirty logged regardless of the value written.  And
+more importantly, that's what KVM did before the buggy commit.
+
+Huge kudos to the folks on the Cc list (and many others), who did all the
+actual work of triaging and debugging.
+
+base-commit: 6769ea8da8a93ed4630f1ce64df6aafcaabfce64</description><pubDate>Fri, 17 May 2024 13:36:54 +0000</pubDate></item><item><title>CVE-2024-35805 | dm snapshot: fix lockup in dm_exception_table_exit</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35805</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dm snapshot: fix lockup in dm_exception_table_exit
+
+There was reported lockup when we exit a snapshot with many exceptions.
+Fix this by adding "cond_resched" to the loop that frees the exceptions.</description><pubDate>Fri, 17 May 2024 13:36:54 +0000</pubDate></item><item><title>CVE-2024-35806 | soc: fsl: qbman: Always disable interrupts when taking cgr_lock</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35806</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: fsl: qbman: Always disable interrupts when taking cgr_lock
+
+smp_call_function_single disables IRQs when executing the callback. To
+prevent deadlocks, we must disable IRQs when taking cgr_lock elsewhere.
+This is already done by qman_update_cgr and qman_delete_cgr; fix the
+other lockers.</description><pubDate>Fri, 17 May 2024 13:36:54 +0000</pubDate></item><item><title>CVE-2024-35807 | ext4: fix corruption during on-line resize</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35807</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix corruption during on-line resize
+
+We observed a corruption during on-line resize of a file system that is
+larger than 16 TiB with 4k block size. With having more then 2^32 blocks
+resize_inode is turned off by default by mke2fs. The issue can be
+reproduced on a smaller file system for convenience by explicitly
+turning off resize_inode. An on-line resize across an 8 GiB boundary (the
+size of a meta block group in this setup) then leads to a corruption:
+
+  dev=/dev/&lt;some_dev&gt; # should be &gt;= 16 GiB
+  mkdir -p /corruption
+  /sbin/mke2fs -t ext4 -b 4096 -O ^resize_inode $dev $((2 * 2**21 - 2**15))
+  mount -t ext4 $dev /corruption
+
+  dd if=/dev/zero bs=4096 of=/corruption/test count=$((2*2**21 - 4*2**15))
+  sha1sum /corruption/test
+  # 79d2658b39dcfd77274e435b0934028adafaab11  /corruption/test
+
+  /sbin/resize2fs $dev $((2*2**21))
+  # drop page cache to force reload the block from disk
+  echo 1 &gt; /proc/sys/vm/drop_caches
+
+  sha1sum /corruption/test
+  # 3c2abc63cbf1a94c9e6977e0fbd72cd832c4d5c3  /corruption/test
+
+2^21 = 2^15*2^6 equals 8 GiB whereof 2^15 is the number of blocks per
+block group and 2^6 are the number of block groups that make a meta
+block group.
+
+The last checksum might be different depending on how the file is laid
+out across the physical blocks. The actual corruption occurs at physical
+block 63*2^15 = 2064384 which would be the location of the backup of the
+meta block group's block descriptor. During the on-line resize the file
+system will be converted to meta_bg starting at s_first_meta_bg which is
+2 in the example - meaning all block groups after 16 GiB. However, in
+ext4_flex_group_add we might add block groups that are not part of the
+first meta block group yet. In the reproducer we achieved this by
+substracting the size of a whole block group from the point where the
+meta block group would start. This must be considered when updating the
+backup block group descriptors to follow the non-meta_bg layout. The fix
+is to add a test whether the group to add is already part of the meta
+block group or not.</description><pubDate>Fri, 17 May 2024 13:36:55 +0000</pubDate></item><item><title>CVE-2024-35808 | md/dm-raid: don&amp;#x27;t call md_reap_sync_thread() directly</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35808</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/dm-raid: don't call md_reap_sync_thread() directly
+
+Currently md_reap_sync_thread() is called from raid_message() directly
+without holding 'reconfig_mutex', this is definitely unsafe because
+md_reap_sync_thread() can change many fields that is protected by
+'reconfig_mutex'.
+
+However, hold 'reconfig_mutex' here is still problematic because this
+will cause deadlock, for example, commit 130443d60b1b ("md: refactor
+idle/frozen_sync_thread() to fix deadlock").
+
+Fix this problem by using stop_sync_thread() to unregister sync_thread,
+like md/raid did.</description><pubDate>Fri, 17 May 2024 13:36:55 +0000</pubDate></item><item><title>CVE-2024-35809 | PCI/PM: Drain runtime-idle callbacks before driver removal</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35809</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI/PM: Drain runtime-idle callbacks before driver removal
+
+A race condition between the .runtime_idle() callback and the .remove()
+callback in the rtsx_pcr PCI driver leads to a kernel crash due to an
+unhandled page fault [1].
+
+The problem is that rtsx_pci_runtime_idle() is not expected to be running
+after pm_runtime_get_sync() has been called, but the latter doesn't really
+guarantee that.  It only guarantees that the suspend and resume callbacks
+will not be running when it returns.
+
+However, if a .runtime_idle() callback is already running when
+pm_runtime_get_sync() is called, the latter will notice that the runtime PM
+status of the device is RPM_ACTIVE and it will return right away without
+waiting for the former to complete.  In fact, it cannot wait for
+.runtime_idle() to complete because it may be called from that callback (it
+arguably does not make much sense to do that, but it is not strictly
+prohibited).
+
+Thus in general, whoever is providing a .runtime_idle() callback needs
+to protect it from running in parallel with whatever code runs after
+pm_runtime_get_sync().  [Note that .runtime_idle() will not start after
+pm_runtime_get_sync() has returned, but it may continue running then if it
+has started earlier.]
+
+One way to address that race condition is to call pm_runtime_barrier()
+after pm_runtime_get_sync() (not before it, because a nonzero value of the
+runtime PM usage counter is necessary to prevent runtime PM callbacks from
+being invoked) to wait for the .runtime_idle() callback to complete should
+it be running at that point.  A suitable place for doing that is in
+pci_device_remove() which calls pm_runtime_get_sync() before removing the
+driver, so it may as well call pm_runtime_barrier() subsequently, which
+will prevent the race in question from occurring, not just in the rtsx_pcr
+driver, but in any PCI drivers providing .runtime_idle() callbacks.</description><pubDate>Fri, 17 May 2024 13:36:55 +0000</pubDate></item><item><title>CVE-2024-35810 | drm/vmwgfx: Fix the lifetime of the bo cursor memory</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35810</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vmwgfx: Fix the lifetime of the bo cursor memory
+
+The cleanup can be dispatched while the atomic update is still active,
+which means that the memory acquired in the atomic update needs to
+not be invalidated by the cleanup. The buffer objects in vmw_plane_state
+instead of using the builtin map_and_cache were trying to handle
+the lifetime of the mapped memory themselves, leading to crashes.
+
+Use the map_and_cache instead of trying to manage the lifetime of the
+buffer objects held by the vmw_plane_state.
+
+Fixes kernel oops'es in IGT's kms_cursor_legacy forked-bo.</description><pubDate>Fri, 17 May 2024 13:36:56 +0000</pubDate></item><item><title>CVE-2024-35811 | wifi: brcmfmac: Fix use-after-free bug in brcmf_cfg80211_detach</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35811</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: brcmfmac: Fix use-after-free bug in brcmf_cfg80211_detach
+
+This is the candidate patch of CVE-2023-47233 :
+https://nvd.nist.gov/vuln/detail/CVE-2023-47233
+
+In brcm80211 driver,it starts with the following invoking chain
+to start init a timeout worker:
+
+-&gt;brcmf_usb_probe
+  -&gt;brcmf_usb_probe_cb
+    -&gt;brcmf_attach
+      -&gt;brcmf_bus_started
+        -&gt;brcmf_cfg80211_attach
+          -&gt;wl_init_priv
+            -&gt;brcmf_init_escan
+              -&gt;INIT_WORK(&amp;cfg-&gt;escan_timeout_work,
+		  brcmf_cfg80211_escan_timeout_worker);
+
+If we disconnect the USB by hotplug, it will call
+brcmf_usb_disconnect to make cleanup. The invoking chain is :
+
+brcmf_usb_disconnect
+  -&gt;brcmf_usb_disconnect_cb
+    -&gt;brcmf_detach
+      -&gt;brcmf_cfg80211_detach
+        -&gt;kfree(cfg);
+
+While the timeout woker may still be running. This will cause
+a use-after-free bug on cfg in brcmf_cfg80211_escan_timeout_worker.
+
+Fix it by deleting the timer and canceling the worker in
+brcmf_cfg80211_detach.
+
+[arend.vanspriel@broadcom.com: keep timer delete as is and cancel work just before free]</description><pubDate>Fri, 17 May 2024 13:36:56 +0000</pubDate></item><item><title>CVE-2024-35812 | usb: cdc-wdm: close race between read and workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35812</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: cdc-wdm: close race between read and workqueue
+
+wdm_read() cannot race with itself. However, in
+service_outstanding_interrupt() it can race with the
+workqueue, which can be triggered by error handling.
+
+Hence we need to make sure that the WDM_RESPONDING
+flag is not just only set but tested.</description><pubDate>Fri, 17 May 2024 13:36:56 +0000</pubDate></item><item><title>CVE-2024-35813 | mmc: core: Avoid negative index with array access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35813</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mmc: core: Avoid negative index with array access
+
+Commit 4d0c8d0aef63 ("mmc: core: Use mrq.sbc in close-ended ffu") assigns
+prev_idata = idatas[i - 1], but doesn't check that the iterator i is
+greater than zero. Let's fix this by adding a check.</description><pubDate>Fri, 17 May 2024 13:36:57 +0000</pubDate></item><item><title>CVE-2024-35814 | swiotlb: Fix double-allocation of slots due to broken alignment handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35814</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+swiotlb: Fix double-allocation of slots due to broken alignment handling
+
+Commit bbb73a103fbb ("swiotlb: fix a braino in the alignment check fix"),
+which was a fix for commit 0eee5ae10256 ("swiotlb: fix slot alignment
+checks"), causes a functional regression with vsock in a virtual machine
+using bouncing via a restricted DMA SWIOTLB pool.
+
+When virtio allocates the virtqueues for the vsock device using
+dma_alloc_coherent(), the SWIOTLB search can return page-unaligned
+allocations if 'area-&gt;index' was left unaligned by a previous allocation
+from the buffer:
+
+ # Final address in brackets is the SWIOTLB address returned to the caller
+ | virtio-pci 0000:00:07.0: orig_addr 0x0 alloc_size 0x2000, iotlb_align_mask 0x800 stride 0x2: got slot 1645-1649/7168 (0x98326800)
+ | virtio-pci 0000:00:07.0: orig_addr 0x0 alloc_size 0x2000, iotlb_align_mask 0x800 stride 0x2: got slot 1649-1653/7168 (0x98328800)
+ | virtio-pci 0000:00:07.0: orig_addr 0x0 alloc_size 0x2000, iotlb_align_mask 0x800 stride 0x2: got slot 1653-1657/7168 (0x9832a800)
+
+This ends badly (typically buffer corruption and/or a hang) because
+swiotlb_alloc() is expecting a page-aligned allocation and so blindly
+returns a pointer to the 'struct page' corresponding to the allocation,
+therefore double-allocating the first half (2KiB slot) of the 4KiB page.
+
+Fix the problem by treating the allocation alignment separately to any
+additional alignment requirements from the device, using the maximum
+of the two as the stride to search the buffer slots and taking care
+to ensure a minimum of page-alignment for buffers larger than a page.
+
+This also resolves swiotlb allocation failures occuring due to the
+inclusion of ~PAGE_MASK in 'iotlb_align_mask' for large allocations and
+resulting in alignment requirements exceeding swiotlb_max_mapping_size().</description><pubDate>Fri, 17 May 2024 13:36:57 +0000</pubDate></item><item><title>CVE-2024-35815 | fs/aio: Check IOCB_AIO_RW before the struct aio_kiocb conversion</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35815</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/aio: Check IOCB_AIO_RW before the struct aio_kiocb conversion
+
+The first kiocb_set_cancel_fn() argument may point at a struct kiocb
+that is not embedded inside struct aio_kiocb. With the current code,
+depending on the compiler, the req-&gt;ki_ctx read happens either before
+the IOCB_AIO_RW test or after that test. Move the req-&gt;ki_ctx read such
+that it is guaranteed that the IOCB_AIO_RW test happens first.</description><pubDate>Fri, 17 May 2024 13:36:57 +0000</pubDate></item><item><title>CVE-2024-35816 | firewire: ohci: prevent leak of left-over IRQ on unbind</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35816</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firewire: ohci: prevent leak of left-over IRQ on unbind
+
+Commit 5a95f1ded28691e6 ("firewire: ohci: use devres for requested IRQ")
+also removed the call to free_irq() in pci_remove(), leading to a
+leftover irq of devm_request_irq() at pci_disable_msi() in pci_remove()
+when unbinding the driver from the device
+
+remove_proc_entry: removing non-empty directory 'irq/136', leaking at
+least 'firewire_ohci'
+Call Trace:
+ ? remove_proc_entry+0x19c/0x1c0
+ ? __warn+0x81/0x130
+ ? remove_proc_entry+0x19c/0x1c0
+ ? report_bug+0x171/0x1a0
+ ? console_unlock+0x78/0x120
+ ? handle_bug+0x3c/0x80
+ ? exc_invalid_op+0x17/0x70
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? remove_proc_entry+0x19c/0x1c0
+ unregister_irq_proc+0xf4/0x120
+ free_desc+0x3d/0xe0
+ ? kfree+0x29f/0x2f0
+ irq_free_descs+0x47/0x70
+ msi_domain_free_locked.part.0+0x19d/0x1d0
+ msi_domain_free_irqs_all_locked+0x81/0xc0
+ pci_free_msi_irqs+0x12/0x40
+ pci_disable_msi+0x4c/0x60
+ pci_remove+0x9d/0xc0 [firewire_ohci
+     01b483699bebf9cb07a3d69df0aa2bee71db1b26]
+ pci_device_remove+0x37/0xa0
+ device_release_driver_internal+0x19f/0x200
+ unbind_store+0xa1/0xb0
+
+remove irq with devm_free_irq() before pci_disable_msi()
+also remove it in fail_msi: of pci_probe() as this would lead to
+an identical leak</description><pubDate>Fri, 17 May 2024 13:36:58 +0000</pubDate></item><item><title>CVE-2024-35817 | drm/amdgpu: amdgpu_ttm_gart_bind set gtt bound flag</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35817</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: amdgpu_ttm_gart_bind set gtt bound flag
+
+Otherwise after the GTT bo is released, the GTT and gart space is freed
+but amdgpu_ttm_backend_unbind will not clear the gart page table entry
+and leave valid mapping entry pointing to the stale system page. Then
+if GPU access the gart address mistakely, it will read undefined value
+instead page fault, harder to debug and reproduce the real issue.</description><pubDate>Fri, 17 May 2024 13:36:58 +0000</pubDate></item><item><title>CVE-2024-35818 | LoongArch: Define the __io_aw() hook as mmiowb()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35818</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+LoongArch: Define the __io_aw() hook as mmiowb()
+
+Commit fb24ea52f78e0d595852e ("drivers: Remove explicit invocations of
+mmiowb()") remove all mmiowb() in drivers, but it says:
+
+"NOTE: mmiowb() has only ever guaranteed ordering in conjunction with
+spin_unlock(). However, pairing each mmiowb() removal in this patch with
+the corresponding call to spin_unlock() is not at all trivial, so there
+is a small chance that this change may regress any drivers incorrectly
+relying on mmiowb() to order MMIO writes between CPUs using lock-free
+synchronisation."
+
+The mmio in radeon_ring_commit() is protected by a mutex rather than a
+spinlock, but in the mutex fastpath it behaves similar to spinlock. We
+can add mmiowb() calls in the radeon driver but the maintainer says he
+doesn't like such a workaround, and radeon is not the only example of
+mutex protected mmio.
+
+So we should extend the mmiowb tracking system from spinlock to mutex,
+and maybe other locking primitives. This is not easy and error prone, so
+we solve it in the architectural code, by simply defining the __io_aw()
+hook as mmiowb(). And we no longer need to override queued_spin_unlock()
+so use the generic definition.
+
+Without this, we get such an error when run 'glxgears' on weak ordering
+architectures such as LoongArch:
+
+radeon 0000:04:00.0: ring 0 stalled for more than 10324msec
+radeon 0000:04:00.0: ring 3 stalled for more than 10240msec
+radeon 0000:04:00.0: GPU lockup (current fence id 0x000000000001f412 last fence id 0x000000000001f414 on ring 3)
+radeon 0000:04:00.0: GPU lockup (current fence id 0x000000000000f940 last fence id 0x000000000000f941 on ring 0)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)
+radeon 0000:04:00.0: scheduling IB failed (-35).
+[drm:radeon_gem_va_ioctl [radeon]] *ERROR* Couldn't update BO_VA (-35)</description><pubDate>Fri, 17 May 2024 13:36:58 +0000</pubDate></item><item><title>CVE-2024-35819 | soc: fsl: qbman: Use raw spinlock for cgr_lock</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35819</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: fsl: qbman: Use raw spinlock for cgr_lock
+
+smp_call_function always runs its callback in hard IRQ context, even on
+PREEMPT_RT, where spinlocks can sleep. So we need to use a raw spinlock
+for cgr_lock to ensure we aren't waiting on a sleeping task.
+
+Although this bug has existed for a while, it was not apparent until
+commit ef2a8d5478b9 ("net: dpaa: Adjust queue depth on rate change")
+which invokes smp_call_function_single via qman_update_cgr_safe every
+time a link goes up or down.</description><pubDate>Fri, 17 May 2024 13:36:59 +0000</pubDate></item><item><title>CVE-2024-35820 | io_uring: fix io_queue_proc modifying req-&amp;gt;flags</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35820</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: fix io_queue_proc modifying req-&gt;flags
+
+With multiple poll entries __io_queue_proc() might be running in
+parallel with poll handlers and possibly task_work, we should not be
+carelessly modifying req-&gt;flags there. io_poll_double_prepare() handles
+a similar case with locking but it's much easier to move it into
+__io_arm_poll_handler().</description><pubDate>Fri, 17 May 2024 13:36:59 +0000</pubDate></item><item><title>CVE-2024-35821 | ubifs: Set page uptodate in the correct place</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35821</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubifs: Set page uptodate in the correct place
+
+Page cache reads are lockless, so setting the freshly allocated page
+uptodate before we've overwritten it with the data it's supposed to have
+in it will allow a simultaneous reader to see old data.  Move the call
+to SetPageUptodate into ubifs_write_end(), which is after we copied the
+new data into the page.</description><pubDate>Fri, 17 May 2024 13:36:59 +0000</pubDate></item><item><title>CVE-2024-35822 | usb: udc: remove warning when queue disabled ep</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35822</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: udc: remove warning when queue disabled ep
+
+It is possible trigger below warning message from mass storage function,
+
+WARNING: CPU: 6 PID: 3839 at drivers/usb/gadget/udc/core.c:294 usb_ep_queue+0x7c/0x104
+pc : usb_ep_queue+0x7c/0x104
+lr : fsg_main_thread+0x494/0x1b3c
+
+Root cause is mass storage function try to queue request from main thread,
+but other thread may already disable ep when function disable.
+
+As there is no function failure in the driver, in order to avoid effort
+to fix warning, change WARN_ON_ONCE() in usb_ep_queue() to pr_debug().</description><pubDate>Fri, 17 May 2024 13:37:00 +0000</pubDate></item><item><title>CVE-2024-35823 | vt: fix unicode buffer corruption when deleting characters</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35823</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vt: fix unicode buffer corruption when deleting characters
+
+This is the same issue that was fixed for the VGA text buffer in commit
+39cdb68c64d8 ("vt: fix memory overlapping when deleting chars in the
+buffer"). The cure is also the same i.e. replace memcpy() with memmove()
+due to the overlaping buffers.</description><pubDate>Fri, 17 May 2024 13:37:00 +0000</pubDate></item><item><title>CVE-2024-35824 | misc: lis3lv02d_i2c: Fix regulators getting en-/dis-abled twice on suspend/resume</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35824</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: lis3lv02d_i2c: Fix regulators getting en-/dis-abled twice on suspend/resume
+
+When not configured for wakeup lis3lv02d_i2c_suspend() will call
+lis3lv02d_poweroff() even if the device has already been turned off
+by the runtime-suspend handler and if configured for wakeup and
+the device is runtime-suspended at this point then it is not turned
+back on to serve as a wakeup source.
+
+Before commit b1b9f7a49440 ("misc: lis3lv02d_i2c: Add missing setting
+of the reg_ctrl callback"), lis3lv02d_poweroff() failed to disable
+the regulators which as a side effect made calling poweroff() twice ok.
+
+Now that poweroff() correctly disables the regulators, doing this twice
+triggers a WARN() in the regulator core:
+
+unbalanced disables for regulator-dummy
+WARNING: CPU: 1 PID: 92 at drivers/regulator/core.c:2999 _regulator_disable
+...
+
+Fix lis3lv02d_i2c_suspend() to not call poweroff() a second time if
+already runtime-suspended and add a poweron() call when necessary to
+make wakeup work.
+
+lis3lv02d_i2c_resume() has similar issues, with an added weirness that
+it always powers on the device if it is runtime suspended, after which
+the first runtime-resume will call poweron() again, causing the enabled
+count for the regulator to increase by 1 every suspend/resume. These
+unbalanced regulator_enable() calls cause the regulator to never
+be turned off and trigger the following WARN() on driver unbind:
+
+WARNING: CPU: 1 PID: 1724 at drivers/regulator/core.c:2396 _regulator_put
+
+Fix this by making lis3lv02d_i2c_resume() mirror the new suspend().</description><pubDate>Fri, 17 May 2024 13:37:00 +0000</pubDate></item><item><title>CVE-2024-35825 | usb: gadget: ncm: Fix handling of zero block length packets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35825</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: ncm: Fix handling of zero block length packets
+
+While connecting to a Linux host with CDC_NCM_NTB_DEF_SIZE_TX
+set to 65536, it has been observed that we receive short packets,
+which come at interval of 5-10 seconds sometimes and have block
+length zero but still contain 1-2 valid datagrams present.
+
+According to the NCM spec:
+
+"If wBlockLength = 0x0000, the block is terminated by a
+short packet. In this case, the USB transfer must still
+be shorter than dwNtbInMaxSize or dwNtbOutMaxSize. If
+exactly dwNtbInMaxSize or dwNtbOutMaxSize bytes are sent,
+and the size is a multiple of wMaxPacketSize for the
+given pipe, then no ZLP shall be sent.
+
+wBlockLength= 0x0000 must be used with extreme care, because
+of the possibility that the host and device may get out of
+sync, and because of test issues.
+
+wBlockLength = 0x0000 allows the sender to reduce latency by
+starting to send a very large NTB, and then shortening it when
+the sender discovers that there’s not sufficient data to justify
+sending a large NTB"
+
+However, there is a potential issue with the current implementation,
+as it checks for the occurrence of multiple NTBs in a single
+giveback by verifying if the leftover bytes to be processed is zero
+or not. If the block length reads zero, we would process the same
+NTB infintely because the leftover bytes is never zero and it leads
+to a crash. Fix this by bailing out if block length reads zero.</description><pubDate>Fri, 17 May 2024 13:37:01 +0000</pubDate></item><item><title>CVE-2024-35826 | block: Fix page refcounts for unaligned buffers in __bio_release_pages()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35826</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: Fix page refcounts for unaligned buffers in __bio_release_pages()
+
+Fix an incorrect number of pages being released for buffers that do not
+start at the beginning of a page.</description><pubDate>Fri, 17 May 2024 13:37:01 +0000</pubDate></item><item><title>CVE-2024-5042 | Submariner-operator: rbac permissions can allow for the spread of node compromises</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5042</link><description>A flaw was found in the Submariner project. Due to unnecessary role-based access control permissions, a privileged attacker can run a malicious container on a node that may allow them to steal service account tokens and further compromise other nodes and potentially the entire cluster.</description><pubDate>Fri, 17 May 2024 13:26:12 +0000</pubDate></item><item><title>CVE-2024-5046 | SourceCodester Online Examination System registeracc.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5046</link><description>A vulnerability was found in SourceCodester Online Examination System 1.0. It has been rated as critical. This issue affects some unknown processing of the file registeracc.php. The manipulation of the argument email leads to sql injection. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-264743.</description><pubDate>Fri, 17 May 2024 13:12:18 +0000</pubDate></item><item><title>CVE-2024-35784 | btrfs: fix deadlock with fiemap and extent locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35784</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 btrfs: fix deadlock with fiemap and extent locking
 
