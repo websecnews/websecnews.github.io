@@ -1,5 +1,147 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:13:56 +0000</lastBuildDate><item><title>CVE-2023-52665 | powerpc/ps3_defconfig: Disable PPC64_BIG_ENDIAN_ELF_ABI_V2</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52665</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 17 May 2024 14:29:32 +0000</lastBuildDate><item><title>CVE-2023-52674 | ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52674</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: scarlett2: Add clamp() in scarlett2_mixer_ctl_put()
+
+Ensure the value passed to scarlett2_mixer_ctl_put() is between 0 and
+SCARLETT2_MIXER_MAX_VALUE so we don't attempt to access outside
+scarlett2_mixer_values[].</description><pubDate>Fri, 17 May 2024 14:29:33 +0000</pubDate></item><item><title>CVE-2023-52675 | powerpc/imc-pmu: Add a null pointer check in update_events_in_group()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52675</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/imc-pmu: Add a null pointer check in update_events_in_group()
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.</description><pubDate>Fri, 17 May 2024 14:29:34 +0000</pubDate></item><item><title>CVE-2023-52676 | bpf: Guard stack limits against 32bit overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52676</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Guard stack limits against 32bit overflow
+
+This patch promotes the arithmetic around checking stack bounds to be
+done in the 64-bit domain, instead of the current 32bit. The arithmetic
+implies adding together a 64-bit register with a int offset. The
+register was checked to be below 1&lt;&lt;29 when it was variable, but not
+when it was fixed. The offset either comes from an instruction (in which
+case it is 16 bit), from another register (in which case the caller
+checked it to be below 1&lt;&lt;29 [1]), or from the size of an argument to a
+kfunc (in which case it can be a u32 [2]). Between the register being
+inconsistently checked to be below 1&lt;&lt;29, and the offset being up to an
+u32, it appears that we were open to overflowing the `int`s which were
+currently used for arithmetic.
+
+[1] https://github.com/torvalds/linux/blob/815fb87b753055df2d9e50f6cd80eb10235fe3e9/kernel/bpf/verifier.c#L7494-L7498
+[2] https://github.com/torvalds/linux/blob/815fb87b753055df2d9e50f6cd80eb10235fe3e9/kernel/bpf/verifier.c#L11904</description><pubDate>Fri, 17 May 2024 14:29:34 +0000</pubDate></item><item><title>CVE-2023-52677 | riscv: Check if the code to patch lies in the exit section</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52677</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: Check if the code to patch lies in the exit section
+
+Otherwise we fall through to vmalloc_to_page() which panics since the
+address does not lie in the vmalloc region.</description><pubDate>Fri, 17 May 2024 14:29:34 +0000</pubDate></item><item><title>CVE-2023-52678 | drm/amdkfd: Confirm list is non-empty before utilizing list_first_entry in kfd_topology.c</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52678</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: Confirm list is non-empty before utilizing list_first_entry in kfd_topology.c
+
+Before using list_first_entry, make sure to check that list is not
+empty, if list is empty return -ENODATA.
+
+Fixes the below:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1347 kfd_create_indirect_link_prop() warn: can 'gpu_link' even be NULL?
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1428 kfd_add_peer_prop() warn: can 'iolink1' even be NULL?
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1433 kfd_add_peer_prop() warn: can 'iolink2' even be NULL?</description><pubDate>Fri, 17 May 2024 14:29:35 +0000</pubDate></item><item><title>CVE-2023-52679 | of: Fix double free in of_parse_phandle_with_args_map</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52679</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+of: Fix double free in of_parse_phandle_with_args_map
+
+In of_parse_phandle_with_args_map() the inner loop that
+iterates through the map entries calls of_node_put(new)
+to free the reference acquired by the previous iteration
+of the inner loop. This assumes that the value of "new" is
+NULL on the first iteration of the inner loop.
+
+Make sure that this is true in all iterations of the outer
+loop by setting "new" to NULL after its value is assigned to "cur".
+
+Extend the unittest to detect the double free and add an additional
+test case that actually triggers this path.</description><pubDate>Fri, 17 May 2024 14:29:35 +0000</pubDate></item><item><title>CVE-2023-52680 | ALSA: scarlett2: Add missing error checks to *_ctl_get()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52680</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: scarlett2: Add missing error checks to *_ctl_get()
+
+The *_ctl_get() functions which call scarlett2_update_*() were not
+checking the return value. Fix to check the return value and pass to
+the caller.</description><pubDate>Fri, 17 May 2024 14:29:35 +0000</pubDate></item><item><title>CVE-2023-52681 | efivarfs: Free s_fs_info on unmount</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52681</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efivarfs: Free s_fs_info on unmount
+
+Now that we allocate a s_fs_info struct on fs context creation, we
+should ensure that we free it again when the superblock goes away.</description><pubDate>Fri, 17 May 2024 14:29:36 +0000</pubDate></item><item><title>CVE-2023-52682 | f2fs: fix to wait on block writeback for post_read case</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52682</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to wait on block writeback for post_read case
+
+If inode is compressed, but not encrypted, it missed to call
+f2fs_wait_on_block_writeback() to wait for GCed page writeback
+in IPU write path.
+
+Thread A				GC-Thread
+					- f2fs_gc
+					 - do_garbage_collect
+					  - gc_data_segment
+					   - move_data_block
+					    - f2fs_submit_page_write
+					     migrate normal cluster's block via
+					     meta_inode's page cache
+- f2fs_write_single_data_page
+ - f2fs_do_write_data_page
+  - f2fs_inplace_write_data
+   - f2fs_submit_page_bio
+
+IRQ
+- f2fs_read_end_io
+					IRQ
+					old data overrides new data due to
+					out-of-order GC and common IO.
+					- f2fs_read_end_io</description><pubDate>Fri, 17 May 2024 14:29:36 +0000</pubDate></item><item><title>CVE-2023-52683 | ACPI: LPIT: Avoid u32 multiplication overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52683</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ACPI: LPIT: Avoid u32 multiplication overflow
+
+In lpit_update_residency() there is a possibility of overflow
+in multiplication, if tsc_khz is large enough (&gt; UINT_MAX/1000).
+
+Change multiplication to mul_u32_u32().
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Fri, 17 May 2024 14:29:37 +0000</pubDate></item><item><title>CVE-2023-52687 | crypto: safexcel - Add error handling for dma_map_sg() calls</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52687</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: safexcel - Add error handling for dma_map_sg() calls
+
+Macro dma_map_sg() may return 0 on error. This patch enables
+checks in case of the macro failure and ensures unmapping of
+previously mapped buffers with dma_unmap_sg().
+
+Found by Linux Verification Center (linuxtesting.org) with static
+analysis tool SVACE.</description><pubDate>Fri, 17 May 2024 14:29:37 +0000</pubDate></item><item><title>CVE-2023-52688 | wifi: ath12k: fix the error handler of rfkill config</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52688</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath12k: fix the error handler of rfkill config
+
+When the core rfkill config throws error, it should free the
+allocated resources. Currently it is not freeing the core pdev
+create resources. Avoid this issue by calling the core pdev
+destroy in the error handler of core rfkill config.
+
+Found this issue in the code review and it is compile tested only.</description><pubDate>Fri, 17 May 2024 14:29:37 +0000</pubDate></item><item><title>CVE-2023-52689 | ALSA: scarlett2: Add missing mutex lock around get meter levels</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52689</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: scarlett2: Add missing mutex lock around get meter levels
+
+As scarlett2_meter_ctl_get() uses meter_level_map[], the data_mutex
+should be locked while accessing it.</description><pubDate>Fri, 17 May 2024 14:29:38 +0000</pubDate></item><item><title>CVE-2023-52690 | powerpc/powernv: Add a null pointer check to scom_debug_init_one()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52690</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/powernv: Add a null pointer check to scom_debug_init_one()
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure.
+Add a null pointer check, and release 'ent' to avoid memory leaks.</description><pubDate>Fri, 17 May 2024 14:29:38 +0000</pubDate></item><item><title>CVE-2023-52691 | drm/amd/pm: fix a double-free in si_dpm_init</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52691</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/pm: fix a double-free in si_dpm_init
+
+When the allocation of
+adev-&gt;pm.dpm.dyn_state.vddc_dependency_on_dispclk.entries fails,
+amdgpu_free_extended_power_table is called to free some fields of adev.
+However, when the control flow returns to si_dpm_sw_init, it goes to
+label dpm_failed and calls si_dpm_fini, which calls
+amdgpu_free_extended_power_table again and free those fields again. Thus
+a double-free is triggered.</description><pubDate>Fri, 17 May 2024 14:29:38 +0000</pubDate></item><item><title>CVE-2023-52665 | powerpc/ps3_defconfig: Disable PPC64_BIG_ENDIAN_ELF_ABI_V2</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52665</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 powerpc/ps3_defconfig: Disable PPC64_BIG_ENDIAN_ELF_ABI_V2
 
@@ -44,15 +186,15 @@ generic/129.
    6.7.0-rc5+ #1 Not tainted
    ------------------------------------------------------
    kworker/u5:5/793427 is trying to acquire lock:
-   ffff88813256d028 (&amp;cache-&gt;lock){+.+.}-{2:2}, at: btrfs_zone_finish_one_bg+0x5e/0x130
+   ffff88813256d028 (&amp;amp;cache-&gt;lock){+.+.}-{2:2}, at: btrfs_zone_finish_one_bg+0x5e/0x130
    but task is already holding lock:
-   ffff88810a23a318 (&amp;fs_info-&gt;zone_active_bgs_lock){+.+.}-{2:2}, at: btrfs_zone_finish_one_bg+0x34/0x130
+   ffff88810a23a318 (&amp;amp;fs_info-&gt;zone_active_bgs_lock){+.+.}-{2:2}, at: btrfs_zone_finish_one_bg+0x34/0x130
    which lock already depends on the new lock.
 
    the existing dependency chain (in reverse order) is:
-   -&gt; #1 (&amp;fs_info-&gt;zone_active_bgs_lock){+.+.}-{2:2}:
+   -&gt; #1 (&amp;amp;fs_info-&gt;zone_active_bgs_lock){+.+.}-{2:2}:
    ...
-   -&gt; #0 (&amp;cache-&gt;lock){+.+.}-{2:2}:
+   -&gt; #0 (&amp;amp;cache-&gt;lock){+.+.}-{2:2}:
    ...
 
 This is because we take fs_info-&gt;zone_active_bgs_lock after a block_group's
@@ -120,7 +262,7 @@ would result in the wakeup never actually triggering pipe_write.
 Set @max_usage and @nr_accounted before waking writers if this isn't a
 watch queue.
 
-[Christian Brauner &lt;brauner@kernel.org&gt;: rewrite to account for watch queues]</description><pubDate>Fri, 17 May 2024 14:14:01 +0000</pubDate></item><item><title>CVE-2023-52673 | drm/amd/display: Fix a debugfs null pointer error</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52673</link><description>In the Linux kernel, the following vulnerability has been resolved:
+[Christian Brauner : rewrite to account for watch queues]</description><pubDate>Fri, 17 May 2024 14:14:01 +0000</pubDate></item><item><title>CVE-2023-52673 | drm/amd/display: Fix a debugfs null pointer error</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52673</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/amd/display: Fix a debugfs null pointer error
 
