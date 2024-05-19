@@ -1,5 +1,648 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 May 2024 08:37:41 +0000</lastBuildDate><item><title>CVE-2024-35860 | bpf: support deferring bpf_link dealloc to after RCU grace period</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35860</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 May 2024 10:30:39 +0000</lastBuildDate><item><title>CVE-2023-52699 | sysv: don&amp;#x27;t call sb_bread() with pointers_lock held</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52699</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sysv: don't call sb_bread() with pointers_lock held
+
+syzbot is reporting sleep in atomic context in SysV filesystem [1], for
+sb_bread() is called with rw_spinlock held.
+
+A "write_lock(&amp;pointers_lock) =&gt; read_lock(&amp;pointers_lock) deadlock" bug
+and a "sb_bread() with write_lock(&amp;pointers_lock)" bug were introduced by
+"Replace BKL for chain locking with sysvfs-private rwlock" in Linux 2.5.12.
+
+Then, "[PATCH] err1-40: sysvfs locking fix" in Linux 2.6.8 fixed the
+former bug by moving pointers_lock lock to the callers, but instead
+introduced a "sb_bread() with read_lock(&amp;pointers_lock)" bug (which made
+this problem easier to hit).
+
+Al Viro suggested that why not to do like get_branch()/get_block()/
+find_shared() in Minix filesystem does. And doing like that is almost a
+revert of "[PATCH] err1-40: sysvfs locking fix" except that get_branch()
+ from with find_shared() is called without write_lock(&amp;pointers_lock).</description><pubDate>Sun, 19 May 2024 10:30:40 +0000</pubDate></item><item><title>CVE-2024-35918 | randomize_kstack: Improve entropy diffusion</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35918</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+randomize_kstack: Improve entropy diffusion
+
+The kstack_offset variable was really only ever using the low bits for
+kernel stack offset entropy. Add a ror32() to increase bit diffusion.</description><pubDate>Sun, 19 May 2024 10:30:41 +0000</pubDate></item><item><title>CVE-2024-35919 | media: mediatek: vcodec: adding lock to protect encoder context list</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35919</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mediatek: vcodec: adding lock to protect encoder context list
+
+Add a lock for the ctx_list, to avoid accessing a NULL pointer
+within the 'vpu_enc_ipi_handler' function when the ctx_list has
+been deleted due to an unexpected behavior on the SCP IP block.</description><pubDate>Sun, 19 May 2024 10:30:41 +0000</pubDate></item><item><title>CVE-2024-35920 | media: mediatek: vcodec: adding lock to protect decoder context list</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35920</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mediatek: vcodec: adding lock to protect decoder context list
+
+Add a lock for the ctx_list, to avoid accessing a NULL pointer
+within the 'vpu_dec_ipi_handler' function when the ctx_list has
+been deleted due to an unexpected behavior on the SCP IP block.
+
+Hardware name: Google juniper sku16 board (DT)
+pstate: 20400005 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+pc : vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec]
+lr : scp_ipi_handler+0xd0/0x194 [mtk_scp]
+sp : ffffffc0131dbbd0
+x29: ffffffc0131dbbd0 x28: 0000000000000000
+x27: ffffff9bb277f348 x26: ffffff9bb242ad00
+x25: ffffffd2d440d3b8 x24: ffffffd2a13ff1d4
+x23: ffffff9bb7fe85a0 x22: ffffffc0133fbdb0
+x21: 0000000000000010 x20: ffffff9b050ea328
+x19: ffffffc0131dbc08 x18: 0000000000001000
+x17: 0000000000000000 x16: ffffffd2d461c6e0
+x15: 0000000000000242 x14: 000000000000018f
+x13: 000000000000004d x12: 0000000000000000
+x11: 0000000000000001 x10: fffffffffffffff0
+x9 : ffffff9bb6e793a8 x8 : 0000000000000000
+x7 : 0000000000000000 x6 : 000000000000003f
+x5 : 0000000000000040 x4 : fffffffffffffff0
+x3 : 0000000000000020 x2 : ffffff9bb6e79080
+x1 : 0000000000000010 x0 : ffffffc0131dbc08
+Call trace:
+vpu_dec_ipi_handler+0x58/0x1f8 [mtk_vcodec_dec (HASH:6c3f 2)]
+scp_ipi_handler+0xd0/0x194 [mtk_scp (HASH:7046 3)]
+mt8183_scp_irq_handler+0x44/0x88 [mtk_scp (HASH:7046 3)]
+scp_irq_handler+0x48/0x90 [mtk_scp (HASH:7046 3)]
+irq_thread_fn+0x38/0x94
+irq_thread+0x100/0x1c0
+kthread+0x140/0x1fc
+ret_from_fork+0x10/0x30
+Code: 54000088 f94ca50a eb14015f 54000060 (f9400108)
+---[ end trace ace43ce36cbd5c93 ]---
+Kernel panic - not syncing: Oops: Fatal exception
+SMP: stopping secondary CPUs
+Kernel Offset: 0x12c4000000 from 0xffffffc010000000
+PHYS_OFFSET: 0xffffffe580000000
+CPU features: 0x08240002,2188200c
+Memory Limit: none</description><pubDate>Sun, 19 May 2024 10:30:41 +0000</pubDate></item><item><title>CVE-2024-35921 | media: mediatek: vcodec: Fix oops when HEVC init fails</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35921</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mediatek: vcodec: Fix oops when HEVC init fails
+
+The stateless HEVC decoder saves the instance pointer in the context
+regardless if the initialization worked or not. This caused a use after
+free, when the pointer is freed in case of a failure in the deinit
+function.
+Only store the instance pointer when the initialization was successful,
+to solve this issue.
+
+ Hardware name: Acer Tomato (rev3 - 4) board (DT)
+ pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+ pc : vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+ lr : vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+ sp : ffff80008750bc20
+ x29: ffff80008750bc20 x28: ffff1299f6d70000 x27: 0000000000000000
+ x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+ x23: ffff80008750bc98 x22: 000000000000a003 x21: ffffd45c4cfae000
+ x20: 0000000000000010 x19: ffff1299fd668310 x18: 000000000000001a
+ x17: 000000040044ffff x16: ffffd45cb15dc648 x15: 0000000000000000
+ x14: ffff1299c08da1c0 x13: ffffd45cb1f87a10 x12: ffffd45cb2f5fe80
+ x11: 0000000000000001 x10: 0000000000001b30 x9 : ffffd45c4d12b488
+ x8 : 1fffe25339380d81 x7 : 0000000000000001 x6 : ffff1299c9c06c00
+ x5 : 0000000000000132 x4 : 0000000000000000 x3 : 0000000000000000
+ x2 : 0000000000000010 x1 : ffff80008750bc98 x0 : 0000000000000000
+ Call trace:
+  vcodec_vpu_send_msg+0x4c/0x190 [mtk_vcodec_dec]
+  vcodec_send_ap_ipi+0x78/0x170 [mtk_vcodec_dec]
+  vpu_dec_deinit+0x1c/0x30 [mtk_vcodec_dec]
+  vdec_hevc_slice_deinit+0x30/0x98 [mtk_vcodec_dec]
+  vdec_if_deinit+0x38/0x68 [mtk_vcodec_dec]
+  mtk_vcodec_dec_release+0x20/0x40 [mtk_vcodec_dec]
+  fops_vcodec_release+0x64/0x118 [mtk_vcodec_dec]
+  v4l2_release+0x7c/0x100
+  __fput+0x80/0x2d8
+  __fput_sync+0x58/0x70
+  __arm64_sys_close+0x40/0x90
+  invoke_syscall+0x50/0x128
+  el0_svc_common.constprop.0+0x48/0xf0
+  do_el0_svc+0x24/0x38
+  el0_svc+0x38/0xd8
+  el0t_64_sync_handler+0xc0/0xc8
+  el0t_64_sync+0x1a8/0x1b0
+ Code: d503201f f9401660 b900127f b900227f (f9400400)</description><pubDate>Sun, 19 May 2024 10:30:42 +0000</pubDate></item><item><title>CVE-2024-35922 | fbmon: prevent division by zero in fb_videomode_from_videomode()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35922</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fbmon: prevent division by zero in fb_videomode_from_videomode()
+
+The expression htotal * vtotal can have a zero value on
+overflow. It is necessary to prevent division by zero like in
+fb_var_to_videomode().
+
+Found by Linux Verification Center (linuxtesting.org) with Svace.</description><pubDate>Sun, 19 May 2024 10:30:42 +0000</pubDate></item><item><title>CVE-2024-35923 | io_uring: clear opcode specific data for an early failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35923</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: clear opcode specific data for an early failure
+
+If failure happens before the opcode prep handler is called, ensure that
+we clear the opcode specific area of the request, which holds data
+specific to that request type. This prevents errors where opcode
+handlers either don't get to clear per-request private data since prep
+isn't even called.</description><pubDate>Sun, 19 May 2024 10:30:42 +0000</pubDate></item><item><title>CVE-2024-35924 | usb: typec: ucsi: Limit read size on v1.2</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35924</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: ucsi: Limit read size on v1.2
+
+Between UCSI 1.2 and UCSI 2.0, the size of the MESSAGE_IN region was
+increased from 16 to 256. In order to avoid overflowing reads for older
+systems, add a mechanism to use the read UCSI version to truncate read
+sizes on UCSI v1.2.</description><pubDate>Sun, 19 May 2024 10:30:43 +0000</pubDate></item><item><title>CVE-2024-35925 | block: prevent division by zero in blk_rq_stat_sum()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35925</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: prevent division by zero in blk_rq_stat_sum()
+
+The expression dst-&gt;nr_samples + src-&gt;nr_samples may
+have zero value on overflow. It is necessary to add
+a check to avoid division by zero.
+
+Found by Linux Verification Center (linuxtesting.org) with Svace.</description><pubDate>Sun, 19 May 2024 10:30:43 +0000</pubDate></item><item><title>CVE-2024-35926 | crypto: iaa - Fix async_disable descriptor leak</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35926</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: iaa - Fix async_disable descriptor leak
+
+The disable_async paths of iaa_compress/decompress() don't free idxd
+descriptors in the async_disable case. Currently this only happens in
+the testcases where req-&gt;dst is set to null. Add a test to free them
+in those paths.</description><pubDate>Sun, 19 May 2024 10:30:43 +0000</pubDate></item><item><title>CVE-2024-35927 | drm: Check output polling initialized before disabling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35927</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm: Check output polling initialized before disabling
+
+In drm_kms_helper_poll_disable() check if output polling
+support is initialized before disabling polling. If not flag
+this as a warning.
+Additionally in drm_mode_config_helper_suspend() and
+drm_mode_config_helper_resume() calls, that re the callers of these
+functions, avoid invoking them if polling is not initialized.
+For drivers like hyperv-drm, that do not initialize connector
+polling, if suspend is called without this check, it leads to
+suspend failure with following stack
+[  770.719392] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+[  770.720592] printk: Suspending console(s) (use no_console_suspend to debug)
+[  770.948823] ------------[ cut here ]------------
+[  770.948824] WARNING: CPU: 1 PID: 17197 at kernel/workqueue.c:3162 __flush_work.isra.0+0x212/0x230
+[  770.948831] Modules linked in: rfkill nft_counter xt_conntrack xt_owner udf nft_compat crc_itu_t nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables nfnetlink vfat fat mlx5_ib ib_uverbs ib_core mlx5_core intel_rapl_msr intel_rapl_common kvm_amd ccp mlxfw kvm psample hyperv_drm tls drm_shmem_helper drm_kms_helper irqbypass pcspkr syscopyarea sysfillrect sysimgblt hv_balloon hv_utils joydev drm fuse xfs libcrc32c pci_hyperv pci_hyperv_intf sr_mod sd_mod cdrom t10_pi sg hv_storvsc scsi_transport_fc hv_netvsc serio_raw hyperv_keyboard hid_hyperv crct10dif_pclmul crc32_pclmul crc32c_intel hv_vmbus ghash_clmulni_intel dm_mirror dm_region_hash dm_log dm_mod
+[  770.948863] CPU: 1 PID: 17197 Comm: systemd-sleep Not tainted 5.14.0-362.2.1.el9_3.x86_64 #1
+[  770.948865] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
+[  770.948866] RIP: 0010:__flush_work.isra.0+0x212/0x230
+[  770.948869] Code: 8b 4d 00 4c 8b 45 08 89 ca 48 c1 e9 04 83 e2 08 83 e1 0f 83 ca 02 89 c8 48 0f ba 6d 00 03 e9 25 ff ff ff 0f 0b e9 4e ff ff ff &lt;0f&gt; 0b 45 31 ed e9 44 ff ff ff e8 8f 89 b2 00 66 66 2e 0f 1f 84 00
+[  770.948870] RSP: 0018:ffffaf4ac213fb10 EFLAGS: 00010246
+[  770.948871] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8c992857
+[  770.948872] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffff9aad82b00330
+[  770.948873] RBP: ffff9aad82b00330 R08: 0000000000000000 R09: ffff9aad87ee3d10
+[  770.948874] R10: 0000000000000200 R11: 0000000000000000 R12: ffff9aad82b00330
+[  770.948874] R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+[  770.948875] FS:  00007ff1b2f6bb40(0000) GS:ffff9aaf37d00000(0000) knlGS:0000000000000000
+[  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
+[  770.948879] Call Trace:
+[  770.948880]  &lt;TASK&gt;
+[  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
+[  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
+[  770.948886]  ? __cancel_work_timer+0x103/0x190
+[  770.948887]  ? __flush_work.isra.0+0x212/0x230
+[  770.948889]  ? __warn+0x81/0x110
+[  770.948891]  ? __flush_work.isra.0+0x212/0x230
+[  770.948892]  ? report_bug+0x10a/0x140
+[  770.948895]  ? handle_bug+0x3c/0x70
+[  770.948898]  ? exc_invalid_op+0x14/0x70
+[  770.948899]  ? asm_exc_invalid_op+0x16/0x20
+[  770.948903]  ? __flush_work.isra.0+0x212/0x230
+[  770.948905]  __cancel_work_timer+0x103/0x190
+[  770.948907]  ? _raw_spin_unlock_irqrestore+0xa/0x30
+[  770.948910]  drm_kms_helper_poll_disable+0x1e/0x40 [drm_kms_helper]
+[  770.948923]  drm_mode_config_helper_suspend+0x1c/0x80 [drm_kms_helper]
+[  770.948933]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+[  770.948942]  hyperv_vmbus_suspend+0x17/0x40 [hyperv_drm]
+[  770.948944]  ? __pfx_vmbus_suspend+0x10/0x10 [hv_vmbus]
+[  770.948951]  dpm_run_callback+0x4c/0x140
+[  770.948954]  __device_suspend_noir
+---truncated---</description><pubDate>Sun, 19 May 2024 10:30:44 +0000</pubDate></item><item><title>CVE-2024-35928 | drm/amd/amdgpu: Fix potential ioremap() memory leaks in amdgpu_device_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35928</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/amdgpu: Fix potential ioremap() memory leaks in amdgpu_device_init()
+
+This ensures that the memory mapped by ioremap for adev-&gt;rmmio, is
+properly handled in amdgpu_device_init(). If the function exits early
+due to an error, the memory is unmapped. If the function completes
+successfully, the memory remains mapped.
+
+Reported by smatch:
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4337 amdgpu_device_init() warn: 'adev-&gt;rmmio' from ioremap() not released on lines: 4035,4045,4051,4058,4068,4337</description><pubDate>Sun, 19 May 2024 10:30:44 +0000</pubDate></item><item><title>CVE-2024-35929 | rcu/nocb: Fix WARN_ON_ONCE() in the rcu_nocb_bypass_lock()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35929</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rcu/nocb: Fix WARN_ON_ONCE() in the rcu_nocb_bypass_lock()
+
+For the kernels built with CONFIG_RCU_NOCB_CPU_DEFAULT_ALL=y and
+CONFIG_RCU_LAZY=y, the following scenarios will trigger WARN_ON_ONCE()
+in the rcu_nocb_bypass_lock() and rcu_nocb_wait_contended() functions:
+
+        CPU2                                               CPU11
+kthread
+rcu_nocb_cb_kthread                                       ksys_write
+rcu_do_batch                                              vfs_write
+rcu_torture_timer_cb                                      proc_sys_write
+__kmem_cache_free                                         proc_sys_call_handler
+kmemleak_free                                             drop_caches_sysctl_handler
+delete_object_full                                        drop_slab
+__delete_object                                           shrink_slab
+put_object                                                lazy_rcu_shrink_scan
+call_rcu                                                  rcu_nocb_flush_bypass
+__call_rcu_commn                                            rcu_nocb_bypass_lock
+                                                            raw_spin_trylock(&amp;rdp-&gt;nocb_bypass_lock) fail
+                                                            atomic_inc(&amp;rdp-&gt;nocb_lock_contended);
+rcu_nocb_wait_contended                                     WARN_ON_ONCE(smp_processor_id() != rdp-&gt;cpu);
+ WARN_ON_ONCE(atomic_read(&amp;rdp-&gt;nocb_lock_contended))                                          |
+                            |_ _ _ _ _ _ _ _ _ _same rdp and rdp-&gt;cpu != 11_ _ _ _ _ _ _ _ _ __|
+
+Reproduce this bug with "echo 3 &gt; /proc/sys/vm/drop_caches".
+
+This commit therefore uses rcu_nocb_try_flush_bypass() instead of
+rcu_nocb_flush_bypass() in lazy_rcu_shrink_scan().  If the nocb_bypass
+queue is being flushed, then rcu_nocb_try_flush_bypass will return
+directly.</description><pubDate>Sun, 19 May 2024 10:30:44 +0000</pubDate></item><item><title>CVE-2024-35930 | scsi: lpfc: Fix possible memory leak in lpfc_rcv_padisc()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35930</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: lpfc: Fix possible memory leak in lpfc_rcv_padisc()
+
+The call to lpfc_sli4_resume_rpi() in lpfc_rcv_padisc() may return an
+unsuccessful status.  In such cases, the elsiocb is not issued, the
+completion is not called, and thus the elsiocb resource is leaked.
+
+Check return value after calling lpfc_sli4_resume_rpi() and conditionally
+release the elsiocb resource.</description><pubDate>Sun, 19 May 2024 10:30:45 +0000</pubDate></item><item><title>CVE-2024-35931 | drm/amdgpu: Skip do PCI error slot reset during RAS recovery</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35931</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Skip do PCI error slot reset during RAS recovery
+
+Why:
+    The PCI error slot reset maybe triggered after inject ue to UMC multi times, this
+    caused system hang.
+    [  557.371857] amdgpu 0000:af:00.0: amdgpu: GPU reset succeeded, trying to resume
+    [  557.373718] [drm] PCIE GART of 512M enabled.
+    [  557.373722] [drm] PTB located at 0x0000031FED700000
+    [  557.373788] [drm] VRAM is lost due to GPU reset!
+    [  557.373789] [drm] PSP is resuming...
+    [  557.547012] mlx5_core 0000:55:00.0: mlx5_pci_err_detected Device state = 1 pci_status: 0. Exit, result = 3, need reset
+    [  557.547067] [drm] PCI error: detected callback, state(1)!!
+    [  557.547069] [drm] No support for XGMI hive yet...
+    [  557.548125] mlx5_core 0000:55:00.0: mlx5_pci_slot_reset Device state = 1 pci_status: 0. Enter
+    [  557.607763] mlx5_core 0000:55:00.0: wait vital counter value 0x16b5b after 1 iterations
+    [  557.607777] mlx5_core 0000:55:00.0: mlx5_pci_slot_reset Device state = 1 pci_status: 1. Exit, err = 0, result = 5, recovered
+    [  557.610492] [drm] PCI error: slot reset callback!!
+    ...
+    [  560.689382] amdgpu 0000:3f:00.0: amdgpu: GPU reset(2) succeeded!
+    [  560.689546] amdgpu 0000:5a:00.0: amdgpu: GPU reset(2) succeeded!
+    [  560.689562] general protection fault, probably for non-canonical address 0x5f080b54534f611f: 0000 [#1] SMP NOPTI
+    [  560.701008] CPU: 16 PID: 2361 Comm: kworker/u448:9 Tainted: G           OE     5.15.0-91-generic #101-Ubuntu
+    [  560.712057] Hardware name: Microsoft C278A/C278A, BIOS C2789.5.BS.1C11.AG.1 11/08/2023
+    [  560.720959] Workqueue: amdgpu-reset-hive amdgpu_ras_do_recovery [amdgpu]
+    [  560.728887] RIP: 0010:amdgpu_device_gpu_recover.cold+0xbf1/0xcf5 [amdgpu]
+    [  560.736891] Code: ff 41 89 c6 e9 1b ff ff ff 44 0f b6 45 b0 e9 4f ff ff ff be 01 00 00 00 4c 89 e7 e8 76 c9 8b ff 44 0f b6 45 b0 e9 3c fd ff ff &lt;48&gt; 83 ba 18 02 00 00 00 0f 84 6a f8 ff ff 48 8d 7a 78 be 01 00 00
+    [  560.757967] RSP: 0018:ffa0000032e53d80 EFLAGS: 00010202
+    [  560.763848] RAX: ffa00000001dfd10 RBX: ffa0000000197090 RCX: ffa0000032e53db0
+    [  560.771856] RDX: 5f080b54534f5f07 RSI: 0000000000000000 RDI: ff11000128100010
+    [  560.779867] RBP: ffa0000032e53df0 R08: 0000000000000000 R09: ffffffffffe77f08
+    [  560.787879] R10: 0000000000ffff0a R11: 0000000000000001 R12: 0000000000000000
+    [  560.795889] R13: ffa0000032e53e00 R14: 0000000000000000 R15: 0000000000000000
+    [  560.803889] FS:  0000000000000000(0000) GS:ff11007e7e800000(0000) knlGS:0000000000000000
+    [  560.812973] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    [  560.819422] CR2: 000055a04c118e68 CR3: 0000000007410005 CR4: 0000000000771ee0
+    [  560.827433] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+    [  560.835433] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+    [  560.843444] PKRU: 55555554
+    [  560.846480] Call Trace:
+    [  560.849225]  &lt;TASK&gt;
+    [  560.851580]  ? show_trace_log_lvl+0x1d6/0x2ea
+    [  560.856488]  ? show_trace_log_lvl+0x1d6/0x2ea
+    [  560.861379]  ? amdgpu_ras_do_recovery+0x1b2/0x210 [amdgpu]
+    [  560.867778]  ? show_regs.part.0+0x23/0x29
+    [  560.872293]  ? __die_body.cold+0x8/0xd
+    [  560.876502]  ? die_addr+0x3e/0x60
+    [  560.880238]  ? exc_general_protection+0x1c5/0x410
+    [  560.885532]  ? asm_exc_general_protection+0x27/0x30
+    [  560.891025]  ? amdgpu_device_gpu_recover.cold+0xbf1/0xcf5 [amdgpu]
+    [  560.898323]  amdgpu_ras_do_recovery+0x1b2/0x210 [amdgpu]
+    [  560.904520]  process_one_work+0x228/0x3d0
+How:
+    In RAS recovery, mode-1 reset is issued from RAS fatal error handling and expected
+    all the nodes in a hive to be reset. no need to issue another mode-1 during this procedure.</description><pubDate>Sun, 19 May 2024 10:30:45 +0000</pubDate></item><item><title>CVE-2024-35932 | drm/vc4: don&amp;#x27;t check if plane-&amp;gt;state-&amp;gt;fb == state-&amp;gt;fb</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35932</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vc4: don't check if plane-&gt;state-&gt;fb == state-&gt;fb
+
+Currently, when using non-blocking commits, we can see the following
+kernel warning:
+
+[  110.908514] ------------[ cut here ]------------
+[  110.908529] refcount_t: underflow; use-after-free.
+[  110.908620] WARNING: CPU: 0 PID: 1866 at lib/refcount.c:87 refcount_dec_not_one+0xb8/0xc0
+[  110.908664] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device cmac algif_hash aes_arm64 aes_generic algif_skcipher af_alg bnep hid_logitech_hidpp vc4 brcmfmac hci_uart btbcm brcmutil bluetooth snd_soc_hdmi_codec cfg80211 cec drm_display_helper drm_dma_helper drm_kms_helper snd_soc_core snd_compress snd_pcm_dmaengine fb_sys_fops sysimgblt syscopyarea sysfillrect raspberrypi_hwmon ecdh_generic ecc rfkill libaes i2c_bcm2835 binfmt_misc joydev snd_bcm2835(C) bcm2835_codec(C) bcm2835_isp(C) v4l2_mem2mem videobuf2_dma_contig snd_pcm bcm2835_v4l2(C) raspberrypi_gpiomem bcm2835_mmal_vchiq(C) videobuf2_v4l2 snd_timer videobuf2_vmalloc videobuf2_memops videobuf2_common snd videodev vc_sm_cma(C) mc hid_logitech_dj uio_pdrv_genirq uio i2c_dev drm fuse dm_mod drm_panel_orientation_quirks backlight ip_tables x_tables ipv6
+[  110.909086] CPU: 0 PID: 1866 Comm: kodi.bin Tainted: G         C         6.1.66-v8+ #32
+[  110.909104] Hardware name: Raspberry Pi 3 Model B Rev 1.2 (DT)
+[  110.909114] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  110.909132] pc : refcount_dec_not_one+0xb8/0xc0
+[  110.909152] lr : refcount_dec_not_one+0xb4/0xc0
+[  110.909170] sp : ffffffc00913b9c0
+[  110.909177] x29: ffffffc00913b9c0 x28: 000000556969bbb0 x27: 000000556990df60
+[  110.909205] x26: 0000000000000002 x25: 0000000000000004 x24: ffffff8004448480
+[  110.909230] x23: ffffff800570b500 x22: ffffff802e03a7bc x21: ffffffecfca68c78
+[  110.909257] x20: ffffff8002b42000 x19: ffffff802e03a600 x18: 0000000000000000
+[  110.909283] x17: 0000000000000011 x16: ffffffffffffffff x15: 0000000000000004
+[  110.909308] x14: 0000000000000fff x13: ffffffed577e47e0 x12: 0000000000000003
+[  110.909333] x11: 0000000000000000 x10: 0000000000000027 x9 : c912d0d083728c00
+[  110.909359] x8 : c912d0d083728c00 x7 : 65646e75203a745f x6 : 746e756f63666572
+[  110.909384] x5 : ffffffed579f62ee x4 : ffffffed579eb01e x3 : 0000000000000000
+[  110.909409] x2 : 0000000000000000 x1 : ffffffc00913b750 x0 : 0000000000000001
+[  110.909434] Call trace:
+[  110.909441]  refcount_dec_not_one+0xb8/0xc0
+[  110.909461]  vc4_bo_dec_usecnt+0x4c/0x1b0 [vc4]
+[  110.909903]  vc4_cleanup_fb+0x44/0x50 [vc4]
+[  110.910315]  drm_atomic_helper_cleanup_planes+0x88/0xa4 [drm_kms_helper]
+[  110.910669]  vc4_atomic_commit_tail+0x390/0x9dc [vc4]
+[  110.911079]  commit_tail+0xb0/0x164 [drm_kms_helper]
+[  110.911397]  drm_atomic_helper_commit+0x1d0/0x1f0 [drm_kms_helper]
+[  110.911716]  drm_atomic_commit+0xb0/0xdc [drm]
+[  110.912569]  drm_mode_atomic_ioctl+0x348/0x4b8 [drm]
+[  110.913330]  drm_ioctl_kernel+0xec/0x15c [drm]
+[  110.914091]  drm_ioctl+0x24c/0x3b0 [drm]
+[  110.914850]  __arm64_sys_ioctl+0x9c/0xd4
+[  110.914873]  invoke_syscall+0x4c/0x114
+[  110.914897]  el0_svc_common+0xd0/0x118
+[  110.914917]  do_el0_svc+0x38/0xd0
+[  110.914936]  el0_svc+0x30/0x8c
+[  110.914958]  el0t_64_sync_handler+0x84/0xf0
+[  110.914979]  el0t_64_sync+0x18c/0x190
+[  110.914996] ---[ end trace 0000000000000000 ]---
+
+This happens because, although `prepare_fb` and `cleanup_fb` are
+perfectly balanced, we cannot guarantee consistency in the check
+plane-&gt;state-&gt;fb == state-&gt;fb. This means that sometimes we can increase
+the refcount in `prepare_fb` and don't decrease it in `cleanup_fb`. The
+opposite can also be true.
+
+In fact, the struct drm_plane .state shouldn't be accessed directly
+but instead, the `drm_atomic_get_new_plane_state()` helper function should
+be used. So, we could stick to this check, but using
+`drm_atomic_get_new_plane_state()`. But actually, this check is not re
+---truncated---</description><pubDate>Sun, 19 May 2024 10:30:45 +0000</pubDate></item><item><title>CVE-2024-35933 | Bluetooth: btintel: Fix null ptr deref in btintel_read_version</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35933</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: btintel: Fix null ptr deref in btintel_read_version
+
+If hci_cmd_sync_complete() is triggered and skb is NULL, then
+hdev-&gt;req_skb is NULL, which will cause this issue.</description><pubDate>Sun, 19 May 2024 10:30:46 +0000</pubDate></item><item><title>CVE-2024-35934 | net/smc: reduce rtnl pressure in smc_pnet_create_pnetids_list()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35934</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: reduce rtnl pressure in smc_pnet_create_pnetids_list()
+
+Many syzbot reports show extreme rtnl pressure, and many of them hint
+that smc acquires rtnl in netns creation for no good reason [1]
+
+This patch returns early from smc_pnet_net_init()
+if there is no netdevice yet.
+
+I am not even sure why smc_pnet_create_pnetids_list() even exists,
+because smc_pnet_netdev_event() is also calling
+smc_pnet_add_base_pnetid() when handling NETDEV_UP event.
+
+[1] extract of typical syzbot reports
+
+2 locks held by syz-executor.3/12252:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.4/12253:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.1/12257:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.2/12261:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.0/12265:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.3/12268:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.4/12271:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.1/12274:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878
+2 locks held by syz-executor.2/12280:
+  #0: ffffffff8f369610 (pernet_ops_rwsem){++++}-{3:3}, at: copy_net_ns+0x4c7/0x7b0 net/core/net_namespace.c:491
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_create_pnetids_list net/smc/smc_pnet.c:809 [inline]
+  #1: ffffffff8f375b88 (rtnl_mutex){+.+.}-{3:3}, at: smc_pnet_net_init+0x10a/0x1e0 net/smc/smc_pnet.c:878</description><pubDate>Sun, 19 May 2024 10:30:46 +0000</pubDate></item><item><title>CVE-2024-35935 | btrfs: send: handle path ref underflow in header iterate_inode_ref()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35935</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: send: handle path ref underflow in header iterate_inode_ref()
+
+Change BUG_ON to proper error handling if building the path buffer
+fails. The pointers are not printed so we don't accidentally leak kernel
+addresses.</description><pubDate>Sun, 19 May 2024 10:30:46 +0000</pubDate></item><item><title>CVE-2024-35936 | btrfs: handle chunk tree lookup error in btrfs_relocate_sys_chunks()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35936</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: handle chunk tree lookup error in btrfs_relocate_sys_chunks()
+
+The unhandled case in btrfs_relocate_sys_chunks() loop is a corruption,
+as it could be caused only by two impossible conditions:
+
+- at first the search key is set up to look for a chunk tree item, with
+  offset -1, this is an inexact search and the key-&gt;offset will contain
+  the correct offset upon a successful search, a valid chunk tree item
+  cannot have an offset -1
+
+- after first successful search, the found_key corresponds to a chunk
+  item, the offset is decremented by 1 before the next loop, it's
+  impossible to find a chunk item there due to alignment and size
+  constraints</description><pubDate>Sun, 19 May 2024 10:30:47 +0000</pubDate></item><item><title>CVE-2024-35937 | wifi: cfg80211: check A-MSDU format more carefully</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35937</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: cfg80211: check A-MSDU format more carefully
+
+If it looks like there's another subframe in the A-MSDU
+but the header isn't fully there, we can end up reading
+data out of bounds, only to discard later. Make this a
+bit more careful and check if the subframe header can
+even be present.</description><pubDate>Sun, 19 May 2024 10:30:47 +0000</pubDate></item><item><title>CVE-2024-35938 | wifi: ath11k: decrease MHI channel buffer length to 8KB</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35938</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath11k: decrease MHI channel buffer length to 8KB
+
+Currently buf_len field of ath11k_mhi_config_qca6390 is assigned
+with 0, making MHI use a default size, 64KB, to allocate channel
+buffers. This is likely to fail in some scenarios where system
+memory is highly fragmented and memory compaction or reclaim is
+not allowed.
+
+There is a fail report which is caused by it:
+kworker/u32:45: page allocation failure: order:4, mode:0x40c00(GFP_NOIO|__GFP_COMP), nodemask=(null),cpuset=/,mems_allowed=0
+CPU: 0 PID: 19318 Comm: kworker/u32:45 Not tainted 6.8.0-rc3-1.gae4495f-default #1 openSUSE Tumbleweed (unreleased) 493b6d5b382c603654d7a81fc3c144d59a1dfceb
+Workqueue: events_unbound async_run_entry_fn
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x47/0x60
+ warn_alloc+0x13a/0x1b0
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __alloc_pages_direct_compact+0xab/0x210
+ __alloc_pages_slowpath.constprop.0+0xd3e/0xda0
+ __alloc_pages+0x32d/0x350
+ ? mhi_prepare_channel+0x127/0x2d0 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ __kmalloc_large_node+0x72/0x110
+ __kmalloc+0x37c/0x480
+ ? mhi_map_single_no_bb+0x77/0xf0 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ ? mhi_prepare_channel+0x127/0x2d0 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ mhi_prepare_channel+0x127/0x2d0 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ __mhi_prepare_for_transfer+0x44/0x80 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ ? __pfx_____mhi_prepare_for_transfer+0x10/0x10 [mhi 40df44e07c05479f7a6e7b90fba9f0e0031a7814]
+ device_for_each_child+0x5c/0xa0
+ ? __pfx_pci_pm_resume+0x10/0x10
+ ath11k_core_resume+0x65/0x100 [ath11k a5094e22d7223135c40d93c8f5321cf09fd85e4e]
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ath11k_pci_pm_resume+0x32/0x60 [ath11k_pci 830b7bfc3ea80ebef32e563cafe2cb55e9cc73ec]
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ dpm_run_callback+0x8c/0x1e0
+ device_resume+0x104/0x340
+ ? __pfx_dpm_watchdog_handler+0x10/0x10
+ async_resume+0x1d/0x30
+ async_run_entry_fn+0x32/0x120
+ process_one_work+0x168/0x330
+ worker_thread+0x2f5/0x410
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0xe8/0x120
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x34/0x50
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1b/0x30
+ &lt;/TASK&gt;
+
+Actually those buffers are used only by QMI target -&gt; host communication.
+And for WCN6855 and QCA6390, the largest packet size for that is less
+than 6KB. So change buf_len field to 8KB, which results in order 1
+allocation if page size is 4KB. In this way, we can at least save some
+memory, and as well as decrease the possibility of allocation failure
+in those scenarios.
+
+Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30</description><pubDate>Sun, 19 May 2024 10:30:47 +0000</pubDate></item><item><title>CVE-2024-35939 | dma-direct: Leak pages on dma_set_decrypted() failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35939</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dma-direct: Leak pages on dma_set_decrypted() failure
+
+On TDX it is possible for the untrusted host to cause
+set_memory_encrypted() or set_memory_decrypted() to fail such that an
+error is returned and the resulting memory is shared. Callers need to
+take care to handle these errors to avoid returning decrypted (shared)
+memory to the page allocator, which could lead to functional or security
+issues.
+
+DMA could free decrypted/shared pages if dma_set_decrypted() fails. This
+should be a rare case. Just leak the pages in this case instead of
+freeing them.</description><pubDate>Sun, 19 May 2024 10:30:48 +0000</pubDate></item><item><title>CVE-2024-35940 | pstore/zone: Add a null pointer check to the psz_kmsg_read</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35940</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pstore/zone: Add a null pointer check to the psz_kmsg_read
+
+kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.</description><pubDate>Sun, 19 May 2024 10:30:48 +0000</pubDate></item><item><title>CVE-2024-35941 | net: skbuff: add overflow debug check to pull/push helpers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35941</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: skbuff: add overflow debug check to pull/push helpers
+
+syzbot managed to trigger following splat:
+BUG: KASAN: use-after-free in __skb_flow_dissect+0x4a3b/0x5e50
+Read of size 1 at addr ffff888208a4000e by task a.out/2313
+[..]
+  __skb_flow_dissect+0x4a3b/0x5e50
+  __skb_get_hash+0xb4/0x400
+  ip_tunnel_xmit+0x77e/0x26f0
+  ipip_tunnel_xmit+0x298/0x410
+  ..
+
+Analysis shows that the skb has a valid -&gt;head, but bogus -&gt;data
+pointer.
+
+skb-&gt;data gets its bogus value via the neigh layer, which does:
+
+1556    __skb_pull(skb, skb_network_offset(skb));
+
+... and the skb was already dodgy at this point:
+
+skb_network_offset(skb) returns a negative value due to an
+earlier overflow of skb-&gt;network_header (u16).  __skb_pull thus
+"adjusts" skb-&gt;data by a huge offset, pointing outside skb-&gt;head
+area.
+
+Allow debug builds to splat when we try to pull/push more than
+INT_MAX bytes.
+
+After this, the syzkaller reproducer yields a more precise splat
+before the flow dissector attempts to read off skb-&gt;data memory:
+
+WARNING: CPU: 5 PID: 2313 at include/linux/skbuff.h:2653 neigh_connected_output+0x28e/0x400
+  ip_finish_output2+0xb25/0xed0
+  iptunnel_xmit+0x4ff/0x870
+  ipgre_xmit+0x78e/0xbb0</description><pubDate>Sun, 19 May 2024 10:30:48 +0000</pubDate></item><item><title>CVE-2024-35942 | pmdomain: imx8mp-blk-ctrl: imx8mp_blk: Add fdcc clock to hdmimix domain</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35942</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pmdomain: imx8mp-blk-ctrl: imx8mp_blk: Add fdcc clock to hdmimix domain
+
+According to i.MX8MP RM and HDMI ADD, the fdcc clock is part of
+hdmi rx verification IP that should not enable for HDMI TX.
+But actually if the clock is disabled before HDMI/LCDIF probe,
+LCDIF will not get pixel clock from HDMI PHY and print the error
+logs:
+
+[CRTC:39:crtc-2] vblank wait timed out
+WARNING: CPU: 2 PID: 9 at drivers/gpu/drm/drm_atomic_helper.c:1634 drm_atomic_helper_wait_for_vblanks.part.0+0x23c/0x260
+
+Add fdcc clock to LCDIF and HDMI TX power domains to fix the issue.</description><pubDate>Sun, 19 May 2024 10:30:49 +0000</pubDate></item><item><title>CVE-2024-35943 | pmdomain: ti: Add a null pointer check to the omap_prm_domain_init</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35943</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pmdomain: ti: Add a null pointer check to the omap_prm_domain_init
+
+devm_kasprintf() returns a pointer to dynamically allocated memory
+which can be NULL upon failure. Ensure the allocation was successful
+by checking the pointer validity.</description><pubDate>Sun, 19 May 2024 10:30:49 +0000</pubDate></item><item><title>CVE-2024-35944 | VMCI: Fix memcpy() run-time warning in dg_dispatch_as_host()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35944</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+VMCI: Fix memcpy() run-time warning in dg_dispatch_as_host()
+
+Syzkaller hit 'WARNING in dg_dispatch_as_host' bug.
+
+memcpy: detected field-spanning write (size 56) of single field "&amp;dg_info-&gt;msg"
+at drivers/misc/vmw_vmci/vmci_datagram.c:237 (size 24)
+
+WARNING: CPU: 0 PID: 1555 at drivers/misc/vmw_vmci/vmci_datagram.c:237
+dg_dispatch_as_host+0x88e/0xa60 drivers/misc/vmw_vmci/vmci_datagram.c:237
+
+Some code commentry, based on my understanding:
+
+544 #define VMCI_DG_SIZE(_dg) (VMCI_DG_HEADERSIZE + (size_t)(_dg)-&gt;payload_size)
+/// This is 24 + payload_size
+
+memcpy(&amp;dg_info-&gt;msg, dg, dg_size);
+	Destination = dg_info-&gt;msg ---&gt; this is a 24 byte
+					structure(struct vmci_datagram)
+	Source = dg --&gt; this is a 24 byte structure (struct vmci_datagram)
+	Size = dg_size = 24 + payload_size
+
+{payload_size = 56-24 =32} -- Syzkaller managed to set payload_size to 32.
+
+ 35 struct delayed_datagram_info {
+ 36         struct datagram_entry *entry;
+ 37         struct work_struct work;
+ 38         bool in_dg_host_queue;
+ 39         /* msg and msg_payload must be together. */
+ 40         struct vmci_datagram msg;
+ 41         u8 msg_payload[];
+ 42 };
+
+So those extra bytes of payload are copied into msg_payload[], a run time
+warning is seen while fuzzing with Syzkaller.
+
+One possible way to fix the warning is to split the memcpy() into
+two parts -- one -- direct assignment of msg and second taking care of payload.
+
+Gustavo quoted:
+"Under FORTIFY_SOURCE we should not copy data across multiple members
+in a structure."</description><pubDate>Sun, 19 May 2024 10:30:49 +0000</pubDate></item><item><title>CVE-2024-35945 | net: phy: phy_device: Prevent nullptr exceptions on ISR</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35945</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: phy: phy_device: Prevent nullptr exceptions on ISR
+
+If phydev-&gt;irq is set unconditionally, check
+for valid interrupt handler or fall back to polling mode to prevent
+nullptr exceptions in interrupt service routine.</description><pubDate>Sun, 19 May 2024 10:30:50 +0000</pubDate></item><item><title>CVE-2024-35946 | wifi: rtw89: fix null pointer access when abort scan</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35946</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: rtw89: fix null pointer access when abort scan
+
+During cancel scan we might use vif that weren't scanning.
+Fix this by using the actual scanning vif.</description><pubDate>Sun, 19 May 2024 10:30:50 +0000</pubDate></item><item><title>CVE-2024-35860 | bpf: support deferring bpf_link dealloc to after RCU grace period</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35860</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bpf: support deferring bpf_link dealloc to after RCU grace period
 
@@ -132,7 +775,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007fe3728b1000 CR3: 000000010caa4000 CR4: 0000000000750ef0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? die_addr+0x36/0x90
  ? exc_general_protection+0x1c1/0x3f0
  ? asm_exc_general_protection+0x26/0x30
@@ -146,8 +789,7 @@ Call Trace:
  ? __pfx_kthread+0x10/0x10
  ret_from_fork+0x34/0x50
  ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;</description><pubDate>Sun, 19 May 2024 08:37:46 +0000</pubDate></item><item><title>CVE-2024-35871 | riscv: process: Fix kernel gp leakage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35871</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ ret_from_fork_asm+0x1a/0x30</description><pubDate>Sun, 19 May 2024 08:37:46 +0000</pubDate></item><item><title>CVE-2024-35871 | riscv: process: Fix kernel gp leakage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35871</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 riscv: process: Fix kernel gp leakage
 
@@ -334,8 +976,8 @@ armed and in the timer wheel, i.e., in use already:
 Fix that by grabbing the sysfs mutex as the rest of the MCA sysfs code
 does.
 
-Reported by: Yue Sun &lt;samsun1006219@gmail.com&gt;
-Reported by: xingwei lee &lt;xrivendell7@gmail.com&gt;</description><pubDate>Sun, 19 May 2024 08:37:48 +0000</pubDate></item><item><title>CVE-2024-35877 | x86/mm/pat: fix VM_PAT handling in COW mappings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35877</link><description>In the Linux kernel, the following vulnerability has been resolved:
+Reported by: Yue Sun 
+Reported by: xingwei lee</description><pubDate>Sun, 19 May 2024 08:37:48 +0000</pubDate></item><item><title>CVE-2024-35877 | x86/mm/pat: fix VM_PAT handling in COW mappings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35877</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 x86/mm/pat: fix VM_PAT handling in COW mappings
 
@@ -368,10 +1010,10 @@ and it would have done the wrong thing with anon folios.
 Simple reproducer to trigger the WARN_ON_ONCE() in untrack_pfn():
 
 &lt;--- C reproducer ---&gt;
- #include &lt;stdio.h&gt;
- #include &lt;sys/mman.h&gt;
- #include &lt;unistd.h&gt;
- #include &lt;liburing.h&gt;
+ #include 
+ #include mman.h&gt;
+ #include 
+ #include 
 
  int main(void)
  {
@@ -380,14 +1022,14 @@ Simple reproducer to trigger the WARN_ON_ONCE() in untrack_pfn():
          size_t size;
          char *map;
 
-         ring_fd = io_uring_setup(1, &amp;p);
+         ring_fd = io_uring_setup(1, &amp;amp;p);
          if (ring_fd &lt; 0) {
                  perror("io_uring_setup");
                  return 1;
          }
          size = p.sq_off.array + p.sq_entries * sizeof(unsigned);
 
-         /* Map the submission queue ring MAP_PRIVATE */
+         * Map the submission queue ring MAP_PRIVATE */
          map = mmap(0, size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
                     ring_fd, IORING_OFF_SQ_RING);
          if (map == MAP_FAILED) {
@@ -424,7 +1066,7 @@ On a system with 16 GiB RAM and swap configured:
 [  301.565197] CR2: 00007fea88ee8a20 CR3: 00000001033a8000 CR4: 0000000000750ef0
 [  301.565725] PKRU: 55555554
 [  301.565944] Call Trace:
-[  301.566148]  &lt;TASK&gt;
+[  301.566148]  
 [  301.566325]  ? untrack_pfn+0xf4/0x100
 [  301.566618]  ? __warn+0x81/0x130
 [  301.566876]  ? untrack_pfn+0xf4/0x100
@@ -648,7 +1290,7 @@ name failslab, interval 1, probability 0, space 0, times 0
 CPU: 1 PID: 432110 Comm: syz-executor.3 Not tainted 6.8.0-12821-g537c2e91d354-dirty #11
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl (lib/dump_stack.c:117)
  should_fail_ex (lib/fault-inject.c:52 lib/fault-inject.c:153)
  should_failslab (mm/slub.c:3733)
@@ -682,8 +1324,8 @@ CR2: ffffc9000d97fff8 CR3: 0000000102309002 CR4: 0000000000770ef0
 PKRU: 55555554
 Call Trace:
  &lt;#DF&gt;
- &lt;/#DF&gt;
- &lt;TASK&gt;
+ 
+ 
  fib6_dump_done (net/ipv6/ip6_fib.c:572 (discriminator 1))
  fib6_dump_done (net/ipv6/ip6_fib.c:572 (discriminator 1))
  ...
@@ -854,8 +1496,8 @@ rcu_scheduler_active = 2, debug_locks = 1
   #0: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:306 [inline]
   #0: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:747 [inline]
   #0: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: net_tx_action+0x64a/0x970 net/core/dev.c:5282
-  #1: ffff888171861108 (&amp;sch-&gt;q.lock){+.-.}-{2:2}, at: spin_lock include/linux/spinlock.h:350 [inline]
-  #1: ffff888171861108 (&amp;sch-&gt;q.lock){+.-.}-{2:2}, at: net_tx_action+0x754/0x970 net/core/dev.c:5297
+  #1: ffff888171861108 (&amp;amp;sch-&gt;q.lock){+.-.}-{2:2}, at: spin_lock include/linux/spinlock.h:350 [inline]
+  #1: ffff888171861108 (&amp;amp;sch-&gt;q.lock){+.-.}-{2:2}, at: net_tx_action+0x754/0x970 net/core/dev.c:5297
   #2: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:306 [inline]
   #2: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:747 [inline]
   #2: ffffffff87c729a0 (rcu_read_lock){....}-{1:2}, at: qdisc_tree_reduce_backlog+0x84/0x580 net/sched/sch_api.c:792
@@ -864,27 +1506,27 @@ stack backtrace:
 CPU: 1 PID: 1142 Comm: udevd Not tainted 6.1.74-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/25/2024
 Call Trace:
- &lt;TASK&gt;
-  [&lt;ffffffff85b85f14&gt;] __dump_stack lib/dump_stack.c:88 [inline]
-  [&lt;ffffffff85b85f14&gt;] dump_stack_lvl+0x1b1/0x28f lib/dump_stack.c:106
-  [&lt;ffffffff85b86007&gt;] dump_stack+0x15/0x1e lib/dump_stack.c:113
-  [&lt;ffffffff81802299&gt;] lockdep_rcu_suspicious+0x1b9/0x260 kernel/locking/lockdep.c:6592
-  [&lt;ffffffff84f0054c&gt;] qdisc_lookup+0xac/0x6f0 net/sched/sch_api.c:305
-  [&lt;ffffffff84f037c3&gt;] qdisc_tree_reduce_backlog+0x243/0x580 net/sched/sch_api.c:811
-  [&lt;ffffffff84f5b78c&gt;] pfifo_tail_enqueue+0x32c/0x4b0 net/sched/sch_fifo.c:51
-  [&lt;ffffffff84fbcf63&gt;] qdisc_enqueue include/net/sch_generic.h:833 [inline]
-  [&lt;ffffffff84fbcf63&gt;] netem_dequeue+0xeb3/0x15d0 net/sched/sch_netem.c:723
-  [&lt;ffffffff84eecab9&gt;] dequeue_skb net/sched/sch_generic.c:292 [inline]
-  [&lt;ffffffff84eecab9&gt;] qdisc_restart net/sched/sch_generic.c:397 [inline]
-  [&lt;ffffffff84eecab9&gt;] __qdisc_run+0x249/0x1e60 net/sched/sch_generic.c:415
-  [&lt;ffffffff84d7aa96&gt;] qdisc_run+0xd6/0x260 include/net/pkt_sched.h:125
-  [&lt;ffffffff84d85d29&gt;] net_tx_action+0x7c9/0x970 net/core/dev.c:5313
-  [&lt;ffffffff85e002bd&gt;] __do_softirq+0x2bd/0x9bd kernel/softirq.c:616
-  [&lt;ffffffff81568bca&gt;] invoke_softirq kernel/softirq.c:447 [inline]
-  [&lt;ffffffff81568bca&gt;] __irq_exit_rcu+0xca/0x230 kernel/softirq.c:700
-  [&lt;ffffffff81568ae9&gt;] irq_exit_rcu+0x9/0x20 kernel/softirq.c:712
-  [&lt;ffffffff85b89f52&gt;] sysvec_apic_timer_interrupt+0x42/0x90 arch/x86/kernel/apic/apic.c:1107
-  [&lt;ffffffff85c00ccb&gt;] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:656</description><pubDate>Sun, 19 May 2024 08:37:54 +0000</pubDate></item><item><title>CVE-2024-35893 | net/sched: act_skbmod: prevent kernel-infoleak</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35893</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ 
+  [] __dump_stack lib/dump_stack.c:88 [inline]
+  [] dump_stack_lvl+0x1b1/0x28f lib/dump_stack.c:106
+  [] dump_stack+0x15/0x1e lib/dump_stack.c:113
+  [] lockdep_rcu_suspicious+0x1b9/0x260 kernel/locking/lockdep.c:6592
+  [] qdisc_lookup+0xac/0x6f0 net/sched/sch_api.c:305
+  [] qdisc_tree_reduce_backlog+0x243/0x580 net/sched/sch_api.c:811
+  [] pfifo_tail_enqueue+0x32c/0x4b0 net/sched/sch_fifo.c:51
+  [] qdisc_enqueue include/net/sch_generic.h:833 [inline]
+  [] netem_dequeue+0xeb3/0x15d0 net/sched/sch_netem.c:723
+  [] dequeue_skb net/sched/sch_generic.c:292 [inline]
+  [] qdisc_restart net/sched/sch_generic.c:397 [inline]
+  [] __qdisc_run+0x249/0x1e60 net/sched/sch_generic.c:415
+  [] qdisc_run+0xd6/0x260 include/net/pkt_sched.h:125
+  [] net_tx_action+0x7c9/0x970 net/core/dev.c:5313
+  [] __do_softirq+0x2bd/0x9bd kernel/softirq.c:616
+  [] invoke_softirq kernel/softirq.c:447 [inline]
+  [] __irq_exit_rcu+0xca/0x230 kernel/softirq.c:700
+  [] irq_exit_rcu+0x9/0x20 kernel/softirq.c:712
+  [] sysvec_apic_timer_interrupt+0x42/0x90 arch/x86/kernel/apic/apic.c:1107
+  [] asm_sysvec_apic_timer_interrupt+0x1b/0x20 arch/x86/include/asm/idtentry.h:656</description><pubDate>Sun, 19 May 2024 08:37:54 +0000</pubDate></item><item><title>CVE-2024-35893 | net/sched: act_skbmod: prevent kernel-infoleak</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35893</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/sched: act_skbmod: prevent kernel-infoleak
 
@@ -975,7 +1617,7 @@ Alexei reported the following splat:
  Modules linked in: dummy bpf_testmod(O) [last unloaded: bpf_test_no_cfi(O)]
  CPU: 32 PID: 3276 Comm: test_progs Tainted: GO       6.8.0-12873-g2c43c33bfd23
  Call Trace:
-  &lt;TASK&gt;
+  
   mptcp_set_rcvlowat+0x79/0x1d0
   sk_setsockopt+0x6c0/0x1540
   __bpf_setsockopt+0x6f/0x90
@@ -1009,12 +1651,12 @@ is possible, as reported by lockdep:
 
        CPU0                    CPU1
        ----                    ----
-  lock(&amp;htab-&gt;buckets[i].lock);
+  lock(&amp;amp;htab-&gt;buckets[i].lock);
                                local_irq_disable();
-                               lock(&amp;host-&gt;lock);
-                               lock(&amp;htab-&gt;buckets[i].lock);
-  &lt;Interrupt&gt;
-    lock(&amp;host-&gt;lock);
+                               lock(&amp;amp;host-&gt;lock);
+                               lock(&amp;amp;htab-&gt;buckets[i].lock);
+  
+    lock(&amp;amp;host-&gt;lock);
 
 Locks in sockmap are hardirq-unsafe by design. We expects elements to be
 deleted from sockmap/sockhash only in task (normal) context with interrupts
@@ -1045,7 +1687,7 @@ Read of size 96 at addr ffff88802cd73da0 by task syz-executor.4/7238
 CPU: 1 PID: 7238 Comm: syz-executor.4 Not tainted 6.9.0-rc2-next-20240403-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
 Call Trace:
- &lt;TASK&gt;
+ 
   __dump_stack lib/dump_stack.c:88 [inline]
   dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
   print_address_description mm/kasan/report.c:377 [inline]
@@ -1073,7 +1715,7 @@ RDX: 0000000000000040 RSI: 0000000000000000 RDI: 0000000000000003
 RBP: 00007fd2206ca47a R08: 0000000000000001 R09: 0000000000000000
 R10: 0000000020000880 R11: 0000000000000246 R12: 0000000000000000
 R13: 000000000000000b R14: 00007fd2207abf80 R15: 00007ffd2d0170d8
- &lt;/TASK&gt;
+ 
 
 Allocated by task 7238:
   kasan_save_stack mm/kasan/common.c:47 [inline]
@@ -1140,7 +1782,7 @@ the set that is used in such transaction.
 [ 1360.547870] CPU: 4 PID: 152465 Comm: kworker/4:1 Not tainted 6.8.0+ #359
 [ 1360.547882] Workqueue: events nf_tables_trans_destroy_work [nf_tables]
 [ 1360.547984] Call Trace:
-[ 1360.547991]  &lt;TASK&gt;
+[ 1360.547991]  
 [ 1360.547998]  dump_stack_lvl+0x53/0x70
 [ 1360.548014]  print_report+0xc4/0x610
 [ 1360.548026]  ? __virt_addr_valid+0xba/0x160
@@ -1159,7 +1801,7 @@ the set that is used in such transaction.
 [ 1360.548665]  ret_from_fork+0x2f/0x50
 [ 1360.548679]  ? __pfx_kthread+0x10/0x10
 [ 1360.548690]  ret_from_fork_asm+0x1a/0x30
-[ 1360.548707]  &lt;/TASK&gt;
+[ 1360.548707]  
 
 [ 1360.548719] Allocated by task 192061:
 [ 1360.548726]  kasan_save_stack+0x20/0x40
@@ -1197,14 +1839,14 @@ the set that is used in such transaction.
 
 (gdb) list *__nft_release_table+0x473
 0x1e033 is in __nft_release_table (net/netfilter/nf_tables_api.c:11354).
-11349           list_for_each_entry_safe(flowtable, nf, &amp;table-&gt;flowtables, list) {
-11350                   list_del(&amp;flowtable-&gt;list);
-11351                   nft_use_dec(&amp;table-&gt;use);
+11349           list_for_each_entry_safe(flowtable, nf, &amp;amp;table-&gt;flowtables, list) {
+11350                   list_del(&amp;amp;flowtable-&gt;list);
+11351                   nft_use_dec(&amp;amp;table-&gt;use);
 11352                   nf_tables_flowtable_destroy(flowtable);
 11353           }
-11354           list_for_each_entry_safe(set, ns, &amp;table-&gt;sets, list) {
-11355                   list_del(&amp;set-&gt;list);
-11356                   nft_use_dec(&amp;table-&gt;use);
+11354           list_for_each_entry_safe(set, ns, &amp;amp;table-&gt;sets, list) {
+11355                   list_del(&amp;amp;set-&gt;list);
+11356                   nft_use_dec(&amp;amp;table-&gt;use);
 11357                   if (set-&gt;flags &amp; (NFT_SET_MAP | NFT_SET_OBJECT))
 11358                           nft_map_deactivat
 ---truncated---</description><pubDate>Sun, 19 May 2024 08:37:56 +0000</pubDate></item><item><title>CVE-2024-35900 | netfilter: nf_tables: reject new basechain after table flag update</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35900</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1227,7 +1869,7 @@ which is already unregistered.
 [  127.322252] WARNING: CPU: 7 PID: 1211 at net/netfilter/core.c:50                                                                     1 __nf_unregister_net_hook+0x21a/0x260
 [...]
 [  127.322519] Call Trace:
-[  127.322521]  &lt;TASK&gt;
+[  127.322521]  
 [  127.322524]  ? __warn+0x9f/0x1a0
 [  127.322531]  ? __nf_unregister_net_hook+0x21a/0x260
 [  127.322537]  ? report_bug+0x1b1/0x1e0
@@ -1249,13 +1891,13 @@ multiple of 64. So a packet slightly bigger than mtu+14, say 1536,
 can be received and cause skb_over_panic.
 
 Sample dmesg:
-[ 5325.237162] skbuff: skb_over_panic: text:ffffffffc043277a len:1536 put:1536 head:ff1100018b517000 data:ff1100018b517100 tail:0x700 end:0x6ea dev:&lt;NULL&gt;
+[ 5325.237162] skbuff: skb_over_panic: text:ffffffffc043277a len:1536 put:1536 head:ff1100018b517000 data:ff1100018b517100 tail:0x700 end:0x6ea dev:
 [ 5325.243689] ------------[ cut here ]------------
 [ 5325.245748] kernel BUG at net/core/skbuff.c:192!
 [ 5325.247838] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
 [ 5325.258374] RIP: 0010:skb_panic+0x4f/0x60
 [ 5325.302941] Call Trace:
-[ 5325.304389]  &lt;IRQ&gt;
+[ 5325.304389]  
 [ 5325.315794]  ? skb_panic+0x4f/0x60
 [ 5325.317457]  ? asm_exc_invalid_op+0x1f/0x30
 [ 5325.319490]  ? skb_panic+0x4f/0x60
@@ -1287,7 +1929,7 @@ Analysis:
   (which is indicative, but could itself be unnecessary)
 
 	trans_private = rs-&gt;rs_transport-&gt;get_mr(
-		sg, nents, rs, &amp;mr-&gt;r_key, cp ? cp-&gt;cp_conn : NULL,
+		sg, nents, rs, &amp;amp;mr-&gt;r_key, cp ? cp-&gt;cp_conn : NULL,
 		args-&gt;vec.addr, args-&gt;vec.bytes,
 		need_odp ? ODP_ZEROBASED : ODP_NOT_NEEDED);
 
@@ -1598,7 +2240,7 @@ PANIC from 6.8.0-rc1:
 [1026677.374369] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [1026677.381952] PKRU: 55555554
 [1026677.385116] Call Trace:
-[1026677.388023]  &lt;TASK&gt;
+[1026677.388023]  
 [1026677.390589]  ? __die+0x20/0x70
 [1026677.394105]  ? page_fault_oops+0x82/0x160
 [1026677.398576]  ? do_user_addr_fault+0x65/0x6a0
@@ -1635,7 +2277,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 000055fb75680018 CR3: 00000003dae32006 CR4: 0000000000f70ef0
 PKRU: 55555554
 Call Trace:
- &lt;IRQ&gt;
+ 
  ? show_regs+0x69/0x80
  ? __warn+0x8d/0x150
  ? iwl_mvm_rx_session_protect_notif+0x333/0x340 [iwlmvm]
