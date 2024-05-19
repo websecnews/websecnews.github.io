@@ -1,24 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 May 2024 10:30:39 +0000</lastBuildDate><item><title>CVE-2023-52699 | sysv: don&amp;#x27;t call sb_bread() with pointers_lock held</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52699</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 May 2024 11:17:04 +0000</lastBuildDate><item><title>CVE-2024-35947 | dyndbg: fix old BUG_ON in &amp;gt;control parser</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35947</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dyndbg: fix old BUG_ON in &gt;control parser
+
+Fix a BUG_ON from 2009.  Even if it looks "unreachable" (I didn't
+really look), lets make sure by removing it, doing pr_err and return
+-EINVAL instead.</description><pubDate>Sun, 19 May 2024 11:17:06 +0000</pubDate></item><item><title>CVE-2023-52699 | sysv: don&amp;#x27;t call sb_bread() with pointers_lock held</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52699</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 sysv: don't call sb_bread() with pointers_lock held
 
 syzbot is reporting sleep in atomic context in SysV filesystem [1], for
 sb_bread() is called with rw_spinlock held.
 
-A "write_lock(&amp;pointers_lock) =&gt; read_lock(&amp;pointers_lock) deadlock" bug
-and a "sb_bread() with write_lock(&amp;pointers_lock)" bug were introduced by
+A "write_lock(&amp;amp;pointers_lock) =&gt; read_lock(&amp;amp;pointers_lock) deadlock" bug
+and a "sb_bread() with write_lock(&amp;amp;pointers_lock)" bug were introduced by
 "Replace BKL for chain locking with sysvfs-private rwlock" in Linux 2.5.12.
 
 Then, "[PATCH] err1-40: sysvfs locking fix" in Linux 2.6.8 fixed the
 former bug by moving pointers_lock lock to the callers, but instead
-introduced a "sb_bread() with read_lock(&amp;pointers_lock)" bug (which made
+introduced a "sb_bread() with read_lock(&amp;amp;pointers_lock)" bug (which made
 this problem easier to hit).
 
 Al Viro suggested that why not to do like get_branch()/get_block()/
 find_shared() in Minix filesystem does. And doing like that is almost a
 revert of "[PATCH] err1-40: sysvfs locking fix" except that get_branch()
- from with find_shared() is called without write_lock(&amp;pointers_lock).</description><pubDate>Sun, 19 May 2024 10:30:40 +0000</pubDate></item><item><title>CVE-2024-35918 | randomize_kstack: Improve entropy diffusion</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35918</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ from with find_shared() is called without write_lock(&amp;amp;pointers_lock).</description><pubDate>Sun, 19 May 2024 10:30:40 +0000</pubDate></item><item><title>CVE-2024-35918 | randomize_kstack: Improve entropy diffusion</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35918</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 randomize_kstack: Improve entropy diffusion
 
@@ -187,7 +193,7 @@ suspend failure with following stack
 [  770.948878] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [  770.948878] CR2: 0000555f345cb666 CR3: 00000001462dc005 CR4: 0000000000370ee0
 [  770.948879] Call Trace:
-[  770.948880]  &lt;TASK&gt;
+[  770.948880]  
 [  770.948881]  ? show_trace_log_lvl+0x1c4/0x2df
 [  770.948884]  ? show_trace_log_lvl+0x1c4/0x2df
 [  770.948886]  ? __cancel_work_timer+0x103/0x190
@@ -238,10 +244,10 @@ __delete_object                                           shrink_slab
 put_object                                                lazy_rcu_shrink_scan
 call_rcu                                                  rcu_nocb_flush_bypass
 __call_rcu_commn                                            rcu_nocb_bypass_lock
-                                                            raw_spin_trylock(&amp;rdp-&gt;nocb_bypass_lock) fail
-                                                            atomic_inc(&amp;rdp-&gt;nocb_lock_contended);
+                                                            raw_spin_trylock(&amp;amp;rdp-&gt;nocb_bypass_lock) fail
+                                                            atomic_inc(&amp;amp;rdp-&gt;nocb_lock_contended);
 rcu_nocb_wait_contended                                     WARN_ON_ONCE(smp_processor_id() != rdp-&gt;cpu);
- WARN_ON_ONCE(atomic_read(&amp;rdp-&gt;nocb_lock_contended))                                          |
+ WARN_ON_ONCE(atomic_read(&amp;amp;rdp-&gt;nocb_lock_contended))                                          |
                             |_ _ _ _ _ _ _ _ _ _same rdp and rdp-&gt;cpu != 11_ _ _ _ _ _ _ _ _ __|
 
 Reproduce this bug with "echo 3 &gt; /proc/sys/vm/drop_caches".
@@ -299,7 +305,7 @@ Why:
     [  560.835433] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
     [  560.843444] PKRU: 55555554
     [  560.846480] Call Trace:
-    [  560.849225]  &lt;TASK&gt;
+    [  560.849225]  
     [  560.851580]  ? show_trace_log_lvl+0x1d6/0x2ea
     [  560.856488]  ? show_trace_log_lvl+0x1d6/0x2ea
     [  560.861379]  ? amdgpu_ras_do_recovery+0x1b2/0x210 [amdgpu]
@@ -471,7 +477,7 @@ kworker/u32:45: page allocation failure: order:4, mode:0x40c00(GFP_NOIO|__GFP_CO
 CPU: 0 PID: 19318 Comm: kworker/u32:45 Not tainted 6.8.0-rc3-1.gae4495f-default #1 openSUSE Tumbleweed (unreleased) 493b6d5b382c603654d7a81fc3c144d59a1dfceb
 Workqueue: events_unbound async_run_entry_fn
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x47/0x60
  warn_alloc+0x13a/0x1b0
  ? srso_alias_return_thunk+0x5/0xfbef5
@@ -505,7 +511,7 @@ Call Trace:
  ret_from_fork+0x34/0x50
  ? __pfx_kthread+0x10/0x10
  ret_from_fork_asm+0x1b/0x30
- &lt;/TASK&gt;
+ 
 
 Actually those buffers are used only by QMI target -&gt; host communication.
 And for WCN6855 and QCA6390, the largest packet size for that is less
@@ -595,7 +601,7 @@ VMCI: Fix memcpy() run-time warning in dg_dispatch_as_host()
 
 Syzkaller hit 'WARNING in dg_dispatch_as_host' bug.
 
-memcpy: detected field-spanning write (size 56) of single field "&amp;dg_info-&gt;msg"
+memcpy: detected field-spanning write (size 56) of single field "&amp;amp;dg_info-&gt;msg"
 at drivers/misc/vmw_vmci/vmci_datagram.c:237 (size 24)
 
 WARNING: CPU: 0 PID: 1555 at drivers/misc/vmw_vmci/vmci_datagram.c:237
@@ -606,7 +612,7 @@ Some code commentry, based on my understanding:
 544 #define VMCI_DG_SIZE(_dg) (VMCI_DG_HEADERSIZE + (size_t)(_dg)-&gt;payload_size)
 /// This is 24 + payload_size
 
-memcpy(&amp;dg_info-&gt;msg, dg, dg_size);
+memcpy(&amp;amp;dg_info-&gt;msg, dg, dg_size);
 	Destination = dg_info-&gt;msg ---&gt; this is a 24 byte
 					structure(struct vmci_datagram)
 	Source = dg --&gt; this is a 24 byte structure (struct vmci_datagram)
