@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 20 May 2024 10:00:48 +0000</lastBuildDate><item><title>CVE-2024-35983 | bounds: Use the right number of bits for power-of-two CONFIG_NR_CPUS</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35983</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 20 May 2024 12:27:38 +0000</lastBuildDate><item><title>CVE-2023-49330 | Zoho ManageEngine ADAudit Plus through 7251 allows SQL Injection while getting aggregate report data.</title><link>https://www.cve.org/CVERecord?id=CVE-2023-49330</link><description>Zoho ManageEngine ADAudit Plus through 7251 allows SQL Injection while getting aggregate report data.</description><pubDate>Mon, 20 May 2024 12:27:40 +0000</pubDate></item><item><title>CVE-2024-4323 | Fluent Bit Memory Corruption Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4323</link><description>A memory corruption vulnerability in Fluent Bit versions 2.0.7 thru 3.0.3. This issue lies in the embedded http server’s parsing of trace requests and may result in denial of service conditions, information disclosure, or remote code execution.</description><pubDate>Mon, 20 May 2024 12:27:41 +0000</pubDate></item><item><title>CVE-2024-35983 | bounds: Use the right number of bits for power-of-two CONFIG_NR_CPUS</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35983</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bounds: Use the right number of bits for power-of-two CONFIG_NR_CPUS
 
@@ -40,7 +40,7 @@ long living in kernel references to power_supply devices.
 Specifically unregistering a power_supply while some other code has
 a reference to it triggers a WARN in power_supply_unregister():
 
-	WARN_ON(atomic_dec_return(&amp;psy-&gt;use_cnt));
+	WARN_ON(atomic_dec_return(&amp;amp;psy-&gt;use_cnt));
 
 Folllowed by the power_supply still getting removed and the
 backing data freed anyway, leaving the tusb1210 charger-detect code
@@ -85,7 +85,7 @@ perf context, resulting in a kernel oops:
     RIP: 0010:mutex_lock+0x2e/0x50
     ...
     Call Trace:
-    &lt;TASK&gt;
+    
     __die+0x24/0x70
     page_fault_oops+0x82/0x160
     do_user_addr_fault+0x65/0x6b0
@@ -107,7 +107,7 @@ perf context, resulting in a kernel oops:
     ret_from_fork+0x31/0x50
     __pfx_kthread+0x10/0x10
     ret_from_fork_asm+0x1b/0x30
-    &lt;TASK&gt;
+    
 
 Fix the issue by preventing the migration of the perf context to an
 invalid target.</description><pubDate>Mon, 20 May 2024 10:00:52 +0000</pubDate></item><item><title>CVE-2024-35990 | dma: xilinx_dpdma: Fix locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35990</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -181,7 +181,7 @@ not held. Add appropriate locking. This fixes lockdep warnings like
 [   31.084752]  kthread+0x1bc/0x1c0
 [   31.084848]  ret_from_fork+0x10/0x20
 [   31.084932] irq event stamp: 64549
-[   31.084970] hardirqs last  enabled at (64548): [&lt;ffffffc081adf35c&gt;] _raw_spin_unlock_irqrestore+0x80/0x90
+[   31.084970] hardirqs last  enabled at (64548): [] _raw_spin_unlock_irqrestore+0x80/0x90
 [   31.085157]
 ---truncated---</description><pubDate>Mon, 20 May 2024 10:00:53 +0000</pubDate></item><item><title>CVE-2024-35991 | dmaengine: idxd: Convert spinlock to mutex to lock evl workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35991</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -193,7 +193,7 @@ queue_work() while drain_workqueue() will lead to a Call Trace as
 pushing a work on a draining workqueue is not permitted in spinlocked
 context.
     Call Trace:
-    &lt;TASK&gt;
+    
     ? __warn+0x7d/0x140
     ? __queue_work+0x2b2/0x440
     ? report_bug+0x1f8/0x200
@@ -216,7 +216,7 @@ context.
     ret_from_fork+0x31/0x50
     ? __pfx_kthread+0x10/0x10
     ret_from_fork_asm+0x1b/0x30
-    &lt;/TASK&gt;
+    
 
 The current implementation uses a spinlock to protect event log workqueue
 and will lead to the Call Trace due to potential task rescheduling.
@@ -408,7 +408,7 @@ There is a recent report on UFFDIO_COPY over hugetlb:
 
 https://lore.kernel.org/all/000000000000ee06de0616177560@google.com/
 
-350:	lockdep_assert_held(&amp;hugetlb_lock);
+350:	lockdep_assert_held(&amp;amp;hugetlb_lock);
 
 Should be an issue in hugetlb but triggered in an userfault context, where
 it goes into the unlikely path where two threads modifying the resv map
@@ -500,16 +500,16 @@ WARNING: possible circular locking dependency detected
 6.8.0-rc6 #54 Tainted: G        W  O
 ------------------------------------------------------
 kworker/60:3/6771 is trying to acquire lock:
-ff40d43e099380a0 (&amp;vf-&gt;cfg_lock){+.+.}-{3:3}, at: ice_reset_vf+0x22f/0x4d0 [ice]
+ff40d43e099380a0 (&amp;amp;vf-&gt;cfg_lock){+.+.}-{3:3}, at: ice_reset_vf+0x22f/0x4d0 [ice]
 
 but task is already holding lock:
-ff40d43ea1961210 (&amp;pf-&gt;lag_mutex){+.+.}-{3:3}, at: ice_reset_vf+0xb7/0x4d0 [ice]
+ff40d43ea1961210 (&amp;amp;pf-&gt;lag_mutex){+.+.}-{3:3}, at: ice_reset_vf+0xb7/0x4d0 [ice]
 
 which lock already depends on the new lock.
 
 the existing dependency chain (in reverse order) is:
 
--&gt; #1 (&amp;pf-&gt;lag_mutex){+.+.}-{3:3}:
+-&gt; #1 (&amp;amp;pf-&gt;lag_mutex){+.+.}-{3:3}:
        __lock_acquire+0x4f8/0xb40
        lock_acquire+0xd4/0x2d0
        __mutex_lock+0x9b/0xbf0
@@ -523,7 +523,7 @@ the existing dependency chain (in reverse order) is:
        ret_from_fork+0x31/0x50
        ret_from_fork_asm+0x1b/0x30
 
--&gt; #0 (&amp;vf-&gt;cfg_lock){+.+.}-{3:3}:
+-&gt; #0 (&amp;amp;vf-&gt;cfg_lock){+.+.}-{3:3}:
        check_prev_add+0xe2/0xc50
        validate_chain+0x558/0x800
        __lock_acquire+0x4f8/0xb40
@@ -542,24 +542,24 @@ other info that might help us debug this:
  Possible unsafe locking scenario:
        CPU0                    CPU1
        ----                    ----
-  lock(&amp;pf-&gt;lag_mutex);
-                               lock(&amp;vf-&gt;cfg_lock);
-                               lock(&amp;pf-&gt;lag_mutex);
-  lock(&amp;vf-&gt;cfg_lock);
+  lock(&amp;amp;pf-&gt;lag_mutex);
+                               lock(&amp;amp;vf-&gt;cfg_lock);
+                               lock(&amp;amp;pf-&gt;lag_mutex);
+  lock(&amp;amp;vf-&gt;cfg_lock);
 
  *** DEADLOCK ***
 4 locks held by kworker/60:3/6771:
  #0: ff40d43e05428b38 ((wq_completion)ice){+.+.}-{0:0}, at: process_one_work+0x176/0x4d0
- #1: ff50d06e05197e58 ((work_completion)(&amp;pf-&gt;serv_task)){+.+.}-{0:0}, at: process_one_work+0x176/0x4d0
- #2: ff40d43ea1960e50 (&amp;pf-&gt;vfs.table_lock){+.+.}-{3:3}, at: ice_process_vflr_event+0x48/0xd0 [ice]
- #3: ff40d43ea1961210 (&amp;pf-&gt;lag_mutex){+.+.}-{3:3}, at: ice_reset_vf+0xb7/0x4d0 [ice]
+ #1: ff50d06e05197e58 ((work_completion)(&amp;amp;pf-&gt;serv_task)){+.+.}-{0:0}, at: process_one_work+0x176/0x4d0
+ #2: ff40d43ea1960e50 (&amp;amp;pf-&gt;vfs.table_lock){+.+.}-{3:3}, at: ice_process_vflr_event+0x48/0xd0 [ice]
+ #3: ff40d43ea1961210 (&amp;amp;pf-&gt;lag_mutex){+.+.}-{3:3}, at: ice_reset_vf+0xb7/0x4d0 [ice]
 
 stack backtrace:
 CPU: 60 PID: 6771 Comm: kworker/60:3 Tainted: G        W  O       6.8.0-rc6 #54
 Hardware name:
 Workqueue: ice ice_service_task [ice]
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x4a/0x80
  check_noncircular+0x12d/0x150
  check_prev_add+0xe2/0xc50
@@ -588,7 +588,7 @@ Call Trace:
  ret_from_fork+0x31/0x50
  ? __pfx_kthread+0x10/0x10
  ret_from_fork_asm+0x1b/0x30
- &lt;/TASK&gt;
+ 
 
 To avoid deadlock, we must acquire the LAG 
 ---truncated---</description><pubDate>Mon, 20 May 2024 10:00:58 +0000</pubDate></item><item><title>CVE-2024-36004 | i40e: Do not use WQ_MEM_RECLAIM flag for workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36004</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -654,7 +654,7 @@ knlGS:0000000000000000
 0000000000000400
 [  +0.000001] PKRU: 55555554
 [  +0.000001] Call Trace:
-[  +0.000001]  &lt;TASK&gt;
+[  +0.000001]  
 [  +0.000002]  ? __warn+0x80/0x130
 [  +0.000003]  ? check_flush_dependency+0x10b/0x120
 [  +0.000002]  ? report_bug+0x195/0x1a0
@@ -696,7 +696,7 @@ to unregister an already unregistered hook.
 [524854.858982] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [524854.858991] CR2: 00007fc9be0f16f4 CR3: 00000001437cc004 CR4: 00000000001706f0
 [524854.859000] Call Trace:
-[524854.859006]  &lt;TASK&gt;
+[524854.859006]  
 [524854.859013]  ? __warn+0x9f/0x1a0
 [524854.859027]  ? __nf_unregister_net_hook+0x21a/0x260
 [524854.859044]  ? report_bug+0x1b1/0x1e0
@@ -734,14 +734,13 @@ Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
 RIP: 0010:mlxsw_sp_acl_tcam_vchunk_migrate_all+0x1f1/0x2c0
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  mlxsw_sp_acl_tcam_vregion_rehash_work+0x6c/0x4a0
  process_one_work+0x151/0x370
  worker_thread+0x2cb/0x3e0
  kthread+0xd0/0x100
  ret_from_fork+0x34/0x50
- ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;</description><pubDate>Mon, 20 May 2024 10:01:00 +0000</pubDate></item><item><title>CVE-2024-36007 | mlxsw: spectrum_acl_tcam: Fix warning during rehash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36007</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ ret_from_fork_asm+0x1a/0x30</description><pubDate>Mon, 20 May 2024 10:01:00 +0000</pubDate></item><item><title>CVE-2024-36007 | mlxsw: spectrum_acl_tcam: Fix warning during rehash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36007</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mlxsw: spectrum_acl_tcam: Fix warning during rehash
 
@@ -776,7 +775,7 @@ Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
 RIP: 0010:mlxsw_afk_encode+0x242/0x2f0
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  mlxsw_sp_acl_atcam_entry_add+0xd9/0x3c0
  mlxsw_sp_acl_tcam_entry_create+0x5e/0xa0
  mlxsw_sp_acl_tcam_vchunk_migrate_all+0x109/0x290
@@ -784,8 +783,7 @@ Call Trace:
  process_one_work+0x151/0x370
  worker_thread+0x2cb/0x3e0
  kthread+0xd0/0x100
- ret_from_fork+0x34/0x50
- &lt;/TASK&gt;</description><pubDate>Mon, 20 May 2024 10:01:00 +0000</pubDate></item><item><title>CVE-2024-36008 | ipv4: check for NULL idev in ip_route_use_hint()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36008</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ ret_from_fork+0x34/0x50</description><pubDate>Mon, 20 May 2024 10:01:00 +0000</pubDate></item><item><title>CVE-2024-36008 | ipv4: check for NULL idev in ip_route_use_hint()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36008</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ipv4: check for NULL idev in ip_route_use_hint()
 
