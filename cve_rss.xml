@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 21 May 2024 14:36:48 +0000</lastBuildDate><item><title>CVE-2021-47286 | bus: mhi: core: Validate channel ID when processing command completions</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47286</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 21 May 2024 14:56:54 +0000</lastBuildDate><item><title>CVE-2024-33526 | A Stored Cross-site Scripting (XSS) vulnerability in the "Import of user role and title of user role" feature in ILIAS 7 before 7.30 and ILI...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33526</link><description>A Stored Cross-site Scripting (XSS) vulnerability in the "Import of user role and title of user role" feature in ILIAS 7 before 7.30 and ILIAS 8 before 8.11 allows remote authenticated attackers with administrative privileges to inject arbitrary web script or HTML via XML file upload.</description><pubDate>Tue, 21 May 2024 14:56:56 +0000</pubDate></item><item><title>CVE-2021-47358 | staging: greybus: uart: fix tty use after free</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47358</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: greybus: uart: fix tty use after free
+
+User space can hold a tty open indefinitely and tty drivers must not
+release the underlying structures until the last user is gone.
+
+Switch to using the tty-port reference counter to manage the life time
+of the greybus tty state to avoid use after free after a disconnect.</description><pubDate>Tue, 21 May 2024 14:56:57 +0000</pubDate></item><item><title>CVE-2024-33528 | A Stored Cross-site Scripting (XSS) vulnerability in ILIAS 7 before 7.30 and ILIAS 8 before 8.11 allows remote authenticated attackers with ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33528</link><description>A Stored Cross-site Scripting (XSS) vulnerability in ILIAS 7 before 7.30 and ILIAS 8 before 8.11 allows remote authenticated attackers with tutor privileges to inject arbitrary web script or HTML via XML file upload.</description><pubDate>Tue, 21 May 2024 14:56:57 +0000</pubDate></item><item><title>CVE-2024-33529 | ILIAS 7 before 7.30 and ILIAS 8 before 8.11 as well as ILIAS 9.0 allow remote authenticated attackers with administrative privileges to exec...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33529</link><description>ILIAS 7 before 7.30 and ILIAS 8 before 8.11 as well as ILIAS 9.0 allow remote authenticated attackers with administrative privileges to execute operating system commands via file uploads with dangerous types.</description><pubDate>Tue, 21 May 2024 14:56:57 +0000</pubDate></item><item><title>CVE-2021-47286 | bus: mhi: core: Validate channel ID when processing command completions</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47286</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bus: mhi: core: Validate channel ID when processing command completions
 
@@ -28,7 +36,7 @@ The problem is that the original code is trying to copy 6 bytes of
 data into a one-byte size member _config_ of the wrong structue
 FW_CONFIGURE_BUFFERS, in a single call to memcpy(). This causes a
 legitimate compiler warning because memcpy() overruns the length
-of &amp;com.cmd.ConfigureBuffers.config. It seems that the right
+of &amp;amp;com.cmd.ConfigureBuffers.config. It seems that the right
 structure is FW_CONFIGURE_FREE_BUFFERS, instead, because it contains
 6 more members apart from the header _hdr_. Also, the name of
 the function ngene_command_config_free_buf() suggests that the actual
@@ -36,8 +44,8 @@ intention is to ConfigureFreeBuffers, instead of ConfigureBuffers
 (which takes place in the function ngene_command_config_buf(), above).
 
 Fix this by enclosing those 6 members of struct FW_CONFIGURE_FREE_BUFFERS
-into new struct config, and use &amp;com.cmd.ConfigureFreeBuffers.config as
-the destination address, instead of &amp;com.cmd.ConfigureBuffers.config,
+into new struct config, and use &amp;amp;com.cmd.ConfigureFreeBuffers.config as
+the destination address, instead of &amp;amp;com.cmd.ConfigureBuffers.config,
 when calling memcpy().
 
 This also helps with the ongoing efforts to globally enable
@@ -466,7 +474,7 @@ end up accessing free'd memory, triggering KASAN in prog_array_map_poke_run():
 The elements concerned are walked as follows:
 
     for (i = 0; i &lt; elem-&gt;aux-&gt;size_poke_tab; i++) {
-           poke = &amp;elem-&gt;aux-&gt;poke_tab[i];
+           poke = &amp;amp;elem-&gt;aux-&gt;poke_tab[i];
     [...]
 
 The access to size_poke_tab is a 4 byte read, verified by checking offsets
@@ -1185,13 +1193,13 @@ The problem was in non-freed urb in case of
 usb_submit_urb() fail.
 
 backtrace:
-  [&lt;ffffffff82baedf6&gt;] kmalloc include/linux/slab.h:561 [inline]
-  [&lt;ffffffff82baedf6&gt;] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-  [&lt;ffffffff82f7cce8&gt;] zr364xx_start_readpipe+0x78/0x130 drivers/media/usb/zr364xx/zr364xx.c:1022
-  [&lt;ffffffff84251dfc&gt;] zr364xx_board_init drivers/media/usb/zr364xx/zr364xx.c:1383 [inline]
-  [&lt;ffffffff84251dfc&gt;] zr364xx_probe+0x6a3/0x851 drivers/media/usb/zr364xx/zr364xx.c:1516
-  [&lt;ffffffff82bb6507&gt;] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-  [&lt;ffffffff826018a9&gt;] really_probe+0x159/0x500 drivers/base/dd.c:576</description><pubDate>Tue, 21 May 2024 14:37:10 +0000</pubDate></item><item><title>CVE-2021-47345 | RDMA/cma: Fix rdma_resolve_route() memory leak</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47345</link><description>In the Linux kernel, the following vulnerability has been resolved:
+  [] kmalloc include/linux/slab.h:561 [inline]
+  [] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
+  [] zr364xx_start_readpipe+0x78/0x130 drivers/media/usb/zr364xx/zr364xx.c:1022
+  [] zr364xx_board_init drivers/media/usb/zr364xx/zr364xx.c:1383 [inline]
+  [] zr364xx_probe+0x6a3/0x851 drivers/media/usb/zr364xx/zr364xx.c:1516
+  [] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+  [] really_probe+0x159/0x500 drivers/base/dd.c:576</description><pubDate>Tue, 21 May 2024 14:37:10 +0000</pubDate></item><item><title>CVE-2021-47345 | RDMA/cma: Fix rdma_resolve_route() memory leak</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47345</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 RDMA/cma: Fix rdma_resolve_route() memory leak
 
@@ -1290,7 +1298,7 @@ description:
          * but don't know if we get there from here or from some other
          * place (e.g. "ip link set ... down").
          */
-        mutex_unlock(&amp;rdev-&gt;wiphy.mtx);
+        mutex_unlock(&amp;amp;rdev-&gt;wiphy.mtx);
 ...
 
 Do similarly for mwifiex teardown, by ensuring we bring the link down
