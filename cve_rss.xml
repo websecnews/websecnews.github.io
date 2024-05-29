@@ -1,5 +1,71 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 29 May 2024 10:19:35 +0000</lastBuildDate><item><title>CVE-2024-28826 | Unrestricted upload and download paths in check_sftp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28826</link><description>Improper restriction of local upload and download paths in check_sftp in Checkmk before 2.3.0p4, 2.2.0p27, 2.1.0p44, and in Checkmk 2.0.0 (EOL) allows attackers with sufficient permissions to configure the check to read and write local files on the Checkmk site server.</description><pubDate>Wed, 29 May 2024 10:19:37 +0000</pubDate></item><item><title>CVE-2024-3412 | WP STAGING WordPress Backup Plugin – Migration Backup Restore &amp;lt;= 3.4.3 - Authenticated (Admin+) Arbitrary File Upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3412</link><description>The WP STAGING WordPress Backup Plugin – Migration Backup Restore plugin for WordPress is vulnerable to arbitrary file uploads due to missing file type validation in the wpstg_processing AJAX action in all versions up to, and including, 3.4.3. This makes it possible for authenticated attackers, with administrator-level access and above, to upload arbitrary files on the affected site's server which may make remote code execution possible.</description><pubDate>Wed, 29 May 2024 08:30:55 +0000</pubDate></item><item><title>CVE-2024-36015 | ppdev: Add an error check in register_device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36015</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 29 May 2024 10:35:15 +0000</lastBuildDate><item><title>CVE-2023-52881 | tcp: do not accept ACK of bytes we never sent</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52881</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp: do not accept ACK of bytes we never sent
+
+This patch is based on a detailed report and ideas from Yepeng Pan
+and Christian Rossow.
+
+ACK seq validation is currently following RFC 5961 5.2 guidelines:
+
+   The ACK value is considered acceptable only if
+   it is in the range of ((SND.UNA - MAX.SND.WND) &lt;= SEG.ACK &lt;=
+   SND.NXT).  All incoming segments whose ACK value doesn't satisfy the
+   above condition MUST be discarded and an ACK sent back.  It needs to
+   be noted that RFC 793 on page 72 (fifth check) says: "If the ACK is a
+   duplicate (SEG.ACK &lt; SND.UNA), it can be ignored.  If the ACK
+   acknowledges something not yet sent (SEG.ACK &gt; SND.NXT) then send an
+   ACK, drop the segment, and return".  The "ignored" above implies that
+   the processing of the incoming data segment continues, which means
+   the ACK value is treated as acceptable.  This mitigation makes the
+   ACK check more stringent since any ACK &lt; SND.UNA wouldn't be
+   accepted, instead only ACKs that are in the range ((SND.UNA -
+   MAX.SND.WND) &lt;= SEG.ACK &lt;= SND.NXT) get through.
+
+This can be refined for new (and possibly spoofed) flows,
+by not accepting ACK for bytes that were never sent.
+
+This greatly improves TCP security at a little cost.
+
+I added a Fixes: tag to make sure this patch will reach stable trees,
+even if the 'blamed' patch was adhering to the RFC.
+
+tp-&gt;bytes_acked was added in linux-4.2
+
+Following packetdrill test (courtesy of Yepeng Pan) shows
+the issue at hand:
+
+0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
++0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
++0 bind(3, ..., ...) = 0
++0 listen(3, 1024) = 0
+
+// ---------------- Handshake ------------------- //
+
+// when window scale is set to 14 the window size can be extended to
+// 65535 * (2^14) = 1073725440. Linux would accept an ACK packet
+// with ack number in (Server_ISN+1-1073725440. Server_ISN+1)
+// ,though this ack number acknowledges some data never
+// sent by the server.
+
++0 &lt; S 0:0(0) win 65535 &lt;mss 1400,nop,wscale 14&gt;
++0 &gt; S. 0:0(0) ack 1 &lt;...&gt;
++0 &lt; . 1:1(0) ack 1 win 65535
++0 accept(3, ..., ...) = 4
+
+// For the established connection, we send an ACK packet,
+// the ack packet uses ack number 1 - 1073725300 + 2^32,
+// where 2^32 is used to wrap around.
+// Note: we used 1073725300 instead of 1073725440 to avoid possible
+// edge cases.
+// 1 - 1073725300 + 2^32 = 3221241997
+
+// Oops, old kernels happily accept this packet.
++0 &lt; . 1:1001(1000) ack 3221241997 win 65535
+
+// After the kernel fix the following will be replaced by a challenge ACK,
+// and prior malicious frame would be dropped.
++0 &gt; . 1:1(0) ack 1001</description><pubDate>Wed, 29 May 2024 10:35:16 +0000</pubDate></item><item><title>CVE-2024-28826 | Unrestricted upload and download paths in check_sftp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28826</link><description>Improper restriction of local upload and download paths in check_sftp in Checkmk before 2.3.0p4, 2.2.0p27, 2.1.0p44, and in Checkmk 2.0.0 (EOL) allows attackers with sufficient permissions to configure the check to read and write local files on the Checkmk site server.</description><pubDate>Wed, 29 May 2024 10:19:37 +0000</pubDate></item><item><title>CVE-2024-3412 | WP STAGING WordPress Backup Plugin – Migration Backup Restore &amp;lt;= 3.4.3 - Authenticated (Admin+) Arbitrary File Upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3412</link><description>The WP STAGING WordPress Backup Plugin – Migration Backup Restore plugin for WordPress is vulnerable to arbitrary file uploads due to missing file type validation in the wpstg_processing AJAX action in all versions up to, and including, 3.4.3. This makes it possible for authenticated attackers, with administrator-level access and above, to upload arbitrary files on the affected site's server which may make remote code execution possible.</description><pubDate>Wed, 29 May 2024 08:30:55 +0000</pubDate></item><item><title>CVE-2024-36015 | ppdev: Add an error check in register_device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36015</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ppdev: Add an error check in register_device
 
