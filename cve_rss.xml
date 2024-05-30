@@ -1,5 +1,138 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 15:18:11 +0000</lastBuildDate><item><title>CVE-2024-36027 | btrfs: zoned: do not flag ZEROOUT on non-dirty extent buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 15:29:34 +0000</lastBuildDate><item><title>CVE-2023-52882 | clk: sunxi-ng: h6: Reparent CPUX during PLL CPUX rate change</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52882</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: sunxi-ng: h6: Reparent CPUX during PLL CPUX rate change
+
+While PLL CPUX clock rate change when CPU is running from it works in
+vast majority of cases, now and then it causes instability. This leads
+to system crashes and other undefined behaviour. After a lot of testing
+(30+ hours) while also doing a lot of frequency switches, we can't
+observe any instability issues anymore when doing reparenting to stable
+clock like 24 MHz oscillator.</description><pubDate>Thu, 30 May 2024 15:29:36 +0000</pubDate></item><item><title>CVE-2024-36028 | mm/hugetlb: fix DEBUG_LOCKS_WARN_ON(1) when dissolve_free_hugetlb_folio()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36028</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/hugetlb: fix DEBUG_LOCKS_WARN_ON(1) when dissolve_free_hugetlb_folio()
+
+When I did memory failure tests recently, below warning occurs:
+
+DEBUG_LOCKS_WARN_ON(1)
+WARNING: CPU: 8 PID: 1011 at kernel/locking/lockdep.c:232 __lock_acquire+0xccb/0x1ca0
+Modules linked in: mce_inject hwpoison_inject
+CPU: 8 PID: 1011 Comm: bash Kdump: loaded Not tainted 6.9.0-rc3-next-20240410-00012-gdb69f219f4be #3
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+RIP: 0010:__lock_acquire+0xccb/0x1ca0
+RSP: 0018:ffffa7a1c7fe3bd0 EFLAGS: 00000082
+RAX: 0000000000000000 RBX: eb851eb853975fcf RCX: ffffa1ce5fc1c9c8
+RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffffa1ce5fc1c9c0
+RBP: ffffa1c6865d3280 R08: ffffffffb0f570a8 R09: 0000000000009ffb
+R10: 0000000000000286 R11: ffffffffb0f2ad50 R12: ffffa1c6865d3d10
+R13: ffffa1c6865d3c70 R14: 0000000000000000 R15: 0000000000000004
+FS:  00007ff9f32aa740(0000) GS:ffffa1ce5fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff9f3134ba0 CR3: 00000008484e4000 CR4: 00000000000006f0
+Call Trace:
+ &lt;TASK&gt;
+ lock_acquire+0xbe/0x2d0
+ _raw_spin_lock_irqsave+0x3a/0x60
+ hugepage_subpool_put_pages.part.0+0xe/0xc0
+ free_huge_folio+0x253/0x3f0
+ dissolve_free_huge_page+0x147/0x210
+ __page_handle_poison+0x9/0x70
+ memory_failure+0x4e6/0x8c0
+ hard_offline_page_store+0x55/0xa0
+ kernfs_fop_write_iter+0x12c/0x1d0
+ vfs_write+0x380/0x540
+ ksys_write+0x64/0xe0
+ do_syscall_64+0xbc/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff9f3114887
+RSP: 002b:00007ffecbacb458 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 000000000000000c RCX: 00007ff9f3114887
+RDX: 000000000000000c RSI: 0000564494164e10 RDI: 0000000000000001
+RBP: 0000564494164e10 R08: 00007ff9f31d1460 R09: 000000007fffffff
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000c
+R13: 00007ff9f321b780 R14: 00007ff9f3217600 R15: 00007ff9f3216a00
+ &lt;/TASK&gt;
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+CPU: 8 PID: 1011 Comm: bash Kdump: loaded Not tainted 6.9.0-rc3-next-20240410-00012-gdb69f219f4be #3
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ panic+0x326/0x350
+ check_panic_on_warn+0x4f/0x50
+ __warn+0x98/0x190
+ report_bug+0x18e/0x1a0
+ handle_bug+0x3d/0x70
+ exc_invalid_op+0x18/0x70
+ asm_exc_invalid_op+0x1a/0x20
+RIP: 0010:__lock_acquire+0xccb/0x1ca0
+RSP: 0018:ffffa7a1c7fe3bd0 EFLAGS: 00000082
+RAX: 0000000000000000 RBX: eb851eb853975fcf RCX: ffffa1ce5fc1c9c8
+RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffffa1ce5fc1c9c0
+RBP: ffffa1c6865d3280 R08: ffffffffb0f570a8 R09: 0000000000009ffb
+R10: 0000000000000286 R11: ffffffffb0f2ad50 R12: ffffa1c6865d3d10
+R13: ffffa1c6865d3c70 R14: 0000000000000000 R15: 0000000000000004
+ lock_acquire+0xbe/0x2d0
+ _raw_spin_lock_irqsave+0x3a/0x60
+ hugepage_subpool_put_pages.part.0+0xe/0xc0
+ free_huge_folio+0x253/0x3f0
+ dissolve_free_huge_page+0x147/0x210
+ __page_handle_poison+0x9/0x70
+ memory_failure+0x4e6/0x8c0
+ hard_offline_page_store+0x55/0xa0
+ kernfs_fop_write_iter+0x12c/0x1d0
+ vfs_write+0x380/0x540
+ ksys_write+0x64/0xe0
+ do_syscall_64+0xbc/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff9f3114887
+RSP: 002b:00007ffecbacb458 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 000000000000000c RCX: 00007ff9f3114887
+RDX: 000000000000000c RSI: 0000564494164e10 RDI: 0000000000000001
+RBP: 0000564494164e10 R08: 00007ff9f31d1460 R09: 000000007fffffff
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000c
+R13: 00007ff9f321b780 R14: 00007ff9f3217600 R15: 00007ff9f3216a00
+ &lt;/TASK&gt;
+
+After git bisecting and digging into the code, I believe the root cause is
+that _deferred_list field of folio is unioned with _hugetlb_subpool field.
+In __update_and_free_hugetlb_folio(), folio-&gt;_deferred_
+---truncated---</description><pubDate>Thu, 30 May 2024 15:29:36 +0000</pubDate></item><item><title>CVE-2024-36029 | mmc: sdhci-msm: pervent access to suspended controller</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36029</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mmc: sdhci-msm: pervent access to suspended controller
+
+Generic sdhci code registers LED device and uses host-&gt;runtime_suspended
+flag to protect access to it. The sdhci-msm driver doesn't set this flag,
+which causes a crash when LED is accessed while controller is runtime
+suspended. Fix this by setting the flag correctly.</description><pubDate>Thu, 30 May 2024 15:29:36 +0000</pubDate></item><item><title>CVE-2024-36030 | octeontx2-af: fix the double free in rvu_npc_freemem()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36030</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+octeontx2-af: fix the double free in rvu_npc_freemem()
+
+Clang static checker(scan-build) warning：
+drivers/net/ethernet/marvell/octeontx2/af/rvu_npc.c:line 2184, column 2
+Attempt to free released memory.
+
+npc_mcam_rsrcs_deinit() has released 'mcam-&gt;counters.bmap'. Deleted this
+redundant kfree() to fix this double free problem.</description><pubDate>Thu, 30 May 2024 15:29:37 +0000</pubDate></item><item><title>CVE-2024-36031 | keys: Fix overwrite of key expiration on instantiation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36031</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+keys: Fix overwrite of key expiration on instantiation
+
+The expiry time of a key is unconditionally overwritten during
+instantiation, defaulting to turn it permanent. This causes a problem
+for DNS resolution as the expiration set by user-space is overwritten to
+TIME64_MAX, disabling further DNS updates. Fix this by restoring the
+condition that key_set_expiry is only called when the pre-parser sets a
+specific expiry.</description><pubDate>Thu, 30 May 2024 15:29:37 +0000</pubDate></item><item><title>CVE-2024-36032 | Bluetooth: qca: fix info leak when fetching fw build id</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36032</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: qca: fix info leak when fetching fw build id
+
+Add the missing sanity checks and move the 255-byte build-id buffer off
+the stack to avoid leaking stack data through debugfs in case the
+build-info reply is malformed.</description><pubDate>Thu, 30 May 2024 15:29:38 +0000</pubDate></item><item><title>CVE-2024-36033 | Bluetooth: qca: fix info leak when fetching board id</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36033</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: qca: fix info leak when fetching board id
+
+Add the missing sanity check when fetching the board id to avoid leaking
+slab data when later requesting the firmware.</description><pubDate>Thu, 30 May 2024 15:29:38 +0000</pubDate></item><item><title>CVE-2024-3300 | Pre-authentication Unsafe .NET object deserialization vulnerability affecting DELMIA Apriso Release 2019 through Release 2024</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3300</link><description>An unsafe .NET object deserialization vulnerability in DELMIA Apriso Release 2019 through Release 2024 could lead to pre-authentication remote code execution.</description><pubDate>Thu, 30 May 2024 15:29:38 +0000</pubDate></item><item><title>CVE-2024-3301 | Post-authentication Unsafe .NET object deserialization vulnerability affecting DELMIA Apriso Release 2019 through Release 2024</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3301</link><description>An unsafe .NET object deserialization vulnerability in DELMIA Apriso Release 2019 through Release 2024 could lead to post-authentication remote code execution.</description><pubDate>Thu, 30 May 2024 15:29:39 +0000</pubDate></item><item><title>CVE-2024-36027 | btrfs: zoned: do not flag ZEROOUT on non-dirty extent buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36027</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 btrfs: zoned: do not flag ZEROOUT on non-dirty extent buffer
 
