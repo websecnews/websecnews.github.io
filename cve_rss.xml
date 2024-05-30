@@ -1,5 +1,226 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 15:39:18 +0000</lastBuildDate><item><title>CVE-2024-36880 | Bluetooth: qca: add missing firmware sanity checks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36880</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 15:49:12 +0000</lastBuildDate><item><title>CVE-2024-36942 | Bluetooth: qca: fix firmware check error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36942</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: qca: fix firmware check error path
+
+A recent commit fixed the code that parses the firmware files before
+downloading them to the controller but introduced a memory leak in case
+the sanity checks ever fail.
+
+Make sure to free the firmware buffer before returning on errors.</description><pubDate>Thu, 30 May 2024 15:49:14 +0000</pubDate></item><item><title>CVE-2024-36943 | fs/proc/task_mmu: fix loss of young/dirty bits during pagemap scan</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36943</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/proc/task_mmu: fix loss of young/dirty bits during pagemap scan
+
+make_uffd_wp_pte() was previously doing:
+
+  pte = ptep_get(ptep);
+  ptep_modify_prot_start(ptep);
+  pte = pte_mkuffd_wp(pte);
+  ptep_modify_prot_commit(ptep, pte);
+
+But if another thread accessed or dirtied the pte between the first 2
+calls, this could lead to loss of that information.  Since
+ptep_modify_prot_start() gets and clears atomically, the following is the
+correct pattern and prevents any possible race.  Any access after the
+first call would see an invalid pte and cause a fault:
+
+  pte = ptep_modify_prot_start(ptep);
+  pte = pte_mkuffd_wp(pte);
+  ptep_modify_prot_commit(ptep, pte);</description><pubDate>Thu, 30 May 2024 15:49:14 +0000</pubDate></item><item><title>CVE-2024-36944 | Reapply &amp;quot;drm/qxl: simplify qxl_fence_wait&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36944</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Reapply "drm/qxl: simplify qxl_fence_wait"
+
+This reverts commit 07ed11afb68d94eadd4ffc082b97c2331307c5ea.
+
+Stephen Rostedt reports:
+ "I went to run my tests on my VMs and the tests hung on boot up.
+  Unfortunately, the most I ever got out was:
+
+  [   93.607888] Testing event system initcall: OK
+  [   93.667730] Running tests on all trace events:
+  [   93.669757] Testing all events: OK
+  [   95.631064] ------------[ cut here ]------------
+  Timed out after 60 seconds"
+
+and further debugging points to a possible circular locking dependency
+between the console_owner locking and the worker pool locking.
+
+Reverting the commit allows Steve's VM to boot to completion again.
+
+[ This may obviously result in the "[TTM] Buffer eviction failed"
+  messages again, which was the reason for that original revert. But at
+  this point this seems preferable to a non-booting system... ]</description><pubDate>Thu, 30 May 2024 15:49:15 +0000</pubDate></item><item><title>CVE-2024-36945 | net/smc: fix neighbour and rtable leak in smc_ib_find_route()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36945</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: fix neighbour and rtable leak in smc_ib_find_route()
+
+In smc_ib_find_route(), the neighbour found by neigh_lookup() and rtable
+resolved by ip_route_output_flow() are not released or put before return.
+It may cause the refcount leak, so fix it.</description><pubDate>Thu, 30 May 2024 15:49:15 +0000</pubDate></item><item><title>CVE-2024-36946 | phonet: fix rtm_phonet_notify() skb allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36946</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+phonet: fix rtm_phonet_notify() skb allocation
+
+fill_route() stores three components in the skb:
+
+- struct rtmsg
+- RTA_DST (u8)
+- RTA_OIF (u32)
+
+Therefore, rtm_phonet_notify() should use
+
+NLMSG_ALIGN(sizeof(struct rtmsg)) +
+nla_total_size(1) +
+nla_total_size(4)</description><pubDate>Thu, 30 May 2024 15:49:15 +0000</pubDate></item><item><title>CVE-2024-36947 | qibfs: fix dentry leak</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36947</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+qibfs: fix dentry leak
+
+simple_recursive_removal() drops the pinning references to all positives
+in subtree.  For the cases when its argument has been kept alive by
+the pinning alone that's exactly the right thing to do, but here
+the argument comes from dcache lookup, that needs to be balanced by
+explicit dput().
+
+Fucked-up-by: Al Viro &lt;viro@zeniv.linux.org.uk&gt;</description><pubDate>Thu, 30 May 2024 15:49:16 +0000</pubDate></item><item><title>CVE-2024-36948 | drm/xe/xe_migrate: Cast to output precision before multiplying operands</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36948</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe/xe_migrate: Cast to output precision before multiplying operands
+
+Addressing potential overflow in result of  multiplication of two lower
+precision (u32) operands before widening it to higher precision
+(u64).
+
+-v2
+Fix commit message and description. (Rodrigo)
+
+(cherry picked from commit 34820967ae7b45411f8f4f737c2d63b0c608e0d7)</description><pubDate>Thu, 30 May 2024 15:49:16 +0000</pubDate></item><item><title>CVE-2024-36949 | amd/amdkfd: sync all devices to wait all processes being evicted</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36949</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+amd/amdkfd: sync all devices to wait all processes being evicted
+
+If there are more than one device doing reset in parallel, the first
+device will call kfd_suspend_all_processes() to evict all processes
+on all devices, this call takes time to finish. other device will
+start reset and recover without waiting. if the process has not been
+evicted before doing recover, it will be restored, then caused page
+fault.</description><pubDate>Thu, 30 May 2024 15:49:16 +0000</pubDate></item><item><title>CVE-2024-36950 | firewire: ohci: mask bus reset interrupts between ISR and bottom half</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36950</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firewire: ohci: mask bus reset interrupts between ISR and bottom half
+
+In the FireWire OHCI interrupt handler, if a bus reset interrupt has
+occurred, mask bus reset interrupts until bus_reset_work has serviced and
+cleared the interrupt.
+
+Normally, we always leave bus reset interrupts masked. We infer the bus
+reset from the self-ID interrupt that happens shortly thereafter. A
+scenario where we unmask bus reset interrupts was introduced in 2008 in
+a007bb857e0b26f5d8b73c2ff90782d9c0972620: If
+OHCI_PARAM_DEBUG_BUSRESETS (8) is set in the debug parameter bitmask, we
+will unmask bus reset interrupts so we can log them.
+
+irq_handler logs the bus reset interrupt. However, we can't clear the bus
+reset event flag in irq_handler, because we won't service the event until
+later. irq_handler exits with the event flag still set. If the
+corresponding interrupt is still unmasked, the first bus reset will
+usually freeze the system due to irq_handler being called again each
+time it exits. This freeze can be reproduced by loading firewire_ohci
+with "modprobe firewire_ohci debug=-1" (to enable all debugging output).
+Apparently there are also some cases where bus_reset_work will get called
+soon enough to clear the event, and operation will continue normally.
+
+This freeze was first reported a few months after a007bb85 was committed,
+but until now it was never fixed. The debug level could safely be set
+to -1 through sysfs after the module was loaded, but this would be
+ineffectual in logging bus reset interrupts since they were only
+unmasked during initialization.
+
+irq_handler will now leave the event flag set but mask bus reset
+interrupts, so irq_handler won't be called again and there will be no
+freeze. If OHCI_PARAM_DEBUG_BUSRESETS is enabled, bus_reset_work will
+unmask the interrupt after servicing the event, so future interrupts
+will be caught as desired.
+
+As a side effect to this change, OHCI_PARAM_DEBUG_BUSRESETS can now be
+enabled through sysfs in addition to during initial module loading.
+However, when enabled through sysfs, logging of bus reset interrupts will
+be effective only starting with the second bus reset, after
+bus_reset_work has executed.</description><pubDate>Thu, 30 May 2024 15:49:17 +0000</pubDate></item><item><title>CVE-2024-36951 | drm/amdkfd: range check cp bad op exception interrupts</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36951</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: range check cp bad op exception interrupts
+
+Due to a CP interrupt bug, bad packet garbage exception codes are raised.
+Do a range check so that the debugger and runtime do not receive garbage
+codes.
+Update the user api to guard exception code type checking as well.</description><pubDate>Thu, 30 May 2024 15:49:17 +0000</pubDate></item><item><title>CVE-2024-36952 | scsi: lpfc: Move NPIV&amp;#x27;s transport unregistration to after resource clean up</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36952</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: lpfc: Move NPIV's transport unregistration to after resource clean up
+
+There are cases after NPIV deletion where the fabric switch still believes
+the NPIV is logged into the fabric.  This occurs when a vport is
+unregistered before the Remove All DA_ID CT and LOGO ELS are sent to the
+fabric.
+
+Currently fc_remove_host(), which calls dev_loss_tmo for all D_IDs including
+the fabric D_ID, removes the last ndlp reference and frees the ndlp rport
+object.  This sometimes causes the race condition where the final DA_ID and
+LOGO are skipped from being sent to the fabric switch.
+
+Fix by moving the fc_remove_host() and scsi_remove_host() calls after DA_ID
+and LOGO are sent.</description><pubDate>Thu, 30 May 2024 15:49:17 +0000</pubDate></item><item><title>CVE-2024-36953 | KVM: arm64: vgic-v2: Check for non-NULL vCPU in vgic_v2_parse_attr()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36953</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: arm64: vgic-v2: Check for non-NULL vCPU in vgic_v2_parse_attr()
+
+vgic_v2_parse_attr() is responsible for finding the vCPU that matches
+the user-provided CPUID, which (of course) may not be valid. If the ID
+is invalid, kvm_get_vcpu_by_id() returns NULL, which isn't handled
+gracefully.
+
+Similar to the GICv3 uaccess flow, check that kvm_get_vcpu_by_id()
+actually returns something and fail the ioctl if not.</description><pubDate>Thu, 30 May 2024 15:49:18 +0000</pubDate></item><item><title>CVE-2024-36954 | tipc: fix a possible memleak in tipc_buf_append</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36954</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tipc: fix a possible memleak in tipc_buf_append
+
+__skb_linearize() doesn't free the skb when it fails, so move
+'*buf = NULL' after __skb_linearize(), so that the skb can be
+freed on the err path.</description><pubDate>Thu, 30 May 2024 15:49:18 +0000</pubDate></item><item><title>CVE-2024-36955 | ALSA: hda: intel-sdw-acpi: fix usage of device_get_named_child_node()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36955</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: intel-sdw-acpi: fix usage of device_get_named_child_node()
+
+The documentation for device_get_named_child_node() mentions this
+important point:
+
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
+
+Add fwnode_handle_put() to avoid a leaked reference.</description><pubDate>Thu, 30 May 2024 15:49:18 +0000</pubDate></item><item><title>CVE-2024-36956 | thermal/debugfs: Free all thermal zone debug memory on zone removal</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36956</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+thermal/debugfs: Free all thermal zone debug memory on zone removal
+
+Because thermal_debug_tz_remove() does not free all memory allocated for
+thermal zone diagnostics, some of that memory becomes unreachable after
+freeing the thermal zone's struct thermal_debugfs object.
+
+Address this by making thermal_debug_tz_remove() free all of the memory
+in question.
+
+Cc :6.8+ &lt;stable@vger.kernel.org&gt; # 6.8+</description><pubDate>Thu, 30 May 2024 15:49:19 +0000</pubDate></item><item><title>CVE-2024-36957 | octeontx2-af: avoid off-by-one read from userspace</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36957</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+octeontx2-af: avoid off-by-one read from userspace
+
+We try to access count + 1 byte from userspace with memdup_user(buffer,
+count + 1). However, the userspace only provides buffer of count bytes and
+only these count bytes are verified to be okay to access. To ensure the
+copied buffer is NUL terminated, we use memdup_user_nul instead.</description><pubDate>Thu, 30 May 2024 15:49:19 +0000</pubDate></item><item><title>CVE-2024-36958 | NFSD: Fix nfsd4_encode_fattr4() crasher</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36958</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFSD: Fix nfsd4_encode_fattr4() crasher
+
+Ensure that args.acl is initialized early. It is used in an
+unconditional call to kfree() on the way out of
+nfsd4_encode_fattr4().</description><pubDate>Thu, 30 May 2024 15:49:19 +0000</pubDate></item><item><title>CVE-2024-36959 | pinctrl: devicetree: fix refcount leak in pinctrl_dt_to_map()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36959</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: devicetree: fix refcount leak in pinctrl_dt_to_map()
+
+If we fail to allocate propname buffer, we need to drop the reference
+count we just took. Because the pinctrl_dt_free_maps() includes the
+droping operation, here we call it directly.</description><pubDate>Thu, 30 May 2024 15:49:20 +0000</pubDate></item><item><title>CVE-2024-36880 | Bluetooth: qca: add missing firmware sanity checks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36880</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 Bluetooth: qca: add missing firmware sanity checks
 
@@ -184,7 +405,7 @@ BUG() on startup:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
   Call Trace:
-   &lt;TASK&gt;
+   
    ? die+0x36/0x90
    ? do_trap+0xdd/0x100
    ? sg_init_one+0x85/0xa0
@@ -268,7 +489,7 @@ CPU: 1 PID: 8034 Comm: poc Not tainted 6.8.2 #1
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 1.16.0-debian-1.16.0-5 04/01/2014
 Call Trace:
- &lt;IRQ&gt;
+ 
  __dump_stack linux/lib/dump_stack.c:88
  dump_stack_lvl+0xd9/0x1b0 linux/lib/dump_stack.c:106
  print_address_description linux/mm/kasan/report.c:377
@@ -308,8 +529,8 @@ Call Trace:
  __do_softirq+0x21f/0x8e7 linux/kernel/softirq.c:553
  do_softirq linux/kernel/softirq.c:454
  do_softirq+0xb2/0xf0 linux/kernel/softirq.c:441
- &lt;/IRQ&gt;
- &lt;TASK&gt;
+ 
+ 
  __local_bh_enable_ip+0x100/0x120 linux/kernel/softirq.c:381
  local_bh_enable linux/./include/linux/bottom_half.h:33
  rcu_read_unlock_bh linux/./include/linux/rcupdate.h:851
@@ -416,7 +637,7 @@ Christoph reported a splat hinting at a corrupted snd_una:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f604a5dae38 CR3: 0000000101dac002 CR4: 0000000000170ef0
   Call Trace:
-   &lt;TASK&gt;
+   
    __mptcp_clean_una_wakeup net/mptcp/protocol.c:1055 [inline]
    mptcp_clean_una_wakeup net/mptcp/protocol.c:1062 [inline]
    __mptcp_retrans+0x7f/0x7e0 net/mptcp/protocol.c:2615
@@ -427,7 +648,7 @@ Christoph reported a splat hinting at a corrupted snd_una:
    kthread+0x121/0x170 kernel/kthread.c:388
    ret_from_fork+0x44/0x50 arch/x86/kernel/process.c:147
    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
-   &lt;/TASK&gt;
+   
 
 When fallback to TCP happens early on a client socket, snd_nxt
 is not yet initialized and any incoming ack will copy such value
@@ -644,7 +865,7 @@ Here is the typical stack when issue happened:
 gpio_chrdev_release()
   --&gt; bitmap_free(cdev-&gt;watched_lines)                  &lt;-- freed
   --&gt; blocking_notifier_chain_unregister()
-    --&gt; down_write(&amp;nh-&gt;rwsem)                          &lt;-- waiting rwsem
+    --&gt; down_write(&amp;amp;nh-&gt;rwsem)                          &lt;-- waiting rwsem
           --&gt; __down_write_common()
             --&gt; rwsem_down_write_slowpath()
                   --&gt; schedule_preempt_disabled()
@@ -657,7 +878,7 @@ st54spi_gpio_dev_release()
       --&gt; gpiod_free_commit()
         --&gt; gpiod_line_state_notify()
           --&gt; blocking_notifier_call_chain()
-            --&gt; down_read(&amp;nh-&gt;rwsem);                  &lt;-- held rwsem
+            --&gt; down_read(&amp;amp;nh-&gt;rwsem);                  &lt;-- held rwsem
             --&gt; notifier_call_chain()
               --&gt; lineinfo_changed_notify()
                 --&gt; test_bit(xxxx, cdev-&gt;watched_lines) &lt;-- use after free
@@ -705,7 +926,7 @@ CR2: 0000000020000080 CR3: 0000000064096000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   NF_HOOK include/linux/netfilter.h:314 [inline]
   ip6_xmit+0xefe/0x17f0 net/ipv6/ip6_output.c:358
   sctp_v6_xmit+0x9f2/0x13f0 net/sctp/ipv6.c:248
@@ -756,7 +977,7 @@ CR2: 0000001b31d23000 CR3: 0000000022b66000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   fib_rules_lookup+0x62c/0xdb0 net/core/fib_rules.c:317
   fib6_rule_lookup+0x1fd/0x790 net/ipv6/fib6_rules.c:108
   ip6_route_output_flags_noref net/ipv6/route.c:2637 [inline]
@@ -825,7 +1046,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000020ccb000 CR3: 000000004628c005 CR4: 0000000000f70ef0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? refcount_warn_saturate+0xe5/0x110
  ? __warn+0x81/0x130
  ? refcount_warn_saturate+0xe5/0x110
@@ -853,8 +1074,7 @@ RAX: ffffffffffffffda RBX: 0000000020ccb004 RCX: 00007f62c11a885d
 RDX: 0000000000000010 RSI: 0000000020ccb000 RDI: 0000000000000003
 RBP: 00007f62c1091e90 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000296 R12: 00007f62c10926c0
-R13: ffffffffffffff88 R14: 0000000000000000 R15: 00007ffe237885b0
- &lt;/TASK&gt;</description><pubDate>Thu, 30 May 2024 15:39:27 +0000</pubDate></item><item><title>CVE-2024-36905 | tcp: defer shutdown(SEND_SHUTDOWN) for TCP_SYN_RECV sockets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36905</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: ffffffffffffff88 R14: 0000000000000000 R15: 00007ffe237885b0</description><pubDate>Thu, 30 May 2024 15:39:27 +0000</pubDate></item><item><title>CVE-2024-36905 | tcp: defer shutdown(SEND_SHUTDOWN) for TCP_SYN_RECV sockets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36905</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 tcp: defer shutdown(SEND_SHUTDOWN) for TCP_SYN_RECV sockets
 
@@ -903,7 +1123,7 @@ FS:  00005555775c0380(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f1155bf2304 CR3: 000000002b9f2000 CR4: 0000000000350ef0
 Call Trace:
- &lt;TASK&gt;
+ 
   tcp_recvmsg_locked+0x106d/0x25a0 net/ipv4/tcp.c:2513
   tcp_recvmsg+0x25d/0x920 net/ipv4/tcp.c:2578
   inet6_recvmsg+0x16a/0x730 net/ipv6/af_inet6.c:680
@@ -1193,7 +1413,7 @@ Read of size 4 at addr ffff88801caa1ec3 by task syz-executor459/5078
 CPU: 0 PID: 5078 Comm: syz-executor459 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
 Call Trace:
- &lt;TASK&gt;
+ 
   __dump_stack lib/dump_stack.c:88 [inline]
   dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
   print_address_description mm/kasan/report.c:377 [inline]
@@ -1230,7 +1450,7 @@ shift exponent 64 is too large for 64-bit type 'u64' (aka 'unsigned long long')
 CPU: 16 PID: 0 Comm: swapper/16 Tainted: G S          E    N 6.9.0-0_fbk700_debug_rc2_kbuilder_0_gc85af715cac0 #1
 Hardware name: Quanta Twin Lakes MP/Twin Lakes Passive MP, BIOS F09_3A23 12/08/2020
 Call Trace:
- &lt;IRQ&gt;
+ 
  dump_stack_lvl+0x8f/0xe0
  __ubsan_handle_shift_out_of_bounds+0x22c/0x280
  iocg_kick_delay+0x30b/0x310
@@ -1414,7 +1634,7 @@ dereference, when configuring the PCI bus the PE is attached to.
   Hardware name: IBM,9043-MRX POWER10 (raw) 0x800200 0xf000006 of:IBM,FW1060.00 (NM1060_023) hv:phyp pSeries
   NIP:  c0000000001024c0 LR: c0000000001024b0 CTR: c000000000102450
   REGS: c0000000037db5c0 TRAP: 0300   Not tainted  (6.4.0-150600.9-default)
-  MSR:  8000000002009033 &lt;SF,VEC,EE,ME,IR,DR,RI,LE&gt;  CR: 28000822  XER: 00000000
+  MSR:  8000000002009033   CR: 28000822  XER: 00000000
   CFAR: c00000000010254c DAR: 00000000000000c8 DSISR: 00080000 IRQMASK: 0
   ...
   NIP [c0000000001024c0] pci_dma_bus_setup_pSeriesLP+0x70/0x2a0
@@ -1613,7 +1833,7 @@ Address this by using cdev-&gt;lock in thermal_debug_cdev_remove() around
 the cdev-&gt;debugfs value check (in case the same cdev is removed at the
 same time in two different threads) and its reset to NULL.
 
-Cc :6.8+ &lt;stable@vger.kernel.org&gt; # 6.8+</description><pubDate>Thu, 30 May 2024 15:39:37 +0000</pubDate></item><item><title>CVE-2024-36933 | nsh: Restore skb-&amp;gt;{protocol,data,mac_header} for outer header in nsh_gso_segment().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36933</link><description>In the Linux kernel, the following vulnerability has been resolved:
+Cc :6.8+  # 6.8+</description><pubDate>Thu, 30 May 2024 15:39:37 +0000</pubDate></item><item><title>CVE-2024-36933 | nsh: Restore skb-&amp;gt;{protocol,data,mac_header} for outer header in nsh_gso_segment().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36933</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 nsh: Restore skb-&gt;{protocol,data,mac_header} for outer header in nsh_gso_segment().
 
@@ -1738,15 +1958,15 @@ TD guest is large, and the timeout of softlockup is set to 1 second:
  RIP: 0010:_raw_spin_unlock_irqrestore
  Call Trace:
  ? __hrtimer_run_queues
- &lt;IRQ&gt;
+ 
  ? hrtimer_interrupt
  ? watchdog_timer_fn
  ? __sysvec_apic_timer_interrupt
  ? __pfx_watchdog_timer_fn
  ? sysvec_apic_timer_interrupt
- &lt;/IRQ&gt;
+ 
  ? __hrtimer_run_queues
- &lt;TASK&gt;
+ 
  ? hrtimer_interrupt
  ? asm_sysvec_apic_timer_interrupt
  ? _raw_spin_unlock_irqrestore
@@ -1864,7 +2084,7 @@ dereference in sk_psock_verdict_data_ready()") fixed one NULL pointer
 similarly due to no protection of saved_data_ready. Here is another
 different caller causing the same issue because of the same reason. So
 we should protect it with sk_callback_lock read lock because the writer
-side in the sk_psock_drop() uses "write_lock_bh(&amp;sk-&gt;sk_callback_lock);".
+side in the sk_psock_drop() uses "write_lock_bh(&amp;amp;sk-&gt;sk_callback_lock);".
 
 To avoid errors that could happen in future, I move those two pairs of
 lock into the sk_psock_data_ready(), which is suggested by John Fastabend.</description><pubDate>Thu, 30 May 2024 15:39:39 +0000</pubDate></item><item><title>CVE-2024-36939 | nfs: Handle error of rpc_proc_register() in nfs_net_init().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36939</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1911,7 +2131,7 @@ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  rpc_proc_unregister+0x64/0x70 net/sunrpc/stats.c:310
  nfs_net_exit+0x1c/0x30 fs/nfs/inode.c:2438
  ops_exit_list+0x62/0xb0 net/core/net_namespace.c:170
@@ -1933,8 +2153,7 @@ RAX: ffffffffffffffda RBX: 00000000004bbf80 RCX: 00007f30d0febe5d
 RDX: 0000000000000000 RSI: 0000000000000000 RDI: 000000006c020600
 RBP: 00000000004bbf80 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 000000000000000b R14: 00007f30d104c530 R15: 0000000000000000
- &lt;/TASK&gt;</description><pubDate>Thu, 30 May 2024 15:39:40 +0000</pubDate></item><item><title>CVE-2024-36940 | pinctrl: core: delete incorrect free in pinctrl_enable()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36940</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: 000000000000000b R14: 00007f30d104c530 R15: 0000000000000000</description><pubDate>Thu, 30 May 2024 15:39:40 +0000</pubDate></item><item><title>CVE-2024-36940 | pinctrl: core: delete incorrect free in pinctrl_enable()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36940</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 pinctrl: core: delete incorrect free in pinctrl_enable()
 
