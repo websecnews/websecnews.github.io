@@ -1,5 +1,126 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 14:47:46 +0000</lastBuildDate><item><title>CVE-2024-4330 | Path Traversal in parisneo/lollms-webui</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4330</link><description>A path traversal vulnerability was identified in the parisneo/lollms-webui repository, specifically within version 9.6. The vulnerability arises due to improper handling of user-supplied input in the 'list_personalities' endpoint. By crafting a malicious HTTP request, an attacker can traverse the directory structure and view the contents of any folder, albeit limited to subfolder names only. This issue was demonstrated via a specific HTTP request that manipulated the 'category' parameter to access arbitrary directories. The vulnerability is present in the code located at the 'endpoints/lollms_advanced.py' file.</description><pubDate>Thu, 30 May 2024 14:47:48 +0000</pubDate></item><item><title>CVE-2024-5517 | itsourcecode Online Blood Bank Management System changepwd.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5517</link><description>A vulnerability was found in itsourcecode Online Blood Bank Management System 1.0. It has been rated as critical. Affected by this issue is some unknown functionality of the file changepwd.php. The manipulation of the argument useremail leads to sql injection. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-266588.</description><pubDate>Thu, 30 May 2024 14:37:30 +0000</pubDate></item><item><title>CVE-2024-5516 | itsourcecode Online Blood Bank Management System massage.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5516</link><description>A vulnerability was found in itsourcecode Online Blood Bank Management System 1.0. It has been declared as critical. Affected by this vulnerability is an unknown functionality of the file massage.php. The manipulation of the argument bid leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-266587.</description><pubDate>Thu, 30 May 2024 13:42:35 +0000</pubDate></item><item><title>CVE-2024-5515 | SourceCodester Stock Management System createBrand.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5515</link><description>A vulnerability was found in SourceCodester Stock Management System 1.0. It has been classified as critical. Affected is an unknown function of the file createBrand.php. The manipulation of the argument brandName leads to sql injection. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. VDB-266586 is the identifier assigned to this vulnerability.</description><pubDate>Thu, 30 May 2024 13:22:43 +0000</pubDate></item><item><title>CVE-2024-36017 | rtnetlink: Correct nested IFLA_VF_VLAN_LIST attribute validation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36017</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 May 2024 15:18:11 +0000</lastBuildDate><item><title>CVE-2024-36027 | btrfs: zoned: do not flag ZEROOUT on non-dirty extent buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: zoned: do not flag ZEROOUT on non-dirty extent buffer
+
+Btrfs clears the content of an extent buffer marked as
+EXTENT_BUFFER_ZONED_ZEROOUT before the bio submission. This mechanism is
+introduced to prevent a write hole of an extent buffer, which is once
+allocated, marked dirty, but turns out unnecessary and cleaned up within
+one transaction operation.
+
+Currently, btrfs_clear_buffer_dirty() marks the extent buffer as
+EXTENT_BUFFER_ZONED_ZEROOUT, and skips the entry function. If this call
+happens while the buffer is under IO (with the WRITEBACK flag set,
+without the DIRTY flag), we can add the ZEROOUT flag and clear the
+buffer's content just before a bio submission. As a result:
+
+1) it can lead to adding faulty delayed reference item which leads to a
+   FS corrupted (EUCLEAN) error, and
+
+2) it writes out cleared tree node on disk
+
+The former issue is previously discussed in [1]. The corruption happens
+when it runs a delayed reference update. So, on-disk data is safe.
+
+[1] https://lore.kernel.org/linux-btrfs/3f4f2a0ff1a6c818050434288925bdcf3cd719e5.1709124777.git.naohiro.aota@wdc.com/
+
+The latter one can reach on-disk data. But, as that node is already
+processed by btrfs_clear_buffer_dirty(), that will be invalidated in the
+next transaction commit anyway. So, the chance of hitting the corruption
+is relatively small.
+
+Anyway, we should skip flagging ZEROOUT on a non-DIRTY extent buffer, to
+keep the content under IO intact.</description><pubDate>Thu, 30 May 2024 15:18:12 +0000</pubDate></item><item><title>CVE-2024-35504 | A cross-site scripting (XSS) vulnerability in the login page of FineSoft v8.0 allows attackers to execute arbitrary web scripts or HTML via ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35504</link><description>A cross-site scripting (XSS) vulnerability in the login page of FineSoft v8.0 allows attackers to execute arbitrary web scripts or HTML via a crafted payload injected into the URL:errorname parameter after a failed login attempt.</description><pubDate>Thu, 30 May 2024 15:18:13 +0000</pubDate></item><item><title>CVE-2024-36020 | i40e: fix vf may be used uninitialized in this function warning</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36020</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix vf may be used uninitialized in this function warning
+
+To fix the regression introduced by commit 52424f974bc5, which causes
+servers hang in very hard to reproduce conditions with resets races.
+Using two sources for the information is the root cause.
+In this function before the fix bumping v didn't mean bumping vf
+pointer. But the code used this variables interchangeably, so stale vf
+could point to different/not intended vf.
+
+Remove redundant "v" variable and iterate via single VF pointer across
+whole function instead to guarantee VF pointer validity.</description><pubDate>Thu, 30 May 2024 15:18:13 +0000</pubDate></item><item><title>CVE-2024-36021 | net: hns3: fix kernel crash when devlink reload during pf initialization</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36021</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: hns3: fix kernel crash when devlink reload during pf initialization
+
+The devlink reload process will access the hardware resources,
+but the register operation is done before the hardware is initialized.
+So, processing the devlink reload during initialization may lead to kernel
+crash. This patch fixes this by taking devl_lock during initialization.</description><pubDate>Thu, 30 May 2024 15:18:14 +0000</pubDate></item><item><title>CVE-2024-36022 | drm/amdgpu: Init zone device and drm client after mode-1 reset on reload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36022</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Init zone device and drm client after mode-1 reset on reload
+
+In passthrough environment, when amdgpu is reloaded after unload, mode-1
+is triggered after initializing the necessary IPs, That init does not
+include KFD, and KFD init waits until the reset is completed. KFD init
+is called in the reset handler, but in this case, the zone device and
+drm client is not initialized, causing app to create kernel panic.
+
+v2: Removing the init KFD condition from amdgpu_amdkfd_drm_client_create.
+As the previous version has the potential of creating DRM client twice.
+
+v3: v2 patch results in SDMA engine hung as DRM open causes VM clear to SDMA
+before SDMA init. Adding the condition to in drm client creation, on top of v1,
+to guard against drm client creation call multiple times.</description><pubDate>Thu, 30 May 2024 15:18:14 +0000</pubDate></item><item><title>CVE-2024-36023 | Julia Lawall reported this null pointer dereference, this should fix it.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36023</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Julia Lawall reported this null pointer dereference, this should fix it.</description><pubDate>Thu, 30 May 2024 15:18:15 +0000</pubDate></item><item><title>CVE-2024-36024 | drm/amd/display: Disable idle reallow as part of command/gpint execution</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36024</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Disable idle reallow as part of command/gpint execution
+
+[Why]
+Workaroud for a race condition where DMCUB is in the process of
+committing to IPS1 during the handshake causing us to miss the
+transition into IPS2 and touch the INBOX1 RPTR causing a HW hang.
+
+[How]
+Disable the reallow to ensure that we have enough of a gap between entry
+and exit and we're not seeing back-to-back wake_and_executes.</description><pubDate>Thu, 30 May 2024 15:18:15 +0000</pubDate></item><item><title>CVE-2024-36025 | scsi: qla2xxx: Fix off by one in qla_edif_app_getstats()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36025</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla2xxx: Fix off by one in qla_edif_app_getstats()
+
+The app_reply-&gt;elem[] array is allocated earlier in this function and it
+has app_req.num_ports elements.  Thus this &gt; comparison needs to be &gt;= to
+prevent memory corruption.</description><pubDate>Thu, 30 May 2024 15:18:15 +0000</pubDate></item><item><title>CVE-2024-36026 | drm/amd/pm: fixes a random hang in S4 for SMU v13.0.4/11</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36026</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/pm: fixes a random hang in S4 for SMU v13.0.4/11
+
+While doing multiple S4 stress tests, GC/RLC/PMFW get into
+an invalid state resulting into hard hangs.
+
+Adding a GFX reset as workaround just before sending the
+MP1_UNLOAD message avoids this failure.</description><pubDate>Thu, 30 May 2024 15:18:16 +0000</pubDate></item><item><title>CVE-2024-36018 | nouveau/uvmm: fix addr/range calcs for remap operations</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36018</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nouveau/uvmm: fix addr/range calcs for remap operations
+
+dEQP-VK.sparse_resources.image_rebind.2d_array.r64i.128_128_8
+was causing a remap operation like the below.
+
+op_remap: prev: 0000003fffed0000 00000000000f0000 00000000a5abd18a 0000000000000000
+op_remap: next:
+op_remap: unmap: 0000003fffed0000 0000000000100000 0
+op_map: map: 0000003ffffc0000 0000000000010000 000000005b1ba33c 00000000000e0000
+
+This was resulting in an unmap operation from 0x3fffed0000+0xf0000, 0x100000
+which was corrupting the pagetables and oopsing the kernel.
+
+Fixes the prev + unmap range calcs to use start/end and map back to addr/range.</description><pubDate>Thu, 30 May 2024 15:18:16 +0000</pubDate></item><item><title>CVE-2024-36019 | regmap: maple: Fix cache corruption in regcache_maple_drop()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36019</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+regmap: maple: Fix cache corruption in regcache_maple_drop()
+
+When keeping the upper end of a cache block entry, the entry[] array
+must be indexed by the offset from the base register of the block,
+i.e. max - mas.index.
+
+The code was indexing entry[] by only the register address, leading
+to an out-of-bounds access that copied some part of the kernel
+memory over the cache contents.
+
+This bug was not detected by the regmap KUnit test because it only
+tests with a block of registers starting at 0, so mas.index == 0.</description><pubDate>Thu, 30 May 2024 15:18:17 +0000</pubDate></item><item><title>CVE-2024-3924 | Code Injection in huggingface/text-generation-inference</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3924</link><description>A code injection vulnerability exists in the huggingface/text-generation-inference repository, specifically within the `autodocs.yml` workflow file. The vulnerability arises from the insecure handling of the `github.head_ref` user input, which is used to dynamically construct a command for installing a software package. An attacker can exploit this by forking the repository, creating a branch with a malicious payload as the name, and then opening a pull request to the base repository. Successful exploitation could lead to arbitrary code execution within the context of the GitHub Actions runner. This issue affects versions up to and including v2.0.0 and was fixed in version 2.0.0.</description><pubDate>Thu, 30 May 2024 15:18:17 +0000</pubDate></item><item><title>CVE-2024-4330 | Path Traversal in parisneo/lollms-webui</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4330</link><description>A path traversal vulnerability was identified in the parisneo/lollms-webui repository, specifically within version 9.6. The vulnerability arises due to improper handling of user-supplied input in the 'list_personalities' endpoint. By crafting a malicious HTTP request, an attacker can traverse the directory structure and view the contents of any folder, albeit limited to subfolder names only. This issue was demonstrated via a specific HTTP request that manipulated the 'category' parameter to access arbitrary directories. The vulnerability is present in the code located at the 'endpoints/lollms_advanced.py' file.</description><pubDate>Thu, 30 May 2024 14:47:48 +0000</pubDate></item><item><title>CVE-2024-5517 | itsourcecode Online Blood Bank Management System changepwd.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5517</link><description>A vulnerability was found in itsourcecode Online Blood Bank Management System 1.0. It has been rated as critical. Affected by this issue is some unknown functionality of the file changepwd.php. The manipulation of the argument useremail leads to sql injection. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-266588.</description><pubDate>Thu, 30 May 2024 14:37:30 +0000</pubDate></item><item><title>CVE-2024-5516 | itsourcecode Online Blood Bank Management System massage.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5516</link><description>A vulnerability was found in itsourcecode Online Blood Bank Management System 1.0. It has been declared as critical. Affected by this vulnerability is an unknown functionality of the file massage.php. The manipulation of the argument bid leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The associated identifier of this vulnerability is VDB-266587.</description><pubDate>Thu, 30 May 2024 13:42:35 +0000</pubDate></item><item><title>CVE-2024-5515 | SourceCodester Stock Management System createBrand.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5515</link><description>A vulnerability was found in SourceCodester Stock Management System 1.0. It has been classified as critical. Affected is an unknown function of the file createBrand.php. The manipulation of the argument brandName leads to sql injection. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. VDB-266586 is the identifier assigned to this vulnerability.</description><pubDate>Thu, 30 May 2024 13:22:43 +0000</pubDate></item><item><title>CVE-2024-36017 | rtnetlink: Correct nested IFLA_VF_VLAN_LIST attribute validation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36017</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 rtnetlink: Correct nested IFLA_VF_VLAN_LIST attribute validation
 
