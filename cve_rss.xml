@@ -1,5 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 18 Jun 2024 19:27:32 +0000</lastBuildDate><item><title>CVE-2024-36974 | net/sched: taprio: always validate TCA_TAPRIO_ATTR_PRIOMAP</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36974</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 18 Jun 2024 19:39:04 +0000</lastBuildDate><item><title>CVE-2024-36975 | KEYS: trusted: Do not use WARN when encode fails</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36975</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KEYS: trusted: Do not use WARN when encode fails
+
+When asn1_encode_sequence() fails, WARN is not the correct solution.
+
+1. asn1_encode_sequence() is not an internal function (located
+   in lib/asn1_encode.c).
+2. Location is known, which makes the stack trace useless.
+3. Results a crash if panic_on_warn is set.
+
+It is also noteworthy that the use of WARN is undocumented, and it
+should be avoided unless there is a carefully considered rationale to
+use it.
+
+Replace WARN with pr_err, and print the return value instead, which is
+only useful piece of information.</description><pubDate>Tue, 18 Jun 2024 19:39:06 +0000</pubDate></item><item><title>CVE-2024-36976 | Revert &amp;quot;media: v4l2-ctrls: show all owned controls in log_status&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36976</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "media: v4l2-ctrls: show all owned controls in log_status"
+
+This reverts commit 9801b5b28c6929139d6fceeee8d739cc67bb2739.
+
+This patch introduced a potential deadlock scenario:
+
+[Wed May  8 10:02:06 2024]  Possible unsafe locking scenario:
+
+[Wed May  8 10:02:06 2024]        CPU0                    CPU1
+[Wed May  8 10:02:06 2024]        ----                    ----
+[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1620:(hdl_vid_cap)-&gt;_lock);
+[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1608:(hdl_user_vid)-&gt;_lock);
+[Wed May  8 10:02:06 2024]                                lock(vivid_ctrls:1620:(hdl_vid_cap)-&gt;_lock);
+[Wed May  8 10:02:06 2024]   lock(vivid_ctrls:1608:(hdl_user_vid)-&gt;_lock);
+
+For now just revert.</description><pubDate>Tue, 18 Jun 2024 19:39:06 +0000</pubDate></item><item><title>CVE-2024-36977 | usb: dwc3: Wait unconditionally after issuing EndXfer command</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36977</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: dwc3: Wait unconditionally after issuing EndXfer command
+
+Currently all controller IP/revisions except DWC3_usb3 &gt;= 310a
+wait 1ms unconditionally for ENDXFER completion when IOC is not
+set. This is because DWC_usb3 controller revisions &gt;= 3.10a
+supports GUCTL2[14: Rst_actbitlater] bit which allows polling
+CMDACT bit to know whether ENDXFER command is completed.
+
+Consider a case where an IN request was queued, and parallelly
+soft_disconnect was called (due to ffs_epfile_release). This
+eventually calls stop_active_transfer with IOC cleared, hence
+send_gadget_ep_cmd() skips waiting for CMDACT cleared during
+EndXfer. For DWC3 controllers with revisions &gt;= 310a, we don't
+forcefully wait for 1ms either, and we proceed by unmapping the
+requests. If ENDXFER didn't complete by this time, it leads to
+SMMU faults since the controller would still be accessing those
+requests.
+
+Fix this by ensuring ENDXFER completion by adding 1ms delay in
+__dwc3_stop_active_transfer() unconditionally.</description><pubDate>Tue, 18 Jun 2024 19:39:07 +0000</pubDate></item><item><title>CVE-2024-36974 | net/sched: taprio: always validate TCA_TAPRIO_ATTR_PRIOMAP</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36974</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/sched: taprio: always validate TCA_TAPRIO_ATTR_PRIOMAP
 
