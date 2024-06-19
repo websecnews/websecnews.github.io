@@ -1,5 +1,150 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 19 Jun 2024 15:00:27 +0000</lastBuildDate><item><title>CVE-2021-47573 | xen/blkfront: harden blkfront against event channel storms</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47573</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 19 Jun 2024 15:23:20 +0000</lastBuildDate><item><title>CVE-2021-47609 | firmware: arm_scpi: Fix string overflow in SCPI genpd driver</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47609</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware: arm_scpi: Fix string overflow in SCPI genpd driver
+
+Without the bound checks for scpi_pd-&gt;name, it could result in the buffer
+overflow when copying the SCPI device name from the corresponding device
+tree node as the name string is set at maximum size of 30.
+
+Let us fix it by using devm_kasprintf so that the string buffer is
+allocated dynamically.</description><pubDate>Wed, 19 Jun 2024 15:23:22 +0000</pubDate></item><item><title>CVE-2021-47610 | drm/msm: Fix null ptr access msm_ioctl_gem_submit()</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47610</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/msm: Fix null ptr access msm_ioctl_gem_submit()
+
+Fix the below null pointer dereference in msm_ioctl_gem_submit():
+
+ 26545.260705:   Call trace:
+ 26545.263223:    kref_put+0x1c/0x60
+ 26545.266452:    msm_ioctl_gem_submit+0x254/0x744
+ 26545.270937:    drm_ioctl_kernel+0xa8/0x124
+ 26545.274976:    drm_ioctl+0x21c/0x33c
+ 26545.278478:    drm_compat_ioctl+0xdc/0xf0
+ 26545.282428:    __arm64_compat_sys_ioctl+0xc8/0x100
+ 26545.287169:    el0_svc_common+0xf8/0x250
+ 26545.291025:    do_el0_svc_compat+0x28/0x54
+ 26545.295066:    el0_svc_compat+0x10/0x1c
+ 26545.298838:    el0_sync_compat_handler+0xa8/0xcc
+ 26545.303403:    el0_sync_compat+0x188/0x1c0
+ 26545.307445:   Code: d503201f d503201f 52800028 4b0803e8 (b8680008)
+ 26545.318799:   Kernel panic - not syncing: Oops: Fatal exception</description><pubDate>Wed, 19 Jun 2024 15:23:22 +0000</pubDate></item><item><title>CVE-2021-47611 | mac80211: validate extended element ID is present</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47611</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mac80211: validate extended element ID is present
+
+Before attempting to parse an extended element, verify that
+the extended element ID is present.</description><pubDate>Wed, 19 Jun 2024 15:23:22 +0000</pubDate></item><item><title>CVE-2021-47612 | nfc: fix segfault in nfc_genl_dump_devices_done</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47612</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfc: fix segfault in nfc_genl_dump_devices_done
+
+When kmalloc in nfc_genl_dump_devices() fails then
+nfc_genl_dump_devices_done() segfaults as below
+
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+CPU: 0 PID: 25 Comm: kworker/0:1 Not tainted 5.16.0-rc4-01180-g2a987e65025e-dirty #5
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-6.fc35 04/01/2014
+Workqueue: events netlink_sock_destruct_work
+RIP: 0010:klist_iter_exit+0x26/0x80
+Call Trace:
+&lt;TASK&gt;
+class_dev_iter_exit+0x15/0x20
+nfc_genl_dump_devices_done+0x3b/0x50
+genl_lock_done+0x84/0xd0
+netlink_sock_destruct+0x8f/0x270
+__sk_destruct+0x64/0x3b0
+sk_destruct+0xa8/0xd0
+__sk_free+0x2e8/0x3d0
+sk_free+0x51/0x90
+netlink_sock_destruct_work+0x1c/0x20
+process_one_work+0x411/0x710
+worker_thread+0x6fd/0xa80</description><pubDate>Wed, 19 Jun 2024 15:23:23 +0000</pubDate></item><item><title>CVE-2021-47613 | i2c: virtio: fix completion handling</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47613</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: virtio: fix completion handling
+
+The driver currently assumes that the notify callback is only received
+when the device is done with all the queued buffers.
+
+However, this is not true, since the notify callback could be called
+without any of the queued buffers being completed (for example, with
+virtio-pci and shared interrupts) or with only some of the buffers being
+completed (since the driver makes them available to the device in
+multiple separate virtqueue_add_sgs() calls).
+
+This can lead to incorrect data on the I2C bus or memory corruption in
+the guest if the device operates on buffers which are have been freed by
+the driver.  (The WARN_ON in the driver is also triggered.)
+
+ BUG kmalloc-128 (Tainted: G        W        ): Poison overwritten
+ First byte 0x0 instead of 0x6b
+ Allocated in i2cdev_ioctl_rdwr+0x9d/0x1de age=243 cpu=0 pid=28
+ 	memdup_user+0x2e/0xbd
+ 	i2cdev_ioctl_rdwr+0x9d/0x1de
+ 	i2cdev_ioctl+0x247/0x2ed
+ 	vfs_ioctl+0x21/0x30
+ 	sys_ioctl+0xb18/0xb41
+ Freed in i2cdev_ioctl_rdwr+0x1bb/0x1de age=68 cpu=0 pid=28
+ 	kfree+0x1bd/0x1cc
+ 	i2cdev_ioctl_rdwr+0x1bb/0x1de
+ 	i2cdev_ioctl+0x247/0x2ed
+ 	vfs_ioctl+0x21/0x30
+ 	sys_ioctl+0xb18/0xb41
+
+Fix this by calling virtio_get_buf() from the notify handler like other
+virtio drivers and by actually waiting for all the buffers to be
+completed.</description><pubDate>Wed, 19 Jun 2024 15:23:23 +0000</pubDate></item><item><title>CVE-2021-47614 | RDMA/irdma: Fix a user-after-free in add_pble_prm</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47614</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/irdma: Fix a user-after-free in add_pble_prm
+
+When irdma_hmc_sd_one fails, 'chunk' is freed while its still on the PBLE
+info list.
+
+Add the chunk entry to the PBLE info list only after successful setting of
+the SD in irdma_hmc_sd_one.</description><pubDate>Wed, 19 Jun 2024 15:23:24 +0000</pubDate></item><item><title>CVE-2021-47615 | RDMA/mlx5: Fix releasing unallocated memory in dereg MR flow</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47615</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/mlx5: Fix releasing unallocated memory in dereg MR flow
+
+For the case of IB_MR_TYPE_DM the mr does doesn't have a umem, even though
+it is a user MR. This causes function mlx5_free_priv_descs() to think that
+it is a kernel MR, leading to wrongly accessing mr-&gt;descs that will get
+wrong values in the union which leads to attempt to release resources that
+were not allocated in the first place.
+
+For example:
+ DMA-API: mlx5_core 0000:08:00.1: device driver tries to free DMA memory it has not allocated [device address=0x0000000000000000] [size=0 bytes]
+ WARNING: CPU: 8 PID: 1021 at kernel/dma/debug.c:961 check_unmap+0x54f/0x8b0
+ RIP: 0010:check_unmap+0x54f/0x8b0
+ Call Trace:
+  debug_dma_unmap_page+0x57/0x60
+  mlx5_free_priv_descs+0x57/0x70 [mlx5_ib]
+  mlx5_ib_dereg_mr+0x1fb/0x3d0 [mlx5_ib]
+  ib_dereg_mr_user+0x60/0x140 [ib_core]
+  uverbs_destroy_uobject+0x59/0x210 [ib_uverbs]
+  uobj_destroy+0x3f/0x80 [ib_uverbs]
+  ib_uverbs_cmd_verbs+0x435/0xd10 [ib_uverbs]
+  ? uverbs_finalize_object+0x50/0x50 [ib_uverbs]
+  ? lock_acquire+0xc4/0x2e0
+  ? lock_acquired+0x12/0x380
+  ? lock_acquire+0xc4/0x2e0
+  ? lock_acquire+0xc4/0x2e0
+  ? ib_uverbs_ioctl+0x7c/0x140 [ib_uverbs]
+  ? lock_release+0x28a/0x400
+  ib_uverbs_ioctl+0xc0/0x140 [ib_uverbs]
+  ? ib_uverbs_ioctl+0x7c/0x140 [ib_uverbs]
+  __x64_sys_ioctl+0x7f/0xb0
+  do_syscall_64+0x38/0x90
+
+Fix it by reorganizing the dereg flow and mlx5_ib_mr structure:
+ - Move the ib_umem field into the user MRs structure in the union as it's
+   applicable only there.
+ - Function mlx5_ib_dereg_mr() will now call mlx5_free_priv_descs() only
+   in case there isn't udata, which indicates that this isn't a user MR.</description><pubDate>Wed, 19 Jun 2024 15:23:24 +0000</pubDate></item><item><title>CVE-2021-47616 | RDMA: Fix use-after-free in rxe_queue_cleanup</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47616</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA: Fix use-after-free in rxe_queue_cleanup
+
+On error handling path in rxe_qp_from_init() qp-&gt;sq.queue is freed and
+then rxe_create_qp() will drop last reference to this object. qp clean up
+function will try to free this queue one time and it causes UAF bug.
+
+Fix it by zeroing queue pointer after freeing queue in rxe_qp_from_init().</description><pubDate>Wed, 19 Jun 2024 15:23:25 +0000</pubDate></item><item><title>CVE-2024-34444 | WordPress Slider Revolution plugin &amp;lt; 6.7.0 - Unauthenticated Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34444</link><description>Missing Authorization vulnerability in ThemePunch OHG Slider Revolution.This issue affects Slider Revolution: from n/a before 6.7.0.</description><pubDate>Wed, 19 Jun 2024 15:23:25 +0000</pubDate></item><item><title>CVE-2021-47573 | xen/blkfront: harden blkfront against event channel storms</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47573</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 xen/blkfront: harden blkfront against event channel storms
 
@@ -62,7 +207,7 @@ Read of size 1 at addr ffff888026670f50 by task scsicmd/15032
 CPU: 1 PID: 15032 Comm: scsicmd Not tainted 5.15.0-01d0625 #15
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x89/0xb5 lib/dump_stack.c:107
  print_address_description.constprop.9+0x28/0x160 mm/kasan/report.c:257
  kasan_report.cold.14+0x7d/0x117 mm/kasan/report.c:443
@@ -276,7 +421,7 @@ media: mxl111sf: change mutex_init() location
 Syzbot reported, that mxl111sf_ctrl_msg() uses uninitialized
 mutex. The problem was in wrong mutex_init() location.
 
-Previous mutex_init(&amp;state-&gt;msg_lock) call was in -&gt;init() function, but
+Previous mutex_init(&amp;amp;state-&gt;msg_lock) call was in -&gt;init() function, but
 dvb_usbv2_init() has this order of calls:
 
 	dvb_usbv2_init()
@@ -313,7 +458,7 @@ divide-by-zero oops.
 4
  ...
  Call Trace:
-  &lt;IRQ&gt;
+  
   ioc_timer_fn+0x1043/0x1390
   call_timer_fn+0xa1/0x2c0
   __run_timers.part.0+0x1ec/0x2e0
@@ -353,7 +498,7 @@ is less than zero and before the function returns in line 1184 (#4).
 1105 	if (!victim_name)
 1106 		return -ENOMEM;
 
-1112	ret = backref_in_log(log_root, &amp;search_key,
+1112	ret = backref_in_log(log_root, &amp;amp;search_key,
 1113			parent_objectid, victim_name,
 1114			victim_name_len);
 1115	if (ret &lt; 0) {
@@ -366,7 +511,7 @@ is less than zero and before the function returns in line 1184 (#4).
 1170 	if (!victim_name)
 1171 		return -ENOMEM;
 
-1180 	ret = backref_in_log(log_root, &amp;search_key,
+1180 	ret = backref_in_log(log_root, &amp;amp;search_key,
 1181 			parent_objectid, victim_name,
 1182 			victim_name_len);
 1183 	if (ret &lt; 0) {
@@ -447,7 +592,7 @@ CR2: 00007f88aaed5058 CR3: 0000000023e0f000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  dst_cache_destroy+0x107/0x1e0 net/core/dst_cache.c:160
  ipip6_dev_free net/ipv6/sit.c:1414 [inline]
  sit_init_net+0x229/0x550 net/ipv6/sit.c:1936
@@ -470,8 +615,7 @@ RAX: ffffffffffffffda RBX: 00007f66c893ff60 RCX: 00007f66c882ce99
 RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000048040200
 RBP: 00007f66c8886ff1 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fff6634832f R14: 00007f66c71a2300 R15: 0000000000022000
- &lt;/TASK&gt;</description><pubDate>Wed, 19 Jun 2024 15:00:34 +0000</pubDate></item><item><title>CVE-2021-47589 | igbvf: fix double free in `igbvf_probe`</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47589</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: 00007fff6634832f R14: 00007f66c71a2300 R15: 0000000000022000</description><pubDate>Wed, 19 Jun 2024 15:00:34 +0000</pubDate></item><item><title>CVE-2021-47589 | igbvf: fix double free in `igbvf_probe`</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47589</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 igbvf: fix double free in `igbvf_probe`
 
@@ -531,7 +675,7 @@ socket for itself, causing a deadlock.
 sysrq: Show Blocked State
 task:ss-server       state:D stack:    0 pid:  938 ppid:     1 flags:0x00000000
 Call Trace:
- &lt;TASK&gt;
+ 
  __schedule+0x2d6/0x10c0
  ? __mod_memcg_state+0x4d/0x70
  ? csum_partial+0xd/0x20
@@ -557,7 +701,7 @@ RDX: 000000000000077a RSI: 0000000000e5e180 RDI: 0000000000000234
 RBP: 0000000000cc57f0 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 00007f9ba56c8060
 R13: 0000000000b6ba60 R14: 0000000000cc7840 R15: 41d8685b1d7901b8
- &lt;/TASK&gt;
+ 
 
 Fix the issue by using __mptcp_flush_join_list() instead of plain
 mptcp_flush_join_list() inside __mptcp_push_pending(), as suggested by
@@ -609,14 +753,14 @@ From dmesg, we will observe kernel NULL pointer ooops
 [  197.171367] PGD 0 P4D 0
 [  197.171367] Oops: 0000 [#1] PREEMPT SMP NOPTI
 
-&lt;snip&gt;
+
 
 [  197.171367] RIP: 0010:tc_setup_cls+0x20b/0x4a0 [stmmac]
 
-&lt;snip&gt;
+
 
 [  197.171367] Call Trace:
-[  197.171367]  &lt;TASK&gt;
+[  197.171367]  
 [  197.171367]  ? __stmmac_disable_all_queues+0xa8/0xe0 [stmmac]
 [  197.171367]  stmmac_setup_tc_block_cb+0x70/0x110 [stmmac]
 [  197.171367]  tc_setup_cb_destroy+0xb3/0x180
@@ -686,7 +830,7 @@ FS:  00007f177cd3d700(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f177cd1b268 CR3: 000000001dd55000 CR4: 0000000000350ee0
 Call Trace:
- &lt;TASK&gt;
+ 
  lock_acquire kernel/locking/lockdep.c:5637 [inline]
  lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5602
  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
@@ -714,7 +858,7 @@ RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
 RBP: 00007f177ce13400 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 00007f177ce1340c
 R13: 00007f177cde1004 R14: 6d705f706374706d R15: 0000000000022000
- &lt;/TASK&gt;
+ 
 
 Fix the issue explicitly skipping MPTCP socket in TCP_LISTEN
 status.</description><pubDate>Wed, 19 Jun 2024 15:00:36 +0000</pubDate></item><item><title>CVE-2021-47595 | net/sched: sch_ets: don&amp;#x27;t remove idle classes from the round-robin list</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47595</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -747,7 +891,7 @@ crashes systematically when line 2) is commented:
  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
  CR2: 0000000000682f48 CR3: 00000001058be000 CR4: 0000000000350ef0
  Call Trace:
-  &lt;TASK&gt;
+  
   ets_qdisc_change+0x58b/0xa70 [sch_ets]
   tc_modify_qdisc+0x323/0x880
   rtnetlink_rcv_msg+0x169/0x4a0
@@ -768,7 +912,7 @@ crashes systematically when line 2) is commented:
  RBP: 0000000000000000 R08: 0000000000000001 R09: 000000000078a940
  R10: 000000000000000c R11: 0000000000000246 R12: 0000000000000001
  R13: 0000000000688880 R14: 0000000000000000 R15: 0000000000000000
-  &lt;/TASK&gt;
+  
  Modules linked in: sch_ets sch_tbf dummy rfkill iTCO_wdt iTCO_vendor_support intel_rapl_msr intel_rapl_common joydev pcspkr i2c_i801 virtio_balloon i2c_smbus lpc_ich ip_tables xfs libcrc32c crct10dif_pclmul crc32_pclmul crc32c_intel serio_raw ghash_clmulni_intel ahci libahci libata virtio_blk virtio_console virtio_net net_failover failover sunrpc dm_mirror dm_region_hash dm_log dm_mod [last unloaded: sch_ets]
  ---[ end trace f35878d1912655c2 ]---
  RIP: 0010:__list_del_entry_valid.cold.1+0x12/0x47
@@ -895,7 +1039,7 @@ FS:  0000555556abc400(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007fda689c3303 CR3: 000000001cfbb000 CR4: 0000000000350ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  tcf_chain0_head_change_cb_del+0x2e/0x3d0 net/sched/cls_api.c:810
  tcf_block_put_ext net/sched/cls_api.c:1381 [inline]
  tcf_block_put_ext net/sched/cls_api.c:1376 [inline]
@@ -923,8 +1067,7 @@ RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f1bb06badb9
 RDX: 0000000000000000 RSI: 00000000200007c0 RDI: 0000000000000003
 RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000003
 R10: 0000000000000003 R11: 0000000000000246 R12: 00007fff3012a688
-R13: 00007fff3012a6a0 R14: 00007fff3012a6e0 R15: 00000000000013c2
- &lt;/TASK&gt;</description><pubDate>Wed, 19 Jun 2024 15:00:37 +0000</pubDate></item><item><title>CVE-2021-47599 | btrfs: use latest_dev in btrfs_show_devname</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47599</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: 00007fff3012a6a0 R14: 00007fff3012a6e0 R15: 00000000000013c2</description><pubDate>Wed, 19 Jun 2024 15:00:37 +0000</pubDate></item><item><title>CVE-2021-47599 | btrfs: use latest_dev in btrfs_show_devname</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47599</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 btrfs: use latest_dev in btrfs_show_devname
 
@@ -1052,7 +1195,7 @@ BIOS 1.11.0-2.el7 04/01/2014
 [  343.238707] RIP: 0010:netem_enqueue+0x1590/0x33c0 [sch_netem]
 [  343.239499] Code: 89 85 58 ff ff ff e8 5f 5d e9 d3 48 8b b5 48 ff ff
 ff 8b 8d 50 ff ff ff 8b 85 58 ff ff ff 48 8b bd 70 ff ff ff 31 d2 2b 4f
-74 &lt;f7&gt; f1 48 b8 00 00 00 00 00 fc ff df 49 01 d5 4c 89 e9 48 c1 e9 03
+74  f1 48 b8 00 00 00 00 00 fc ff df 49 01 d5 4c 89 e9 48 c1 e9 03
 [  343.241883] RSP: 0018:ffff88800bcd7368 EFLAGS: 00010246
 [  343.242589] RAX: 00000000ba7c0a9c RBX: 0000000000000001 RCX:
 0000000000000000
@@ -1070,7 +1213,7 @@ knlGS:0000000000000000
 [  343.249120] CR2: 00000000200000c0 CR3: 000000000ef4c000 CR4:
 00000000000006e0
 [  343.250076] Call Trace:
-[  343.250423]  &lt;TASK&gt;
+[  343.250423]  
 [  343.250713]  ? memcpy+0x4d/0x60
 [  343.251162]  ? netem_init+0xa0/0xa0 [sch_netem]
 [  343.251795]  ? __sanitizer_cov_trace_pc+0x21/0x60
