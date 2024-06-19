@@ -1,5 +1,253 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 19 Jun 2024 13:58:28 +0000</lastBuildDate><item><title>CVE-2023-36676 | WordPress Spectra plugin &amp;lt;= 2.6.6 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36676</link><description>Missing Authorization vulnerability in Brainstorm Force Spectra.This issue affects Spectra: from n/a through 2.6.6.</description><pubDate>Wed, 19 Jun 2024 13:58:30 +0000</pubDate></item><item><title>CVE-2023-36683 | WordPress Schema Pro plugin &amp;lt;= 2.7.8 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36683</link><description>Missing Authorization vulnerability in WP SCHEMA PRO Schema Pro.This issue affects Schema Pro: from n/a through 2.7.8.</description><pubDate>Wed, 19 Jun 2024 13:58:30 +0000</pubDate></item><item><title>CVE-2023-36684 | WordPress Convert Pro plugin &amp;lt;= 1.7.5 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36684</link><description>Missing Authorization vulnerability in Brainstorm Force Convert Pro.This issue affects Convert Pro: from n/a through 1.7.5.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2023-37869 | WordPress Premium Addons PRO plugin &amp;lt;= 2.9.0 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-37869</link><description>Missing Authorization vulnerability in Premium Addons Premium Addons PRO.This issue affects Premium Addons PRO: from n/a through 2.9.0.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2024-23443 | A high-privileged user, allowed to create custom osquery packs 17 could affect the availability of Kibana by uploading a maliciously crafted...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-23443</link><description>A high-privileged user, allowed to create custom osquery packs 17 could affect the availability of Kibana by uploading a maliciously crafted osquery pack.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2024-38601 | ring-buffer: Fix a race between readers and resize checks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38601</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 19 Jun 2024 14:17:26 +0000</lastBuildDate><item><title>CVE-2023-39310 | WordPress Avada Builder plugin &amp;lt;= 3.11.1 - Authenticated Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-39310</link><description>Missing Authorization vulnerability in ThemeFusion Fusion Builder.This issue affects Fusion Builder: from n/a through 3.11.1.</description><pubDate>Wed, 19 Jun 2024 14:17:28 +0000</pubDate></item><item><title>CVE-2024-38608 | net/mlx5e: Fix netif state handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38608</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Fix netif state handling
+
+mlx5e_suspend cleans resources only if netif_device_present() returns
+true. However, mlx5e_resume changes the state of netif, via
+mlx5e_nic_enable, only if reg_state == NETREG_REGISTERED.
+In the below case, the above leads to NULL-ptr Oops[1] and memory
+leaks:
+
+mlx5e_probe
+ _mlx5e_resume
+  mlx5e_attach_netdev
+   mlx5e_nic_enable  &lt;-- netdev not reg, not calling netif_device_attach()
+  register_netdev &lt;-- failed for some reason.
+ERROR_FLOW:
+ _mlx5e_suspend &lt;-- netif_device_present return false, resources aren't freed :(
+
+Hence, clean resources in this case as well.
+
+[1]
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+PGD 0 P4D 0
+Oops: 0010 [#1] SMP
+CPU: 2 PID: 9345 Comm: test-ovs-ct-gen Not tainted 6.5.0_for_upstream_min_debug_2023_09_05_16_01 #1
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at0xffffffffffffffd6.
+RSP: 0018:ffff888178aaf758 EFLAGS: 00010246
+Call Trace:
+ &lt;TASK&gt;
+ ? __die+0x20/0x60
+ ? page_fault_oops+0x14c/0x3c0
+ ? exc_page_fault+0x75/0x140
+ ? asm_exc_page_fault+0x22/0x30
+ notifier_call_chain+0x35/0xb0
+ blocking_notifier_call_chain+0x3d/0x60
+ mlx5_blocking_notifier_call_chain+0x22/0x30 [mlx5_core]
+ mlx5_core_uplink_netdev_event_replay+0x3e/0x60 [mlx5_core]
+ mlx5_mdev_netdev_track+0x53/0x60 [mlx5_ib]
+ mlx5_ib_roce_init+0xc3/0x340 [mlx5_ib]
+ __mlx5_ib_add+0x34/0xd0 [mlx5_ib]
+ mlx5r_probe+0xe1/0x210 [mlx5_ib]
+ ? auxiliary_match_id+0x6a/0x90
+ auxiliary_bus_probe+0x38/0x80
+ ? driver_sysfs_add+0x51/0x80
+ really_probe+0xc9/0x3e0
+ ? driver_probe_device+0x90/0x90
+ __driver_probe_device+0x80/0x160
+ driver_probe_device+0x1e/0x90
+ __device_attach_driver+0x7d/0x100
+ bus_for_each_drv+0x80/0xd0
+ __device_attach+0xbc/0x1f0
+ bus_probe_device+0x86/0xa0
+ device_add+0x637/0x840
+ __auxiliary_device_add+0x3b/0xa0
+ add_adev+0xc9/0x140 [mlx5_core]
+ mlx5_rescan_drivers_locked+0x22a/0x310 [mlx5_core]
+ mlx5_register_device+0x53/0xa0 [mlx5_core]
+ mlx5_init_one_devl_locked+0x5c4/0x9c0 [mlx5_core]
+ mlx5_init_one+0x3b/0x60 [mlx5_core]
+ probe_one+0x44c/0x730 [mlx5_core]
+ local_pci_probe+0x3e/0x90
+ pci_device_probe+0xbf/0x210
+ ? kernfs_create_link+0x5d/0xa0
+ ? sysfs_do_create_link_sd+0x60/0xc0
+ really_probe+0xc9/0x3e0
+ ? driver_probe_device+0x90/0x90
+ __driver_probe_device+0x80/0x160
+ driver_probe_device+0x1e/0x90
+ __device_attach_driver+0x7d/0x100
+ bus_for_each_drv+0x80/0xd0
+ __device_attach+0xbc/0x1f0
+ pci_bus_add_device+0x54/0x80
+ pci_iov_add_virtfn+0x2e6/0x320
+ sriov_enable+0x208/0x420
+ mlx5_core_sriov_configure+0x9e/0x200 [mlx5_core]
+ sriov_numvfs_store+0xae/0x1a0
+ kernfs_fop_write_iter+0x10c/0x1a0
+ vfs_write+0x291/0x3c0
+ ksys_write+0x5f/0xe0
+ do_syscall_64+0x3d/0x90
+ entry_SYSCALL_64_after_hwframe+0x46/0xb0
+ CR2: 0000000000000000
+ ---[ end trace 0000000000000000  ]---</description><pubDate>Wed, 19 Jun 2024 14:17:29 +0000</pubDate></item><item><title>CVE-2024-38609 | wifi: mt76: connac: check for null before dereferencing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38609</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mt76: connac: check for null before dereferencing
+
+The wcid can be NULL. It should be checked for validity before
+dereferencing it to avoid crash.</description><pubDate>Wed, 19 Jun 2024 14:17:29 +0000</pubDate></item><item><title>CVE-2024-38610 | drivers/virt/acrn: fix PFNMAP PTE checks in acrn_vm_ram_map()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38610</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drivers/virt/acrn: fix PFNMAP PTE checks in acrn_vm_ram_map()
+
+Patch series "mm: follow_pte() improvements and acrn follow_pte() fixes".
+
+Patch #1 fixes a bunch of issues I spotted in the acrn driver.  It
+compiles, that's all I know.  I'll appreciate some review and testing from
+acrn folks.
+
+Patch #2+#3 improve follow_pte(), passing a VMA instead of the MM, adding
+more sanity checks, and improving the documentation.  Gave it a quick test
+on x86-64 using VM_PAT that ends up using follow_pte().
+
+
+This patch (of 3):
+
+We currently miss handling various cases, resulting in a dangerous
+follow_pte() (previously follow_pfn()) usage.
+
+(1) We're not checking PTE write permissions.
+
+Maybe we should simply always require pte_write() like we do for
+pin_user_pages_fast(FOLL_WRITE)? Hard to tell, so let's check for
+ACRN_MEM_ACCESS_WRITE for now.
+
+(2) We're not rejecting refcounted pages.
+
+As we are not using MMU notifiers, messing with refcounted pages is
+dangerous and can result in use-after-free. Let's make sure to reject them.
+
+(3) We are only looking at the first PTE of a bigger range.
+
+We only lookup a single PTE, but memmap-&gt;len may span a larger area.
+Let's loop over all involved PTEs and make sure the PFN range is
+actually contiguous. Reject everything else: it couldn't have worked
+either way, and rather made use access PFNs we shouldn't be accessing.</description><pubDate>Wed, 19 Jun 2024 14:17:30 +0000</pubDate></item><item><title>CVE-2024-38611 | media: i2c: et8ek8: Don&amp;#x27;t strip remove function when driver is builtin</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38611</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: i2c: et8ek8: Don't strip remove function when driver is builtin
+
+Using __exit for the remove function results in the remove callback
+being discarded with CONFIG_VIDEO_ET8EK8=y. When such a device gets
+unbound (e.g. using sysfs or hotplug), the driver is just removed
+without the cleanup being performed. This results in resource leaks. Fix
+it by compiling in the remove callback unconditionally.
+
+This also fixes a W=1 modpost warning:
+
+	WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x10 (section: .data) -&gt; et8ek8_remove (section: .exit.text)</description><pubDate>Wed, 19 Jun 2024 14:17:30 +0000</pubDate></item><item><title>CVE-2024-38612 | ipv6: sr: fix invalid unregister error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38612</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv6: sr: fix invalid unregister error path
+
+The error path of seg6_init() is wrong in case CONFIG_IPV6_SEG6_LWTUNNEL
+is not defined. In that case if seg6_hmac_init() fails, the
+genl_unregister_family() isn't called.
+
+This issue exist since commit 46738b1317e1 ("ipv6: sr: add option to control
+lwtunnel support"), and commit 5559cea2d5aa ("ipv6: sr: fix possible
+use-after-free and null-ptr-deref") replaced unregister_pernet_subsys()
+with genl_unregister_family() in this error path.</description><pubDate>Wed, 19 Jun 2024 14:17:31 +0000</pubDate></item><item><title>CVE-2024-38613 | m68k: Fix spinlock race in kernel thread creation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38613</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+m68k: Fix spinlock race in kernel thread creation
+
+Context switching does take care to retain the correct lock owner across
+the switch from 'prev' to 'next' tasks.  This does rely on interrupts
+remaining disabled for the entire duration of the switch.
+
+This condition is guaranteed for normal process creation and context
+switching between already running processes, because both 'prev' and
+'next' already have interrupts disabled in their saved copies of the
+status register.
+
+The situation is different for newly created kernel threads.  The status
+register is set to PS_S in copy_thread(), which does leave the IPL at 0.
+Upon restoring the 'next' thread's status register in switch_to() aka
+resume(), interrupts then become enabled prematurely.  resume() then
+returns via ret_from_kernel_thread() and schedule_tail() where run queue
+lock is released (see finish_task_switch() and finish_lock_switch()).
+
+A timer interrupt calling scheduler_tick() before the lock is released
+in finish_task_switch() will find the lock already taken, with the
+current task as lock owner.  This causes a spinlock recursion warning as
+reported by Guenter Roeck.
+
+As far as I can ascertain, this race has been opened in commit
+533e6903bea0 ("m68k: split ret_from_fork(), simplify kernel_thread()")
+but I haven't done a detailed study of kernel history so it may well
+predate that commit.
+
+Interrupts cannot be disabled in the saved status register copy for
+kernel threads (init will complain about interrupts disabled when
+finally starting user space).  Disable interrupts temporarily when
+switching the tasks' register sets in resume().
+
+Note that a simple oriw 0x700,%sr after restoring sr is not enough here
+- this leaves enough of a race for the 'spinlock recursion' warning to
+still be observed.
+
+Tested on ARAnyM and qemu (Quadra 800 emulation).</description><pubDate>Wed, 19 Jun 2024 14:17:31 +0000</pubDate></item><item><title>CVE-2024-38614 | openrisc: traps: Don&amp;#x27;t send signals to kernel mode threads</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38614</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+openrisc: traps: Don't send signals to kernel mode threads
+
+OpenRISC exception handling sends signals to user processes on floating
+point exceptions and trap instructions (for debugging) among others.
+There is a bug where the trap handling logic may send signals to kernel
+threads, we should not send these signals to kernel threads, if that
+happens we treat it as an error.
+
+This patch adds conditions to die if the kernel receives these
+exceptions in kernel mode code.</description><pubDate>Wed, 19 Jun 2024 14:17:32 +0000</pubDate></item><item><title>CVE-2024-38615 | cpufreq: exit() callback is optional</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38615</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpufreq: exit() callback is optional
+
+The exit() callback is optional and shouldn't be called without checking
+a valid pointer first.
+
+Also, we must clear freq_table pointer even if the exit() callback isn't
+present.</description><pubDate>Wed, 19 Jun 2024 14:17:32 +0000</pubDate></item><item><title>CVE-2024-38616 | wifi: carl9170: re-fix fortified-memset warning</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38616</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: carl9170: re-fix fortified-memset warning
+
+The carl9170_tx_release() function sometimes triggers a fortified-memset
+warning in my randconfig builds:
+
+In file included from include/linux/string.h:254,
+                 from drivers/net/wireless/ath/carl9170/tx.c:40:
+In function 'fortify_memset_chk',
+    inlined from 'carl9170_tx_release' at drivers/net/wireless/ath/carl9170/tx.c:283:2,
+    inlined from 'kref_put' at include/linux/kref.h:65:3,
+    inlined from 'carl9170_tx_put_skb' at drivers/net/wireless/ath/carl9170/tx.c:342:9:
+include/linux/fortify-string.h:493:25: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+  493 |                         __write_overflow_field(p_size_field, size);
+
+Kees previously tried to avoid this by using memset_after(), but it seems
+this does not fully address the problem. I noticed that the memset_after()
+here is done on a different part of the union (status) than the original
+cast was from (rate_driver_data), which may confuse the compiler.
+
+Unfortunately, the memset_after() trick does not work on driver_rates[]
+because that is part of an anonymous struct, and I could not get
+struct_group() to do this either. Using two separate memset() calls
+on the two members does address the warning though.</description><pubDate>Wed, 19 Jun 2024 14:17:32 +0000</pubDate></item><item><title>CVE-2024-38617 | kunit/fortify: Fix mismatched kvalloc()/vfree() usage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38617</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+kunit/fortify: Fix mismatched kvalloc()/vfree() usage
+
+The kv*() family of tests were accidentally freeing with vfree() instead
+of kvfree(). Use kvfree() instead.</description><pubDate>Wed, 19 Jun 2024 14:17:33 +0000</pubDate></item><item><title>CVE-2024-38618 | ALSA: timer: Set lower bound of start tick time</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38618</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: timer: Set lower bound of start tick time
+
+Currently ALSA timer doesn't have the lower limit of the start tick
+time, and it allows a very small size, e.g. 1 tick with 1ns resolution
+for hrtimer.  Such a situation may lead to an unexpected RCU stall,
+where  the callback repeatedly queuing the expire update, as reported
+by fuzzer.
+
+This patch introduces a sanity check of the timer start tick time, so
+that the system returns an error when a too small start size is set.
+As of this patch, the lower limit is hard-coded to 100us, which is
+small enough but can still work somehow.</description><pubDate>Wed, 19 Jun 2024 14:17:33 +0000</pubDate></item><item><title>CVE-2023-36676 | WordPress Spectra plugin &amp;lt;= 2.6.6 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36676</link><description>Missing Authorization vulnerability in Brainstorm Force Spectra.This issue affects Spectra: from n/a through 2.6.6.</description><pubDate>Wed, 19 Jun 2024 13:58:30 +0000</pubDate></item><item><title>CVE-2023-36683 | WordPress Schema Pro plugin &amp;lt;= 2.7.8 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36683</link><description>Missing Authorization vulnerability in WP SCHEMA PRO Schema Pro.This issue affects Schema Pro: from n/a through 2.7.8.</description><pubDate>Wed, 19 Jun 2024 13:58:30 +0000</pubDate></item><item><title>CVE-2023-36684 | WordPress Convert Pro plugin &amp;lt;= 1.7.5 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-36684</link><description>Missing Authorization vulnerability in Brainstorm Force Convert Pro.This issue affects Convert Pro: from n/a through 1.7.5.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2023-37869 | WordPress Premium Addons PRO plugin &amp;lt;= 2.9.0 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-37869</link><description>Missing Authorization vulnerability in Premium Addons Premium Addons PRO.This issue affects Premium Addons PRO: from n/a through 2.9.0.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2024-23443 | A high-privileged user, allowed to create custom osquery packs 17 could affect the availability of Kibana by uploading a maliciously crafted...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-23443</link><description>A high-privileged user, allowed to create custom osquery packs 17 could affect the availability of Kibana by uploading a maliciously crafted osquery pack.</description><pubDate>Wed, 19 Jun 2024 13:58:31 +0000</pubDate></item><item><title>CVE-2024-38601 | ring-buffer: Fix a race between readers and resize checks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38601</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ring-buffer: Fix a race between readers and resize checks
 
@@ -35,7 +283,7 @@ and stop further tracing:
 [  190.272070] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 [  190.272073] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [  190.272077] Call Trace:
-[  190.272098]  &lt;TASK&gt;
+[  190.272098]  
 [  190.272189]  ring_buffer_resize+0x2ab/0x460
 [  190.272199]  __tracing_resize_ring_buffer.part.0+0x23/0xa0
 [  190.272206]  tracing_resize_ring_buffer+0x65/0x90
@@ -52,7 +300,7 @@ and stop further tracing:
 [  190.272398] RBP: 0000555a6eb538e0 R08: 000000000000000a R09: 0000000000000000
 [  190.272401] R10: 0000555a6eb55190 R11: 0000000000000246 R12: 00007f1bd6662500
 [  190.272404] R13: 0000000000000002 R14: 00007f1bd6667c00 R15: 0000000000000002
-[  190.272412]  &lt;/TASK&gt;
+[  190.272412]  
 [  190.272414] ---[ end trace 0000000000000000 ]---
 
 Note that ring_buffer_resize() calls rb_check_pages() only if the parent
@@ -68,7 +316,7 @@ reproducing it, one can add a delay loop in rb_get_reader_page():
  	goto spin;
  for (unsigned i = 0; i &lt; 1U &lt;&lt; 26; i++)  /* inserted delay loop */
  	__asm__ __volatile__ ("" : : : "memory");
- rb_list_head(reader-&gt;list.next)-&gt;prev = &amp;cpu_buffer-&gt;reader_page-&gt;list;
+ rb_list_head(reader-&gt;list.next)-&gt;prev = &amp;amp;cpu_buffer-&gt;reader_page-&gt;list;
 
 .. 
 ---truncated---</description><pubDate>Wed, 19 Jun 2024 13:58:32 +0000</pubDate></item><item><title>CVE-2024-38602 | ax25: Fix reference count leak issues of ax25_dev</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38602</link><description>In the Linux kernel, the following vulnerability has been resolved:
