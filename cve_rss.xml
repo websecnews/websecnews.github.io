@@ -1,5 +1,432 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 20 Jun 2024 10:50:13 +0000</lastBuildDate><item><title>CVE-2024-28147 | Unrestricted Upload of Files in edu-sharing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28147</link><description>An authenticated user can upload arbitrary files in the upload 
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 20 Jun 2024 11:17:47 +0000</lastBuildDate><item><title>CVE-2021-47619 | i40e: Fix queues reservation for XDP</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47619</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: Fix queues reservation for XDP
+
+When XDP was configured on a system with large number of CPUs
+and X722 NIC there was a call trace with NULL pointer dereference.
+
+i40e 0000:87:00.0: failed to get tracking for 256 queues for VSI 0 err -12
+i40e 0000:87:00.0: setup of MAIN VSI failed
+
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+RIP: 0010:i40e_xdp+0xea/0x1b0 [i40e]
+Call Trace:
+? i40e_reconfig_rss_queues+0x130/0x130 [i40e]
+dev_xdp_install+0x61/0xe0
+dev_xdp_attach+0x18a/0x4c0
+dev_change_xdp_fd+0x1e6/0x220
+do_setlink+0x616/0x1030
+? ahci_port_stop+0x80/0x80
+? ata_qc_issue+0x107/0x1e0
+? lock_timer_base+0x61/0x80
+? __mod_timer+0x202/0x380
+rtnl_setlink+0xe5/0x170
+? bpf_lsm_binder_transaction+0x10/0x10
+? security_capable+0x36/0x50
+rtnetlink_rcv_msg+0x121/0x350
+? rtnl_calcit.isra.0+0x100/0x100
+netlink_rcv_skb+0x50/0xf0
+netlink_unicast+0x1d3/0x2a0
+netlink_sendmsg+0x22a/0x440
+sock_sendmsg+0x5e/0x60
+__sys_sendto+0xf0/0x160
+? __sys_getsockname+0x7e/0xc0
+? _copy_from_user+0x3c/0x80
+? __sys_setsockopt+0xc8/0x1a0
+__x64_sys_sendto+0x20/0x30
+do_syscall_64+0x33/0x40
+entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f83fa7a39e0
+
+This was caused by PF queue pile fragmentation due to
+flow director VSI queue being placed right after main VSI.
+Because of this main VSI was not able to resize its
+queue allocation for XDP resulting in no queues allocated
+for main VSI when XDP was turned on.
+
+Fix this by always allocating last queue in PF queue pile
+for a flow director VSI.</description><pubDate>Thu, 20 Jun 2024 11:17:48 +0000</pubDate></item><item><title>CVE-2021-47620 | Bluetooth: refactor malicious adv data check</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47620</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: refactor malicious adv data check
+
+Check for out-of-bound read was being performed at the end of while
+num_reports loop, and would fill journal with false positives. Added
+check to beginning of loop processing so that it doesn't get checked
+after ptr has been advanced.</description><pubDate>Thu, 20 Jun 2024 11:17:49 +0000</pubDate></item><item><title>CVE-2022-48711 | tipc: improve size validations for received domain records</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48711</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tipc: improve size validations for received domain records
+
+The function tipc_mon_rcv() allows a node to receive and process
+domain_record structs from peer nodes to track their views of the
+network topology.
+
+This patch verifies that the number of members in a received domain
+record does not exceed the limit defined by MAX_MON_DOMAIN, something
+that may otherwise lead to a stack overflow.
+
+tipc_mon_rcv() is called from the function tipc_link_proto_rcv(), where
+we are reading a 32 bit message data length field into a uint16.  To
+avert any risk of bit overflow, we add an extra sanity check for this in
+that function.  We cannot see that happen with the current code, but
+future designers being unaware of this risk, may introduce it by
+allowing delivery of very large (&gt; 64k) sk buffers from the bearer
+layer.  This potential problem was identified by Eric Dumazet.
+
+This fixes CVE-2022-0435</description><pubDate>Thu, 20 Jun 2024 11:17:49 +0000</pubDate></item><item><title>CVE-2022-48712 | ext4: fix error handling in ext4_fc_record_modified_inode()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48712</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix error handling in ext4_fc_record_modified_inode()
+
+Current code does not fully takes care of krealloc() error case, which
+could lead to silent memory corruption or a kernel bug.  This patch
+fixes that.
+
+Also it cleans up some duplicated error handling logic from various
+functions in fast_commit.c file.</description><pubDate>Thu, 20 Jun 2024 11:17:49 +0000</pubDate></item><item><title>CVE-2022-48713 | perf/x86/intel/pt: Fix crash with stop filters in single-range mode</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48713</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+perf/x86/intel/pt: Fix crash with stop filters in single-range mode
+
+Add a check for !buf-&gt;single before calling pt_buffer_region_size in a
+place where a missing check can cause a kernel crash.
+
+Fixes a bug introduced by commit 670638477aed ("perf/x86/intel/pt:
+Opportunistically use single range output mode"), which added a
+support for PT single-range output mode. Since that commit if a PT
+stop filter range is hit while tracing, the kernel will crash because
+of a null pointer dereference in pt_handle_status due to calling
+pt_buffer_region_size without a ToPA configured.
+
+The commit which introduced single-range mode guarded almost all uses of
+the ToPA buffer variables with checks of the buf-&gt;single variable, but
+missed the case where tracing was stopped by the PT hardware, which
+happens when execution hits a configured stop filter.
+
+Tested that hitting a stop filter while PT recording successfully
+records a trace with this patch but crashes without this patch.</description><pubDate>Thu, 20 Jun 2024 11:17:50 +0000</pubDate></item><item><title>CVE-2022-48714 | bpf: Use VM_MAP instead of VM_ALLOC for ringbuf</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48714</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Use VM_MAP instead of VM_ALLOC for ringbuf
+
+After commit 2fd3fb0be1d1 ("kasan, vmalloc: unpoison VM_ALLOC pages
+after mapping"), non-VM_ALLOC mappings will be marked as accessible
+in __get_vm_area_node() when KASAN is enabled. But now the flag for
+ringbuf area is VM_ALLOC, so KASAN will complain out-of-bound access
+after vmap() returns. Because the ringbuf area is created by mapping
+allocated pages, so use VM_MAP instead.
+
+After the change, info in /proc/vmallocinfo also changes from
+  [start]-[end]   24576 ringbuf_map_alloc+0x171/0x290 vmalloc user
+to
+  [start]-[end]   24576 ringbuf_map_alloc+0x171/0x290 vmap user</description><pubDate>Thu, 20 Jun 2024 11:17:50 +0000</pubDate></item><item><title>CVE-2022-48715 | scsi: bnx2fc: Make bnx2fc_recv_frame() mp safe</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48715</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: bnx2fc: Make bnx2fc_recv_frame() mp safe
+
+Running tests with a debug kernel shows that bnx2fc_recv_frame() is
+modifying the per_cpu lport stats counters in a non-mpsafe way.  Just boot
+a debug kernel and run the bnx2fc driver with the hardware enabled.
+
+[ 1391.699147] BUG: using smp_processor_id() in preemptible [00000000] code: bnx2fc_
+[ 1391.699160] caller is bnx2fc_recv_frame+0xbf9/0x1760 [bnx2fc]
+[ 1391.699174] CPU: 2 PID: 4355 Comm: bnx2fc_l2_threa Kdump: loaded Tainted: G    B
+[ 1391.699180] Hardware name: HP ProLiant DL120 G7, BIOS J01 07/01/2013
+[ 1391.699183] Call Trace:
+[ 1391.699188]  dump_stack_lvl+0x57/0x7d
+[ 1391.699198]  check_preemption_disabled+0xc8/0xd0
+[ 1391.699205]  bnx2fc_recv_frame+0xbf9/0x1760 [bnx2fc]
+[ 1391.699215]  ? do_raw_spin_trylock+0xb5/0x180
+[ 1391.699221]  ? bnx2fc_npiv_create_vports.isra.0+0x4e0/0x4e0 [bnx2fc]
+[ 1391.699229]  ? bnx2fc_l2_rcv_thread+0xb7/0x3a0 [bnx2fc]
+[ 1391.699240]  bnx2fc_l2_rcv_thread+0x1af/0x3a0 [bnx2fc]
+[ 1391.699250]  ? bnx2fc_ulp_init+0xc0/0xc0 [bnx2fc]
+[ 1391.699258]  kthread+0x364/0x420
+[ 1391.699263]  ? _raw_spin_unlock_irq+0x24/0x50
+[ 1391.699268]  ? set_kthread_struct+0x100/0x100
+[ 1391.699273]  ret_from_fork+0x22/0x30
+
+Restore the old get_cpu/put_cpu code with some modifications to reduce the
+size of the critical section.</description><pubDate>Thu, 20 Jun 2024 11:17:50 +0000</pubDate></item><item><title>CVE-2022-48716 | ASoC: codecs: wcd938x: fix incorrect used of portid</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48716</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: codecs: wcd938x: fix incorrect used of portid
+
+Mixer controls have the channel id in mixer-&gt;reg, which is not same
+as port id. port id should be derived from chan_info array.
+So fix this. Without this, its possible that we could corrupt
+struct wcd938x_sdw_priv by accessing port_map array out of range
+with channel id instead of port id.</description><pubDate>Thu, 20 Jun 2024 11:17:51 +0000</pubDate></item><item><title>CVE-2022-48717 | ASoC: max9759: fix underflow in speaker_gain_control_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48717</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: max9759: fix underflow in speaker_gain_control_put()
+
+Check for negative values of "priv-&gt;gain" to prevent an out of bounds
+access.  The concern is that these might come from the user via:
+  -&gt; snd_ctl_elem_write_user()
+    -&gt; snd_ctl_elem_write()
+      -&gt; kctl-&gt;put()</description><pubDate>Thu, 20 Jun 2024 11:17:51 +0000</pubDate></item><item><title>CVE-2022-48718 | drm: mxsfb: Fix NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48718</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm: mxsfb: Fix NULL pointer dereference
+
+mxsfb should not ever dereference the NULL pointer which
+drm_atomic_get_new_bridge_state is allowed to return.
+Assume a fixed format instead.</description><pubDate>Thu, 20 Jun 2024 11:17:51 +0000</pubDate></item><item><title>CVE-2022-48719 | net, neigh: Do not trigger immediate probes on NUD_FAILED from neigh_managed_work</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48719</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net, neigh: Do not trigger immediate probes on NUD_FAILED from neigh_managed_work
+
+syzkaller was able to trigger a deadlock for NTF_MANAGED entries [0]:
+
+  kworker/0:16/14617 is trying to acquire lock:
+  ffffffff8d4dd370 (&amp;tbl-&gt;lock){++-.}-{2:2}, at: ___neigh_create+0x9e1/0x2990 net/core/neighbour.c:652
+  [...]
+  but task is already holding lock:
+  ffffffff8d4dd370 (&amp;tbl-&gt;lock){++-.}-{2:2}, at: neigh_managed_work+0x35/0x250 net/core/neighbour.c:1572
+
+The neighbor entry turned to NUD_FAILED state, where __neigh_event_send()
+triggered an immediate probe as per commit cd28ca0a3dd1 ("neigh: reduce
+arp latency") via neigh_probe() given table lock was held.
+
+One option to fix this situation is to defer the neigh_probe() back to
+the neigh_timer_handler() similarly as pre cd28ca0a3dd1. For the case
+of NTF_MANAGED, this deferral is acceptable given this only happens on
+actual failure state and regular / expected state is NUD_VALID with the
+entry already present.
+
+The fix adds a parameter to __neigh_event_send() in order to communicate
+whether immediate probe is allowed or disallowed. Existing call-sites
+of neigh_event_send() default as-is to immediate probe. However, the
+neigh_managed_work() disables it via use of neigh_event_send_probe().
+
+[0] &lt;TASK&gt;
+  __dump_stack lib/dump_stack.c:88 [inline]
+  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+  print_deadlock_bug kernel/locking/lockdep.c:2956 [inline]
+  check_deadlock kernel/locking/lockdep.c:2999 [inline]
+  validate_chain kernel/locking/lockdep.c:3788 [inline]
+  __lock_acquire.cold+0x149/0x3ab kernel/locking/lockdep.c:5027
+  lock_acquire kernel/locking/lockdep.c:5639 [inline]
+  lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5604
+  __raw_write_lock_bh include/linux/rwlock_api_smp.h:202 [inline]
+  _raw_write_lock_bh+0x2f/0x40 kernel/locking/spinlock.c:334
+  ___neigh_create+0x9e1/0x2990 net/core/neighbour.c:652
+  ip6_finish_output2+0x1070/0x14f0 net/ipv6/ip6_output.c:123
+  __ip6_finish_output net/ipv6/ip6_output.c:191 [inline]
+  __ip6_finish_output+0x61e/0xe90 net/ipv6/ip6_output.c:170
+  ip6_finish_output+0x32/0x200 net/ipv6/ip6_output.c:201
+  NF_HOOK_COND include/linux/netfilter.h:296 [inline]
+  ip6_output+0x1e4/0x530 net/ipv6/ip6_output.c:224
+  dst_output include/net/dst.h:451 [inline]
+  NF_HOOK include/linux/netfilter.h:307 [inline]
+  ndisc_send_skb+0xa99/0x17f0 net/ipv6/ndisc.c:508
+  ndisc_send_ns+0x3a9/0x840 net/ipv6/ndisc.c:650
+  ndisc_solicit+0x2cd/0x4f0 net/ipv6/ndisc.c:742
+  neigh_probe+0xc2/0x110 net/core/neighbour.c:1040
+  __neigh_event_send+0x37d/0x1570 net/core/neighbour.c:1201
+  neigh_event_send include/net/neighbour.h:470 [inline]
+  neigh_managed_work+0x162/0x250 net/core/neighbour.c:1574
+  process_one_work+0x9ac/0x1650 kernel/workqueue.c:2307
+  worker_thread+0x657/0x1110 kernel/workqueue.c:2454
+  kthread+0x2e9/0x3a0 kernel/kthread.c:377
+  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+  &lt;/TASK&gt;</description><pubDate>Thu, 20 Jun 2024 11:17:52 +0000</pubDate></item><item><title>CVE-2022-48720 | net: macsec: Fix offload support for NETDEV_UNREGISTER event</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48720</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: macsec: Fix offload support for NETDEV_UNREGISTER event
+
+Current macsec netdev notify handler handles NETDEV_UNREGISTER event by
+releasing relevant SW resources only, this causes resources leak in case
+of macsec HW offload, as the underlay driver was not notified to clean
+it's macsec offload resources.
+
+Fix by calling the underlay driver to clean it's relevant resources
+by moving offload handling from macsec_dellink() to macsec_common_dellink()
+when handling NETDEV_UNREGISTER event.</description><pubDate>Thu, 20 Jun 2024 11:17:52 +0000</pubDate></item><item><title>CVE-2022-48721 | net/smc: Forward wakeup to smc socket waitqueue after fallback</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48721</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: Forward wakeup to smc socket waitqueue after fallback
+
+When we replace TCP with SMC and a fallback occurs, there may be
+some socket waitqueue entries remaining in smc socket-&gt;wq, such
+as eppoll_entries inserted by userspace applications.
+
+After the fallback, data flows over TCP/IP and only clcsocket-&gt;wq
+will be woken up. Applications can't be notified by the entries
+which were inserted in smc socket-&gt;wq before fallback. So we need
+a mechanism to wake up smc socket-&gt;wq at the same time if some
+entries remaining in it.
+
+The current workaround is to transfer the entries from smc socket-&gt;wq
+to clcsock-&gt;wq during the fallback. But this may cause a crash
+like this:
+
+ general protection fault, probably for non-canonical address 0xdead000000000100: 0000 [#1] PREEMPT SMP PTI
+ CPU: 3 PID: 0 Comm: swapper/3 Kdump: loaded Tainted: G E     5.16.0+ #107
+ RIP: 0010:__wake_up_common+0x65/0x170
+ Call Trace:
+  &lt;IRQ&gt;
+  __wake_up_common_lock+0x7a/0xc0
+  sock_def_readable+0x3c/0x70
+  tcp_data_queue+0x4a7/0xc40
+  tcp_rcv_established+0x32f/0x660
+  ? sk_filter_trim_cap+0xcb/0x2e0
+  tcp_v4_do_rcv+0x10b/0x260
+  tcp_v4_rcv+0xd2a/0xde0
+  ip_protocol_deliver_rcu+0x3b/0x1d0
+  ip_local_deliver_finish+0x54/0x60
+  ip_local_deliver+0x6a/0x110
+  ? tcp_v4_early_demux+0xa2/0x140
+  ? tcp_v4_early_demux+0x10d/0x140
+  ip_sublist_rcv_finish+0x49/0x60
+  ip_sublist_rcv+0x19d/0x230
+  ip_list_rcv+0x13e/0x170
+  __netif_receive_skb_list_core+0x1c2/0x240
+  netif_receive_skb_list_internal+0x1e6/0x320
+  napi_complete_done+0x11d/0x190
+  mlx5e_napi_poll+0x163/0x6b0 [mlx5_core]
+  __napi_poll+0x3c/0x1b0
+  net_rx_action+0x27c/0x300
+  __do_softirq+0x114/0x2d2
+  irq_exit_rcu+0xb4/0xe0
+  common_interrupt+0xba/0xe0
+  &lt;/IRQ&gt;
+  &lt;TASK&gt;
+
+The crash is caused by privately transferring waitqueue entries from
+smc socket-&gt;wq to clcsock-&gt;wq. The owners of these entries, such as
+epoll, have no idea that the entries have been transferred to a
+different socket wait queue and still use original waitqueue spinlock
+(smc socket-&gt;wq.wait.lock) to make the entries operation exclusive,
+but it doesn't work. The operations to the entries, such as removing
+from the waitqueue (now is clcsock-&gt;wq after fallback), may cause a
+crash when clcsock waitqueue is being iterated over at the moment.
+
+This patch tries to fix this by no longer transferring wait queue
+entries privately, but introducing own implementations of clcsock's
+callback functions in fallback situation. The callback functions will
+forward the wakeup to smc socket-&gt;wq if clcsock-&gt;wq is actually woken
+up and smc socket-&gt;wq has remaining entries.</description><pubDate>Thu, 20 Jun 2024 11:17:52 +0000</pubDate></item><item><title>CVE-2022-48722 | net: ieee802154: ca8210: Stop leaking skb&amp;#x27;s</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48722</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ieee802154: ca8210: Stop leaking skb's
+
+Upon error the ieee802154_xmit_complete() helper is not called. Only
+ieee802154_wake_queue() is called manually. We then leak the skb
+structure.
+
+Free the skb structure upon error before returning.</description><pubDate>Thu, 20 Jun 2024 11:17:53 +0000</pubDate></item><item><title>CVE-2022-48723 | spi: uniphier: fix reference count leak in uniphier_spi_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48723</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+spi: uniphier: fix reference count leak in uniphier_spi_probe()
+
+The issue happens in several error paths in uniphier_spi_probe().
+When either dma_get_slave_caps() or devm_spi_register_master() returns
+an error code, the function forgets to decrease the refcount of both
+`dma_rx` and `dma_tx` objects, which may lead to refcount leaks.
+
+Fix it by decrementing the reference count of specific objects in
+those error paths.</description><pubDate>Thu, 20 Jun 2024 11:17:53 +0000</pubDate></item><item><title>CVE-2024-5036 | Sina Extension for Elementor (Slider, Gallery, Form, Modal, Data Table, Tab, Particle, Free Elementor Widgets &amp;amp; Elementor Templates) &amp;lt;= 3.5.4 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5036</link><description>The Sina Extension for Elementor (Slider, Gallery, Form, Modal, Data Table, Tab, Particle, Free Elementor Widgets &amp; Elementor Templates) plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the ‘url’ parameter in all versions up to, and including, 3.5.4 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Thu, 20 Jun 2024 11:17:53 +0000</pubDate></item><item><title>CVE-2021-47617 | PCI: pciehp: Fix infinite loop in IRQ handler upon power fault</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47617</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: pciehp: Fix infinite loop in IRQ handler upon power fault
+
+The Power Fault Detected bit in the Slot Status register differs from
+all other hotplug events in that it is sticky:  It can only be cleared
+after turning off slot power.  Per PCIe r5.0, sec. 6.7.1.8:
+
+  If a power controller detects a main power fault on the hot-plug slot,
+  it must automatically set its internal main power fault latch [...].
+  The main power fault latch is cleared when software turns off power to
+  the hot-plug slot.
+
+The stickiness used to cause interrupt storms and infinite loops which
+were fixed in 2009 by commits 5651c48cfafe ("PCI pciehp: fix power fault
+interrupt storm problem") and 99f0169c17f3 ("PCI: pciehp: enable
+software notification on empty slots").
+
+Unfortunately in 2020 the infinite loop issue was inadvertently
+reintroduced by commit 8edf5332c393 ("PCI: pciehp: Fix MSI interrupt
+race"):  The hardirq handler pciehp_isr() clears the PFD bit until
+pciehp's power_fault_detected flag is set.  That happens in the IRQ
+thread pciehp_ist(), which never learns of the event because the hardirq
+handler is stuck in an infinite loop.  Fix by setting the
+power_fault_detected flag already in the hardirq handler.</description><pubDate>Thu, 20 Jun 2024 11:17:54 +0000</pubDate></item><item><title>CVE-2021-47618 | ARM: 9170/1: fix panic when kasan and kprobe are enabled</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47618</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ARM: 9170/1: fix panic when kasan and kprobe are enabled
+
+arm32 uses software to simulate the instruction replaced
+by kprobe. some instructions may be simulated by constructing
+assembly functions. therefore, before executing instruction
+simulation, it is necessary to construct assembly function
+execution environment in C language through binding registers.
+after kasan is enabled, the register binding relationship will
+be destroyed, resulting in instruction simulation errors and
+causing kernel panic.
+
+the kprobe emulate instruction function is distributed in three
+files: actions-common.c actions-arm.c actions-thumb.c, so disable
+KASAN when compiling these files.
+
+for example, use kprobe insert on cap_capable+20 after kasan
+enabled, the cap_capable assembly code is as follows:
+&lt;cap_capable&gt;:
+e92d47f0	push	{r4, r5, r6, r7, r8, r9, sl, lr}
+e1a05000	mov	r5, r0
+e280006c	add	r0, r0, #108    ; 0x6c
+e1a04001	mov	r4, r1
+e1a06002	mov	r6, r2
+e59fa090	ldr	sl, [pc, #144]  ;
+ebfc7bf8	bl	c03aa4b4 &lt;__asan_load4&gt;
+e595706c	ldr	r7, [r5, #108]  ; 0x6c
+e2859014	add	r9, r5, #20
+......
+The emulate_ldr assembly code after enabling kasan is as follows:
+c06f1384 &lt;emulate_ldr&gt;:
+e92d47f0	push	{r4, r5, r6, r7, r8, r9, sl, lr}
+e282803c	add	r8, r2, #60     ; 0x3c
+e1a05000	mov	r5, r0
+e7e37855	ubfx	r7, r5, #16, #4
+e1a00008	mov	r0, r8
+e1a09001	mov	r9, r1
+e1a04002	mov	r4, r2
+ebf35462	bl	c03c6530 &lt;__asan_load4&gt;
+e357000f	cmp	r7, #15
+e7e36655	ubfx	r6, r5, #12, #4
+e205a00f	and	sl, r5, #15
+0a000001	beq	c06f13bc &lt;emulate_ldr+0x38&gt;
+e0840107	add	r0, r4, r7, lsl #2
+ebf3545c	bl	c03c6530 &lt;__asan_load4&gt;
+e084010a	add	r0, r4, sl, lsl #2
+ebf3545a	bl	c03c6530 &lt;__asan_load4&gt;
+e2890010	add	r0, r9, #16
+ebf35458	bl	c03c6530 &lt;__asan_load4&gt;
+e5990010	ldr	r0, [r9, #16]
+e12fff30	blx	r0
+e356000f	cm	r6, #15
+1a000014	bne	c06f1430 &lt;emulate_ldr+0xac&gt;
+e1a06000	mov	r6, r0
+e2840040	add	r0, r4, #64     ; 0x40
+......
+
+when running in emulate_ldr to simulate the ldr instruction, panic
+occurred, and the log is as follows:
+Unable to handle kernel NULL pointer dereference at virtual address
+00000090
+pgd = ecb46400
+[00000090] *pgd=2e0fa003, *pmd=00000000
+Internal error: Oops: 206 [#1] SMP ARM
+PC is at cap_capable+0x14/0xb0
+LR is at emulate_ldr+0x50/0xc0
+psr: 600d0293 sp : ecd63af8  ip : 00000004  fp : c0a7c30c
+r10: 00000000  r9 : c30897f4  r8 : ecd63cd4
+r7 : 0000000f  r6 : 0000000a  r5 : e59fa090  r4 : ecd63c98
+r3 : c06ae294  r2 : 00000000  r1 : b7611300  r0 : bf4ec008
+Flags: nZCv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segment user
+Control: 32c5387d  Table: 2d546400  DAC: 55555555
+Process bash (pid: 1643, stack limit = 0xecd60190)
+(cap_capable) from (kprobe_handler+0x218/0x340)
+(kprobe_handler) from (kprobe_trap_handler+0x24/0x48)
+(kprobe_trap_handler) from (do_undefinstr+0x13c/0x364)
+(do_undefinstr) from (__und_svc_finish+0x0/0x30)
+(__und_svc_finish) from (cap_capable+0x18/0xb0)
+(cap_capable) from (cap_vm_enough_memory+0x38/0x48)
+(cap_vm_enough_memory) from
+(security_vm_enough_memory_mm+0x48/0x6c)
+(security_vm_enough_memory_mm) from
+(copy_process.constprop.5+0x16b4/0x25c8)
+(copy_process.constprop.5) from (_do_fork+0xe8/0x55c)
+(_do_fork) from (SyS_clone+0x1c/0x24)
+(SyS_clone) from (__sys_trace_return+0x0/0x10)
+Code: 0050a0e1 6c0080e2 0140a0e1 0260a0e1 (f801f0e7)</description><pubDate>Thu, 20 Jun 2024 11:17:54 +0000</pubDate></item><item><title>CVE-2024-6181 | LabVantage LIMS cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6181</link><description>A vulnerability was found in LabVantage LIMS 2017. It has been declared as problematic. This vulnerability affects unknown code of the file /labvantage/rc?command=file&amp;file=WEB-CORE/elements/files/filesembedded.jsp&amp;size=32. The manipulation of the argument height/width leads to cross site scripting. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-269152. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 20 Jun 2024 11:17:55 +0000</pubDate></item><item><title>CVE-2024-6182 | LabVantage LIMS cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6182</link><description>A vulnerability was found in LabVantage LIMS 2017. It has been rated as problematic. This issue affects some unknown processing of the file /labvantage/rc?command=page&amp;page=LV_ViewSampleSpec&amp;oosonly=Y&amp;_sdialog=Y. The manipulation of the argument sdcid/keyid1 leads to cross site scripting. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. The identifier VDB-269153 was assigned to this vulnerability. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 20 Jun 2024 11:17:55 +0000</pubDate></item><item><title>CVE-2024-28147 | Unrestricted Upload of Files in edu-sharing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-28147</link><description>An authenticated user can upload arbitrary files in the upload 
 function for collection preview images. An attacker may upload an HTML 
 file that includes malicious JavaScript code which will be executed if a
  user visits the direct URL of the collection preview image (Stored 
