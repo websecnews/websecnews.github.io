@@ -1,5 +1,115 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 21 Jun 2024 10:34:49 +0000</lastBuildDate><item><title>CVE-2023-52884 | Input: cyapa - add missing input core locking to suspend/resume functions</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52884</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 21 Jun 2024 11:22:28 +0000</lastBuildDate><item><title>CVE-2024-34777 | dma-mapping: benchmark: fix node id validation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34777</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dma-mapping: benchmark: fix node id validation
+
+While validating node ids in map_benchmark_ioctl(), node_possible() may
+be provided with invalid argument outside of [0,MAX_NUMNODES-1] range
+leading to:
+
+BUG: KASAN: wild-memory-access in map_benchmark_ioctl (kernel/dma/map_benchmark.c:214)
+Read of size 8 at addr 1fffffff8ccb6398 by task dma_map_benchma/971
+CPU: 7 PID: 971 Comm: dma_map_benchma Not tainted 6.9.0-rc6 #37
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
+Call Trace:
+ &lt;TASK&gt;
+dump_stack_lvl (lib/dump_stack.c:117)
+kasan_report (mm/kasan/report.c:603)
+kasan_check_range (mm/kasan/generic.c:189)
+variable_test_bit (arch/x86/include/asm/bitops.h:227) [inline]
+arch_test_bit (arch/x86/include/asm/bitops.h:239) [inline]
+_test_bit at (include/asm-generic/bitops/instrumented-non-atomic.h:142) [inline]
+node_state (include/linux/nodemask.h:423) [inline]
+map_benchmark_ioctl (kernel/dma/map_benchmark.c:214)
+full_proxy_unlocked_ioctl (fs/debugfs/file.c:333)
+__x64_sys_ioctl (fs/ioctl.c:890)
+do_syscall_64 (arch/x86/entry/common.c:83)
+entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130)
+
+Compare node ids with sane bounds first. NUMA_NO_NODE is considered a
+special valid case meaning that benchmarking kthreads won't be bound to a
+cpuset of a given node.
+
+Found by Linux Verification Center (linuxtesting.org).</description><pubDate>Fri, 21 Jun 2024 11:22:30 +0000</pubDate></item><item><title>CVE-2024-36288 | SUNRPC: Fix loop termination condition in gss_free_in_token_pages()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36288</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+SUNRPC: Fix loop termination condition in gss_free_in_token_pages()
+
+The in_token-&gt;pages[] array is not NULL terminated. This results in
+the following KASAN splat:
+
+  KASAN: maybe wild-memory-access in range [0x04a2013400000008-0x04a201340000000f]</description><pubDate>Fri, 21 Jun 2024 11:22:31 +0000</pubDate></item><item><title>CVE-2024-36477 | tpm_tis_spi: Account for SPI header when allocating TPM SPI xfer buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36477</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tpm_tis_spi: Account for SPI header when allocating TPM SPI xfer buffer
+
+The TPM SPI transfer mechanism uses MAX_SPI_FRAMESIZE for computing the
+maximum transfer length and the size of the transfer buffer. As such, it
+does not account for the 4 bytes of header that prepends the SPI data
+frame. This can result in out-of-bounds accesses and was confirmed with
+KASAN.
+
+Introduce SPI_HDRSIZE to account for the header and use to allocate the
+transfer buffer.</description><pubDate>Fri, 21 Jun 2024 11:22:31 +0000</pubDate></item><item><title>CVE-2024-36481 | tracing/probes: fix error check in parse_btf_field()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36481</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing/probes: fix error check in parse_btf_field()
+
+btf_find_struct_member() might return NULL or an error via the
+ERR_PTR() macro. However, its caller in parse_btf_field() only checks
+for the NULL condition. Fix this by using IS_ERR() and returning the
+error up the stack.</description><pubDate>Fri, 21 Jun 2024 11:22:31 +0000</pubDate></item><item><title>CVE-2024-38662 | bpf: Allow delete from sockmap/sockhash only if update is allowed</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38662</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Allow delete from sockmap/sockhash only if update is allowed
+
+We have seen an influx of syzkaller reports where a BPF program attached to
+a tracepoint triggers a locking rule violation by performing a map_delete
+on a sockmap/sockhash.
+
+We don't intend to support this artificial use scenario. Extend the
+existing verifier allowed-program-type check for updating sockmap/sockhash
+to also cover deleting from a map.
+
+From now on only BPF programs which were previously allowed to update
+sockmap/sockhash can delete from these map types.</description><pubDate>Fri, 21 Jun 2024 11:22:32 +0000</pubDate></item><item><title>CVE-2024-38780 | dma-buf/sw-sync: don&amp;#x27;t enable IRQ from sync_print_obj()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38780</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dma-buf/sw-sync: don't enable IRQ from sync_print_obj()
+
+Since commit a6aa8fca4d79 ("dma-buf/sw-sync: Reduce irqsave/irqrestore from
+known context") by error replaced spin_unlock_irqrestore() with
+spin_unlock_irq() for both sync_debugfs_show() and sync_print_obj() despite
+sync_print_obj() is called from sync_debugfs_show(), lockdep complains
+inconsistent lock state warning.
+
+Use plain spin_{lock,unlock}() for sync_print_obj(), for
+sync_debugfs_show() is already using spin_{lock,unlock}_irq().</description><pubDate>Fri, 21 Jun 2024 11:22:32 +0000</pubDate></item><item><title>CVE-2024-39277 | dma-mapping: benchmark: handle NUMA_NO_NODE correctly</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39277</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dma-mapping: benchmark: handle NUMA_NO_NODE correctly
+
+cpumask_of_node() can be called for NUMA_NO_NODE inside do_map_benchmark()
+resulting in the following sanitizer report:
+
+UBSAN: array-index-out-of-bounds in ./arch/x86/include/asm/topology.h:72:28
+index -1 is out of range for type 'cpumask [64][1]'
+CPU: 1 PID: 990 Comm: dma_map_benchma Not tainted 6.9.0-rc6 #29
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
+Call Trace:
+ &lt;TASK&gt;
+dump_stack_lvl (lib/dump_stack.c:117)
+ubsan_epilogue (lib/ubsan.c:232)
+__ubsan_handle_out_of_bounds (lib/ubsan.c:429)
+cpumask_of_node (arch/x86/include/asm/topology.h:72) [inline]
+do_map_benchmark (kernel/dma/map_benchmark.c:104)
+map_benchmark_ioctl (kernel/dma/map_benchmark.c:246)
+full_proxy_unlocked_ioctl (fs/debugfs/file.c:333)
+__x64_sys_ioctl (fs/ioctl.c:890)
+do_syscall_64 (arch/x86/entry/common.c:83)
+entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130)
+
+Use cpumask_of_node() in place when binding a kernel thread to a cpuset
+of a particular node.
+
+Note that the provided node id is checked inside map_benchmark_ioctl().
+It's just a NUMA_NO_NODE case which is not handled properly later.
+
+Found by Linux Verification Center (linuxtesting.org).</description><pubDate>Fri, 21 Jun 2024 11:22:33 +0000</pubDate></item><item><title>CVE-2023-52884 | Input: cyapa - add missing input core locking to suspend/resume functions</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52884</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 Input: cyapa - add missing input core locking to suspend/resume functions
 
@@ -131,7 +241,7 @@ CR2: 00007f788f7c44c0 CR3: 0000000008e1a000 CR4: 00000000000006f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
-&lt;IRQ&gt;
+
  ? __warn (kernel/panic.c:693)
  ? sk_mc_loop (net/core/sock.c:760)
  ? report_bug (lib/bug.c:201 lib/bug.c:219)
@@ -216,9 +326,9 @@ now two rules populated related to status.
   CPU: 1 PID: 484 Comm: ip Not tainted 6.9.0-rc2-rrameshbabu+ #254
   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS Arch Linux 1.16.3-1-1 04/01/2014
   RIP: 0010:mlx5_modify_header_dealloc+0xd/0x70
-  &lt;snip&gt;
+  
   Call Trace:
-   &lt;TASK&gt;
+   
    ? show_regs+0x60/0x70
    ? __die+0x24/0x70
    ? page_fault_oops+0x15f/0x430
@@ -233,8 +343,7 @@ now two rules populated related to status.
    ? mlx5_cmd_exec+0x2c/0x40
    ? mlx5_create_ipsec_obj+0xd6/0x200
    mlx5e_accel_ipsec_fs_add_rule+0x31/0xf0
-   mlx5e_xfrm_add_state+0x426/0xc00
-  &lt;snip&gt;</description><pubDate>Fri, 21 Jun 2024 10:34:52 +0000</pubDate></item><item><title>CVE-2024-36286 | netfilter: nfnetlink_queue: acquire rcu_read_lock() in instance_destroy_rcu()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36286</link><description>In the Linux kernel, the following vulnerability has been resolved:
+   mlx5e_xfrm_add_state+0x426/0xc00</description><pubDate>Fri, 21 Jun 2024 10:34:52 +0000</pubDate></item><item><title>CVE-2024-36286 | netfilter: nfnetlink_queue: acquire rcu_read_lock() in instance_destroy_rcu()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36286</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfilter: nfnetlink_queue: acquire rcu_read_lock() in instance_destroy_rcu()
 
@@ -252,15 +361,15 @@ rcu_scheduler_active = 2, debug_locks = 1
   #0: ffffffff8e334f60 (rcu_callback){....}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
   #0: ffffffff8e334f60 (rcu_callback){....}-{0:0}, at: rcu_do_batch kernel/rcu/tree.c:2190 [inline]
   #0: ffffffff8e334f60 (rcu_callback){....}-{0:0}, at: rcu_core+0xa86/0x1830 kernel/rcu/tree.c:2471
-  #1: ffff88801ca92958 (&amp;inst-&gt;lock){+.-.}-{2:2}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
-  #1: ffff88801ca92958 (&amp;inst-&gt;lock){+.-.}-{2:2}, at: nfqnl_flush net/netfilter/nfnetlink_queue.c:405 [inline]
-  #1: ffff88801ca92958 (&amp;inst-&gt;lock){+.-.}-{2:2}, at: instance_destroy_rcu+0x30/0x220 net/netfilter/nfnetlink_queue.c:172
+  #1: ffff88801ca92958 (&amp;amp;inst-&gt;lock){+.-.}-{2:2}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+  #1: ffff88801ca92958 (&amp;amp;inst-&gt;lock){+.-.}-{2:2}, at: nfqnl_flush net/netfilter/nfnetlink_queue.c:405 [inline]
+  #1: ffff88801ca92958 (&amp;amp;inst-&gt;lock){+.-.}-{2:2}, at: instance_destroy_rcu+0x30/0x220 net/netfilter/nfnetlink_queue.c:172
 
 stack backtrace:
 CPU: 0 PID: 13427 Comm: syz-executor.4 Not tainted 6.9.0-rc7-syzkaller-02060-g5c1672705a1a #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
 Call Trace:
- &lt;IRQ&gt;
+ 
   __dump_stack lib/dump_stack.c:88 [inline]
   dump_stack_lvl+0x241/0x360 lib/dump_stack.c:114
   lockdep_rcu_suspicious+0x221/0x340 kernel/locking/lockdep.c:6712
@@ -276,9 +385,7 @@ Call Trace:
   __irq_exit_rcu+0xf4/0x1c0 kernel/softirq.c:637
   irq_exit_rcu+0x9/0x30 kernel/softirq.c:649
   instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
-  sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1043
- &lt;/IRQ&gt;
- &lt;TASK&gt;</description><pubDate>Fri, 21 Jun 2024 10:34:52 +0000</pubDate></item><item><title>CVE-2024-36478 | null_blk: fix null-ptr-dereference while configuring &amp;#x27;power&amp;#x27; and &amp;#x27;submit_queues&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36478</link><description>In the Linux kernel, the following vulnerability has been resolved:
+  sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1043</description><pubDate>Fri, 21 Jun 2024 10:34:52 +0000</pubDate></item><item><title>CVE-2024-36478 | null_blk: fix null-ptr-dereference while configuring &amp;#x27;power&amp;#x27; and &amp;#x27;submit_queues&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36478</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 null_blk: fix null-ptr-dereference while configuring 'power' and 'submit_queues'
 
@@ -298,7 +405,7 @@ BUG: kernel NULL pointer dereference, address: 0000000000000148
 Oops: 0000 [#1] PREEMPT SMP
 RIP: 0010:__lock_acquire+0x41d/0x28f0
 Call Trace:
- &lt;TASK&gt;
+ 
  lock_acquire+0x121/0x450
  down_write+0x5f/0x1d0
  simple_recursive_removal+0x12f/0x5c0
@@ -349,7 +456,7 @@ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  inet_accept+0x138/0x1d0 net/ipv4/af_inet.c:786
  do_accept+0x435/0x620 net/socket.c:1929
  __sys_accept4_file net/socket.c:1969 [inline]
@@ -368,7 +475,7 @@ RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
 RBP: 00000000006e1018 R08: 0000000000400300 R09: 0000000000400300
 R10: 0000000000400300 R11: 0000000000000246 R12: 0000000000000000
 R13: 000000000040cdf0 R14: 000000000040ce80 R15: 0000000000000055
- &lt;/TASK&gt;
+ 
 
 The reproducer invokes shutdown() before entering the listener status.
 After commit 94062790aedb ("tcp: defer shutdown(SEND_SHUTDOWN) for
@@ -429,7 +536,7 @@ causes following splat:
 [    0.414540] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [    0.414540] CR2: 0000000000000000 CR3: 0000000008e3e001 CR4: 0000000000370ef0
 [    0.414540] Call Trace:
-[    0.414540]  &lt;TASK&gt;
+[    0.414540]  
 [    0.414540]  ? __warn+0x80/0x120
 [    0.414540]  ? free_irq+0x1a1/0x2d0
 [    0.414540]  ? report_bug+0x164/0x190
@@ -461,7 +568,7 @@ causes following splat:
 [    0.414540]  ret_from_fork+0x31/0x50
 [    0.414540]  ? __pfx_kernel_init+0x10/0x10
 [    0.414540]  ret_from_fork_asm+0x1a/0x30
-[    0.414540]  &lt;/TASK&gt;
+[    0.414540]  
 
 Fix this by calling deleting the current vq when request_irq() fails.</description><pubDate>Fri, 21 Jun 2024 10:34:54 +0000</pubDate></item><item><title>CVE-2024-37356 | tcp: Fix shift-out-of-bounds in dctcp_update_alpha().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37356</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -501,7 +608,7 @@ CPU: 0 PID: 8083 Comm: syz-executor345 Not tainted 6.9.0-05151-g1b294a1f3561 #2
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 1.13.0-1ubuntu1.1 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0x201/0x300 lib/dump_stack.c:114
  ubsan_epilogue lib/ubsan.c:231 [inline]
@@ -539,8 +646,7 @@ RAX: ffffffffffffffda RBX: 00007f6c2b5862f0 RCX: 00007f6c2b5005b6
 RDX: 0000000000000001 RSI: 000000000000003c RDI: 0000000000000001
 RBP: 0000000000000001 R08: 00000000000000e7 R09: ffffffffffffffc0
 R10: 0000000000000006 R11: 0000000000000246 R12: 00007f6c2b5862f0
-R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
- &lt;/TASK&gt;</description><pubDate>Fri, 21 Jun 2024 10:34:54 +0000</pubDate></item><item><title>CVE-2024-38381 | nfc: nci: Fix uninit-value in nci_rx_work</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38381</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001</description><pubDate>Fri, 21 Jun 2024 10:34:54 +0000</pubDate></item><item><title>CVE-2024-38381 | nfc: nci: Fix uninit-value in nci_rx_work</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38381</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 nfc: nci: Fix uninit-value in nci_rx_work
 
@@ -644,7 +750,7 @@ The following warning was reported by lee bruce:
   RIP: 0010:fuse_request_end+0x685/0x7e0 fs/fuse/dev.c:300
   ......
   Call Trace:
-  &lt;TASK&gt;
+  
   fuse_dev_do_read.constprop.0+0xd36/0x1dd0 fs/fuse/dev.c:1334
   fuse_dev_read+0x166/0x200 fs/fuse/dev.c:1367
   call_read_iter include/linux/fs.h:2104 [inline]
@@ -655,7 +761,7 @@ The following warning was reported by lee bruce:
   do_syscall_64+0xce/0x260 arch/x86/entry/common.c:83
   entry_SYSCALL_64_after_hwframe+0x77/0x7f
   ......
-  &lt;/TASK&gt;
+  
 
 The warning is due to the FUSE_NOTIFY_RESEND notify sent by the write()
 syscall in the reproducer program and it happens as follows:
@@ -675,7 +781,7 @@ Fix it by clearing FR_SENT when re-adding requests into pending list.</descripti
 
 stm class: Fix a double free in stm_register_device()
 
-The put_device(&amp;stm-&gt;dev) call will trigger stm_device_release() which
+The put_device(&amp;amp;stm-&gt;dev) call will trigger stm_device_release() which
 frees "stm" so the vfree(stm) on the next line is a double free.</description><pubDate>Fri, 21 Jun 2024 10:34:58 +0000</pubDate></item><item><title>CVE-2024-38628 | usb: gadget: u_audio: Fix race condition use of controls after free during gadget unbind.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38628</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 usb: gadget: u_audio: Fix race condition use of controls after free during gadget unbind.
@@ -694,7 +800,7 @@ Worse, ida_free() in cdev release may happen after destruction of
 file_ida per WQ cdev. This can lead to accessing an id in file_ida
 after it has been destroyed, resulting in a kernel panic.
 
-Remove ida_destroy(&amp;file_ida) to address these issues.</description><pubDate>Fri, 21 Jun 2024 10:34:59 +0000</pubDate></item><item><title>CVE-2024-38630 | watchdog: cpu5wdt.c: Fix use-after-free bug caused by cpu5wdt_trigger</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38630</link><description>In the Linux kernel, the following vulnerability has been resolved:
+Remove ida_destroy(&amp;amp;file_ida) to address these issues.</description><pubDate>Fri, 21 Jun 2024 10:34:59 +0000</pubDate></item><item><title>CVE-2024-38630 | watchdog: cpu5wdt.c: Fix use-after-free bug caused by cpu5wdt_trigger</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38630</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 watchdog: cpu5wdt.c: Fix use-after-free bug caused by cpu5wdt_trigger
 
@@ -799,7 +905,7 @@ WARNING: CPU: 22 PID: 44011 at fs/iomap/iter.c:51
 CPU: 22 PID: 44011 Comm: fio Not tainted 6.8.0-rc3+ #1
 RIP: 0010:iomap_iter+0x32b/0x350
 Call Trace:
- &lt;TASK&gt;
+ 
  __iomap_dio_rw+0x1df/0x830
  f2fs_file_read_iter+0x156/0x3d0 [f2fs]
  aio_read+0x138/0x210
