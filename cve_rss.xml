@@ -1,5 +1,194 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 24 Jun 2024 13:58:24 +0000</lastBuildDate><item><title>CVE-2024-38384 | blk-cgroup: fix list corruption from reorder of WRITE -&amp;gt;lqueued</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38384</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 24 Jun 2024 14:18:18 +0000</lastBuildDate><item><title>CVE-2024-33278 | Buffer Overflow vulnerability in ASUS router RT-AX88U with firmware versions v3.0.0.4.388_24198 allows a remote attacker to execute arbitrar...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33278</link><description>Buffer Overflow vulnerability in ASUS router RT-AX88U with firmware versions v3.0.0.4.388_24198 allows a remote attacker to execute arbitrary code via the connection_state_machine due to improper length validation for the cookie field.</description><pubDate>Mon, 24 Jun 2024 14:18:19 +0000</pubDate></item><item><title>CVE-2024-37825 | An issue in EnvisionWare Computer Access &amp; Reservation Control SelfCheck v1.0 (fixed in OneStop 3.2.0.27184 Hotfix May 2024) allows unauthen...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37825</link><description>An issue in EnvisionWare Computer Access &amp; Reservation Control SelfCheck v1.0 (fixed in OneStop 3.2.0.27184 Hotfix May 2024) allows unauthenticated attackers on the same network to perform a directory traversal.</description><pubDate>Mon, 24 Jun 2024 14:18:19 +0000</pubDate></item><item><title>CVE-2024-32936 | media: ti: j721e-csi2rx: Fix races while restarting DMA</title><link>https://www.cve.org/CVERecord?id=CVE-2024-32936</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: ti: j721e-csi2rx: Fix races while restarting DMA
+
+After the frame is submitted to DMA, it may happen that the submitted
+list is not updated soon enough, and the DMA callback is triggered
+before that.
+
+This can lead to kernel crashes, so move everything in a single
+lock/unlock section to prevent such races.</description><pubDate>Mon, 24 Jun 2024 14:18:20 +0000</pubDate></item><item><title>CVE-2024-33847 | f2fs: compress: don&amp;#x27;t allow unaligned truncation on released compress inode</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33847</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: compress: don't allow unaligned truncation on released compress inode
+
+f2fs image may be corrupted after below testcase:
+- mkfs.f2fs -O extra_attr,compression -f /dev/vdb
+- mount /dev/vdb /mnt/f2fs
+- touch /mnt/f2fs/file
+- f2fs_io setflags compression /mnt/f2fs/file
+- dd if=/dev/zero of=/mnt/f2fs/file bs=4k count=4
+- f2fs_io release_cblocks /mnt/f2fs/file
+- truncate -s 8192 /mnt/f2fs/file
+- umount /mnt/f2fs
+- fsck.f2fs /dev/vdb
+
+[ASSERT] (fsck_chk_inode_blk:1256)  --&gt; ino: 0x5 has i_blocks: 0x00000002, but has 0x3 blocks
+[FSCK] valid_block_count matching with CP             [Fail] [0x4, 0x5]
+[FSCK] other corrupted bugs                           [Fail]
+
+The reason is: partial truncation assume compressed inode has reserved
+blocks, after partial truncation, valid block count may change w/o
+.i_blocks and .total_valid_block_count update, result in corruption.
+
+This patch only allow cluster size aligned truncation on released
+compress inode for fixing.</description><pubDate>Mon, 24 Jun 2024 14:18:21 +0000</pubDate></item><item><title>CVE-2024-34027 | f2fs: compress: fix to cover {reserve,release}_compress_blocks() w/ cp_rwsem lock</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: compress: fix to cover {reserve,release}_compress_blocks() w/ cp_rwsem lock
+
+It needs to cover {reserve,release}_compress_blocks() w/ cp_rwsem lock
+to avoid racing with checkpoint, otherwise, filesystem metadata including
+blkaddr in dnode, inode fields and .total_valid_block_count may be
+corrupted after SPO case.</description><pubDate>Mon, 24 Jun 2024 14:18:21 +0000</pubDate></item><item><title>CVE-2024-34030 | PCI: of_property: Return error for int_map allocation failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-34030</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: of_property: Return error for int_map allocation failure
+
+Return -ENOMEM from of_pci_prop_intr_map() if kcalloc() fails to prevent a
+NULL pointer dereference in this case.
+
+[bhelgaas: commit log]</description><pubDate>Mon, 24 Jun 2024 14:18:21 +0000</pubDate></item><item><title>CVE-2024-35247 | fpga: region: add owner module and take its refcount</title><link>https://www.cve.org/CVERecord?id=CVE-2024-35247</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fpga: region: add owner module and take its refcount
+
+The current implementation of the fpga region assumes that the low-level
+module registers a driver for the parent device and uses its owner pointer
+to take the module's refcount. This approach is problematic since it can
+lead to a null pointer dereference while attempting to get the region
+during programming if the parent device does not have a driver.
+
+To address this problem, add a module owner pointer to the fpga_region
+struct and use it to take the module's refcount. Modify the functions for
+registering a region to take an additional owner module parameter and
+rename them to avoid conflicts. Use the old function names for helper
+macros that automatically set the module that registers the region as the
+owner. This ensures compatibility with existing low-level control modules
+and reduces the chances of registering a region without setting the owner.
+
+Also, update the documentation to keep it consistent with the new interface
+for registering an fpga region.</description><pubDate>Mon, 24 Jun 2024 14:18:22 +0000</pubDate></item><item><title>CVE-2024-36479 | fpga: bridge: add owner module and take its refcount</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36479</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fpga: bridge: add owner module and take its refcount
+
+The current implementation of the fpga bridge assumes that the low-level
+module registers a driver for the parent device and uses its owner pointer
+to take the module's refcount. This approach is problematic since it can
+lead to a null pointer dereference while attempting to get the bridge if
+the parent device does not have a driver.
+
+To address this problem, add a module owner pointer to the fpga_bridge
+struct and use it to take the module's refcount. Modify the function for
+registering a bridge to take an additional owner module parameter and
+rename it to avoid conflicts. Use the old function name for a helper macro
+that automatically sets the module that registers the bridge as the owner.
+This ensures compatibility with existing low-level control modules and
+reduces the chances of registering a bridge without setting the owner.
+
+Also, update the documentation to keep it consistent with the new interface
+for registering an fpga bridge.
+
+Other changes: opportunistically move put_device() from __fpga_bridge_get()
+to fpga_bridge_get() and of_fpga_bridge_get() to improve code clarity since
+the bridge device is taken in these functions.</description><pubDate>Mon, 24 Jun 2024 14:18:22 +0000</pubDate></item><item><title>CVE-2024-37021 | fpga: manager: add owner module and take its refcount</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37021</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fpga: manager: add owner module and take its refcount
+
+The current implementation of the fpga manager assumes that the low-level
+module registers a driver for the parent device and uses its owner pointer
+to take the module's refcount. This approach is problematic since it can
+lead to a null pointer dereference while attempting to get the manager if
+the parent device does not have a driver.
+
+To address this problem, add a module owner pointer to the fpga_manager
+struct and use it to take the module's refcount. Modify the functions for
+registering the manager to take an additional owner module parameter and
+rename them to avoid conflicts. Use the old function names for helper
+macros that automatically set the module that registers the manager as the
+owner. This ensures compatibility with existing low-level control modules
+and reduces the chances of registering a manager without setting the owner.
+
+Also, update the documentation to keep it consistent with the new interface
+for registering an fpga manager.
+
+Other changes: opportunistically move put_device() from __fpga_mgr_get() to
+fpga_mgr_get() and of_fpga_mgr_get() to improve code clarity since the
+manager device is taken in these functions.</description><pubDate>Mon, 24 Jun 2024 14:18:22 +0000</pubDate></item><item><title>CVE-2024-37026 | drm/xe: Only use reserved BCS instances for usm migrate exec queue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37026</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Only use reserved BCS instances for usm migrate exec queue
+
+The GuC context scheduling queue is 2 entires deep, thus it is possible
+for a migration job to be stuck behind a fault if migration exec queue
+shares engines with user jobs. This can deadlock as the migrate exec
+queue is required to service page faults. Avoid deadlock by only using
+reserved BCS instances for usm migrate exec queue.
+
+(cherry picked from commit 04f4a70a183a688a60fe3882d6e4236ea02cfc67)</description><pubDate>Mon, 24 Jun 2024 14:18:23 +0000</pubDate></item><item><title>CVE-2024-38667 | riscv: prevent pt_regs corruption for secondary idle threads</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38667</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: prevent pt_regs corruption for secondary idle threads
+
+Top of the kernel thread stack should be reserved for pt_regs. However
+this is not the case for the idle threads of the secondary boot harts.
+Their stacks overlap with their pt_regs, so both may get corrupted.
+
+Similar issue has been fixed for the primary hart, see c7cdd96eca28
+("riscv: prevent stack corruption by reserving task_pt_regs(p) early").
+However that fix was not propagated to the secondary harts. The problem
+has been noticed in some CPU hotplug tests with V enabled. The function
+smp_callin stored several registers on stack, corrupting top of pt_regs
+structure including status field. As a result, kernel attempted to save
+or restore inexistent V context.</description><pubDate>Mon, 24 Jun 2024 14:18:23 +0000</pubDate></item><item><title>CVE-2024-39291 | drm/amdgpu: Fix buffer size in gfx_v9_4_3_init_ cp_compute_microcode() and rlc_microcode()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39291</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Fix buffer size in gfx_v9_4_3_init_ cp_compute_microcode() and rlc_microcode()
+
+The function gfx_v9_4_3_init_microcode in gfx_v9_4_3.c was generating
+about potential truncation of output when using the snprintf function.
+The issue was due to the size of the buffer 'ucode_prefix' being too
+small to accommodate the maximum possible length of the string being
+written into it.
+
+The string being written is "amdgpu/%s_mec.bin" or "amdgpu/%s_rlc.bin",
+where %s is replaced by the value of 'chip_name'. The length of this
+string without the %s is 16 characters. The warning message indicated
+that 'chip_name' could be up to 29 characters long, resulting in a total
+of 45 characters, which exceeds the buffer size of 30 characters.
+
+To resolve this issue, the size of the 'ucode_prefix' buffer has been
+reduced from 30 to 15. This ensures that the maximum possible length of
+the string being written into the buffer will not exceed its size, thus
+preventing potential buffer overflow and truncation issues.
+
+Fixes the below with gcc W=1:
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c: In function ‘gfx_v9_4_3_early_init’:
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:379:52: warning: ‘%s’ directive output may be truncated writing up to 29 bytes into a region of size 23 [-Wformat-truncation=]
+  379 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
+      |                                                    ^~
+......
+  439 |         r = gfx_v9_4_3_init_rlc_microcode(adev, ucode_prefix);
+      |                                                 ~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:379:9: note: ‘snprintf’ output between 16 and 45 bytes into a destination of size 30
+  379 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_rlc.bin", chip_name);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:413:52: warning: ‘%s’ directive output may be truncated writing up to 29 bytes into a region of size 23 [-Wformat-truncation=]
+  413 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", chip_name);
+      |                                                    ^~
+......
+  443 |         r = gfx_v9_4_3_init_cp_compute_microcode(adev, ucode_prefix);
+      |                                                        ~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:413:9: note: ‘snprintf’ output between 16 and 45 bytes into a destination of size 30
+  413 |         snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_mec.bin", chip_name);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</description><pubDate>Mon, 24 Jun 2024 14:18:23 +0000</pubDate></item><item><title>CVE-2024-39292 | um: Add winch to winch_handlers before registering winch IRQ</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39292</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+um: Add winch to winch_handlers before registering winch IRQ
+
+Registering a winch IRQ is racy, an interrupt may occur before the winch is
+added to the winch_handlers list.
+
+If that happens, register_winch_irq() adds to that list a winch that is
+scheduled to be (or has already been) freed, causing a panic later in
+winch_cleanup().
+
+Avoid the race by adding the winch to the winch_handlers list before
+registering the IRQ, and rolling back if um_request_irq() fails.</description><pubDate>Mon, 24 Jun 2024 14:18:24 +0000</pubDate></item><item><title>CVE-2024-4748 | RCE in Cruddiy</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4748</link><description>The CRUDDIY project is vulnerable to shell command injection via sending a crafted POST request to the application server. 
+The exploitation risk is limited since CRUDDIY is meant to be launched locally. Nevertheless, a user with the project running on their computer might visit a website which would send such a malicious request to the locally launched server.</description><pubDate>Mon, 24 Jun 2024 14:18:24 +0000</pubDate></item><item><title>CVE-2024-38384 | blk-cgroup: fix list corruption from reorder of WRITE -&amp;gt;lqueued</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38384</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 blk-cgroup: fix list corruption from reorder of WRITE -&gt;lqueued
 
@@ -60,10 +249,10 @@ drm_bridge_attach. This fixes the following lockdep warning:
 [   19.384736]  kthread+0x1bc/0x1c0
 [   19.388241]  ret_from_fork+0x10/0x20
 [   19.392031] irq event stamp: 183
-[   19.395450] hardirqs last  enabled at (183): [&lt;ffffffc0800b9278&gt;] finish_task_switch.isra.0+0xa8/0x2d4
-[   19.405140] hardirqs last disabled at (182): [&lt;ffffffc081ad3754&gt;] __schedule+0x714/0xd04
-[   19.413612] softirqs last  enabled at (114): [&lt;ffffffc080133de8&gt;] srcu_invoke_callbacks+0x158/0x23c
-[   19.423128] softirqs last disabled at (110): [&lt;ffffffc080133de8&gt;] srcu_invoke_callbacks+0x158/0x23c
+[   19.395450] hardirqs last  enabled at (183): [] finish_task_switch.isra.0+0xa8/0x2d4
+[   19.405140] hardirqs last disabled at (182): [] __schedule+0x714/0xd04
+[   19.413612] softirqs last  enabled at (114): [] srcu_invoke_callbacks+0x158/0x23c
+[   19.423128] softirqs last disabled at (110): [] srcu_invoke_callbacks+0x158/0x23c
 [   19.432614] ---[ end trace 0000000000000000 ]---
 
 (cherry picked from commit 61ba791c4a7a09a370c45b70a81b8c7d4cf6b2ae)</description><pubDate>Mon, 24 Jun 2024 13:58:26 +0000</pubDate></item><item><title>CVE-2024-37233 | WordPress Play.ht plugin &amp;lt;= 3.6.4 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37233</link><description>Improper Authentication vulnerability in Play.Ht allows Accessing Functionality Not Properly Constrained by ACLs.This issue affects Play.Ht: from n/a through 3.6.4.</description><pubDate>Mon, 24 Jun 2024 13:17:42 +0000</pubDate></item><item><title>CVE-2024-3264 | Broken or Risky Cryptographic Algorithm in Mia Technology&amp;#x27;s Mia-Med Health Aplication</title><link>https://www.cve.org/CVERecord?id=CVE-2024-3264</link><description>Use of a Broken or Risky Cryptographic Algorithm vulnerability in Mia Technology Inc. Mia-Med Health Aplication allows Signature Spoofing by Improper Validation.This issue affects Mia-Med Health Aplication: before 1.0.14.</description><pubDate>Mon, 24 Jun 2024 13:17:43 +0000</pubDate></item><item><title>CVE-2024-4839 | CSRF in Servers Configurations in parisneo/lollms-webui</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4839</link><description>A Cross-Site Request Forgery (CSRF) vulnerability exists in the 'Servers Configurations' function of the parisneo/lollms-webui, versions 9.6 to the latest. The affected functions include Elastic search Service (under construction), XTTS service, Petals service, vLLM service, and Motion Ctrl service, which lack CSRF protection. This vulnerability allows attackers to deceive users into unwittingly installing the XTTS service among other packages by submitting a malicious installation request. Successful exploitation results in attackers tricking users into performing actions without their consent.</description><pubDate>Mon, 24 Jun 2024 13:17:43 +0000</pubDate></item><item><title>CVE-2024-37107 | WordPress WishList Member X plugin &amp;lt;= 3.25.1 - Authenticated Privilege Escalation vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37107</link><description>Improper Privilege Management vulnerability in Membership Software WishList Member X allows Privilege Escalation.This issue affects WishList Member X: from n/a through 3.25.1.</description><pubDate>Mon, 24 Jun 2024 12:56:39 +0000</pubDate></item><item><title>CVE-2024-37109 | WordPress WishList Member X plugin &amp;lt;= 3.25.1 - Authenticated Arbitrary PHP Code Execution vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37109</link><description>Improper Control of Generation of Code ('Code Injection') vulnerability in Membership Software WishList Member X allows Code Injection.This issue affects WishList Member X: from n/a through 3.25.1.</description><pubDate>Mon, 24 Jun 2024 12:56:39 +0000</pubDate></item><item><title>CVE-2024-37111 | WordPress WishList Member X plugin &amp;lt;= 3.25.1 - Unauthenticated Denial of Service Attack vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37111</link><description>Missing Authorization vulnerability in Membership Software WishList Member X.This issue affects WishList Member X: from n/a through 3.25.1.</description><pubDate>Mon, 24 Jun 2024 12:56:40 +0000</pubDate></item><item><title>CVE-2024-37228 | WordPress InstaWP Connect plugin &amp;lt;= 0.1.0.38 - Arbitrary File Upload vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37228</link><description>Improper Control of Generation of Code ('Code Injection') vulnerability in InstaWP Team InstaWP Connect allows Code Injection.This issue affects InstaWP Connect: from n/a through 0.1.0.38.</description><pubDate>Mon, 24 Jun 2024 12:56:40 +0000</pubDate></item><item><title>CVE-2024-37231 | WordPress Salon booking system plugin &amp;lt;= 9.9 - Arbitrary File Deletion vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37231</link><description>Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in Salon Booking System Salon booking system allows File Manipulation.This issue affects Salon booking system: from n/a through 9.9.</description><pubDate>Mon, 24 Jun 2024 12:56:41 +0000</pubDate></item><item><title>CVE-2024-5862 | User Enumeration in Mia Technology&amp;#x27;s Mia-Med Health Aplication</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5862</link><description>Improper Restriction of Excessive Authentication Attempts vulnerability in Mia Technology Inc. Mia-Med Health Aplication allows Interface Manipulation.This issue affects Mia-Med Health Aplication: before 1.0.14.</description><pubDate>Mon, 24 Jun 2024 12:56:41 +0000</pubDate></item><item><title>CVE-2024-37092 | WordPress Consulting Elementor Widgets plugin &amp;lt;= 1.3.0 - Local File Inclusion vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37092</link><description>Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in StylemixThemes Consulting Elementor Widgets allows PHP Local File Inclusion.This issue affects Consulting Elementor Widgets: from n/a through 1.3.0.</description><pubDate>Mon, 24 Jun 2024 12:32:53 +0000</pubDate></item><item><title>CVE-2024-37089 | WordPress Consulting Elementor Widgets plugin &amp;lt;= 1.3.0 - Unauthenticated Local File Inclusion vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37089</link><description>Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in StylemixThemes Consulting Elementor Widgets allows PHP Local File Inclusion.This issue affects Consulting Elementor Widgets: from n/a through 1.3.0.</description><pubDate>Mon, 24 Jun 2024 12:32:54 +0000</pubDate></item><item><title>CVE-2024-37091 | WordPress Consulting Elementor Widgets plugin &amp;lt;= 1.3.0 - Remote Code Execution (RCE) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37091</link><description>Improper Neutralization of Special Elements used in a Command ('Command Injection') vulnerability in StylemixThemes Consulting Elementor Widgets allows OS Command Injection.This issue affects Consulting Elementor Widgets: from n/a through 1.3.0.</description><pubDate>Mon, 24 Jun 2024 12:32:54 +0000</pubDate></item><item><title>CVE-2024-36038 | Stored XSS</title><link>https://www.cve.org/CVERecord?id=CVE-2024-36038</link><description>Zoho ManageEngine ITOM products versions from 128234 to 128248 are affected by the stored cross-site scripting vulnerability in the proxy server option.</description><pubDate>Mon, 24 Jun 2024 11:57:30 +0000</pubDate></item><item><title>CVE-2024-29868 | Apache StreamPipes, Apache StreamPipes: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG) in Recovery Token Generation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29868</link><description>Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG) vulnerability in Apache StreamPipes user self-registration and password recovery mechanism.
