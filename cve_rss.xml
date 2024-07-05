@@ -1,5 +1,253 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 05 Jul 2024 06:51:37 +0000</lastBuildDate><item><title>CVE-2024-39472 | xfs: fix log recovery buffer allocation for the legacy h_size fixup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39472</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 05 Jul 2024 07:07:12 +0000</lastBuildDate><item><title>CVE-2024-39473 | ASoC: SOF: ipc4-topology: Fix input format query of process modules without base extension</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39473</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: SOF: ipc4-topology: Fix input format query of process modules without base extension
+
+If a process module does not have base config extension then the same
+format applies to all of it's inputs and the process-&gt;base_config_ext is
+NULL, causing NULL dereference when specifically crafted topology and
+sequences used.</description><pubDate>Fri, 05 Jul 2024 07:07:14 +0000</pubDate></item><item><title>CVE-2024-39474 | mm/vmalloc: fix vmalloc which may return null if called with __GFP_NOFAIL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39474</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/vmalloc: fix vmalloc which may return null if called with __GFP_NOFAIL
+
+commit a421ef303008 ("mm: allow !GFP_KERNEL allocations for kvmalloc")
+includes support for __GFP_NOFAIL, but it presents a conflict with commit
+dd544141b9eb ("vmalloc: back off when the current task is OOM-killed").  A
+possible scenario is as follows:
+
+process-a
+__vmalloc_node_range(GFP_KERNEL | __GFP_NOFAIL)
+    __vmalloc_area_node()
+        vm_area_alloc_pages()
+		--&gt; oom-killer send SIGKILL to process-a
+        if (fatal_signal_pending(current)) break;
+--&gt; return NULL;
+
+To fix this, do not check fatal_signal_pending() in vm_area_alloc_pages()
+if __GFP_NOFAIL set.
+
+This issue occurred during OPLUS KASAN TEST. Below is part of the log
+-&gt; oom-killer sends signal to process
+[65731.222840] [ T1308] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/apps/uid_10198,task=gs.intelligence,pid=32454,uid=10198
+
+[65731.259685] [T32454] Call trace:
+[65731.259698] [T32454]  dump_backtrace+0xf4/0x118
+[65731.259734] [T32454]  show_stack+0x18/0x24
+[65731.259756] [T32454]  dump_stack_lvl+0x60/0x7c
+[65731.259781] [T32454]  dump_stack+0x18/0x38
+[65731.259800] [T32454]  mrdump_common_die+0x250/0x39c [mrdump]
+[65731.259936] [T32454]  ipanic_die+0x20/0x34 [mrdump]
+[65731.260019] [T32454]  atomic_notifier_call_chain+0xb4/0xfc
+[65731.260047] [T32454]  notify_die+0x114/0x198
+[65731.260073] [T32454]  die+0xf4/0x5b4
+[65731.260098] [T32454]  die_kernel_fault+0x80/0x98
+[65731.260124] [T32454]  __do_kernel_fault+0x160/0x2a8
+[65731.260146] [T32454]  do_bad_area+0x68/0x148
+[65731.260174] [T32454]  do_mem_abort+0x151c/0x1b34
+[65731.260204] [T32454]  el1_abort+0x3c/0x5c
+[65731.260227] [T32454]  el1h_64_sync_handler+0x54/0x90
+[65731.260248] [T32454]  el1h_64_sync+0x68/0x6c
+
+[65731.260269] [T32454]  z_erofs_decompress_queue+0x7f0/0x2258
+--&gt; be-&gt;decompressed_pages = kvcalloc(be-&gt;nr_pages, sizeof(struct page *), GFP_KERNEL | __GFP_NOFAIL);
+	kernel panic by NULL pointer dereference.
+	erofs assume kvmalloc with __GFP_NOFAIL never return NULL.
+[65731.260293] [T32454]  z_erofs_runqueue+0xf30/0x104c
+[65731.260314] [T32454]  z_erofs_readahead+0x4f0/0x968
+[65731.260339] [T32454]  read_pages+0x170/0xadc
+[65731.260364] [T32454]  page_cache_ra_unbounded+0x874/0xf30
+[65731.260388] [T32454]  page_cache_ra_order+0x24c/0x714
+[65731.260411] [T32454]  filemap_fault+0xbf0/0x1a74
+[65731.260437] [T32454]  __do_fault+0xd0/0x33c
+[65731.260462] [T32454]  handle_mm_fault+0xf74/0x3fe0
+[65731.260486] [T32454]  do_mem_abort+0x54c/0x1b34
+[65731.260509] [T32454]  el0_da+0x44/0x94
+[65731.260531] [T32454]  el0t_64_sync_handler+0x98/0xb4
+[65731.260553] [T32454]  el0t_64_sync+0x198/0x19c</description><pubDate>Fri, 05 Jul 2024 07:07:14 +0000</pubDate></item><item><title>CVE-2024-39475 | fbdev: savage: Handle err return when savagefb_check_var failed</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39475</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fbdev: savage: Handle err return when savagefb_check_var failed
+
+The commit 04e5eac8f3ab("fbdev: savage: Error out if pixclock equals zero")
+checks the value of pixclock to avoid divide-by-zero error. However
+the function savagefb_probe doesn't handle the error return of
+savagefb_check_var. When pixclock is 0, it will cause divide-by-zero error.</description><pubDate>Fri, 05 Jul 2024 07:07:15 +0000</pubDate></item><item><title>CVE-2024-39476 | md/raid5: fix deadlock that raid5d() wait for itself to clear MD_SB_CHANGE_PENDING</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39476</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/raid5: fix deadlock that raid5d() wait for itself to clear MD_SB_CHANGE_PENDING
+
+Xiao reported that lvm2 test lvconvert-raid-takeover.sh can hang with
+small possibility, the root cause is exactly the same as commit
+bed9e27baf52 ("Revert "md/raid5: Wait for MD_SB_CHANGE_PENDING in raid5d"")
+
+However, Dan reported another hang after that, and junxiao investigated
+the problem and found out that this is caused by plugged bio can't issue
+from raid5d().
+
+Current implementation in raid5d() has a weird dependence:
+
+1) md_check_recovery() from raid5d() must hold 'reconfig_mutex' to clear
+   MD_SB_CHANGE_PENDING;
+2) raid5d() handles IO in a deadloop, until all IO are issued;
+3) IO from raid5d() must wait for MD_SB_CHANGE_PENDING to be cleared;
+
+This behaviour is introduce before v2.6, and for consequence, if other
+context hold 'reconfig_mutex', and md_check_recovery() can't update
+super_block, then raid5d() will waste one cpu 100% by the deadloop, until
+'reconfig_mutex' is released.
+
+Refer to the implementation from raid1 and raid10, fix this problem by
+skipping issue IO if MD_SB_CHANGE_PENDING is still set after
+md_check_recovery(), daemon thread will be woken up when 'reconfig_mutex'
+is released. Meanwhile, the hang problem will be fixed as well.</description><pubDate>Fri, 05 Jul 2024 07:07:15 +0000</pubDate></item><item><title>CVE-2024-39477 | mm/hugetlb: do not call vma_add_reservation upon ENOMEM</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39477</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/hugetlb: do not call vma_add_reservation upon ENOMEM
+
+sysbot reported a splat [1] on __unmap_hugepage_range().  This is because
+vma_needs_reservation() can return -ENOMEM if
+allocate_file_region_entries() fails to allocate the file_region struct
+for the reservation.
+
+Check for that and do not call vma_add_reservation() if that is the case,
+otherwise region_abort() and region_del() will see that we do not have any
+file_regions.
+
+If we detect that vma_needs_reservation() returned -ENOMEM, we clear the
+hugetlb_restore_reserve flag as if this reservation was still consumed, so
+free_huge_folio() will not increment the resv count.
+
+[1] https://lore.kernel.org/linux-mm/0000000000004096100617c58d54@google.com/T/#ma5983bc1ab18a54910da83416b3f89f3c7ee43aa</description><pubDate>Fri, 05 Jul 2024 07:07:16 +0000</pubDate></item><item><title>CVE-2024-39478 | crypto: starfive - Do not free stack buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39478</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: starfive - Do not free stack buffer
+
+RSA text data uses variable length buffer allocated in software stack.
+Calling kfree on it causes undefined behaviour in subsequent operations.</description><pubDate>Fri, 05 Jul 2024 07:07:16 +0000</pubDate></item><item><title>CVE-2024-39479 | drm/i915/hwmon: Get rid of devm</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39479</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/i915/hwmon: Get rid of devm
+
+When both hwmon and hwmon drvdata (on which hwmon depends) are device
+managed resources, the expectation, on device unbind, is that hwmon will be
+released before drvdata. However, in i915 there are two separate code
+paths, which both release either drvdata or hwmon and either can be
+released before the other. These code paths (for device unbind) are as
+follows (see also the bug referenced below):
+
+Call Trace:
+release_nodes+0x11/0x70
+devres_release_group+0xb2/0x110
+component_unbind_all+0x8d/0xa0
+component_del+0xa5/0x140
+intel_pxp_tee_component_fini+0x29/0x40 [i915]
+intel_pxp_fini+0x33/0x80 [i915]
+i915_driver_remove+0x4c/0x120 [i915]
+i915_pci_remove+0x19/0x30 [i915]
+pci_device_remove+0x32/0xa0
+device_release_driver_internal+0x19c/0x200
+unbind_store+0x9c/0xb0
+
+and
+
+Call Trace:
+release_nodes+0x11/0x70
+devres_release_all+0x8a/0xc0
+device_unbind_cleanup+0x9/0x70
+device_release_driver_internal+0x1c1/0x200
+unbind_store+0x9c/0xb0
+
+This means that in i915, if use devm, we cannot gurantee that hwmon will
+always be released before drvdata. Which means that we have a uaf if hwmon
+sysfs is accessed when drvdata has been released but hwmon hasn't.
+
+The only way out of this seems to be do get rid of devm_ and release/free
+everything explicitly during device unbind.
+
+v2: Change commit message and other minor code changes
+v3: Cleanup from i915_hwmon_register on error (Armin Wolf)
+v4: Eliminate potential static analyzer warning (Rodrigo)
+    Eliminate fetch_and_zero (Jani)
+v5: Restore previous logic for ddat_gt-&gt;hwmon_dev error return (Andi)</description><pubDate>Fri, 05 Jul 2024 07:07:16 +0000</pubDate></item><item><title>CVE-2024-39480 | kdb: Fix buffer overflow during tab-complete</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39480</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+kdb: Fix buffer overflow during tab-complete
+
+Currently, when the user attempts symbol completion with the Tab key, kdb
+will use strncpy() to insert the completed symbol into the command buffer.
+Unfortunately it passes the size of the source buffer rather than the
+destination to strncpy() with predictably horrible results. Most obviously
+if the command buffer is already full but cp, the cursor position, is in
+the middle of the buffer, then we will write past the end of the supplied
+buffer.
+
+Fix this by replacing the dubious strncpy() calls with memmove()/memcpy()
+calls plus explicit boundary checks to make sure we have enough space
+before we start moving characters around.</description><pubDate>Fri, 05 Jul 2024 07:07:17 +0000</pubDate></item><item><title>CVE-2024-39481 | media: mc: Fix graph walk in media_pipeline_start</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39481</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mc: Fix graph walk in media_pipeline_start
+
+The graph walk tries to follow all links, even if they are not between
+pads. This causes a crash with, e.g. a MEDIA_LNK_FL_ANCILLARY_LINK link.
+
+Fix this by allowing the walk to proceed only for MEDIA_LNK_FL_DATA_LINK
+links.</description><pubDate>Fri, 05 Jul 2024 07:07:17 +0000</pubDate></item><item><title>CVE-2024-39482 | bcache: fix variable length array abuse in btree_iter</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39482</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bcache: fix variable length array abuse in btree_iter
+
+btree_iter is used in two ways: either allocated on the stack with a
+fixed size MAX_BSETS, or from a mempool with a dynamic size based on the
+specific cache set. Previously, the struct had a fixed-length array of
+size MAX_BSETS which was indexed out-of-bounds for the dynamically-sized
+iterators, which causes UBSAN to complain.
+
+This patch uses the same approach as in bcachefs's sort_iter and splits
+the iterator into a btree_iter with a flexible array member and a
+btree_iter_stack which embeds a btree_iter as well as a fixed-length
+data array.</description><pubDate>Fri, 05 Jul 2024 07:07:18 +0000</pubDate></item><item><title>CVE-2024-39483 | KVM: SVM: WARN on vNMI + NMI window iff NMIs are outright masked</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39483</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: SVM: WARN on vNMI + NMI window iff NMIs are outright masked
+
+When requesting an NMI window, WARN on vNMI support being enabled if and
+only if NMIs are actually masked, i.e. if the vCPU is already handling an
+NMI.  KVM's ABI for NMIs that arrive simultanesouly (from KVM's point of
+view) is to inject one NMI and pend the other.  When using vNMI, KVM pends
+the second NMI simply by setting V_NMI_PENDING, and lets the CPU do the
+rest (hardware automatically sets V_NMI_BLOCKING when an NMI is injected).
+
+However, if KVM can't immediately inject an NMI, e.g. because the vCPU is
+in an STI shadow or is running with GIF=0, then KVM will request an NMI
+window and trigger the WARN (but still function correctly).
+
+Whether or not the GIF=0 case makes sense is debatable, as the intent of
+KVM's behavior is to provide functionality that is as close to real
+hardware as possible.  E.g. if two NMIs are sent in quick succession, the
+probability of both NMIs arriving in an STI shadow is infinitesimally low
+on real hardware, but significantly larger in a virtual environment, e.g.
+if the vCPU is preempted in the STI shadow.  For GIF=0, the argument isn't
+as clear cut, because the window where two NMIs can collide is much larger
+in bare metal (though still small).
+
+That said, KVM should not have divergent behavior for the GIF=0 case based
+on whether or not vNMI support is enabled.  And KVM has allowed
+simultaneous NMIs with GIF=0 for over a decade, since commit 7460fb4a3400
+("KVM: Fix simultaneous NMIs").  I.e. KVM's GIF=0 handling shouldn't be
+modified without a *really* good reason to do so, and if KVM's behavior
+were to be modified, it should be done irrespective of vNMI support.</description><pubDate>Fri, 05 Jul 2024 07:07:18 +0000</pubDate></item><item><title>CVE-2024-39484 | mmc: davinci: Don&amp;#x27;t strip remove function when driver is builtin</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39484</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mmc: davinci: Don't strip remove function when driver is builtin
+
+Using __exit for the remove function results in the remove callback being
+discarded with CONFIG_MMC_DAVINCI=y. When such a device gets unbound (e.g.
+using sysfs or hotplug), the driver is just removed without the cleanup
+being performed. This results in resource leaks. Fix it by compiling in the
+remove callback unconditionally.
+
+This also fixes a W=1 modpost warning:
+
+WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in
+reference: davinci_mmcsd_driver+0x10 (section: .data) -&gt;
+davinci_mmcsd_remove (section: .exit.text)</description><pubDate>Fri, 05 Jul 2024 07:07:18 +0000</pubDate></item><item><title>CVE-2024-39485 | media: v4l: async: Properly re-initialise notifier entry in unregister</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39485</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: v4l: async: Properly re-initialise notifier entry in unregister
+
+The notifier_entry of a notifier is not re-initialised after unregistering
+the notifier. This leads to dangling pointers being left there so use
+list_del_init() to return the notifier_entry an empty list.</description><pubDate>Fri, 05 Jul 2024 07:07:19 +0000</pubDate></item><item><title>CVE-2024-39472 | xfs: fix log recovery buffer allocation for the legacy h_size fixup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39472</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 xfs: fix log recovery buffer allocation for the legacy h_size fixup
 
