@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 06 Jul 2024 09:29:45 +0000</lastBuildDate><item><title>CVE-2024-39486 | drm/drm_file: Fix pid refcounting race</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39486</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 06 Jul 2024 09:59:40 +0000</lastBuildDate><item><title>CVE-2024-37234 | WordPress Academy LMS plugin &amp;lt;= 2.0.4 - Open Redirection vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37234</link><description>URL Redirection to Untrusted Site ('Open Redirect') vulnerability in Kodezen Limited Academy LMS.This issue affects Academy LMS: from n/a through 2.0.4.</description><pubDate>Sat, 06 Jul 2024 09:59:42 +0000</pubDate></item><item><title>CVE-2024-37208 | WordPress WP Scraper plugin &amp;lt;= 5.7 - Server Side Request Forgery (SSRF) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37208</link><description>Server-Side Request Forgery (SSRF) vulnerability in Robert Macchi WP Scraper.This issue affects WP Scraper: from n/a through 5.7.</description><pubDate>Sat, 06 Jul 2024 09:59:43 +0000</pubDate></item><item><title>CVE-2024-37260 | WordPress Foxiz Theme theme &amp;lt;= 2.3.5 - Server Side Request Forgery (SSRF) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37260</link><description>Server-Side Request Forgery (SSRF) vulnerability in Theme-Ruby Foxiz.This issue affects Foxiz: from n/a through 2.3.5.</description><pubDate>Sat, 06 Jul 2024 09:59:43 +0000</pubDate></item><item><title>CVE-2024-39486 | drm/drm_file: Fix pid refcounting race</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39486</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/drm_file: Fix pid refcounting race
 
@@ -12,19 +12,19 @@ dev-&gt;filelist_mutex, making the following race possible:
 process A               process B
 =========               =========
                         begin drm_file_update_pid
-                        mutex_lock(&amp;dev-&gt;filelist_mutex)
-                        rcu_replace_pointer(filp-&gt;pid, &lt;pid B&gt;, 1)
-                        mutex_unlock(&amp;dev-&gt;filelist_mutex)
+                        mutex_lock(&amp;amp;dev-&gt;filelist_mutex)
+                        rcu_replace_pointer(filp-&gt;pid, , 1)
+                        mutex_unlock(&amp;amp;dev-&gt;filelist_mutex)
 begin drm_file_update_pid
-mutex_lock(&amp;dev-&gt;filelist_mutex)
-rcu_replace_pointer(filp-&gt;pid, &lt;pid A&gt;, 1)
-mutex_unlock(&amp;dev-&gt;filelist_mutex)
-get_pid(&lt;pid A&gt;)
+mutex_lock(&amp;amp;dev-&gt;filelist_mutex)
+rcu_replace_pointer(filp-&gt;pid, , 1)
+mutex_unlock(&amp;amp;dev-&gt;filelist_mutex)
+get_pid()
 synchronize_rcu()
-put_pid(&lt;pid B&gt;)   *** pid B reaches refcount 0 and is freed here ***
-                        get_pid(&lt;pid B&gt;)   *** UAF ***
+put_pid()   *** pid B reaches refcount 0 and is freed here ***
+                        get_pid()   *** UAF ***
                         synchronize_rcu()
-                        put_pid(&lt;pid A&gt;)
+                        put_pid()
 
 As far as I know, this race can only occur with CONFIG_PREEMPT_RCU=y
 because it requires RCU to detect a quiescent state in code that is not
