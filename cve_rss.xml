@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 12 Jul 2024 12:49:42 +0000</lastBuildDate><item><title>CVE-2024-40946 | hid: asus: asus_report_fixup: fix potential read out of bounds</title><link>https://www.cve.org/CVERecord?id=CVE-2024-40946</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 12 Jul 2024 13:09:25 +0000</lastBuildDate><item><title>CVE-2024-39340 | Securepoint UTM before 12.6.5 mishandles OTP codes.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39340</link><description>Securepoint UTM before 12.6.5 mishandles OTP codes.</description><pubDate>Fri, 12 Jul 2024 13:09:27 +0000</pubDate></item><item><title>CVE-2024-5325 | Form Vibes &amp;lt;= 1.4.10 - Authenticated (Subscriber+) SQL Injection via fv_export_data</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5325</link><description>The Form Vibes plugin for WordPress is vulnerable to SQL Injection via the ‘fv_export_data’ parameter in all versions up to, and including, 1.4.10 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for authenticated attackers, with Subscriber-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Fri, 12 Jul 2024 13:09:28 +0000</pubDate></item><item><title>CVE-2024-6495 | Premium Addons for Elementor &amp;lt;= 4.10.36 - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Animated Text Widget</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6495</link><description>The Premium Addons for Elementor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's Animated Text widget in all versions up to, and including, 4.10.36 due to insufficient input sanitization and output escaping on user supplied attributes. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Fri, 12 Jul 2024 13:09:28 +0000</pubDate></item><item><title>CVE-2024-40946 | hid: asus: asus_report_fixup: fix potential read out of bounds</title><link>https://www.cve.org/CVERecord?id=CVE-2024-40946</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 hid: asus: asus_report_fixup: fix potential read out of bounds
 
@@ -214,7 +214,7 @@ running xfstests generic/186, which simulate no more credits.
 [  134.355341] RIP: 0010:ocfs2_journal_dirty+0x14f/0x160 [ocfs2]
 ...
 [  134.365071] Call Trace:
-[  134.365312]  &lt;TASK&gt;
+[  134.365312]  
 [  134.365524]  ? __die_body+0x1e/0x60
 [  134.365868]  ? page_fault_oops+0x13d/0x4f0
 [  134.366265]  ? __pfx_bit_wait_io+0x10/0x10
@@ -250,7 +250,7 @@ running xfstests generic/186, which simulate no more credits.
 [  134.386606] RBP: 0000000000000000 R08: 00111a82a4f015bb R09: 00007fa494221000
 [  134.387476] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 [  134.388342] R13: 0000000000f10000 R14: 0000558e844e2ac8 R15: 0000000000f10000
-[  134.389207]  &lt;/TASK&gt;
+[  134.389207]  
 
 Fix it by only aborting transaction and journal in ocfs2_journal_dirty()
 now, and leave ocfs2_abort() later when detecting an aborted handle,
@@ -324,7 +324,7 @@ Read of size 8 at addr ffff888007110dd8 by task traceroute/299
 CPU: 2 PID: 299 Comm: traceroute Tainted: G            E      6.10.0-rc2+ #2
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
 dump_stack_lvl (lib/dump_stack.c:117 (discriminator 1))
 print_report (mm/kasan/report.c:378 mm/kasan/report.c:488)
 ? __sock_gen_cookie (./arch/x86/include/asm/atomic64_64.h:15 ./include/linux/atomic/atomic-arch-fallback.h:2583 ./include/linux/atomic/atomic-instrumented.h:1611 net/core/sock_diag.c:29)
@@ -409,7 +409,7 @@ ext4_mb_new_blocks
         mb_avg_fragment_size_order
           order = fls(len) - 2 = 29
         ext4_mb_find_good_group_avg_frag_lists
-          frag_list = &amp;sbi-&gt;s_mb_avg_fragment_size[order]
+          frag_list = &amp;amp;sbi-&gt;s_mb_avg_fragment_size[order]
           if (list_empty(frag_list)) // Trigger SOOB!
 
 At 4k block size, the length of the s_mb_avg_fragment_size list is 14,
@@ -447,7 +447,7 @@ dereference, as below:
     [74830.666569] RIP: 0010:rpfilter_mt+0x44/0x15e [ipt_rpfilter]
     ...
     [74830.689725] Call Trace:
-    [74830.690402]  &lt;IRQ&gt;
+    [74830.690402]  
     [74830.690953]  ? show_trace_log_lvl+0x1c4/0x2df
     [74830.692020]  ? show_trace_log_lvl+0x1c4/0x2df
     [74830.693095]  ? ipt_do_table+0x286/0x710 [ip_tables]
@@ -504,7 +504,7 @@ CR2: 000055d7ed36fd18 CR3: 00000001482f6000 CR4: 00000000000006f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  ? show_regs+0xa3/0xc0
  ? __warn+0xa5/0x1c0
  ? refcount_warn_saturate+0xdf/0x1d0
@@ -536,7 +536,7 @@ RDX: 0000000000000000 RSI: 00000000000054e3 RDI: 0000000000000003
 RBP: 00007ffc2b59c650 R08: 00007f5b291ed8c0 R09: 00007f5b2961a4c0
 R10: 0000000029690010 R11: 0000000000000246 R12: 0000000000400730
 R13: 00007ffc2b59cf40 R14: 0000000000000000 R15: 0000000000000000
- &lt;/TASK&gt;
+ 
 Kernel panic - not syncing: kernel: panic_on_warn set ...
 
 This is trigger as below:
@@ -547,7 +547,7 @@ tun_set_iff() //dev is tun0
                                        put_net() //ref is 0
 __tun_chr_ioctl() //TUNGETDEVNETNS
    net = dev_net(tun-&gt;dev);
-   open_related_ns(&amp;net-&gt;ns, get_net_ns); //ns1
+   open_related_ns(&amp;amp;net-&gt;ns, get_net_ns); //ns1
      get_net_ns()
         get_net() //addition on 0
 
@@ -578,7 +578,7 @@ CR2: 00007f4586d00440 CR3: 0000000079042000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   xfrm_get_saddr net/xfrm/xfrm_policy.c:2452 [inline]
   xfrm_tmpl_resolve_one net/xfrm/xfrm_policy.c:2481 [inline]
   xfrm_tmpl_resolve+0xa26/0xf10 net/xfrm/xfrm_policy.c:2541
@@ -626,7 +626,7 @@ CR2: 0000001b31b27000 CR3: 000000002d42c000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   rt6_nh_find_match+0xfa/0x1a0 net/ipv6/route.c:784
   nexthop_for_each_fib6_nh+0x26d/0x4a0 net/ipv4/nexthop.c:1496
   __find_rr_leaf+0x6e7/0xe00 net/ipv6/route.c:825
@@ -657,7 +657,7 @@ ipv6: prevent possible NULL deref in fib6_nh_init()
 syzbot reminds us that in6_dev_get() can return NULL.
 
 fib6_nh_init()
-    ip6_validate_gw(  &amp;idev  )
+    ip6_validate_gw(  &amp;amp;idev  )
         ip6_route_check_nh(  idev  )
             *idev = in6_dev_get(dev); // can be NULL
 
@@ -679,7 +679,7 @@ CR2: 0000000000000000 CR3: 00000000245e8000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   ip6_route_info_create+0x99e/0x12b0 net/ipv6/route.c:3809
   ip6_route_add+0x28/0x160 net/ipv6/route.c:3853
   ipv6_route_ioctl+0x588/0x870 net/ipv6/route.c:4483
@@ -720,7 +720,7 @@ pointer dereference in 'btrfs_zone_finish_endio()':
   DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
   PKRU: 55555554
   Call Trace:
-   &lt;TASK&gt;
+   
    ? __die_body.cold+0x19/0x27
    ? die_addr+0x46/0x70
    ? exc_general_protection+0x14f/0x250
@@ -750,12 +750,12 @@ pointer dereference in 'btrfs_zone_finish_endio()':
    ret_from_fork+0x31/0x70
    ? __pfx_kthread+0x10/0x10
    ret_from_fork_asm+0x1a/0x30
-   &lt;/TASK&gt;
+   
 
 Enabling CONFIG_BTRFS_ASSERT revealed the following assertion to
 trigger:
 
-  assertion failed: !list_empty(&amp;ordered-&gt;list), in fs/btrfs/zoned.c:1815
+  assertion failed: !list_empty(&amp;amp;ordered-&gt;list), in fs/btrfs/zoned.c:1815
 
 This indicates, that we're missing the checksums list on the
 ordered_extent. As btrfs/167 is doing a NOCOW write this is to be
@@ -949,7 +949,7 @@ a WARN() at drivers/regulator/core.c:5829 triggers, e.g.:
  Hardware name: Intel Corp. VALLEYVIEW C0 PLATFORM/BYT-T FFD8, BIOS BLADE_21.X64.0005.R00.1504101516 FFD8_X64_R_2015_04_10_1516 04/10/2015
  RIP: 0010:regulator_unregister
  Call Trace:
-  &lt;TASK&gt;
+  
   regulator_unregister
   devres_release_group
   i2c_device_remove
@@ -1047,7 +1047,7 @@ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die_body+0x1a/0x60
  ? page_fault_oops+0x183/0x510
  ? exc_page_fault+0x69/0x150
@@ -1175,18 +1175,18 @@ RCU nest depth: 2, expected: 2
  #1: ffffffffb394a280 (rcu_read_lock){....}-{1:2}, at: rt_spin_lock+0xbf/0x130
  #2: ffffffffb394a280 (rcu_read_lock){....}-{1:2}, at: __local_bh_disable_ip+0x11c/0x210
  #3: ffffffffb394a160 (rcu_callback){....}-{0:0}, at: rcu_do_batch+0x360/0xc70
- #4: ff1100086ee07520 (&amp;data-&gt;lock){+.+.}-{2:2}, at: trace_drop_common.constprop.0+0xb5/0x290
+ #4: ff1100086ee07520 (&amp;amp;data-&gt;lock){+.+.}-{2:2}, at: trace_drop_common.constprop.0+0xb5/0x290
 irq event stamp: 139909
-hardirqs last  enabled at (139908): [&lt;ffffffffb1df2b33&gt;] _raw_spin_unlock_irqrestore+0x63/0x80
-hardirqs last disabled at (139909): [&lt;ffffffffb19bd03d&gt;] trace_drop_common.constprop.0+0x26d/0x290
-softirqs last  enabled at (139892): [&lt;ffffffffb07a1083&gt;] __local_bh_enable_ip+0x103/0x170
-softirqs last disabled at (139898): [&lt;ffffffffb0909b33&gt;] rcu_cpu_kthread+0x93/0x1f0
+hardirqs last  enabled at (139908): [] _raw_spin_unlock_irqrestore+0x63/0x80
+hardirqs last disabled at (139909): [] trace_drop_common.constprop.0+0x26d/0x290
+softirqs last  enabled at (139892): [] __local_bh_enable_ip+0x103/0x170
+softirqs last disabled at (139898): [] rcu_cpu_kthread+0x93/0x1f0
 Preemption disabled at:
-[&lt;ffffffffb1de786b&gt;] rt_mutex_slowunlock+0xab/0x2e0
+[] rt_mutex_slowunlock+0xab/0x2e0
 CPU: 47 PID: 449 Comm: rcuc/47 Not tainted 6.9.0-rc2-rt1+ #7
 Hardware name: Dell Inc. PowerEdge R650/0Y2G81, BIOS 1.6.5 04/15/2022
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x8c/0xd0
  dump_stack+0x14/0x20
  __might_resched+0x21e/0x2f0
@@ -1228,13 +1228,13 @@ time there and perhaps get more interesting reports.
 watchdog: BUG: soft lockup - CPU#0 stuck for 27s! [kworker/u4:6:621]
 Modules linked in:
 irq event stamp: 6182794
- hardirqs last  enabled at (6182793): [&lt;ffff8000801dae10&gt;] __local_bh_enable_ip+0x224/0x44c kernel/softirq.c:386
- hardirqs last disabled at (6182794): [&lt;ffff80008ad66a78&gt;] __el1_irq arch/arm64/kernel/entry-common.c:533 [inline]
- hardirqs last disabled at (6182794): [&lt;ffff80008ad66a78&gt;] el1_interrupt+0x24/0x68 arch/arm64/kernel/entry-common.c:551
- softirqs last  enabled at (6182792): [&lt;ffff80008aab71c4&gt;] spin_unlock_bh include/linux/spinlock.h:396 [inline]
- softirqs last  enabled at (6182792): [&lt;ffff80008aab71c4&gt;] batadv_purge_orig_ref+0x114c/0x1228 net/batman-adv/originator.c:1287
- softirqs last disabled at (6182790): [&lt;ffff80008aab61dc&gt;] spin_lock_bh include/linux/spinlock.h:356 [inline]
- softirqs last disabled at (6182790): [&lt;ffff80008aab61dc&gt;] batadv_purge_orig_ref+0x164/0x1228 net/batman-adv/originator.c:1271
+ hardirqs last  enabled at (6182793): [] __local_bh_enable_ip+0x224/0x44c kernel/softirq.c:386
+ hardirqs last disabled at (6182794): [] __el1_irq arch/arm64/kernel/entry-common.c:533 [inline]
+ hardirqs last disabled at (6182794): [] el1_interrupt+0x24/0x68 arch/arm64/kernel/entry-common.c:551
+ softirqs last  enabled at (6182792): [] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ softirqs last  enabled at (6182792): [] batadv_purge_orig_ref+0x114c/0x1228 net/batman-adv/originator.c:1287
+ softirqs last disabled at (6182790): [] spin_lock_bh include/linux/spinlock.h:356 [inline]
+ softirqs last disabled at (6182790): [] batadv_purge_orig_ref+0x164/0x1228 net/batman-adv/originator.c:1271
 CPU: 0 PID: 621 Comm: kworker/u4:6 Not tainted 6.8.0-rc7-syzkaller-g707081b61156 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
 Workqueue: bat_events batadv_purge_orig
@@ -1427,7 +1427,7 @@ Not tainted 6.9.0-rc4-syzkaller-00173-g3cdb45594619 #0
 task:kworker/1:0 state:D stack:23744 pid:5088 tgid:5088 ppid:2 flags:0x00004000
 Workqueue: events_power_efficient reg_check_chans_work
 Call Trace:
-&lt;TASK&gt;
+
 context_switch kernel/sched/core.c:5409 [inline]
 __schedule+0xf15/0x5d00 kernel/sched/core.c:6746
 __schedule_loop kernel/sched/core.c:6823 [inline]
@@ -1479,18 +1479,18 @@ ext4_fill_super
         ___ratelimit(&amp;(EXT4_SB(sb)-&gt;s_msg_ratelimit_state)
           if (!rs-&gt;interval)  // do nothing if interval is 0
             return 1;
-          raw_spin_trylock_irqsave(&amp;rs-&gt;lock, flags)
+          raw_spin_trylock_irqsave(&amp;amp;rs-&gt;lock, flags)
             raw_spin_trylock(lock)
               _raw_spin_trylock
                 __raw_spin_trylock
-                  spin_acquire(&amp;lock-&gt;dep_map, 0, 1, _RET_IP_)
+                  spin_acquire(&amp;amp;lock-&gt;dep_map, 0, 1, _RET_IP_)
                     lock_acquire
                       __lock_acquire
                         register_lock_class
                           assign_lock_key
                             dump_stack();
-  ratelimit_state_init(&amp;sbi-&gt;s_msg_ratelimit_state, 5 * HZ, 10);
-    raw_spin_lock_init(&amp;rs-&gt;lock);
+  ratelimit_state_init(&amp;amp;sbi-&gt;s_msg_ratelimit_state, 5 * HZ, 10);
+    raw_spin_lock_init(&amp;amp;rs-&gt;lock);
     // init rs-&gt;lock here
 
 and get the following dump_stack:
@@ -1548,7 +1548,7 @@ sanitizer shows this report:
 [   63.000668] CPU: 0 PID: 7353 Comm: syz-executor.2 Not tainted 6.8.0-rc2-00035-gb3ef86b5a957 #1
 [   63.000677] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 [   63.000682] Call Trace:
-[   63.000686]  &lt;TASK&gt;
+[   63.000686]  
 [   63.000731]  dump_stack_lvl+0x93/0xd0
 [   63.000919]  __get_user_pages+0x903/0xd30
 [   63.001030]  __gup_longterm_locked+0x153e/0x1ba0
@@ -1716,7 +1716,7 @@ as below.
 [   97.387347] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 [   97.389277] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [   97.391196] Call Trace:
-[   97.391967]  &lt;TASK&gt;
+[   97.391967]  
 [   97.392647]  ? __warn+0xcc/0x180
 [   97.393640]  ? kprobe_trace_self_tests_init+0x3f1/0x480
 [   97.395181]  ? report_bug+0xbd/0x150
@@ -1737,12 +1737,12 @@ as below.
 [   97.412788]  ret_from_fork+0x39/0x50
 [   97.413817]  ? rest_init+0x1f0/0x1f0
 [   97.414844]  ret_from_fork_asm+0x11/0x20
-[   97.416285]  &lt;/TASK&gt;
+[   97.416285]  
 [   97.417134] irq event stamp: 13437323
-[   97.418376] hardirqs last  enabled at (13437337): [&lt;ffffffff8110bc0c&gt;] console_unlock+0x11c/0x150
-[   97.421285] hardirqs last disabled at (13437370): [&lt;ffffffff8110bbf1&gt;] console_unlock+0x101/0x150
-[   97.423838] softirqs last  enabled at (13437366): [&lt;ffffffff8108e17f&gt;] handle_softirqs+0x23f/0x2a0
-[   97.426450] softirqs last disabled at (13437393): [&lt;ffffffff8108e346&gt;] __irq_exit_rcu+0x66/0xd0
+[   97.418376] hardirqs last  enabled at (13437337): [] console_unlock+0x11c/0x150
+[   97.421285] hardirqs last disabled at (13437370): [] console_unlock+0x101/0x150
+[   97.423838] softirqs last  enabled at (13437366): [] handle_softirqs+0x23f/0x2a0
+[   97.426450] softirqs last disabled at (13437393): [] __irq_exit_rcu+0x66/0xd0
 [   97.428850] ---[ end trace 0000000000000000 ]---
 
 And also, since we can not cleanup dynamic_event file, ftracetest are
@@ -1757,11 +1757,11 @@ KCSAN detected a race condition in netpoll:
 	BUG: KCSAN: data-race in net_rx_action / netpoll_send_skb
 	write (marked) to 0xffff8881164168b0 of 4 bytes by interrupt on cpu 10:
 	net_rx_action (./include/linux/netpoll.h:90 net/core/dev.c:6712 net/core/dev.c:6822)
-&lt;snip&gt;
+
 	read to 0xffff8881164168b0 of 4 bytes by task 1 on cpu 2:
 	netpoll_send_skb (net/core/netpoll.c:319 net/core/netpoll.c:345 net/core/netpoll.c:393)
 	netpoll_send_udp (net/core/netpoll.c:?)
-&lt;snip&gt;
+
 	value changed: 0x0000000a -&gt; 0xffffffff
 
 This happens because netpoll_owner_active() needs to check if the
@@ -1831,10 +1831,10 @@ snapshot of the name instead.</description><pubDate>Fri, 12 Jul 2024 12:50:07 +0
 
 greybus: Fix use-after-free bug in gb_interface_release due to race condition.
 
-In gb_interface_create, &amp;intf-&gt;mode_switch_completion is bound with
+In gb_interface_create, &amp;amp;intf-&gt;mode_switch_completion is bound with
 gb_interface_mode_switch_work. Then it will be started by
 gb_interface_request_mode_switch. Here is the relevant code.
-if (!queue_work(system_long_wq, &amp;intf-&gt;mode_switch_work)) {
+if (!queue_work(system_long_wq, &amp;amp;intf-&gt;mode_switch_work)) {
 	...
 }
 
@@ -1852,7 +1852,7 @@ CPU0                            CPU1
 gb_interface_release        |
 kfree(intf) (free)          |
                             |   gb_interface_mode_switch_work
-                            |   mutex_lock(&amp;intf-&gt;mutex) (use)
+                            |   mutex_lock(&amp;amp;intf-&gt;mutex) (use)
 
 Fix it by canceling the work before kfree.</description><pubDate>Fri, 12 Jul 2024 12:50:07 +0000</pubDate></item><item><title>CVE-2024-39496 | btrfs: zoned: fix use-after-free due to race with dev replace</title><link>https://www.cve.org/CVERecord?id=CVE-2024-39496</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -1946,7 +1946,7 @@ FS:  000055555e080380(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000000000000 CR3: 00000000207d4000 CR4: 0000000000350ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  unix_release+0x87/0xc0 net/unix/af_unix.c:1048
  __sock_release net/socket.c:659 [inline]
  sock_close+0xbe/0x240 net/socket.c:1421
@@ -1965,7 +1965,7 @@ RDX: 0000000000000010 RSI: 00000000200001c0 RDI: 0000000000000004
 RBP: 0000000000000000 R08: 0000000100000000 R09: 0000000100000000
 R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
 R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- &lt;/TASK&gt;
+ 
 
 Use sk_psock, which will only check that the pointer is not been set to
 NULL yet, which should only happen after the callbacks are restored. If,
@@ -2063,9 +2063,9 @@ So, ionic_qcq_enable() calls napi_enable() for the queue, which was
 unregistered by netif_napi_del().
 
 Reproducer:
-   ethtool -L &lt;interface name&gt; rx 1 tx 1 combined 0
-   ethtool -L &lt;interface name&gt; rx 0 tx 0 combined 1
-   ethtool -L &lt;interface name&gt; rx 0 tx 0 combined 4
+   ethtool -L  rx 1 tx 1 combined 0
+   ethtool -L  rx 0 tx 0 combined 1
+   ethtool -L  rx 0 tx 0 combined 4
 
 Splat looks like:
 kernel BUG at net/core/dev.c:6666!
@@ -2085,7 +2085,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f8f734ee200 CR3: 0000000103e50000 CR4: 00000000007506f0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? die+0x33/0x90
  ? do_trap+0xd9/0x100
  ? napi_enable+0x3b/0x40
@@ -2188,7 +2188,7 @@ io_wq_activate_free_worker functions.
 	 write to 0xffff8885c4246404 of 4 bytes by task 49071 on cpu 28:
 	 io_worker_handle_work (io_uring/io-wq.c:434 io_uring/io-wq.c:569)
 	 io_wq_worker (io_uring/io-wq.c:?)
-&lt;snip&gt;
+
 
 	 read to 0xffff8885c4246404 of 4 bytes by task 49024 on cpu 5:
 	 io_wq_activate_free_worker (io_uring/io-wq.c:? io_uring/io-wq.c:285)
@@ -2196,7 +2196,7 @@ io_wq_activate_free_worker functions.
 	 io_queue_iowq (io_uring/io_uring.c:524)
 	 io_req_task_submit (io_uring/io_uring.c:1511)
 	 io_handle_tw_list (io_uring/io_uring.c:1198)
-&lt;snip&gt;
+
 
 Line numbers against commit 18daea77cca6 ("Merge tag 'for-linus' of
 git://git.kernel.org/pub/scm/virt/kvm/kvm").
@@ -2232,7 +2232,7 @@ RIP: 0010:implement drivers/hid/hid-core.c:1451 [inline]
 RIP: 0010:hid_output_report+0x548/0x760 drivers/hid/hid-core.c:1863
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  __usbhid_submit_report drivers/hid/usbhid/hid-core.c:591 [inline]
  usbhid_submit_report+0x43d/0x9e0 drivers/hid/usbhid/hid-core.c:636
  hiddev_ioctl+0x138b/0x1f00 drivers/hid/usbhid/hiddev.c:726
@@ -2281,7 +2281,7 @@ cachefiles_withdraw_cookie
  cachefiles_ondemand_clean_object(object)
   cachefiles_ondemand_send_req
    REQ_A = kzalloc(sizeof(*req) + data_len)
-   wait_for_completion(&amp;REQ_A-&gt;done)
+   wait_for_completion(&amp;amp;REQ_A-&gt;done)
 
             cachefiles_daemon_read
              cachefiles_ondemand_daemon_read
@@ -2289,15 +2289,15 @@ cachefiles_withdraw_cookie
               msg-&gt;object_id = req-&gt;object-&gt;ondemand-&gt;ondemand_id
                                   ------ restore ------
                                   cachefiles_ondemand_restore
-                                  xas_for_each(&amp;xas, req, ULONG_MAX)
-                                   xas_set_mark(&amp;xas, CACHEFILES_REQ_NEW)
+                                  xas_for_each(&amp;amp;xas, req, ULONG_MAX)
+                                   xas_set_mark(&amp;amp;xas, CACHEFILES_REQ_NEW)
 
                                   cachefiles_daemon_read
                                    cachefiles_ondemand_daemon_read
                                     REQ_A = cachefiles_ondemand_select_req
               copy_to_user(_buffer, msg, n)
-               xa_erase(&amp;cache-&gt;reqs, id)
-               complete(&amp;REQ_A-&gt;done)
+               xa_erase(&amp;amp;cache-&gt;reqs, id)
+               complete(&amp;amp;REQ_A-&gt;done)
               ------ close(fd) ------
               cachefiles_ondemand_fd_release
                cachefiles_put_object
@@ -2354,7 +2354,7 @@ Following is the process that triggers the issue:
  cachefiles_ondemand_init_object
   cachefiles_ondemand_send_req
    REQ_A = kzalloc(sizeof(*req) + data_len)
-   wait_for_completion(&amp;REQ_A-&gt;done)
+   wait_for_completion(&amp;amp;REQ_A-&gt;done)
 
             cachefiles_daemon_read
              cachefiles_ondemand_daemon_read
@@ -2364,8 +2364,8 @@ Following is the process that triggers the issue:
             process_open_req(REQ_A)
                                   ------ restore ------
                                   cachefiles_ondemand_restore
-                                  xas_for_each(&amp;xas, req, ULONG_MAX)
-                                   xas_set_mark(&amp;xas, CACHEFILES_REQ_NEW);
+                                  xas_for_each(&amp;amp;xas, req, ULONG_MAX)
+                                   xas_set_mark(&amp;amp;xas, CACHEFILES_REQ_NEW);
 
                                   cachefiles_daemon_read
                                    cachefiles_ondemand_daemon_read
@@ -2373,8 +2373,8 @@ Following is the process that triggers the issue:
 
              write(devfd, ("copen %u,%llu", msg-&gt;msg_id, size));
              cachefiles_ondemand_copen
-              xa_erase(&amp;cache-&gt;reqs, id)
-              complete(&amp;REQ_A-&gt;done)
+              xa_erase(&amp;amp;cache-&gt;reqs, id)
+              complete(&amp;amp;REQ_A-&gt;done)
    kfree(REQ_A)
                                     cachefiles_ondemand_get_fd(REQ_A)
                                      fd = get_unused_fd_flags
@@ -2404,19 +2404,19 @@ following concurrency the request may be used after it has been freed:
  cachefiles_ondemand_init_object
   cachefiles_ondemand_send_req
    REQ_A = kzalloc(sizeof(*req) + data_len)
-   wait_for_completion(&amp;REQ_A-&gt;done)
+   wait_for_completion(&amp;amp;REQ_A-&gt;done)
             cachefiles_daemon_read
              cachefiles_ondemand_daemon_read
                                   // close dev fd
                                   cachefiles_flush_reqs
-                                   complete(&amp;REQ_A-&gt;done)
+                                   complete(&amp;amp;REQ_A-&gt;done)
    kfree(REQ_A)
-              xa_lock(&amp;cache-&gt;reqs);
+              xa_lock(&amp;amp;cache-&gt;reqs);
               cachefiles_ondemand_select_req
                 req-&gt;msg.opcode != CACHEFILES_OP_READ
                 // req use-after-free !!!
-              xa_unlock(&amp;cache-&gt;reqs);
-                                   xa_destroy(&amp;cache-&gt;reqs)
+              xa_unlock(&amp;amp;cache-&gt;reqs);
+                                   xa_destroy(&amp;amp;cache-&gt;reqs)
 
 Hence remove requests from cache-&gt;reqs when flushing them to avoid
 accessing freed requests.</description><pubDate>Fri, 12 Jul 2024 12:50:14 +0000</pubDate></item><item><title>CVE-2024-40901 | scsi: mpt3sas: Avoid test/set_bit() operating in non-allocated memory</title><link>https://www.cve.org/CVERecord?id=CVE-2024-40901</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -2483,13 +2483,13 @@ CPU#0 Utilization every 4s during lockup:
 	#5:  98% system,	  1% softirq,	  3% hardirq,	  0% idle
 Modules linked in:
 irq event stamp: 73096
-hardirqs last  enabled at (73095): [&lt;ffff80008037bc00&gt;] console_emit_next_record kernel/printk/printk.c:2935 [inline]
-hardirqs last  enabled at (73095): [&lt;ffff80008037bc00&gt;] console_flush_all+0x650/0xb74 kernel/printk/printk.c:2994
-hardirqs last disabled at (73096): [&lt;ffff80008af10b00&gt;] __el1_irq arch/arm64/kernel/entry-common.c:533 [inline]
-hardirqs last disabled at (73096): [&lt;ffff80008af10b00&gt;] el1_interrupt+0x24/0x68 arch/arm64/kernel/entry-common.c:551
-softirqs last  enabled at (73048): [&lt;ffff8000801ea530&gt;] softirq_handle_end kernel/softirq.c:400 [inline]
-softirqs last  enabled at (73048): [&lt;ffff8000801ea530&gt;] handle_softirqs+0xa60/0xc34 kernel/softirq.c:582
-softirqs last disabled at (73043): [&lt;ffff800080020de8&gt;] __do_softirq+0x14/0x20 kernel/softirq.c:588
+hardirqs last  enabled at (73095): [] console_emit_next_record kernel/printk/printk.c:2935 [inline]
+hardirqs last  enabled at (73095): [] console_flush_all+0x650/0xb74 kernel/printk/printk.c:2994
+hardirqs last disabled at (73096): [] __el1_irq arch/arm64/kernel/entry-common.c:533 [inline]
+hardirqs last disabled at (73096): [] el1_interrupt+0x24/0x68 arch/arm64/kernel/entry-common.c:551
+softirqs last  enabled at (73048): [] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (73048): [] handle_softirqs+0xa60/0xc34 kernel/softirq.c:582
+softirqs last disabled at (73043): [] __do_softirq+0x14/0x20 kernel/softirq.c:588
 CPU: 0 PID: 6625 Comm: syz-executor782 Tainted: G        W          6.10.0-rc2-syzkaller-g8867bbd4a056 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
 
@@ -2536,7 +2536,7 @@ CR2: 0000001b32c26000 CR3: 000000005d56e000 CR4: 00000000003526f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   __fib6_drop_pcpu_from net/ipv6/ip6_fib.c:966 [inline]
   fib6_drop_pcpu_from net/ipv6/ip6_fib.c:1027 [inline]
   fib6_purge_rt+0x7f2/0x9f0 net/ipv6/ip6_fib.c:1038
@@ -2603,7 +2603,7 @@ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 PKRU: 55555554
 Call Trace:
- &lt;IRQ&gt;
+ 
  ? __die+0x23/0x70
  ? page_fault_oops+0x171/0x4e0
  ? exc_page_fault+0x175/0x180
@@ -2623,8 +2623,8 @@ Call Trace:
  __do_softirq+0xc9/0x2c8
  __irq_exit_rcu+0xa6/0xc0
  sysvec_apic_timer_interrupt+0x72/0x90
- &lt;/IRQ&gt;
- &lt;TASK&gt;
+ 
+ 
  asm_sysvec_apic_timer_interrupt+0x1a/0x20
 RIP: 0010:cpuidle_enter_state+0xcc/0x440
  ? cpuidle_enter_state+0xbd/0x440
@@ -2665,7 +2665,7 @@ CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: ffff8881576c110c CR3: 0000000767a90000 CR4: 00000000007506f0
 PKRU: 55555554
 Call Trace:
-&lt;TASK&gt;
+
 ? __die+0x20/0x70
 ? page_fault_oops+0x254/0x790
 ? __pfx_page_fault_oops+0x10/0x10
@@ -2724,7 +2724,7 @@ following errors:
 And will then have a trace like:
 
     Call Trace:
-    &lt;TASK&gt;
+    
     ? show_regs+0x64/0x70
     ? __warn+0x83/0x120
     ? refcount_warn_saturate+0xb2/0x100
@@ -2907,7 +2907,7 @@ When I did memory failure tests recently, below panic occurs:
  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
  CR2: 000055f4da6e9878 CR3: 0000000c71048000 CR4: 00000000000006f0
  Call Trace:
-  &lt;TASK&gt;
+  
   do_shrink_slab+0x14f/0x6a0
   shrink_slab+0xca/0x8c0
   shrink_node+0x2d0/0x7d0
@@ -2916,7 +2916,7 @@ When I did memory failure tests recently, below panic occurs:
   kthread+0xd5/0x100
   ret_from_fork+0x2f/0x50
   ret_from_fork_asm+0x1a/0x30
-  &lt;/TASK&gt;
+  
  Modules linked in: mce_inject hwpoison_inject
  ---[ end trace 0000000000000000 ]---
  RIP: 0010:shrink_huge_zero_page_scan+0x168/0x1a0
@@ -2956,22 +2956,22 @@ preempt_count: 2, expected: 0
 CPU: 0 PID: 2 Comm: kthreadd Not tainted 6.9.0-g1d4c6d784ef6 #37
 Hardware name: riscv-virtio,qemu (DT)
 Call Trace:
-[&lt;ffffffff800060dc&gt;] dump_backtrace+0x1c/0x24
-[&lt;ffffffff8091ef6e&gt;] show_stack+0x2c/0x38
-[&lt;ffffffff8092baf8&gt;] dump_stack_lvl+0x5a/0x72
-[&lt;ffffffff8092bb24&gt;] dump_stack+0x14/0x1c
-[&lt;ffffffff8003b7ac&gt;] __might_resched+0x104/0x10e
-[&lt;ffffffff8003b7f4&gt;] __might_sleep+0x3e/0x62
-[&lt;ffffffff8093276a&gt;] down_write+0x20/0x72
-[&lt;ffffffff8000cf00&gt;] __set_memory+0x82/0x2fa
-[&lt;ffffffff8000d324&gt;] __kernel_map_pages+0x5a/0xd4
-[&lt;ffffffff80196cca&gt;] __alloc_pages_bulk+0x3b2/0x43a
-[&lt;ffffffff8018ee82&gt;] __vmalloc_node_range+0x196/0x6ba
-[&lt;ffffffff80011904&gt;] copy_process+0x72c/0x17ec
-[&lt;ffffffff80012ab4&gt;] kernel_clone+0x60/0x2fe
-[&lt;ffffffff80012f62&gt;] kernel_thread+0x82/0xa0
-[&lt;ffffffff8003552c&gt;] kthreadd+0x14a/0x1be
-[&lt;ffffffff809357de&gt;] ret_from_fork+0xe/0x1c
+[] dump_backtrace+0x1c/0x24
+[] show_stack+0x2c/0x38
+[] dump_stack_lvl+0x5a/0x72
+[] dump_stack+0x14/0x1c
+[] __might_resched+0x104/0x10e
+[] __might_sleep+0x3e/0x62
+[] down_write+0x20/0x72
+[] __set_memory+0x82/0x2fa
+[] __kernel_map_pages+0x5a/0xd4
+[] __alloc_pages_bulk+0x3b2/0x43a
+[] __vmalloc_node_range+0x196/0x6ba
+[] copy_process+0x72c/0x17ec
+[] kernel_clone+0x60/0x2fe
+[] kernel_thread+0x82/0xa0
+[] kthreadd+0x14a/0x1be
+[] ret_from_fork+0xe/0x1c
 
 Rewrite this function with apply_to_existing_page_range(). It is fine to
 not have any locking, because __kernel_map_pages() works with pages being
@@ -3185,13 +3185,13 @@ TASK_RUNNING, which is due to forgetting restoring the state back after
 io_run_task_work_sig() and attempts to break out of the waiting loop.
 
 do not call blocking ops when !TASK_RUNNING; state=1 set at
-[&lt;ffffffff815d2494&gt;] prepare_to_wait+0xa4/0x380
+[] prepare_to_wait+0xa4/0x380
 kernel/sched/wait.c:237
 WARNING: CPU: 2 PID: 397056 at kernel/sched/core.c:10099
 __might_sleep+0x114/0x160 kernel/sched/core.c:10099
 RIP: 0010:__might_sleep+0x114/0x160 kernel/sched/core.c:10099
 Call Trace:
- &lt;TASK&gt;
+ 
  __mutex_lock_common kernel/locking/mutex.c:585 [inline]
  __mutex_lock+0xb4/0x940 kernel/locking/mutex.c:752
  io_rsrc_ref_quiesce+0x590/0x940 io_uring/rsrc.c:253
@@ -3231,7 +3231,7 @@ ff &lt;0f&gt; 0b 48 8b 14 24 48 c7 c1 d0 73 65 9f e8 a1 ff ff ff 48 8b 14 24
 [   95.457178] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [   95.458340] CR2: 00007fd0d1f650c8 CR3: 0000000115f28000 CR4: 00000000000406f0
 [   95.459791] Call Trace:
-[   95.460515]  &lt;IRQ&gt;
+[   95.460515]  
 [   95.461180]  ? __die_body.cold+0x19/0x27
 [   95.462150]  ? die+0x2e/0x50
 [   95.462976]  ? do_trap+0xca/0x110
@@ -3249,11 +3249,11 @@ ff &lt;0f&gt; 0b 48 8b 14 24 48 c7 c1 d0 73 65 9f e8 a1 ff ff ff 48 8b 14 24
 [   95.475115]  handle_softirqs+0xe7/0x2a0
 [   95.476122]  __irq_exit_rcu+0x97/0xb0
 [   95.477109]  common_interrupt+0x85/0xa0
-[   95.478102]  &lt;/IRQ&gt;
-[   95.478846]  &lt;TASK&gt;
+[   95.478102]  
+[   95.478846]  
 [   95.479603]  asm_common_interrupt+0x26/0x40
 [   95.480657] RIP: 0010:pv_native_safe_halt+0xf/0x20
-[   95.481801] Code: 22 d7 e9 54 87 01 00 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d 93 ba 3b 00 fb f4 &lt;e9&gt; 2c 87 01 00 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90
+[   95.481801] Code: 22 d7 e9 54 87 01 00 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d 93 ba 3b 00 fb f4  2c 87 01 00 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90
 [   95.485563] RSP: 0018:ffffa133400ffe58 EFLAGS: 00000246
 [   95.486882] RAX: 0000000000004000 RBX: ffff8fbbc1d14064 RCX: 0000000000000000
 [   95.488477] RDX: ffff8fbeefd80000 RSI: ffff8fbbc1d14000 RDI: 0000000000000001
@@ -3269,7 +3269,7 @@ ff &lt;0f&gt; 0b 48 8b 14 24 48 c7 c1 d0 73 65 9f e8 a1 ff ff ff 48 8b 14 24
 [   95.501385]  cpu_startup_entry+0x29/0x30
 [   95.502422]  start_secondary+0x11c/0x140
 [   95.503454]  common_startup_64+0x13e/0x141
-[   95.504466]  &lt;/TASK&gt;
+[   95.504466]  
 [   95.505197] Modules linked in: nft_fib_inet nft_fib_ipv4
 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6
 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ip
@@ -3290,13 +3290,13 @@ block: fix request.queuelist usage in flush
 Friedrich Weber reported a kernel crash problem and bisected to commit
 81ada09cc25e ("blk-flush: reuse rq queuelist in flush state machine").
 
-The root cause is that we use "list_move_tail(&amp;rq-&gt;queuelist, pending)"
+The root cause is that we use "list_move_tail(&amp;amp;rq-&gt;queuelist, pending)"
 in the PREFLUSH/POSTFLUSH sequences. But rq-&gt;queuelist.next == xxx since
 it's popped out from plug-&gt;cached_rq in __blk_mq_alloc_requests_batch().
 We don't initialize its queuelist just for this first request, although
 the queuelist of all later popped requests will be initialized.
 
-Fix it by changing to use "list_add_tail(&amp;rq-&gt;queuelist, pending)" so
+Fix it by changing to use "list_add_tail(&amp;amp;rq-&gt;queuelist, pending)" so
 rq-&gt;queuelist doesn't need to be initialized. It should be ok since rq
 can't be on any list when PREFLUSH or POSTFLUSH, has no move actually.
 
@@ -3306,10 +3306,10 @@ touch rq-&gt;queuelist after blk_mq_end_request() since we will reuse it to
 add rq to the post-flush pending list in POSTFLUSH. If this is not true,
 we will have to revert that commit IMHO.
 
-This updated version adds "list_del_init(&amp;rq-&gt;queuelist)" in flush rq
+This updated version adds "list_del_init(&amp;amp;rq-&gt;queuelist)" in flush rq
 callback since the dm layer may submit request of a weird invalid format
 (REQ_FSEQ_PREFLUSH | REQ_FSEQ_POSTFLUSH), which causes double list_add
-if without this "list_del_init(&amp;rq-&gt;queuelist)". The weird invalid format
+if without this "list_del_init(&amp;amp;rq-&gt;queuelist)". The weird invalid format
 problem should be fixed in dm layer.</description><pubDate>Fri, 12 Jul 2024 12:50:23 +0000</pubDate></item><item><title>CVE-2024-40926 | drm/nouveau: don&amp;#x27;t attempt to schedule hpd_work on headless cards</title><link>https://www.cve.org/CVERecord?id=CVE-2024-40926</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/nouveau: don't attempt to schedule hpd_work on headless cards
