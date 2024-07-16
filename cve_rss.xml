@@ -1,5 +1,90 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 11:25:56 +0000</lastBuildDate><item><title>CVE-2022-48773 | xprtrdma: fix pointer derefs in error cases of rpcrdma_ep_create</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48773</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 11:37:21 +0000</lastBuildDate><item><title>CVE-2021-47622 | scsi: ufs: Fix a deadlock in the error handler</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47622</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: Fix a deadlock in the error handler
+
+The following deadlock has been observed on a test setup:
+
+ - All tags allocated
+
+ - The SCSI error handler calls ufshcd_eh_host_reset_handler()
+
+ - ufshcd_eh_host_reset_handler() queues work that calls
+   ufshcd_err_handler()
+
+ - ufshcd_err_handler() locks up as follows:
+
+Workqueue: ufs_eh_wq_0 ufshcd_err_handler.cfi_jt
+Call trace:
+ __switch_to+0x298/0x5d8
+ __schedule+0x6cc/0xa94
+ schedule+0x12c/0x298
+ blk_mq_get_tag+0x210/0x480
+ __blk_mq_alloc_request+0x1c8/0x284
+ blk_get_request+0x74/0x134
+ ufshcd_exec_dev_cmd+0x68/0x640
+ ufshcd_verify_dev_init+0x68/0x35c
+ ufshcd_probe_hba+0x12c/0x1cb8
+ ufshcd_host_reset_and_restore+0x88/0x254
+ ufshcd_reset_and_restore+0xd0/0x354
+ ufshcd_err_handler+0x408/0xc58
+ process_one_work+0x24c/0x66c
+ worker_thread+0x3e8/0xa4c
+ kthread+0x150/0x1b4
+ ret_from_fork+0x10/0x30
+
+Fix this lockup by making ufshcd_exec_dev_cmd() allocate a reserved
+request.</description><pubDate>Tue, 16 Jul 2024 11:37:22 +0000</pubDate></item><item><title>CVE-2021-47623 | powerpc/fixmap: Fix VM debug warning on unmap</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47623</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/fixmap: Fix VM debug warning on unmap
+
+Unmapping a fixmap entry is done by calling __set_fixmap()
+with FIXMAP_PAGE_CLEAR as flags.
+
+Today, powerpc __set_fixmap() calls map_kernel_page().
+
+map_kernel_page() is not happy when called a second time
+for the same page.
+
+	WARNING: CPU: 0 PID: 1 at arch/powerpc/mm/pgtable.c:194 set_pte_at+0xc/0x1e8
+	CPU: 0 PID: 1 Comm: swapper Not tainted 5.16.0-rc3-s3k-dev-01993-g350ff07feb7d-dirty #682
+	NIP:  c0017cd4 LR: c00187f0 CTR: 00000010
+	REGS: e1011d50 TRAP: 0700   Not tainted  (5.16.0-rc3-s3k-dev-01993-g350ff07feb7d-dirty)
+	MSR:  00029032 &lt;EE,ME,IR,DR,RI&gt;  CR: 42000208  XER: 00000000
+
+	GPR00: c0165fec e1011e10 c14c0000 c0ee2550 ff800000 c0f3d000 00000000 c001686c
+	GPR08: 00001000 b00045a9 00000001 c0f58460 c0f50000 00000000 c0007e10 00000000
+	GPR16: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+	GPR24: 00000000 00000000 c0ee2550 00000000 c0f57000 00000ff8 00000000 ff800000
+	NIP [c0017cd4] set_pte_at+0xc/0x1e8
+	LR [c00187f0] map_kernel_page+0x9c/0x100
+	Call Trace:
+	[e1011e10] [c0736c68] vsnprintf+0x358/0x6c8 (unreliable)
+	[e1011e30] [c0165fec] __set_fixmap+0x30/0x44
+	[e1011e40] [c0c13bdc] early_iounmap+0x11c/0x170
+	[e1011e70] [c0c06cb0] ioremap_legacy_serial_console+0x88/0xc0
+	[e1011e90] [c0c03634] do_one_initcall+0x80/0x178
+	[e1011ef0] [c0c0385c] kernel_init_freeable+0xb4/0x250
+	[e1011f20] [c0007e34] kernel_init+0x24/0x140
+	[e1011f30] [c0016268] ret_from_kernel_thread+0x5c/0x64
+	Instruction dump:
+	7fe3fb78 48019689 80010014 7c630034 83e1000c 5463d97e 7c0803a6 38210010
+	4e800020 81250000 712a0001 41820008 &lt;0fe00000&gt; 9421ffe0 93e1001c 48000030
+
+Implement unmap_kernel_page() which clears an existing pte.</description><pubDate>Tue, 16 Jul 2024 11:37:23 +0000</pubDate></item><item><title>CVE-2021-47624 | net/sunrpc: fix reference count leaks in rpc_sysfs_xprt_state_change</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47624</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sunrpc: fix reference count leaks in rpc_sysfs_xprt_state_change
+
+The refcount leak issues take place in an error handling path. When the
+3rd argument buf doesn't match with "offline", "online" or "remove", the
+function simply returns -EINVAL and forgets to decrease the reference
+count of a rpc_xprt object and a rpc_xprt_switch object increased by
+rpc_sysfs_xprt_kobj_get_xprt() and
+rpc_sysfs_xprt_kobj_get_xprt_switch(), causing reference count leaks of
+both unused objects.
+
+Fix this issue by jumping to the error handling path labelled with
+out_put when buf matches none of "offline", "online" or "remove".</description><pubDate>Tue, 16 Jul 2024 11:37:23 +0000</pubDate></item><item><title>CVE-2022-48773 | xprtrdma: fix pointer derefs in error cases of rpcrdma_ep_create</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48773</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 xprtrdma: fix pointer derefs in error cases of rpcrdma_ep_create
 
@@ -104,7 +189,7 @@ CR2: 00007fc74416f130 CR3: 0000000073d9e000 CR4: 00000000003506e0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  sock_setsockopt+0x14a9/0x3a30 net/core/sock.c:1446
  __sys_setsockopt+0x5af/0x980 net/socket.c:2176
  __do_sys_setsockopt net/socket.c:2191 [inline]
@@ -121,7 +206,7 @@ RDX: 0000000000000049 RSI: 0000000000000001 RDI: 0000000000000004
 RBP: 0000000000000000 R08: 0000000000000004 R09: 00007ffe98f07990
 R10: 0000000020000000 R11: 0000000000000246 R12: 00007ffe98f0798c
 R13: 00007ffe98f079a0 R14: 00007ffe98f079e0 R15: 0000000000000000
- &lt;/TASK&gt;
+ 
 Modules linked in:
 ---[ end trace 0000000000000000 ]---
 RIP: 0010:sk_prot_mem_limits include/net/sock.h:1523 [inline]
@@ -198,7 +283,7 @@ in dmesg:
 [ 3406.138992][T230589] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [ 3406.149895][T230589] CR2: 00007f0dfea1db60 CR3: 000000387b5f2000 CR4: 0000000000350ee0
 [ 3406.162421][T230589] Call Trace:
-[ 3406.170235][T230589]  &lt;TASK&gt;
+[ 3406.170235][T230589]  
 [ 3406.177736][T230589]  mld_newpack+0xfe/0x1a0
 [ 3406.186686][T230589]  add_grhead+0x87/0xa0
 [ 3406.195498][T230589]  add_grec+0x485/0x4e0
@@ -210,7 +295,7 @@ in dmesg:
 [ 3406.252175][T230589]  kthread+0x127/0x150
 [ 3406.261197][T230589]  ? set_kthread_struct+0x40/0x40
 [ 3406.271287][T230589]  ret_from_fork+0x22/0x30
-[ 3406.280812][T230589]  &lt;/TASK&gt;
+[ 3406.280812][T230589]  
 [ 3406.288937][T230589] Modules linked in: ... [last unloaded: kheaders]
 [ 3406.476714][T230589] ---[ end trace 3525a7655f2f3b9e ]---</description><pubDate>Tue, 16 Jul 2024 11:26:02 +0000</pubDate></item><item><title>CVE-2024-6457 | HUSKY - Products Filter Professional for WooCommerce &amp;lt;= 1.3.6 - Unauthenticated Time-Based SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6457</link><description>The HUSKY – Products Filter Professional for WooCommerce plugin for WordPress is vulnerable to time-based SQL Injection via the ‘woof_author’ parameter in all versions up to, and including, 1.3.6 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Tue, 16 Jul 2024 11:15:58 +0000</pubDate></item><item><title>CVE-2024-6621 | WP RSS Aggregator &amp;lt;= 4.23.11 - Missing Authorization to Authenticated (Subscriber+) Feed State Update</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6621</link><description>The RSS Aggregator – RSS Import, News Feeds, Feed to Post, and Autoblogging plugin for WordPress is vulnerable to unauthorized modification of data due to a missing capability check on the 'wprss_activate_feed_source' and 'wprss_pause_feed_source' functions in all versions up to, and including, 4.23.11. This makes it possible for authenticated attackers, with Subscriber-level access and above, to activate or pause existing RSS feeds.</description><pubDate>Tue, 16 Jul 2024 11:15:58 +0000</pubDate></item><item><title>CVE-2023-52886 | USB: core: Fix race by not overwriting udev-&amp;gt;descriptor in hub_port_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52886</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
