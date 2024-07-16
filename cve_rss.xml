@@ -1,5 +1,146 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 11:37:21 +0000</lastBuildDate><item><title>CVE-2021-47622 | scsi: ufs: Fix a deadlock in the error handler</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47622</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 11:47:22 +0000</lastBuildDate><item><title>CVE-2022-48786 | vsock: remove vsock from connected table when connect is interrupted by a signal</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48786</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vsock: remove vsock from connected table when connect is interrupted by a signal
+
+vsock_connect() expects that the socket could already be in the
+TCP_ESTABLISHED state when the connecting task wakes up with a signal
+pending. If this happens the socket will be in the connected table, and
+it is not removed when the socket state is reset. In this situation it's
+common for the process to retry connect(), and if the connection is
+successful the socket will be added to the connected table a second
+time, corrupting the list.
+
+Prevent this by calling vsock_remove_connected() if a signal is received
+while waiting for a connection. This is harmless if the socket is not in
+the connected table, and if it is in the table then removing it will
+prevent list corruption from a double add.
+
+Note for backporting: this patch requires d5afa82c977e ("vsock: correct
+removal of socket from the list"), which is in all current stable trees
+except 4.9.y.</description><pubDate>Tue, 16 Jul 2024 11:47:24 +0000</pubDate></item><item><title>CVE-2022-48787 | iwlwifi: fix use-after-free</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48787</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iwlwifi: fix use-after-free
+
+If no firmware was present at all (or, presumably, all of the
+firmware files failed to parse), we end up unbinding by calling
+device_release_driver(), which calls remove(), which then in
+iwlwifi calls iwl_drv_stop(), freeing the 'drv' struct. However
+the new code I added will still erroneously access it after it
+was freed.
+
+Set 'failure=false' in this case to avoid the access, all data
+was already freed anyway.</description><pubDate>Tue, 16 Jul 2024 11:47:24 +0000</pubDate></item><item><title>CVE-2022-48788 | nvme-rdma: fix possible use-after-free in transport error_recovery work</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48788</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme-rdma: fix possible use-after-free in transport error_recovery work
+
+While nvme_rdma_submit_async_event_work is checking the ctrl and queue
+state before preparing the AER command and scheduling io_work, in order
+to fully prevent a race where this check is not reliable the error
+recovery work must flush async_event_work before continuing to destroy
+the admin queue after setting the ctrl state to RESETTING such that
+there is no race .submit_async_event and the error recovery handler
+itself changing the ctrl state.</description><pubDate>Tue, 16 Jul 2024 11:47:25 +0000</pubDate></item><item><title>CVE-2022-48789 | nvme-tcp: fix possible use-after-free in transport error_recovery work</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48789</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme-tcp: fix possible use-after-free in transport error_recovery work
+
+While nvme_tcp_submit_async_event_work is checking the ctrl and queue
+state before preparing the AER command and scheduling io_work, in order
+to fully prevent a race where this check is not reliable the error
+recovery work must flush async_event_work before continuing to destroy
+the admin queue after setting the ctrl state to RESETTING such that
+there is no race .submit_async_event and the error recovery handler
+itself changing the ctrl state.</description><pubDate>Tue, 16 Jul 2024 11:47:25 +0000</pubDate></item><item><title>CVE-2022-48790 | nvme: fix a possible use-after-free in controller reset during load</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48790</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme: fix a possible use-after-free in controller reset during load
+
+Unlike .queue_rq, in .submit_async_event drivers may not check the ctrl
+readiness for AER submission. This may lead to a use-after-free
+condition that was observed with nvme-tcp.
+
+The race condition may happen in the following scenario:
+1. driver executes its reset_ctrl_work
+2. -&gt; nvme_stop_ctrl - flushes ctrl async_event_work
+3. ctrl sends AEN which is received by the host, which in turn
+   schedules AEN handling
+4. teardown admin queue (which releases the queue socket)
+5. AEN processed, submits another AER, calling the driver to submit
+6. driver attempts to send the cmd
+==&gt; use-after-free
+
+In order to fix that, add ctrl state check to validate the ctrl
+is actually able to accept the AER submission.
+
+This addresses the above race in controller resets because the driver
+during teardown should:
+1. change ctrl state to RESETTING
+2. flush async_event_work (as well as other async work elements)
+
+So after 1,2, any other AER command will find the
+ctrl state to be RESETTING and bail out without submitting the AER.</description><pubDate>Tue, 16 Jul 2024 11:47:25 +0000</pubDate></item><item><title>CVE-2022-48791 | scsi: pm8001: Fix use-after-free for aborted TMF sas_task</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48791</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: pm8001: Fix use-after-free for aborted TMF sas_task
+
+Currently a use-after-free may occur if a TMF sas_task is aborted before we
+handle the IO completion in mpi_ssp_completion(). The abort occurs due to
+timeout.
+
+When the timeout occurs, the SAS_TASK_STATE_ABORTED flag is set and the
+sas_task is freed in pm8001_exec_internal_tmf_task().
+
+However, if the I/O completion occurs later, the I/O completion still
+thinks that the sas_task is available. Fix this by clearing the ccb-&gt;task
+if the TMF times out - the I/O completion handler does nothing if this
+pointer is cleared.</description><pubDate>Tue, 16 Jul 2024 11:47:26 +0000</pubDate></item><item><title>CVE-2022-48792 | scsi: pm8001: Fix use-after-free for aborted SSP/STP sas_task</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48792</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: pm8001: Fix use-after-free for aborted SSP/STP sas_task
+
+Currently a use-after-free may occur if a sas_task is aborted by the upper
+layer before we handle the I/O completion in mpi_ssp_completion() or
+mpi_sata_completion().
+
+In this case, the following are the two steps in handling those I/O
+completions:
+
+ - Call complete() to inform the upper layer handler of completion of
+   the I/O.
+
+ - Release driver resources associated with the sas_task in
+   pm8001_ccb_task_free() call.
+
+When complete() is called, the upper layer may free the sas_task. As such,
+we should not touch the associated sas_task afterwards, but we do so in the
+pm8001_ccb_task_free() call.
+
+Fix by swapping the complete() and pm8001_ccb_task_free() calls ordering.</description><pubDate>Tue, 16 Jul 2024 11:47:26 +0000</pubDate></item><item><title>CVE-2022-48793 | KVM: x86: nSVM: fix potential NULL derefernce on nested migration</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48793</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: x86: nSVM: fix potential NULL derefernce on nested migration
+
+Turns out that due to review feedback and/or rebases
+I accidentally moved the call to nested_svm_load_cr3 to be too early,
+before the NPT is enabled, which is very wrong to do.
+
+KVM can't even access guest memory at that point as nested NPT
+is needed for that, and of course it won't initialize the walk_mmu,
+which is main issue the patch was addressing.
+
+Fix this for real.</description><pubDate>Tue, 16 Jul 2024 11:47:26 +0000</pubDate></item><item><title>CVE-2022-48794 | net: ieee802154: at86rf230: Stop leaking skb&amp;#x27;s</title><link>https://www.cve.org/CVERecord?id=CVE-2022-48794</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ieee802154: at86rf230: Stop leaking skb's
+
+Upon error the ieee802154_xmit_complete() helper is not called. Only
+ieee802154_wake_queue() is called manually. In the Tx case we then leak
+the skb structure.
+
+Free the skb structure upon error before returning when appropriate.
+
+As the 'is_tx = 0' cannot be moved in the complete handler because of a
+possible race between the delay in switching to STATE_RX_AACK_ON and a
+new interrupt, we introduce an intermediate 'was_tx' boolean just for
+this purpose.
+
+There is no Fixes tag applying here, many changes have been made on this
+area and the issue kind of always existed.</description><pubDate>Tue, 16 Jul 2024 11:47:27 +0000</pubDate></item><item><title>CVE-2021-47622 | scsi: ufs: Fix a deadlock in the error handler</title><link>https://www.cve.org/CVERecord?id=CVE-2021-47622</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 scsi: ufs: Fix a deadlock in the error handler
 
@@ -50,7 +191,7 @@ for the same page.
 	CPU: 0 PID: 1 Comm: swapper Not tainted 5.16.0-rc3-s3k-dev-01993-g350ff07feb7d-dirty #682
 	NIP:  c0017cd4 LR: c00187f0 CTR: 00000010
 	REGS: e1011d50 TRAP: 0700   Not tainted  (5.16.0-rc3-s3k-dev-01993-g350ff07feb7d-dirty)
-	MSR:  00029032 &lt;EE,ME,IR,DR,RI&gt;  CR: 42000208  XER: 00000000
+	MSR:  00029032   CR: 42000208  XER: 00000000
 
 	GPR00: c0165fec e1011e10 c14c0000 c0ee2550 ff800000 c0f3d000 00000000 c001686c
 	GPR08: 00001000 b00045a9 00000001 c0f58460 c0f50000 00000000 c0007e10 00000000
