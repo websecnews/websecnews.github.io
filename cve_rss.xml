@@ -1,5 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 07:50:28 +0000</lastBuildDate><item><title>CVE-2023-52290 | Apache StreamPark (incubating): Unchecked SQL query fields trigger SQL injection vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52290</link><description>In streampark-console the list pages(e.g: application pages), users can sort page by field. This sort field is sent from the front-end to the back-end, and the SQL query is generated using this field. However, because this sort field isn't validated, there is a risk of SQL injection vulnerability. The attacker must successfully log into the system to launch an attack, which may cause data leakage. Since no data will be written, so this is a low-impact vulnerability.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Jul 2024 08:27:36 +0000</lastBuildDate><item><title>CVE-2024-41008 | drm/amdgpu: change vm-&amp;gt;task_info handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41008</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: change vm-&gt;task_info handling
+
+This patch changes the handling and lifecycle of vm-&gt;task_info object.
+The major changes are:
+- vm-&gt;task_info is a dynamically allocated ptr now, and its uasge is
+  reference counted.
+- introducing two new helper funcs for task_info lifecycle management
+    - amdgpu_vm_get_task_info: reference counts up task_info before
+      returning this info
+    - amdgpu_vm_put_task_info: reference counts down task_info
+- last put to task_info() frees task_info from the vm.
+
+This patch also does logistical changes required for existing usage
+of vm-&gt;task_info.
+
+V2: Do not block all the prints when task_info not found (Felix)
+
+V3: Fixed review comments from Felix
+   - Fix wrong indentation
+   - No debug message for -ENOMEM
+   - Add NULL check for task_info
+   - Do not duplicate the debug messages (ti vs no ti)
+   - Get first reference of task_info in vm_init(), put last
+     in vm_fini()
+
+V4: Fixed review comments from Felix
+   - fix double reference increment in create_task_info
+   - change amdgpu_vm_get_task_info_pasid
+   - additional changes in amdgpu_gem.c while porting</description><pubDate>Tue, 16 Jul 2024 08:27:37 +0000</pubDate></item><item><title>CVE-2023-52290 | Apache StreamPark (incubating): Unchecked SQL query fields trigger SQL injection vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52290</link><description>In streampark-console the list pages(e.g: application pages), users can sort page by field. This sort field is sent from the front-end to the back-end, and the SQL query is generated using this field. However, because this sort field isn't validated, there is a risk of SQL injection vulnerability. The attacker must successfully log into the system to launch an attack, which may cause data leakage. Since no data will be written, so this is a low-impact vulnerability.
 
 Mitigation:
 
