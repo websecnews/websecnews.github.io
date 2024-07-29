@@ -1,5 +1,109 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 16:18:15 +0000</lastBuildDate><item><title>CVE-2024-41640 | Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41640</link><description>Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using the id parameter.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2024-41819 | Note Mark has a stored XSS in the note link href attribute</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41819</link><description>Note Mark is a web-based Markdown notes app. A stored cross-site scripting (XSS) vulnerability in Note Mark allows attackers to execute arbitrary web scripts via a crafted payload injected into the URL value of a link in the markdown content. This vulnerability is fixed in 0.13.1.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2023-52887 | net: can: j1939: enhanced error handling for tightly received RTS messages in xtp_rx_rts_session_new</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52887</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 16:37:35 +0000</lastBuildDate><item><title>CVE-2024-42084 | ftruncate: pass a signed offset</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42084</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ftruncate: pass a signed offset
+
+The old ftruncate() syscall, using the 32-bit off_t misses a sign
+extension when called in compat mode on 64-bit architectures.  As a
+result, passing a negative length accidentally succeeds in truncating
+to file size between 2GiB and 4GiB.
+
+Changing the type of the compat syscall to the signed compat_off_t
+changes the behavior so it instead returns -EINVAL.
+
+The native entry point, the truncate() syscall and the corresponding
+loff_t based variants are all correct already and do not suffer
+from this mistake.</description><pubDate>Mon, 29 Jul 2024 16:37:37 +0000</pubDate></item><item><title>CVE-2024-42085 | usb: dwc3: core: remove lock of otg mode during gadget suspend/resume to avoid deadlock</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42085</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: dwc3: core: remove lock of otg mode during gadget suspend/resume to avoid deadlock
+
+When config CONFIG_USB_DWC3_DUAL_ROLE is selected, and trigger system
+to enter suspend status with below command:
+echo mem &gt; /sys/power/state
+There will be a deadlock issue occurring. Detailed invoking path as
+below:
+dwc3_suspend_common()
+    spin_lock_irqsave(&amp;dwc-&gt;lock, flags);              &lt;-- 1st
+    dwc3_gadget_suspend(dwc);
+        dwc3_gadget_soft_disconnect(dwc);
+            spin_lock_irqsave(&amp;dwc-&gt;lock, flags);      &lt;-- 2nd
+This issue is exposed by commit c7ebd8149ee5 ("usb: dwc3: gadget: Fix
+NULL pointer dereference in dwc3_gadget_suspend") that removes the code
+of checking whether dwc-&gt;gadget_driver is NULL or not. It causes the
+following code is executed and deadlock occurs when trying to get the
+spinlock. In fact, the root cause is the commit 5265397f9442("usb: dwc3:
+Remove DWC3 locking during gadget suspend/resume") that forgot to remove
+the lock of otg mode. So, remove the redundant lock of otg mode during
+gadget suspend/resume.</description><pubDate>Mon, 29 Jul 2024 16:37:37 +0000</pubDate></item><item><title>CVE-2024-42086 | iio: chemical: bme680: Fix overflows in compensate() functions</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42086</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: chemical: bme680: Fix overflows in compensate() functions
+
+There are cases in the compensate functions of the driver that
+there could be overflows of variables due to bit shifting ops.
+These implications were initially discussed here [1] and they
+were mentioned in log message of Commit 1b3bd8592780 ("iio:
+chemical: Add support for Bosch BME680 sensor").
+
+[1]: https://lore.kernel.org/linux-iio/20180728114028.3c1bbe81@archlinux/</description><pubDate>Mon, 29 Jul 2024 16:37:38 +0000</pubDate></item><item><title>CVE-2024-42087 | drm/panel: ilitek-ili9881c: Fix warning with GPIO controllers that sleep</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42087</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panel: ilitek-ili9881c: Fix warning with GPIO controllers that sleep
+
+The ilitek-ili9881c controls the reset GPIO using the non-sleeping
+gpiod_set_value() function. This complains loudly when the GPIO
+controller needs to sleep. As the caller can sleep, use
+gpiod_set_value_cansleep() to fix the issue.</description><pubDate>Mon, 29 Jul 2024 16:37:38 +0000</pubDate></item><item><title>CVE-2024-42088 | ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42088</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: mediatek: mt8195: Add platform entry for ETDM1_OUT_BE dai link
+
+Commit e70b8dd26711 ("ASoC: mediatek: mt8195: Remove afe-dai component
+and rework codec link") removed the codec entry for the ETDM1_OUT_BE
+dai link entirely instead of replacing it with COMP_EMPTY(). This worked
+by accident as the remaining COMP_EMPTY() platform entry became the codec
+entry, and the platform entry became completely empty, effectively the
+same as COMP_DUMMY() since snd_soc_fill_dummy_dai() doesn't do anything
+for platform entries.
+
+This causes a KASAN out-of-bounds warning in mtk_soundcard_common_probe()
+in sound/soc/mediatek/common/mtk-soundcard-driver.c:
+
+	for_each_card_prelinks(card, i, dai_link) {
+		if (adsp_node &amp;&amp; !strncmp(dai_link-&gt;name, "AFE_SOF", strlen("AFE_SOF")))
+			dai_link-&gt;platforms-&gt;of_node = adsp_node;
+		else if (!dai_link-&gt;platforms-&gt;name &amp;&amp; !dai_link-&gt;platforms-&gt;of_node)
+			dai_link-&gt;platforms-&gt;of_node = platform_node;
+	}
+
+where the code expects the platforms array to have space for at least one entry.
+
+Add an COMP_EMPTY() entry so that dai_link-&gt;platforms has space.</description><pubDate>Mon, 29 Jul 2024 16:37:38 +0000</pubDate></item><item><title>CVE-2024-42089 | ASoC: fsl-asoc-card: set priv-&amp;gt;pdev before using it</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42089</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: fsl-asoc-card: set priv-&gt;pdev before using it
+
+priv-&gt;pdev pointer was set after being used in
+fsl_asoc_card_audmux_init().
+Move this assignment at the start of the probe function, so
+sub-functions can correctly use pdev through priv.
+
+fsl_asoc_card_audmux_init() dereferences priv-&gt;pdev to get access to the
+dev struct, used with dev_err macros.
+As priv is zero-initialised, there would be a NULL pointer dereference.
+Note that if priv-&gt;dev is dereferenced before assignment but never used,
+for example if there is no error to be printed, the driver won't crash
+probably due to compiler optimisations.</description><pubDate>Mon, 29 Jul 2024 16:37:39 +0000</pubDate></item><item><title>CVE-2024-42090 | pinctrl: fix deadlock in create_pinctrl() when handling -EPROBE_DEFER</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42090</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: fix deadlock in create_pinctrl() when handling -EPROBE_DEFER
+
+In create_pinctrl(), pinctrl_maps_mutex is acquired before calling
+add_setting(). If add_setting() returns -EPROBE_DEFER, create_pinctrl()
+calls pinctrl_free(). However, pinctrl_free() attempts to acquire
+pinctrl_maps_mutex, which is already held by create_pinctrl(), leading to
+a potential deadlock.
+
+This patch resolves the issue by releasing pinctrl_maps_mutex before
+calling pinctrl_free(), preventing the deadlock.
+
+This bug was discovered and resolved using Coverity Static Analysis
+Security Testing (SAST) by Synopsys, Inc.</description><pubDate>Mon, 29 Jul 2024 16:37:39 +0000</pubDate></item><item><title>CVE-2024-6748 | SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6748</link><description>Zohocorp ManageEngine OpManager, OpManager Plus, OpManager MSP and RMM versions 128317 and below are vulnerable to authenticated SQL injection in the URL monitoring.</description><pubDate>Mon, 29 Jul 2024 16:37:40 +0000</pubDate></item><item><title>CVE-2024-41640 | Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41640</link><description>Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using the id parameter.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2024-41819 | Note Mark has a stored XSS in the note link href attribute</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41819</link><description>Note Mark is a web-based Markdown notes app. A stored cross-site scripting (XSS) vulnerability in Note Mark allows attackers to execute arbitrary web scripts via a crafted payload injected into the URL value of a link in the markdown content. This vulnerability is fixed in 0.13.1.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2023-52887 | net: can: j1939: enhanced error handling for tightly received RTS messages in xtp_rx_rts_session_new</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52887</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: can: j1939: enhanced error handling for tightly received RTS messages in xtp_rx_rts_session_new
 
@@ -120,7 +224,7 @@ curious note popped out:
 [ 4371.403120] CPU: 25 PID: 20545 Comm: ethtool Kdump: loaded Tainted: G           OE      6.10.0-rc3-netnext+ #8
 [ 4371.403302] Hardware name: HPE ProLiant DL360 Gen10/ProLiant DL360 Gen10, BIOS U32 01/23/2021
 [ 4371.403460] Call Trace:
-[ 4371.403613]  &lt;TASK&gt;
+[ 4371.403613]  
 [ 4371.403758]  dump_stack_lvl+0x4f/0x70
 [ 4371.403904]  check_preemption_disabled+0xc1/0xe0
 [ 4371.404051]  napi_skb_cache_put+0x16/0x80
@@ -185,7 +289,7 @@ BUG: KASAN: slab-use-after-free in mlxsw_sp_sb_occ_snapshot+0xb6d/0xbc0
 Read of size 1 at addr ffff8881068cb00f by task devlink/1566
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0xc6/0x120
  print_report+0xce/0x670
  kasan_report+0xd7/0x110
@@ -475,7 +579,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f41f6c85e38 CR3: 000000037ac30000 CR4: 00000000007506f0
 PKRU: 55555554
 Call Trace:
- &lt;IRQ&gt;
+ 
  ? die_addr+0x33/0x90
  ? exc_general_protection+0x251/0x2f0
  ? asm_exc_general_protection+0x22/0x30
