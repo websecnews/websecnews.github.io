@@ -1,5 +1,493 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 15:55:25 +0000</lastBuildDate><item><title>CVE-2024-41083 | netfs: Fix netfs_page_mkwrite() to check folio-&amp;gt;mapping is valid</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41083</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 16:18:15 +0000</lastBuildDate><item><title>CVE-2024-41640 | Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41640</link><description>Cross Site Scripting (XSS) vulnerability in AML Surety Eco up to 3.5 allows an attacker to run arbitrary code via crafted GET request using the id parameter.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2024-41819 | Note Mark has a stored XSS in the note link href attribute</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41819</link><description>Note Mark is a web-based Markdown notes app. A stored cross-site scripting (XSS) vulnerability in Note Mark allows attackers to execute arbitrary web scripts via a crafted payload injected into the URL value of a link in the markdown content. This vulnerability is fixed in 0.13.1.</description><pubDate>Mon, 29 Jul 2024 16:18:17 +0000</pubDate></item><item><title>CVE-2023-52887 | net: can: j1939: enhanced error handling for tightly received RTS messages in xtp_rx_rts_session_new</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52887</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: can: j1939: enhanced error handling for tightly received RTS messages in xtp_rx_rts_session_new
+
+This patch enhances error handling in scenarios with RTS (Request to
+Send) messages arriving closely. It replaces the less informative WARN_ON_ONCE
+backtraces with a new error handling method. This provides clearer error
+messages and allows for the early termination of problematic sessions.
+Previously, sessions were only released at the end of j1939_xtp_rx_rts().
+
+Potentially this could be reproduced with something like:
+testj1939 -r vcan0:0x80 &amp;
+while true; do
+	# send first RTS
+	cansend vcan0 18EC8090#1014000303002301;
+	# send second RTS
+	cansend vcan0 18EC8090#1014000303002301;
+	# send abort
+	cansend vcan0 18EC8090#ff00000000002301;
+done</description><pubDate>Mon, 29 Jul 2024 16:18:18 +0000</pubDate></item><item><title>CVE-2024-41817 | Arbitrary Code Execution in `AppImage` version `ImageMagick`</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41817</link><description>ImageMagick is a free and open-source software suite, used for editing and manipulating digital images. The `AppImage` version `ImageMagick` might use an empty path when setting `MAGICK_CONFIGURE_PATH` and `LD_LIBRARY_PATH` environment variables while executing, which might lead to arbitrary code execution by loading malicious configuration files or shared libraries in the current working directory while executing `ImageMagick`. The vulnerability is fixed in 7.11-36.</description><pubDate>Mon, 29 Jul 2024 16:18:18 +0000</pubDate></item><item><title>CVE-2024-41818 | ReDOS at currency parsing fast-xml-parser</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41818</link><description>fast-xml-parser is an open source, pure javascript xml parser. a ReDOS exists on currency.js. This vulnerability is fixed in 4.4.1.</description><pubDate>Mon, 29 Jul 2024 16:18:19 +0000</pubDate></item><item><title>CVE-2024-42063 | bpf: Mark bpf prog stack with kmsan_unposion_memory in interpreter mode</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42063</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Mark bpf prog stack with kmsan_unposion_memory in interpreter mode
+
+syzbot reported uninit memory usages during map_{lookup,delete}_elem.
+
+==========
+BUG: KMSAN: uninit-value in __dev_map_lookup_elem kernel/bpf/devmap.c:441 [inline]
+BUG: KMSAN: uninit-value in dev_map_lookup_elem+0xf3/0x170 kernel/bpf/devmap.c:796
+__dev_map_lookup_elem kernel/bpf/devmap.c:441 [inline]
+dev_map_lookup_elem+0xf3/0x170 kernel/bpf/devmap.c:796
+____bpf_map_lookup_elem kernel/bpf/helpers.c:42 [inline]
+bpf_map_lookup_elem+0x5c/0x80 kernel/bpf/helpers.c:38
+___bpf_prog_run+0x13fe/0xe0f0 kernel/bpf/core.c:1997
+__bpf_prog_run256+0xb5/0xe0 kernel/bpf/core.c:2237
+==========
+
+The reproducer should be in the interpreter mode.
+
+The C reproducer is trying to run the following bpf prog:
+
+    0: (18) r0 = 0x0
+    2: (18) r1 = map[id:49]
+    4: (b7) r8 = 16777216
+    5: (7b) *(u64 *)(r10 -8) = r8
+    6: (bf) r2 = r10
+    7: (07) r2 += -229
+            ^^^^^^^^^^
+
+    8: (b7) r3 = 8
+    9: (b7) r4 = 0
+   10: (85) call dev_map_lookup_elem#1543472
+   11: (95) exit
+
+It is due to the "void *key" (r2) passed to the helper. bpf allows uninit
+stack memory access for bpf prog with the right privileges. This patch
+uses kmsan_unpoison_memory() to mark the stack as initialized.
+
+This should address different syzbot reports on the uninit "void *key"
+argument during map_{lookup,delete}_elem.</description><pubDate>Mon, 29 Jul 2024 16:18:19 +0000</pubDate></item><item><title>CVE-2024-42064 | drm/amd/display: Skip pipe if the pipe idx not set properly</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42064</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Skip pipe if the pipe idx not set properly
+
+[why]
+Driver crashes when pipe idx not set properly
+
+[how]
+Add code to skip the pipe that idx not set properly</description><pubDate>Mon, 29 Jul 2024 16:18:19 +0000</pubDate></item><item><title>CVE-2024-42065 | drm/xe: Add a NULL check in xe_ttm_stolen_mgr_init</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42065</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Add a NULL check in xe_ttm_stolen_mgr_init
+
+Add an explicit check to ensure that the mgr is not NULL.</description><pubDate>Mon, 29 Jul 2024 16:18:20 +0000</pubDate></item><item><title>CVE-2024-42066 | drm/xe: Fix potential integer overflow in page size calculation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42066</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Fix potential integer overflow in page size calculation
+
+Explicitly cast tbo-&gt;page_alignment to u64 before bit-shifting to
+prevent overflow when assigning to min_page_size.</description><pubDate>Mon, 29 Jul 2024 16:18:20 +0000</pubDate></item><item><title>CVE-2024-42067 | bpf: Take return from set_memory_rox() into account with bpf_jit_binary_lock_ro()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42067</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Take return from set_memory_rox() into account with bpf_jit_binary_lock_ro()
+
+set_memory_rox() can fail, leaving memory unprotected.
+
+Check return and bail out when bpf_jit_binary_lock_ro() returns
+an error.</description><pubDate>Mon, 29 Jul 2024 16:18:20 +0000</pubDate></item><item><title>CVE-2024-42068 | bpf: Take return from set_memory_ro() into account with bpf_prog_lock_ro()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42068</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Take return from set_memory_ro() into account with bpf_prog_lock_ro()
+
+set_memory_ro() can fail, leaving memory unprotected.
+
+Check its return and take it into account as an error.</description><pubDate>Mon, 29 Jul 2024 16:18:21 +0000</pubDate></item><item><title>CVE-2024-42069 | net: mana: Fix possible double free in error handling path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42069</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: mana: Fix possible double free in error handling path
+
+When auxiliary_device_add() returns error and then calls
+auxiliary_device_uninit(), callback function adev_release
+calls kfree(madev). We shouldn't call kfree(madev) again
+in the error handling path. Set 'madev' to NULL.</description><pubDate>Mon, 29 Jul 2024 16:18:21 +0000</pubDate></item><item><title>CVE-2024-42070 | netfilter: nf_tables: fully validate NFT_DATA_VALUE on store to data registers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42070</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_tables: fully validate NFT_DATA_VALUE on store to data registers
+
+register store validation for NFT_DATA_VALUE is conditional, however,
+the datatype is always either NFT_DATA_VALUE or NFT_DATA_VERDICT. This
+only requires a new helper function to infer the register type from the
+set datatype so this conditional check can be removed. Otherwise,
+pointer to chain object can be leaked through the registers.</description><pubDate>Mon, 29 Jul 2024 16:18:22 +0000</pubDate></item><item><title>CVE-2024-42071 | ionic: use dev_consume_skb_any outside of napi</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42071</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ionic: use dev_consume_skb_any outside of napi
+
+If we're not in a NAPI softirq context, we need to be careful
+about how we call napi_consume_skb(), specifically we need to
+call it with budget==0 to signal to it that we're not in a
+safe context.
+
+This was found while running some configuration stress testing
+of traffic and a change queue config loop running, and this
+curious note popped out:
+
+[ 4371.402645] BUG: using smp_processor_id() in preemptible [00000000] code: ethtool/20545
+[ 4371.402897] caller is napi_skb_cache_put+0x16/0x80
+[ 4371.403120] CPU: 25 PID: 20545 Comm: ethtool Kdump: loaded Tainted: G           OE      6.10.0-rc3-netnext+ #8
+[ 4371.403302] Hardware name: HPE ProLiant DL360 Gen10/ProLiant DL360 Gen10, BIOS U32 01/23/2021
+[ 4371.403460] Call Trace:
+[ 4371.403613]  &lt;TASK&gt;
+[ 4371.403758]  dump_stack_lvl+0x4f/0x70
+[ 4371.403904]  check_preemption_disabled+0xc1/0xe0
+[ 4371.404051]  napi_skb_cache_put+0x16/0x80
+[ 4371.404199]  ionic_tx_clean+0x18a/0x240 [ionic]
+[ 4371.404354]  ionic_tx_cq_service+0xc4/0x200 [ionic]
+[ 4371.404505]  ionic_tx_flush+0x15/0x70 [ionic]
+[ 4371.404653]  ? ionic_lif_qcq_deinit.isra.23+0x5b/0x70 [ionic]
+[ 4371.404805]  ionic_txrx_deinit+0x71/0x190 [ionic]
+[ 4371.404956]  ionic_reconfigure_queues+0x5f5/0xff0 [ionic]
+[ 4371.405111]  ionic_set_ringparam+0x2e8/0x3e0 [ionic]
+[ 4371.405265]  ethnl_set_rings+0x1f1/0x300
+[ 4371.405418]  ethnl_default_set_doit+0xbb/0x160
+[ 4371.405571]  genl_family_rcv_msg_doit+0xff/0x130
+	[...]
+
+I found that ionic_tx_clean() calls napi_consume_skb() which calls
+napi_skb_cache_put(), but before that last call is the note
+    /* Zero budget indicate non-NAPI context called us, like netpoll */
+and
+    DEBUG_NET_WARN_ON_ONCE(!in_softirq());
+
+Those are pretty big hints that we're doing it wrong.  We can pass a
+context hint down through the calls to let ionic_tx_clean() know what
+we're doing so it can call napi_consume_skb() correctly.</description><pubDate>Mon, 29 Jul 2024 16:18:22 +0000</pubDate></item><item><title>CVE-2024-42072 | bpf: Fix may_goto with negative offset.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42072</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix may_goto with negative offset.
+
+Zac's syzbot crafted a bpf prog that exposed two bugs in may_goto.
+The 1st bug is the way may_goto is patched. When offset is negative
+it should be patched differently.
+The 2nd bug is in the verifier:
+when current state may_goto_depth is equal to visited state may_goto_depth
+it means there is an actual infinite loop. It's not correct to prune
+exploration of the program at this point.
+Note, that this check doesn't limit the program to only one may_goto insn,
+since 2nd and any further may_goto will increment may_goto_depth only
+in the queued state pushed for future exploration. The current state
+will have may_goto_depth == 0 regardless of number of may_goto insns
+and the verifier has to explore the program until bpf_exit.</description><pubDate>Mon, 29 Jul 2024 16:18:22 +0000</pubDate></item><item><title>CVE-2024-42073 | mlxsw: spectrum_buffers: Fix memory corruptions on Spectrum-4 systems</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42073</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mlxsw: spectrum_buffers: Fix memory corruptions on Spectrum-4 systems
+
+The following two shared buffer operations make use of the Shared Buffer
+Status Register (SBSR):
+
+ # devlink sb occupancy snapshot pci/0000:01:00.0
+ # devlink sb occupancy clearmax pci/0000:01:00.0
+
+The register has two masks of 256 bits to denote on which ingress /
+egress ports the register should operate on. Spectrum-4 has more than
+256 ports, so the register was extended by cited commit with a new
+'port_page' field.
+
+However, when filling the register's payload, the driver specifies the
+ports as absolute numbers and not relative to the first port of the port
+page, resulting in memory corruptions [1].
+
+Fix by specifying the ports relative to the first port of the port page.
+
+[1]
+BUG: KASAN: slab-use-after-free in mlxsw_sp_sb_occ_snapshot+0xb6d/0xbc0
+Read of size 1 at addr ffff8881068cb00f by task devlink/1566
+[...]
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0xc6/0x120
+ print_report+0xce/0x670
+ kasan_report+0xd7/0x110
+ mlxsw_sp_sb_occ_snapshot+0xb6d/0xbc0
+ mlxsw_devlink_sb_occ_snapshot+0x75/0xb0
+ devlink_nl_sb_occ_snapshot_doit+0x1f9/0x2a0
+ genl_family_rcv_msg_doit+0x20c/0x300
+ genl_rcv_msg+0x567/0x800
+ netlink_rcv_skb+0x170/0x450
+ genl_rcv+0x2d/0x40
+ netlink_unicast+0x547/0x830
+ netlink_sendmsg+0x8d4/0xdb0
+ __sys_sendto+0x49b/0x510
+ __x64_sys_sendto+0xe5/0x1c0
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[...]
+Allocated by task 1:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x8f/0xa0
+ copy_verifier_state+0xbc2/0xfb0
+ do_check_common+0x2c51/0xc7e0
+ bpf_check+0x5107/0x9960
+ bpf_prog_load+0xf0e/0x2690
+ __sys_bpf+0x1a61/0x49d0
+ __x64_sys_bpf+0x7d/0xc0
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 1:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ poison_slab_object+0x109/0x170
+ __kasan_slab_free+0x14/0x30
+ kfree+0xca/0x2b0
+ free_verifier_state+0xce/0x270
+ do_check_common+0x4828/0xc7e0
+ bpf_check+0x5107/0x9960
+ bpf_prog_load+0xf0e/0x2690
+ __sys_bpf+0x1a61/0x49d0
+ __x64_sys_bpf+0x7d/0xc0
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f</description><pubDate>Mon, 29 Jul 2024 16:18:23 +0000</pubDate></item><item><title>CVE-2024-42074 | ASoC: amd: acp: add a null check for chip_pdev structure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42074</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: amd: acp: add a null check for chip_pdev structure
+
+When acp platform device creation is skipped, chip-&gt;chip_pdev value will
+remain NULL. Add NULL check for chip-&gt;chip_pdev structure in
+snd_acp_resume() function to avoid null pointer dereference.</description><pubDate>Mon, 29 Jul 2024 16:18:23 +0000</pubDate></item><item><title>CVE-2024-42075 | bpf: Fix remap of arena.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42075</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix remap of arena.
+
+The bpf arena logic didn't account for mremap operation. Add a refcnt for
+multiple mmap events to prevent use-after-free in arena_vm_close.</description><pubDate>Mon, 29 Jul 2024 16:18:23 +0000</pubDate></item><item><title>CVE-2024-42076 | net: can: j1939: Initialize unused data in j1939_send_one()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42076</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: can: j1939: Initialize unused data in j1939_send_one()
+
+syzbot reported kernel-infoleak in raw_recvmsg() [1]. j1939_send_one()
+creates full frame including unused data, but it doesn't initialize
+it. This causes the kernel-infoleak issue. Fix this by initializing
+unused data.
+
+[1]
+BUG: KMSAN: kernel-infoleak in instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+BUG: KMSAN: kernel-infoleak in copy_to_user_iter lib/iov_iter.c:24 [inline]
+BUG: KMSAN: kernel-infoleak in iterate_ubuf include/linux/iov_iter.h:29 [inline]
+BUG: KMSAN: kernel-infoleak in iterate_and_advance2 include/linux/iov_iter.h:245 [inline]
+BUG: KMSAN: kernel-infoleak in iterate_and_advance include/linux/iov_iter.h:271 [inline]
+BUG: KMSAN: kernel-infoleak in _copy_to_iter+0x366/0x2520 lib/iov_iter.c:185
+ instrument_copy_to_user include/linux/instrumented.h:114 [inline]
+ copy_to_user_iter lib/iov_iter.c:24 [inline]
+ iterate_ubuf include/linux/iov_iter.h:29 [inline]
+ iterate_and_advance2 include/linux/iov_iter.h:245 [inline]
+ iterate_and_advance include/linux/iov_iter.h:271 [inline]
+ _copy_to_iter+0x366/0x2520 lib/iov_iter.c:185
+ copy_to_iter include/linux/uio.h:196 [inline]
+ memcpy_to_msg include/linux/skbuff.h:4113 [inline]
+ raw_recvmsg+0x2b8/0x9e0 net/can/raw.c:1008
+ sock_recvmsg_nosec net/socket.c:1046 [inline]
+ sock_recvmsg+0x2c4/0x340 net/socket.c:1068
+ ____sys_recvmsg+0x18a/0x620 net/socket.c:2803
+ ___sys_recvmsg+0x223/0x840 net/socket.c:2845
+ do_recvmmsg+0x4fc/0xfd0 net/socket.c:2939
+ __sys_recvmmsg net/socket.c:3018 [inline]
+ __do_sys_recvmmsg net/socket.c:3041 [inline]
+ __se_sys_recvmmsg net/socket.c:3034 [inline]
+ __x64_sys_recvmmsg+0x397/0x490 net/socket.c:3034
+ x64_sys_call+0xf6c/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:300
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Uninit was created at:
+ slab_post_alloc_hook mm/slub.c:3804 [inline]
+ slab_alloc_node mm/slub.c:3845 [inline]
+ kmem_cache_alloc_node+0x613/0xc50 mm/slub.c:3888
+ kmalloc_reserve+0x13d/0x4a0 net/core/skbuff.c:577
+ __alloc_skb+0x35b/0x7a0 net/core/skbuff.c:668
+ alloc_skb include/linux/skbuff.h:1313 [inline]
+ alloc_skb_with_frags+0xc8/0xbf0 net/core/skbuff.c:6504
+ sock_alloc_send_pskb+0xa81/0xbf0 net/core/sock.c:2795
+ sock_alloc_send_skb include/net/sock.h:1842 [inline]
+ j1939_sk_alloc_skb net/can/j1939/socket.c:878 [inline]
+ j1939_sk_send_loop net/can/j1939/socket.c:1142 [inline]
+ j1939_sk_sendmsg+0xc0a/0x2730 net/can/j1939/socket.c:1277
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg+0x30f/0x380 net/socket.c:745
+ ____sys_sendmsg+0x877/0xb60 net/socket.c:2584
+ ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2638
+ __sys_sendmsg net/socket.c:2667 [inline]
+ __do_sys_sendmsg net/socket.c:2676 [inline]
+ __se_sys_sendmsg net/socket.c:2674 [inline]
+ __x64_sys_sendmsg+0x307/0x4a0 net/socket.c:2674
+ x64_sys_call+0xc4b/0x3b50 arch/x86/include/generated/asm/syscalls_64.h:47
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcf/0x1e0 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Bytes 12-15 of 16 are uninitialized
+Memory access of size 16 starts at ffff888120969690
+Data copied to user address 00000000200017c0
+
+CPU: 1 PID: 5050 Comm: syz-executor198 Not tainted 6.9.0-rc5-syzkaller-00031-g71b1543c83d6 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024</description><pubDate>Mon, 29 Jul 2024 16:18:24 +0000</pubDate></item><item><title>CVE-2024-42077 | ocfs2: fix DIO failure due to insufficient transaction credits</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42077</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ocfs2: fix DIO failure due to insufficient transaction credits
+
+The code in ocfs2_dio_end_io_write() estimates number of necessary
+transaction credits using ocfs2_calc_extend_credits().  This however does
+not take into account that the IO could be arbitrarily large and can
+contain arbitrary number of extents.
+
+Extent tree manipulations do often extend the current transaction but not
+in all of the cases.  For example if we have only single block extents in
+the tree, ocfs2_mark_extent_written() will end up calling
+ocfs2_replace_extent_rec() all the time and we will never extend the
+current transaction and eventually exhaust all the transaction credits if
+the IO contains many single block extents.  Once that happens a
+WARN_ON(jbd2_handle_buffer_credits(handle) &lt;= 0) is triggered in
+jbd2_journal_dirty_metadata() and subsequently OCFS2 aborts in response to
+this error.  This was actually triggered by one of our customers on a
+heavily fragmented OCFS2 filesystem.
+
+To fix the issue make sure the transaction always has enough credits for
+one extent insert before each call of ocfs2_mark_extent_written().
+
+Heming Zhao said:
+
+------
+PANIC: "Kernel panic - not syncing: OCFS2: (device dm-1): panic forced after error"
+
+PID: xxx  TASK: xxxx  CPU: 5  COMMAND: "SubmitThread-CA"
+  #0 machine_kexec at ffffffff8c069932
+  #1 __crash_kexec at ffffffff8c1338fa
+  #2 panic at ffffffff8c1d69b9
+  #3 ocfs2_handle_error at ffffffffc0c86c0c [ocfs2]
+  #4 __ocfs2_abort at ffffffffc0c88387 [ocfs2]
+  #5 ocfs2_journal_dirty at ffffffffc0c51e98 [ocfs2]
+  #6 ocfs2_split_extent at ffffffffc0c27ea3 [ocfs2]
+  #7 ocfs2_change_extent_flag at ffffffffc0c28053 [ocfs2]
+  #8 ocfs2_mark_extent_written at ffffffffc0c28347 [ocfs2]
+  #9 ocfs2_dio_end_io_write at ffffffffc0c2bef9 [ocfs2]
+#10 ocfs2_dio_end_io at ffffffffc0c2c0f5 [ocfs2]
+#11 dio_complete at ffffffff8c2b9fa7
+#12 do_blockdev_direct_IO at ffffffff8c2bc09f
+#13 ocfs2_direct_IO at ffffffffc0c2b653 [ocfs2]
+#14 generic_file_direct_write at ffffffff8c1dcf14
+#15 __generic_file_write_iter at ffffffff8c1dd07b
+#16 ocfs2_file_write_iter at ffffffffc0c49f1f [ocfs2]
+#17 aio_write at ffffffff8c2cc72e
+#18 kmem_cache_alloc at ffffffff8c248dde
+#19 do_io_submit at ffffffff8c2ccada
+#20 do_syscall_64 at ffffffff8c004984
+#21 entry_SYSCALL_64_after_hwframe at ffffffff8c8000ba</description><pubDate>Mon, 29 Jul 2024 16:18:24 +0000</pubDate></item><item><title>CVE-2024-42078 | nfsd: initialise nfsd_info.mutex early.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42078</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: initialise nfsd_info.mutex early.
+
+nfsd_info.mutex can be dereferenced by svc_pool_stats_start()
+immediately after the new netns is created.  Currently this can
+trigger an oops.
+
+Move the initialisation earlier before it can possibly be dereferenced.</description><pubDate>Mon, 29 Jul 2024 16:18:25 +0000</pubDate></item><item><title>CVE-2024-42079 | gfs2: Fix NULL pointer dereference in gfs2_log_flush</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42079</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gfs2: Fix NULL pointer dereference in gfs2_log_flush
+
+In gfs2_jindex_free(), set sdp-&gt;sd_jdesc to NULL under the log flush
+lock to provide exclusion against gfs2_log_flush().
+
+In gfs2_log_flush(), check if sdp-&gt;sd_jdesc is non-NULL before
+dereferencing it.  Otherwise, we could run into a NULL pointer
+dereference when outstanding glock work races with an unmount
+(glock_work_func -&gt; run_queue -&gt; do_xmote -&gt; inode_go_sync -&gt;
+gfs2_log_flush).</description><pubDate>Mon, 29 Jul 2024 16:18:25 +0000</pubDate></item><item><title>CVE-2024-42080 | RDMA/restrack: Fix potential invalid address access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42080</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/restrack: Fix potential invalid address access
+
+struct rdma_restrack_entry's kern_name was set to KBUILD_MODNAME
+in ib_create_cq(), while if the module exited but forgot del this
+rdma_restrack_entry, it would cause a invalid address access in
+rdma_restrack_clean() when print the owner of this rdma_restrack_entry.
+
+These code is used to help find one forgotten PD release in one of the
+ULPs. But it is not needed anymore, so delete them.</description><pubDate>Mon, 29 Jul 2024 16:18:25 +0000</pubDate></item><item><title>CVE-2024-42081 | drm/xe/xe_devcoredump: Check NULL before assignments</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42081</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe/xe_devcoredump: Check NULL before assignments
+
+Assign 'xe_devcoredump_snapshot *' and 'xe_device *' only if
+'coredump' is not NULL.
+
+v2
+- Fix commit messages.
+
+v3
+- Define variables before code.(Ashutosh/Jose)
+
+v4
+- Drop return check for coredump_to_xe. (Jose/Rodrigo)
+
+v5
+- Modify misleading commit message. (Matt)</description><pubDate>Mon, 29 Jul 2024 16:18:26 +0000</pubDate></item><item><title>CVE-2024-42082 | xdp: Remove WARN() from __xdp_reg_mem_model()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42082</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xdp: Remove WARN() from __xdp_reg_mem_model()
+
+syzkaller reports a warning in __xdp_reg_mem_model().
+
+The warning occurs only if __mem_id_init_hash_table() returns an error. It
+returns the error in two cases:
+
+  1. memory allocation fails;
+  2. rhashtable_init() fails when some fields of rhashtable_params
+     struct are not initialized properly.
+
+The second case cannot happen since there is a static const rhashtable_params
+struct with valid fields. So, warning is only triggered when there is a
+problem with memory allocation.
+
+Thus, there is no sense in using WARN() to handle this error and it can be
+safely removed.
+
+WARNING: CPU: 0 PID: 5065 at net/core/xdp.c:299 __xdp_reg_mem_model+0x2d9/0x650 net/core/xdp.c:299
+
+CPU: 0 PID: 5065 Comm: syz-executor883 Not tainted 6.8.0-syzkaller-05271-gf99c5f563c17 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
+RIP: 0010:__xdp_reg_mem_model+0x2d9/0x650 net/core/xdp.c:299
+
+Call Trace:
+ xdp_reg_mem_model+0x22/0x40 net/core/xdp.c:344
+ xdp_test_run_setup net/bpf/test_run.c:188 [inline]
+ bpf_test_run_xdp_live+0x365/0x1e90 net/bpf/test_run.c:377
+ bpf_prog_test_run_xdp+0x813/0x11b0 net/bpf/test_run.c:1267
+ bpf_prog_test_run+0x33a/0x3b0 kernel/bpf/syscall.c:4240
+ __sys_bpf+0x48d/0x810 kernel/bpf/syscall.c:5649
+ __do_sys_bpf kernel/bpf/syscall.c:5738 [inline]
+ __se_sys_bpf kernel/bpf/syscall.c:5736 [inline]
+ __x64_sys_bpf+0x7c/0x90 kernel/bpf/syscall.c:5736
+ do_syscall_64+0xfb/0x240
+ entry_SYSCALL_64_after_hwframe+0x6d/0x75
+
+Found by Linux Verification Center (linuxtesting.org) with syzkaller.</description><pubDate>Mon, 29 Jul 2024 16:18:26 +0000</pubDate></item><item><title>CVE-2024-42083 | ionic: fix kernel panic due to multi-buffer handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42083</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ionic: fix kernel panic due to multi-buffer handling
+
+Currently, the ionic_run_xdp() doesn't handle multi-buffer packets
+properly for XDP_TX and XDP_REDIRECT.
+When a jumbo frame is received, the ionic_run_xdp() first makes xdp
+frame with all necessary pages in the rx descriptor.
+And if the action is either XDP_TX or XDP_REDIRECT, it should unmap
+dma-mapping and reset page pointer to NULL for all pages, not only the
+first page.
+But it doesn't for SG pages. So, SG pages unexpectedly will be reused.
+It eventually causes kernel panic.
+
+Oops: general protection fault, probably for non-canonical address 0x504f4e4dbebc64ff: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 3 PID: 0 Comm: swapper/3 Not tainted 6.10.0-rc3+ #25
+RIP: 0010:xdp_return_frame+0x42/0x90
+Code: 01 75 12 5b 4c 89 e6 5d 31 c9 41 5c 31 d2 41 5d e9 73 fd ff ff 44 8b 6b 20 0f b7 43 0a 49 81 ed 68 01 00 00 49 29 c5 49 01 fd &lt;41&gt; 80 7d0
+RSP: 0018:ffff99d00122ce08 EFLAGS: 00010202
+RAX: 0000000000005453 RBX: ffff8d325f904000 RCX: 0000000000000001
+RDX: 00000000670e1000 RSI: 000000011f90d000 RDI: 504f4e4d4c4b4a49
+RBP: ffff99d003907740 R08: 0000000000000000 R09: 0000000000000000
+R10: 000000011f90d000 R11: 0000000000000000 R12: ffff8d325f904010
+R13: 504f4e4dbebc64fd R14: ffff8d3242b070c8 R15: ffff99d0039077c0
+FS:  0000000000000000(0000) GS:ffff8d399f780000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f41f6c85e38 CR3: 000000037ac30000 CR4: 00000000007506f0
+PKRU: 55555554
+Call Trace:
+ &lt;IRQ&gt;
+ ? die_addr+0x33/0x90
+ ? exc_general_protection+0x251/0x2f0
+ ? asm_exc_general_protection+0x22/0x30
+ ? xdp_return_frame+0x42/0x90
+ ionic_tx_clean+0x211/0x280 [ionic 15881354510e6a9c655c59c54812b319ed2cd015]
+ ionic_tx_cq_service+0xd3/0x210 [ionic 15881354510e6a9c655c59c54812b319ed2cd015]
+ ionic_txrx_napi+0x41/0x1b0 [ionic 15881354510e6a9c655c59c54812b319ed2cd015]
+ __napi_poll.constprop.0+0x29/0x1b0
+ net_rx_action+0x2c4/0x350
+ handle_softirqs+0xf4/0x320
+ irq_exit_rcu+0x78/0xa0
+ common_interrupt+0x77/0x90</description><pubDate>Mon, 29 Jul 2024 16:18:26 +0000</pubDate></item><item><title>CVE-2024-41083 | netfs: Fix netfs_page_mkwrite() to check folio-&amp;gt;mapping is valid</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41083</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfs: Fix netfs_page_mkwrite() to check folio-&gt;mapping is valid
 
@@ -14,7 +502,7 @@ generic/247 occasionally oopses with something like the following:
     RIP: 0010:trace_event_raw_event_netfs_folio+0x61/0xc0
     ...
     Call Trace:
-     &lt;TASK&gt;
+     
      ? __die_body+0x1a/0x60
      ? page_fault_oops+0x6e/0xa0
      ? exc_page_fault+0xc2/0xe0
@@ -66,7 +554,7 @@ endpoint port probing, always hit below calltrace.
  #PF: error_code(0x0000) - not-present page
  RIP: 0010:cxl_pmem_region_probe+0x22e/0x360 [cxl_pmem]
  Call Trace:
-  &lt;TASK&gt;
+  
   ? __die+0x24/0x70
   ? page_fault_oops+0x82/0x160
   ? do_user_addr_fault+0x65/0x6b0
@@ -132,7 +620,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f2f1c3acf75 CR3: 0000000111724000 CR4: 0000000000750ef0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die_body.cold+0x19/0x27
  ? die+0x2e/0x50
  ? do_trap+0xca/0x110
@@ -193,7 +681,7 @@ igt@i915_selftest@live@hangcheck on ADL-P and similar machines:
 &lt;6&gt; [414.068804] i915 0000:00:02.0: [drm] GT0: GUC: submission enabled
 &lt;6&gt; [414.068812] i915 0000:00:02.0: [drm] GT0: GUC: SLPC enabled
 &lt;3&gt; [414.070354] Unable to pin Y-tiled fence; err:-4
-&lt;3&gt; [414.071282] i915_vma_revoke_fence:301 GEM_BUG_ON(!i915_active_is_idle(&amp;fence-&gt;active))
+&lt;3&gt; [414.071282] i915_vma_revoke_fence:301 GEM_BUG_ON(!i915_active_is_idle(&amp;amp;fence-&gt;active))
 ...
 &lt;4&gt;[  609.603992] ------------[ cut here ]------------
 &lt;2&gt;[  609.603995] kernel BUG at drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c:301!
@@ -204,7 +692,7 @@ igt@i915_selftest@live@hangcheck on ADL-P and similar machines:
 &lt;4&gt;[  609.604149] RIP: 0010:i915_vma_revoke_fence+0x187/0x1f0 [i915]
 ...
 &lt;4&gt;[  609.604271] Call Trace:
-&lt;4&gt;[  609.604273]  &lt;TASK&gt;
+&lt;4&gt;[  609.604273]  
 ...
 &lt;4&gt;[  609.604716]  __i915_vma_evict+0x2e9/0x550 [i915]
 &lt;4&gt;[  609.604852]  __i915_vma_unbind+0x7c/0x160 [i915]
@@ -226,7 +714,7 @@ selectively on that one instead of vma-&gt;active since only idleness of
 fence registers was needed.  But then, another commit 0d86ee35097a
 ("drm/i915/gt: Make fence revocation unequivocal") replaced the call to
 fence_update() in i915_vma_revoke_fence() with only fence_write(), and
-also added that GEM_BUG_ON(!i915_active_is_idle(&amp;fence-&gt;active)) in front.
+also added that GEM_BUG_ON(!i915_active_is_idle(&amp;amp;fence-&gt;active)) in front.
 No justification was provided on why we might then expect idleness of
 vma-&gt;fence-&gt;active without first waiting on it.
 
@@ -415,7 +903,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000000003990 CR3: 00000001122a2000 CR4: 0000000000750ef0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die_body.cold+0x19/0x27
  ? page_fault_oops+0x15a/0x2f0
  ? exc_page_fault+0x7e/0x180
