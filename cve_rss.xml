@@ -1,5 +1,921 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 14:29:04 +0000</lastBuildDate><item><title>CVE-2024-37906 | Admidio has Blind SQL Injection in ecard_send.php</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37906</link><description>Admidio is a free, open source user management system for websites of organizations and groups. In Admidio before version 4.3.9, there is an SQL Injection in the `/adm_program/modules/ecards/ecard_send.php` source file of the Admidio Application. The SQL Injection results in a compromise of the application's database. The value of `ecard_recipients `POST parameter is being directly concatenated with the SQL query in the source code causing the SQL Injection. The SQL Injection can be exploited by a member user, using blind condition-based, time-based, and Out of band interaction SQL Injection payloads. This vulnerability is fixed in 4.3.9.</description><pubDate>Mon, 29 Jul 2024 14:29:06 +0000</pubDate></item><item><title>CVE-2024-6984 | An issue was discovered in Juju that resulted in the leak of the sensitive context ID, which allows a local unprivileged attacker to access ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6984</link><description>An issue was discovered in Juju that resulted in the leak of the sensitive context ID, which allows a local unprivileged attacker to access other sensitive data or relation accessible to the local charm.</description><pubDate>Mon, 29 Jul 2024 14:29:07 +0000</pubDate></item><item><title>CVE-2024-6576 | MOVEit Transfer Privilege Escalation Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6576</link><description>Improper Authentication vulnerability in Progress MOVEit Transfer (SFTP module) can lead to Privilege Escalation.This issue affects MOVEit Transfer: from 2023.0.0 before 2023.0.12, from 2023.1.0 before 2023.1.7, from 2024.0.0 before 2024.0.3.</description><pubDate>Mon, 29 Jul 2024 14:10:13 +0000</pubDate></item><item><title>CVE-2024-41020 | filelock: Fix fcntl/close race recovery compat path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41020</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 14:39:57 +0000</lastBuildDate><item><title>CVE-2024-38529 | Admidio Vulnerable to RCE via Arbitrary File Upload in Message Attachment</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38529</link><description>Admidio is a free, open source user management system for websites of organizations and groups. In Admidio before version 4.3.10, there is a Remote Code Execution Vulnerability in the Message module of the Admidio Application, where it is possible to upload a PHP file in the attachment. The uploaded file can be accessed publicly through the URL `{admidio_base_url}/adm_my_files/messages_attachments/{file_name}`. The vulnerability is caused due to the lack of file extension verification, allowing malicious files to be uploaded to the server and public availability of the uploaded file. This vulnerability is fixed in 4.3.10.</description><pubDate>Mon, 29 Jul 2024 14:39:59 +0000</pubDate></item><item><title>CVE-2024-41023 | sched/deadline: Fix task_struct reference leak</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41023</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sched/deadline: Fix task_struct reference leak
+
+During the execution of the following stress test with linux-rt:
+
+stress-ng --cyclic 30 --timeout 30 --minimize --quiet
+
+kmemleak frequently reported a memory leak concerning the task_struct:
+
+unreferenced object 0xffff8881305b8000 (size 16136):
+  comm "stress-ng", pid 614, jiffies 4294883961 (age 286.412s)
+  object hex dump (first 32 bytes):
+    02 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00  .@..............
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  debug hex dump (first 16 bytes):
+    53 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00  S...............
+  backtrace:
+    [&lt;00000000046b6790&gt;] dup_task_struct+0x30/0x540
+    [&lt;00000000c5ca0f0b&gt;] copy_process+0x3d9/0x50e0
+    [&lt;00000000ced59777&gt;] kernel_clone+0xb0/0x770
+    [&lt;00000000a50befdc&gt;] __do_sys_clone+0xb6/0xf0
+    [&lt;000000001dbf2008&gt;] do_syscall_64+0x5d/0xf0
+    [&lt;00000000552900ff&gt;] entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+The issue occurs in start_dl_timer(), which increments the task_struct
+reference count and sets a timer. The timer callback, dl_task_timer,
+is supposed to decrement the reference count upon expiration. However,
+if enqueue_task_dl() is called before the timer expires and cancels it,
+the reference count is not decremented, leading to the leak.
+
+This patch fixes the reference leak by ensuring the task_struct
+reference count is properly decremented when the timer is canceled.</description><pubDate>Mon, 29 Jul 2024 14:39:59 +0000</pubDate></item><item><title>CVE-2024-41024 | misc: fastrpc: Restrict untrusted app to attach to privileged PD</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41024</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: fastrpc: Restrict untrusted app to attach to privileged PD
+
+Untrusted application with access to only non-secure fastrpc device
+node can attach to root_pd or static PDs if it can make the respective
+init request. This can cause problems as the untrusted application
+can send bad requests to root_pd or static PDs. Add changes to reject
+attach to privileged PDs if the request is being made using non-secure
+fastrpc device node.</description><pubDate>Mon, 29 Jul 2024 14:40:00 +0000</pubDate></item><item><title>CVE-2024-41025 | misc: fastrpc: Fix memory leak in audio daemon attach operation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41025</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: fastrpc: Fix memory leak in audio daemon attach operation
+
+Audio PD daemon send the name as part of the init IOCTL call. This
+name needs to be copied to kernel for which memory is allocated.
+This memory is never freed which might result in memory leak. Free
+the memory when it is not needed.</description><pubDate>Mon, 29 Jul 2024 14:40:00 +0000</pubDate></item><item><title>CVE-2024-41026 | mmc: davinci_mmc: Prevent transmitted data size from exceeding sgm&amp;#x27;s length</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41026</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mmc: davinci_mmc: Prevent transmitted data size from exceeding sgm's length
+
+No check is done on the size of the data to be transmiited. This causes
+a kernel panic when this size exceeds the sg_miter's length.
+
+Limit the number of transmitted bytes to sgm-&gt;length.</description><pubDate>Mon, 29 Jul 2024 14:40:01 +0000</pubDate></item><item><title>CVE-2024-41027 | Fix userfaultfd_api to return EINVAL as expected</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Fix userfaultfd_api to return EINVAL as expected
+
+Currently if we request a feature that is not set in the Kernel config we
+fail silently and return all the available features.  However, the man
+page indicates we should return an EINVAL.
+
+We need to fix this issue since we can end up with a Kernel warning should
+a program request the feature UFFD_FEATURE_WP_UNPOPULATED on a kernel with
+the config not set with this feature.
+
+ [  200.812896] WARNING: CPU: 91 PID: 13634 at mm/memory.c:1660 zap_pte_range+0x43d/0x660
+ [  200.820738] Modules linked in:
+ [  200.869387] CPU: 91 PID: 13634 Comm: userfaultfd Kdump: loaded Not tainted 6.9.0-rc5+ #8
+ [  200.877477] Hardware name: Dell Inc. PowerEdge R6525/0N7YGH, BIOS 2.7.3 03/30/2022
+ [  200.885052] RIP: 0010:zap_pte_range+0x43d/0x660</description><pubDate>Mon, 29 Jul 2024 14:40:01 +0000</pubDate></item><item><title>CVE-2024-41028 | platform/x86: toshiba_acpi: Fix array out-of-bounds access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41028</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86: toshiba_acpi: Fix array out-of-bounds access
+
+In order to use toshiba_dmi_quirks[] together with the standard DMI
+matching functions, it must be terminated by a empty entry.
+
+Since this entry is missing, an array out-of-bounds access occurs
+every time the quirk list is processed.
+
+Fix this by adding the terminating empty entry.</description><pubDate>Mon, 29 Jul 2024 14:40:02 +0000</pubDate></item><item><title>CVE-2024-41029 | nvmem: core: limit cell sysfs permissions to main attribute ones</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41029</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvmem: core: limit cell sysfs permissions to main attribute ones
+
+The cell sysfs attribute should not provide more access to the nvmem
+data than the main attribute itself.
+For example if nvme_config::root_only was set, the cell attribute
+would still provide read access to everybody.
+
+Mask out permissions not available on the main attribute.</description><pubDate>Mon, 29 Jul 2024 14:40:02 +0000</pubDate></item><item><title>CVE-2024-41030 | ksmbd: discard write access to the directory open</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41030</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: discard write access to the directory open
+
+may_open() does not allow a directory to be opened with the write access.
+However, some writing flags set by client result in adding write access
+on server, making ksmbd incompatible with FUSE file system. Simply, let's
+discard the write access when opening a directory.
+
+list_add corruption. next is NULL.
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:26!
+pc : __list_add_valid+0x88/0xbc
+lr : __list_add_valid+0x88/0xbc
+Call trace:
+__list_add_valid+0x88/0xbc
+fuse_finish_open+0x11c/0x170
+fuse_open_common+0x284/0x5e8
+fuse_dir_open+0x14/0x24
+do_dentry_open+0x2a4/0x4e0
+dentry_open+0x50/0x80
+smb2_open+0xbe4/0x15a4
+handle_ksmbd_work+0x478/0x5ec
+process_one_work+0x1b4/0x448
+worker_thread+0x25c/0x430
+kthread+0x104/0x1d4
+ret_from_fork+0x10/0x20</description><pubDate>Mon, 29 Jul 2024 14:40:03 +0000</pubDate></item><item><title>CVE-2024-41031 | mm/filemap: skip to create PMD-sized page cache if needed</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41031</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/filemap: skip to create PMD-sized page cache if needed
+
+On ARM64, HPAGE_PMD_ORDER is 13 when the base page size is 64KB.  The
+PMD-sized page cache can't be supported by xarray as the following error
+messages indicate.
+
+------------[ cut here ]------------
+WARNING: CPU: 35 PID: 7484 at lib/xarray.c:1025 xas_split_alloc+0xf8/0x128
+Modules linked in: nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib  \
+nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct    \
+nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4    \
+ip_set rfkill nf_tables nfnetlink vfat fat virtio_balloon drm      \
+fuse xfs libcrc32c crct10dif_ce ghash_ce sha2_ce sha256_arm64      \
+sha1_ce virtio_net net_failover virtio_console virtio_blk failover \
+dimlib virtio_mmio
+CPU: 35 PID: 7484 Comm: test Kdump: loaded Tainted: G W 6.10.0-rc5-gavin+ #9
+Hardware name: QEMU KVM Virtual Machine, BIOS edk2-20240524-1.el9 05/24/2024
+pstate: 83400005 (Nzcv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : xas_split_alloc+0xf8/0x128
+lr : split_huge_page_to_list_to_order+0x1c4/0x720
+sp : ffff800087a4f6c0
+x29: ffff800087a4f6c0 x28: ffff800087a4f720 x27: 000000001fffffff
+x26: 0000000000000c40 x25: 000000000000000d x24: ffff00010625b858
+x23: ffff800087a4f720 x22: ffffffdfc0780000 x21: 0000000000000000
+x20: 0000000000000000 x19: ffffffdfc0780000 x18: 000000001ff40000
+x17: 00000000ffffffff x16: 0000018000000000 x15: 51ec004000000000
+x14: 0000e00000000000 x13: 0000000000002000 x12: 0000000000000020
+x11: 51ec000000000000 x10: 51ece1c0ffff8000 x9 : ffffbeb961a44d28
+x8 : 0000000000000003 x7 : ffffffdfc0456420 x6 : ffff0000e1aa6eb8
+x5 : 20bf08b4fe778fca x4 : ffffffdfc0456420 x3 : 0000000000000c40
+x2 : 000000000000000d x1 : 000000000000000c x0 : 0000000000000000
+Call trace:
+ xas_split_alloc+0xf8/0x128
+ split_huge_page_to_list_to_order+0x1c4/0x720
+ truncate_inode_partial_folio+0xdc/0x160
+ truncate_inode_pages_range+0x1b4/0x4a8
+ truncate_pagecache_range+0x84/0xa0
+ xfs_flush_unmap_range+0x70/0x90 [xfs]
+ xfs_file_fallocate+0xfc/0x4d8 [xfs]
+ vfs_fallocate+0x124/0x2e8
+ ksys_fallocate+0x4c/0xa0
+ __arm64_sys_fallocate+0x24/0x38
+ invoke_syscall.constprop.0+0x7c/0xd8
+ do_el0_svc+0xb4/0xd0
+ el0_svc+0x44/0x1d8
+ el0t_64_sync_handler+0x134/0x150
+ el0t_64_sync+0x17c/0x180
+
+Fix it by skipping to allocate PMD-sized page cache when its size is
+larger than MAX_PAGECACHE_ORDER.  For this specific case, we will fall to
+regular path where the readahead window is determined by BDI's sysfs file
+(read_ahead_kb).</description><pubDate>Mon, 29 Jul 2024 14:40:03 +0000</pubDate></item><item><title>CVE-2024-41032 | mm: vmalloc: check if a hash-index is in cpu_possible_mask</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41032</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: vmalloc: check if a hash-index is in cpu_possible_mask
+
+The problem is that there are systems where cpu_possible_mask has gaps
+between set CPUs, for example SPARC.  In this scenario addr_to_vb_xa()
+hash function can return an index which accesses to not-possible and not
+setup CPU area using per_cpu() macro.  This results in an oops on SPARC.
+
+A per-cpu vmap_block_queue is also used as hash table, incorrectly
+assuming the cpu_possible_mask has no gaps.  Fix it by adjusting an index
+to a next possible CPU.</description><pubDate>Mon, 29 Jul 2024 14:40:04 +0000</pubDate></item><item><title>CVE-2024-41033 | cachestat: do not flush stats in recency check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41033</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cachestat: do not flush stats in recency check
+
+syzbot detects that cachestat() is flushing stats, which can sleep, in its
+RCU read section (see [1]).  This is done in the workingset_test_recent()
+step (which checks if the folio's eviction is recent).
+
+Move the stat flushing step to before the RCU read section of cachestat,
+and skip stat flushing during the recency check.
+
+[1]: https://lore.kernel.org/cgroups/000000000000f71227061bdf97e0@google.com/</description><pubDate>Mon, 29 Jul 2024 14:40:04 +0000</pubDate></item><item><title>CVE-2024-41034 | nilfs2: fix kernel bug on rename operation of broken directory</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41034</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: fix kernel bug on rename operation of broken directory
+
+Syzbot reported that in rename directory operation on broken directory on
+nilfs2, __block_write_begin_int() called to prepare block write may fail
+BUG_ON check for access exceeding the folio/page size.
+
+This is because nilfs_dotdot(), which gets parent directory reference
+entry ("..") of the directory to be moved or renamed, does not check
+consistency enough, and may return location exceeding folio/page size for
+broken directories.
+
+Fix this issue by checking required directory entries ("." and "..") in
+the first chunk of the directory in nilfs_dotdot().</description><pubDate>Mon, 29 Jul 2024 14:40:04 +0000</pubDate></item><item><title>CVE-2024-41035 | USB: core: Fix duplicate endpoint bug by clearing reserved bits in the descriptor</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41035</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: core: Fix duplicate endpoint bug by clearing reserved bits in the descriptor
+
+Syzbot has identified a bug in usbcore (see the Closes: tag below)
+caused by our assumption that the reserved bits in an endpoint
+descriptor's bEndpointAddress field will always be 0.  As a result of
+the bug, the endpoint_is_duplicate() routine in config.c (and possibly
+other routines as well) may believe that two descriptors are for
+distinct endpoints, even though they have the same direction and
+endpoint number.  This can lead to confusion, including the bug
+identified by syzbot (two descriptors with matching endpoint numbers
+and directions, where one was interrupt and the other was bulk).
+
+To fix the bug, we will clear the reserved bits in bEndpointAddress
+when we parse the descriptor.  (Note that both the USB-2.0 and USB-3.1
+specs say these bits are "Reserved, reset to zero".)  This requires us
+to make a copy of the descriptor earlier in usb_parse_endpoint() and
+use the copy instead of the original when checking for duplicates.</description><pubDate>Mon, 29 Jul 2024 14:40:05 +0000</pubDate></item><item><title>CVE-2024-41036 | net: ks8851: Fix deadlock with the SPI chip variant</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41036</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ks8851: Fix deadlock with the SPI chip variant
+
+When SMP is enabled and spinlocks are actually functional then there is
+a deadlock with the 'statelock' spinlock between ks8851_start_xmit_spi
+and ks8851_irq:
+
+    watchdog: BUG: soft lockup - CPU#0 stuck for 27s!
+    call trace:
+      queued_spin_lock_slowpath+0x100/0x284
+      do_raw_spin_lock+0x34/0x44
+      ks8851_start_xmit_spi+0x30/0xb8
+      ks8851_start_xmit+0x14/0x20
+      netdev_start_xmit+0x40/0x6c
+      dev_hard_start_xmit+0x6c/0xbc
+      sch_direct_xmit+0xa4/0x22c
+      __qdisc_run+0x138/0x3fc
+      qdisc_run+0x24/0x3c
+      net_tx_action+0xf8/0x130
+      handle_softirqs+0x1ac/0x1f0
+      __do_softirq+0x14/0x20
+      ____do_softirq+0x10/0x1c
+      call_on_irq_stack+0x3c/0x58
+      do_softirq_own_stack+0x1c/0x28
+      __irq_exit_rcu+0x54/0x9c
+      irq_exit_rcu+0x10/0x1c
+      el1_interrupt+0x38/0x50
+      el1h_64_irq_handler+0x18/0x24
+      el1h_64_irq+0x64/0x68
+      __netif_schedule+0x6c/0x80
+      netif_tx_wake_queue+0x38/0x48
+      ks8851_irq+0xb8/0x2c8
+      irq_thread_fn+0x2c/0x74
+      irq_thread+0x10c/0x1b0
+      kthread+0xc8/0xd8
+      ret_from_fork+0x10/0x20
+
+This issue has not been identified earlier because tests were done on
+a device with SMP disabled and so spinlocks were actually NOPs.
+
+Now use spin_(un)lock_bh for TX queue related locking to avoid execution
+of softirq work synchronously that would lead to a deadlock.</description><pubDate>Mon, 29 Jul 2024 14:40:05 +0000</pubDate></item><item><title>CVE-2024-41037 | ASoC: SOF: Intel: hda: fix null deref on system suspend entry</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41037</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: SOF: Intel: hda: fix null deref on system suspend entry
+
+When system enters suspend with an active stream, SOF core
+calls hw_params_upon_resume(). On Intel platforms with HDA DMA used
+to manage the link DMA, this leads to call chain of
+
+   hda_dsp_set_hw_params_upon_resume()
+ -&gt; hda_dsp_dais_suspend()
+ -&gt; hda_dai_suspend()
+ -&gt; hda_ipc4_post_trigger()
+
+A bug is hit in hda_dai_suspend() as hda_link_dma_cleanup() is run first,
+which clears hext_stream-&gt;link_substream, and then hda_ipc4_post_trigger()
+is called with a NULL snd_pcm_substream pointer.</description><pubDate>Mon, 29 Jul 2024 14:40:06 +0000</pubDate></item><item><title>CVE-2024-41038 | firmware: cs_dsp: Prevent buffer overrun when processing V2 alg headers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41038</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware: cs_dsp: Prevent buffer overrun when processing V2 alg headers
+
+Check that all fields of a V2 algorithm header fit into the available
+firmware data buffer.
+
+The wmfw V2 format introduced variable-length strings in the algorithm
+block header. This means the overall header length is variable, and the
+position of most fields varies depending on the length of the string
+fields. Each field must be checked to ensure that it does not overflow
+the firmware data buffer.
+
+As this ia bugfix patch, the fixes avoid making any significant change to
+the existing code. This makes it easier to review and less likely to
+introduce new bugs.</description><pubDate>Mon, 29 Jul 2024 14:40:06 +0000</pubDate></item><item><title>CVE-2024-41039 | firmware: cs_dsp: Fix overflow checking of wmfw header</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41039</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware: cs_dsp: Fix overflow checking of wmfw header
+
+Fix the checking that firmware file buffer is large enough for the
+wmfw header, to prevent overrunning the buffer.
+
+The original code tested that the firmware data buffer contained
+enough bytes for the sums of the size of the structs
+
+	wmfw_header + wmfw_adsp1_sizes + wmfw_footer
+
+But wmfw_adsp1_sizes is only used on ADSP1 firmware. For ADSP2 and
+Halo Core the equivalent struct is wmfw_adsp2_sizes, which is
+4 bytes longer. So the length check didn't guarantee that there
+are enough bytes in the firmware buffer for a header with
+wmfw_adsp2_sizes.
+
+This patch splits the length check into three separate parts. Each
+of the wmfw_header, wmfw_adsp?_sizes and wmfw_footer are checked
+separately before they are used.</description><pubDate>Mon, 29 Jul 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-41040 | net/sched: Fix UAF when resolving a clash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41040</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sched: Fix UAF when resolving a clash
+
+KASAN reports the following UAF:
+
+ BUG: KASAN: slab-use-after-free in tcf_ct_flow_table_process_conn+0x12b/0x380 [act_ct]
+ Read of size 1 at addr ffff888c07603600 by task handler130/6469
+
+ Call Trace:
+  &lt;IRQ&gt;
+  dump_stack_lvl+0x48/0x70
+  print_address_description.constprop.0+0x33/0x3d0
+  print_report+0xc0/0x2b0
+  kasan_report+0xd0/0x120
+  __asan_load1+0x6c/0x80
+  tcf_ct_flow_table_process_conn+0x12b/0x380 [act_ct]
+  tcf_ct_act+0x886/0x1350 [act_ct]
+  tcf_action_exec+0xf8/0x1f0
+  fl_classify+0x355/0x360 [cls_flower]
+  __tcf_classify+0x1fd/0x330
+  tcf_classify+0x21c/0x3c0
+  sch_handle_ingress.constprop.0+0x2c5/0x500
+  __netif_receive_skb_core.constprop.0+0xb25/0x1510
+  __netif_receive_skb_list_core+0x220/0x4c0
+  netif_receive_skb_list_internal+0x446/0x620
+  napi_complete_done+0x157/0x3d0
+  gro_cell_poll+0xcf/0x100
+  __napi_poll+0x65/0x310
+  net_rx_action+0x30c/0x5c0
+  __do_softirq+0x14f/0x491
+  __irq_exit_rcu+0x82/0xc0
+  irq_exit_rcu+0xe/0x20
+  common_interrupt+0xa1/0xb0
+  &lt;/IRQ&gt;
+  &lt;TASK&gt;
+  asm_common_interrupt+0x27/0x40
+
+ Allocated by task 6469:
+  kasan_save_stack+0x38/0x70
+  kasan_set_track+0x25/0x40
+  kasan_save_alloc_info+0x1e/0x40
+  __kasan_krealloc+0x133/0x190
+  krealloc+0xaa/0x130
+  nf_ct_ext_add+0xed/0x230 [nf_conntrack]
+  tcf_ct_act+0x1095/0x1350 [act_ct]
+  tcf_action_exec+0xf8/0x1f0
+  fl_classify+0x355/0x360 [cls_flower]
+  __tcf_classify+0x1fd/0x330
+  tcf_classify+0x21c/0x3c0
+  sch_handle_ingress.constprop.0+0x2c5/0x500
+  __netif_receive_skb_core.constprop.0+0xb25/0x1510
+  __netif_receive_skb_list_core+0x220/0x4c0
+  netif_receive_skb_list_internal+0x446/0x620
+  napi_complete_done+0x157/0x3d0
+  gro_cell_poll+0xcf/0x100
+  __napi_poll+0x65/0x310
+  net_rx_action+0x30c/0x5c0
+  __do_softirq+0x14f/0x491
+
+ Freed by task 6469:
+  kasan_save_stack+0x38/0x70
+  kasan_set_track+0x25/0x40
+  kasan_save_free_info+0x2b/0x60
+  ____kasan_slab_free+0x180/0x1f0
+  __kasan_slab_free+0x12/0x30
+  slab_free_freelist_hook+0xd2/0x1a0
+  __kmem_cache_free+0x1a2/0x2f0
+  kfree+0x78/0x120
+  nf_conntrack_free+0x74/0x130 [nf_conntrack]
+  nf_ct_destroy+0xb2/0x140 [nf_conntrack]
+  __nf_ct_resolve_clash+0x529/0x5d0 [nf_conntrack]
+  nf_ct_resolve_clash+0xf6/0x490 [nf_conntrack]
+  __nf_conntrack_confirm+0x2c6/0x770 [nf_conntrack]
+  tcf_ct_act+0x12ad/0x1350 [act_ct]
+  tcf_action_exec+0xf8/0x1f0
+  fl_classify+0x355/0x360 [cls_flower]
+  __tcf_classify+0x1fd/0x330
+  tcf_classify+0x21c/0x3c0
+  sch_handle_ingress.constprop.0+0x2c5/0x500
+  __netif_receive_skb_core.constprop.0+0xb25/0x1510
+  __netif_receive_skb_list_core+0x220/0x4c0
+  netif_receive_skb_list_internal+0x446/0x620
+  napi_complete_done+0x157/0x3d0
+  gro_cell_poll+0xcf/0x100
+  __napi_poll+0x65/0x310
+  net_rx_action+0x30c/0x5c0
+  __do_softirq+0x14f/0x491
+
+The ct may be dropped if a clash has been resolved but is still passed to
+the tcf_ct_flow_table_process_conn function for further usage. This issue
+can be fixed by retrieving ct from skb again after confirming conntrack.</description><pubDate>Mon, 29 Jul 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-41041 | udp: Set SOCK_RCU_FREE earlier in udp_lib_get_port().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41041</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+udp: Set SOCK_RCU_FREE earlier in udp_lib_get_port().
+
+syzkaller triggered the warning [0] in udp_v4_early_demux().
+
+In udp_v[46]_early_demux() and sk_lookup(), we do not touch the refcount
+of the looked-up sk and use sock_pfree() as skb-&gt;destructor, so we check
+SOCK_RCU_FREE to ensure that the sk is safe to access during the RCU grace
+period.
+
+Currently, SOCK_RCU_FREE is flagged for a bound socket after being put
+into the hash table.  Moreover, the SOCK_RCU_FREE check is done too early
+in udp_v[46]_early_demux() and sk_lookup(), so there could be a small race
+window:
+
+  CPU1                                 CPU2
+  ----                                 ----
+  udp_v4_early_demux()                 udp_lib_get_port()
+  |                                    |- hlist_add_head_rcu()
+  |- sk = __udp4_lib_demux_lookup()    |
+  |- DEBUG_NET_WARN_ON_ONCE(sk_is_refcounted(sk));
+                                       `- sock_set_flag(sk, SOCK_RCU_FREE)
+
+We had the same bug in TCP and fixed it in commit 871019b22d1b ("net:
+set SOCK_RCU_FREE before inserting socket into hashtable").
+
+Let's apply the same fix for UDP.
+
+[0]:
+WARNING: CPU: 0 PID: 11198 at net/ipv4/udp.c:2599 udp_v4_early_demux+0x481/0xb70 net/ipv4/udp.c:2599
+Modules linked in:
+CPU: 0 PID: 11198 Comm: syz-executor.1 Not tainted 6.9.0-g93bda33046e7 #13
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+RIP: 0010:udp_v4_early_demux+0x481/0xb70 net/ipv4/udp.c:2599
+Code: c5 7a 15 fe bb 01 00 00 00 44 89 e9 31 ff d3 e3 81 e3 bf ef ff ff 89 de e8 2c 74 15 fe 85 db 0f 85 02 06 00 00 e8 9f 7a 15 fe &lt;0f&gt; 0b e8 98 7a 15 fe 49 8d 7e 60 e8 4f 39 2f fe 49 c7 46 60 20 52
+RSP: 0018:ffffc9000ce3fa58 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8318c92c
+RDX: ffff888036ccde00 RSI: ffffffff8318c2f1 RDI: 0000000000000001
+RBP: ffff88805a2dd6e0 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0001ffffffffffff R12: ffff88805a2dd680
+R13: 0000000000000007 R14: ffff88800923f900 R15: ffff88805456004e
+FS:  00007fc449127640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc449126e38 CR3: 000000003de4b002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ &lt;TASK&gt;
+ ip_rcv_finish_core.constprop.0+0xbdd/0xd20 net/ipv4/ip_input.c:349
+ ip_rcv_finish+0xda/0x150 net/ipv4/ip_input.c:447
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ ip_rcv+0x16c/0x180 net/ipv4/ip_input.c:569
+ __netif_receive_skb_one_core+0xb3/0xe0 net/core/dev.c:5624
+ __netif_receive_skb+0x21/0xd0 net/core/dev.c:5738
+ netif_receive_skb_internal net/core/dev.c:5824 [inline]
+ netif_receive_skb+0x271/0x300 net/core/dev.c:5884
+ tun_rx_batched drivers/net/tun.c:1549 [inline]
+ tun_get_user+0x24db/0x2c50 drivers/net/tun.c:2002
+ tun_chr_write_iter+0x107/0x1a0 drivers/net/tun.c:2048
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0x76f/0x8d0 fs/read_write.c:590
+ ksys_write+0xbf/0x190 fs/read_write.c:643
+ __do_sys_write fs/read_write.c:655 [inline]
+ __se_sys_write fs/read_write.c:652 [inline]
+ __x64_sys_write+0x41/0x50 fs/read_write.c:652
+ x64_sys_call+0xe66/0x1990 arch/x86/include/generated/asm/syscalls_64.h:2
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0x4b/0x110 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53
+RIP: 0033:0x7fc44a68bc1f
+Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 e9 cf f5 ff 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 &lt;48&gt; 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 3c d0 f5 ff 48
+RSP: 002b:00007fc449126c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00000000004bc050 RCX: 00007fc44a68bc1f
+R
+---truncated---</description><pubDate>Mon, 29 Jul 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-41042 | netfilter: nf_tables: prefer nft_chain_validate</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41042</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_tables: prefer nft_chain_validate
+
+nft_chain_validate already performs loop detection because a cycle will
+result in a call stack overflow (ctx-&gt;level &gt;= NFT_JUMP_STACK_SIZE).
+
+It also follows maps via -&gt;validate callback in nft_lookup, so there
+appears no reason to iterate the maps again.
+
+nf_tables_check_loops() and all its helper functions can be removed.
+This improves ruleset load time significantly, from 23s down to 12s.
+
+This also fixes a crash bug. Old loop detection code can result in
+unbounded recursion:
+
+BUG: TASK stack guard page was hit at ....
+Oops: stack guard page: 0000 [#1] PREEMPT SMP KASAN
+CPU: 4 PID: 1539 Comm: nft Not tainted 6.10.0-rc5+ #1
+[..]
+
+with a suitable ruleset during validation of register stores.
+
+I can't see any actual reason to attempt to check for this from
+nft_validate_register_store(), at this point the transaction is still in
+progress, so we don't have a full picture of the rule graph.
+
+For nf-next it might make sense to either remove it or make this depend
+on table-&gt;validate_state in case we could catch an error earlier
+(for improved error reporting to userspace).</description><pubDate>Mon, 29 Jul 2024 14:40:08 +0000</pubDate></item><item><title>CVE-2024-41043 | netfilter: nfnetlink_queue: drop bogus WARN_ON</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41043</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nfnetlink_queue: drop bogus WARN_ON
+
+Happens when rules get flushed/deleted while packet is out, so remove
+this WARN_ON.
+
+This WARN exists in one form or another since v4.14, no need to backport
+this to older releases, hence use a more recent fixes tag.</description><pubDate>Mon, 29 Jul 2024 14:40:08 +0000</pubDate></item><item><title>CVE-2024-41044 | ppp: reject claimed-as-LCP but actually malformed packets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41044</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ppp: reject claimed-as-LCP but actually malformed packets
+
+Since 'ppp_async_encode()' assumes valid LCP packets (with code
+from 1 to 7 inclusive), add 'ppp_check_packet()' to ensure that
+LCP packet has an actual body beyond PPP_LCP header bytes, and
+reject claimed-as-LCP but actually malformed data otherwise.</description><pubDate>Mon, 29 Jul 2024 14:40:09 +0000</pubDate></item><item><title>CVE-2024-41045 | bpf: Defer work in bpf_timer_cancel_and_free</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41045</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Defer work in bpf_timer_cancel_and_free
+
+Currently, the same case as previous patch (two timer callbacks trying
+to cancel each other) can be invoked through bpf_map_update_elem as
+well, or more precisely, freeing map elements containing timers. Since
+this relies on hrtimer_cancel as well, it is prone to the same deadlock
+situation as the previous patch.
+
+It would be sufficient to use hrtimer_try_to_cancel to fix this problem,
+as the timer cannot be enqueued after async_cancel_and_free. Once
+async_cancel_and_free has been done, the timer must be reinitialized
+before it can be armed again. The callback running in parallel trying to
+arm the timer will fail, and freeing bpf_hrtimer without waiting is
+sufficient (given kfree_rcu), and bpf_timer_cb will return
+HRTIMER_NORESTART, preventing the timer from being rearmed again.
+
+However, there exists a UAF scenario where the callback arms the timer
+before entering this function, such that if cancellation fails (due to
+timer callback invoking this routine, or the target timer callback
+running concurrently). In such a case, if the timer expiration is
+significantly far in the future, the RCU grace period expiration
+happening before it will free the bpf_hrtimer state and along with it
+the struct hrtimer, that is enqueued.
+
+Hence, it is clear cancellation needs to occur after
+async_cancel_and_free, and yet it cannot be done inline due to deadlock
+issues. We thus modify bpf_timer_cancel_and_free to defer work to the
+global workqueue, adding a work_struct alongside rcu_head (both used at
+_different_ points of time, so can share space).
+
+Update existing code comments to reflect the new state of affairs.</description><pubDate>Mon, 29 Jul 2024 14:40:09 +0000</pubDate></item><item><title>CVE-2024-41046 | net: ethernet: lantiq_etop: fix double free in detach</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41046</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ethernet: lantiq_etop: fix double free in detach
+
+The number of the currently released descriptor is never incremented
+which results in the same skb being released multiple times.</description><pubDate>Mon, 29 Jul 2024 14:40:10 +0000</pubDate></item><item><title>CVE-2024-41047 | i40e: Fix XDP program unloading while removing the driver</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41047</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: Fix XDP program unloading while removing the driver
+
+The commit 6533e558c650 ("i40e: Fix reset path while removing
+the driver") introduced a new PF state "__I40E_IN_REMOVE" to block
+modifying the XDP program while the driver is being removed.
+Unfortunately, such a change is useful only if the ".ndo_bpf()"
+callback was called out of the rmmod context because unloading the
+existing XDP program is also a part of driver removing procedure.
+In other words, from the rmmod context the driver is expected to
+unload the XDP program without reporting any errors. Otherwise,
+the kernel warning with callstack is printed out to dmesg.
+
+Example failing scenario:
+ 1. Load the i40e driver.
+ 2. Load the XDP program.
+ 3. Unload the i40e driver (using "rmmod" command).
+
+The example kernel warning log:
+
+[  +0.004646] WARNING: CPU: 94 PID: 10395 at net/core/dev.c:9290 unregister_netdevice_many_notify+0x7a9/0x870
+[...]
+[  +0.010959] RIP: 0010:unregister_netdevice_many_notify+0x7a9/0x870
+[...]
+[  +0.002726] Call Trace:
+[  +0.002457]  &lt;TASK&gt;
+[  +0.002119]  ? __warn+0x80/0x120
+[  +0.003245]  ? unregister_netdevice_many_notify+0x7a9/0x870
+[  +0.005586]  ? report_bug+0x164/0x190
+[  +0.003678]  ? handle_bug+0x3c/0x80
+[  +0.003503]  ? exc_invalid_op+0x17/0x70
+[  +0.003846]  ? asm_exc_invalid_op+0x1a/0x20
+[  +0.004200]  ? unregister_netdevice_many_notify+0x7a9/0x870
+[  +0.005579]  ? unregister_netdevice_many_notify+0x3cc/0x870
+[  +0.005586]  unregister_netdevice_queue+0xf7/0x140
+[  +0.004806]  unregister_netdev+0x1c/0x30
+[  +0.003933]  i40e_vsi_release+0x87/0x2f0 [i40e]
+[  +0.004604]  i40e_remove+0x1a1/0x420 [i40e]
+[  +0.004220]  pci_device_remove+0x3f/0xb0
+[  +0.003943]  device_release_driver_internal+0x19f/0x200
+[  +0.005243]  driver_detach+0x48/0x90
+[  +0.003586]  bus_remove_driver+0x6d/0xf0
+[  +0.003939]  pci_unregister_driver+0x2e/0xb0
+[  +0.004278]  i40e_exit_module+0x10/0x5f0 [i40e]
+[  +0.004570]  __do_sys_delete_module.isra.0+0x197/0x310
+[  +0.005153]  do_syscall_64+0x85/0x170
+[  +0.003684]  ? syscall_exit_to_user_mode+0x69/0x220
+[  +0.004886]  ? do_syscall_64+0x95/0x170
+[  +0.003851]  ? exc_page_fault+0x7e/0x180
+[  +0.003932]  entry_SYSCALL_64_after_hwframe+0x71/0x79
+[  +0.005064] RIP: 0033:0x7f59dc9347cb
+[  +0.003648] Code: 73 01 c3 48 8b 0d 65 16 0c 00 f7 d8 64 89 01 48 83
+c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f
+05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d 35 16 0c 00 f7 d8 64 89 01 48
+[  +0.018753] RSP: 002b:00007ffffac99048 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
+[  +0.007577] RAX: ffffffffffffffda RBX: 0000559b9bb2f6e0 RCX: 00007f59dc9347cb
+[  +0.007140] RDX: 0000000000000000 RSI: 0000000000000800 RDI: 0000559b9bb2f748
+[  +0.007146] RBP: 00007ffffac99070 R08: 1999999999999999 R09: 0000000000000000
+[  +0.007133] R10: 00007f59dc9a5ac0 R11: 0000000000000206 R12: 0000000000000000
+[  +0.007141] R13: 00007ffffac992d8 R14: 0000559b9bb2f6e0 R15: 0000000000000000
+[  +0.007151]  &lt;/TASK&gt;
+[  +0.002204] ---[ end trace 0000000000000000 ]---
+
+Fix this by checking if the XDP program is being loaded or unloaded.
+Then, block only loading a new program while "__I40E_IN_REMOVE" is set.
+Also, move testing "__I40E_IN_REMOVE" flag to the beginning of XDP_SETUP
+callback to avoid unnecessary operations and checks.</description><pubDate>Mon, 29 Jul 2024 14:40:10 +0000</pubDate></item><item><title>CVE-2024-41048 | skmsg: Skip zero length skb in sk_msg_recvmsg</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41048</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+skmsg: Skip zero length skb in sk_msg_recvmsg
+
+When running BPF selftests (./test_progs -t sockmap_basic) on a Loongarch
+platform, the following kernel panic occurs:
+
+  [...]
+  Oops[#1]:
+  CPU: 22 PID: 2824 Comm: test_progs Tainted: G           OE  6.10.0-rc2+ #18
+  Hardware name: LOONGSON Dabieshan/Loongson-TC542F0, BIOS Loongson-UDK2018
+     ... ...
+     ra: 90000000048bf6c0 sk_msg_recvmsg+0x120/0x560
+    ERA: 9000000004162774 copy_page_to_iter+0x74/0x1c0
+   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+   PRMD: 0000000c (PPLV0 +PIE +PWE)
+   EUEN: 00000007 (+FPE +SXE +ASXE -BTE)
+   ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+  ESTAT: 00010000 [PIL] (IS= ECode=1 EsubCode=0)
+   BADV: 0000000000000040
+   PRID: 0014c011 (Loongson-64bit, Loongson-3C5000)
+  Modules linked in: bpf_testmod(OE) xt_CHECKSUM xt_MASQUERADE xt_conntrack
+  Process test_progs (pid: 2824, threadinfo=0000000000863a31, task=...)
+  Stack : ...
+  Call Trace:
+  [&lt;9000000004162774&gt;] copy_page_to_iter+0x74/0x1c0
+  [&lt;90000000048bf6c0&gt;] sk_msg_recvmsg+0x120/0x560
+  [&lt;90000000049f2b90&gt;] tcp_bpf_recvmsg_parser+0x170/0x4e0
+  [&lt;90000000049aae34&gt;] inet_recvmsg+0x54/0x100
+  [&lt;900000000481ad5c&gt;] sock_recvmsg+0x7c/0xe0
+  [&lt;900000000481e1a8&gt;] __sys_recvfrom+0x108/0x1c0
+  [&lt;900000000481e27c&gt;] sys_recvfrom+0x1c/0x40
+  [&lt;9000000004c076ec&gt;] do_syscall+0x8c/0xc0
+  [&lt;9000000003731da4&gt;] handle_syscall+0xc4/0x160
+  Code: ...
+  ---[ end trace 0000000000000000 ]---
+  Kernel panic - not syncing: Fatal exception
+  Kernel relocated by 0x3510000
+   .text @ 0x9000000003710000
+   .data @ 0x9000000004d70000
+   .bss  @ 0x9000000006469400
+  ---[ end Kernel panic - not syncing: Fatal exception ]---
+  [...]
+
+This crash happens every time when running sockmap_skb_verdict_shutdown
+subtest in sockmap_basic.
+
+This crash is because a NULL pointer is passed to page_address() in the
+sk_msg_recvmsg(). Due to the different implementations depending on the
+architecture, page_address(NULL) will trigger a panic on Loongarch
+platform but not on x86 platform. So this bug was hidden on x86 platform
+for a while, but now it is exposed on Loongarch platform. The root cause
+is that a zero length skb (skb-&gt;len == 0) was put on the queue.
+
+This zero length skb is a TCP FIN packet, which was sent by shutdown(),
+invoked in test_sockmap_skb_verdict_shutdown():
+
+	shutdown(p1, SHUT_WR);
+
+In this case, in sk_psock_skb_ingress_enqueue(), num_sge is zero, and no
+page is put to this sge (see sg_set_page in sg_set_page), but this empty
+sge is queued into ingress_msg list.
+
+And in sk_msg_recvmsg(), this empty sge is used, and a NULL page is got by
+sg_page(sge). Pass this NULL page to copy_page_to_iter(), which passes it
+to kmap_local_page() and to page_address(), then kernel panics.
+
+To solve this, we should skip this zero length skb. So in sk_msg_recvmsg(),
+if copy is zero, that means it's a zero length skb, skip invoking
+copy_page_to_iter(). We are using the EFAULT return triggered by
+copy_page_to_iter to check for is_fin in tcp_bpf.c.</description><pubDate>Mon, 29 Jul 2024 14:40:11 +0000</pubDate></item><item><title>CVE-2024-41049 | filelock: fix potential use-after-free in posix_lock_inode</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41049</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+filelock: fix potential use-after-free in posix_lock_inode
+
+Light Hsieh reported a KASAN UAF warning in trace_posix_lock_inode().
+The request pointer had been changed earlier to point to a lock entry
+that was added to the inode's list. However, before the tracepoint could
+fire, another task raced in and freed that lock.
+
+Fix this by moving the tracepoint inside the spinlock, which should
+ensure that this doesn't happen.</description><pubDate>Mon, 29 Jul 2024 14:40:11 +0000</pubDate></item><item><title>CVE-2024-41050 | cachefiles: cyclic allocation of msg_id to avoid reuse</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41050</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cachefiles: cyclic allocation of msg_id to avoid reuse
+
+Reusing the msg_id after a maliciously completed reopen request may cause
+a read request to remain unprocessed and result in a hung, as shown below:
+
+       t1       |      t2       |      t3
+-------------------------------------------------
+cachefiles_ondemand_select_req
+ cachefiles_ondemand_object_is_close(A)
+ cachefiles_ondemand_set_object_reopening(A)
+ queue_work(fscache_object_wq, &amp;info-&gt;work)
+                ondemand_object_worker
+                 cachefiles_ondemand_init_object(A)
+                  cachefiles_ondemand_send_req(OPEN)
+                    // get msg_id 6
+                    wait_for_completion(&amp;req_A-&gt;done)
+cachefiles_ondemand_daemon_read
+ // read msg_id 6 req_A
+ cachefiles_ondemand_get_fd
+ copy_to_user
+                                // Malicious completion msg_id 6
+                                copen 6,-1
+                                cachefiles_ondemand_copen
+                                 complete(&amp;req_A-&gt;done)
+                                 // will not set the object to close
+                                 // because ondemand_id &amp;&amp; fd is valid.
+
+                // ondemand_object_worker() is done
+                // but the object is still reopening.
+
+                                // new open req_B
+                                cachefiles_ondemand_init_object(B)
+                                 cachefiles_ondemand_send_req(OPEN)
+                                 // reuse msg_id 6
+process_open_req
+ copen 6,A.size
+ // The expected failed copen was executed successfully
+
+Expect copen to fail, and when it does, it closes fd, which sets the
+object to close, and then close triggers reopen again. However, due to
+msg_id reuse resulting in a successful copen, the anonymous fd is not
+closed until the daemon exits. Therefore read requests waiting for reopen
+to complete may trigger hung task.
+
+To avoid this issue, allocate the msg_id cyclically to avoid reusing the
+msg_id for a very short duration of time.</description><pubDate>Mon, 29 Jul 2024 14:40:11 +0000</pubDate></item><item><title>CVE-2024-41051 | cachefiles: wait for ondemand_object_worker to finish when dropping object</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41051</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cachefiles: wait for ondemand_object_worker to finish when dropping object
+
+When queuing ondemand_object_worker() to re-open the object,
+cachefiles_object is not pinned. The cachefiles_object may be freed when
+the pending read request is completed intentionally and the related
+erofs is umounted. If ondemand_object_worker() runs after the object is
+freed, it will incur use-after-free problem as shown below.
+
+process A  processs B  process C  process D
+
+cachefiles_ondemand_send_req()
+// send a read req X
+// wait for its completion
+
+           // close ondemand fd
+           cachefiles_ondemand_fd_release()
+           // set object as CLOSE
+
+                       cachefiles_ondemand_daemon_read()
+                       // set object as REOPENING
+                       queue_work(fscache_wq, &amp;info-&gt;ondemand_work)
+
+                                // close /dev/cachefiles
+                                cachefiles_daemon_release
+                                cachefiles_flush_reqs
+                                complete(&amp;req-&gt;done)
+
+// read req X is completed
+// umount the erofs fs
+cachefiles_put_object()
+// object will be freed
+cachefiles_ondemand_deinit_obj_info()
+kmem_cache_free(object)
+                       // both info and object are freed
+                       ondemand_object_worker()
+
+When dropping an object, it is no longer necessary to reopen the object,
+so use cancel_work_sync() to cancel or wait for ondemand_object_worker()
+to finish.</description><pubDate>Mon, 29 Jul 2024 14:40:12 +0000</pubDate></item><item><title>CVE-2024-41052 | vfio/pci: Init the count variable in collecting hot-reset devices</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41052</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vfio/pci: Init the count variable in collecting hot-reset devices
+
+The count variable is used without initialization, it results in mistakes
+in the device counting and crashes the userspace if the get hot reset info
+path is triggered.</description><pubDate>Mon, 29 Jul 2024 14:40:12 +0000</pubDate></item><item><title>CVE-2024-41053 | scsi: ufs: core: Fix ufshcd_abort_one racing issue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41053</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: core: Fix ufshcd_abort_one racing issue
+
+When ufshcd_abort_one is racing with the completion ISR, the completed tag
+of the request's mq_hctx pointer will be set to NULL by ISR.  Return
+success when request is completed by ISR because ufshcd_abort_one does not
+need to do anything.
+
+The racing flow is:
+
+Thread A
+ufshcd_err_handler					step 1
+	...
+	ufshcd_abort_one
+		ufshcd_try_to_abort_task
+			ufshcd_cmd_inflight(true)	step 3
+		ufshcd_mcq_req_to_hwq
+			blk_mq_unique_tag
+				rq-&gt;mq_hctx-&gt;queue_num	step 5
+
+Thread B
+ufs_mtk_mcq_intr(cq complete ISR)			step 2
+	scsi_done
+		...
+		__blk_mq_free_request
+			rq-&gt;mq_hctx = NULL;		step 4
+
+Below is KE back trace.
+  ufshcd_try_to_abort_task: cmd at tag 41 not pending in the device.
+  ufshcd_try_to_abort_task: cmd at tag=41 is cleared.
+  Aborting tag 41 / CDB 0x28 succeeded
+  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000194
+  pc : [0xffffffddd7a79bf8] blk_mq_unique_tag+0x8/0x14
+  lr : [0xffffffddd6155b84] ufshcd_mcq_req_to_hwq+0x1c/0x40 [ufs_mediatek_mod_ise]
+   do_mem_abort+0x58/0x118
+   el1_abort+0x3c/0x5c
+   el1h_64_sync_handler+0x54/0x90
+   el1h_64_sync+0x68/0x6c
+   blk_mq_unique_tag+0x8/0x14
+   ufshcd_err_handler+0xae4/0xfa8 [ufs_mediatek_mod_ise]
+   process_one_work+0x208/0x4fc
+   worker_thread+0x228/0x438
+   kthread+0x104/0x1d4
+   ret_from_fork+0x10/0x20</description><pubDate>Mon, 29 Jul 2024 14:40:13 +0000</pubDate></item><item><title>CVE-2024-41054 | scsi: ufs: core: Fix ufshcd_clear_cmd racing issue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41054</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: core: Fix ufshcd_clear_cmd racing issue
+
+When ufshcd_clear_cmd is racing with the completion ISR, the completed tag
+of the request's mq_hctx pointer will be set to NULL by the ISR.  And
+ufshcd_clear_cmd's call to ufshcd_mcq_req_to_hwq will get NULL pointer KE.
+Return success when the request is completed by ISR because sq does not
+need cleanup.
+
+The racing flow is:
+
+Thread A
+ufshcd_err_handler					step 1
+	ufshcd_try_to_abort_task
+		ufshcd_cmd_inflight(true)		step 3
+		ufshcd_clear_cmd
+			...
+			ufshcd_mcq_req_to_hwq
+			blk_mq_unique_tag
+				rq-&gt;mq_hctx-&gt;queue_num	step 5
+
+Thread B
+ufs_mtk_mcq_intr(cq complete ISR)			step 2
+	scsi_done
+		...
+		__blk_mq_free_request
+			rq-&gt;mq_hctx = NULL;		step 4
+
+Below is KE back trace:
+
+  ufshcd_try_to_abort_task: cmd pending in the device. tag = 6
+  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000194
+   pc : [0xffffffd589679bf8] blk_mq_unique_tag+0x8/0x14
+   lr : [0xffffffd5862f95b4] ufshcd_mcq_sq_cleanup+0x6c/0x1cc [ufs_mediatek_mod_ise]
+   Workqueue: ufs_eh_wq_0 ufshcd_err_handler [ufs_mediatek_mod_ise]
+   Call trace:
+    dump_backtrace+0xf8/0x148
+    show_stack+0x18/0x24
+    dump_stack_lvl+0x60/0x7c
+    dump_stack+0x18/0x3c
+    mrdump_common_die+0x24c/0x398 [mrdump]
+    ipanic_die+0x20/0x34 [mrdump]
+    notify_die+0x80/0xd8
+    die+0x94/0x2b8
+    __do_kernel_fault+0x264/0x298
+    do_page_fault+0xa4/0x4b8
+    do_translation_fault+0x38/0x54
+    do_mem_abort+0x58/0x118
+    el1_abort+0x3c/0x5c
+    el1h_64_sync_handler+0x54/0x90
+    el1h_64_sync+0x68/0x6c
+    blk_mq_unique_tag+0x8/0x14
+    ufshcd_clear_cmd+0x34/0x118 [ufs_mediatek_mod_ise]
+    ufshcd_try_to_abort_task+0x2c8/0x5b4 [ufs_mediatek_mod_ise]
+    ufshcd_err_handler+0xa7c/0xfa8 [ufs_mediatek_mod_ise]
+    process_one_work+0x208/0x4fc
+    worker_thread+0x228/0x438
+    kthread+0x104/0x1d4
+    ret_from_fork+0x10/0x20</description><pubDate>Mon, 29 Jul 2024 14:40:13 +0000</pubDate></item><item><title>CVE-2024-41055 | mm: prevent derefencing NULL ptr in pfn_section_valid()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41055</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: prevent derefencing NULL ptr in pfn_section_valid()
+
+Commit 5ec8e8ea8b77 ("mm/sparsemem: fix race in accessing
+memory_section-&gt;usage") changed pfn_section_valid() to add a READ_ONCE()
+call around "ms-&gt;usage" to fix a race with section_deactivate() where
+ms-&gt;usage can be cleared.  The READ_ONCE() call, by itself, is not enough
+to prevent NULL pointer dereference.  We need to check its value before
+dereferencing it.</description><pubDate>Mon, 29 Jul 2024 14:40:14 +0000</pubDate></item><item><title>CVE-2024-37906 | Admidio has Blind SQL Injection in ecard_send.php</title><link>https://www.cve.org/CVERecord?id=CVE-2024-37906</link><description>Admidio is a free, open source user management system for websites of organizations and groups. In Admidio before version 4.3.9, there is an SQL Injection in the `/adm_program/modules/ecards/ecard_send.php` source file of the Admidio Application. The SQL Injection results in a compromise of the application's database. The value of `ecard_recipients `POST parameter is being directly concatenated with the SQL query in the source code causing the SQL Injection. The SQL Injection can be exploited by a member user, using blind condition-based, time-based, and Out of band interaction SQL Injection payloads. This vulnerability is fixed in 4.3.9.</description><pubDate>Mon, 29 Jul 2024 14:29:06 +0000</pubDate></item><item><title>CVE-2024-6984 | An issue was discovered in Juju that resulted in the leak of the sensitive context ID, which allows a local unprivileged attacker to access ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6984</link><description>An issue was discovered in Juju that resulted in the leak of the sensitive context ID, which allows a local unprivileged attacker to access other sensitive data or relation accessible to the local charm.</description><pubDate>Mon, 29 Jul 2024 14:29:07 +0000</pubDate></item><item><title>CVE-2024-6576 | MOVEit Transfer Privilege Escalation Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6576</link><description>Improper Authentication vulnerability in Progress MOVEit Transfer (SFTP module) can lead to Privilege Escalation.This issue affects MOVEit Transfer: from 2023.0.0 before 2023.0.12, from 2023.1.0 before 2023.1.7, from 2024.0.0 before 2024.0.3.</description><pubDate>Mon, 29 Jul 2024 14:10:13 +0000</pubDate></item><item><title>CVE-2024-41020 | filelock: Fix fcntl/close race recovery compat path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41020</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 filelock: Fix fcntl/close race recovery compat path
 
