@@ -1,5 +1,107 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 17:39:15 +0000</lastBuildDate><item><title>CVE-2024-42091 | drm/xe: Check pat.ops before dumping PAT settings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42091</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 17:49:14 +0000</lastBuildDate><item><title>CVE-2024-42093 | net/dpaa2: Avoid explicit cpumask var allocation on stack</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42093</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/dpaa2: Avoid explicit cpumask var allocation on stack
+
+For CONFIG_CPUMASK_OFFSTACK=y kernel, explicit allocation of cpumask
+variable on stack is not recommended since it can cause potential stack
+overflow.
+
+Instead, kernel code should always use *cpumask_var API(s) to allocate
+cpumask var in config-neutral way, leaving allocation strategy to
+CONFIG_CPUMASK_OFFSTACK.
+
+Use *cpumask_var API(s) to address it.</description><pubDate>Mon, 29 Jul 2024 17:49:16 +0000</pubDate></item><item><title>CVE-2024-42094 | net/iucv: Avoid explicit cpumask var allocation on stack</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42094</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/iucv: Avoid explicit cpumask var allocation on stack
+
+For CONFIG_CPUMASK_OFFSTACK=y kernel, explicit allocation of cpumask
+variable on stack is not recommended since it can cause potential stack
+overflow.
+
+Instead, kernel code should always use *cpumask_var API(s) to allocate
+cpumask var in config-neutral way, leaving allocation strategy to
+CONFIG_CPUMASK_OFFSTACK.
+
+Use *cpumask_var API(s) to address it.</description><pubDate>Mon, 29 Jul 2024 17:49:17 +0000</pubDate></item><item><title>CVE-2024-42095 | serial: 8250_omap: Implementation of Errata i2310</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42095</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+serial: 8250_omap: Implementation of Errata i2310
+
+As per Errata i2310[0], Erroneous timeout can be triggered,
+if this Erroneous interrupt is not cleared then it may leads
+to storm of interrupts, therefore apply Errata i2310 solution.
+
+[0] https://www.ti.com/lit/pdf/sprz536 page 23</description><pubDate>Mon, 29 Jul 2024 17:49:17 +0000</pubDate></item><item><title>CVE-2024-42096 | x86: stop playing stack games in profile_pc()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42096</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86: stop playing stack games in profile_pc()
+
+The 'profile_pc()' function is used for timer-based profiling, which
+isn't really all that relevant any more to begin with, but it also ends
+up making assumptions based on the stack layout that aren't necessarily
+valid.
+
+Basically, the code tries to account the time spent in spinlocks to the
+caller rather than the spinlock, and while I support that as a concept,
+it's not worth the code complexity or the KASAN warnings when no serious
+profiling is done using timers anyway these days.
+
+And the code really does depend on stack layout that is only true in the
+simplest of cases.  We've lost the comment at some point (I think when
+the 32-bit and 64-bit code was unified), but it used to say:
+
+	Assume the lock function has either no stack frame or a copy
+	of eflags from PUSHF.
+
+which explains why it just blindly loads a word or two straight off the
+stack pointer and then takes a minimal look at the values to just check
+if they might be eflags or the return pc:
+
+	Eflags always has bits 22 and up cleared unlike kernel addresses
+
+but that basic stack layout assumption assumes that there isn't any lock
+debugging etc going on that would complicate the code and cause a stack
+frame.
+
+It causes KASAN unhappiness reported for years by syzkaller [1] and
+others [2].
+
+With no real practical reason for this any more, just remove the code.
+
+Just for historical interest, here's some background commits relating to
+this code from 2006:
+
+  0cb91a229364 ("i386: Account spinlocks to the caller during profiling for !FP kernels")
+  31679f38d886 ("Simplify profile_pc on x86-64")
+
+and a code unification from 2009:
+
+  ef4512882dbe ("x86: time_32/64.c unify profile_pc")
+
+but the basics of this thing actually goes back to before the git tree.</description><pubDate>Mon, 29 Jul 2024 17:49:18 +0000</pubDate></item><item><title>CVE-2024-42097 | ALSA: emux: improve patch ioctl data validation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42097</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: emux: improve patch ioctl data validation
+
+In load_data(), make the validation of and skipping over the main info
+block match that in load_guspatch().
+
+In load_guspatch(), add checking that the specified patch length matches
+the actually supplied data, like load_data() already did.</description><pubDate>Mon, 29 Jul 2024 17:49:18 +0000</pubDate></item><item><title>CVE-2024-42098 | crypto: ecdh - explicitly zeroize private_key</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42098</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: ecdh - explicitly zeroize private_key
+
+private_key is overwritten with the key parameter passed in by the
+caller (if present), or alternatively a newly generated private key.
+However, it is possible that the caller provides a key (or the newly
+generated key) which is shorter than the previous key. In that
+scenario, some key material from the previous key would not be
+overwritten. The easiest solution is to explicitly zeroize the entire
+private_key array first.
+
+Note that this patch slightly changes the behavior of this function:
+previously, if the ecc_gen_privkey failed, the old private_key would
+remain. Now, the private_key is always zeroized. This behavior is
+consistent with the case where params.key is set and ecc_is_key_valid
+fails.</description><pubDate>Mon, 29 Jul 2024 17:49:18 +0000</pubDate></item><item><title>CVE-2024-42091 | drm/xe: Check pat.ops before dumping PAT settings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42091</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/xe: Check pat.ops before dumping PAT settings
 
