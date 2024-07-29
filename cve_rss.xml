@@ -1,5 +1,71 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 06:36:35 +0000</lastBuildDate><item><title>CVE-2024-41090 | tap: add missing verification for short frame</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41090</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 06:46:33 +0000</lastBuildDate><item><title>CVE-2024-41013 | xfs: don&amp;#x27;t walk off the end of a directory data block</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41013</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xfs: don't walk off the end of a directory data block
+
+This adds sanity checks for xfs_dir2_data_unused and xfs_dir2_data_entry
+to make sure don't stray beyond valid memory region. Before patching, the
+loop simply checks that the start offset of the dup and dep is within the
+range. So in a crafted image, if last entry is xfs_dir2_data_unused, we
+can change dup-&gt;length to dup-&gt;length-1 and leave 1 byte of space. In the
+next traversal, this space will be considered as dup or dep. We may
+encounter an out of bound read when accessing the fixed members.
+
+In the patch, we make sure that the remaining bytes large enough to hold
+an unused entry before accessing xfs_dir2_data_unused and
+xfs_dir2_data_unused is XFS_DIR2_DATA_ALIGN byte aligned. We also make
+sure that the remaining bytes large enough to hold a dirent with a
+single-byte name before accessing xfs_dir2_data_entry.</description><pubDate>Mon, 29 Jul 2024 06:46:34 +0000</pubDate></item><item><title>CVE-2024-41014 | xfs: add bounds checking to xlog_recover_process_data</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41014</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xfs: add bounds checking to xlog_recover_process_data
+
+There is a lack of verification of the space occupied by fixed members
+of xlog_op_header in the xlog_recover_process_data.
+
+We can create a crafted image to trigger an out of bounds read by
+following these steps:
+    1) Mount an image of xfs, and do some file operations to leave records
+    2) Before umounting, copy the image for subsequent steps to simulate
+       abnormal exit. Because umount will ensure that tail_blk and
+       head_blk are the same, which will result in the inability to enter
+       xlog_recover_process_data
+    3) Write a tool to parse and modify the copied image in step 2
+    4) Make the end of the xlog_op_header entries only 1 byte away from
+       xlog_rec_header-&gt;h_size
+    5) xlog_rec_header-&gt;h_num_logops++
+    6) Modify xlog_rec_header-&gt;h_crc
+
+Fix:
+Add a check to make sure there is sufficient space to access fixed members
+of xlog_op_header.</description><pubDate>Mon, 29 Jul 2024 06:46:35 +0000</pubDate></item><item><title>CVE-2024-41015 | ocfs2: add bounds checking to ocfs2_check_dir_entry()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41015</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ocfs2: add bounds checking to ocfs2_check_dir_entry()
+
+This adds sanity checks for ocfs2_dir_entry to make sure all members of
+ocfs2_dir_entry don't stray beyond valid memory region.</description><pubDate>Mon, 29 Jul 2024 06:46:35 +0000</pubDate></item><item><title>CVE-2024-41016 | ocfs2: strict bound check before memcmp in ocfs2_xattr_find_entry()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41016</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ocfs2: strict bound check before memcmp in ocfs2_xattr_find_entry()
+
+xattr in ocfs2 maybe 'non-indexed', which saved with additional space
+requested.  It's better to check if the memory is out of bound before
+memcmp, although this possibility mainly comes from crafted poisonous
+images.</description><pubDate>Mon, 29 Jul 2024 06:46:35 +0000</pubDate></item><item><title>CVE-2024-41017 | jfs: don&amp;#x27;t walk off the end of ealist</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41017</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+jfs: don't walk off the end of ealist
+
+Add a check before visiting the members of ea to
+make sure each ea stays within the ealist.</description><pubDate>Mon, 29 Jul 2024 06:46:36 +0000</pubDate></item><item><title>CVE-2024-41018 | fs/ntfs3: Add a check for attr_names and oatbl</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41018</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/ntfs3: Add a check for attr_names and oatbl
+
+Added out-of-bound checking for *ane (ATTR_NAME_ENTRY).</description><pubDate>Mon, 29 Jul 2024 06:46:36 +0000</pubDate></item><item><title>CVE-2024-41019 | fs/ntfs3: Validate ff offset</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41019</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/ntfs3: Validate ff offset
+
+This adds sanity checks for ff offset. There is a check
+on rt-&gt;first_free at first, but walking through by ff
+without any check. If the second ff is a large offset.
+We may encounter an out-of-bound read.</description><pubDate>Mon, 29 Jul 2024 06:46:37 +0000</pubDate></item><item><title>CVE-2024-7187 | TOTOLINK A3600R cstecgi.cgi UploadCustomModule buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-7187</link><description>A vulnerability was found in TOTOLINK A3600R 4.1.2cu.5182_B20201102. It has been declared as critical. This vulnerability affects the function UploadCustomModule of the file /cgi-bin/cstecgi.cgi. The manipulation of the argument File leads to buffer overflow. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. The identifier of this vulnerability is VDB-272608. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Mon, 29 Jul 2024 06:46:37 +0000</pubDate></item><item><title>CVE-2024-41090 | tap: add missing verification for short frame</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41090</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 tap: add missing verification for short frame
 
