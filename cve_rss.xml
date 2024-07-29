@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 16:37:35 +0000</lastBuildDate><item><title>CVE-2024-42084 | ftruncate: pass a signed offset</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42084</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 17:16:13 +0000</lastBuildDate><item><title>CVE-2024-33365 | Buffer Overflow vulnerability in Tenda AC10 v4 US_AC10V4.0si_V16.03.10.20_cn allows a remote attacker to execute arbitrary code via the Virt...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-33365</link><description>Buffer Overflow vulnerability in Tenda AC10 v4 US_AC10V4.0si_V16.03.10.20_cn allows a remote attacker to execute arbitrary code via the Virtual_Data_Check function in the bin/httpd component.</description><pubDate>Mon, 29 Jul 2024 17:16:14 +0000</pubDate></item><item><title>CVE-2024-42084 | ftruncate: pass a signed offset</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42084</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ftruncate: pass a signed offset
 
@@ -23,10 +23,10 @@ echo mem &gt; /sys/power/state
 There will be a deadlock issue occurring. Detailed invoking path as
 below:
 dwc3_suspend_common()
-    spin_lock_irqsave(&amp;dwc-&gt;lock, flags);              &lt;-- 1st
+    spin_lock_irqsave(&amp;amp;dwc-&gt;lock, flags);              &lt;-- 1st
     dwc3_gadget_suspend(dwc);
         dwc3_gadget_soft_disconnect(dwc);
-            spin_lock_irqsave(&amp;dwc-&gt;lock, flags);      &lt;-- 2nd
+            spin_lock_irqsave(&amp;amp;dwc-&gt;lock, flags);      &lt;-- 2nd
 This issue is exposed by commit c7ebd8149ee5 ("usb: dwc3: gadget: Fix
 NULL pointer dereference in dwc3_gadget_suspend") that removes the code
 of checking whether dwc-&gt;gadget_driver is NULL or not. It causes the
