@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 15:24:11 +0000</lastBuildDate><item><title>CVE-2024-41057 | cachefiles: fix slab-use-after-free in cachefiles_withdraw_cookie()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41057</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 29 Jul 2024 15:35:58 +0000</lastBuildDate><item><title>CVE-2024-41631 | Buffer Overflow vulnerability in host-host NEUQ_board v.1.0 allows a remote attacker to cause a denial of service via the password.h compone...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41631</link><description>Buffer Overflow vulnerability in host-host NEUQ_board v.1.0 allows a remote attacker to cause a denial of service via the password.h component.</description><pubDate>Mon, 29 Jul 2024 15:36:00 +0000</pubDate></item><item><title>CVE-2024-41057 | cachefiles: fix slab-use-after-free in cachefiles_withdraw_cookie()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41057</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 cachefiles: fix slab-use-after-free in cachefiles_withdraw_cookie()
 
@@ -11,7 +11,7 @@ Read of size 8 at addr ffff888118efc000 by task kworker/u78:0/109
 
 CPU: 13 PID: 109 Comm: kworker/u78:0 Not tainted 6.8.0-dirty #566
 Call Trace:
- &lt;TASK&gt;
+ 
  kasan_report+0x93/0xc0
  cachefiles_withdraw_cookie+0x4d9/0x600
  fscache_cookie_state_machine+0x5c8/0x1230
@@ -52,14 +52,14 @@ cachefiles_daemon_release
      fscache_set_cache_state(cache, FSCACHE_CACHE_IS_WITHDRAWN);
     cachefiles_withdraw_objects(cache)
     fscache_wait_for_objects(fscache)
-      atomic_read(&amp;fscache_cache-&gt;object_count) == 0
+      atomic_read(&amp;amp;fscache_cache-&gt;object_count) == 0
                               fscache_perform_lookup
                                cachefiles_lookup_cookie
                                 cachefiles_alloc_object
-                                 refcount_set(&amp;object-&gt;ref, 1);
+                                 refcount_set(&amp;amp;object-&gt;ref, 1);
                                  object-&gt;volume = volume
                                  fscache_count_object(vcookie-&gt;cache);
-                                  atomic_inc(&amp;fscache_cache-&gt;object_count)
+                                  atomic_inc(&amp;amp;fscache_cache-&gt;object_count)
     cachefiles_withdraw_volumes
      cachefiles_withdraw_volume
       fscache_withdraw_volume
@@ -135,16 +135,16 @@ Following is the process that triggers the issue:
     fscache_relinquish_volume
      __fscache_relinquish_volume
       fscache_put_volume(fscache_volume, fscache_volume_put_relinquish)
-       zero = __refcount_dec_and_test(&amp;fscache_volume-&gt;ref, &amp;ref);
+       zero = __refcount_dec_and_test(&amp;amp;fscache_volume-&gt;ref, &amp;amp;ref);
                                  cachefiles_put_unbind_pincount
                                   cachefiles_daemon_unbind
                                    cachefiles_withdraw_cache
                                     cachefiles_withdraw_volumes
-                                     list_del_init(&amp;volume-&gt;cache_link)
+                                     list_del_init(&amp;amp;volume-&gt;cache_link)
        fscache_free_volume(fscache_volume)
         cache-&gt;ops-&gt;free_volume
          cachefiles_free_volume
-          list_del_init(&amp;cachefiles_volume-&gt;cache_link);
+          list_del_init(&amp;amp;cachefiles_volume-&gt;cache_link);
         kfree(fscache_volume)
                                      cachefiles_withdraw_volume
                                       fscache_withdraw_volume
@@ -276,7 +276,7 @@ shown below.
     Hardware name: IBM,9040-MRX POWER10 (raw) 0x800200 0xf000006 of:IBM,FW1060.00 (NM1060_042) hv:phyp pSeries
     NIP:  c0000000005d23d4 LR: c0000000005d23d0 CTR: 00000000006ee6f8
     REGS: c000000120c078c0 TRAP: 0700   Not tainted  (6.10.0-rc3)
-    MSR:  8000000000029033 &lt;SF,EE,ME,IR,DR,RI,LE&gt;  CR: 2828220f  XER: 0000000e
+    MSR:  8000000000029033   CR: 2828220f  XER: 0000000e
     CFAR: c0000000001fdc80 IRQMASK: 0
     [ ... GPRs omitted ... ]
     NIP [c0000000005d23d4] usercopy_abort+0x78/0xb0
@@ -312,7 +312,7 @@ transmit:
 Where variable data looks like this:
     free_map == [4, IBMVNIC_INVALID_MAP, IBMVNIC_INVALID_MAP, 0, 3]
                                                	consumer_index^
-    tx_buff == [skb=null, skb=&lt;ptr&gt;, skb=&lt;ptr&gt;, skb=null, skb=null]
+    tx_buff == [skb=null, skb=, skb=, skb=null, skb=null]
 
 The driver has checks to ensure that free_map[consumer_index] pointed to
 a valid index but there was no check to ensure that this index pointed
@@ -471,7 +471,7 @@ This patch fixes one of the issues encountered in [1].
 [   83.964258] index 0 is out of range for type 'struct ieee80211_channel *[]'
 [...]
 [   83.964264] Call Trace:
-[   83.964267]  &lt;TASK&gt;
+[   83.964267]  
 [   83.964269]  dump_stack_lvl+0x3f/0xc0
 [   83.964274]  __ubsan_handle_out_of_bounds+0xec/0x110
 [   83.964278]  ieee80211_prep_hw_scan+0x2db/0x4b0
