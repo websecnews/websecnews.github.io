@@ -1,5 +1,206 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 08 Aug 2024 08:36:36 +0000</lastBuildDate><item><title>CVE-2024-42030 | Access permission verification vulnerability in the content sharing pop-up module
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 08 Aug 2024 08:56:12 +0000</lastBuildDate><item><title>CVE-2024-42251 | mm: page_ref: remove folio_try_get_rcu()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42251</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: page_ref: remove folio_try_get_rcu()
+
+The below bug was reported on a non-SMP kernel:
+
+[  275.267158][ T4335] ------------[ cut here ]------------
+[  275.267949][ T4335] kernel BUG at include/linux/page_ref.h:275!
+[  275.268526][ T4335] invalid opcode: 0000 [#1] KASAN PTI
+[  275.269001][ T4335] CPU: 0 PID: 4335 Comm: trinity-c3 Not tainted 6.7.0-rc4-00061-gefa7df3e3bb5 #1
+[  275.269787][ T4335] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[  275.270679][ T4335] RIP: 0010:try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[  275.272813][ T4335] RSP: 0018:ffffc90005dcf650 EFLAGS: 00010202
+[  275.273346][ T4335] RAX: 0000000000000246 RBX: ffffea00066e0000 RCX: 0000000000000000
+[  275.274032][ T4335] RDX: fffff94000cdc007 RSI: 0000000000000004 RDI: ffffea00066e0034
+[  275.274719][ T4335] RBP: ffffea00066e0000 R08: 0000000000000000 R09: fffff94000cdc006
+[  275.275404][ T4335] R10: ffffea00066e0037 R11: 0000000000000000 R12: 0000000000000136
+[  275.276106][ T4335] R13: ffffea00066e0034 R14: dffffc0000000000 R15: ffffea00066e0008
+[  275.276790][ T4335] FS:  00007fa2f9b61740(0000) GS:ffffffff89d0d000(0000) knlGS:0000000000000000
+[  275.277570][ T4335] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  275.278143][ T4335] CR2: 00007fa2f6c00000 CR3: 0000000134b04000 CR4: 00000000000406f0
+[  275.278833][ T4335] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  275.279521][ T4335] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  275.280201][ T4335] Call Trace:
+[  275.280499][ T4335]  &lt;TASK&gt;
+[ 275.280751][ T4335] ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447)
+[ 275.281087][ T4335] ? do_trap (arch/x86/kernel/traps.c:112 arch/x86/kernel/traps.c:153)
+[ 275.281463][ T4335] ? try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[ 275.281884][ T4335] ? try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[ 275.282300][ T4335] ? do_error_trap (arch/x86/kernel/traps.c:174)
+[ 275.282711][ T4335] ? try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[ 275.283129][ T4335] ? handle_invalid_op (arch/x86/kernel/traps.c:212)
+[ 275.283561][ T4335] ? try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[ 275.283990][ T4335] ? exc_invalid_op (arch/x86/kernel/traps.c:264)
+[ 275.284415][ T4335] ? asm_exc_invalid_op (arch/x86/include/asm/idtentry.h:568)
+[ 275.284859][ T4335] ? try_get_folio (include/linux/page_ref.h:275 (discriminator 3) mm/gup.c:79 (discriminator 3))
+[ 275.285278][ T4335] try_grab_folio (mm/gup.c:148)
+[ 275.285684][ T4335] __get_user_pages (mm/gup.c:1297 (discriminator 1))
+[ 275.286111][ T4335] ? __pfx___get_user_pages (mm/gup.c:1188)
+[ 275.286579][ T4335] ? __pfx_validate_chain (kernel/locking/lockdep.c:3825)
+[ 275.287034][ T4335] ? mark_lock (kernel/locking/lockdep.c:4656 (discriminator 1))
+[ 275.287416][ T4335] __gup_longterm_locked (mm/gup.c:1509 mm/gup.c:2209)
+[ 275.288192][ T4335] ? __pfx___gup_longterm_locked (mm/gup.c:2204)
+[ 275.288697][ T4335] ? __pfx_lock_acquire (kernel/locking/lockdep.c:5722)
+[ 275.289135][ T4335] ? __pfx___might_resched (kernel/sched/core.c:10106)
+[ 275.289595][ T4335] pin_user_pages_remote (mm/gup.c:3350)
+[ 275.290041][ T4335] ? __pfx_pin_user_pages_remote (mm/gup.c:3350)
+[ 275.290545][ T4335] ? find_held_lock (kernel/locking/lockdep.c:5244 (discriminator 1))
+[ 275.290961][ T4335] ? mm_access (kernel/fork.c:1573)
+[ 275.291353][ T4335] process_vm_rw_single_vec+0x142/0x360
+[ 275.291900][ T4335] ? __pfx_process_vm_rw_single_vec+0x10/0x10
+[ 275.292471][ T4335] ? mm_access (kernel/fork.c:1573)
+[ 275.292859][ T4335] process_vm_rw_core+0x272/0x4e0
+[ 275.293384][ T4335] ? hlock_class (a
+---truncated---</description><pubDate>Thu, 08 Aug 2024 08:56:14 +0000</pubDate></item><item><title>CVE-2024-42252 | closures: Change BUG_ON() to WARN_ON()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42252</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+closures: Change BUG_ON() to WARN_ON()
+
+If a BUG_ON() can be hit in the wild, it shouldn't be a BUG_ON()
+
+For reference, this has popped up once in the CI, and we'll need more
+info to debug it:
+
+03240 ------------[ cut here ]------------
+03240 kernel BUG at lib/closure.c:21!
+03240 kernel BUG at lib/closure.c:21!
+03240 Internal error: Oops - BUG: 00000000f2000800 [#1] SMP
+03240 Modules linked in:
+03240 CPU: 15 PID: 40534 Comm: kworker/u80:1 Not tainted 6.10.0-rc4-ktest-ga56da69799bd #25570
+03240 Hardware name: linux,dummy-virt (DT)
+03240 Workqueue: btree_update btree_interior_update_work
+03240 pstate: 00001005 (nzcv daif -PAN -UAO -TCO -DIT +SSBS BTYPE=--)
+03240 pc : closure_put+0x224/0x2a0
+03240 lr : closure_put+0x24/0x2a0
+03240 sp : ffff0000d12071c0
+03240 x29: ffff0000d12071c0 x28: dfff800000000000 x27: ffff0000d1207360
+03240 x26: 0000000000000040 x25: 0000000000000040 x24: 0000000000000040
+03240 x23: ffff0000c1f20180 x22: 0000000000000000 x21: ffff0000c1f20168
+03240 x20: 0000000040000000 x19: ffff0000c1f20140 x18: 0000000000000001
+03240 x17: 0000000000003aa0 x16: 0000000000003ad0 x15: 1fffe0001c326974
+03240 x14: 0000000000000a1e x13: 0000000000000000 x12: 1fffe000183e402d
+03240 x11: ffff6000183e402d x10: dfff800000000000 x9 : ffff6000183e402e
+03240 x8 : 0000000000000001 x7 : 00009fffe7c1bfd3 x6 : ffff0000c1f2016b
+03240 x5 : ffff0000c1f20168 x4 : ffff6000183e402e x3 : ffff800081391954
+03240 x2 : 0000000000000001 x1 : 0000000000000000 x0 : 00000000a8000000
+03240 Call trace:
+03240  closure_put+0x224/0x2a0
+03240  bch2_check_for_deadlock+0x910/0x1028
+03240  bch2_six_check_for_deadlock+0x1c/0x30
+03240  six_lock_slowpath.isra.0+0x29c/0xed0
+03240  six_lock_ip_waiter+0xa8/0xf8
+03240  __bch2_btree_node_lock_write+0x14c/0x298
+03240  bch2_trans_lock_write+0x6d4/0xb10
+03240  __bch2_trans_commit+0x135c/0x5520
+03240  btree_interior_update_work+0x1248/0x1c10
+03240  process_scheduled_works+0x53c/0xd90
+03240  worker_thread+0x370/0x8c8
+03240  kthread+0x258/0x2e8
+03240  ret_from_fork+0x10/0x20
+03240 Code: aa1303e0 d63f0020 a94363f7 17ffff8c (d4210000)
+03240 ---[ end trace 0000000000000000 ]---
+03240 Kernel panic - not syncing: Oops - BUG: Fatal exception
+03240 SMP: stopping secondary CPUs
+03241 SMP: failed to stop secondary CPUs 13,15
+03241 Kernel Offset: disabled
+03241 CPU features: 0x00,00000003,80000008,4240500b
+03241 Memory Limit: none
+03241 ---[ end Kernel panic - not syncing: Oops - BUG: Fatal exception ]---
+03246 ========= FAILED TIMEOUT copygc_torture_no_checksum in 7200s</description><pubDate>Thu, 08 Aug 2024 08:56:14 +0000</pubDate></item><item><title>CVE-2024-42253 | gpio: pca953x: fix pca953x_irq_bus_sync_unlock race</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42253</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gpio: pca953x: fix pca953x_irq_bus_sync_unlock race
+
+Ensure that `i2c_lock' is held when setting interrupt latch and mask in
+pca953x_irq_bus_sync_unlock() in order to avoid races.
+
+The other (non-probe) call site pca953x_gpio_set_multiple() ensures the
+lock is held before calling pca953x_write_regs().
+
+The problem occurred when a request raced against irq_bus_sync_unlock()
+approximately once per thousand reboots on an i.MX8MP based system.
+
+ * Normal case
+
+   0-0022: write register AI|3a {03,02,00,00,01} Input latch P0
+   0-0022: write register AI|49 {fc,fd,ff,ff,fe} Interrupt mask P0
+   0-0022: write register AI|08 {ff,00,00,00,00} Output P3
+   0-0022: write register AI|12 {fc,00,00,00,00} Config P3
+
+ * Race case
+
+   0-0022: write register AI|08 {ff,00,00,00,00} Output P3
+   0-0022: write register AI|08 {03,02,00,00,01} *** Wrong register ***
+   0-0022: write register AI|12 {fc,00,00,00,00} Config P3
+   0-0022: write register AI|49 {fc,fd,ff,ff,fe} Interrupt mask P0</description><pubDate>Thu, 08 Aug 2024 08:56:15 +0000</pubDate></item><item><title>CVE-2024-42254 | io_uring: fix error pbuf checking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42254</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: fix error pbuf checking
+
+Syz reports a problem, which boils down to NULL vs IS_ERR inconsistent
+error handling in io_alloc_pbuf_ring().
+
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+RIP: 0010:__io_remove_buffers+0xac/0x700 io_uring/kbuf.c:341
+Call Trace:
+ &lt;TASK&gt;
+ io_put_bl io_uring/kbuf.c:378 [inline]
+ io_destroy_buffers+0x14e/0x490 io_uring/kbuf.c:392
+ io_ring_ctx_free+0xa00/0x1070 io_uring/io_uring.c:2613
+ io_ring_exit_work+0x80f/0x8a0 io_uring/io_uring.c:2844
+ process_one_work kernel/workqueue.c:3231 [inline]
+ process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
+ worker_thread+0x86d/0xd40 kernel/workqueue.c:3390
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244</description><pubDate>Thu, 08 Aug 2024 08:56:15 +0000</pubDate></item><item><title>CVE-2024-42255 | tpm: Use auth only after NULL check in tpm_buf_check_hmac_response()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42255</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tpm: Use auth only after NULL check in tpm_buf_check_hmac_response()
+
+Dereference auth after NULL check in tpm_buf_check_hmac_response().
+Otherwise, unless tpm2_sessions_init() was called, a call can cause NULL
+dereference, when TCG_TPM2_HMAC is enabled.
+
+[jarkko: adjusted the commit message.]</description><pubDate>Thu, 08 Aug 2024 08:56:16 +0000</pubDate></item><item><title>CVE-2024-42256 | cifs: Fix server re-repick on subrequest retry</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42256</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cifs: Fix server re-repick on subrequest retry
+
+When a subrequest is marked for needing retry, netfs will call
+cifs_prepare_write() which will make cifs repick the server for the op
+before renegotiating credits; it then calls cifs_issue_write() which
+invokes smb2_async_writev() - which re-repicks the server.
+
+If a different server is then selected, this causes the increment of
+server-&gt;in_flight to happen against one record and the decrement to happen
+against another, leading to misaccounting.
+
+Fix this by just removing the repick code in smb2_async_writev().  As this
+is only called from netfslib-driven code, cifs_prepare_write() should
+always have been called first, and so server should never be NULL and the
+preparatory step is repeated in the event that we do a retry.
+
+The problem manifests as a warning looking something like:
+
+ WARNING: CPU: 4 PID: 72896 at fs/smb/client/smb2ops.c:97 smb2_add_credits+0x3f0/0x9e0 [cifs]
+ ...
+ RIP: 0010:smb2_add_credits+0x3f0/0x9e0 [cifs]
+ ...
+  smb2_writev_callback+0x334/0x560 [cifs]
+  cifs_demultiplex_thread+0x77a/0x11b0 [cifs]
+  kthread+0x187/0x1d0
+  ret_from_fork+0x34/0x60
+  ret_from_fork_asm+0x1a/0x30
+
+Which may be triggered by a number of different xfstests running against an
+Azure server in multichannel mode.  generic/249 seems the most repeatable,
+but generic/215, generic/249 and generic/308 may also show it.</description><pubDate>Thu, 08 Aug 2024 08:56:16 +0000</pubDate></item><item><title>CVE-2024-42257 | ext4: use memtostr_pad() for s_volume_name</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42257</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: use memtostr_pad() for s_volume_name
+
+As with the other strings in struct ext4_super_block, s_volume_name is
+not NUL terminated. The other strings were marked in commit 072ebb3bffe6
+("ext4: add nonstring annotations to ext4.h"). Using strscpy() isn't
+the right replacement for strncpy(); it should use memtostr_pad()
+instead.</description><pubDate>Thu, 08 Aug 2024 08:56:17 +0000</pubDate></item><item><title>CVE-2024-42030 | Access permission verification vulnerability in the content sharing pop-up module
 Impact: Successful exploitation of this vulnerability may ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-42030</link><description>Access permission verification vulnerability in the content sharing pop-up module
 Impact: Successful exploitation of this vulnerability may affect service confidentiality.</description><pubDate>Thu, 08 Aug 2024 08:36:38 +0000</pubDate></item><item><title>CVE-2023-7265 | Permission verification vulnerability in the lock screen module
 Impact: Successful exploitation of this vulnerability may affect availabilit...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-7265</link><description>Permission verification vulnerability in the lock screen module
