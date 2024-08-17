@@ -1,5 +1,86 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 17 Aug 2024 09:30:48 +0000</lastBuildDate><item><title>CVE-2024-43815 | crypto: mxs-dcp - Ensure payload is zero when using key slot</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43815</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 17 Aug 2024 09:40:43 +0000</lastBuildDate><item><title>CVE-2023-0714 | Metform Elementor Contact Form Builder &amp;lt;= 3.2.4 - Unauthenticated Double-Extension Arbitrary File Upload</title><link>https://www.cve.org/CVERecord?id=CVE-2023-0714</link><description>The Metform Elementor Contact Form Builder for WordPress is vulnerable to Arbitrary File Upload due to insufficient file type validation in versions up to, and including, 3.2.4. This allows unauthenticated visitors to perform a "double extension" attack and upload files containing a malicious extension but ending with a benign extension, which may make remote code execution possible in some configurations.</description><pubDate>Sat, 17 Aug 2024 09:40:47 +0000</pubDate></item><item><title>CVE-2023-3416 | tagDiv Opt-In Builder &amp;lt;= 1.4.4 - Authenticated (Admin+) SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2023-3416</link><description>The tagDiv Opt-In Builder plugin is vulnerable to Blind SQL Injection via the 'subscriptionCouponId' parameter via the 'create_stripe_subscription' REST API endpoint in versions up to, and including, 1.4.4 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers with administrator-level privileges to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Sat, 17 Aug 2024 09:40:47 +0000</pubDate></item><item><title>CVE-2023-3419 | tagDiv Opt-In Builder &amp;lt;= 1.4.4 - Authenticated (Admin+) SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2023-3419</link><description>The tagDiv Opt-In Builder plugin is vulnerable to Blind SQL Injection via the 'couponId' parameter of the 'recreate_stripe_subscription' REST API endpoint in versions up to, and including, 1.4.4 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers with administrator-level privileges to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Sat, 17 Aug 2024 09:40:47 +0000</pubDate></item><item><title>CVE-2024-43856 | dma: fix call order in dmam_free_coherent</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43856</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dma: fix call order in dmam_free_coherent
+
+dmam_free_coherent() frees a DMA allocation, which makes the
+freed vaddr available for reuse, then calls devres_destroy()
+to remove and free the data structure used to track the DMA
+allocation. Between the two calls, it is possible for a
+concurrent task to make an allocation with the same vaddr
+and add it to the devres list.
+
+If this happens, there will be two entries in the devres list
+with the same vaddr and devres_destroy() can free the wrong
+entry, triggering the WARN_ON() in dmam_match.
+
+Fix by destroying the devres entry before freeing the DMA
+allocation.
+
+  kokonut //net/encryption
+    http://sponge2/b9145fe6-0f72-4325-ac2f-a84d81075b03</description><pubDate>Sat, 17 Aug 2024 09:40:48 +0000</pubDate></item><item><title>CVE-2024-43857 | f2fs: fix null reference error when checking end of zone</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43857</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix null reference error when checking end of zone
+
+This patch fixes a potentially null pointer being accessed by
+is_end_zone_blkaddr() that checks the last block of a zone
+when f2fs is mounted as a single device.</description><pubDate>Sat, 17 Aug 2024 09:40:48 +0000</pubDate></item><item><title>CVE-2024-43858 | jfs: Fix array-index-out-of-bounds in diFree</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43858</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+jfs: Fix array-index-out-of-bounds in diFree</description><pubDate>Sat, 17 Aug 2024 09:40:49 +0000</pubDate></item><item><title>CVE-2024-43859 | f2fs: fix to truncate preallocated blocks in f2fs_file_open()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43859</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to truncate preallocated blocks in f2fs_file_open()
+
+chenyuwen reports a f2fs bug as below:
+
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000011
+ fscrypt_set_bio_crypt_ctx+0x78/0x1e8
+ f2fs_grab_read_bio+0x78/0x208
+ f2fs_submit_page_read+0x44/0x154
+ f2fs_get_read_data_page+0x288/0x5f4
+ f2fs_get_lock_data_page+0x60/0x190
+ truncate_partial_data_page+0x108/0x4fc
+ f2fs_do_truncate_blocks+0x344/0x5f0
+ f2fs_truncate_blocks+0x6c/0x134
+ f2fs_truncate+0xd8/0x200
+ f2fs_iget+0x20c/0x5ac
+ do_garbage_collect+0x5d0/0xf6c
+ f2fs_gc+0x22c/0x6a4
+ f2fs_disable_checkpoint+0xc8/0x310
+ f2fs_fill_super+0x14bc/0x1764
+ mount_bdev+0x1b4/0x21c
+ f2fs_mount+0x20/0x30
+ legacy_get_tree+0x50/0xbc
+ vfs_get_tree+0x5c/0x1b0
+ do_new_mount+0x298/0x4cc
+ path_mount+0x33c/0x5fc
+ __arm64_sys_mount+0xcc/0x15c
+ invoke_syscall+0x60/0x150
+ el0_svc_common+0xb8/0xf8
+ do_el0_svc+0x28/0xa0
+ el0_svc+0x24/0x84
+ el0t_64_sync_handler+0x88/0xec
+
+It is because inode.i_crypt_info is not initialized during below path:
+- mount
+ - f2fs_fill_super
+  - f2fs_disable_checkpoint
+   - f2fs_gc
+    - f2fs_iget
+     - f2fs_truncate
+
+So, let's relocate truncation of preallocated blocks to f2fs_file_open(),
+after fscrypt_file_open().</description><pubDate>Sat, 17 Aug 2024 09:40:49 +0000</pubDate></item><item><title>CVE-2024-43860 | remoteproc: imx_rproc: Skip over memory region when node value is NULL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43860</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+remoteproc: imx_rproc: Skip over memory region when node value is NULL
+
+In imx_rproc_addr_init() "nph = of_count_phandle_with_args()" just counts
+number of phandles. But phandles may be empty. So of_parse_phandle() in
+the parsing loop (0 &lt; a &lt; nph) may return NULL which is later dereferenced.
+Adjust this issue by adding NULL-return check.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+[Fixed title to fit within the prescribed 70-75 charcters]</description><pubDate>Sat, 17 Aug 2024 09:40:50 +0000</pubDate></item><item><title>CVE-2024-43815 | crypto: mxs-dcp - Ensure payload is zero when using key slot</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43815</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 crypto: mxs-dcp - Ensure payload is zero when using key slot
 
@@ -59,7 +140,7 @@ CR2: 000000002000f000 CR3: 0000000023151000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  ip_do_fragment+0xa1b/0x18b0 net/ipv4/ip_output.c:777
  ip_fragment.constprop.0+0x161/0x230 net/ipv4/ip_output.c:584
  ip_finish_output_gso net/ipv4/ip_output.c:286 [inline]
@@ -128,7 +209,7 @@ being resumed after a table load because DM_RECOVERY_RUNNING is set:
 WARNING: CPU: 7 PID: 5660 at drivers/md/dm-raid.c:4105 raid_resume+0xee/0x100 [dm_raid]
 
 The failing check is:
-WARN_ON_ONCE(test_bit(MD_RECOVERY_RUNNING, &amp;mddev-&gt;recovery));
+WARN_ON_ONCE(test_bit(MD_RECOVERY_RUNNING, &amp;amp;mddev-&gt;recovery));
 
 This check is designed to make sure that the sync thread isn't
 registered, but md_check_recovery can set MD_RECOVERY_RUNNING without
@@ -322,7 +403,7 @@ stack backtrace:
 CPU: 0 PID: 1806 Comm: ethtool Tainted: G W 6.10.0-rc6+ #4 f916f41f172891c800f2fed
 Hardware name: ASUS System Product Name/PRIME Z690-P D4, BIOS 0603 11/01/2021
 Call Trace:
-&lt;TASK&gt;
+
 dump_stack_lvl+0x7e/0xc0
 __lock_acquire+0x1681/0x4de0
 ? _printk+0x64/0xe0
@@ -576,7 +657,7 @@ wifi: rtw89: wow: fix GTK offload H2C skbuff issue
 We mistakenly put skb too large and that may exceed skb-&gt;end.
 Therefore, we fix it.
 
-skbuff: skb_over_panic: text:ffffffffc09e9a9d len:416 put:204 head:ffff8fba04eca780 data:ffff8fba04eca7e0 tail:0x200 end:0x140 dev:&lt;NULL&gt;
+skbuff: skb_over_panic: text:ffffffffc09e9a9d len:416 put:204 head:ffff8fba04eca780 data:ffff8fba04eca7e0 tail:0x200 end:0x140 dev:
 ------------[ cut here ]------------
 kernel BUG at net/core/skbuff.c:192!
 invalid opcode: 0000 [#1] PREEMPT SMP PTI
@@ -595,7 +676,7 @@ FS:  0000000000000000(0000) GS:ffff8fba7bd00000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007999c4ad1000 CR3: 000000015503a000 CR4: 0000000000350ee0
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die_body+0x1f/0x70
  ? die+0x3d/0x60
  ? do_trap+0xa4/0x110
@@ -631,7 +712,7 @@ Call Trace:
  ret_from_fork+0x38/0x50
  ? __pfx_kthread+0x10/0x10
  ret_from_fork_asm+0x1b/0x30
- &lt;/TASK&gt;
+ 
 Modules linked in: ccm 8021q r8153_ecm cdc_ether usbnet r8152 mii dm_integrity async_xor xor async_tx lz4 lz4_compress zstd zstd_compress zram zsmalloc uinput rfcomm cmac algif_hash rtw89_8922ae(O) algif_skcipher rtw89_8922a(O) af_alg rtw89_pci(O) rtw89_core(O) btusb(O) snd_soc_sst_bxt_da7219_max98357a btbcm(O) snd_soc_hdac_hdmi btintel(O) snd_soc_intel_hda_dsp_common snd_sof_probes btrtl(O) btmtk(O) snd_hda_codec_hdmi snd_soc_dmic uvcvideo videobuf2_vmalloc uvc videobuf2_memops videobuf2_v4l2 videobuf2_common snd_sof_pci_intel_apl snd_sof_intel_hda_common snd_soc_hdac_hda snd_sof_intel_hda soundwire_intel soundwire_generic_allocation snd_sof_intel_hda_mlink soundwire_cadence snd_sof_pci snd_sof_xtensa_dsp mac80211 snd_soc_acpi_intel_match snd_soc_acpi snd_sof snd_sof_utils soundwire_bus snd_soc_max98357a snd_soc_avs snd_soc_hda_codec snd_hda_ext_core snd_intel_dspcfg snd_intel_sdw_acpi snd_soc_da7219 snd_hda_codec snd_hwdep snd_hda_core veth ip6table_nat xt_MASQUERADE xt_cgroup fuse bluetooth ecdh_generic
  cfg80211 ecc
 gsmi: Log Shutdown 
@@ -675,7 +756,7 @@ Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
 RIP: 0010:mlxsw_sp_acl_erp_bf_insert+0x25/0x80
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  mlxsw_sp_acl_atcam_entry_add+0x256/0x3c0
  mlxsw_sp_acl_tcam_entry_create+0x5e/0xa0
  mlxsw_sp_acl_tcam_vchunk_migrate_one+0x16b/0x270
@@ -684,8 +765,7 @@ Call Trace:
  worker_thread+0x2cb/0x3e0
  kthread+0xd0/0x100
  ret_from_fork+0x34/0x50
- ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;</description><pubDate>Sat, 17 Aug 2024 09:31:01 +0000</pubDate></item><item><title>CVE-2024-43847 | wifi: ath12k: fix invalid memory access while processing fragmented packets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43847</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ ret_from_fork_asm+0x1a/0x30</description><pubDate>Sat, 17 Aug 2024 09:31:01 +0000</pubDate></item><item><title>CVE-2024-43847 | wifi: ath12k: fix invalid memory access while processing fragmented packets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43847</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: ath12k: fix invalid memory access while processing fragmented packets
 
@@ -780,27 +860,27 @@ An UAF can happen when /proc/cpuset is read as reported in [1].
 This can be reproduced by the following methods:
 1.add an mdelay(1000) before acquiring the cgroup_lock In the
  cgroup_path_ns function.
-2.$cat /proc/&lt;pid&gt;/cpuset   repeatly.
+2.$cat /proc//cpuset   repeatly.
 3.$mount -t cgroup -o cpuset cpuset /sys/fs/cgroup/cpuset/
 $umount /sys/fs/cgroup/cpuset/   repeatly.
 
 The race that cause this bug can be shown as below:
 
-(umount)		|	(cat /proc/&lt;pid&gt;/cpuset)
+(umount)		|	(cat /proc//cpuset)
 css_release		|	proc_cpuset_show
 css_release_work_fn	|	css = task_get_css(tsk, cpuset_cgrp_id);
 css_free_rwork_fn	|	cgroup_path_ns(css-&gt;cgroup, ...);
-cgroup_destroy_root	|	mutex_lock(&amp;cgroup_mutex);
+cgroup_destroy_root	|	mutex_lock(&amp;amp;cgroup_mutex);
 rebind_subsystems	|
 cgroup_free_root 	|
 			|	// cgrp was freed, UAF
 			|	cgroup_path_ns_locked(cgrp,..);
 
 When the cpuset is initialized, the root node top_cpuset.css.cgrp
-will point to &amp;cgrp_dfl_root.cgrp. In cgroup v1, the mount operation will
+will point to &amp;amp;cgrp_dfl_root.cgrp. In cgroup v1, the mount operation will
 allocate cgroup_root, and top_cpuset.css.cgrp will point to the allocated
-&amp;cgroup_root.cgrp. When the umount operation is executed,
-top_cpuset.css.cgrp will be rebound to &amp;cgrp_dfl_root.cgrp.
+&amp;amp;cgroup_root.cgrp. When the umount operation is executed,
+top_cpuset.css.cgrp will be rebound to &amp;amp;cgrp_dfl_root.cgrp.
 
 The problem is that when rebinding to cgrp_dfl_root, there are cases
 where the cgroup_root allocated by setting up the root for cgroup v1
