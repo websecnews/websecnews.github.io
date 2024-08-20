@@ -1,5 +1,94 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 Aug 2024 23:37:38 +0000</lastBuildDate><item><title>CVE-2024-8022 | Genexis Tilgin Home Gateway cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8022</link><description>A vulnerability was found in Genexis Tilgin Home Gateway 322_AS0500-03_05_13_05. It has been rated as problematic. This issue affects some unknown processing of the file /vood/cgi-bin/vood_view.cgi?lang=EN&amp;act=user/spec_conf&amp;sessionId=86213915328111654515&amp;user=A&amp;message2user=Account%20updated. The manipulation of the argument Phone Number leads to cross site scripting. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 20 Aug 2024 23:37:41 +0000</pubDate></item><item><title>CVE-2024-8023 | chillzhuang SpringBlade list sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8023</link><description>A vulnerability classified as critical has been found in chillzhuang SpringBlade 4.1.0. Affected is an unknown function of the file /api/blade-system/menu/list?updatexml. The manipulation leads to sql injection. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 20 Aug 2024 23:37:42 +0000</pubDate></item><item><title>CVE-2024-22281 | Apache Helix Front (UI): Helix front hard-coded secret in the express-session</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22281</link><description>** UNSUPPORTED WHEN ASSIGNED ** The Apache Helix Front (UI) component contained a hard-coded secret, allowing an attacker to spoof sessions by generating their own fake cookies.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 Aug 2024 23:57:13 +0000</lastBuildDate><item><title>CVE-2024-43862 | net: wan: fsl_qmc_hdlc: Convert carrier_lock spinlock to a mutex</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43862</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: wan: fsl_qmc_hdlc: Convert carrier_lock spinlock to a mutex
+
+The carrier_lock spinlock protects the carrier detection. While it is
+held, framer_get_status() is called which in turn takes a mutex.
+This is not correct and can lead to a deadlock.
+
+A run with PROVE_LOCKING enabled detected the issue:
+  [ BUG: Invalid wait context ]
+  ...
+  c204ddbc (&amp;framer-&gt;mutex){+.+.}-{3:3}, at: framer_get_status+0x40/0x78
+  other info that might help us debug this:
+  context-{4:4}
+  2 locks held by ifconfig/146:
+  #0: c0926a38 (rtnl_mutex){+.+.}-{3:3}, at: devinet_ioctl+0x12c/0x664
+  #1: c2006a40 (&amp;qmc_hdlc-&gt;carrier_lock){....}-{2:2}, at: qmc_hdlc_framer_set_carrier+0x30/0x98
+
+Avoid the spinlock usage and convert carrier_lock to a mutex.</description><pubDate>Tue, 20 Aug 2024 23:57:15 +0000</pubDate></item><item><title>CVE-2024-43863 | drm/vmwgfx: Fix a deadlock in dma buf fence polling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43863</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vmwgfx: Fix a deadlock in dma buf fence polling
+
+Introduce a version of the fence ops that on release doesn't remove
+the fence from the pending list, and thus doesn't require a lock to
+fix poll-&gt;fence wait-&gt;fence unref deadlocks.
+
+vmwgfx overwrites the wait callback to iterate over the list of all
+fences and update their status, to do that it holds a lock to prevent
+the list modifcations from other threads. The fence destroy callback
+both deletes the fence and removes it from the list of pending
+fences, for which it holds a lock.
+
+dma buf polling cb unrefs a fence after it's been signaled: so the poll
+calls the wait, which signals the fences, which are being destroyed.
+The destruction tries to acquire the lock on the pending fences list
+which it can never get because it's held by the wait from which it
+was called.
+
+Old bug, but not a lot of userspace apps were using dma-buf polling
+interfaces. Fix those, in particular this fixes KDE stalls/deadlock.</description><pubDate>Tue, 20 Aug 2024 23:57:15 +0000</pubDate></item><item><title>CVE-2024-43864 | net/mlx5e: Fix CT entry update leaks of modify header context</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43864</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Fix CT entry update leaks of modify header context
+
+The cited commit allocates a new modify header to replace the old
+one when updating CT entry. But if failed to allocate a new one, eg.
+exceed the max number firmware can support, modify header will be
+an error pointer that will trigger a panic when deallocating it. And
+the old modify header point is copied to old attr. When the old
+attr is freed, the old modify header is lost.
+
+Fix it by restoring the old attr to attr when failed to allocate a
+new modify header context. So when the CT entry is freed, the right
+modify header context will be freed. And the panic of accessing
+error pointer is also fixed.</description><pubDate>Tue, 20 Aug 2024 23:57:16 +0000</pubDate></item><item><title>CVE-2024-43865 | s390/fpu: Re-add exception handling in load_fpu_state()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43865</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/fpu: Re-add exception handling in load_fpu_state()
+
+With the recent rewrite of the fpu code exception handling for the
+lfpc instruction within load_fpu_state() was erroneously removed.
+
+Add it again to prevent that loading invalid floating point register
+values cause an unhandled specification exception.</description><pubDate>Tue, 20 Aug 2024 23:57:16 +0000</pubDate></item><item><title>CVE-2024-43866 | net/mlx5: Always drain health in shutdown callback</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43866</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: Always drain health in shutdown callback
+
+There is no point in recovery during device shutdown. if health
+work started need to wait for it to avoid races and NULL pointer
+access.
+
+Hence, drain health WQ on shutdown callback.</description><pubDate>Tue, 20 Aug 2024 23:57:17 +0000</pubDate></item><item><title>CVE-2024-43867 | drm/nouveau: prime: fix refcount underflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43867</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/nouveau: prime: fix refcount underflow
+
+Calling nouveau_bo_ref() on a nouveau_bo without initializing it (and
+hence the backing ttm_bo) leads to a refcount underflow.
+
+Instead of calling nouveau_bo_ref() in the unwind path of
+drm_gem_object_init(), clean things up manually.
+
+(cherry picked from commit 1b93f3e89d03cfc576636e195466a0d728ad8de5)</description><pubDate>Tue, 20 Aug 2024 23:57:17 +0000</pubDate></item><item><title>CVE-2024-43868 | riscv/purgatory: align riscv_kernel_entry</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43868</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv/purgatory: align riscv_kernel_entry
+
+When alignment handling is delegated to the kernel, everything must be
+word-aligned in purgatory, since the trap handler is then set to the
+kexec one. Without the alignment, hitting the exception would
+ultimately crash. On other occasions, the kernel's handler would take
+care of exceptions.
+This has been tested on a JH7110 SoC with oreboot and its SBI delegating
+unaligned access exceptions and the kernel configured to handle them.</description><pubDate>Tue, 20 Aug 2024 23:57:18 +0000</pubDate></item><item><title>CVE-2024-8022 | Genexis Tilgin Home Gateway cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8022</link><description>A vulnerability was found in Genexis Tilgin Home Gateway 322_AS0500-03_05_13_05. It has been rated as problematic. This issue affects some unknown processing of the file /vood/cgi-bin/vood_view.cgi?lang=EN&amp;amp;act=user/spec_conf&amp;amp;sessionId=86213915328111654515&amp;amp;user=A&amp;amp;message2user=Account%20updated. The manipulation of the argument Phone Number leads to cross site scripting. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 20 Aug 2024 23:37:41 +0000</pubDate></item><item><title>CVE-2024-8023 | chillzhuang SpringBlade list sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8023</link><description>A vulnerability classified as critical has been found in chillzhuang SpringBlade 4.1.0. Affected is an unknown function of the file /api/blade-system/menu/list?updatexml. The manipulation leads to sql injection. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Tue, 20 Aug 2024 23:37:42 +0000</pubDate></item><item><title>CVE-2024-22281 | Apache Helix Front (UI): Helix front hard-coded secret in the express-session</title><link>https://www.cve.org/CVERecord?id=CVE-2024-22281</link><description>** UNSUPPORTED WHEN ASSIGNED ** The Apache Helix Front (UI) component contained a hard-coded secret, allowing an attacker to spoof sessions by generating their own fake cookies.
 
 This issue affects Apache Helix Front (UI): all versions.
 
