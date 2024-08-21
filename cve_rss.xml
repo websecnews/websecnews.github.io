@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 21 Aug 2024 01:16:02 +0000</lastBuildDate><item><title>CVE-2024-43869 | perf: Fix event leak upon exec and file release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43869</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 21 Aug 2024 02:45:57 +0000</lastBuildDate><item><title>CVE-2024-38305 | Dell SupportAssist for Home PCs Installer exe version 4.0.3 contains a privilege escalation vulnerability in the installer. A local low-priv...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38305</link><description>Dell SupportAssist for Home PCs Installer exe version 4.0.3 contains a privilege escalation vulnerability in the installer. A local low-privileged authenticated attacker could potentially exploit this vulnerability, leading to the execution of arbitrary executables on the operating system with elevated privileges.</description><pubDate>Wed, 21 Aug 2024 02:45:59 +0000</pubDate></item><item><title>CVE-2024-43869 | perf: Fix event leak upon exec and file release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43869</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 perf: Fix event leak upon exec and file release
 
@@ -11,28 +11,28 @@ implementation to trigger:
 
 schedule()
    prepare_task_switch()
-=======&gt; &lt;NMI&gt;
+=======&gt; 
       perf_event_overflow()
          event-&gt;pending_sigtrap = ...
-         irq_work_queue(&amp;event-&gt;pending_irq)
-&lt;======= &lt;/NMI&gt;
+         irq_work_queue(&amp;amp;event-&gt;pending_irq)
+&lt;======= 
       perf_event_task_sched_out()
           event_sched_out()
               event-&gt;pending_sigtrap = 0;
-              atomic_long_inc_not_zero(&amp;event-&gt;refcount)
-              task_work_add(&amp;event-&gt;pending_task)
+              atomic_long_inc_not_zero(&amp;amp;event-&gt;refcount)
+              task_work_add(&amp;amp;event-&gt;pending_task)
    finish_lock_switch()
-=======&gt; &lt;IRQ&gt;
+=======&gt; 
    perf_pending_irq()
       //do nothing, rely on pending task work
-&lt;======= &lt;/IRQ&gt;
+&lt;======= 
 
 begin_new_exec()
    perf_event_exit_task()
       perf_event_exit_event()
          // If is child event
          free_event()
-            WARN(atomic_long_cmpxchg(&amp;event-&gt;refcount, 1, 0) != 1)
+            WARN(atomic_long_cmpxchg(&amp;amp;event-&gt;refcount, 1, 0) != 1)
             // event is leaked
 
 Similar scenarios can also happen with perf_event_remove_on_exec() or
@@ -61,28 +61,28 @@ refcount addition such as in the following scenario:
     do_exit()
        exit_task_work(tsk);
 
-       &lt;IRQ&gt;
+       
        perf_event_overflow()
           event-&gt;pending_sigtrap = pending_id;
-          irq_work_queue(&amp;event-&gt;pending_irq);
-       &lt;/IRQ&gt;
+          irq_work_queue(&amp;amp;event-&gt;pending_irq);
+       
     =========&gt; PREEMPTION: TASK A -&gt; TASK B
        event_sched_out()
           event-&gt;pending_sigtrap = 0;
-          atomic_long_inc_not_zero(&amp;event-&gt;refcount)
+          atomic_long_inc_not_zero(&amp;amp;event-&gt;refcount)
           // FAILS: task work has exited
-          task_work_add(&amp;event-&gt;pending_task)
+          task_work_add(&amp;amp;event-&gt;pending_task)
        [...]
-       &lt;IRQ WORK&gt;
+       
        perf_pending_irq()
           // early return: event-&gt;oncpu = -1
-       &lt;/IRQ WORK&gt;
+       
        [...]
     =========&gt; TASK B -&gt; TASK A
        perf_event_exit_task(tsk)
           perf_event_exit_event()
              free_event()
-                WARN(atomic_long_cmpxchg(&amp;event-&gt;refcount, 1, 0) != 1)
+                WARN(atomic_long_cmpxchg(&amp;amp;event-&gt;refcount, 1, 0) != 1)
                 // leak event due to unexpected refcount == 2
 
 As a result the event is never released while the task exits.
@@ -149,7 +149,7 @@ produce the following splat:
    CR2: 00000000000000f0 CR3: 0000000418a3e001 CR4: 0000000000770ef0
    PKRU: 55555554
    Call Trace:
-    &lt;TASK&gt;
+    
     ? __die_body+0x6f/0xb0
     ? __die+0xcc/0xf0
     ? page_fault_oops+0x330/0x3a0
@@ -207,7 +207,7 @@ produce the following splat:
     ret_from_fork+0x3d/0x50
     ? rest_init+0x1f0/0x1f0
     ret_from_fork_asm+0x11/0x20
-    &lt;/TASK&gt;
+    
    Modules linked in:
    CR2: 00000000000000f0
    ---[ end trace 0000000000000000 ]---
@@ -291,7 +291,7 @@ west login:
 [   54.924386] CPU: 0 PID: 512 Comm: ping Not tainted 6.9.0-08574-gcd29a4313a1b #25
 [   54.925290] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 [   54.926401] Call Trace:
-[   54.926731]  &lt;IRQ&gt;
+[   54.926731]  
 [   54.927009]  dump_stack_lvl+0x2a/0x3b
 [   54.927478]  kasan_report+0x84/0xa6
 [   54.927930]  ? xfrmi_rcv_cb+0x2d/0x295
@@ -331,8 +331,8 @@ west login:
 [   54.946300]  ? note_interrupt+0x2cd/0x367
 [   54.946805]  handle_softirqs+0x13c/0x2c9
 [   54.947300]  do_softirq+0x5f/0x7d
-[   54.947727]  &lt;/IRQ&gt;
-[   54.948014]  &lt;TASK&gt;
+[   54.947727]  
+[   54.948014]  
 [   54.948300]  __local_bh_enable_ip+0x48/0x62
 [   54.948832]  __neigh_event_send+0x3fd/0x4ca
 [   54.949361]  neigh_resolve_output+0x1e/0x210
@@ -447,7 +447,7 @@ Workqueue: mlxsw_core mlxsw_sp_acl_tcam_vregion_rehash_work
 RIP: 0010:objagg_obj_parent_assign+0xb5/0xd0
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  __objagg_obj_get+0x2bb/0x580
  objagg_obj_get+0xe/0x80
  mlxsw_sp_acl_erp_mask_get+0xb5/0xf0
