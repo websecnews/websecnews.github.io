@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Sep 2024 20:12:31 +0000</lastBuildDate><item><title>CVE-2024-44974 | mptcp: pm: avoid possible UaF when selecting endp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44974</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Sep 2024 20:31:33 +0000</lastBuildDate><item><title>CVE-2024-45395 | Unbounded loop over untrusted input can lead to endless data attack</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45395</link><description>sigstore-go, a Go library for Sigstore signing and verification, is susceptible to a denial of service attack in versions prior to 0.6.1 when a verifier is provided a maliciously crafted Sigstore Bundle containing large amounts of verifiable data, in the form of signed transparency log entries, RFC 3161 timestamps, and attestation subjects. The verification of these data structures is computationally expensive. This can be used to consume excessive CPU resources, leading to a denial of service attack. TUF's security model labels this type of vulnerability an "Endless data attack," and can lead to verification failing to complete and disrupting services that rely on sigstore-go for verification. This vulnerability is addressed with sigstore-go 0.6.1, which adds hard limits to the number of verifiable data structures that can be processed in a bundle. Verification will fail if a bundle has data that exceeds these limits. The limits are 32 signed transparency log entries, 32 RFC 3161 timestamps, 1024 attestation subjects, and 32 digests per attestation subject. These limits are intended to be high enough to accommodate the vast majority of use cases, while preventing the verification of maliciously crafted bundles that contain large amounts of verifiable data. Users who are vulnerable but unable to quickly upgrade may consider adding manual bundle validation to enforce limits similar to those in the referenced patch prior to calling sigstore-go's verification functions.</description><pubDate>Wed, 04 Sep 2024 20:31:35 +0000</pubDate></item><item><title>CVE-2024-45399 | Indico has a Cross-Site-Scripting during account creation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45399</link><description>Indico is an event management system that uses Flask-Multipass, a multi-backend authentication system for Flask. In Indico prior to version 3.3.4, corresponding to Flask-Multipass prior to version 0.5.5, there is a Cross-Site-Scripting vulnerability during account creation when redirecting to the `next` URL. Exploitation requires initiating the account creation process with a maliciously crafted link, and then finalizing the signup process. Because of this, it can only target newly created (and thus unprivileged) Indico users. Indico 3.3.4 upgrades the dependency on Flask-Multipass to version 0.5.5, which fixes the issue. Those who build the Indico package themselves and cannot upgrade can update the `flask-multipass` dependency to `&gt;=0.5.5` which fixes the vulnerability. Otherwise one could configure one's web server to disallow requests containing a query string with a `next` parameter that starts with `javascript:`.</description><pubDate>Wed, 04 Sep 2024 20:31:35 +0000</pubDate></item><item><title>CVE-2024-44974 | mptcp: pm: avoid possible UaF when selecting endp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44974</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mptcp: pm: avoid possible UaF when selecting endp
 
@@ -33,7 +33,7 @@ FS:  00007f44a5425740(0000) GS:ffff888237d80000(0000) knlGS:0000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000100030973 CR3: 000000010722c000 CR4: 00000000000006e0
 Call Trace:
- &lt;TASK&gt;
+ 
  ? show_regs+0x8c/0xa0
  ? __die_body+0x23/0xa0
  ? __die+0x3a/0x50
@@ -164,21 +164,21 @@ unreferenced object 0xffff8881a0300008 (size 192):
     00 00 87 27 81 88 ff ff 18 80 9b 00 00 c9 ff ff  ...'............
     18 81 9b 00 00 c9 ff ff 00 00 00 00 00 00 00 00  ................
   backtrace (crc 99260e31):
-    [&lt;ffffffff823ce65b&gt;] kmemleak_alloc+0x4b/0x80
-    [&lt;ffffffff81493be2&gt;] kmalloc_trace_noprof+0x312/0x3d0
-    [&lt;ffffffffa1345679&gt;] intel_opregion_setup+0x89/0x700 [xe]
-    [&lt;ffffffffa125bfaf&gt;] xe_display_init_noirq+0x2f/0x90 [xe]
-    [&lt;ffffffffa1199ec3&gt;] xe_device_probe+0x7a3/0xbf0 [xe]
-    [&lt;ffffffffa11f3713&gt;] xe_pci_probe+0x333/0x5b0 [xe]
-    [&lt;ffffffff81af6be8&gt;] local_pci_probe+0x48/0xb0
-    [&lt;ffffffff81af8778&gt;] pci_device_probe+0xc8/0x280
-    [&lt;ffffffff81d09048&gt;] really_probe+0xf8/0x390
-    [&lt;ffffffff81d0937a&gt;] __driver_probe_device+0x8a/0x170
-    [&lt;ffffffff81d09503&gt;] driver_probe_device+0x23/0xb0
-    [&lt;ffffffff81d097b7&gt;] __driver_attach+0xc7/0x190
-    [&lt;ffffffff81d0628d&gt;] bus_for_each_dev+0x7d/0xd0
-    [&lt;ffffffff81d0851e&gt;] driver_attach+0x1e/0x30
-    [&lt;ffffffff81d07ac7&gt;] bus_add_driver+0x117/0x250
+    [] kmemleak_alloc+0x4b/0x80
+    [] kmalloc_trace_noprof+0x312/0x3d0
+    [] intel_opregion_setup+0x89/0x700 [xe]
+    [] xe_display_init_noirq+0x2f/0x90 [xe]
+    [] xe_device_probe+0x7a3/0xbf0 [xe]
+    [] xe_pci_probe+0x333/0x5b0 [xe]
+    [] local_pci_probe+0x48/0xb0
+    [] pci_device_probe+0xc8/0x280
+    [] really_probe+0xf8/0x390
+    [] __driver_probe_device+0x8a/0x170
+    [] driver_probe_device+0x23/0xb0
+    [] __driver_attach+0xc7/0x190
+    [] bus_for_each_dev+0x7d/0xd0
+    [] driver_attach+0x1e/0x30
+    [] bus_add_driver+0x117/0x250
 
 (cherry picked from commit 6f4e43a2f771b737d991142ec4f6d4b7ff31fbb4)</description><pubDate>Wed, 04 Sep 2024 20:12:35 +0000</pubDate></item><item><title>CVE-2024-44981 | workqueue: Fix UBSAN &amp;#x27;subtraction overflow&amp;#x27; error in shift_and_mask()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44981</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -258,10 +258,10 @@ Call trace:
  el0t_64_sync_handler+0x100/0x12c
  el0t_64_sync+0x190/0x194
 irq event stamp: 129818
-hardirqs last  enabled at (129817): [&lt;ffffa5f6d953fcc0&gt;] console_unlock+0x118/0x124
-hardirqs last disabled at (129818): [&lt;ffffa5f6da7dcf04&gt;] el1_dbg+0x24/0x8c
-softirqs last  enabled at (129808): [&lt;ffffa5f6d94afc18&gt;] handle_softirqs+0x4c8/0x4e8
-softirqs last disabled at (129785): [&lt;ffffa5f6d94105e4&gt;] __do_softirq+0x14/0x20
+hardirqs last  enabled at (129817): [] console_unlock+0x118/0x124
+hardirqs last disabled at (129818): [] el1_dbg+0x24/0x8c
+softirqs last  enabled at (129808): [] handle_softirqs+0x4c8/0x4e8
+softirqs last disabled at (129785): [] __do_softirq+0x14/0x20
 
 Patchwork: https://patchwork.freedesktop.org/patch/600714/</description><pubDate>Wed, 04 Sep 2024 20:12:36 +0000</pubDate></item><item><title>CVE-2024-44983 | netfilter: flowtable: validate vlan header</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44983</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -350,7 +350,7 @@ Read of size 8 at addr ffff88806dde4858 by task syz.1.380/6530
 CPU: 1 UID: 0 PID: 6530 Comm: syz.1.380 Not tainted 6.11.0-rc3-syzkaller-00306-gdf6cbc62cc9b #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
 Call Trace:
- &lt;TASK&gt;
+ 
   __dump_stack lib/dump_stack.c:93 [inline]
   dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
   print_address_description mm/kasan/report.c:377 [inline]
@@ -376,7 +376,7 @@ RDX: 0000000000000001 RSI: 0000000020000040 RDI: 0000000000000004
 RBP: 00007f936bfe7916 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 R13: 0000000000000000 R14: 00007f936c115f80 R15: 00007fff2860a7a8
- &lt;/TASK&gt;
+ 
 
 Allocated by task 6530:
   kasan_save_stack mm/kasan/common.c:47 [inline]
@@ -454,7 +454,7 @@ real_dev is set.
  kernel: CR2: 0000000000001030 CR3: 00000001122ab000 CR4: 0000000000350ef0
  kernel: bond0: (slave eni0np1): making interface the new active one
  kernel: Call Trace:
- kernel:  &lt;TASK&gt;
+ kernel:  
  kernel:  ? __die+0x1f/0x60
  kernel: bond0: (slave eni0np1): bond_ipsec_add_sa_all: failed to add SA
  kernel:  ? page_fault_oops+0x142/0x4c0
@@ -493,7 +493,7 @@ timewait sockets belonging to the exiting netns.
 
 This allows the netns exit worker to proceed to call
 
-WARN_ON_ONCE(!refcount_dec_and_test(&amp;net-&gt;ipv4.tcp_death_row.tw_refcount));
+WARN_ON_ONCE(!refcount_dec_and_test(&amp;amp;net-&gt;ipv4.tcp_death_row.tw_refcount));
 
 without the expected 1 -&gt; 0 transition, which then splats.
 
@@ -746,7 +746,7 @@ looks like this:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 0000000000000008 CR3: 000000005942c002 CR4: 00000000001706f0
   Call Trace:
-   &lt;TASK&gt;
+   
    ? __die+0x1f/0x70
    ? page_fault_oops+0x15d/0x440
    ? search_module_extables+0xe/0x40
@@ -763,7 +763,7 @@ looks like this:
    ret_from_fork+0x30/0x50
    ? __pfx_kthread+0x10/0x10
    ret_from_fork_asm+0x1b/0x30
-   &lt;/TASK&gt;
+   
   Modules linked in:
   CR2: 0000000000000008
   ---[ end trace 0000000000000000 ]---
@@ -871,7 +871,7 @@ Case 1: In function ext4_evict_inode(), the ea inode lookup could happen
       i_ea-&gt;i_state |= I_FREEING // set inode state
      inode_lru_isolate
       __iget(i_reg)
-      spin_unlock(&amp;i_reg-&gt;i_lock)
+      spin_unlock(&amp;amp;i_reg-&gt;i_lock)
       spin_unlock(lru_lock)
                                      rm file A
                                       i_reg-&gt;nlink = 0
@@ -885,7 +885,7 @@ Case 1: In function ext4_evict_inode(), the ea inode lookup could happen
              find_inode_fast
               __wait_on_freeing_inode(i_ea) ----→ AA deadlock
     dispose_list // cannot be executed by prune_icache_sb
-     wake_up_bit(&amp;i_ea-&gt;i_state)
+     wake_up_bit(&amp;amp;i_ea-&gt;i_state)
 
 Case 2: In deleted inode writing function ubifs_jnl_write_inode(), file
         deleting process holds BASEHD's wbuf-&gt;io_mutex while getting the
@@ -910,7 +910,7 @@ Case 2: In deleted inode writing function ubifs_jnl_write_inode(), file
                      ixa-&gt;i_state |= I_FREEING // set inode state
                     inode_lru_isolate
                      __iget(ib)
-                     spin_unlock(&amp;ib-&gt;i_lock)
+                     spin_unlock(&amp;amp;ib-&gt;i_lock)
                      spin_unlock(lru_lock)
                                                    rm file B
                                                     ib-&gt;nlink = 0
@@ -930,7 +930,7 @@ Case 2: In deleted inode writing function ubifs_jnl_write_inode(), file
           ↓             ubifs_jnl_write_inode
      ABBA deadlock ←-----make_reservation(BASEHD)
                    dispose_list // cannot be executed by prune_icache_sb
-                    wake_up_bit(&amp;ixa-&gt;i_state)
+                    wake_up_bit(&amp;amp;ixa-&gt;i_state)
 
 Fix the possible deadlock by using new inode state flag I_LRU_ISOLATING
 to pin the inode in memory while inode_lru_isolate(
