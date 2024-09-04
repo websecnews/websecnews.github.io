@@ -1,5 +1,174 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Sep 2024 18:45:47 +0000</lastBuildDate><item><title>CVE-2024-44948 | x86/mtrr: Check if fixed MTRRs exist before saving them</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44948</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Sep 2024 19:12:24 +0000</lastBuildDate><item><title>CVE-2024-44967 | drm/mgag200: Bind I2C lifetime to DRM device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44967</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/mgag200: Bind I2C lifetime to DRM device
+
+Managed cleanup with devm_add_action_or_reset() will release the I2C
+adapter when the underlying Linux device goes away. But the connector
+still refers to it, so this cleanup leaves behind a stale pointer
+in struct drm_connector.ddc.
+
+Bind the lifetime of the I2C adapter to the connector's lifetime by
+using DRM's managed release. When the DRM device goes away (after
+the Linux device) DRM will first clean up the connector and then
+clean up the I2C adapter.</description><pubDate>Wed, 04 Sep 2024 19:12:26 +0000</pubDate></item><item><title>CVE-2024-44968 | tick/broadcast: Move per CPU pointer access into the atomic section</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44968</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tick/broadcast: Move per CPU pointer access into the atomic section
+
+The recent fix for making the take over of the broadcast timer more
+reliable retrieves a per CPU pointer in preemptible context.
+
+This went unnoticed as compilers hoist the access into the non-preemptible
+region where the pointer is actually used. But of course it's valid that
+the compiler keeps it at the place where the code puts it which rightfully
+triggers:
+
+  BUG: using smp_processor_id() in preemptible [00000000] code:
+       caller is hotplug_cpu__broadcast_tick_pull+0x1c/0xc0
+
+Move it to the actual usage site which is in a non-preemptible region.</description><pubDate>Wed, 04 Sep 2024 19:12:26 +0000</pubDate></item><item><title>CVE-2024-44969 | s390/sclp: Prevent release of buffer in I/O</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44969</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/sclp: Prevent release of buffer in I/O
+
+When a task waiting for completion of a Store Data operation is
+interrupted, an attempt is made to halt this operation. If this attempt
+fails due to a hardware or firmware problem, there is a chance that the
+SCLP facility might store data into buffers referenced by the original
+operation at a later time.
+
+Handle this situation by not releasing the referenced data buffers if
+the halt attempt fails. For current use cases, this might result in a
+leak of few pages of memory in case of a rare hardware/firmware
+malfunction.</description><pubDate>Wed, 04 Sep 2024 19:12:26 +0000</pubDate></item><item><title>CVE-2024-44970 | net/mlx5e: SHAMPO, Fix invalid WQ linked list unlink</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44970</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: SHAMPO, Fix invalid WQ linked list unlink
+
+When all the strides in a WQE have been consumed, the WQE is unlinked
+from the WQ linked list (mlx5_wq_ll_pop()). For SHAMPO, it is possible
+to receive CQEs with 0 consumed strides for the same WQE even after the
+WQE is fully consumed and unlinked. This triggers an additional unlink
+for the same wqe which corrupts the linked list.
+
+Fix this scenario by accepting 0 sized consumed strides without
+unlinking the WQE again.</description><pubDate>Wed, 04 Sep 2024 19:12:27 +0000</pubDate></item><item><title>CVE-2024-44971 | net: dsa: bcm_sf2: Fix a possible memory leak in bcm_sf2_mdio_register()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44971</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: dsa: bcm_sf2: Fix a possible memory leak in bcm_sf2_mdio_register()
+
+bcm_sf2_mdio_register() calls of_phy_find_device() and then
+phy_device_remove() in a loop to remove existing PHY devices.
+of_phy_find_device() eventually calls bus_find_device(), which calls
+get_device() on the returned struct device * to increment the refcount.
+The current implementation does not decrement the refcount, which causes
+memory leak.
+
+This commit adds the missing phy_device_free() call to decrement the
+refcount via put_device() to balance the refcount.</description><pubDate>Wed, 04 Sep 2024 19:12:27 +0000</pubDate></item><item><title>CVE-2024-44972 | btrfs: do not clear page dirty inside extent_write_locked_range()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44972</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: do not clear page dirty inside extent_write_locked_range()
+
+[BUG]
+For subpage + zoned case, the following workload can lead to rsv data
+leak at unmount time:
+
+  # mkfs.btrfs -f -s 4k $dev
+  # mount $dev $mnt
+  # fsstress -w -n 8 -d $mnt -s 1709539240
+  0/0: fiemap - no filename
+  0/1: copyrange read - no filename
+  0/2: write - no filename
+  0/3: rename - no source filename
+  0/4: creat f0 x:0 0 0
+  0/4: creat add id=0,parent=-1
+  0/5: writev f0[259 1 0 0 0 0] [778052,113,965] 0
+  0/6: ioctl(FIEMAP) f0[259 1 0 0 224 887097] [1294220,2291618343991484791,0x10000] -1
+  0/7: dwrite - xfsctl(XFS_IOC_DIOINFO) f0[259 1 0 0 224 887097] return 25, fallback to stat()
+  0/7: dwrite f0[259 1 0 0 224 887097] [696320,102400] 0
+  # umount $mnt
+
+The dmesg includes the following rsv leak detection warning (all call
+trace skipped):
+
+  ------------[ cut here ]------------
+  WARNING: CPU: 2 PID: 4528 at fs/btrfs/inode.c:8653 btrfs_destroy_inode+0x1e0/0x200 [btrfs]
+  ---[ end trace 0000000000000000 ]---
+  ------------[ cut here ]------------
+  WARNING: CPU: 2 PID: 4528 at fs/btrfs/inode.c:8654 btrfs_destroy_inode+0x1a8/0x200 [btrfs]
+  ---[ end trace 0000000000000000 ]---
+  ------------[ cut here ]------------
+  WARNING: CPU: 2 PID: 4528 at fs/btrfs/inode.c:8660 btrfs_destroy_inode+0x1a0/0x200 [btrfs]
+  ---[ end trace 0000000000000000 ]---
+  BTRFS info (device sda): last unmount of filesystem 1b4abba9-de34-4f07-9e7f-157cf12a18d6
+  ------------[ cut here ]------------
+  WARNING: CPU: 3 PID: 4528 at fs/btrfs/block-group.c:4434 btrfs_free_block_groups+0x338/0x500 [btrfs]
+  ---[ end trace 0000000000000000 ]---
+  BTRFS info (device sda): space_info DATA has 268218368 free, is not full
+  BTRFS info (device sda): space_info total=268435456, used=204800, pinned=0, reserved=0, may_use=12288, readonly=0 zone_unusable=0
+  BTRFS info (device sda): global_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): trans_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): chunk_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): delayed_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): delayed_refs_rsv: size 0 reserved 0
+  ------------[ cut here ]------------
+  WARNING: CPU: 3 PID: 4528 at fs/btrfs/block-group.c:4434 btrfs_free_block_groups+0x338/0x500 [btrfs]
+  ---[ end trace 0000000000000000 ]---
+  BTRFS info (device sda): space_info METADATA has 267796480 free, is not full
+  BTRFS info (device sda): space_info total=268435456, used=131072, pinned=0, reserved=0, may_use=262144, readonly=0 zone_unusable=245760
+  BTRFS info (device sda): global_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): trans_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): chunk_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): delayed_block_rsv: size 0 reserved 0
+  BTRFS info (device sda): delayed_refs_rsv: size 0 reserved 0
+
+Above $dev is a tcmu-runner emulated zoned HDD, which has a max zone
+append size of 64K, and the system has 64K page size.
+
+[CAUSE]
+I have added several trace_printk() to show the events (header skipped):
+
+  &gt; btrfs_dirty_pages: r/i=5/259 dirty start=774144 len=114688
+  &gt; btrfs_dirty_pages: r/i=5/259 dirty part of page=720896 off_in_page=53248 len_in_page=12288
+  &gt; btrfs_dirty_pages: r/i=5/259 dirty part of page=786432 off_in_page=0 len_in_page=65536
+  &gt; btrfs_dirty_pages: r/i=5/259 dirty part of page=851968 off_in_page=0 len_in_page=36864
+
+The above lines show our buffered write has dirtied 3 pages of inode
+259 of root 5:
+
+  704K             768K              832K              896K
+  I           |////I/////////////////I///////////|     I
+              756K                               868K
+
+  |///| is the dirtied range using subpage bitmaps. and 'I' is the page
+  boundary.
+
+  Meanwhile all three pages (704K, 768K, 832K) have their PageDirty
+  flag set.
+
+  &gt; btrfs_direct_write: r/i=5/259 start dio filepos=696320 len=102400
+
+Then direct IO writ
+---truncated---</description><pubDate>Wed, 04 Sep 2024 19:12:27 +0000</pubDate></item><item><title>CVE-2024-44973 | mm, slub: do not call do_slab_free for kfence object</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44973</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm, slub: do not call do_slab_free for kfence object
+
+In 782f8906f805 the freeing of kfence objects was moved from deep
+inside do_slab_free to the wrapper functions outside. This is a nice
+change, but unfortunately it missed one spot in __kmem_cache_free_bulk.
+
+This results in a crash like this:
+
+BUG skbuff_head_cache (Tainted: G S  B       E     ): Padding overwritten. 0xffff88907fea0f00-0xffff88907fea0fff @offset=3840
+
+slab_err (mm/slub.c:1129)
+free_to_partial_list (mm/slub.c:? mm/slub.c:4036)
+slab_pad_check (mm/slub.c:864 mm/slub.c:1290)
+check_slab (mm/slub.c:?)
+free_to_partial_list (mm/slub.c:3171 mm/slub.c:4036)
+kmem_cache_alloc_bulk (mm/slub.c:? mm/slub.c:4495 mm/slub.c:4586 mm/slub.c:4635)
+napi_build_skb (net/core/skbuff.c:348 net/core/skbuff.c:527 net/core/skbuff.c:549)
+
+All the other callers to do_slab_free appear to be ok.
+
+Add a kfence_free check in __kmem_cache_free_bulk to avoid the crash.</description><pubDate>Wed, 04 Sep 2024 19:12:28 +0000</pubDate></item><item><title>CVE-2024-44948 | x86/mtrr: Check if fixed MTRRs exist before saving them</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44948</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 x86/mtrr: Check if fixed MTRRs exist before saving them
 
@@ -98,13 +267,13 @@ local lockdep key for @dev-&gt;mutex to reveal reports of the form:
  ffff8c2270070de0 (kn-&gt;active#6){++++}-{0:0}, at: __kernfs_remove+0xde/0x220
 
  but task is already holding lock:
- ffff8c22016e88f8 (&amp;cxl_root_key){+.+.}-{3:3}, at: device_release_driver_internal+0x39/0x210
+ ffff8c22016e88f8 (&amp;amp;cxl_root_key){+.+.}-{3:3}, at: device_release_driver_internal+0x39/0x210
 
  which lock already depends on the new lock.
 
  the existing dependency chain (in reverse order) is:
 
- -&gt; #1 (&amp;cxl_root_key){+.+.}-{3:3}:
+ -&gt; #1 (&amp;amp;cxl_root_key){+.+.}-{3:3}:
         __mutex_lock+0x99/0xc30
         uevent_show+0xac/0x130
         dev_attr_show+0x18/0x40
@@ -152,29 +321,29 @@ Here is deadlock backtrace:
 
 kworker/0:1     D 4892.876354 10 10971 4859 0x4208060 0x8 10 0 120 670730152367
 ptr            f0ffff80c2e40000 0 1 0x00000001 0x000000ff 0x000000ff 0x000000ff
-&lt;ffffffee5e71ddb0&gt; __switch_to+0x1a8/0x2d4
-&lt;ffffffee5e71e604&gt; __schedule+0x684/0xa98
-&lt;ffffffee5e71ea60&gt; schedule+0x48/0xc8
-&lt;ffffffee5e725f78&gt; schedule_timeout+0x48/0x170
-&lt;ffffffee5e71fb74&gt; do_wait_for_common+0x108/0x1b0
-&lt;ffffffee5e71efe0&gt; wait_for_completion+0x44/0x60
-&lt;ffffffee5d6de968&gt; __flush_work+0x39c/0x424
-&lt;ffffffee5d6decc0&gt; __cancel_work_sync+0xd8/0x208
-&lt;ffffffee5d6dee2c&gt; cancel_delayed_work_sync+0x14/0x28
-&lt;ffffffee5e2551b8&gt; __ufshcd_wl_suspend+0x19c/0x480
-&lt;ffffffee5e255fb8&gt; ufshcd_wl_runtime_suspend+0x3c/0x1d4
-&lt;ffffffee5dffd80c&gt; scsi_runtime_suspend+0x78/0xc8
-&lt;ffffffee5df93580&gt; __rpm_callback+0x94/0x3e0
-&lt;ffffffee5df90b0c&gt; rpm_suspend+0x2d4/0x65c
-&lt;ffffffee5df91448&gt; __pm_runtime_suspend+0x80/0x114
-&lt;ffffffee5dffd95c&gt; scsi_runtime_idle+0x38/0x6c
-&lt;ffffffee5df912f4&gt; rpm_idle+0x264/0x338
-&lt;ffffffee5df90f14&gt; __pm_runtime_idle+0x80/0x110
-&lt;ffffffee5e24ce44&gt; ufshcd_rtc_work+0x128/0x1e4
-&lt;ffffffee5d6e3a40&gt; process_one_work+0x26c/0x650
-&lt;ffffffee5d6e65c8&gt; worker_thread+0x260/0x3d8
-&lt;ffffffee5d6edec8&gt; kthread+0x110/0x134
-&lt;ffffffee5d616b18&gt; ret_from_fork+0x10/0x20
+ __switch_to+0x1a8/0x2d4
+ __schedule+0x684/0xa98
+ schedule+0x48/0xc8
+ schedule_timeout+0x48/0x170
+ do_wait_for_common+0x108/0x1b0
+ wait_for_completion+0x44/0x60
+ __flush_work+0x39c/0x424
+ __cancel_work_sync+0xd8/0x208
+ cancel_delayed_work_sync+0x14/0x28
+ __ufshcd_wl_suspend+0x19c/0x480
+ ufshcd_wl_runtime_suspend+0x3c/0x1d4
+ scsi_runtime_suspend+0x78/0xc8
+ __rpm_callback+0x94/0x3e0
+ rpm_suspend+0x2d4/0x65c
+ __pm_runtime_suspend+0x80/0x114
+ scsi_runtime_idle+0x38/0x6c
+ rpm_idle+0x264/0x338
+ __pm_runtime_idle+0x80/0x110
+ ufshcd_rtc_work+0x128/0x1e4
+ process_one_work+0x26c/0x650
+ worker_thread+0x260/0x3d8
+ kthread+0x110/0x134
+ ret_from_fork+0x10/0x20
 
 Skip updating RTC if RPM state is not RPM_ACTIVE.</description><pubDate>Wed, 04 Sep 2024 18:45:51 +0000</pubDate></item><item><title>CVE-2024-44954 | ALSA: line6: Fix racy access to midibuf</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44954</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -216,7 +385,7 @@ vm-&gt;lock, which is also held when waiting on preempt fences.</description><pu
 xen: privcmd: Switch from mutex to spinlock for irqfds
 
 irqfd_wakeup() gets EPOLLHUP, when it is called by
-eventfd_release() by way of wake_up_poll(&amp;ctx-&gt;wqh, EPOLLHUP), which
+eventfd_release() by way of wake_up_poll(&amp;amp;ctx-&gt;wqh, EPOLLHUP), which
 gets called under spin_lock_irqsave(). We can't use a mutex here as it
 will lead to a deadlock.
 
@@ -229,7 +398,7 @@ I got the following warn report while doing stress test:
 jump label: negative count!
 WARNING: CPU: 3 PID: 38 at kernel/jump_label.c:263 static_key_slow_try_dec+0x9d/0xb0
 Call Trace:
- &lt;TASK&gt;
+ 
  __static_key_slow_dec_cpuslocked+0x16/0x70
  sched_cpu_deactivate+0x26e/0x2a0
  cpuhp_invoke_callback+0x3ad/0x10d0
@@ -238,7 +407,7 @@ Call Trace:
  kthread+0x309/0x400
  ret_from_fork+0x41/0x70
  ret_from_fork_asm+0x1b/0x30
- &lt;/TASK&gt;
+ 
 
 Because when cpuset_cpu_inactive() fails in sched_cpu_deactivate(),
 the cpu offline failed, but sched_smt_present is decremented before
@@ -261,7 +430,7 @@ following splat when running the ftrace selftests:
 [&lt;...&gt;] invalid opcode: 0000 [#1] PREEMPT SMP KASAN
 [&lt;...&gt;] CPU: 3 PID: 2550 Comm: mount Tainted: G                 N  6.8.12-grsec+ #122 ed2f536ca62f28b087b90e3cc906a8d25b3ddc65
 [&lt;...&gt;] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-[&lt;...&gt;] RIP: 0010:[&lt;ffffffff84656018&gt;] __list_del_entry_valid_or_report+0x138/0x3e0
+[&lt;...&gt;] RIP: 0010:[] __list_del_entry_valid_or_report+0x138/0x3e0
 [&lt;...&gt;] Code: 48 b8 99 fb 65 f2 ff ff ff ff e9 03 5c d9 fc cc 48 b8 99 fb 65 f2 ff ff ff ff e9 33 5a d9 fc cc 48 b8 99 fb 65 f2 ff ff ff ff &lt;0f&gt; 0b 4c 89 e9 48 89 ea 48 89 ee 48 c7 c7 60 8f dd 89 31 c0 e8 2f
 [&lt;...&gt;] RSP: 0018:fffffe80416afaf0 EFLAGS: 00010283
 [&lt;...&gt;] RAX: 0000000000000098 RBX: ffff888103ee2cb0 RCX: 0000000000000000
@@ -288,21 +457,21 @@ following splat when running the ftrace selftests:
 [&lt;...&gt;]  ffff88812b6b9750 0000000079d714b6 fffffbfff1e9280b ffffffff8f49405f
 [&lt;...&gt;]  0000000000000001 0000000000000000 ffff888104457280 ffffffff8248b392
 [&lt;...&gt;] Call Trace:
-[&lt;...&gt;]  &lt;TASK&gt;
-[&lt;...&gt;]  [&lt;ffffffff818a2315&gt;] ? lock_release+0x175/0x380 fffffe80416afaf0
-[&lt;...&gt;]  [&lt;ffffffff8248b392&gt;] list_lru_del+0x152/0x740 fffffe80416afb48
-[&lt;...&gt;]  [&lt;ffffffff8248ba93&gt;] list_lru_del_obj+0x113/0x280 fffffe80416afb88
-[&lt;...&gt;]  [&lt;ffffffff8940fd19&gt;] ? _atomic_dec_and_lock+0x119/0x200 fffffe80416afb90
-[&lt;...&gt;]  [&lt;ffffffff8295b244&gt;] iput_final+0x1c4/0x9a0 fffffe80416afbb8
-[&lt;...&gt;]  [&lt;ffffffff8293a52b&gt;] dentry_unlink_inode+0x44b/0xaa0 fffffe80416afbf8
-[&lt;...&gt;]  [&lt;ffffffff8293fefc&gt;] __dentry_kill+0x23c/0xf00 fffffe80416afc40
-[&lt;...&gt;]  [&lt;ffffffff8953a85f&gt;] ? __this_cpu_preempt_check+0x1f/0xa0 fffffe80416afc48
-[&lt;...&gt;]  [&lt;ffffffff82949ce5&gt;] ? shrink_dentry_list+0x1c5/0x760 fffffe80416afc70
-[&lt;...&gt;]  [&lt;ffffffff82949b71&gt;] ? shrink_dentry_list+0x51/0x760 fffffe80416afc78
-[&lt;...&gt;]  [&lt;ffffffff82949da8&gt;] shrink_dentry_list+0x288/0x760 fffffe80416afc80
-[&lt;...&gt;]  [&lt;ffffffff8294ae75&gt;] shrink_dcache_sb+0x155/0x420 fffffe80416afcc8
-[&lt;...&gt;]  [&lt;ffffffff8953a7c3&gt;] ? debug_smp_processor_id+0x23/0xa0 fffffe80416afce0
-[&lt;...&gt;]  [&lt;ffffffff8294ad20&gt;] ? do_one_tre
+[&lt;...&gt;]  
+[&lt;...&gt;]  [] ? lock_release+0x175/0x380 fffffe80416afaf0
+[&lt;...&gt;]  [] list_lru_del+0x152/0x740 fffffe80416afb48
+[&lt;...&gt;]  [] list_lru_del_obj+0x113/0x280 fffffe80416afb88
+[&lt;...&gt;]  [] ? _atomic_dec_and_lock+0x119/0x200 fffffe80416afb90
+[&lt;...&gt;]  [] iput_final+0x1c4/0x9a0 fffffe80416afbb8
+[&lt;...&gt;]  [] dentry_unlink_inode+0x44b/0xaa0 fffffe80416afbf8
+[&lt;...&gt;]  [] __dentry_kill+0x23c/0xf00 fffffe80416afc40
+[&lt;...&gt;]  [] ? __this_cpu_preempt_check+0x1f/0xa0 fffffe80416afc48
+[&lt;...&gt;]  [] ? shrink_dentry_list+0x1c5/0x760 fffffe80416afc70
+[&lt;...&gt;]  [] ? shrink_dentry_list+0x51/0x760 fffffe80416afc78
+[&lt;...&gt;]  [] shrink_dentry_list+0x288/0x760 fffffe80416afc80
+[&lt;...&gt;]  [] shrink_dcache_sb+0x155/0x420 fffffe80416afcc8
+[&lt;...&gt;]  [] ? debug_smp_processor_id+0x23/0xa0 fffffe80416afce0
+[&lt;...&gt;]  [] ? do_one_tre
 ---truncated---</description><pubDate>Wed, 04 Sep 2024 18:45:53 +0000</pubDate></item><item><title>CVE-2024-44960 | usb: gadget: core: Check for unset descriptor</title><link>https://www.cve.org/CVERecord?id=CVE-2024-44960</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 usb: gadget: core: Check for unset descriptor
