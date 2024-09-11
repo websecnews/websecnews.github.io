@@ -1,5 +1,517 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 11 Sep 2024 14:56:53 +0000</lastBuildDate><item><title>CVE-2024-4465 | Incorrect authorization for Reports configuration in Guardian/CMC before 24.2.0</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4465</link><description>An access control vulnerability was discovered in the Reports section due to a specific access restriction not being properly enforced for users with limited privileges.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 11 Sep 2024 15:19:45 +0000</lastBuildDate><item><title>CVE-2024-45009 | mptcp: pm: only decrement add_addr_accepted for MPJ req</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45009</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mptcp: pm: only decrement add_addr_accepted for MPJ req
+
+Adding the following warning ...
+
+  WARN_ON_ONCE(msk-&gt;pm.add_addr_accepted == 0)
+
+... before decrementing the add_addr_accepted counter helped to find a
+bug when running the "remove single subflow" subtest from the
+mptcp_join.sh selftest.
+
+Removing a 'subflow' endpoint will first trigger a RM_ADDR, then the
+subflow closure. Before this patch, and upon the reception of the
+RM_ADDR, the other peer will then try to decrement this
+add_addr_accepted. That's not correct because the attached subflows have
+not been created upon the reception of an ADD_ADDR.
+
+A way to solve that is to decrement the counter only if the attached
+subflow was an MP_JOIN to a remote id that was not 0, and initiated by
+the host receiving the RM_ADDR.</description><pubDate>Wed, 11 Sep 2024 15:19:46 +0000</pubDate></item><item><title>CVE-2024-45010 | mptcp: pm: only mark &amp;#x27;subflow&amp;#x27; endp as available</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45010</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mptcp: pm: only mark 'subflow' endp as available
+
+Adding the following warning ...
+
+  WARN_ON_ONCE(msk-&gt;pm.local_addr_used == 0)
+
+... before decrementing the local_addr_used counter helped to find a bug
+when running the "remove single address" subtest from the mptcp_join.sh
+selftests.
+
+Removing a 'signal' endpoint will trigger the removal of all subflows
+linked to this endpoint via mptcp_pm_nl_rm_addr_or_subflow() with
+rm_type == MPTCP_MIB_RMSUBFLOW. This will decrement the local_addr_used
+counter, which is wrong in this case because this counter is linked to
+'subflow' endpoints, and here it is a 'signal' endpoint that is being
+removed.
+
+Now, the counter is decremented, only if the ID is being used outside
+of mptcp_pm_nl_rm_addr_or_subflow(), only for 'subflow' endpoints, and
+if the ID is not 0 -- local_addr_used is not taking into account these
+ones. This marking of the ID as being available, and the decrement is
+done no matter if a subflow using this ID is currently available,
+because the subflow could have been closed before.</description><pubDate>Wed, 11 Sep 2024 15:19:47 +0000</pubDate></item><item><title>CVE-2024-45011 | char: xillybus: Check USB endpoints when probing device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45011</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+char: xillybus: Check USB endpoints when probing device
+
+Ensure, as the driver probes the device, that all endpoints that the
+driver may attempt to access exist and are of the correct type.
+
+All XillyUSB devices must have a Bulk IN and Bulk OUT endpoint at
+address 1. This is verified in xillyusb_setup_base_eps().
+
+On top of that, a XillyUSB device may have additional Bulk OUT
+endpoints. The information about these endpoints' addresses is deduced
+from a data structure (the IDT) that the driver fetches from the device
+while probing it. These endpoints are checked in setup_channels().
+
+A XillyUSB device never has more than one IN endpoint, as all data
+towards the host is multiplexed in this single Bulk IN endpoint. This is
+why setup_channels() only checks OUT endpoints.</description><pubDate>Wed, 11 Sep 2024 15:19:47 +0000</pubDate></item><item><title>CVE-2024-45012 | nouveau/firmware: use dma non-coherent allocator</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45012</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nouveau/firmware: use dma non-coherent allocator
+
+Currently, enabling SG_DEBUG in the kernel will cause nouveau to hit a
+BUG() on startup, when the iommu is enabled:
+
+kernel BUG at include/linux/scatterlist.h:187!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 7 PID: 930 Comm: (udev-worker) Not tainted 6.9.0-rc3Lyude-Test+ #30
+Hardware name: MSI MS-7A39/A320M GAMING PRO (MS-7A39), BIOS 1.I0 01/22/2019
+RIP: 0010:sg_init_one+0x85/0xa0
+Code: 69 88 32 01 83 e1 03 f6 c3 03 75 20 a8 01 75 1e 48 09 cb 41 89 54
+24 08 49 89 1c 24 41 89 6c 24 0c 5b 5d 41 5c e9 7b b9 88 00 &lt;0f&gt; 0b 0f 0b
+0f 0b 48 8b 05 5e 46 9a 01 eb b2 66 66 2e 0f 1f 84 00
+RSP: 0018:ffffa776017bf6a0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffa77600d87000 RCX: 000000000000002b
+RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffa77680d87000
+RBP: 000000000000e000 R08: 0000000000000000 R09: 0000000000000000
+R10: ffff98f4c46aa508 R11: 0000000000000000 R12: ffff98f4c46aa508
+R13: ffff98f4c46aa008 R14: ffffa77600d4a000 R15: ffffa77600d4a018
+FS:  00007feeb5aae980(0000) GS:ffff98f5c4dc0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f22cb9a4520 CR3: 00000001043ba000 CR4: 00000000003506f0
+Call Trace:
+ &lt;TASK&gt;
+ ? die+0x36/0x90
+ ? do_trap+0xdd/0x100
+ ? sg_init_one+0x85/0xa0
+ ? do_error_trap+0x65/0x80
+ ? sg_init_one+0x85/0xa0
+ ? exc_invalid_op+0x50/0x70
+ ? sg_init_one+0x85/0xa0
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? sg_init_one+0x85/0xa0
+ nvkm_firmware_ctor+0x14a/0x250 [nouveau]
+ nvkm_falcon_fw_ctor+0x42/0x70 [nouveau]
+ ga102_gsp_booter_ctor+0xb4/0x1a0 [nouveau]
+ r535_gsp_oneinit+0xb3/0x15f0 [nouveau]
+ ? srso_return_thunk+0x5/0x5f
+ ? srso_return_thunk+0x5/0x5f
+ ? nvkm_udevice_new+0x95/0x140 [nouveau]
+ ? srso_return_thunk+0x5/0x5f
+ ? srso_return_thunk+0x5/0x5f
+ ? ktime_get+0x47/0xb0
+
+Fix this by using the non-coherent allocator instead, I think there
+might be a better answer to this, but it involve ripping up some of
+APIs using sg lists.</description><pubDate>Wed, 11 Sep 2024 15:19:47 +0000</pubDate></item><item><title>CVE-2024-45013 | nvme: move stopping keep-alive into nvme_uninit_ctrl()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45013</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme: move stopping keep-alive into nvme_uninit_ctrl()
+
+Commit 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+moves starting keep-alive from nvme_start_ctrl() into
+nvme_init_ctrl_finish(), but don't move stopping keep-alive into
+nvme_uninit_ctrl(), so keep-alive work can be started and keep pending
+after failing to start controller, finally use-after-free is triggered if
+nvme host driver is unloaded.
+
+This patch fixes kernel panic when running nvme/004 in case that connection
+failure is triggered, by moving stopping keep-alive into nvme_uninit_ctrl().
+
+This way is reasonable because keep-alive is now started in
+nvme_init_ctrl_finish().</description><pubDate>Wed, 11 Sep 2024 15:19:48 +0000</pubDate></item><item><title>CVE-2024-45014 | s390/boot: Avoid possible physmem_info segment corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45014</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/boot: Avoid possible physmem_info segment corruption
+
+When physical memory for the kernel image is allocated it does not
+consider extra memory required for offsetting the image start to
+match it with the lower 20 bits of KASLR virtual base address. That
+might lead to kernel access beyond its memory range.</description><pubDate>Wed, 11 Sep 2024 15:19:48 +0000</pubDate></item><item><title>CVE-2024-45015 | drm/msm/dpu: move dpu_encoder&amp;#x27;s connector assignment to atomic_enable()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45015</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/msm/dpu: move dpu_encoder's connector assignment to atomic_enable()
+
+For cases where the crtc's connectors_changed was set without enable/active
+getting toggled , there is an atomic_enable() call followed by an
+atomic_disable() but without an atomic_mode_set().
+
+This results in a NULL ptr access for the dpu_encoder_get_drm_fmt() call in
+the atomic_enable() as the dpu_encoder's connector was cleared in the
+atomic_disable() but not re-assigned as there was no atomic_mode_set() call.
+
+Fix the NULL ptr access by moving the assignment for atomic_enable() and also
+use drm_atomic_get_new_connector_for_encoder() to get the connector from
+the atomic_state.
+
+Patchwork: https://patchwork.freedesktop.org/patch/606729/</description><pubDate>Wed, 11 Sep 2024 15:19:49 +0000</pubDate></item><item><title>CVE-2024-45016 | netem: fix return value if duplicate enqueue fails</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45016</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netem: fix return value if duplicate enqueue fails
+
+There is a bug in netem_enqueue() introduced by
+commit 5845f706388a ("net: netem: fix skb length BUG_ON in __skb_to_sgvec")
+that can lead to a use-after-free.
+
+This commit made netem_enqueue() always return NET_XMIT_SUCCESS
+when a packet is duplicated, which can cause the parent qdisc's q.qlen
+to be mistakenly incremented. When this happens qlen_notify() may be
+skipped on the parent during destruction, leaving a dangling pointer
+for some classful qdiscs like DRR.
+
+There are two ways for the bug happen:
+
+- If the duplicated packet is dropped by rootq-&gt;enqueue() and then
+  the original packet is also dropped.
+- If rootq-&gt;enqueue() sends the duplicated packet to a different qdisc
+  and the original packet is dropped.
+
+In both cases NET_XMIT_SUCCESS is returned even though no packets
+are enqueued at the netem qdisc.
+
+The fix is to defer the enqueue of the duplicate packet until after
+the original packet has been guaranteed to return NET_XMIT_SUCCESS.</description><pubDate>Wed, 11 Sep 2024 15:19:49 +0000</pubDate></item><item><title>CVE-2024-45017 | net/mlx5: Fix IPsec RoCE MPV trace call</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45017</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: Fix IPsec RoCE MPV trace call
+
+Prevent the call trace below from happening, by not allowing IPsec
+creation over a slave, if master device doesn't support IPsec.
+
+WARNING: CPU: 44 PID: 16136 at kernel/locking/rwsem.c:240 down_read+0x75/0x94
+Modules linked in: esp4_offload esp4 act_mirred act_vlan cls_flower sch_ingress mlx5_vdpa vringh vhost_iotlb vdpa mst_pciconf(OE) nfsv3 nfs_acl nfs lockd grace fscache netfs xt_CHECKSUM xt_MASQUERADE xt_conntrack ipt_REJECT nf_reject_ipv4 nft_compat nft_counter nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill cuse fuse rpcrdma sunrpc rdma_ucm ib_srpt ib_isert iscsi_target_mod target_core_mod ib_umad ib_iser libiscsi scsi_transport_iscsi rdma_cm ib_ipoib iw_cm ib_cm ipmi_ssif intel_rapl_msr intel_rapl_common amd64_edac edac_mce_amd kvm_amd kvm irqbypass crct10dif_pclmul crc32_pclmul mlx5_ib ghash_clmulni_intel sha1_ssse3 dell_smbios ib_uverbs aesni_intel crypto_simd dcdbas wmi_bmof dell_wmi_descriptor cryptd pcspkr ib_core acpi_ipmi sp5100_tco ccp i2c_piix4 ipmi_si ptdma k10temp ipmi_devintf ipmi_msghandler acpi_power_meter acpi_cpufreq ext4 mbcache jbd2 sd_mod t10_pi sg mgag200 drm_kms_helper syscopyarea sysfillrect mlx5_core sysimgblt fb_sys_fops cec
+ ahci libahci mlxfw drm pci_hyperv_intf libata tg3 sha256_ssse3 tls megaraid_sas i2c_algo_bit psample wmi dm_mirror dm_region_hash dm_log dm_mod [last unloaded: mst_pci]
+CPU: 44 PID: 16136 Comm: kworker/44:3 Kdump: loaded Tainted: GOE 5.15.0-20240509.el8uek.uek7_u3_update_v6.6_ipsec_bf.x86_64 #2
+Hardware name: Dell Inc. PowerEdge R7525/074H08, BIOS 2.0.3 01/15/2021
+Workqueue: events xfrm_state_gc_task
+RIP: 0010:down_read+0x75/0x94
+Code: 00 48 8b 45 08 65 48 8b 14 25 80 fc 01 00 83 e0 02 48 09 d0 48 83 c8 01 48 89 45 08 5d 31 c0 89 c2 89 c6 89 c7 e9 cb 88 3b 00 &lt;0f&gt; 0b 48 8b 45 08 a8 01 74 b2 a8 02 75 ae 48 89 c2 48 83 ca 02 f0
+RSP: 0018:ffffb26387773da8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffffa08b658af900 RCX: 0000000000000001
+RDX: 0000000000000000 RSI: ff886bc5e1366f2f RDI: 0000000000000000
+RBP: ffffa08b658af940 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffa0a9bfb31540
+R13: ffffa0a9bfb37900 R14: 0000000000000000 R15: ffffa0a9bfb37905
+FS:  0000000000000000(0000) GS:ffffa0a9bfb00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055a45ed814e8 CR3: 000000109038a000 CR4: 0000000000350ee0
+Call Trace:
+ &lt;TASK&gt;
+ ? show_trace_log_lvl+0x1d6/0x2f9
+ ? show_trace_log_lvl+0x1d6/0x2f9
+ ? mlx5_devcom_for_each_peer_begin+0x29/0x60 [mlx5_core]
+ ? down_read+0x75/0x94
+ ? __warn+0x80/0x113
+ ? down_read+0x75/0x94
+ ? report_bug+0xa4/0x11d
+ ? handle_bug+0x35/0x8b
+ ? exc_invalid_op+0x14/0x75
+ ? asm_exc_invalid_op+0x16/0x1b
+ ? down_read+0x75/0x94
+ ? down_read+0xe/0x94
+ mlx5_devcom_for_each_peer_begin+0x29/0x60 [mlx5_core]
+ mlx5_ipsec_fs_roce_tx_destroy+0xb1/0x130 [mlx5_core]
+ tx_destroy+0x1b/0xc0 [mlx5_core]
+ tx_ft_put+0x53/0xc0 [mlx5_core]
+ mlx5e_xfrm_free_state+0x45/0x90 [mlx5_core]
+ ___xfrm_state_destroy+0x10f/0x1a2
+ xfrm_state_gc_task+0x81/0xa9
+ process_one_work+0x1f1/0x3c6
+ worker_thread+0x53/0x3e4
+ ? process_one_work.cold+0x46/0x3c
+ kthread+0x127/0x144
+ ? set_kthread_struct+0x60/0x52
+ ret_from_fork+0x22/0x2d
+ &lt;/TASK&gt;
+---[ end trace 5ef7896144d398e1 ]---</description><pubDate>Wed, 11 Sep 2024 15:19:49 +0000</pubDate></item><item><title>CVE-2024-45018 | netfilter: flowtable: initialise extack before use</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45018</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: flowtable: initialise extack before use
+
+Fix missing initialisation of extack in flow offload.</description><pubDate>Wed, 11 Sep 2024 15:19:50 +0000</pubDate></item><item><title>CVE-2024-45019 | net/mlx5e: Take state lock during tx timeout reporter</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45019</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: Take state lock during tx timeout reporter
+
+mlx5e_safe_reopen_channels() requires the state lock taken. The
+referenced changed in the Fixes tag removed the lock to fix another
+issue. This patch adds it back but at a later point (when calling
+mlx5e_safe_reopen_channels()) to avoid the deadlock referenced in the
+Fixes tag.</description><pubDate>Wed, 11 Sep 2024 15:19:50 +0000</pubDate></item><item><title>CVE-2024-45020 | bpf: Fix a kernel verifier crash in stacksafe()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45020</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix a kernel verifier crash in stacksafe()
+
+Daniel Hodges reported a kernel verifier crash when playing with sched-ext.
+Further investigation shows that the crash is due to invalid memory access
+in stacksafe(). More specifically, it is the following code:
+
+    if (exact != NOT_EXACT &amp;&amp;
+        old-&gt;stack[spi].slot_type[i % BPF_REG_SIZE] !=
+        cur-&gt;stack[spi].slot_type[i % BPF_REG_SIZE])
+            return false;
+
+The 'i' iterates old-&gt;allocated_stack.
+If cur-&gt;allocated_stack &lt; old-&gt;allocated_stack the out-of-bound
+access will happen.
+
+To fix the issue add 'i &gt;= cur-&gt;allocated_stack' check such that if
+the condition is true, stacksafe() should fail. Otherwise,
+cur-&gt;stack[spi].slot_type[i % BPF_REG_SIZE] memory access is legal.</description><pubDate>Wed, 11 Sep 2024 15:19:50 +0000</pubDate></item><item><title>CVE-2024-45021 | memcg_write_event_control(): fix a user-triggerable oops</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45021</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+memcg_write_event_control(): fix a user-triggerable oops
+
+we are *not* guaranteed that anything past the terminating NUL
+is mapped (let alone initialized with anything sane).</description><pubDate>Wed, 11 Sep 2024 15:19:51 +0000</pubDate></item><item><title>CVE-2024-45022 | mm/vmalloc: fix page mapping if vm_area_alloc_pages() with high order fallback to order 0</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45022</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/vmalloc: fix page mapping if vm_area_alloc_pages() with high order fallback to order 0
+
+The __vmap_pages_range_noflush() assumes its argument pages** contains
+pages with the same page shift.  However, since commit e9c3cda4d86e ("mm,
+vmalloc: fix high order __GFP_NOFAIL allocations"), if gfp_flags includes
+__GFP_NOFAIL with high order in vm_area_alloc_pages() and page allocation
+failed for high order, the pages** may contain two different page shifts
+(high order and order-0).  This could lead __vmap_pages_range_noflush() to
+perform incorrect mappings, potentially resulting in memory corruption.
+
+Users might encounter this as follows (vmap_allow_huge = true, 2M is for
+PMD_SIZE):
+
+kvmalloc(2M, __GFP_NOFAIL|GFP_X)
+    __vmalloc_node_range_noprof(vm_flags=VM_ALLOW_HUGE_VMAP)
+        vm_area_alloc_pages(order=9) ---&gt; order-9 allocation failed and fallback to order-0
+            vmap_pages_range()
+                vmap_pages_range_noflush()
+                    __vmap_pages_range_noflush(page_shift = 21) ----&gt; wrong mapping happens
+
+We can remove the fallback code because if a high-order allocation fails,
+__vmalloc_node_range_noprof() will retry with order-0.  Therefore, it is
+unnecessary to fallback to order-0 here.  Therefore, fix this by removing
+the fallback code.</description><pubDate>Wed, 11 Sep 2024 15:19:51 +0000</pubDate></item><item><title>CVE-2024-45023 | md/raid1: Fix data corruption for degraded array with slow disk</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45023</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/raid1: Fix data corruption for degraded array with slow disk
+
+read_balance() will avoid reading from slow disks as much as possible,
+however, if valid data only lands in slow disks, and a new normal disk
+is still in recovery, unrecovered data can be read:
+
+raid1_read_request
+ read_balance
+  raid1_should_read_first
+  -&gt; return false
+  choose_best_rdev
+  -&gt; normal disk is not recovered, return -1
+  choose_bb_rdev
+  -&gt; missing the checking of recovery, return the normal disk
+ -&gt; read unrecovered data
+
+Root cause is that the checking of recovery is missing in
+choose_bb_rdev(). Hence add such checking to fix the problem.
+
+Also fix similar problem in choose_slow_rdev().</description><pubDate>Wed, 11 Sep 2024 15:19:52 +0000</pubDate></item><item><title>CVE-2024-45024 | mm/hugetlb: fix hugetlb vs. core-mm PT locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45024</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/hugetlb: fix hugetlb vs. core-mm PT locking
+
+We recently made GUP's common page table walking code to also walk hugetlb
+VMAs without most hugetlb special-casing, preparing for the future of
+having less hugetlb-specific page table walking code in the codebase. 
+Turns out that we missed one page table locking detail: page table locking
+for hugetlb folios that are not mapped using a single PMD/PUD.
+
+Assume we have hugetlb folio that spans multiple PTEs (e.g., 64 KiB
+hugetlb folios on arm64 with 4 KiB base page size).  GUP, as it walks the
+page tables, will perform a pte_offset_map_lock() to grab the PTE table
+lock.
+
+However, hugetlb that concurrently modifies these page tables would
+actually grab the mm-&gt;page_table_lock: with USE_SPLIT_PTE_PTLOCKS, the
+locks would differ.  Something similar can happen right now with hugetlb
+folios that span multiple PMDs when USE_SPLIT_PMD_PTLOCKS.
+
+This issue can be reproduced [1], for example triggering:
+
+[ 3105.936100] ------------[ cut here ]------------
+[ 3105.939323] WARNING: CPU: 31 PID: 2732 at mm/gup.c:142 try_grab_folio+0x11c/0x188
+[ 3105.944634] Modules linked in: [...]
+[ 3105.974841] CPU: 31 PID: 2732 Comm: reproducer Not tainted 6.10.0-64.eln141.aarch64 #1
+[ 3105.980406] Hardware name: QEMU KVM Virtual Machine, BIOS edk2-20240524-4.fc40 05/24/2024
+[ 3105.986185] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 3105.991108] pc : try_grab_folio+0x11c/0x188
+[ 3105.994013] lr : follow_page_pte+0xd8/0x430
+[ 3105.996986] sp : ffff80008eafb8f0
+[ 3105.999346] x29: ffff80008eafb900 x28: ffffffe8d481f380 x27: 00f80001207cff43
+[ 3106.004414] x26: 0000000000000001 x25: 0000000000000000 x24: ffff80008eafba48
+[ 3106.009520] x23: 0000ffff9372f000 x22: ffff7a54459e2000 x21: ffff7a546c1aa978
+[ 3106.014529] x20: ffffffe8d481f3c0 x19: 0000000000610041 x18: 0000000000000001
+[ 3106.019506] x17: 0000000000000001 x16: ffffffffffffffff x15: 0000000000000000
+[ 3106.024494] x14: ffffb85477fdfe08 x13: 0000ffff9372ffff x12: 0000000000000000
+[ 3106.029469] x11: 1fffef4a88a96be1 x10: ffff7a54454b5f0c x9 : ffffb854771b12f0
+[ 3106.034324] x8 : 0008000000000000 x7 : ffff7a546c1aa980 x6 : 0008000000000080
+[ 3106.038902] x5 : 00000000001207cf x4 : 0000ffff9372f000 x3 : ffffffe8d481f000
+[ 3106.043420] x2 : 0000000000610041 x1 : 0000000000000001 x0 : 0000000000000000
+[ 3106.047957] Call trace:
+[ 3106.049522]  try_grab_folio+0x11c/0x188
+[ 3106.051996]  follow_pmd_mask.constprop.0.isra.0+0x150/0x2e0
+[ 3106.055527]  follow_page_mask+0x1a0/0x2b8
+[ 3106.058118]  __get_user_pages+0xf0/0x348
+[ 3106.060647]  faultin_page_range+0xb0/0x360
+[ 3106.063651]  do_madvise+0x340/0x598
+
+Let's make huge_pte_lockptr() effectively use the same PT locks as any
+core-mm page table walker would.  Add ptep_lockptr() to obtain the PTE
+page table lock using a pte pointer -- unfortunately we cannot convert
+pte_lockptr() because virt_to_page() doesn't work with kmap'ed page tables
+we can have with CONFIG_HIGHPTE.
+
+Handle CONFIG_PGTABLE_LEVELS correctly by checking in reverse order, such
+that when e.g., CONFIG_PGTABLE_LEVELS==2 with
+PGDIR_SIZE==P4D_SIZE==PUD_SIZE==PMD_SIZE will work as expected.  Document
+why that works.
+
+There is one ugly case: powerpc 8xx, whereby we have an 8 MiB hugetlb
+folio being mapped using two PTE page tables.  While hugetlb wants to take
+the PMD table lock, core-mm would grab the PTE table lock of one of both
+PTE page tables.  In such corner cases, we have to make sure that both
+locks match, which is (fortunately!) currently guaranteed for 8xx as it
+does not support SMP and consequently doesn't use split PT locks.
+
+[1] https://lore.kernel.org/all/1bbfcc7f-f222-45a5-ac44-c5a1381c596d@redhat.com/</description><pubDate>Wed, 11 Sep 2024 15:19:52 +0000</pubDate></item><item><title>CVE-2024-45025 | fix bitmap corruption on close_range() with CLOSE_RANGE_UNSHARE</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45025</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fix bitmap corruption on close_range() with CLOSE_RANGE_UNSHARE
+
+copy_fd_bitmaps(new, old, count) is expected to copy the first
+count/BITS_PER_LONG bits from old-&gt;full_fds_bits[] and fill
+the rest with zeroes.  What it does is copying enough words
+(BITS_TO_LONGS(count/BITS_PER_LONG)), then memsets the rest.
+That works fine, *if* all bits past the cutoff point are
+clear.  Otherwise we are risking garbage from the last word
+we'd copied.
+
+For most of the callers that is true - expand_fdtable() has
+count equal to old-&gt;max_fds, so there's no open descriptors
+past count, let alone fully occupied words in -&gt;open_fds[],
+which is what bits in -&gt;full_fds_bits[] correspond to.
+
+The other caller (dup_fd()) passes sane_fdtable_size(old_fdt, max_fds),
+which is the smallest multiple of BITS_PER_LONG that covers all
+opened descriptors below max_fds.  In the common case (copying on
+fork()) max_fds is ~0U, so all opened descriptors will be below
+it and we are fine, by the same reasons why the call in expand_fdtable()
+is safe.
+
+Unfortunately, there is a case where max_fds is less than that
+and where we might, indeed, end up with junk in -&gt;full_fds_bits[] -
+close_range(from, to, CLOSE_RANGE_UNSHARE) with
+	* descriptor table being currently shared
+	* 'to' being above the current capacity of descriptor table
+	* 'from' being just under some chunk of opened descriptors.
+In that case we end up with observably wrong behaviour - e.g. spawn
+a child with CLONE_FILES, get all descriptors in range 0..127 open,
+then close_range(64, ~0U, CLOSE_RANGE_UNSHARE) and watch dup(0) ending
+up with descriptor #128, despite #64 being observably not open.
+
+The minimally invasive fix would be to deal with that in dup_fd().
+If this proves to add measurable overhead, we can go that way, but
+let's try to fix copy_fd_bitmaps() first.
+
+* new helper: bitmap_copy_and_expand(to, from, bits_to_copy, size).
+* make copy_fd_bitmaps() take the bitmap size in words, rather than
+bits; it's 'count' argument is always a multiple of BITS_PER_LONG,
+so we are not losing any information, and that way we can use the
+same helper for all three bitmaps - compiler will see that count
+is a multiple of BITS_PER_LONG for the large ones, so it'll generate
+plain memcpy()+memset().
+
+Reproducer added to tools/testing/selftests/core/close_range_test.c</description><pubDate>Wed, 11 Sep 2024 15:19:52 +0000</pubDate></item><item><title>CVE-2024-45026 | s390/dasd: fix error recovery leading to data corruption on ESE devices</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45026</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/dasd: fix error recovery leading to data corruption on ESE devices
+
+Extent Space Efficient (ESE) or thin provisioned volumes need to be
+formatted on demand during usual IO processing.
+
+The dasd_ese_needs_format function checks for error codes that signal
+the non existence of a proper track format.
+
+The check for incorrect length is to imprecise since other error cases
+leading to transport of insufficient data also have this flag set.
+This might lead to data corruption in certain error cases for example
+during a storage server warmstart.
+
+Fix by removing the check for incorrect length and replacing by
+explicitly checking for invalid track format in transport mode.
+
+Also remove the check for file protected since this is not a valid
+ESE handling case.</description><pubDate>Wed, 11 Sep 2024 15:19:53 +0000</pubDate></item><item><title>CVE-2024-45027 | usb: xhci: Check for xhci-&amp;gt;interrupters being allocated in xhci_mem_clearup()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: xhci: Check for xhci-&gt;interrupters being allocated in xhci_mem_clearup()
+
+If xhci_mem_init() fails, it calls into xhci_mem_cleanup() to mop
+up the damage. If it fails early enough, before xhci-&gt;interrupters
+is allocated but after xhci-&gt;max_interrupters has been set, which
+happens in most (all?) cases, things get uglier, as xhci_mem_cleanup()
+unconditionally derefences xhci-&gt;interrupters. With prejudice.
+
+Gate the interrupt freeing loop with a check on xhci-&gt;interrupters
+being non-NULL.
+
+Found while debugging a DMA allocation issue that led the XHCI driver
+on this exact path.</description><pubDate>Wed, 11 Sep 2024 15:19:53 +0000</pubDate></item><item><title>CVE-2024-45028 | mmc: mmc_test: Fix NULL dereference on allocation failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45028</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mmc: mmc_test: Fix NULL dereference on allocation failure
+
+If the "test-&gt;highmem = alloc_pages()" allocation fails then calling
+__free_pages(test-&gt;highmem) will result in a NULL dereference.  Also
+change the error code to -ENOMEM instead of returning success.</description><pubDate>Wed, 11 Sep 2024 15:19:53 +0000</pubDate></item><item><title>CVE-2024-45029 | i2c: tegra: Do not mark ACPI devices as irq safe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45029</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: tegra: Do not mark ACPI devices as irq safe
+
+On ACPI machines, the tegra i2c module encounters an issue due to a
+mutex being called inside a spinlock. This leads to the following bug:
+
+	BUG: sleeping function called from invalid context at kernel/locking/mutex.c:585
+	...
+
+	Call trace:
+	__might_sleep
+	__mutex_lock_common
+	mutex_lock_nested
+	acpi_subsys_runtime_resume
+	rpm_resume
+	tegra_i2c_xfer
+
+The problem arises because during __pm_runtime_resume(), the spinlock
+&amp;dev-&gt;power.lock is acquired before rpm_resume() is called. Later,
+rpm_resume() invokes acpi_subsys_runtime_resume(), which relies on
+mutexes, triggering the error.
+
+To address this issue, devices on ACPI are now marked as not IRQ-safe,
+considering the dependency of acpi_subsys_runtime_resume() on mutexes.</description><pubDate>Wed, 11 Sep 2024 15:19:54 +0000</pubDate></item><item><title>CVE-2024-45030 | igb: cope with large MAX_SKB_FRAGS</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45030</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+igb: cope with large MAX_SKB_FRAGS
+
+Sabrina reports that the igb driver does not cope well with large
+MAX_SKB_FRAG values: setting MAX_SKB_FRAG to 45 causes payload
+corruption on TX.
+
+An easy reproducer is to run ssh to connect to the machine.  With
+MAX_SKB_FRAGS=17 it works, with MAX_SKB_FRAGS=45 it fails.  This has
+been reported originally in
+https://bugzilla.redhat.com/show_bug.cgi?id=2265320
+
+The root cause of the issue is that the driver does not take into
+account properly the (possibly large) shared info size when selecting
+the ring layout, and will try to fit two packets inside the same 4K
+page even when the 1st fraglist will trump over the 2nd head.
+
+Address the issue by checking if 2K buffers are insufficient.</description><pubDate>Wed, 11 Sep 2024 15:19:54 +0000</pubDate></item><item><title>CVE-2024-46672 | wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46672</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion
+
+wpa_supplicant 2.11 sends since 1efdba5fdc2c ("Handle PMKSA flush in the
+driver for SAE/OWE offload cases") SSID based PMKSA del commands.
+brcmfmac is not prepared and tries to dereference the NULL bssid and
+pmkid pointers in cfg80211_pmksa. PMKID_V3 operations support SSID based
+updates so copy the SSID.</description><pubDate>Wed, 11 Sep 2024 15:19:55 +0000</pubDate></item><item><title>CVE-2024-8306 | CWE-269: Improper Privilege Management vulnerability exists that could cause unauthorized
+access, loss of confidentiality, integrity and ava...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8306</link><description>CWE-269: Improper Privilege Management vulnerability exists that could cause unauthorized
+access, loss of confidentiality, integrity and availability of the workstation when non-admin
+authenticated user tries to perform privilege escalation by tampering with the binaries.</description><pubDate>Wed, 11 Sep 2024 15:19:55 +0000</pubDate></item><item><title>CVE-2024-4465 | Incorrect authorization for Reports configuration in Guardian/CMC before 24.2.0</title><link>https://www.cve.org/CVERecord?id=CVE-2024-4465</link><description>An access control vulnerability was discovered in the Reports section due to a specific access restriction not being properly enforced for users with limited privileges.
 
 
 
