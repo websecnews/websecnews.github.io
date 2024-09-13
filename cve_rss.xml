@@ -1,5 +1,633 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Sep 2024 03:38:40 +0000</lastBuildDate><item><title>CVE-2024-8656 | WPFactory Helper &amp;lt;= 1.7.0 -  Reflected Cross-Site Scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8656</link><description>The WPFactory Helper plugin for WordPress is vulnerable to Reflected Cross-Site Scripting due to the use of add_query_arg without appropriate escaping on the URL in all versions up to, and including, 1.7.0. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</description><pubDate>Fri, 13 Sep 2024 03:38:42 +0000</pubDate></item><item><title>CVE-2024-43180 | IBM Concert information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43180</link><description>IBM Concert 1.0 does not set the secure attribute on authorization tokens or session cookies. Attackers may be able to get the cookie values by sending a http:// link to a user or by planting this link in a site the user goes to. The cookie will be sent to the insecure link and the attacker can then obtain the cookie value by snooping the traffic.</description><pubDate>Fri, 13 Sep 2024 01:45:06 +0000</pubDate></item><item><title>CVE-2024-8762 | code-projects Crud Operation System updatedata.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8762</link><description>A vulnerability was found in code-projects Crud Operation System 1.0. It has been classified as critical. This affects an unknown part of the file /updatedata.php. The manipulation of the argument sid leads to sql injection. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Fri, 13 Sep 2024 01:45:06 +0000</pubDate></item><item><title>CVE-2024-8751 | Vulnerability in SICK MSC800</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8751</link><description>A vulnerability in the MSC800 allows an unauthenticated attacker to modify the product’s IP
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Sep 2024 05:35:56 +0000</lastBuildDate><item><title>CVE-2024-46673 | scsi: aacraid: Fix double-free on probe failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46673</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: aacraid: Fix double-free on probe failure
+
+aac_probe_one() calls hardware-specific init functions through the
+aac_driver_ident::init pointer, all of which eventually call down to
+aac_init_adapter().
+
+If aac_init_adapter() fails after allocating memory for aac_dev::queues,
+it frees the memory but does not clear that member.
+
+After the hardware-specific init function returns an error,
+aac_probe_one() goes down an error path that frees the memory pointed to
+by aac_dev::queues, resulting.in a double-free.</description><pubDate>Fri, 13 Sep 2024 05:35:58 +0000</pubDate></item><item><title>CVE-2024-46674 | usb: dwc3: st: fix probed platform device ref count on probe error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46674</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: dwc3: st: fix probed platform device ref count on probe error path
+
+The probe function never performs any paltform device allocation, thus
+error path "undo_platform_dev_alloc" is entirely bogus.  It drops the
+reference count from the platform device being probed.  If error path is
+triggered, this will lead to unbalanced device reference counts and
+premature release of device resources, thus possible use-after-free when
+releasing remaining devm-managed resources.</description><pubDate>Fri, 13 Sep 2024 05:35:58 +0000</pubDate></item><item><title>CVE-2024-46675 | usb: dwc3: core: Prevent USB core invalid event buffer address access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46675</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: dwc3: core: Prevent USB core invalid event buffer address access
+
+This commit addresses an issue where the USB core could access an
+invalid event buffer address during runtime suspend, potentially causing
+SMMU faults and other memory issues in Exynos platforms. The problem
+arises from the following sequence.
+        1. In dwc3_gadget_suspend, there is a chance of a timeout when
+        moving the USB core to the halt state after clearing the
+        run/stop bit by software.
+        2. In dwc3_core_exit, the event buffer is cleared regardless of
+        the USB core's status, which may lead to an SMMU faults and
+        other memory issues. if the USB core tries to access the event
+        buffer address.
+
+To prevent this hardware quirk on Exynos platforms, this commit ensures
+that the event buffer address is not cleared by software  when the USB
+core is active during runtime suspend by checking its status before
+clearing the buffer address.</description><pubDate>Fri, 13 Sep 2024 05:35:59 +0000</pubDate></item><item><title>CVE-2024-46676 | nfc: pn533: Add poll mod list filling check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46676</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfc: pn533: Add poll mod list filling check
+
+In case of im_protocols value is 1 and tm_protocols value is 0 this
+combination successfully passes the check
+'if (!im_protocols &amp;&amp; !tm_protocols)' in the nfc_start_poll().
+But then after pn533_poll_create_mod_list() call in pn533_start_poll()
+poll mod list will remain empty and dev-&gt;poll_mod_count will remain 0
+which lead to division by zero.
+
+Normally no im protocol has value 1 in the mask, so this combination is
+not expected by driver. But these protocol values actually come from
+userspace via Netlink interface (NFC_CMD_START_POLL operation). So a
+broken or malicious program may pass a message containing a "bad"
+combination of protocol parameter values so that dev-&gt;poll_mod_count
+is not incremented inside pn533_poll_create_mod_list(), thus leading
+to division by zero.
+Call trace looks like:
+nfc_genl_start_poll()
+  nfc_start_poll()
+    -&gt;start_poll()
+    pn533_start_poll()
+
+Add poll mod list filling check.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Fri, 13 Sep 2024 05:35:59 +0000</pubDate></item><item><title>CVE-2024-46677 | gtp: fix a potential NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46677</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gtp: fix a potential NULL pointer dereference
+
+When sockfd_lookup() fails, gtp_encap_enable_socket() returns a
+NULL pointer, but its callers only check for error pointers thus miss
+the NULL pointer case.
+
+Fix it by returning an error pointer with the error code carried from
+sockfd_lookup().
+
+(I found this bug during code inspection.)</description><pubDate>Fri, 13 Sep 2024 05:36:00 +0000</pubDate></item><item><title>CVE-2024-46678 | bonding: change ipsec_lock from spin lock to mutex</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46678</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bonding: change ipsec_lock from spin lock to mutex
+
+In the cited commit, bond-&gt;ipsec_lock is added to protect ipsec_list,
+hence xdo_dev_state_add and xdo_dev_state_delete are called inside
+this lock. As ipsec_lock is a spin lock and such xfrmdev ops may sleep,
+"scheduling while atomic" will be triggered when changing bond's
+active slave.
+
+[  101.055189] BUG: scheduling while atomic: bash/902/0x00000200
+[  101.055726] Modules linked in:
+[  101.058211] CPU: 3 PID: 902 Comm: bash Not tainted 6.9.0-rc4+ #1
+[  101.058760] Hardware name:
+[  101.059434] Call Trace:
+[  101.059436]  &lt;TASK&gt;
+[  101.060873]  dump_stack_lvl+0x51/0x60
+[  101.061275]  __schedule_bug+0x4e/0x60
+[  101.061682]  __schedule+0x612/0x7c0
+[  101.062078]  ? __mod_timer+0x25c/0x370
+[  101.062486]  schedule+0x25/0xd0
+[  101.062845]  schedule_timeout+0x77/0xf0
+[  101.063265]  ? asm_common_interrupt+0x22/0x40
+[  101.063724]  ? __bpf_trace_itimer_state+0x10/0x10
+[  101.064215]  __wait_for_common+0x87/0x190
+[  101.064648]  ? usleep_range_state+0x90/0x90
+[  101.065091]  cmd_exec+0x437/0xb20 [mlx5_core]
+[  101.065569]  mlx5_cmd_do+0x1e/0x40 [mlx5_core]
+[  101.066051]  mlx5_cmd_exec+0x18/0x30 [mlx5_core]
+[  101.066552]  mlx5_crypto_create_dek_key+0xea/0x120 [mlx5_core]
+[  101.067163]  ? bonding_sysfs_store_option+0x4d/0x80 [bonding]
+[  101.067738]  ? kmalloc_trace+0x4d/0x350
+[  101.068156]  mlx5_ipsec_create_sa_ctx+0x33/0x100 [mlx5_core]
+[  101.068747]  mlx5e_xfrm_add_state+0x47b/0xaa0 [mlx5_core]
+[  101.069312]  bond_change_active_slave+0x392/0x900 [bonding]
+[  101.069868]  bond_option_active_slave_set+0x1c2/0x240 [bonding]
+[  101.070454]  __bond_opt_set+0xa6/0x430 [bonding]
+[  101.070935]  __bond_opt_set_notify+0x2f/0x90 [bonding]
+[  101.071453]  bond_opt_tryset_rtnl+0x72/0xb0 [bonding]
+[  101.071965]  bonding_sysfs_store_option+0x4d/0x80 [bonding]
+[  101.072567]  kernfs_fop_write_iter+0x10c/0x1a0
+[  101.073033]  vfs_write+0x2d8/0x400
+[  101.073416]  ? alloc_fd+0x48/0x180
+[  101.073798]  ksys_write+0x5f/0xe0
+[  101.074175]  do_syscall_64+0x52/0x110
+[  101.074576]  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+As bond_ipsec_add_sa_all and bond_ipsec_del_sa_all are only called
+from bond_change_active_slave, which requires holding the RTNL lock.
+And bond_ipsec_add_sa and bond_ipsec_del_sa are xfrm state
+xdo_dev_state_add and xdo_dev_state_delete APIs, which are in user
+context. So ipsec_lock doesn't have to be spin lock, change it to
+mutex, and thus the above issue can be resolved.</description><pubDate>Fri, 13 Sep 2024 05:36:00 +0000</pubDate></item><item><title>CVE-2024-46679 | ethtool: check device is present when getting link settings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46679</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ethtool: check device is present when getting link settings
+
+A sysfs reader can race with a device reset or removal, attempting to
+read device state when the device is not actually present. eg:
+
+     [exception RIP: qed_get_current_link+17]
+  #8 [ffffb9e4f2907c48] qede_get_link_ksettings at ffffffffc07a994a [qede]
+  #9 [ffffb9e4f2907cd8] __rh_call_get_link_ksettings at ffffffff992b01a3
+ #10 [ffffb9e4f2907d38] __ethtool_get_link_ksettings at ffffffff992b04e4
+ #11 [ffffb9e4f2907d90] duplex_show at ffffffff99260300
+ #12 [ffffb9e4f2907e38] dev_attr_show at ffffffff9905a01c
+ #13 [ffffb9e4f2907e50] sysfs_kf_seq_show at ffffffff98e0145b
+ #14 [ffffb9e4f2907e68] seq_read at ffffffff98d902e3
+ #15 [ffffb9e4f2907ec8] vfs_read at ffffffff98d657d1
+ #16 [ffffb9e4f2907f00] ksys_read at ffffffff98d65c3f
+ #17 [ffffb9e4f2907f38] do_syscall_64 at ffffffff98a052fb
+
+ crash&gt; struct net_device.state ffff9a9d21336000
+    state = 5,
+
+state 5 is __LINK_STATE_START (0b1) and __LINK_STATE_NOCARRIER (0b100).
+The device is not present, note lack of __LINK_STATE_PRESENT (0b10).
+
+This is the same sort of panic as observed in commit 4224cfd7fb65
+("net-sysfs: add check for netdevice being present to speed_show").
+
+There are many other callers of __ethtool_get_link_ksettings() which
+don't have a device presence check.
+
+Move this check into ethtool to protect all callers.</description><pubDate>Fri, 13 Sep 2024 05:36:01 +0000</pubDate></item><item><title>CVE-2024-46680 | Bluetooth: btnxpuart: Fix random crash seen while removing driver</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46680</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: btnxpuart: Fix random crash seen while removing driver
+
+This fixes the random kernel crash seen while removing the driver, when
+running the load/unload test over multiple iterations.
+
+1) modprobe btnxpuart
+2) hciconfig hci0 reset
+3) hciconfig (check hci0 interface up with valid BD address)
+4) modprobe -r btnxpuart
+Repeat steps 1 to 4
+
+The ps_wakeup() call in btnxpuart_close() schedules the psdata-&gt;work(),
+which gets scheduled after module is removed, causing a kernel crash.
+
+This hidden issue got highlighted after enabling Power Save by default
+in 4183a7be7700 (Bluetooth: btnxpuart: Enable Power Save feature on
+startup)
+
+The new ps_cleanup() deasserts UART break immediately while closing
+serdev device, cancels any scheduled ps_work and destroys the ps_lock
+mutex.
+
+[   85.884604] Unable to handle kernel paging request at virtual address ffffd4a61638f258
+[   85.884624] Mem abort info:
+[   85.884625]   ESR = 0x0000000086000007
+[   85.884628]   EC = 0x21: IABT (current EL), IL = 32 bits
+[   85.884633]   SET = 0, FnV = 0
+[   85.884636]   EA = 0, S1PTW = 0
+[   85.884638]   FSC = 0x07: level 3 translation fault
+[   85.884642] swapper pgtable: 4k pages, 48-bit VAs, pgdp=0000000041dd0000
+[   85.884646] [ffffd4a61638f258] pgd=1000000095fff003, p4d=1000000095fff003, pud=100000004823d003, pmd=100000004823e003, pte=0000000000000000
+[   85.884662] Internal error: Oops: 0000000086000007 [#1] PREEMPT SMP
+[   85.890932] Modules linked in: algif_hash algif_skcipher af_alg overlay fsl_jr_uio caam_jr caamkeyblob_desc caamhash_desc caamalg_desc crypto_engine authenc libdes crct10dif_ce polyval_ce polyval_generic snd_soc_imx_spdif snd_soc_imx_card snd_soc_ak5558 snd_soc_ak4458 caam secvio error snd_soc_fsl_spdif snd_soc_fsl_micfil snd_soc_fsl_sai snd_soc_fsl_utils gpio_ir_recv rc_core fuse [last unloaded: btnxpuart(O)]
+[   85.927297] CPU: 1 PID: 67 Comm: kworker/1:3 Tainted: G           O       6.1.36+g937b1be4345a #1
+[   85.936176] Hardware name: FSL i.MX8MM EVK board (DT)
+[   85.936182] Workqueue: events 0xffffd4a61638f380
+[   85.936198] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   85.952817] pc : 0xffffd4a61638f258
+[   85.952823] lr : 0xffffd4a61638f258
+[   85.952827] sp : ffff8000084fbd70
+[   85.952829] x29: ffff8000084fbd70 x28: 0000000000000000 x27: 0000000000000000
+[   85.963112] x26: ffffd4a69133f000 x25: ffff4bf1c8540990 x24: ffff4bf215b87305
+[   85.963119] x23: ffff4bf215b87300 x22: ffff4bf1c85409d0 x21: ffff4bf1c8540970
+[   85.977382] x20: 0000000000000000 x19: ffff4bf1c8540880 x18: 0000000000000000
+[   85.977391] x17: 0000000000000000 x16: 0000000000000133 x15: 0000ffffe2217090
+[   85.977399] x14: 0000000000000001 x13: 0000000000000133 x12: 0000000000000139
+[   85.977407] x11: 0000000000000001 x10: 0000000000000a60 x9 : ffff8000084fbc50
+[   85.977417] x8 : ffff4bf215b7d000 x7 : ffff4bf215b83b40 x6 : 00000000000003e8
+[   85.977424] x5 : 00000000410fd030 x4 : 0000000000000000 x3 : 0000000000000000
+[   85.977432] x2 : 0000000000000000 x1 : ffff4bf1c4265880 x0 : 0000000000000000
+[   85.977443] Call trace:
+[   85.977446]  0xffffd4a61638f258
+[   85.977451]  0xffffd4a61638f3e8
+[   85.977455]  process_one_work+0x1d4/0x330
+[   85.977464]  worker_thread+0x6c/0x430
+[   85.977471]  kthread+0x108/0x10c
+[   85.977476]  ret_from_fork+0x10/0x20
+[   85.977488] Code: bad PC value
+[   85.977491] ---[ end trace 0000000000000000 ]---
+
+Preset since v6.9.11</description><pubDate>Fri, 13 Sep 2024 05:36:01 +0000</pubDate></item><item><title>CVE-2024-46681 | pktgen: use cpus_read_lock() in pg_net_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46681</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pktgen: use cpus_read_lock() in pg_net_init()
+
+I have seen the WARN_ON(smp_processor_id() != cpu) firing
+in pktgen_thread_worker() during tests.
+
+We must use cpus_read_lock()/cpus_read_unlock()
+around the for_each_online_cpu(cpu) loop.
+
+While we are at it use WARN_ON_ONCE() to avoid a possible syslog flood.</description><pubDate>Fri, 13 Sep 2024 05:36:02 +0000</pubDate></item><item><title>CVE-2024-46682 | nfsd: prevent panic for nfsv4.0 closed files in nfs4_show_open</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46682</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: prevent panic for nfsv4.0 closed files in nfs4_show_open
+
+Prior to commit 3f29cc82a84c ("nfsd: split sc_status out of
+sc_type") states_show() relied on sc_type field to be of valid
+type before calling into a subfunction to show content of a
+particular stateid. From that commit, we split the validity of
+the stateid into sc_status and no longer changed sc_type to 0
+while unhashing the stateid. This resulted in kernel oopsing
+for nfsv4.0 opens that stay around and in nfs4_show_open()
+would derefence sc_file which was NULL.
+
+Instead, for closed open stateids forgo displaying information
+that relies of having a valid sc_file.
+
+To reproduce: mount the server with 4.0, read and close
+a file and then on the server cat /proc/fs/nfsd/clients/2/states
+
+[  513.590804] Call trace:
+[  513.590925]  _raw_spin_lock+0xcc/0x160
+[  513.591119]  nfs4_show_open+0x78/0x2c0 [nfsd]
+[  513.591412]  states_show+0x44c/0x488 [nfsd]
+[  513.591681]  seq_read_iter+0x5d8/0x760
+[  513.591896]  seq_read+0x188/0x208
+[  513.592075]  vfs_read+0x148/0x470
+[  513.592241]  ksys_read+0xcc/0x178</description><pubDate>Fri, 13 Sep 2024 05:36:02 +0000</pubDate></item><item><title>CVE-2024-46683 | drm/xe: prevent UAF around preempt fence</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46683</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: prevent UAF around preempt fence
+
+The fence lock is part of the queue, therefore in the current design
+anything locking the fence should then also hold a ref to the queue to
+prevent the queue from being freed.
+
+However, currently it looks like we signal the fence and then drop the
+queue ref, but if something is waiting on the fence, the waiter is
+kicked to wake up at some later point, where upon waking up it first
+grabs the lock before checking the fence state. But if we have already
+dropped the queue ref, then the lock might already be freed as part of
+the queue, leading to uaf.
+
+To prevent this, move the fence lock into the fence itself so we don't
+run into lifetime issues. Alternative might be to have device level
+lock, or only release the queue in the fence release callback, however
+that might require pushing to another worker to avoid locking issues.
+
+References: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/2454
+References: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/2342
+References: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/2020
+(cherry picked from commit 7116c35aacedc38be6d15bd21b2fc936eed0008b)</description><pubDate>Fri, 13 Sep 2024 05:36:02 +0000</pubDate></item><item><title>CVE-2024-46684 | binfmt_elf_fdpic: fix AUXV size calculation when ELF_HWCAP2 is defined</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46684</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+binfmt_elf_fdpic: fix AUXV size calculation when ELF_HWCAP2 is defined
+
+create_elf_fdpic_tables() does not correctly account the space for the
+AUX vector when an architecture has ELF_HWCAP2 defined. Prior to the
+commit 10e29251be0e ("binfmt_elf_fdpic: fix /proc/&lt;pid&gt;/auxv") it
+resulted in the last entry of the AUX vector being set to zero, but with
+that change it results in a kernel BUG.
+
+Fix that by adding one to the number of AUXV entries (nitems) when
+ELF_HWCAP2 is defined.</description><pubDate>Fri, 13 Sep 2024 05:36:03 +0000</pubDate></item><item><title>CVE-2024-46685 | pinctrl: single: fix potential NULL dereference in pcs_get_function()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46685</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: single: fix potential NULL dereference in pcs_get_function()
+
+pinmux_generic_get_function() can return NULL and the pointer 'function'
+was dereferenced without checking against NULL. Add checking of pointer
+'function' in pcs_get_function().
+
+Found by code review.</description><pubDate>Fri, 13 Sep 2024 05:36:03 +0000</pubDate></item><item><title>CVE-2024-46686 | smb/client: avoid dereferencing rdata=NULL in smb2_new_read_req()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46686</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb/client: avoid dereferencing rdata=NULL in smb2_new_read_req()
+
+This happens when called from SMB2_read() while using rdma
+and reaching the rdma_readwrite_threshold.</description><pubDate>Fri, 13 Sep 2024 05:36:04 +0000</pubDate></item><item><title>CVE-2024-46687 | btrfs: fix a use-after-free when hitting errors inside btrfs_submit_chunk()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46687</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: fix a use-after-free when hitting errors inside btrfs_submit_chunk()
+
+[BUG]
+There is an internal report that KASAN is reporting use-after-free, with
+the following backtrace:
+
+  BUG: KASAN: slab-use-after-free in btrfs_check_read_bio+0xa68/0xb70 [btrfs]
+  Read of size 4 at addr ffff8881117cec28 by task kworker/u16:2/45
+  CPU: 1 UID: 0 PID: 45 Comm: kworker/u16:2 Not tainted 6.11.0-rc2-next-20240805-default+ #76
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.2-3-gd478f380-rebuilt.opensuse.org 04/01/2014
+  Workqueue: btrfs-endio btrfs_end_bio_work [btrfs]
+  Call Trace:
+   dump_stack_lvl+0x61/0x80
+   print_address_description.constprop.0+0x5e/0x2f0
+   print_report+0x118/0x216
+   kasan_report+0x11d/0x1f0
+   btrfs_check_read_bio+0xa68/0xb70 [btrfs]
+   process_one_work+0xce0/0x12a0
+   worker_thread+0x717/0x1250
+   kthread+0x2e3/0x3c0
+   ret_from_fork+0x2d/0x70
+   ret_from_fork_asm+0x11/0x20
+
+  Allocated by task 20917:
+   kasan_save_stack+0x37/0x60
+   kasan_save_track+0x10/0x30
+   __kasan_slab_alloc+0x7d/0x80
+   kmem_cache_alloc_noprof+0x16e/0x3e0
+   mempool_alloc_noprof+0x12e/0x310
+   bio_alloc_bioset+0x3f0/0x7a0
+   btrfs_bio_alloc+0x2e/0x50 [btrfs]
+   submit_extent_page+0x4d1/0xdb0 [btrfs]
+   btrfs_do_readpage+0x8b4/0x12a0 [btrfs]
+   btrfs_readahead+0x29a/0x430 [btrfs]
+   read_pages+0x1a7/0xc60
+   page_cache_ra_unbounded+0x2ad/0x560
+   filemap_get_pages+0x629/0xa20
+   filemap_read+0x335/0xbf0
+   vfs_read+0x790/0xcb0
+   ksys_read+0xfd/0x1d0
+   do_syscall_64+0x6d/0x140
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+  Freed by task 20917:
+   kasan_save_stack+0x37/0x60
+   kasan_save_track+0x10/0x30
+   kasan_save_free_info+0x37/0x50
+   __kasan_slab_free+0x4b/0x60
+   kmem_cache_free+0x214/0x5d0
+   bio_free+0xed/0x180
+   end_bbio_data_read+0x1cc/0x580 [btrfs]
+   btrfs_submit_chunk+0x98d/0x1880 [btrfs]
+   btrfs_submit_bio+0x33/0x70 [btrfs]
+   submit_one_bio+0xd4/0x130 [btrfs]
+   submit_extent_page+0x3ea/0xdb0 [btrfs]
+   btrfs_do_readpage+0x8b4/0x12a0 [btrfs]
+   btrfs_readahead+0x29a/0x430 [btrfs]
+   read_pages+0x1a7/0xc60
+   page_cache_ra_unbounded+0x2ad/0x560
+   filemap_get_pages+0x629/0xa20
+   filemap_read+0x335/0xbf0
+   vfs_read+0x790/0xcb0
+   ksys_read+0xfd/0x1d0
+   do_syscall_64+0x6d/0x140
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+[CAUSE]
+Although I cannot reproduce the error, the report itself is good enough
+to pin down the cause.
+
+The call trace is the regular endio workqueue context, but the
+free-by-task trace is showing that during btrfs_submit_chunk() we
+already hit a critical error, and is calling btrfs_bio_end_io() to error
+out.  And the original endio function called bio_put() to free the whole
+bio.
+
+This means a double freeing thus causing use-after-free, e.g.:
+
+1. Enter btrfs_submit_bio() with a read bio
+   The read bio length is 128K, crossing two 64K stripes.
+
+2. The first run of btrfs_submit_chunk()
+
+2.1 Call btrfs_map_block(), which returns 64K
+2.2 Call btrfs_split_bio()
+    Now there are two bios, one referring to the first 64K, the other
+    referring to the second 64K.
+2.3 The first half is submitted.
+
+3. The second run of btrfs_submit_chunk()
+
+3.1 Call btrfs_map_block(), which by somehow failed
+    Now we call btrfs_bio_end_io() to handle the error
+
+3.2 btrfs_bio_end_io() calls the original endio function
+    Which is end_bbio_data_read(), and it calls bio_put() for the
+    original bio.
+
+    Now the original bio is freed.
+
+4. The submitted first 64K bio finished
+   Now we call into btrfs_check_read_bio() and tries to advance the bio
+   iter.
+   But since the original bio (thus its iter) is already freed, we
+   trigger the above use-after free.
+
+   And even if the memory is not poisoned/corrupted, we will later call
+   the original endio function, causing a double freeing.
+
+[FIX]
+Instead of calling btrfs_bio_end_io(), call btrfs_orig_bbio_end_io(),
+which has the extra check on split bios and do the pr
+---truncated---</description><pubDate>Fri, 13 Sep 2024 05:36:04 +0000</pubDate></item><item><title>CVE-2024-46688 | erofs: fix out-of-bound access when z_erofs_gbuf_growsize() partially fails</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46688</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: fix out-of-bound access when z_erofs_gbuf_growsize() partially fails
+
+If z_erofs_gbuf_growsize() partially fails on a global buffer due to
+memory allocation failure or fault injection (as reported by syzbot [1]),
+new pages need to be freed by comparing to the existing pages to avoid
+memory leaks.
+
+However, the old gbuf-&gt;pages[] array may not be large enough, which can
+lead to null-ptr-deref or out-of-bound access.
+
+Fix this by checking against gbuf-&gt;nrpages in advance.
+
+[1] https://lore.kernel.org/r/000000000000f7b96e062018c6e3@google.com</description><pubDate>Fri, 13 Sep 2024 05:36:05 +0000</pubDate></item><item><title>CVE-2024-46689 | soc: qcom: cmd-db: Map shared memory as WC, not WB</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46689</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: qcom: cmd-db: Map shared memory as WC, not WB
+
+Linux does not write into cmd-db region. This region of memory is write
+protected by XPU. XPU may sometime falsely detect clean cache eviction
+as "write" into the write protected region leading to secure interrupt
+which causes an endless loop somewhere in Trust Zone.
+
+The only reason it is working right now is because Qualcomm Hypervisor
+maps the same region as Non-Cacheable memory in Stage 2 translation
+tables. The issue manifests if we want to use another hypervisor (like
+Xen or KVM), which does not know anything about those specific mappings.
+
+Changing the mapping of cmd-db memory from MEMREMAP_WB to MEMREMAP_WT/WC
+removes dependency on correct mappings in Stage 2 tables. This patch
+fixes the issue by updating the mapping to MEMREMAP_WC.
+
+I tested this on SA8155P with Xen.</description><pubDate>Fri, 13 Sep 2024 05:36:05 +0000</pubDate></item><item><title>CVE-2024-46690 | nfsd: fix nfsd4_deleg_getattr_conflict in presence of third party lease</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46690</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: fix nfsd4_deleg_getattr_conflict in presence of third party lease
+
+It is not safe to dereference fl-&gt;c.flc_owner without first confirming
+fl-&gt;fl_lmops is the expected manager.  nfsd4_deleg_getattr_conflict()
+tests fl_lmops but largely ignores the result and assumes that flc_owner
+is an nfs4_delegation anyway.  This is wrong.
+
+With this patch we restore the "!= &amp;nfsd_lease_mng_ops" case to behave
+as it did before the change mentioned below.  This is the same as the
+current code, but without any reference to a possible delegation.</description><pubDate>Fri, 13 Sep 2024 05:36:06 +0000</pubDate></item><item><title>CVE-2024-46691 | usb: typec: ucsi: Move unregister out of atomic section</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46691</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: ucsi: Move unregister out of atomic section
+
+Commit '9329933699b3 ("soc: qcom: pmic_glink: Make client-lock
+non-sleeping")' moved the pmic_glink client list under a spinlock, as it
+is accessed by the rpmsg/glink callback, which in turn is invoked from
+IRQ context.
+
+This means that ucsi_unregister() is now called from atomic context,
+which isn't feasible as it's expecting a sleepable context. An effort is
+under way to get GLINK to invoke its callbacks in a sleepable context,
+but until then lets schedule the unregistration.
+
+A side effect of this is that ucsi_unregister() can now happen
+after the remote processor, and thereby the communication link with it, is
+gone. pmic_glink_send() is amended with a check to avoid the resulting NULL
+pointer dereference.
+This does however result in the user being informed about this error by
+the following entry in the kernel log:
+
+  ucsi_glink.pmic_glink_ucsi pmic_glink.ucsi.0: failed to send UCSI write request: -5</description><pubDate>Fri, 13 Sep 2024 05:36:06 +0000</pubDate></item><item><title>CVE-2024-46692 | firmware: qcom: scm: Mark get_wq_ctx() as atomic call</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46692</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware: qcom: scm: Mark get_wq_ctx() as atomic call
+
+Currently get_wq_ctx() is wrongly configured as a standard call. When two
+SMC calls are in sleep and one SMC wakes up, it calls get_wq_ctx() to
+resume the corresponding sleeping thread. But if get_wq_ctx() is
+interrupted, goes to sleep and another SMC call is waiting to be allocated
+a waitq context, it leads to a deadlock.
+
+To avoid this get_wq_ctx() must be an atomic call and can't be a standard
+SMC call. Hence mark get_wq_ctx() as a fast call.</description><pubDate>Fri, 13 Sep 2024 05:36:07 +0000</pubDate></item><item><title>CVE-2024-46693 | soc: qcom: pmic_glink: Fix race during initialization</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46693</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: qcom: pmic_glink: Fix race during initialization
+
+As pointed out by Stephen Boyd it is possible that during initialization
+of the pmic_glink child drivers, the protection-domain notifiers fires,
+and the associated work is scheduled, before the client registration
+returns and as a result the local "client" pointer has been initialized.
+
+The outcome of this is a NULL pointer dereference as the "client"
+pointer is blindly dereferenced.
+
+Timeline provided by Stephen:
+ CPU0                               CPU1
+ ----                               ----
+ ucsi-&gt;client = NULL;
+ devm_pmic_glink_register_client()
+  client-&gt;pdr_notify(client-&gt;priv, pg-&gt;client_state)
+   pmic_glink_ucsi_pdr_notify()
+    schedule_work(&amp;ucsi-&gt;register_work)
+    &lt;schedule away&gt;
+                                    pmic_glink_ucsi_register()
+                                     ucsi_register()
+                                      pmic_glink_ucsi_read_version()
+                                       pmic_glink_ucsi_read()
+                                        pmic_glink_ucsi_read()
+                                         pmic_glink_send(ucsi-&gt;client)
+                                         &lt;client is NULL BAD&gt;
+ ucsi-&gt;client = client // Too late!
+
+This code is identical across the altmode, battery manager and usci
+child drivers.
+
+Resolve this by splitting the allocation of the "client" object and the
+registration thereof into two operations.
+
+This only happens if the protection domain registry is populated at the
+time of registration, which by the introduction of commit '1ebcde047c54
+("soc: qcom: add pd-mapper implementation")' became much more likely.</description><pubDate>Fri, 13 Sep 2024 05:36:07 +0000</pubDate></item><item><title>CVE-2024-46694 | drm/amd/display: avoid using null object of framebuffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46694</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: avoid using null object of framebuffer
+
+Instead of using state-&gt;fb-&gt;obj[0] directly, get object from framebuffer
+by calling drm_gem_fb_get_obj() and return error code when object is
+null to avoid using null object of framebuffer.
+
+(cherry picked from commit 73dd0ad9e5dad53766ea3e631303430116f834b3)</description><pubDate>Fri, 13 Sep 2024 05:36:08 +0000</pubDate></item><item><title>CVE-2024-46695 | selinux,smack: don&amp;#x27;t bypass permissions check in inode_setsecctx hook</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46695</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+selinux,smack: don't bypass permissions check in inode_setsecctx hook
+
+Marek Gresko reports that the root user on an NFS client is able to
+change the security labels on files on an NFS filesystem that is
+exported with root squashing enabled.
+
+The end of the kerneldoc comment for __vfs_setxattr_noperm() states:
+
+ *  This function requires the caller to lock the inode's i_mutex before it
+ *  is executed. It also assumes that the caller will make the appropriate
+ *  permission checks.
+
+nfsd_setattr() does do permissions checking via fh_verify() and
+nfsd_permission(), but those don't do all the same permissions checks
+that are done by security_inode_setxattr() and its related LSM hooks do.
+
+Since nfsd_setattr() is the only consumer of security_inode_setsecctx(),
+simplest solution appears to be to replace the call to
+__vfs_setxattr_noperm() with a call to __vfs_setxattr_locked().  This
+fixes the above issue and has the added benefit of causing nfsd to
+recall conflicting delegations on a file when a client tries to change
+its security label.</description><pubDate>Fri, 13 Sep 2024 05:36:08 +0000</pubDate></item><item><title>CVE-2024-46696 | nfsd: fix potential UAF in nfsd4_cb_getattr_release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46696</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: fix potential UAF in nfsd4_cb_getattr_release
+
+Once we drop the delegation reference, the fields embedded in it are no
+longer safe to access. Do that last.</description><pubDate>Fri, 13 Sep 2024 05:36:09 +0000</pubDate></item><item><title>CVE-2024-46697 | nfsd: ensure that nfsd4_fattr_args.context is zeroed out</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46697</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: ensure that nfsd4_fattr_args.context is zeroed out
+
+If nfsd4_encode_fattr4 ends up doing a "goto out" before we get to
+checking for the security label, then args.context will be set to
+uninitialized junk on the stack, which we'll then try to free.
+Initialize it early.</description><pubDate>Fri, 13 Sep 2024 05:36:09 +0000</pubDate></item><item><title>CVE-2024-46698 | video/aperture: optionally match the device in sysfb_disable()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46698</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+video/aperture: optionally match the device in sysfb_disable()
+
+In aperture_remove_conflicting_pci_devices(), we currently only
+call sysfb_disable() on vga class devices.  This leads to the
+following problem when the pimary device is not VGA compatible:
+
+1. A PCI device with a non-VGA class is the boot display
+2. That device is probed first and it is not a VGA device so
+   sysfb_disable() is not called, but the device resources
+   are freed by aperture_detach_platform_device()
+3. Non-primary GPU has a VGA class and it ends up calling sysfb_disable()
+4. NULL pointer dereference via sysfb_disable() since the resources
+   have already been freed by aperture_detach_platform_device() when
+   it was called by the other device.
+
+Fix this by passing a device pointer to sysfb_disable() and checking
+the device to determine if we should execute it or not.
+
+v2: Fix build when CONFIG_SCREEN_INFO is not set
+v3: Move device check into the mutex
+    Drop primary variable in aperture_remove_conflicting_pci_devices()
+    Drop __init on pci sysfb_pci_dev_is_enabled()</description><pubDate>Fri, 13 Sep 2024 05:36:10 +0000</pubDate></item><item><title>CVE-2024-46699 | drm/v3d: Disable preemption while updating GPU stats</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46699</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/v3d: Disable preemption while updating GPU stats
+
+We forgot to disable preemption around the write_seqcount_begin/end() pair
+while updating GPU stats:
+
+  [ ] WARNING: CPU: 2 PID: 12 at include/linux/seqlock.h:221 __seqprop_assert.isra.0+0x128/0x150 [v3d]
+  [ ] Workqueue: v3d_bin drm_sched_run_job_work [gpu_sched]
+ &lt;...snip...&gt;
+  [ ] Call trace:
+  [ ]  __seqprop_assert.isra.0+0x128/0x150 [v3d]
+  [ ]  v3d_job_start_stats.isra.0+0x90/0x218 [v3d]
+  [ ]  v3d_bin_job_run+0x23c/0x388 [v3d]
+  [ ]  drm_sched_run_job_work+0x520/0x6d0 [gpu_sched]
+  [ ]  process_one_work+0x62c/0xb48
+  [ ]  worker_thread+0x468/0x5b0
+  [ ]  kthread+0x1c4/0x1e0
+  [ ]  ret_from_fork+0x10/0x20
+
+Fix it.</description><pubDate>Fri, 13 Sep 2024 05:36:10 +0000</pubDate></item><item><title>CVE-2024-46700 | drm/amdgpu/mes: fix mes ring buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46700</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu/mes: fix mes ring buffer overflow
+
+wait memory room until enough before writing mes packets
+to avoid ring buffer overflow.
+
+v2: squash in sched_hw_submission fix
+
+(cherry picked from commit 34e087e8920e635c62e2ed6a758b0cd27f836d13)</description><pubDate>Fri, 13 Sep 2024 05:36:11 +0000</pubDate></item><item><title>CVE-2024-8656 | WPFactory Helper &amp;lt;= 1.7.0 -  Reflected Cross-Site Scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8656</link><description>The WPFactory Helper plugin for WordPress is vulnerable to Reflected Cross-Site Scripting due to the use of add_query_arg without appropriate escaping on the URL in all versions up to, and including, 1.7.0. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</description><pubDate>Fri, 13 Sep 2024 03:38:42 +0000</pubDate></item><item><title>CVE-2024-43180 | IBM Concert information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43180</link><description>IBM Concert 1.0 does not set the secure attribute on authorization tokens or session cookies. Attackers may be able to get the cookie values by sending a http:// link to a user or by planting this link in a site the user goes to. The cookie will be sent to the insecure link and the attacker can then obtain the cookie value by snooping the traffic.</description><pubDate>Fri, 13 Sep 2024 01:45:06 +0000</pubDate></item><item><title>CVE-2024-8762 | code-projects Crud Operation System updatedata.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8762</link><description>A vulnerability was found in code-projects Crud Operation System 1.0. It has been classified as critical. This affects an unknown part of the file /updatedata.php. The manipulation of the argument sid leads to sql injection. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Fri, 13 Sep 2024 01:45:06 +0000</pubDate></item><item><title>CVE-2024-8751 | Vulnerability in SICK MSC800</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8751</link><description>A vulnerability in the MSC800 allows an unauthenticated attacker to modify the product’s IP
 address over Sopas ET. 
 This can lead to Denial of Service. 
 Users are recommended to upgrade both
