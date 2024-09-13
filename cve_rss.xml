@@ -1,5 +1,188 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Sep 2024 06:21:21 +0000</lastBuildDate><item><title>CVE-2024-38816 | CVE-2024-38816: Path traversal vulnerability in functional web frameworks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38816</link><description>Applications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Sep 2024 06:41:29 +0000</lastBuildDate><item><title>CVE-2024-46708 | pinctrl: qcom: x1e80100: Fix special pin offsets</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46708</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: qcom: x1e80100: Fix special pin offsets
+
+Remove the erroneus 0x100000 offset to prevent the boards from crashing
+on pin state setting, as well as for the intended state changes to take
+effect.</description><pubDate>Fri, 13 Sep 2024 06:41:31 +0000</pubDate></item><item><title>CVE-2024-46709 | drm/vmwgfx: Fix prime with external buffers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46709</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vmwgfx: Fix prime with external buffers
+
+Make sure that for external buffers mapping goes through the dma_buf
+interface instead of trying to access pages directly.
+
+External buffers might not provide direct access to readable/writable
+pages so to make sure the bo's created from external dma_bufs can be
+read dma_buf interface has to be used.
+
+Fixes crashes in IGT's kms_prime with vgem. Regular desktop usage won't
+trigger this due to the fact that virtual machines will not have
+multiple GPUs but it enables better test coverage in IGT.</description><pubDate>Fri, 13 Sep 2024 06:41:31 +0000</pubDate></item><item><title>CVE-2024-46710 | drm/vmwgfx: Prevent unmapping active read buffers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46710</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/vmwgfx: Prevent unmapping active read buffers
+
+The kms paths keep a persistent map active to read and compare the cursor
+buffer. These maps can race with each other in simple scenario where:
+a) buffer "a" mapped for update
+b) buffer "a" mapped for compare
+c) do the compare
+d) unmap "a" for compare
+e) update the cursor
+f) unmap "a" for update
+At step "e" the buffer has been unmapped and the read contents is bogus.
+
+Prevent unmapping of active read buffers by simply keeping a count of
+how many paths have currently active maps and unmap only when the count
+reaches 0.</description><pubDate>Fri, 13 Sep 2024 06:41:32 +0000</pubDate></item><item><title>CVE-2024-46711 | mptcp: pm: fix ID 0 endp usage after multiple re-creations</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46711</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mptcp: pm: fix ID 0 endp usage after multiple re-creations
+
+'local_addr_used' and 'add_addr_accepted' are decremented for addresses
+not related to the initial subflow (ID0), because the source and
+destination addresses of the initial subflows are known from the
+beginning: they don't count as "additional local address being used" or
+"ADD_ADDR being accepted".
+
+It is then required not to increment them when the entrypoint used by
+the initial subflow is removed and re-added during a connection. Without
+this modification, this entrypoint cannot be removed and re-added more
+than once.</description><pubDate>Fri, 13 Sep 2024 06:41:32 +0000</pubDate></item><item><title>CVE-2024-46701 | libfs: fix infinite directory reads for offset dir</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46701</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+libfs: fix infinite directory reads for offset dir
+
+After we switch tmpfs dir operations from simple_dir_operations to
+simple_offset_dir_operations, every rename happened will fill new dentry
+to dest dir's maple tree(&amp;SHMEM_I(inode)-&gt;dir_offsets-&gt;mt) with a free
+key starting with octx-&gt;newx_offset, and then set newx_offset equals to
+free key + 1. This will lead to infinite readdir combine with rename
+happened at the same time, which fail generic/736 in xfstests(detail show
+as below).
+
+1. create 5000 files(1 2 3...) under one dir
+2. call readdir(man 3 readdir) once, and get one entry
+3. rename(entry, "TEMPFILE"), then rename("TEMPFILE", entry)
+4. loop 2~3, until readdir return nothing or we loop too many
+   times(tmpfs break test with the second condition)
+
+We choose the same logic what commit 9b378f6ad48cf ("btrfs: fix infinite
+directory reads") to fix it, record the last_index when we open dir, and
+do not emit the entry which index &gt;= last_index. The file-&gt;private_data
+now used in offset dir can use directly to do this, and we also update
+the last_index when we llseek the dir file.
+
+[brauner: only update last_index after seek when offset is zero like Jan suggested]</description><pubDate>Fri, 13 Sep 2024 06:41:33 +0000</pubDate></item><item><title>CVE-2024-46702 | thunderbolt: Mark XDomain as unplugged when router is removed</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46702</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+thunderbolt: Mark XDomain as unplugged when router is removed
+
+I noticed that when we do discrete host router NVM upgrade and it gets
+hot-removed from the PCIe side as a result of NVM firmware authentication,
+if there is another host connected with enabled paths we hang in tearing
+them down. This is due to fact that the Thunderbolt networking driver
+also tries to cleanup the paths and ends up blocking in
+tb_disconnect_xdomain_paths() waiting for the domain lock.
+
+However, at this point we already cleaned the paths in tb_stop() so
+there is really no need for tb_disconnect_xdomain_paths() to do that
+anymore. Furthermore it already checks if the XDomain is unplugged and
+bails out early so take advantage of that and mark the XDomain as
+unplugged when we remove the parent router.</description><pubDate>Fri, 13 Sep 2024 06:41:33 +0000</pubDate></item><item><title>CVE-2024-46703 | Revert &amp;quot;serial: 8250_omap: Set the console genpd always on if no console suspend&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46703</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "serial: 8250_omap: Set the console genpd always on if no console suspend"
+
+This reverts commit 68e6939ea9ec3d6579eadeab16060339cdeaf940.
+
+Kevin reported that this causes a crash during suspend on platforms that
+dont use PM domains.</description><pubDate>Fri, 13 Sep 2024 06:41:33 +0000</pubDate></item><item><title>CVE-2024-46704 | workqueue: Fix spruious data race in __flush_work()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46704</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+workqueue: Fix spruious data race in __flush_work()
+
+When flushing a work item for cancellation, __flush_work() knows that it
+exclusively owns the work item through its PENDING bit. 134874e2eee9
+("workqueue: Allow cancel_work_sync() and disable_work() from atomic
+contexts on BH work items") added a read of @work-&gt;data to determine whether
+to use busy wait for BH work items that are being canceled. While the read
+is safe when @from_cancel, @work-&gt;data was read before testing @from_cancel
+to simplify code structure:
+
+	data = *work_data_bits(work);
+	if (from_cancel &amp;&amp;
+	    !WARN_ON_ONCE(data &amp; WORK_STRUCT_PWQ) &amp;&amp; (data &amp; WORK_OFFQ_BH)) {
+
+While the read data was never used if !@from_cancel, this could trigger
+KCSAN data race detection spuriously:
+
+  ==================================================================
+  BUG: KCSAN: data-race in __flush_work / __flush_work
+
+  write to 0xffff8881223aa3e8 of 8 bytes by task 3998 on cpu 0:
+   instrument_write include/linux/instrumented.h:41 [inline]
+   ___set_bit include/asm-generic/bitops/instrumented-non-atomic.h:28 [inline]
+   insert_wq_barrier kernel/workqueue.c:3790 [inline]
+   start_flush_work kernel/workqueue.c:4142 [inline]
+   __flush_work+0x30b/0x570 kernel/workqueue.c:4178
+   flush_work kernel/workqueue.c:4229 [inline]
+   ...
+
+  read to 0xffff8881223aa3e8 of 8 bytes by task 50 on cpu 1:
+   __flush_work+0x42a/0x570 kernel/workqueue.c:4188
+   flush_work kernel/workqueue.c:4229 [inline]
+   flush_delayed_work+0x66/0x70 kernel/workqueue.c:4251
+   ...
+
+  value changed: 0x0000000000400000 -&gt; 0xffff88810006c00d
+
+Reorganize the code so that @from_cancel is tested before @work-&gt;data is
+accessed. The only problem is triggering KCSAN detection spuriously. This
+shouldn't need READ_ONCE() or other access qualifiers.
+
+No functional changes.</description><pubDate>Fri, 13 Sep 2024 06:41:34 +0000</pubDate></item><item><title>CVE-2024-46705 | drm/xe: reset mmio mappings with devm</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46705</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: reset mmio mappings with devm
+
+Set our various mmio mappings to NULL. This should make it easier to
+catch something rogue trying to mess with mmio after device removal. For
+example, we might unmap everything and then start hitting some mmio
+address which has already been unmamped by us and then remapped by
+something else, causing all kinds of carnage.</description><pubDate>Fri, 13 Sep 2024 06:41:34 +0000</pubDate></item><item><title>CVE-2024-46706 | tty: serial: fsl_lpuart: mark last busy before uart_add_one_port</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46706</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tty: serial: fsl_lpuart: mark last busy before uart_add_one_port
+
+With "earlycon initcall_debug=1 loglevel=8" in bootargs, kernel
+sometimes boot hang. It is because normal console still is not ready,
+but runtime suspend is called, so early console putchar will hang
+in waiting TRDE set in UARTSTAT.
+
+The lpuart driver has auto suspend delay set to 3000ms, but during
+uart_add_one_port, a child device serial ctrl will added and probed with
+its pm runtime enabled(see serial_ctrl.c).
+The runtime suspend call path is:
+device_add
+     |-&gt; bus_probe_device
+           |-&gt;device_initial_probe
+	           |-&gt;__device_attach
+                         |-&gt; pm_runtime_get_sync(dev-&gt;parent);
+			 |-&gt; pm_request_idle(dev);
+			 |-&gt; pm_runtime_put(dev-&gt;parent);
+
+So in the end, before normal console ready, the lpuart get runtime
+suspended. And earlycon putchar will hang.
+
+To address the issue, mark last busy just after pm_runtime_enable,
+three seconds is long enough to switch from bootconsole to normal
+console.</description><pubDate>Fri, 13 Sep 2024 06:41:35 +0000</pubDate></item><item><title>CVE-2024-46707 | KVM: arm64: Make ICC_*SGI*_EL1 undef in the absence of a vGICv3</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46707</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: arm64: Make ICC_*SGI*_EL1 undef in the absence of a vGICv3
+
+On a system with a GICv3, if a guest hasn't been configured with
+GICv3 and that the host is not capable of GICv2 emulation,
+a write to any of the ICC_*SGI*_EL1 registers is trapped to EL2.
+
+We therefore try to emulate the SGI access, only to hit a NULL
+pointer as no private interrupt is allocated (no GIC, remember?).
+
+The obvious fix is to give the guest what it deserves, in the
+shape of a UNDEF exception.</description><pubDate>Fri, 13 Sep 2024 06:41:35 +0000</pubDate></item><item><title>CVE-2024-38816 | CVE-2024-38816: Path traversal vulnerability in functional web frameworks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-38816</link><description>Applications serving static resources through the functional web frameworks WebMvc.fn or WebFlux.fn are vulnerable to path traversal attacks. An attacker can craft malicious HTTP requests and obtain any file on the file system that is also accessible to the process in which the Spring application is running.
 
 Specifically, an application is vulnerable when both of the following are true:
 
