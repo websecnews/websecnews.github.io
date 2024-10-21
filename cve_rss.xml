@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 21 Oct 2024 12:48:45 +0000</lastBuildDate><item><title>CVE-2023-52917 | ntb: intel: Fix the NULL vs IS_ERR() bug for debugfs_create_dir()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52917</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 21 Oct 2024 14:22:33 +0000</lastBuildDate><item><title>CVE-2024-8305 | MongoDB Server secondaries may crash due to forced index constraints</title><link>https://www.cve.org/CVERecord?id=CVE-2024-8305</link><description>prepareUnique index may cause secondaries to crash due to incorrect enforcement of index constraints on secondaries, where in extreme cases may cause multiple secondaries crashing leading to no primaries. This issue affects MongoDB Server v6.0 versions prior to 6.0.17, MongoDB Server v7.0 versions prior to 7.0.13 and MongoDB Server v7.3 versions prior to 7.3.4</description><pubDate>Mon, 21 Oct 2024 14:22:35 +0000</pubDate></item><item><title>CVE-2023-52917 | ntb: intel: Fix the NULL vs IS_ERR() bug for debugfs_create_dir()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52917</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ntb: intel: Fix the NULL vs IS_ERR() bug for debugfs_create_dir()
 
@@ -179,7 +179,7 @@ Modules linked in: netfs(-)
 CPU: 4 UID: 0 PID: 566 Comm: rmmod Not tainted 6.11.0-rc3 #860
 RIP: 0010:remove_proc_entry+0x160/0x1c0
 Call Trace:
- &lt;TASK&gt;
+ 
  netfs_exit+0x12/0x620 [netfs]
  __do_sys_delete_module.isra.0+0x14c/0x2e0
  do_syscall_64+0x4b/0x110
@@ -288,7 +288,7 @@ If not enough buffer space available, but idmap_lookup has triggered
 lookup_fn which calls cache_get and returns successfully. Then we
 missed to call cache_put here which pairs with cache_get.
 
-Reviwed-by: Jeff Layton &lt;jlayton@kernel.org&gt;</description><pubDate>Mon, 21 Oct 2024 12:48:53 +0000</pubDate></item><item><title>CVE-2024-47738 | wifi: mac80211: don&amp;#x27;t use rate mask for offchannel TX either</title><link>https://www.cve.org/CVERecord?id=CVE-2024-47738</link><description>In the Linux kernel, the following vulnerability has been resolved:
+Reviwed-by: Jeff Layton</description><pubDate>Mon, 21 Oct 2024 12:48:53 +0000</pubDate></item><item><title>CVE-2024-47738 | wifi: mac80211: don&amp;#x27;t use rate mask for offchannel TX either</title><link>https://www.cve.org/CVERecord?id=CVE-2024-47738</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: mac80211: don't use rate mask for offchannel TX either
 
@@ -445,14 +445,14 @@ CPU2 #3, and CPU2 #7 will wait on CPU1 #4 (if there's a writer, due to the
 fairness of r/w semaphores).
 
     CPU0                     CPU1                     CPU2
-1   lock(&amp;kvm-&gt;slots_lock);
-2                                                     lock(&amp;vcpu-&gt;mutex);
-3                                                     lock(&amp;kvm-&gt;srcu);
+1   lock(&amp;amp;kvm-&gt;slots_lock);
+2                                                     lock(&amp;amp;vcpu-&gt;mutex);
+3                                                     lock(&amp;amp;kvm-&gt;srcu);
 4                            lock(cpu_hotplug_lock);
 5                            lock(kvm_lock);
-6                            lock(&amp;kvm-&gt;slots_lock);
+6                            lock(&amp;amp;kvm-&gt;slots_lock);
 7                                                     lock(cpu_hotplug_lock);
-8   sync(&amp;kvm-&gt;srcu);
+8   sync(&amp;amp;kvm-&gt;srcu);
 
 Note, there are likely more potential deadlocks in KVM x86, e.g. the same
 pattern of taking cpu_hotplug_lock outside of kvm_lock likely exists with
@@ -493,7 +493,7 @@ needs to be taken when walking holding kvm_lock and walking vm_list.
   6.10.0-smp--c257535a0c9d-pip #330 Tainted: G S         O
   ------------------------------------------------------
   tee/35048 is trying to acquire lock:
-  ff6a80eced71e0a8 (&amp;kvm-&gt;slots_lock){+.+.}-{3:3}, at: set_nx_huge_pages+0x179/0x1e0 [kvm]
+  ff6a80eced71e0a8 (&amp;amp;kvm-&gt;slots_lock){+.+.}-{3:3}, at: set_nx_huge_pages+0x179/0x1e0 [kvm]
 
   but task is already holding lock:
   ffffffffc07abb08 (kvm_lock){+.+.}-{3:3}, at: set_nx_huge_pages+0x14a/0x1e0 [kvm]
@@ -528,7 +528,7 @@ needs to be taken when walking holding kvm_lock and walking vm_list.
          do_syscall_64+0x83/0x160
          entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-  -&gt; #1 (&amp;kvm-&gt;srcu){.+.+}-{0:0}:
+  -&gt; #1 (&amp;amp;kvm-&gt;srcu){.+.+}-{0:0}:
          __synchronize_srcu+0x44/0x1a0
       
 ---truncated---</description><pubDate>Mon, 21 Oct 2024 12:48:56 +0000</pubDate></item><item><title>CVE-2024-47745 | mm: call the security_mmap_file() LSM hook in remap_file_pages()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-47745</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -588,7 +588,7 @@ wait in `fuse_file_cached_io_open` may be forever.</description><pubDate>Mon, 21
 net: seeq: Fix use after free vulnerability in ether3 Driver Due to Race Condition
 
 In the ether3_probe function, a timer is initialized with a callback
-function ether3_ledoff, bound to &amp;prev(dev)-&gt;timer. Once the timer is
+function ether3_ledoff, bound to &amp;amp;prev(dev)-&gt;timer. Once the timer is
 started, there is a risk of a race condition if the module or device
 is removed, triggering the ether3_remove function to perform cleanup.
 The sequence of operations that may lead to a UAF bug is as follows:
@@ -866,12 +866,12 @@ However, ARG_PTR_TO_{LONG,INT} is a special case of ARG_PTR_TO_FIXED_SIZE_MEM
 just with additional alignment requirement. So it is better to just get
 rid of the ARG_PTR_TO_{LONG,INT} special cases altogether and reuse the
 fixed size memory types. For this, add MEM_ALIGNED to additionally ensure
-alignment given these helpers write directly into the args via *&lt;ptr&gt; = val.
-The .arg*_size has been initialized reflecting the actual sizeof(*&lt;ptr&gt;).
+alignment given these helpers write directly into the args via * = val.
+The .arg*_size has been initialized reflecting the actual sizeof(*).
 
 MEM_ALIGNED can only be used in combination with MEM_FIXED_SIZE annotated
 argument types, since in !MEM_FIXED_SIZE cases the verifier does not know
-the buffer size a priori and therefore cannot blindly write *&lt;ptr&gt; = val.</description><pubDate>Mon, 21 Oct 2024 12:49:07 +0000</pubDate></item><item><title>CVE-2024-49862 | powercap: intel_rapl: Fix off by one in get_rpi()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-49862</link><description>In the Linux kernel, the following vulnerability has been resolved:
+the buffer size a priori and therefore cannot blindly write * = val.</description><pubDate>Mon, 21 Oct 2024 12:49:07 +0000</pubDate></item><item><title>CVE-2024-49862 | powercap: intel_rapl: Fix off by one in get_rpi()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-49862</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 powercap: intel_rapl: Fix off by one in get_rpi()
 
