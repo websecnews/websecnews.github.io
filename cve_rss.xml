@@ -1,5 +1,285 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 21 Oct 2024 18:41:08 +0000</lastBuildDate><item><title>CVE-2024-46236 | CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the address parameter in add_members.php and edi...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46236</link><description>CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the address parameter in add_members.php and edit_member.php.</description><pubDate>Mon, 21 Oct 2024 18:41:10 +0000</pubDate></item><item><title>CVE-2024-48709 | CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the membershipType parameter in edit_type.php</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48709</link><description>CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the membershipType parameter in edit_type.php</description><pubDate>Mon, 21 Oct 2024 18:41:10 +0000</pubDate></item><item><title>CVE-2024-49863 | vhost/scsi: null-ptr-dereference in vhost_scsi_get_req()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-49863</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 21 Oct 2024 19:04:04 +0000</lastBuildDate><item><title>CVE-2024-50003 | drm/amd/display: Fix system hang while resume with TBT monitor</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50003</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix system hang while resume with TBT monitor
+
+[Why]
+Connected with a Thunderbolt monitor and do the suspend and the system
+may hang while resume.
+
+The TBT monitor HPD will be triggered during the resume procedure
+and call the drm_client_modeset_probe() while
+struct drm_connector connector-&gt;dev-&gt;master is NULL.
+
+It will mess up the pipe topology after resume.
+
+[How]
+Skip the TBT monitor HPD during the resume procedure because we
+currently will probe the connectors after resume by default.
+
+(cherry picked from commit 453f86a26945207a16b8f66aaed5962dc2b95b85)</description><pubDate>Mon, 21 Oct 2024 19:04:06 +0000</pubDate></item><item><title>CVE-2024-50004 | drm/amd/display: update DML2 policy EnhancedPrefetchScheduleAccelerationFinal DCN35</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50004</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: update DML2 policy EnhancedPrefetchScheduleAccelerationFinal DCN35
+
+[WHY &amp; HOW]
+Mismatch in DCN35 DML2 cause bw validation failed to acquire unexpected DPP pipe to cause
+grey screen and system hang. Remove EnhancedPrefetchScheduleAccelerationFinal value override
+to match HW spec.
+
+(cherry picked from commit 9dad21f910fcea2bdcff4af46159101d7f9cd8ba)</description><pubDate>Mon, 21 Oct 2024 19:04:06 +0000</pubDate></item><item><title>CVE-2024-50005 | mac802154: Fix potential RCU dereference issue in mac802154_scan_worker</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50005</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mac802154: Fix potential RCU dereference issue in mac802154_scan_worker
+
+In the `mac802154_scan_worker` function, the `scan_req-&gt;type` field was
+accessed after the RCU read-side critical section was unlocked. According
+to RCU usage rules, this is illegal and can lead to unpredictable
+behavior, such as accessing memory that has been updated or causing
+use-after-free issues.
+
+This possible bug was identified using a static analysis tool developed
+by myself, specifically designed to detect RCU-related issues.
+
+To address this, the `scan_req-&gt;type` value is now stored in a local
+variable `scan_req_type` while still within the RCU read-side critical
+section. The `scan_req_type` is then used after the RCU lock is released,
+ensuring that the type value is safely accessed without violating RCU
+rules.</description><pubDate>Mon, 21 Oct 2024 19:04:06 +0000</pubDate></item><item><title>CVE-2024-50006 | ext4: fix i_data_sem unlock order in ext4_ind_migrate()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50006</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix i_data_sem unlock order in ext4_ind_migrate()
+
+Fuzzing reports a possible deadlock in jbd2_log_wait_commit.
+
+This issue is triggered when an EXT4_IOC_MIGRATE ioctl is set to require
+synchronous updates because the file descriptor is opened with O_SYNC.
+This can lead to the jbd2_journal_stop() function calling
+jbd2_might_wait_for_commit(), potentially causing a deadlock if the
+EXT4_IOC_MIGRATE call races with a write(2) system call.
+
+This problem only arises when CONFIG_PROVE_LOCKING is enabled. In this
+case, the jbd2_might_wait_for_commit macro locks jbd2_handle in the
+jbd2_journal_stop function while i_data_sem is locked. This triggers
+lockdep because the jbd2_journal_start function might also lock the same
+jbd2_handle simultaneously.
+
+Found by Linux Verification Center (linuxtesting.org) with syzkaller.
+
+Rule: add</description><pubDate>Mon, 21 Oct 2024 19:04:07 +0000</pubDate></item><item><title>CVE-2024-50007 | ALSA: asihpi: Fix potential OOB array access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50007</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: asihpi: Fix potential OOB array access
+
+ASIHPI driver stores some values in the static array upon a response
+from the driver, and its index depends on the firmware.  We shouldn't
+trust it blindly.
+
+This patch adds a sanity check of the array index to fit in the array
+size.</description><pubDate>Mon, 21 Oct 2024 19:04:07 +0000</pubDate></item><item><title>CVE-2024-50008 | wifi: mwifiex: Fix memcpy() field-spanning write warning in mwifiex_cmd_802_11_scan_ext()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50008</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mwifiex: Fix memcpy() field-spanning write warning in mwifiex_cmd_802_11_scan_ext()
+
+Replace one-element array with a flexible-array member in
+`struct host_cmd_ds_802_11_scan_ext`.
+
+With this, fix the following warning:
+
+elo 16 17:51:58 surfacebook kernel: ------------[ cut here ]------------
+elo 16 17:51:58 surfacebook kernel: memcpy: detected field-spanning write (size 243) of single field "ext_scan-&gt;tlv_buffer" at drivers/net/wireless/marvell/mwifiex/scan.c:2239 (size 1)
+elo 16 17:51:58 surfacebook kernel: WARNING: CPU: 0 PID: 498 at drivers/net/wireless/marvell/mwifiex/scan.c:2239 mwifiex_cmd_802_11_scan_ext+0x83/0x90 [mwifiex]</description><pubDate>Mon, 21 Oct 2024 19:04:07 +0000</pubDate></item><item><title>CVE-2024-50009 | cpufreq: amd-pstate: add check for cpufreq_cpu_get&amp;#x27;s return value</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50009</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpufreq: amd-pstate: add check for cpufreq_cpu_get's return value
+
+cpufreq_cpu_get may return NULL. To avoid NULL-dereference check it
+and return in case of error.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Mon, 21 Oct 2024 19:04:08 +0000</pubDate></item><item><title>CVE-2024-50010 | exec: don&amp;#x27;t WARN for racy path_noexec check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50010</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+exec: don't WARN for racy path_noexec check
+
+Both i_mode and noexec checks wrapped in WARN_ON stem from an artifact
+of the previous implementation. They used to legitimately check for the
+condition, but that got moved up in two commits:
+633fb6ac3980 ("exec: move S_ISREG() check earlier")
+0fd338b2d2cd ("exec: move path_noexec() check earlier")
+
+Instead of being removed said checks are WARN_ON'ed instead, which
+has some debug value.
+
+However, the spurious path_noexec check is racy, resulting in
+unwarranted warnings should someone race with setting the noexec flag.
+
+One can note there is more to perm-checking whether execve is allowed
+and none of the conditions are guaranteed to still hold after they were
+tested for.
+
+Additionally this does not validate whether the code path did any perm
+checking to begin with -- it will pass if the inode happens to be
+regular.
+
+Keep the redundant path_noexec() check even though it's mindless
+nonsense checking for guarantee that isn't given so drop the WARN.
+
+Reword the commentary and do small tidy ups while here.
+
+[brauner: keep redundant path_noexec() check]</description><pubDate>Mon, 21 Oct 2024 19:04:08 +0000</pubDate></item><item><title>CVE-2024-50011 | ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50011</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
+
+There is no links_num in struct snd_soc_acpi_mach {}, and we test
+!link-&gt;num_adr as a condition to end the loop in hda_sdw_machine_select().
+So an empty item in struct snd_soc_acpi_link_adr array is required.</description><pubDate>Mon, 21 Oct 2024 19:04:09 +0000</pubDate></item><item><title>CVE-2024-50012 | cpufreq: Avoid a bad reference count on CPU node</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50012</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpufreq: Avoid a bad reference count on CPU node
+
+In the parse_perf_domain function, if the call to
+of_parse_phandle_with_args returns an error, then the reference to the
+CPU device node that was acquired at the start of the function would not
+be properly decremented.
+
+Address this by declaring the variable with the __free(device_node)
+cleanup attribute.</description><pubDate>Mon, 21 Oct 2024 19:04:09 +0000</pubDate></item><item><title>CVE-2024-50013 | exfat: fix memory leak in exfat_load_bitmap()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50013</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+exfat: fix memory leak in exfat_load_bitmap()
+
+If the first directory entry in the root directory is not a bitmap
+directory entry, 'bh' will not be released and reassigned, which
+will cause a memory leak.</description><pubDate>Mon, 21 Oct 2024 19:04:09 +0000</pubDate></item><item><title>CVE-2024-50014 | ext4: fix access to uninitialised lock in fc replay path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50014</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix access to uninitialised lock in fc replay path
+
+The following kernel trace can be triggered with fstest generic/629 when
+executed against a filesystem with fast-commit feature enabled:
+
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 PID: 866 Comm: mount Not tainted 6.10.0+ #11
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.2-3-gd478f380-prebuilt.qemu.org 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x66/0x90
+ register_lock_class+0x759/0x7d0
+ __lock_acquire+0x85/0x2630
+ ? __find_get_block+0xb4/0x380
+ lock_acquire+0xd1/0x2d0
+ ? __ext4_journal_get_write_access+0xd5/0x160
+ _raw_spin_lock+0x33/0x40
+ ? __ext4_journal_get_write_access+0xd5/0x160
+ __ext4_journal_get_write_access+0xd5/0x160
+ ext4_reserve_inode_write+0x61/0xb0
+ __ext4_mark_inode_dirty+0x79/0x270
+ ? ext4_ext_replay_set_iblocks+0x2f8/0x450
+ ext4_ext_replay_set_iblocks+0x330/0x450
+ ext4_fc_replay+0x14c8/0x1540
+ ? jread+0x88/0x2e0
+ ? rcu_is_watching+0x11/0x40
+ do_one_pass+0x447/0xd00
+ jbd2_journal_recover+0x139/0x1b0
+ jbd2_journal_load+0x96/0x390
+ ext4_load_and_init_journal+0x253/0xd40
+ ext4_fill_super+0x2cc6/0x3180
+...
+
+In the replay path there's an attempt to lock sbi-&gt;s_bdev_wb_lock in
+function ext4_check_bdev_write_error().  Unfortunately, at this point this
+spinlock has not been initialized yet.  Moving it's initialization to an
+earlier point in __ext4_fill_super() fixes this splat.</description><pubDate>Mon, 21 Oct 2024 19:04:10 +0000</pubDate></item><item><title>CVE-2024-50015 | ext4: dax: fix overflowing extents beyond inode size when partially writing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50015</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: dax: fix overflowing extents beyond inode size when partially writing
+
+The dax_iomap_rw() does two things in each iteration: map written blocks
+and copy user data to blocks. If the process is killed by user(See signal
+handling in dax_iomap_iter()), the copied data will be returned and added
+on inode size, which means that the length of written extents may exceed
+the inode size, then fsck will fail. An example is given as:
+
+dd if=/dev/urandom of=file bs=4M count=1
+ dax_iomap_rw
+  iomap_iter // round 1
+   ext4_iomap_begin
+    ext4_iomap_alloc // allocate 0~2M extents(written flag)
+  dax_iomap_iter // copy 2M data
+  iomap_iter // round 2
+   iomap_iter_advance
+    iter-&gt;pos += iter-&gt;processed // iter-&gt;pos = 2M
+   ext4_iomap_begin
+    ext4_iomap_alloc // allocate 2~4M extents(written flag)
+  dax_iomap_iter
+   fatal_signal_pending
+  done = iter-&gt;pos - iocb-&gt;ki_pos // done = 2M
+ ext4_handle_inode_extension
+  ext4_update_inode_size // inode size = 2M
+
+fsck reports: Inode 13, i_size is 2097152, should be 4194304.  Fix?
+
+Fix the problem by truncating extents if the written length is smaller
+than expected.</description><pubDate>Mon, 21 Oct 2024 19:04:10 +0000</pubDate></item><item><title>CVE-2024-50016 | drm/amd/display: Avoid overflow assignment in link_dp_cts</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50016</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Avoid overflow assignment in link_dp_cts
+
+sampling_rate is an uint8_t but is assigned an unsigned int, and thus it
+can overflow. As a result, sampling_rate is changed to uint32_t.
+
+Similarly, LINK_QUAL_PATTERN_SET has a size of 2 bits, and it should
+only be assigned to a value less or equal than 4.
+
+This fixes 2 INTEGER_OVERFLOW issues reported by Coverity.</description><pubDate>Mon, 21 Oct 2024 19:04:10 +0000</pubDate></item><item><title>CVE-2024-50017 | x86/mm/ident_map: Use gbpages only where full GB page should be mapped.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50017</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/mm/ident_map: Use gbpages only where full GB page should be mapped.
+
+When ident_pud_init() uses only GB pages to create identity maps, large
+ranges of addresses not actually requested can be included in the resulting
+table; a 4K request will map a full GB.  This can include a lot of extra
+address space past that requested, including areas marked reserved by the
+BIOS.  That allows processor speculation into reserved regions, that on UV
+systems can cause system halts.
+
+Only use GB pages when map creation requests include the full GB page of
+space.  Fall back to using smaller 2M pages when only portions of a GB page
+are included in the request.
+
+No attempt is made to coalesce mapping requests. If a request requires a
+map entry at the 2M (pmd) level, subsequent mapping requests within the
+same 1G region will also be at the pmd level, even if adjacent or
+overlapping such requests could have been combined to map a full GB page.
+Existing usage starts with larger regions and then adds smaller regions, so
+this should not have any great consequence.</description><pubDate>Mon, 21 Oct 2024 19:04:11 +0000</pubDate></item><item><title>CVE-2024-50018 | net: napi: Prevent overflow of napi_defer_hard_irqs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50018</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: napi: Prevent overflow of napi_defer_hard_irqs
+
+In commit 6f8b12d661d0 ("net: napi: add hard irqs deferral feature")
+napi_defer_irqs was added to net_device and napi_defer_irqs_count was
+added to napi_struct, both as type int.
+
+This value never goes below zero, so there is not reason for it to be a
+signed int. Change the type for both from int to u32, and add an
+overflow check to sysfs to limit the value to S32_MAX.
+
+The limit of S32_MAX was chosen because the practical limit before this
+patch was S32_MAX (anything larger was an overflow) and thus there are
+no behavioral changes introduced. If the extra bit is needed in the
+future, the limit can be raised.
+
+Before this patch:
+
+$ sudo bash -c 'echo 2147483649 &gt; /sys/class/net/eth4/napi_defer_hard_irqs'
+$ cat /sys/class/net/eth4/napi_defer_hard_irqs
+-2147483647
+
+After this patch:
+
+$ sudo bash -c 'echo 2147483649 &gt; /sys/class/net/eth4/napi_defer_hard_irqs'
+bash: line 0: echo: write error: Numerical result out of range
+
+Similarly, /sys/class/net/XXXXX/tx_queue_len is defined as unsigned:
+
+include/linux/netdevice.h:      unsigned int            tx_queue_len;
+
+And has an overflow check:
+
+dev_change_tx_queue_len(..., unsigned long new_len):
+
+  if (new_len != (unsigned int)new_len)
+          return -ERANGE;</description><pubDate>Mon, 21 Oct 2024 19:04:11 +0000</pubDate></item><item><title>CVE-2024-46238 | Multiple Cross Site Scripting (XSS) vulnerabilities exist in PHPGurukul Hospital Management System 4.0 via the docname parameter in /admin/a...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46238</link><description>Multiple Cross Site Scripting (XSS) vulnerabilities exist in PHPGurukul Hospital Management System 4.0 via the docname parameter in /admin/add-doctor.php and /admin/edit-doctor.php</description><pubDate>Mon, 21 Oct 2024 19:04:12 +0000</pubDate></item><item><title>CVE-2024-46239 | Multiple cross-site scripting vulnerabilities exist in PHPGurukul Hospital Management System 4.0 via the docname parameter in /doctor/edit-p...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46239</link><description>Multiple cross-site scripting vulnerabilities exist in PHPGurukul Hospital Management System 4.0 via the docname parameter in /doctor/edit-profile.php and adminremark parameter in /admin/query-details.php.</description><pubDate>Mon, 21 Oct 2024 19:04:12 +0000</pubDate></item><item><title>CVE-2024-46236 | CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the address parameter in add_members.php and edi...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-46236</link><description>CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the address parameter in add_members.php and edit_member.php.</description><pubDate>Mon, 21 Oct 2024 18:41:10 +0000</pubDate></item><item><title>CVE-2024-48709 | CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the membershipType parameter in edit_type.php</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48709</link><description>CodeAstro Membership Management System v1.0 is vulnerable to Cross Site Scripting (XSS) via the membershipType parameter in edit_type.php</description><pubDate>Mon, 21 Oct 2024 18:41:10 +0000</pubDate></item><item><title>CVE-2024-49863 | vhost/scsi: null-ptr-dereference in vhost_scsi_get_req()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-49863</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 vhost/scsi: null-ptr-dereference in vhost_scsi_get_req()
 
