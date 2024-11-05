@@ -1,5 +1,50 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 05 Nov 2024 09:43:52 +0000</lastBuildDate><item><title>CVE-2024-10687 | Photos, Files, YouTube, Twitter, Instagram, TikTok, Ecommerce Contest Gallery – Upload, Vote, Sell via PayPal, Social Share Buttons &amp;lt;= 24.0.3 - Unauthenticated SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-10687</link><description>The Photos, Files, YouTube, Twitter, Instagram, TikTok, Ecommerce Contest Gallery – Upload, Vote, Sell via PayPal, Social Share Buttons plugin for WordPress is vulnerable to time-based SQL Injection via the $collectedIds parameter in all versions up to, and including, 24.0.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Tue, 05 Nov 2024 09:43:54 +0000</pubDate></item><item><title>CVE-2024-47253 | In 2N Access Commander versions 3.1.1.2 and prior, a Path Traversal 
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 05 Nov 2024 10:13:47 +0000</lastBuildDate><item><title>CVE-2023-52920 | bpf: support non-r10 register spill/fill to/from stack in precision tracking</title><link>https://www.cve.org/CVERecord?id=CVE-2023-52920</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: support non-r10 register spill/fill to/from stack in precision tracking
+
+Use instruction (jump) history to record instructions that performed
+register spill/fill to/from stack, regardless if this was done through
+read-only r10 register, or any other register after copying r10 into it
+*and* potentially adjusting offset.
+
+To make this work reliably, we push extra per-instruction flags into
+instruction history, encoding stack slot index (spi) and stack frame
+number in extra 10 bit flags we take away from prev_idx in instruction
+history. We don't touch idx field for maximum performance, as it's
+checked most frequently during backtracking.
+
+This change removes basically the last remaining practical limitation of
+precision backtracking logic in BPF verifier. It fixes known
+deficiencies, but also opens up new opportunities to reduce number of
+verified states, explored in the subsequent patches.
+
+There are only three differences in selftests' BPF object files
+according to veristat, all in the positive direction (less states).
+
+File                                    Program        Insns (A)  Insns (B)  Insns  (DIFF)  States (A)  States (B)  States (DIFF)
+--------------------------------------  -------------  ---------  ---------  -------------  ----------  ----------  -------------
+test_cls_redirect_dynptr.bpf.linked3.o  cls_redirect        2987       2864  -123 (-4.12%)         240         231    -9 (-3.75%)
+xdp_synproxy_kern.bpf.linked3.o         syncookie_tc       82848      82661  -187 (-0.23%)        5107        5073   -34 (-0.67%)
+xdp_synproxy_kern.bpf.linked3.o         syncookie_xdp      85116      84964  -152 (-0.18%)        5162        5130   -32 (-0.62%)
+
+Note, I avoided renaming jmp_history to more generic insn_hist to
+minimize number of lines changed and potential merge conflicts between
+bpf and bpf-next trees.
+
+Notice also cur_hist_entry pointer reset to NULL at the beginning of
+instruction verification loop. This pointer avoids the problem of
+relying on last jump history entry's insn_idx to determine whether we
+already have entry for current instruction or not. It can happen that we
+added jump history entry because current instruction is_jmp_point(), but
+also we need to add instruction flags for stack access. In this case, we
+don't want to entries, so we need to reuse last added entry, if it is
+present.
+
+Relying on insn_idx comparison has the same ambiguity problem as the one
+that was fixed recently in [0], so we avoid that.
+
+  [0] https://patchwork.kernel.org/project/netdevbpf/patch/20231110002638.4168352-3-andrii@kernel.org/</description><pubDate>Tue, 05 Nov 2024 10:13:49 +0000</pubDate></item><item><title>CVE-2024-10687 | Photos, Files, YouTube, Twitter, Instagram, TikTok, Ecommerce Contest Gallery – Upload, Vote, Sell via PayPal, Social Share Buttons &amp;lt;= 24.0.3 - Unauthenticated SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-10687</link><description>The Photos, Files, YouTube, Twitter, Instagram, TikTok, Ecommerce Contest Gallery – Upload, Vote, Sell via PayPal, Social Share Buttons plugin for WordPress is vulnerable to time-based SQL Injection via the $collectedIds parameter in all versions up to, and including, 24.0.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Tue, 05 Nov 2024 09:43:54 +0000</pubDate></item><item><title>CVE-2024-47253 | In 2N Access Commander versions 3.1.1.2 and prior, a Path Traversal 
 vulnerability could allow an attacker to write files on the filesystem ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-47253</link><description>In 2N Access Commander versions 3.1.1.2 and prior, a Path Traversal 
 vulnerability could allow an attacker to write files on the filesystem 
 to achieve arbitrary remote code execution.</description><pubDate>Tue, 05 Nov 2024 09:21:25 +0000</pubDate></item><item><title>CVE-2024-47254 | In 2N Access Commander versions 3.1.1.2 and prior, an Insufficient 
