@@ -1,5 +1,446 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 08 Nov 2024 05:53:14 +0000</lastBuildDate><item><title>CVE-2024-50189 | HID: amd_sfh: Switch to device-managed dmam_alloc_coherent()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50189</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 08 Nov 2024 06:15:22 +0000</lastBuildDate><item><title>CVE-2024-10994 | Codezips Online Institute Management System edit_user.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2024-10994</link><description>A vulnerability has been found in Codezips Online Institute Management System 1.0 and classified as critical. Affected by this vulnerability is an unknown functionality of the file /edit_user.php. The manipulation of the argument image leads to unrestricted upload. The attack can be launched remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Fri, 08 Nov 2024 06:15:24 +0000</pubDate></item><item><title>CVE-2024-50203 | bpf, arm64: Fix address emission with tag-based KASAN enabled</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50203</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf, arm64: Fix address emission with tag-based KASAN enabled
+
+When BPF_TRAMP_F_CALL_ORIG is enabled, the address of a bpf_tramp_image
+struct on the stack is passed during the size calculation pass and
+an address on the heap is passed during code generation. This may
+cause a heap buffer overflow if the heap address is tagged because
+emit_a64_mov_i64() will emit longer code than it did during the size
+calculation pass. The same problem could occur without tag-based
+KASAN if one of the 16-bit words of the stack address happened to
+be all-ones during the size calculation pass. Fix the problem by
+assuming the worst case (4 instructions) when calculating the size
+of the bpf_tramp_image address emission.</description><pubDate>Fri, 08 Nov 2024 06:15:24 +0000</pubDate></item><item><title>CVE-2024-50204 | fs: don&amp;#x27;t try and remove empty rbtree node</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50204</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs: don't try and remove empty rbtree node
+
+When copying a namespace we won't have added the new copy into the
+namespace rbtree until after the copy succeeded. Calling free_mnt_ns()
+will try to remove the copy from the rbtree which is invalid. Simply
+free the namespace skeleton directly.</description><pubDate>Fri, 08 Nov 2024 06:15:24 +0000</pubDate></item><item><title>CVE-2024-50205 | ALSA: firewire-lib: Avoid division by zero in apply_constraint_to_size()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50205</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: firewire-lib: Avoid division by zero in apply_constraint_to_size()
+
+The step variable is initialized to zero. It is changed in the loop,
+but if it's not changed it will remain zero. Add a variable check
+before the division.
+
+The observed behavior was introduced by commit 826b5de90c0b
+("ALSA: firewire-lib: fix insufficient PCM rule for period/buffer size"),
+and it is difficult to show that any of the interval parameters will
+satisfy the snd_interval_test() condition with data from the
+amdtp_rate_table[] table.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Fri, 08 Nov 2024 06:15:25 +0000</pubDate></item><item><title>CVE-2024-50206 | net: ethernet: mtk_eth_soc: fix memory corruption during fq dma init</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50206</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ethernet: mtk_eth_soc: fix memory corruption during fq dma init
+
+The loop responsible for allocating up to MTK_FQ_DMA_LENGTH buffers must
+only touch as many descriptors, otherwise it ends up corrupting unrelated
+memory. Fix the loop iteration count accordingly.</description><pubDate>Fri, 08 Nov 2024 06:15:25 +0000</pubDate></item><item><title>CVE-2024-50207 | ring-buffer: Fix reader locking when changing the sub buffer order</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50207</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ring-buffer: Fix reader locking when changing the sub buffer order
+
+The function ring_buffer_subbuf_order_set() updates each
+ring_buffer_per_cpu and installs new sub buffers that match the requested
+page order. This operation may be invoked concurrently with readers that
+rely on some of the modified data, such as the head bit (RB_PAGE_HEAD), or
+the ring_buffer_per_cpu.pages and reader_page pointers. However, no
+exclusive access is acquired by ring_buffer_subbuf_order_set(). Modifying
+the mentioned data while a reader also operates on them can then result in
+incorrect memory access and various crashes.
+
+Fix the problem by taking the reader_lock when updating a specific
+ring_buffer_per_cpu in ring_buffer_subbuf_order_set().</description><pubDate>Fri, 08 Nov 2024 06:15:26 +0000</pubDate></item><item><title>CVE-2024-50208 | RDMA/bnxt_re: Fix a bug while setting up Level-2 PBL pages</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50208</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/bnxt_re: Fix a bug while setting up Level-2 PBL pages
+
+Avoid memory corruption while setting up Level-2 PBL pages for the non MR
+resources when num_pages &gt; 256K.
+
+There will be a single PDE page address (contiguous pages in the case of &gt;
+PAGE_SIZE), but, current logic assumes multiple pages, leading to invalid
+memory access after 256K PBL entries in the PDE.</description><pubDate>Fri, 08 Nov 2024 06:15:26 +0000</pubDate></item><item><title>CVE-2024-50209 | RDMA/bnxt_re: Add a check for memory allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50209</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/bnxt_re: Add a check for memory allocation
+
+__alloc_pbl() can return error when memory allocation fails.
+Driver is not checking the status on one of the instances.</description><pubDate>Fri, 08 Nov 2024 06:15:27 +0000</pubDate></item><item><title>CVE-2024-50210 | posix-clock: posix-clock: Fix unbalanced locking in pc_clock_settime()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50210</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+posix-clock: posix-clock: Fix unbalanced locking in pc_clock_settime()
+
+If get_clock_desc() succeeds, it calls fget() for the clockid's fd,
+and get the clk-&gt;rwsem read lock, so the error path should release
+the lock to make the lock balance and fput the clockid's fd to make
+the refcount balance and release the fd related resource.
+
+However the below commit left the error path locked behind resulting in
+unbalanced locking. Check timespec64_valid_strict() before
+get_clock_desc() to fix it, because the "ts" is not changed
+after that.
+
+[pabeni@redhat.com: fixed commit message typo]</description><pubDate>Fri, 08 Nov 2024 06:15:27 +0000</pubDate></item><item><title>CVE-2024-50211 | udf: refactor inode_bmap() to handle error</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50211</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+udf: refactor inode_bmap() to handle error
+
+Refactor inode_bmap() to handle error since udf_next_aext() can return
+error now. On situations like ftruncate, udf_extend_file() can now
+detect errors and bail out early without resorting to checking for
+particular offsets and assuming internal behavior of these functions.</description><pubDate>Fri, 08 Nov 2024 06:15:27 +0000</pubDate></item><item><title>CVE-2024-7982 | Registrations for The Events Calendar &amp;lt; 2.12.4 - Unauthenticated Stored XSS</title><link>https://www.cve.org/CVERecord?id=CVE-2024-7982</link><description>The Registrations for the Events Calendar  WordPress plugin before 2.12.4 does not sanitise and escape some parameters when accepting event registrations, which could allow unauthenticated users to perform Cross-Site Scripting attacks.</description><pubDate>Fri, 08 Nov 2024 06:15:28 +0000</pubDate></item><item><title>CVE-2024-50192 | irqchip/gic-v4: Don&amp;#x27;t allow a VMOVP on a dying VPE</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50192</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+irqchip/gic-v4: Don't allow a VMOVP on a dying VPE
+
+Kunkun Jiang reported that there is a small window of opportunity for
+userspace to force a change of affinity for a VPE while the VPE has already
+been unmapped, but the corresponding doorbell interrupt still visible in
+/proc/irq/.
+
+Plug the race by checking the value of vmapp_count, which tracks whether
+the VPE is mapped ot not, and returning an error in this case.
+
+This involves making vmapp_count common to both GICv4.1 and its v4.0
+ancestor.</description><pubDate>Fri, 08 Nov 2024 06:15:29 +0000</pubDate></item><item><title>CVE-2024-50193 | x86/entry_32: Clear CPU buffers after register restore in NMI return</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50193</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/entry_32: Clear CPU buffers after register restore in NMI return
+
+CPU buffers are currently cleared after call to exc_nmi, but before
+register state is restored. This may be okay for MDS mitigation but not for
+RDFS. Because RDFS mitigation requires CPU buffers to be cleared when
+registers don't have any sensitive data.
+
+Move CLEAR_CPU_BUFFERS after RESTORE_ALL_NMI.</description><pubDate>Fri, 08 Nov 2024 06:15:29 +0000</pubDate></item><item><title>CVE-2024-50194 | arm64: probes: Fix uprobes for big-endian kernels</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50194</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: probes: Fix uprobes for big-endian kernels
+
+The arm64 uprobes code is broken for big-endian kernels as it doesn't
+convert the in-memory instruction encoding (which is always
+little-endian) into the kernel's native endianness before analyzing and
+simulating instructions. This may result in a few distinct problems:
+
+* The kernel may may erroneously reject probing an instruction which can
+  safely be probed.
+
+* The kernel may erroneously erroneously permit stepping an
+  instruction out-of-line when that instruction cannot be stepped
+  out-of-line safely.
+
+* The kernel may erroneously simulate instruction incorrectly dur to
+  interpretting the byte-swapped encoding.
+
+The endianness mismatch isn't caught by the compiler or sparse because:
+
+* The arch_uprobe::{insn,ixol} fields are encoded as arrays of u8, so
+  the compiler and sparse have no idea these contain a little-endian
+  32-bit value. The core uprobes code populates these with a memcpy()
+  which similarly does not handle endianness.
+
+* While the uprobe_opcode_t type is an alias for __le32, both
+  arch_uprobe_analyze_insn() and arch_uprobe_skip_sstep() cast from u8[]
+  to the similarly-named probe_opcode_t, which is an alias for u32.
+  Hence there is no endianness conversion warning.
+
+Fix this by changing the arch_uprobe::{insn,ixol} fields to __le32 and
+adding the appropriate __le32_to_cpu() conversions prior to consuming
+the instruction encoding. The core uprobes copies these fields as opaque
+ranges of bytes, and so is unaffected by this change.
+
+At the same time, remove MAX_UINSN_BYTES and consistently use
+AARCH64_INSN_SIZE for clarity.
+
+Tested with the following:
+
+| #include &lt;stdio.h&gt;
+| #include &lt;stdbool.h&gt;
+|
+| #define noinline __attribute__((noinline))
+|
+| static noinline void *adrp_self(void)
+| {
+|         void *addr;
+|
+|         asm volatile(
+|         "       adrp    %x0, adrp_self\n"
+|         "       add     %x0, %x0, :lo12:adrp_self\n"
+|         : "=r" (addr));
+| }
+|
+|
+| int main(int argc, char *argv)
+| {
+|         void *ptr = adrp_self();
+|         bool equal = (ptr == adrp_self);
+|
+|         printf("adrp_self   =&gt; %p\n"
+|                "adrp_self() =&gt; %p\n"
+|                "%s\n",
+|                adrp_self, ptr, equal ? "EQUAL" : "NOT EQUAL");
+|
+|         return 0;
+| }
+
+.... where the adrp_self() function was compiled to:
+
+| 00000000004007e0 &lt;adrp_self&gt;:
+|   4007e0:       90000000        adrp    x0, 400000 &lt;__ehdr_start&gt;
+|   4007e4:       911f8000        add     x0, x0, #0x7e0
+|   4007e8:       d65f03c0        ret
+
+Before this patch, the ADRP is not recognized, and is assumed to be
+steppable, resulting in corruption of the result:
+
+| # ./adrp-self
+| adrp_self   =&gt; 0x4007e0
+| adrp_self() =&gt; 0x4007e0
+| EQUAL
+| # echo 'p /root/adrp-self:0x007e0' &gt; /sys/kernel/tracing/uprobe_events
+| # echo 1 &gt; /sys/kernel/tracing/events/uprobes/enable
+| # ./adrp-self
+| adrp_self   =&gt; 0x4007e0
+| adrp_self() =&gt; 0xffffffffff7e0
+| NOT EQUAL
+
+After this patch, the ADRP is correctly recognized and simulated:
+
+| # ./adrp-self
+| adrp_self   =&gt; 0x4007e0
+| adrp_self() =&gt; 0x4007e0
+| EQUAL
+| #
+| # echo 'p /root/adrp-self:0x007e0' &gt; /sys/kernel/tracing/uprobe_events
+| # echo 1 &gt; /sys/kernel/tracing/events/uprobes/enable
+| # ./adrp-self
+| adrp_self   =&gt; 0x4007e0
+| adrp_self() =&gt; 0x4007e0
+| EQUAL</description><pubDate>Fri, 08 Nov 2024 06:15:30 +0000</pubDate></item><item><title>CVE-2024-50195 | posix-clock: Fix missing timespec64 check in pc_clock_settime()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50195</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+posix-clock: Fix missing timespec64 check in pc_clock_settime()
+
+As Andrew pointed out, it will make sense that the PTP core
+checked timespec64 struct's tv_sec and tv_nsec range before calling
+ptp-&gt;info-&gt;settime64().
+
+As the man manual of clock_settime() said, if tp.tv_sec is negative or
+tp.tv_nsec is outside the range [0..999,999,999], it should return EINVAL,
+which include dynamic clocks which handles PTP clock, and the condition is
+consistent with timespec64_valid(). As Thomas suggested, timespec64_valid()
+only check the timespec is valid, but not ensure that the time is
+in a valid range, so check it ahead using timespec64_valid_strict()
+in pc_clock_settime() and return -EINVAL if not valid.
+
+There are some drivers that use tp-&gt;tv_sec and tp-&gt;tv_nsec directly to
+write registers without validity checks and assume that the higher layer
+has checked it, which is dangerous and will benefit from this, such as
+hclge_ptp_settime(), igb_ptp_settime_i210(), _rcar_gen4_ptp_settime(),
+and some drivers can remove the checks of itself.</description><pubDate>Fri, 08 Nov 2024 06:15:30 +0000</pubDate></item><item><title>CVE-2024-50196 | pinctrl: ocelot: fix system hang on level based interrupts</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50196</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: ocelot: fix system hang on level based interrupts
+
+The current implementation only calls chained_irq_enter() and
+chained_irq_exit() if it detects pending interrupts.
+
+```
+for (i = 0; i &lt; info-&gt;stride; i++) {
+	uregmap_read(info-&gt;map, id_reg + 4 * i, &amp;reg);
+	if (!reg)
+		continue;
+
+	chained_irq_enter(parent_chip, desc);
+```
+
+However, in case of GPIO pin configured in level mode and the parent
+controller configured in edge mode, GPIO interrupt might be lowered by the
+hardware. In the result, if the interrupt is short enough, the parent
+interrupt is still pending while the GPIO interrupt is cleared;
+chained_irq_enter() never gets called and the system hangs trying to
+service the parent interrupt.
+
+Moving chained_irq_enter() and chained_irq_exit() outside the for loop
+ensures that they are called even when GPIO interrupt is lowered by the
+hardware.
+
+The similar code with chained_irq_enter() / chained_irq_exit() functions
+wrapping interrupt checking loop may be found in many other drivers:
+```
+grep -r -A 10 chained_irq_enter drivers/pinctrl
+```</description><pubDate>Fri, 08 Nov 2024 06:15:30 +0000</pubDate></item><item><title>CVE-2024-50197 | pinctrl: intel: platform: fix error path in device_for_each_child_node()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50197</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pinctrl: intel: platform: fix error path in device_for_each_child_node()
+
+The device_for_each_child_node() loop requires calls to
+fwnode_handle_put() upon early returns to decrement the refcount of
+the child node and avoid leaking memory if that error path is triggered.
+
+There is one early returns within that loop in
+intel_platform_pinctrl_prepare_community(), but fwnode_handle_put() is
+missing.
+
+Instead of adding the missing call, the scoped version of the loop can
+be used to simplify the code and avoid mistakes in the future if new
+early returns are added, as the child node is only used for parsing, and
+it is never assigned.</description><pubDate>Fri, 08 Nov 2024 06:15:31 +0000</pubDate></item><item><title>CVE-2024-50198 | iio: light: veml6030: fix IIO device retrieval from embedded device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50198</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: veml6030: fix IIO device retrieval from embedded device
+
+The dev pointer that is received as an argument in the
+in_illuminance_period_available_show function references the device
+embedded in the IIO device, not in the i2c client.
+
+dev_to_iio_dev() must be used to accessthe right data. The current
+implementation leads to a segmentation fault on every attempt to read
+the attribute because indio_dev gets a NULL assignment.
+
+This bug has been present since the first appearance of the driver,
+apparently since the last version (V6) before getting applied. A
+constant attribute was used until then, and the last modifications might
+have not been tested again.</description><pubDate>Fri, 08 Nov 2024 06:15:31 +0000</pubDate></item><item><title>CVE-2024-50199 | mm/swapfile: skip HugeTLB pages for unuse_vma</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50199</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/swapfile: skip HugeTLB pages for unuse_vma
+
+I got a bad pud error and lost a 1GB HugeTLB when calling swapoff.  The
+problem can be reproduced by the following steps:
+
+ 1. Allocate an anonymous 1GB HugeTLB and some other anonymous memory.
+ 2. Swapout the above anonymous memory.
+ 3. run swapoff and we will get a bad pud error in kernel message:
+
+  mm/pgtable-generic.c:42: bad pud 00000000743d215d(84000001400000e7)
+
+We can tell that pud_clear_bad is called by pud_none_or_clear_bad in
+unuse_pud_range() by ftrace.  And therefore the HugeTLB pages will never
+be freed because we lost it from page table.  We can skip HugeTLB pages
+for unuse_vma to fix it.</description><pubDate>Fri, 08 Nov 2024 06:15:32 +0000</pubDate></item><item><title>CVE-2024-50200 | maple_tree: correct tree corruption on spanning store</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50200</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+maple_tree: correct tree corruption on spanning store
+
+Patch series "maple_tree: correct tree corruption on spanning store", v3.
+
+There has been a nasty yet subtle maple tree corruption bug that appears
+to have been in existence since the inception of the algorithm.
+
+This bug seems far more likely to happen since commit f8d112a4e657
+("mm/mmap: avoid zeroing vma tree in mmap_region()"), which is the point
+at which reports started to be submitted concerning this bug.
+
+We were made definitely aware of the bug thanks to the kind efforts of
+Bert Karwatzki who helped enormously in my being able to track this down
+and identify the cause of it.
+
+The bug arises when an attempt is made to perform a spanning store across
+two leaf nodes, where the right leaf node is the rightmost child of the
+shared parent, AND the store completely consumes the right-mode node.
+
+This results in mas_wr_spanning_store() mitakenly duplicating the new and
+existing entries at the maximum pivot within the range, and thus maple
+tree corruption.
+
+The fix patch corrects this by detecting this scenario and disallowing the
+mistaken duplicate copy.
+
+The fix patch commit message goes into great detail as to how this occurs.
+
+This series also includes a test which reliably reproduces the issue, and
+asserts that the fix works correctly.
+
+Bert has kindly tested the fix and confirmed it resolved his issues.  Also
+Mikhail Gavrilov kindly reported what appears to be precisely the same
+bug, which this fix should also resolve.
+
+
+This patch (of 2):
+
+There has been a subtle bug present in the maple tree implementation from
+its inception.
+
+This arises from how stores are performed - when a store occurs, it will
+overwrite overlapping ranges and adjust the tree as necessary to
+accommodate this.
+
+A range may always ultimately span two leaf nodes.  In this instance we
+walk the two leaf nodes, determine which elements are not overwritten to
+the left and to the right of the start and end of the ranges respectively
+and then rebalance the tree to contain these entries and the newly
+inserted one.
+
+This kind of store is dubbed a 'spanning store' and is implemented by
+mas_wr_spanning_store().
+
+In order to reach this stage, mas_store_gfp() invokes
+mas_wr_preallocate(), mas_wr_store_type() and mas_wr_walk() in turn to
+walk the tree and update the object (mas) to traverse to the location
+where the write should be performed, determining its store type.
+
+When a spanning store is required, this function returns false stopping at
+the parent node which contains the target range, and mas_wr_store_type()
+marks the mas-&gt;store_type as wr_spanning_store to denote this fact.
+
+When we go to perform the store in mas_wr_spanning_store(), we first
+determine the elements AFTER the END of the range we wish to store (that
+is, to the right of the entry to be inserted) - we do this by walking to
+the NEXT pivot in the tree (i.e.  r_mas.last + 1), starting at the node we
+have just determined contains the range over which we intend to write.
+
+We then turn our attention to the entries to the left of the entry we are
+inserting, whose state is represented by l_mas, and copy these into a 'big
+node', which is a special node which contains enough slots to contain two
+leaf node's worth of data.
+
+We then copy the entry we wish to store immediately after this - the copy
+and the insertion of the new entry is performed by mas_store_b_node().
+
+After this we copy the elements to the right of the end of the range which
+we are inserting, if we have not exceeded the length of the node (i.e. 
+r_mas.offset &lt;= r_mas.end).
+
+Herein lies the bug - under very specific circumstances, this logic can
+break and corrupt the maple tree.
+
+Consider the following tree:
+
+Height
+  0                             Root Node
+                                 /      \
+                 pivot = 0xffff /        \ pivot = ULONG_MAX
+                               /          
+---truncated---</description><pubDate>Fri, 08 Nov 2024 06:15:32 +0000</pubDate></item><item><title>CVE-2024-50201 | drm/radeon: Fix encoder-&amp;gt;possible_clones</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50201</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/radeon: Fix encoder-&gt;possible_clones
+
+Include the encoder itself in its possible_clones bitmask.
+In the past nothing validated that drivers were populating
+possible_clones correctly, but that changed in commit
+74d2aacbe840 ("drm: Validate encoder-&gt;possible_clones").
+Looks like radeon never got the memo and is still not
+following the rules 100% correctly.
+
+This results in some warnings during driver initialization:
+Bogus possible_clones: [ENCODER:46:TV-46] possible_clones=0x4 (full encoder mask=0x7)
+WARNING: CPU: 0 PID: 170 at drivers/gpu/drm/drm_mode_config.c:615 drm_mode_config_validate+0x113/0x39c
+...
+
+(cherry picked from commit 3b6e7d40649c0d75572039aff9d0911864c689db)</description><pubDate>Fri, 08 Nov 2024 06:15:33 +0000</pubDate></item><item><title>CVE-2024-50202 | nilfs2: propagate directory read errors from nilfs_find_entry()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50202</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: propagate directory read errors from nilfs_find_entry()
+
+Syzbot reported that a task hang occurs in vcs_open() during a fuzzing
+test for nilfs2.
+
+The root cause of this problem is that in nilfs_find_entry(), which
+searches for directory entries, ignores errors when loading a directory
+page/folio via nilfs_get_folio() fails.
+
+If the filesystem images is corrupted, and the i_size of the directory
+inode is large, and the directory page/folio is successfully read but
+fails the sanity check, for example when it is zero-filled,
+nilfs_check_folio() may continue to spit out error messages in bursts.
+
+Fix this issue by propagating the error to the callers when loading a
+page/folio fails in nilfs_find_entry().
+
+The current interface of nilfs_find_entry() and its callers is outdated
+and cannot propagate error codes such as -EIO and -ENOMEM returned via
+nilfs_find_entry(), so fix it together.</description><pubDate>Fri, 08 Nov 2024 06:15:33 +0000</pubDate></item><item><title>CVE-2024-50189 | HID: amd_sfh: Switch to device-managed dmam_alloc_coherent()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50189</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 HID: amd_sfh: Switch to device-managed dmam_alloc_coherent()
 
@@ -19,11 +460,11 @@ copying whole FW blob. Copy just the topology section, and only when
 needed. Reuse the buffer allocated for the read of the current topology.
 
 This was found by kmemleak, with the following trace for each PF:
-    [&lt;ffffffff8761044d&gt;] kmemdup_noprof+0x1d/0x50
-    [&lt;ffffffffc0a0a480&gt;] ice_init_ddp_config+0x100/0x220 [ice]
-    [&lt;ffffffffc0a0da7f&gt;] ice_init_dev+0x6f/0x200 [ice]
-    [&lt;ffffffffc0a0dc49&gt;] ice_init+0x29/0x560 [ice]
-    [&lt;ffffffffc0a10c1d&gt;] ice_probe+0x21d/0x310 [ice]
+    [] kmemdup_noprof+0x1d/0x50
+    [] ice_init_ddp_config+0x100/0x220 [ice]
+    [] ice_init_dev+0x6f/0x200 [ice]
+    [] ice_init+0x29/0x560 [ice]
+    [] ice_probe+0x21d/0x310 [ice]
 
 Constify ice_cfg_tx_topo() @buf parameter.
 This cascades further down to few more functions.</description><pubDate>Fri, 08 Nov 2024 05:53:17 +0000</pubDate></item><item><title>CVE-2024-50191 | ext4: don&amp;#x27;t set SB_RDONLY after filesystem errors</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50191</link><description>In the Linux kernel, the following vulnerability has been resolved:
