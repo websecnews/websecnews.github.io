@@ -1,5 +1,180 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 19 Nov 2024 17:42:34 +0000</lastBuildDate><item><title>CVE-2024-10224 | Qualys discovered that if unsanitized input was used with the library Modules::ScanDeps, before version 1.36 a local attacker could possibly...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-10224</link><description>Qualys discovered that if unsanitized input was used with the library Modules::ScanDeps, before version 1.36 a local attacker could possibly execute arbitrary shell commands by open()ing a "pesky pipe" (such as passing "commands|" as a filename) or by passing arbitrary strings to eval().</description><pubDate>Tue, 19 Nov 2024 17:42:36 +0000</pubDate></item><item><title>CVE-2024-11003 | Qualys discovered that needrestart, before version 3.8, passes unsanitized data to a library (Modules::ScanDeps) which expects safe input. T...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-11003</link><description>Qualys discovered that needrestart, before version 3.8, passes unsanitized data to a library (Modules::ScanDeps) which expects safe input. This could allow a local attacker to execute arbitrary shell commands. Please see the related CVE-2024-10224 in Modules::ScanDeps.</description><pubDate>Tue, 19 Nov 2024 17:42:36 +0000</pubDate></item><item><title>CVE-2024-48069 | A remote code execution (RCE) vulnerability in the component /inventory/doCptimpoptInventory of Weaver Ecology v9.* allows attackers to exec...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48069</link><description>A remote code execution (RCE) vulnerability in the component /inventory/doCptimpoptInventory of Weaver Ecology v9.* allows attackers to execute arbitrary code via injecting a crafted payload into the name of an uploaded file.</description><pubDate>Tue, 19 Nov 2024 17:42:37 +0000</pubDate></item><item><title>CVE-2024-53073 | NFSD: Never decrement pending_async_copies on error</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53073</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 19 Nov 2024 17:49:34 +0000</lastBuildDate><item><title>CVE-2024-48990 | Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by tricking needrestart int...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48990</link><description>Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by tricking needrestart into running the Python interpreter with an attacker-controlled PYTHONPATH environment variable.</description><pubDate>Tue, 19 Nov 2024 17:49:36 +0000</pubDate></item><item><title>CVE-2024-48991 | Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by winning a race condition...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48991</link><description>Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by winning a race condition and tricking needrestart into running their own, fake Python interpreter (instead of the system's real Python interpreter).</description><pubDate>Tue, 19 Nov 2024 17:49:36 +0000</pubDate></item><item><title>CVE-2024-48992 | Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by tricking needrestart int...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48992</link><description>Qualys discovered that needrestart, before version 3.8, allows local attackers to execute arbitrary code as root by tricking needrestart into running the Ruby interpreter with an attacker-controlled RUBYLIB environment variable.</description><pubDate>Tue, 19 Nov 2024 17:49:37 +0000</pubDate></item><item><title>CVE-2024-53079 | mm/thp: fix deferred split unqueue naming and locking</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53079</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/thp: fix deferred split unqueue naming and locking
+
+Recent changes are putting more pressure on THP deferred split queues:
+under load revealing long-standing races, causing list_del corruptions,
+"Bad page state"s and worse (I keep BUGs in both of those, so usually
+don't get to see how badly they end up without).  The relevant recent
+changes being 6.8's mTHP, 6.10's mTHP swapout, and 6.12's mTHP swapin,
+improved swap allocation, and underused THP splitting.
+
+Before fixing locking: rename misleading folio_undo_large_rmappable(),
+which does not undo large_rmappable, to folio_unqueue_deferred_split(),
+which is what it does.  But that and its out-of-line __callee are mm
+internals of very limited usability: add comment and WARN_ON_ONCEs to
+check usage; and return a bool to say if a deferred split was unqueued,
+which can then be used in WARN_ON_ONCEs around safety checks (sparing
+callers the arcane conditionals in __folio_unqueue_deferred_split()).
+
+Just omit the folio_unqueue_deferred_split() from free_unref_folios(), all
+of whose callers now call it beforehand (and if any forget then bad_page()
+will tell) - except for its caller put_pages_list(), which itself no
+longer has any callers (and will be deleted separately).
+
+Swapout: mem_cgroup_swapout() has been resetting folio-&gt;memcg_data 0
+without checking and unqueueing a THP folio from deferred split list;
+which is unfortunate, since the split_queue_lock depends on the memcg
+(when memcg is enabled); so swapout has been unqueueing such THPs later,
+when freeing the folio, using the pgdat's lock instead: potentially
+corrupting the memcg's list.  __remove_mapping() has frozen refcount to 0
+here, so no problem with calling folio_unqueue_deferred_split() before
+resetting memcg_data.
+
+That goes back to 5.4 commit 87eaceb3faa5 ("mm: thp: make deferred split
+shrinker memcg aware"): which included a check on swapcache before adding
+to deferred queue, but no check on deferred queue before adding THP to
+swapcache.  That worked fine with the usual sequence of events in reclaim
+(though there were a couple of rare ways in which a THP on deferred queue
+could have been swapped out), but 6.12 commit dafff3f4c850 ("mm: split
+underused THPs") avoids splitting underused THPs in reclaim, which makes
+swapcache THPs on deferred queue commonplace.
+
+Keep the check on swapcache before adding to deferred queue?  Yes: it is
+no longer essential, but preserves the existing behaviour, and is likely
+to be a worthwhile optimization (vmstat showed much more traffic on the
+queue under swapping load if the check was removed); update its comment.
+
+Memcg-v1 move (deprecated): mem_cgroup_move_account() has been changing
+folio-&gt;memcg_data without checking and unqueueing a THP folio from the
+deferred list, sometimes corrupting "from" memcg's list, like swapout. 
+Refcount is non-zero here, so folio_unqueue_deferred_split() can only be
+used in a WARN_ON_ONCE to validate the fix, which must be done earlier:
+mem_cgroup_move_charge_pte_range() first try to split the THP (splitting
+of course unqueues), or skip it if that fails.  Not ideal, but moving
+charge has been requested, and khugepaged should repair the THP later:
+nobody wants new custom unqueueing code just for this deprecated case.
+
+The 87eaceb3faa5 commit did have the code to move from one deferred list
+to another (but was not conscious of its unsafety while refcount non-0);
+but that was removed by 5.6 commit fac0516b5534 ("mm: thp: don't need care
+deferred split queue in memcg charge move path"), which argued that the
+existence of a PMD mapping guarantees that the THP cannot be on a deferred
+list.  As above, false in rare cases, and now commonly false.
+
+Backport to 6.11 should be straightforward.  Earlier backports must take
+care that other _deferred_list fixes and dependencies are included.  There
+is not a strong case for backports, but they can fix cornercases.</description><pubDate>Tue, 19 Nov 2024 17:49:37 +0000</pubDate></item><item><title>CVE-2024-53080 | drm/panthor: Lock XArray when getting entries for the VM</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53080</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panthor: Lock XArray when getting entries for the VM
+
+Similar to commit cac075706f29 ("drm/panthor: Fix race when converting
+group handle to group object") we need to use the XArray's internal
+locking when retrieving a vm pointer from there.
+
+v2: Removed part of the patch that was trying to protect fetching
+the heap pointer from XArray, as that operation is protected by
+the @pool-&gt;lock.</description><pubDate>Tue, 19 Nov 2024 17:49:38 +0000</pubDate></item><item><title>CVE-2024-53081 | media: ar0521: don&amp;#x27;t overflow when checking PLL values</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53081</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: ar0521: don't overflow when checking PLL values
+
+The PLL checks are comparing 64 bit integers with 32 bit
+ones, as reported by Coverity. Depending on the values of
+the variables, this may underflow.
+
+Fix it ensuring that both sides of the expression are u64.</description><pubDate>Tue, 19 Nov 2024 17:49:38 +0000</pubDate></item><item><title>CVE-2024-53082 | virtio_net: Add hash_key_length check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53082</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+virtio_net: Add hash_key_length check
+
+Add hash_key_length check in virtnet_probe() to avoid possible out of
+bound errors when setting/reading the hash key.</description><pubDate>Tue, 19 Nov 2024 17:49:38 +0000</pubDate></item><item><title>CVE-2024-53083 | usb: typec: qcom-pmic: init value of hdr_len/txbuf_len earlier</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53083</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: qcom-pmic: init value of hdr_len/txbuf_len earlier
+
+If the read of USB_PDPHY_RX_ACKNOWLEDGE_REG failed, then hdr_len and
+txbuf_len are uninitialized. This commit stops to print uninitialized
+value and misleading/false data.</description><pubDate>Tue, 19 Nov 2024 17:49:39 +0000</pubDate></item><item><title>CVE-2024-53084 | drm/imagination: Break an object reference loop</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53084</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/imagination: Break an object reference loop
+
+When remaining resources are being cleaned up on driver close,
+outstanding VM mappings may result in resources being leaked, due
+to an object reference loop, as shown below, with each object (or
+set of objects) referencing the object below it:
+
+    PVR GEM Object
+    GPU scheduler "finished" fence
+    GPU scheduler “scheduled” fence
+    PVR driver “done” fence
+    PVR Context
+    PVR VM Context
+    PVR VM Mappings
+    PVR GEM Object
+
+The reference that the PVR VM Context has on the VM mappings is a
+soft one, in the sense that the freeing of outstanding VM mappings
+is done as part of VM context destruction; no reference counts are
+involved, as is the case for all the other references in the loop.
+
+To break the reference loop during cleanup, free the outstanding
+VM mappings before destroying the PVR Context associated with the
+VM context.</description><pubDate>Tue, 19 Nov 2024 17:49:39 +0000</pubDate></item><item><title>CVE-2024-53085 | tpm: Lock TPM chip in tpm_pm_suspend() first</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53085</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tpm: Lock TPM chip in tpm_pm_suspend() first
+
+Setting TPM_CHIP_FLAG_SUSPENDED in the end of tpm_pm_suspend() can be racy
+according, as this leaves window for tpm_hwrng_read() to be called while
+the operation is in progress. The recent bug report gives also evidence of
+this behaviour.
+
+Aadress this by locking the TPM chip before checking any chip-&gt;flags both
+in tpm_pm_suspend() and tpm_hwrng_read(). Move TPM_CHIP_FLAG_SUSPENDED
+check inside tpm_get_random() so that it will be always checked only when
+the lock is reserved.</description><pubDate>Tue, 19 Nov 2024 17:49:40 +0000</pubDate></item><item><title>CVE-2024-53086 | drm/xe: Drop VM dma-resv lock on xe_sync_in_fence_get failure in exec IOCTL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53086</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Drop VM dma-resv lock on xe_sync_in_fence_get failure in exec IOCTL
+
+Upon failure all locks need to be dropped before returning to the user.
+
+(cherry picked from commit 7d1a4258e602ffdce529f56686925034c1b3b095)</description><pubDate>Tue, 19 Nov 2024 17:49:40 +0000</pubDate></item><item><title>CVE-2024-53087 | drm/xe: Fix possible exec queue leak in exec IOCTL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53087</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Fix possible exec queue leak in exec IOCTL
+
+In a couple of places after an exec queue is looked up the exec IOCTL
+returns on input errors without dropping the exec queue ref. Fix this
+ensuring the exec queue ref is dropped on input error.
+
+(cherry picked from commit 07064a200b40ac2195cb6b7b779897d9377e5e6f)</description><pubDate>Tue, 19 Nov 2024 17:49:40 +0000</pubDate></item><item><title>CVE-2024-53088 | i40e: fix race condition by adding filter&amp;#x27;s intermediate sync state</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53088</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix race condition by adding filter's intermediate sync state
+
+Fix a race condition in the i40e driver that leads to MAC/VLAN filters
+becoming corrupted and leaking. Address the issue that occurs under
+heavy load when multiple threads are concurrently modifying MAC/VLAN
+filters by setting mac and port VLAN.
+
+1. Thread T0 allocates a filter in i40e_add_filter() within
+        i40e_ndo_set_vf_port_vlan().
+2. Thread T1 concurrently frees the filter in __i40e_del_filter() within
+        i40e_ndo_set_vf_mac().
+3. Subsequently, i40e_service_task() calls i40e_sync_vsi_filters(), which
+        refers to the already freed filter memory, causing corruption.
+
+Reproduction steps:
+1. Spawn multiple VFs.
+2. Apply a concurrent heavy load by running parallel operations to change
+        MAC addresses on the VFs and change port VLANs on the host.
+3. Observe errors in dmesg:
+"Error I40E_AQ_RC_ENOSPC adding RX filters on VF XX,
+	please set promiscuous on manually for VF XX".
+
+Exact code for stable reproduction Intel can't open-source now.
+
+The fix involves implementing a new intermediate filter state,
+I40E_FILTER_NEW_SYNC, for the time when a filter is on a tmp_add_list.
+These filters cannot be deleted from the hash list directly but
+must be removed using the full process.</description><pubDate>Tue, 19 Nov 2024 17:49:41 +0000</pubDate></item><item><title>CVE-2024-10224 | Qualys discovered that if unsanitized input was used with the library Modules::ScanDeps, before version 1.36 a local attacker could possibly...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-10224</link><description>Qualys discovered that if unsanitized input was used with the library Modules::ScanDeps, before version 1.36 a local attacker could possibly execute arbitrary shell commands by open()ing a "pesky pipe" (such as passing "commands|" as a filename) or by passing arbitrary strings to eval().</description><pubDate>Tue, 19 Nov 2024 17:42:36 +0000</pubDate></item><item><title>CVE-2024-11003 | Qualys discovered that needrestart, before version 3.8, passes unsanitized data to a library (Modules::ScanDeps) which expects safe input. T...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-11003</link><description>Qualys discovered that needrestart, before version 3.8, passes unsanitized data to a library (Modules::ScanDeps) which expects safe input. This could allow a local attacker to execute arbitrary shell commands. Please see the related CVE-2024-10224 in Modules::ScanDeps.</description><pubDate>Tue, 19 Nov 2024 17:42:36 +0000</pubDate></item><item><title>CVE-2024-48069 | A remote code execution (RCE) vulnerability in the component /inventory/doCptimpoptInventory of Weaver Ecology v9.* allows attackers to exec...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-48069</link><description>A remote code execution (RCE) vulnerability in the component /inventory/doCptimpoptInventory of Weaver Ecology v9.* allows attackers to execute arbitrary code via injecting a crafted payload into the name of an uploaded file.</description><pubDate>Tue, 19 Nov 2024 17:42:37 +0000</pubDate></item><item><title>CVE-2024-53073 | NFSD: Never decrement pending_async_copies on error</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53073</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 NFSD: Never decrement pending_async_copies on error
 
