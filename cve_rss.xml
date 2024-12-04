@@ -1,5 +1,351 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Dec 2024 14:19:31 +0000</lastBuildDate><item><title>CVE-2024-51465 | IBM App Connect Enterprise Certified Container command execution</title><link>https://www.cve.org/CVERecord?id=CVE-2024-51465</link><description>IBM App Connect Enterprise Certified Container 11.4, 11.5, 11.6, 12.0, 12.1, 12.2, and 12.3 could allow a remote authenticated attacker to execute arbitrary commands on the system by sending a specially crafted request.</description><pubDate>Wed, 04 Dec 2024 14:19:33 +0000</pubDate></item><item><title>CVE-2024-53125 | bpf: sync_linked_regs() must preserve subreg_def</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53125</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Dec 2024 14:39:55 +0000</lastBuildDate><item><title>CVE-2024-12056 | Client Secret not checked with OAuth Password grant type</title><link>https://www.cve.org/CVERecord?id=CVE-2024-12056</link><description>The Client secret is not checked when using the OAuth Password grant type.
+
+By exploiting this vulnerability, an attacker could connect to a web server using a client application not explicitly authorized as part of the OAuth deployment.
+Exploitation requires valid credentials and does not permit the attacker to bypass user privileges.</description><pubDate>Wed, 04 Dec 2024 14:39:59 +0000</pubDate></item><item><title>CVE-2024-53126 | vdpa: solidrun: Fix UB bug with devres</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53126</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vdpa: solidrun: Fix UB bug with devres
+
+In psnet_open_pf_bar() and snet_open_vf_bar() a string later passed to
+pcim_iomap_regions() is placed on the stack. Neither
+pcim_iomap_regions() nor the functions it calls copy that string.
+
+Should the string later ever be used, this, consequently, causes
+undefined behavior since the stack frame will by then have disappeared.
+
+Fix the bug by allocating the strings on the heap through
+devm_kasprintf().</description><pubDate>Wed, 04 Dec 2024 14:40:00 +0000</pubDate></item><item><title>CVE-2024-53127 | Revert &amp;quot;mmc: dw_mmc: Fix IDMAC operation with pages bigger than 4K&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53127</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "mmc: dw_mmc: Fix IDMAC operation with pages bigger than 4K"
+
+The commit 8396c793ffdf ("mmc: dw_mmc: Fix IDMAC operation with pages
+bigger than 4K") increased the max_req_size, even for 4K pages, causing
+various issues:
+- Panic booting the kernel/rootfs from an SD card on Rockchip RK3566
+- Panic booting the kernel/rootfs from an SD card on StarFive JH7100
+- "swiotlb buffer is full" and data corruption on StarFive JH7110
+
+At this stage no fix have been found, so it's probably better to just
+revert the change.
+
+This reverts commit 8396c793ffdf28bb8aee7cfe0891080f8cab7890.</description><pubDate>Wed, 04 Dec 2024 14:40:01 +0000</pubDate></item><item><title>CVE-2024-53128 | sched/task_stack: fix object_is_on_stack() for KASAN tagged pointers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53128</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sched/task_stack: fix object_is_on_stack() for KASAN tagged pointers
+
+When CONFIG_KASAN_SW_TAGS and CONFIG_KASAN_STACK are enabled, the
+object_is_on_stack() function may produce incorrect results due to the
+presence of tags in the obj pointer, while the stack pointer does not have
+tags.  This discrepancy can lead to incorrect stack object detection and
+subsequently trigger warnings if CONFIG_DEBUG_OBJECTS is also enabled.
+
+Example of the warning:
+
+ODEBUG: object 3eff800082ea7bb0 is NOT on stack ffff800082ea0000, but annotated.
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 1 at lib/debugobjects.c:557 __debug_object_init+0x330/0x364
+Modules linked in:
+CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0-rc5 #4
+Hardware name: linux,dummy-virt (DT)
+pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __debug_object_init+0x330/0x364
+lr : __debug_object_init+0x330/0x364
+sp : ffff800082ea7b40
+x29: ffff800082ea7b40 x28: 98ff0000c0164518 x27: 98ff0000c0164534
+x26: ffff800082d93ec8 x25: 0000000000000001 x24: 1cff0000c00172a0
+x23: 0000000000000000 x22: ffff800082d93ed0 x21: ffff800081a24418
+x20: 3eff800082ea7bb0 x19: efff800000000000 x18: 0000000000000000
+x17: 00000000000000ff x16: 0000000000000047 x15: 206b63617473206e
+x14: 0000000000000018 x13: ffff800082ea7780 x12: 0ffff800082ea78e
+x11: 0ffff800082ea790 x10: 0ffff800082ea79d x9 : 34d77febe173e800
+x8 : 34d77febe173e800 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : feff800082ea74b8 x4 : ffff800082870a90 x3 : ffff80008018d3c4
+x2 : 0000000000000001 x1 : ffff800082858810 x0 : 0000000000000050
+Call trace:
+ __debug_object_init+0x330/0x364
+ debug_object_init_on_stack+0x30/0x3c
+ schedule_hrtimeout_range_clock+0xac/0x26c
+ schedule_hrtimeout+0x1c/0x30
+ wait_task_inactive+0x1d4/0x25c
+ kthread_bind_mask+0x28/0x98
+ init_rescuer+0x1e8/0x280
+ workqueue_init+0x1a0/0x3cc
+ kernel_init_freeable+0x118/0x200
+ kernel_init+0x28/0x1f0
+ ret_from_fork+0x10/0x20
+---[ end trace 0000000000000000 ]---
+ODEBUG: object 3eff800082ea7bb0 is NOT on stack ffff800082ea0000, but annotated.
+------------[ cut here ]------------</description><pubDate>Wed, 04 Dec 2024 14:40:02 +0000</pubDate></item><item><title>CVE-2024-53129 | drm/rockchip: vop: Fix a dereferenced before check warning</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53129</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/rockchip: vop: Fix a dereferenced before check warning
+
+The 'state' can't be NULL, we should check crtc_state.
+
+Fix warning:
+drivers/gpu/drm/rockchip/rockchip_drm_vop.c:1096
+vop_plane_atomic_async_check() warn: variable dereferenced before check
+'state' (see line 1077)</description><pubDate>Wed, 04 Dec 2024 14:40:03 +0000</pubDate></item><item><title>CVE-2024-53130 | nilfs2: fix null-ptr-deref in block_dirty_buffer tracepoint</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53130</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: fix null-ptr-deref in block_dirty_buffer tracepoint
+
+When using the "block:block_dirty_buffer" tracepoint, mark_buffer_dirty()
+may cause a NULL pointer dereference, or a general protection fault when
+KASAN is enabled.
+
+This happens because, since the tracepoint was added in
+mark_buffer_dirty(), it references the dev_t member bh-&gt;b_bdev-&gt;bd_dev
+regardless of whether the buffer head has a pointer to a block_device
+structure.
+
+In the current implementation, nilfs_grab_buffer(), which grabs a buffer
+to read (or create) a block of metadata, including b-tree node blocks,
+does not set the block device, but instead does so only if the buffer is
+not in the "uptodate" state for each of its caller block reading
+functions.  However, if the uptodate flag is set on a folio/page, and the
+buffer heads are detached from it by try_to_free_buffers(), and new buffer
+heads are then attached by create_empty_buffers(), the uptodate flag may
+be restored to each buffer without the block device being set to
+bh-&gt;b_bdev, and mark_buffer_dirty() may be called later in that state,
+resulting in the bug mentioned above.
+
+Fix this issue by making nilfs_grab_buffer() always set the block device
+of the super block structure to the buffer head, regardless of the state
+of the buffer's uptodate flag.</description><pubDate>Wed, 04 Dec 2024 14:40:04 +0000</pubDate></item><item><title>CVE-2024-53131 | nilfs2: fix null-ptr-deref in block_touch_buffer tracepoint</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53131</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: fix null-ptr-deref in block_touch_buffer tracepoint
+
+Patch series "nilfs2: fix null-ptr-deref bugs on block tracepoints".
+
+This series fixes null pointer dereference bugs that occur when using
+nilfs2 and two block-related tracepoints.
+
+
+This patch (of 2):
+
+It has been reported that when using "block:block_touch_buffer"
+tracepoint, touch_buffer() called from __nilfs_get_folio_block() causes a
+NULL pointer dereference, or a general protection fault when KASAN is
+enabled.
+
+This happens because since the tracepoint was added in touch_buffer(), it
+references the dev_t member bh-&gt;b_bdev-&gt;bd_dev regardless of whether the
+buffer head has a pointer to a block_device structure.  In the current
+implementation, the block_device structure is set after the function
+returns to the caller.
+
+Here, touch_buffer() is used to mark the folio/page that owns the buffer
+head as accessed, but the common search helper for folio/page used by the
+caller function was optimized to mark the folio/page as accessed when it
+was reimplemented a long time ago, eliminating the need to call
+touch_buffer() here in the first place.
+
+So this solves the issue by eliminating the touch_buffer() call itself.</description><pubDate>Wed, 04 Dec 2024 14:40:05 +0000</pubDate></item><item><title>CVE-2024-53132 | drm/xe/oa: Fix &amp;quot;Missing outer runtime PM protection&amp;quot; warning</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53132</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe/oa: Fix "Missing outer runtime PM protection" warning
+
+Fix the following drm_WARN:
+
+[953.586396] xe 0000:00:02.0: [drm] Missing outer runtime PM protection
+...
+&lt;4&gt; [953.587090]  ? xe_pm_runtime_get_noresume+0x8d/0xa0 [xe]
+&lt;4&gt; [953.587208]  guc_exec_queue_add_msg+0x28/0x130 [xe]
+&lt;4&gt; [953.587319]  guc_exec_queue_fini+0x3a/0x40 [xe]
+&lt;4&gt; [953.587425]  xe_exec_queue_destroy+0xb3/0xf0 [xe]
+&lt;4&gt; [953.587515]  xe_oa_release+0x9c/0xc0 [xe]
+
+(cherry picked from commit b107c63d2953907908fd0cafb0e543b3c3167b75)</description><pubDate>Wed, 04 Dec 2024 14:40:05 +0000</pubDate></item><item><title>CVE-2024-53133 | drm/amd/display: Handle dml allocation failure to avoid crash</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53133</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Handle dml allocation failure to avoid crash
+
+[Why]
+In the case where a dml allocation fails for any reason, the
+current state's dml contexts would no longer be valid. Then
+subsequent calls dc_state_copy_internal would shallow copy
+invalid memory and if the new state was released, a double
+free would occur.
+
+[How]
+Reset dml pointers in new_state to NULL and avoid invalid
+pointer
+
+(cherry picked from commit bcafdc61529a48f6f06355d78eb41b3aeda5296c)</description><pubDate>Wed, 04 Dec 2024 14:40:06 +0000</pubDate></item><item><title>CVE-2024-53134 | pmdomain: imx93-blk-ctrl: correct remove path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53134</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pmdomain: imx93-blk-ctrl: correct remove path
+
+The check condition should be 'i &lt; bc-&gt;onecell_data.num_domains', not
+'bc-&gt;onecell_data.num_domains' which will make the look never finish
+and cause kernel panic.
+
+Also disable runtime to address
+"imx93-blk-ctrl 4ac10000.system-controller: Unbalanced pm_runtime_enable!"</description><pubDate>Wed, 04 Dec 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-53135 | KVM: VMX: Bury Intel PT virtualization (guest/host mode) behind CONFIG_BROKEN</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53135</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: VMX: Bury Intel PT virtualization (guest/host mode) behind CONFIG_BROKEN
+
+Hide KVM's pt_mode module param behind CONFIG_BROKEN, i.e. disable support
+for virtualizing Intel PT via guest/host mode unless BROKEN=y.  There are
+myriad bugs in the implementation, some of which are fatal to the guest,
+and others which put the stability and health of the host at risk.
+
+For guest fatalities, the most glaring issue is that KVM fails to ensure
+tracing is disabled, and *stays* disabled prior to VM-Enter, which is
+necessary as hardware disallows loading (the guest's) RTIT_CTL if tracing
+is enabled (enforced via a VMX consistency check).  Per the SDM:
+
+  If the logical processor is operating with Intel PT enabled (if
+  IA32_RTIT_CTL.TraceEn = 1) at the time of VM entry, the "load
+  IA32_RTIT_CTL" VM-entry control must be 0.
+
+On the host side, KVM doesn't validate the guest CPUID configuration
+provided by userspace, and even worse, uses the guest configuration to
+decide what MSRs to save/load at VM-Enter and VM-Exit.  E.g. configuring
+guest CPUID to enumerate more address ranges than are supported in hardware
+will result in KVM trying to passthrough, save, and load non-existent MSRs,
+which generates a variety of WARNs, ToPA ERRORs in the host, a potential
+deadlock, etc.</description><pubDate>Wed, 04 Dec 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-53136 | mm: revert &amp;quot;mm: shmem: fix data-race in shmem_getattr()&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53136</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: revert "mm: shmem: fix data-race in shmem_getattr()"
+
+Revert d949d1d14fa2 ("mm: shmem: fix data-race in shmem_getattr()") as
+suggested by Chuck [1].  It is causing deadlocks when accessing tmpfs over
+NFS.
+
+As Hugh commented, "added just to silence a syzbot sanitizer splat: added
+where there has never been any practical problem".</description><pubDate>Wed, 04 Dec 2024 14:40:07 +0000</pubDate></item><item><title>CVE-2024-53137 | ARM: fix cacheflush with PAN</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53137</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ARM: fix cacheflush with PAN
+
+It seems that the cacheflush syscall got broken when PAN for LPAE was
+implemented. User access was not enabled around the cache maintenance
+instructions, causing them to fault.</description><pubDate>Wed, 04 Dec 2024 14:40:08 +0000</pubDate></item><item><title>CVE-2024-53138 | net/mlx5e: kTLS, Fix incorrect page refcounting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53138</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5e: kTLS, Fix incorrect page refcounting
+
+The kTLS tx handling code is using a mix of get_page() and
+page_ref_inc() APIs to increment the page reference. But on the release
+path (mlx5e_ktls_tx_handle_resync_dump_comp()), only put_page() is used.
+
+This is an issue when using pages from large folios: the get_page()
+references are stored on the folio page while the page_ref_inc()
+references are stored directly in the given page. On release the folio
+page will be dereferenced too many times.
+
+This was found while doing kTLS testing with sendfile() + ZC when the
+served file was read from NFS on a kernel with NFS large folios support
+(commit 49b29a573da8 ("nfs: add support for large folios")).</description><pubDate>Wed, 04 Dec 2024 14:40:08 +0000</pubDate></item><item><title>CVE-2024-53139 | sctp: fix possible UAF in sctp_v6_available()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53139</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sctp: fix possible UAF in sctp_v6_available()
+
+A lockdep report [1] with CONFIG_PROVE_RCU_LIST=y hints
+that sctp_v6_available() is calling dev_get_by_index_rcu()
+and ipv6_chk_addr() without holding rcu.
+
+[1]
+ =============================
+ WARNING: suspicious RCU usage
+ 6.12.0-rc5-virtme #1216 Tainted: G        W
+ -----------------------------
+ net/core/dev.c:876 RCU-list traversed in non-reader section!!
+
+other info that might help us debug this:
+
+rcu_scheduler_active = 2, debug_locks = 1
+ 1 lock held by sctp_hello/31495:
+ #0: ffff9f1ebbdb7418 (sk_lock-AF_INET6){+.+.}-{0:0}, at: sctp_bind (./arch/x86/include/asm/jump_label.h:27 net/sctp/socket.c:315) sctp
+
+stack backtrace:
+ CPU: 7 UID: 0 PID: 31495 Comm: sctp_hello Tainted: G        W          6.12.0-rc5-virtme #1216
+ Tainted: [W]=WARN
+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+ Call Trace:
+  &lt;TASK&gt;
+ dump_stack_lvl (lib/dump_stack.c:123)
+ lockdep_rcu_suspicious (kernel/locking/lockdep.c:6822)
+ dev_get_by_index_rcu (net/core/dev.c:876 (discriminator 7))
+ sctp_v6_available (net/sctp/ipv6.c:701) sctp
+ sctp_do_bind (net/sctp/socket.c:400 (discriminator 1)) sctp
+ sctp_bind (net/sctp/socket.c:320) sctp
+ inet6_bind_sk (net/ipv6/af_inet6.c:465)
+ ? security_socket_bind (security/security.c:4581 (discriminator 1))
+ __sys_bind (net/socket.c:1848 net/socket.c:1869)
+ ? do_user_addr_fault (./include/linux/rcupdate.h:347 ./include/linux/rcupdate.h:880 ./include/linux/mm.h:729 arch/x86/mm/fault.c:1340)
+ ? do_user_addr_fault (./arch/x86/include/asm/preempt.h:84 (discriminator 13) ./include/linux/rcupdate.h:98 (discriminator 13) ./include/linux/rcupdate.h:882 (discriminator 13) ./include/linux/mm.h:729 (discriminator 13) arch/x86/mm/fault.c:1340 (discriminator 13))
+ __x64_sys_bind (net/socket.c:1877 (discriminator 1) net/socket.c:1875 (discriminator 1) net/socket.c:1875 (discriminator 1))
+ do_syscall_64 (arch/x86/entry/common.c:52 (discriminator 1) arch/x86/entry/common.c:83 (discriminator 1))
+ entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130)
+ RIP: 0033:0x7f59b934a1e7
+ Code: 44 00 00 48 8b 15 39 8c 0c 00 f7 d8 64 89 02 b8 ff ff ff ff eb bd 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 b8 31 00 00 00 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 8c 0c 00 f7 d8 64 89 01 48
+All code
+========
+   0:	44 00 00             	add    %r8b,(%rax)
+   3:	48 8b 15 39 8c 0c 00 	mov    0xc8c39(%rip),%rdx        # 0xc8c43
+   a:	f7 d8                	neg    %eax
+   c:	64 89 02             	mov    %eax,%fs:(%rdx)
+   f:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
+  14:	eb bd                	jmp    0xffffffffffffffd3
+  16:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  1d:	00 00 00
+  20:	0f 1f 00             	nopl   (%rax)
+  23:	b8 31 00 00 00       	mov    $0x31,%eax
+  28:	0f 05                	syscall
+  2a:*	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax		&lt;-- trapping instruction
+  30:	73 01                	jae    0x33
+  32:	c3                   	ret
+  33:	48 8b 0d 09 8c 0c 00 	mov    0xc8c09(%rip),%rcx        # 0xc8c43
+  3a:	f7 d8                	neg    %eax
+  3c:	64 89 01             	mov    %eax,%fs:(%rcx)
+  3f:	48                   	rex.W
+
+Code starting with the faulting instruction
+===========================================
+   0:	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax
+   6:	73 01                	jae    0x9
+   8:	c3                   	ret
+   9:	48 8b 0d 09 8c 0c 00 	mov    0xc8c09(%rip),%rcx        # 0xc8c19
+  10:	f7 d8                	neg    %eax
+  12:	64 89 01             	mov    %eax,%fs:(%rcx)
+  15:	48                   	rex.W
+ RSP: 002b:00007ffe2d0ad398 EFLAGS: 00000202 ORIG_RAX: 0000000000000031
+ RAX: ffffffffffffffda RBX: 00007ffe2d0ad3d0 RCX: 00007f59b934a1e7
+ RDX: 000000000000001c RSI: 00007ffe2d0ad3d0 RDI: 0000000000000005
+ RBP: 0000000000000005 R08: 1999999999999999 R09: 0000000000000000
+ R10: 00007f59b9253298 R11: 000000000000
+---truncated---</description><pubDate>Wed, 04 Dec 2024 14:40:09 +0000</pubDate></item><item><title>CVE-2024-53140 | netlink: terminate outstanding dump on socket close</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53140</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netlink: terminate outstanding dump on socket close
+
+Netlink supports iterative dumping of data. It provides the families
+the following ops:
+ - start - (optional) kicks off the dumping process
+ - dump  - actual dump helper, keeps getting called until it returns 0
+ - done  - (optional) pairs with .start, can be used for cleanup
+The whole process is asynchronous and the repeated calls to .dump
+don't actually happen in a tight loop, but rather are triggered
+in response to recvmsg() on the socket.
+
+This gives the user full control over the dump, but also means that
+the user can close the socket without getting to the end of the dump.
+To make sure .start is always paired with .done we check if there
+is an ongoing dump before freeing the socket, and if so call .done.
+
+The complication is that sockets can get freed from BH and .done
+is allowed to sleep. So we use a workqueue to defer the call, when
+needed.
+
+Unfortunately this does not work correctly. What we defer is not
+the cleanup but rather releasing a reference on the socket.
+We have no guarantee that we own the last reference, if someone
+else holds the socket they may release it in BH and we're back
+to square one.
+
+The whole dance, however, appears to be unnecessary. Only the user
+can interact with dumps, so we can clean up when socket is closed.
+And close always happens in process context. Some async code may
+still access the socket after close, queue notification skbs to it etc.
+but no dumps can start, end or otherwise make progress.
+
+Delete the workqueue and flush the dump state directly from the release
+handler. Note that further cleanup is possible in -next, for instance
+we now always call .done before releasing the main module reference,
+so dump doesn't have to take a reference of its own.</description><pubDate>Wed, 04 Dec 2024 14:40:09 +0000</pubDate></item><item><title>CVE-2024-51465 | IBM App Connect Enterprise Certified Container command execution</title><link>https://www.cve.org/CVERecord?id=CVE-2024-51465</link><description>IBM App Connect Enterprise Certified Container 11.4, 11.5, 11.6, 12.0, 12.1, 12.2, and 12.3 could allow a remote authenticated attacker to execute arbitrary commands on the system by sending a specially crafted request.</description><pubDate>Wed, 04 Dec 2024 14:19:33 +0000</pubDate></item><item><title>CVE-2024-53125 | bpf: sync_linked_regs() must preserve subreg_def</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53125</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bpf: sync_linked_regs() must preserve subreg_def
 
