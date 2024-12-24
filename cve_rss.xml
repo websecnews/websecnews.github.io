@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 24 Dec 2024 11:38:23 +0000</lastBuildDate><item><title>CVE-2024-53145 | um: Fix potential integer overflow during physmem setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53145</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 24 Dec 2024 12:33:13 +0000</lastBuildDate><item><title>CVE-2024-43441 | Apache HugeGraph-Server: Fixed JWT Token(Secret)</title><link>https://www.cve.org/CVERecord?id=CVE-2024-43441</link><description>Authentication Bypass by Assumed-Immutable Data vulnerability in Apache HugeGraph-Server.
+
+This issue affects Apache HugeGraph-Server: from 1.0.0 before 1.5.0.
+
+Users are recommended to upgrade to version 1.5.0, which fixes the issue.</description><pubDate>Tue, 24 Dec 2024 12:33:15 +0000</pubDate></item><item><title>CVE-2024-53145 | um: Fix potential integer overflow during physmem setup</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53145</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 um: Fix potential integer overflow during physmem setup
 
@@ -77,13 +81,13 @@ Dan Carpenter reports:
 &gt;     490         u32 segcount;
 &gt;     491         __be32 *p;
 &gt;     492
-&gt;     493         if (xdr_stream_decode_u32(&amp;rctxt-&gt;rc_stream, &amp;segcount))
+&gt;     493         if (xdr_stream_decode_u32(&amp;amp;rctxt-&gt;rc_stream, &amp;amp;segcount))
 &gt;                                                               ^^^^^^^^
 &gt;
 &gt;     494                 return false;
 &gt;     495
 &gt;     496         /* A bogus segcount causes this buffer overflow check to fail. */
-&gt;     497         p = xdr_inline_decode(&amp;rctxt-&gt;rc_stream,
+&gt;     497         p = xdr_inline_decode(&amp;amp;rctxt-&gt;rc_stream,
 &gt; --&gt; 498                               segcount * rpcrdma_segment_maxsz * sizeof(*p));
 &gt;
 &gt;
@@ -200,7 +204,7 @@ I found the following bug in my fuzzer:
   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
   Workqueue: events request_firmware_work_func
   Call Trace:
-   &lt;TASK&gt;
+   
    dump_stack_lvl+0x180/0x1b0
    __ubsan_handle_out_of_bounds+0xd4/0x130
    htc_issue_send.constprop.0+0x20c/0x230
@@ -291,7 +295,7 @@ rcu/kvfree: Fix data-race in __mod_timer / kvfree_call_rcu
 KCSAN reports a data race when access the krcp-&gt;monitor_work.timer.expires
 variable in the schedule_delayed_monitor_work() function:
 
-&lt;snip&gt;
+
 BUG: KCSAN: data-race in __mod_timer / kvfree_call_rcu
 
 read to 0xffff888237d1cce8 of 8 bytes by task 10149 on cpu 1:
@@ -329,7 +333,7 @@ Reported by Kernel Concurrency Sanitizer on:
 CPU: 0 UID: 0 PID: 56 Comm: kworker/u8:4 Not tainted 6.12.0-rc2-syzkaller-00050-g5b7c893ed5ed #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
 Workqueue: events_unbound kfree_rcu_monitor
-&lt;snip&gt;
+
 
 kfree_rcu_monitor() rearms the work if a "krcp" has to be still
 offloaded and this is done without holding krcp-&gt;lock, whereas
