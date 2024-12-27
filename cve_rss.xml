@@ -1,5 +1,2898 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 13:47:22 +0000</lastBuildDate><item><title>CVE-2024-53164 | net: sched: fix ordering of qlen adjustment</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53164</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 27 Dec 2024 13:54:18 +0000</lastBuildDate><item><title>CVE-2022-49034 | sh: cpuinfo: Fix a warning for CONFIG_CPUMASK_OFFSTACK</title><link>https://www.cve.org/CVERecord?id=CVE-2022-49034</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sh: cpuinfo: Fix a warning for CONFIG_CPUMASK_OFFSTACK
+
+When CONFIG_CPUMASK_OFFSTACK and CONFIG_DEBUG_PER_CPU_MAPS are selected,
+cpu_max_bits_warn() generates a runtime warning similar as below when
+showing /proc/cpuinfo. Fix this by using nr_cpu_ids (the runtime limit)
+instead of NR_CPUS to iterate CPUs.
+
+[    3.052463] ------------[ cut here ]------------
+[    3.059679] WARNING: CPU: 3 PID: 1 at include/linux/cpumask.h:108 show_cpuinfo+0x5e8/0x5f0
+[    3.070072] Modules linked in: efivarfs autofs4
+[    3.076257] CPU: 0 PID: 1 Comm: systemd Not tainted 5.19-rc5+ #1052
+[    3.099465] Stack : 9000000100157b08 9000000000f18530 9000000000cf846c 9000000100154000
+[    3.109127]         9000000100157a50 0000000000000000 9000000100157a58 9000000000ef7430
+[    3.118774]         90000001001578e8 0000000000000040 0000000000000020 ffffffffffffffff
+[    3.128412]         0000000000aaaaaa 1ab25f00eec96a37 900000010021de80 900000000101c890
+[    3.138056]         0000000000000000 0000000000000000 0000000000000000 0000000000aaaaaa
+[    3.147711]         ffff8000339dc220 0000000000000001 0000000006ab4000 0000000000000000
+[    3.157364]         900000000101c998 0000000000000004 9000000000ef7430 0000000000000000
+[    3.167012]         0000000000000009 000000000000006c 0000000000000000 0000000000000000
+[    3.176641]         9000000000d3de08 9000000001639390 90000000002086d8 00007ffff0080286
+[    3.186260]         00000000000000b0 0000000000000004 0000000000000000 0000000000071c1c
+[    3.195868]         ...
+[    3.199917] Call Trace:
+[    3.203941] [&lt;90000000002086d8&gt;] show_stack+0x38/0x14c
+[    3.210666] [&lt;9000000000cf846c&gt;] dump_stack_lvl+0x60/0x88
+[    3.217625] [&lt;900000000023d268&gt;] __warn+0xd0/0x100
+[    3.223958] [&lt;9000000000cf3c90&gt;] warn_slowpath_fmt+0x7c/0xcc
+[    3.231150] [&lt;9000000000210220&gt;] show_cpuinfo+0x5e8/0x5f0
+[    3.238080] [&lt;90000000004f578c&gt;] seq_read_iter+0x354/0x4b4
+[    3.245098] [&lt;90000000004c2e90&gt;] new_sync_read+0x17c/0x1c4
+[    3.252114] [&lt;90000000004c5174&gt;] vfs_read+0x138/0x1d0
+[    3.258694] [&lt;90000000004c55f8&gt;] ksys_read+0x70/0x100
+[    3.265265] [&lt;9000000000cfde9c&gt;] do_syscall+0x7c/0x94
+[    3.271820] [&lt;9000000000202fe4&gt;] handle_syscall+0xc4/0x160
+[    3.281824] ---[ end trace 8b484262b4b8c24c ]---</description><pubDate>Fri, 27 Dec 2024 13:54:20 +0000</pubDate></item><item><title>CVE-2024-53165 | sh: intc: Fix use-after-free bug in register_intc_controller()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53165</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sh: intc: Fix use-after-free bug in register_intc_controller()
+
+In the error handling for this function, d is freed without ever
+removing it from intc_list which would lead to a use after free.
+To fix this, let's only add it to the list after everything has
+succeeded.</description><pubDate>Fri, 27 Dec 2024 13:54:20 +0000</pubDate></item><item><title>CVE-2024-53166 | block, bfq: fix bfqq uaf in bfq_limit_depth()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53166</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block, bfq: fix bfqq uaf in bfq_limit_depth()
+
+Set new allocated bfqq to bic or remove freed bfqq from bic are both
+protected by bfqd-&gt;lock, however bfq_limit_depth() is deferencing bfqq
+from bic without the lock, this can lead to UAF if the io_context is
+shared by multiple tasks.
+
+For example, test bfq with io_uring can trigger following UAF in v6.6:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in bfqq_group+0x15/0x50
+
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x47/0x80
+ print_address_description.constprop.0+0x66/0x300
+ print_report+0x3e/0x70
+ kasan_report+0xb4/0xf0
+ bfqq_group+0x15/0x50
+ bfqq_request_over_limit+0x130/0x9a0
+ bfq_limit_depth+0x1b5/0x480
+ __blk_mq_alloc_requests+0x2b5/0xa00
+ blk_mq_get_new_requests+0x11d/0x1d0
+ blk_mq_submit_bio+0x286/0xb00
+ submit_bio_noacct_nocheck+0x331/0x400
+ __block_write_full_folio+0x3d0/0x640
+ writepage_cb+0x3b/0xc0
+ write_cache_pages+0x254/0x6c0
+ write_cache_pages+0x254/0x6c0
+ do_writepages+0x192/0x310
+ filemap_fdatawrite_wbc+0x95/0xc0
+ __filemap_fdatawrite_range+0x99/0xd0
+ filemap_write_and_wait_range.part.0+0x4d/0xa0
+ blkdev_read_iter+0xef/0x1e0
+ io_read+0x1b6/0x8a0
+ io_issue_sqe+0x87/0x300
+ io_wq_submit_work+0xeb/0x390
+ io_worker_handle_work+0x24d/0x550
+ io_wq_worker+0x27f/0x6c0
+ ret_from_fork_asm+0x1b/0x30
+ &lt;/TASK&gt;
+
+Allocated by task 808602:
+ kasan_save_stack+0x1e/0x40
+ kasan_set_track+0x21/0x30
+ __kasan_slab_alloc+0x83/0x90
+ kmem_cache_alloc_node+0x1b1/0x6d0
+ bfq_get_queue+0x138/0xfa0
+ bfq_get_bfqq_handle_split+0xe3/0x2c0
+ bfq_init_rq+0x196/0xbb0
+ bfq_insert_request.isra.0+0xb5/0x480
+ bfq_insert_requests+0x156/0x180
+ blk_mq_insert_request+0x15d/0x440
+ blk_mq_submit_bio+0x8a4/0xb00
+ submit_bio_noacct_nocheck+0x331/0x400
+ __blkdev_direct_IO_async+0x2dd/0x330
+ blkdev_write_iter+0x39a/0x450
+ io_write+0x22a/0x840
+ io_issue_sqe+0x87/0x300
+ io_wq_submit_work+0xeb/0x390
+ io_worker_handle_work+0x24d/0x550
+ io_wq_worker+0x27f/0x6c0
+ ret_from_fork+0x2d/0x50
+ ret_from_fork_asm+0x1b/0x30
+
+Freed by task 808589:
+ kasan_save_stack+0x1e/0x40
+ kasan_set_track+0x21/0x30
+ kasan_save_free_info+0x27/0x40
+ __kasan_slab_free+0x126/0x1b0
+ kmem_cache_free+0x10c/0x750
+ bfq_put_queue+0x2dd/0x770
+ __bfq_insert_request.isra.0+0x155/0x7a0
+ bfq_insert_request.isra.0+0x122/0x480
+ bfq_insert_requests+0x156/0x180
+ blk_mq_dispatch_plug_list+0x528/0x7e0
+ blk_mq_flush_plug_list.part.0+0xe5/0x590
+ __blk_flush_plug+0x3b/0x90
+ blk_finish_plug+0x40/0x60
+ do_writepages+0x19d/0x310
+ filemap_fdatawrite_wbc+0x95/0xc0
+ __filemap_fdatawrite_range+0x99/0xd0
+ filemap_write_and_wait_range.part.0+0x4d/0xa0
+ blkdev_read_iter+0xef/0x1e0
+ io_read+0x1b6/0x8a0
+ io_issue_sqe+0x87/0x300
+ io_wq_submit_work+0xeb/0x390
+ io_worker_handle_work+0x24d/0x550
+ io_wq_worker+0x27f/0x6c0
+ ret_from_fork+0x2d/0x50
+ ret_from_fork_asm+0x1b/0x30
+
+Fix the problem by protecting bic_to_bfqq() with bfqd-&gt;lock.</description><pubDate>Fri, 27 Dec 2024 13:54:21 +0000</pubDate></item><item><title>CVE-2024-53167 | nfs/blocklayout: Don&amp;#x27;t attempt unregister for invalid block device</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53167</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfs/blocklayout: Don't attempt unregister for invalid block device
+
+Since commit d869da91cccb ("nfs/blocklayout: Fix premature PR key
+unregistration") an unmount of a pNFS SCSI layout-enabled NFS may
+dereference a NULL block_device in:
+
+  bl_unregister_scsi+0x16/0xe0 [blocklayoutdriver]
+  bl_free_device+0x70/0x80 [blocklayoutdriver]
+  bl_free_deviceid_node+0x12/0x30 [blocklayoutdriver]
+  nfs4_put_deviceid_node+0x60/0xc0 [nfsv4]
+  nfs4_deviceid_purge_client+0x132/0x190 [nfsv4]
+  unset_pnfs_layoutdriver+0x59/0x60 [nfsv4]
+  nfs4_destroy_server+0x36/0x70 [nfsv4]
+  nfs_free_server+0x23/0xe0 [nfs]
+  deactivate_locked_super+0x30/0xb0
+  cleanup_mnt+0xba/0x150
+  task_work_run+0x59/0x90
+  syscall_exit_to_user_mode+0x217/0x220
+  do_syscall_64+0x8e/0x160
+
+This happens because even though we were able to create the
+nfs4_deviceid_node, the lookup for the device was unable to attach the
+block device to the pnfs_block_dev.
+
+If we never found a block device to register, we can avoid this case with
+the PNFS_BDEV_REGISTERED flag.  Move the deref behind the test for the
+flag.</description><pubDate>Fri, 27 Dec 2024 13:54:21 +0000</pubDate></item><item><title>CVE-2024-53168 | sunrpc: fix one UAF issue caused by sunrpc kernel tcp socket</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53168</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sunrpc: fix one UAF issue caused by sunrpc kernel tcp socket
+
+BUG: KASAN: slab-use-after-free in tcp_write_timer_handler+0x156/0x3e0
+Read of size 1 at addr ffff888111f322cd by task swapper/0/0
+
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.0-rc4-dirty #7
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1
+Call Trace:
+ &lt;IRQ&gt;
+ dump_stack_lvl+0x68/0xa0
+ print_address_description.constprop.0+0x2c/0x3d0
+ print_report+0xb4/0x270
+ kasan_report+0xbd/0xf0
+ tcp_write_timer_handler+0x156/0x3e0
+ tcp_write_timer+0x66/0x170
+ call_timer_fn+0xfb/0x1d0
+ __run_timers+0x3f8/0x480
+ run_timer_softirq+0x9b/0x100
+ handle_softirqs+0x153/0x390
+ __irq_exit_rcu+0x103/0x120
+ irq_exit_rcu+0xe/0x20
+ sysvec_apic_timer_interrupt+0x76/0x90
+ &lt;/IRQ&gt;
+ &lt;TASK&gt;
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20
+RIP: 0010:default_idle+0xf/0x20
+Code: 4c 01 c7 4c 29 c2 e9 72 ff ff ff 90 90 90 90 90 90 90 90 90 90 90 90
+ 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 33 f8 25 00 fb f4 &lt;fa&gt; c3 cc cc cc
+ cc 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90
+RSP: 0018:ffffffffa2007e28 EFLAGS: 00000242
+RAX: 00000000000f3b31 RBX: 1ffffffff4400fc7 RCX: ffffffffa09c3196
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff9f00590f
+RBP: 0000000000000000 R08: 0000000000000001 R09: ffffed102360835d
+R10: ffff88811b041aeb R11: 0000000000000001 R12: 0000000000000000
+R13: ffffffffa202d7c0 R14: 0000000000000000 R15: 00000000000147d0
+ default_idle_call+0x6b/0xa0
+ cpuidle_idle_call+0x1af/0x1f0
+ do_idle+0xbc/0x130
+ cpu_startup_entry+0x33/0x40
+ rest_init+0x11f/0x210
+ start_kernel+0x39a/0x420
+ x86_64_start_reservations+0x18/0x30
+ x86_64_start_kernel+0x97/0xa0
+ common_startup_64+0x13e/0x141
+ &lt;/TASK&gt;
+
+Allocated by task 595:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ __kasan_slab_alloc+0x87/0x90
+ kmem_cache_alloc_noprof+0x12b/0x3f0
+ copy_net_ns+0x94/0x380
+ create_new_namespaces+0x24c/0x500
+ unshare_nsproxy_namespaces+0x75/0xf0
+ ksys_unshare+0x24e/0x4f0
+ __x64_sys_unshare+0x1f/0x30
+ do_syscall_64+0x70/0x180
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+Freed by task 100:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x54/0x70
+ kmem_cache_free+0x156/0x5d0
+ cleanup_net+0x5d3/0x670
+ process_one_work+0x776/0xa90
+ worker_thread+0x2e2/0x560
+ kthread+0x1a8/0x1f0
+ ret_from_fork+0x34/0x60
+ ret_from_fork_asm+0x1a/0x30
+
+Reproduction script:
+
+mkdir -p /mnt/nfsshare
+mkdir -p /mnt/nfs/netns_1
+mkfs.ext4 /dev/sdb
+mount /dev/sdb /mnt/nfsshare
+systemctl restart nfs-server
+chmod 777 /mnt/nfsshare
+exportfs -i -o rw,no_root_squash *:/mnt/nfsshare
+
+ip netns add netns_1
+ip link add name veth_1_peer type veth peer veth_1
+ifconfig veth_1_peer 11.11.0.254 up
+ip link set veth_1 netns netns_1
+ip netns exec netns_1 ifconfig veth_1 11.11.0.1
+
+ip netns exec netns_1 /root/iptables -A OUTPUT -d 11.11.0.254 -p tcp \
+	--tcp-flags FIN FIN  -j DROP
+
+(note: In my environment, a DESTROY_CLIENTID operation is always sent
+ immediately, breaking the nfs tcp connection.)
+ip netns exec netns_1 timeout -s 9 300 mount -t nfs -o proto=tcp,vers=4.1 \
+	11.11.0.254:/mnt/nfsshare /mnt/nfs/netns_1
+
+ip netns del netns_1
+
+The reason here is that the tcp socket in netns_1 (nfs side) has been
+shutdown and closed (done in xs_destroy), but the FIN message (with ack)
+is discarded, and the nfsd side keeps sending retransmission messages.
+As a result, when the tcp sock in netns_1 processes the received message,
+it sends the message (FIN message) in the sending queue, and the tcp timer
+is re-established. When the network namespace is deleted, the net structure
+accessed by tcp's timer handler function causes problems.
+
+To fix this problem, let's hold netns refcnt for the tcp kernel socket as
+done in other modules. This is an ugly hack which can easily be backported
+to earlier kernels. A proper fix which cleans up the interfaces will
+follow, but may not be so easy to backport.</description><pubDate>Fri, 27 Dec 2024 13:54:21 +0000</pubDate></item><item><title>CVE-2024-53169 | nvme-fabrics: fix kernel crash while shutting down controller</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53169</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme-fabrics: fix kernel crash while shutting down controller
+
+The nvme keep-alive operation, which executes at a periodic interval,
+could potentially sneak in while shutting down a fabric controller.
+This may lead to a race between the fabric controller admin queue
+destroy code path (invoked while shutting down controller) and hw/hctx
+queue dispatcher called from the nvme keep-alive async request queuing
+operation. This race could lead to the kernel crash shown below:
+
+Call Trace:
+    autoremove_wake_function+0x0/0xbc (unreliable)
+    __blk_mq_sched_dispatch_requests+0x114/0x24c
+    blk_mq_sched_dispatch_requests+0x44/0x84
+    blk_mq_run_hw_queue+0x140/0x220
+    nvme_keep_alive_work+0xc8/0x19c [nvme_core]
+    process_one_work+0x200/0x4e0
+    worker_thread+0x340/0x504
+    kthread+0x138/0x140
+    start_kernel_thread+0x14/0x18
+
+While shutting down fabric controller, if nvme keep-alive request sneaks
+in then it would be flushed off. The nvme_keep_alive_end_io function is
+then invoked to handle the end of the keep-alive operation which
+decrements the admin-&gt;q_usage_counter and assuming this is the last/only
+request in the admin queue then the admin-&gt;q_usage_counter becomes zero.
+If that happens then blk-mq destroy queue operation (blk_mq_destroy_
+queue()) which could be potentially running simultaneously on another
+cpu (as this is the controller shutdown code path) would forward
+progress and deletes the admin queue. So, now from this point onward
+we are not supposed to access the admin queue resources. However the
+issue here's that the nvme keep-alive thread running hw/hctx queue
+dispatch operation hasn't yet finished its work and so it could still
+potentially access the admin queue resource while the admin queue had
+been already deleted and that causes the above crash.
+
+The above kernel crash is regression caused due to changes implemented
+in commit a54a93d0e359 ("nvme: move stopping keep-alive into
+nvme_uninit_ctrl()"). Ideally we should stop keep-alive before destroyin
+g the admin queue and freeing the admin tagset so that it wouldn't sneak
+in during the shutdown operation. However we removed the keep alive stop
+operation from the beginning of the controller shutdown code path in commit
+a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()")
+and added it under nvme_uninit_ctrl() which executes very late in the
+shutdown code path after the admin queue is destroyed and its tagset is
+removed. So this change created the possibility of keep-alive sneaking in
+and interfering with the shutdown operation and causing observed kernel
+crash.
+
+To fix the observed crash, we decided to move nvme_stop_keep_alive() from
+nvme_uninit_ctrl() to nvme_remove_admin_tag_set(). This change would ensure
+that we don't forward progress and delete the admin queue until the keep-
+alive operation is finished (if it's in-flight) or cancelled and that would
+help contain the race condition explained above and hence avoid the crash.
+
+Moving nvme_stop_keep_alive() to nvme_remove_admin_tag_set() instead of
+adding nvme_stop_keep_alive() to the beginning of the controller shutdown
+code path in nvme_stop_ctrl(), as was the case earlier before commit
+a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()"),
+would help save one callsite of nvme_stop_keep_alive().</description><pubDate>Fri, 27 Dec 2024 13:54:22 +0000</pubDate></item><item><title>CVE-2024-53170 | block: fix uaf for flush rq while iterating tags</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53170</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: fix uaf for flush rq while iterating tags
+
+blk_mq_clear_flush_rq_mapping() is not called during scsi probe, by
+checking blk_queue_init_done(). However, QUEUE_FLAG_INIT_DONE is cleared
+in del_gendisk by commit aec89dc5d421 ("block: keep q_usage_counter in
+atomic mode after del_gendisk"), hence for disk like scsi, following
+blk_mq_destroy_queue() will not clear flush rq from tags-&gt;rqs[] as well,
+cause following uaf that is found by our syzkaller for v6.6:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in blk_mq_find_and_get_req+0x16e/0x1a0 block/blk-mq-tag.c:261
+Read of size 4 at addr ffff88811c969c20 by task kworker/1:2H/224909
+
+CPU: 1 PID: 224909 Comm: kworker/1:2H Not tainted 6.6.0-ga836a5060850 #32
+Workqueue: kblockd blk_mq_timeout_work
+Call Trace:
+
+__dump_stack lib/dump_stack.c:88 [inline]
+dump_stack_lvl+0x91/0xf0 lib/dump_stack.c:106
+print_address_description.constprop.0+0x66/0x300 mm/kasan/report.c:364
+print_report+0x3e/0x70 mm/kasan/report.c:475
+kasan_report+0xb8/0xf0 mm/kasan/report.c:588
+blk_mq_find_and_get_req+0x16e/0x1a0 block/blk-mq-tag.c:261
+bt_iter block/blk-mq-tag.c:288 [inline]
+__sbitmap_for_each_set include/linux/sbitmap.h:295 [inline]
+sbitmap_for_each_set include/linux/sbitmap.h:316 [inline]
+bt_for_each+0x455/0x790 block/blk-mq-tag.c:325
+blk_mq_queue_tag_busy_iter+0x320/0x740 block/blk-mq-tag.c:534
+blk_mq_timeout_work+0x1a3/0x7b0 block/blk-mq.c:1673
+process_one_work+0x7c4/0x1450 kernel/workqueue.c:2631
+process_scheduled_works kernel/workqueue.c:2704 [inline]
+worker_thread+0x804/0xe40 kernel/workqueue.c:2785
+kthread+0x346/0x450 kernel/kthread.c:388
+ret_from_fork+0x4d/0x80 arch/x86/kernel/process.c:147
+ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:293
+
+Allocated by task 942:
+kasan_save_stack+0x22/0x50 mm/kasan/common.c:45
+kasan_set_track+0x25/0x30 mm/kasan/common.c:52
+____kasan_kmalloc mm/kasan/common.c:374 [inline]
+__kasan_kmalloc mm/kasan/common.c:383 [inline]
+__kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:380
+kasan_kmalloc include/linux/kasan.h:198 [inline]
+__do_kmalloc_node mm/slab_common.c:1007 [inline]
+__kmalloc_node+0x69/0x170 mm/slab_common.c:1014
+kmalloc_node include/linux/slab.h:620 [inline]
+kzalloc_node include/linux/slab.h:732 [inline]
+blk_alloc_flush_queue+0x144/0x2f0 block/blk-flush.c:499
+blk_mq_alloc_hctx+0x601/0x940 block/blk-mq.c:3788
+blk_mq_alloc_and_init_hctx+0x27f/0x330 block/blk-mq.c:4261
+blk_mq_realloc_hw_ctxs+0x488/0x5e0 block/blk-mq.c:4294
+blk_mq_init_allocated_queue+0x188/0x860 block/blk-mq.c:4350
+blk_mq_init_queue_data block/blk-mq.c:4166 [inline]
+blk_mq_init_queue+0x8d/0x100 block/blk-mq.c:4176
+scsi_alloc_sdev+0x843/0xd50 drivers/scsi/scsi_scan.c:335
+scsi_probe_and_add_lun+0x77c/0xde0 drivers/scsi/scsi_scan.c:1189
+__scsi_scan_target+0x1fc/0x5a0 drivers/scsi/scsi_scan.c:1727
+scsi_scan_channel drivers/scsi/scsi_scan.c:1815 [inline]
+scsi_scan_channel+0x14b/0x1e0 drivers/scsi/scsi_scan.c:1791
+scsi_scan_host_selected+0x2fe/0x400 drivers/scsi/scsi_scan.c:1844
+scsi_scan+0x3a0/0x3f0 drivers/scsi/scsi_sysfs.c:151
+store_scan+0x2a/0x60 drivers/scsi/scsi_sysfs.c:191
+dev_attr_store+0x5c/0x90 drivers/base/core.c:2388
+sysfs_kf_write+0x11c/0x170 fs/sysfs/file.c:136
+kernfs_fop_write_iter+0x3fc/0x610 fs/kernfs/file.c:338
+call_write_iter include/linux/fs.h:2083 [inline]
+new_sync_write+0x1b4/0x2d0 fs/read_write.c:493
+vfs_write+0x76c/0xb00 fs/read_write.c:586
+ksys_write+0x127/0x250 fs/read_write.c:639
+do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+do_syscall_64+0x70/0x120 arch/x86/entry/common.c:81
+entry_SYSCALL_64_after_hwframe+0x78/0xe2
+
+Freed by task 244687:
+kasan_save_stack+0x22/0x50 mm/kasan/common.c:45
+kasan_set_track+0x25/0x30 mm/kasan/common.c:52
+kasan_save_free_info+0x2b/0x50 mm/kasan/generic.c:522
+____kasan_slab_free mm/kasan/common.c:236 [inline]
+__kasan_slab_free+0x12a/0x1b0 mm/kasan/common.c:244
+kasan_slab_free include/linux/kasan.h:164 [in
+---truncated---</description><pubDate>Fri, 27 Dec 2024 13:54:22 +0000</pubDate></item><item><title>CVE-2024-53171 | ubifs: authentication: Fix use-after-free in ubifs_tnc_end_commit</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53171</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubifs: authentication: Fix use-after-free in ubifs_tnc_end_commit
+
+After an insertion in TNC, the tree might split and cause a node to
+change its `znode-&gt;parent`. A further deletion of other nodes in the
+tree (which also could free the nodes), the aforementioned node's
+`znode-&gt;cparent` could still point to a freed node. This
+`znode-&gt;cparent` may not be updated when getting nodes to commit in
+`ubifs_tnc_start_commit()`. This could then trigger a use-after-free
+when accessing the `znode-&gt;cparent` in `write_index()` in
+`ubifs_tnc_end_commit()`.
+
+This can be triggered by running
+
+  rm -f /etc/test-file.bin
+  dd if=/dev/urandom of=/etc/test-file.bin bs=1M count=60 conv=fsync
+
+in a loop, and with `CONFIG_UBIFS_FS_AUTHENTICATION`. KASAN then
+reports:
+
+  BUG: KASAN: use-after-free in ubifs_tnc_end_commit+0xa5c/0x1950
+  Write of size 32 at addr ffffff800a3af86c by task ubifs_bgt0_20/153
+
+  Call trace:
+   dump_backtrace+0x0/0x340
+   show_stack+0x18/0x24
+   dump_stack_lvl+0x9c/0xbc
+   print_address_description.constprop.0+0x74/0x2b0
+   kasan_report+0x1d8/0x1f0
+   kasan_check_range+0xf8/0x1a0
+   memcpy+0x84/0xf4
+   ubifs_tnc_end_commit+0xa5c/0x1950
+   do_commit+0x4e0/0x1340
+   ubifs_bg_thread+0x234/0x2e0
+   kthread+0x36c/0x410
+   ret_from_fork+0x10/0x20
+
+  Allocated by task 401:
+   kasan_save_stack+0x38/0x70
+   __kasan_kmalloc+0x8c/0xd0
+   __kmalloc+0x34c/0x5bc
+   tnc_insert+0x140/0x16a4
+   ubifs_tnc_add+0x370/0x52c
+   ubifs_jnl_write_data+0x5d8/0x870
+   do_writepage+0x36c/0x510
+   ubifs_writepage+0x190/0x4dc
+   __writepage+0x58/0x154
+   write_cache_pages+0x394/0x830
+   do_writepages+0x1f0/0x5b0
+   filemap_fdatawrite_wbc+0x170/0x25c
+   file_write_and_wait_range+0x140/0x190
+   ubifs_fsync+0xe8/0x290
+   vfs_fsync_range+0xc0/0x1e4
+   do_fsync+0x40/0x90
+   __arm64_sys_fsync+0x34/0x50
+   invoke_syscall.constprop.0+0xa8/0x260
+   do_el0_svc+0xc8/0x1f0
+   el0_svc+0x34/0x70
+   el0t_64_sync_handler+0x108/0x114
+   el0t_64_sync+0x1a4/0x1a8
+
+  Freed by task 403:
+   kasan_save_stack+0x38/0x70
+   kasan_set_track+0x28/0x40
+   kasan_set_free_info+0x28/0x4c
+   __kasan_slab_free+0xd4/0x13c
+   kfree+0xc4/0x3a0
+   tnc_delete+0x3f4/0xe40
+   ubifs_tnc_remove_range+0x368/0x73c
+   ubifs_tnc_remove_ino+0x29c/0x2e0
+   ubifs_jnl_delete_inode+0x150/0x260
+   ubifs_evict_inode+0x1d4/0x2e4
+   evict+0x1c8/0x450
+   iput+0x2a0/0x3c4
+   do_unlinkat+0x2cc/0x490
+   __arm64_sys_unlinkat+0x90/0x100
+   invoke_syscall.constprop.0+0xa8/0x260
+   do_el0_svc+0xc8/0x1f0
+   el0_svc+0x34/0x70
+   el0t_64_sync_handler+0x108/0x114
+   el0t_64_sync+0x1a4/0x1a8
+
+The offending `memcpy()` in `ubifs_copy_hash()` has a use-after-free
+when a node becomes root in TNC but still has a `cparent` to an already
+freed node. More specifically, consider the following TNC:
+
+         zroot
+         /
+        /
+      zp1
+      /
+     /
+    zn
+
+Inserting a new node `zn_new` with a key smaller then `zn` will trigger
+a split in `tnc_insert()` if `zp1` is full:
+
+         zroot
+         /   \
+        /     \
+      zp1     zp2
+      /         \
+     /           \
+  zn_new          zn
+
+`zn-&gt;parent` has now been moved to `zp2`, *but* `zn-&gt;cparent` still
+points to `zp1`.
+
+Now, consider a removal of all the nodes _except_ `zn`. Just when
+`tnc_delete()` is about to delete `zroot` and `zp2`:
+
+         zroot
+             \
+              \
+              zp2
+                \
+                 \
+                 zn
+
+`zroot` and `zp2` get freed and the tree collapses:
+
+           zn
+
+`zn` now becomes the new `zroot`.
+
+`get_znodes_to_commit()` will now only find `zn`, the new `zroot`, and
+`write_index()` will check its `znode-&gt;cparent` that wrongly points to
+the already freed `zp1`. `ubifs_copy_hash()` thus gets wrongly called
+with `znode-&gt;cparent-&gt;zbranch[znode-&gt;iip].hash` that triggers the
+use-after-free!
+
+Fix this by explicitly setting `znode-&gt;cparent` to `NULL` in
+`get_znodes_to_commit()` for the root node. The search for the dirty
+nodes
+---truncated---</description><pubDate>Fri, 27 Dec 2024 13:54:23 +0000</pubDate></item><item><title>CVE-2024-53172 | ubi: fastmap: Fix duplicate slab cache names while attaching</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53172</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubi: fastmap: Fix duplicate slab cache names while attaching
+
+Since commit 4c39529663b9 ("slab: Warn on duplicate cache names when
+DEBUG_VM=y"), the duplicate slab cache names can be detected and a
+kernel WARNING is thrown out.
+In UBI fast attaching process, alloc_ai() could be invoked twice
+with the same slab cache name 'ubi_aeb_slab_cache', which will trigger
+following warning messages:
+ kmem_cache of name 'ubi_aeb_slab_cache' already exists
+ WARNING: CPU: 0 PID: 7519 at mm/slab_common.c:107
+          __kmem_cache_create_args+0x100/0x5f0
+ Modules linked in: ubi(+) nandsim [last unloaded: nandsim]
+ CPU: 0 UID: 0 PID: 7519 Comm: modprobe Tainted: G 6.12.0-rc2
+ RIP: 0010:__kmem_cache_create_args+0x100/0x5f0
+ Call Trace:
+   __kmem_cache_create_args+0x100/0x5f0
+   alloc_ai+0x295/0x3f0 [ubi]
+   ubi_attach+0x3c3/0xcc0 [ubi]
+   ubi_attach_mtd_dev+0x17cf/0x3fa0 [ubi]
+   ubi_init+0x3fb/0x800 [ubi]
+   do_init_module+0x265/0x7d0
+   __x64_sys_finit_module+0x7a/0xc0
+
+The problem could be easily reproduced by loading UBI device by fastmap
+with CONFIG_DEBUG_VM=y.
+Fix it by using different slab names for alloc_ai() callers.</description><pubDate>Fri, 27 Dec 2024 13:54:23 +0000</pubDate></item><item><title>CVE-2024-53173 | NFSv4.0: Fix a use-after-free problem in the asynchronous open()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53173</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFSv4.0: Fix a use-after-free problem in the asynchronous open()
+
+Yang Erkun reports that when two threads are opening files at the same
+time, and are forced to abort before a reply is seen, then the call to
+nfs_release_seqid() in nfs4_opendata_free() can result in a
+use-after-free of the pointer to the defunct rpc task of the other
+thread.
+The fix is to ensure that if the RPC call is aborted before the call to
+nfs_wait_on_sequence() is complete, then we must call nfs_release_seqid()
+in nfs4_open_release() before the rpc_task is freed.</description><pubDate>Fri, 27 Dec 2024 13:54:23 +0000</pubDate></item><item><title>CVE-2024-53174 | SUNRPC: make sure cache entry active before cache_show</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53174</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+SUNRPC: make sure cache entry active before cache_show
+
+The function `c_show` was called with protection from RCU. This only
+ensures that `cp` will not be freed. Therefore, the reference count for
+`cp` can drop to zero, which will trigger a refcount use-after-free
+warning when `cache_get` is called. To resolve this issue, use
+`cache_get_rcu` to ensure that `cp` remains active.
+
+------------[ cut here ]------------
+refcount_t: addition on 0; use-after-free.
+WARNING: CPU: 7 PID: 822 at lib/refcount.c:25
+refcount_warn_saturate+0xb1/0x120
+CPU: 7 UID: 0 PID: 822 Comm: cat Not tainted 6.12.0-rc3+ #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+1.16.1-2.fc37 04/01/2014
+RIP: 0010:refcount_warn_saturate+0xb1/0x120
+
+Call Trace:
+ &lt;TASK&gt;
+ c_show+0x2fc/0x380 [sunrpc]
+ seq_read_iter+0x589/0x770
+ seq_read+0x1e5/0x270
+ proc_reg_read+0xe1/0x140
+ vfs_read+0x125/0x530
+ ksys_read+0xc1/0x160
+ do_syscall_64+0x5f/0x170
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e</description><pubDate>Fri, 27 Dec 2024 13:54:24 +0000</pubDate></item><item><title>CVE-2024-53175 | ipc: fix memleak if msg_init_ns failed in create_ipc_ns</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53175</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipc: fix memleak if msg_init_ns failed in create_ipc_ns
+
+Percpu memory allocation may failed during create_ipc_ns however this
+fail is not handled properly since ipc sysctls and mq sysctls is not
+released properly. Fix this by release these two resource when failure.
+
+Here is the kmemleak stack when percpu failed:
+
+unreferenced object 0xffff88819de2a600 (size 512):
+  comm "shmem_2nstest", pid 120711, jiffies 4300542254
+  hex dump (first 32 bytes):
+    60 aa 9d 84 ff ff ff ff fc 18 48 b2 84 88 ff ff  `.........H.....
+    04 00 00 00 a4 01 00 00 20 e4 56 81 ff ff ff ff  ........ .V.....
+  backtrace (crc be7cba35):
+    [&lt;ffffffff81b43f83&gt;] __kmalloc_node_track_caller_noprof+0x333/0x420
+    [&lt;ffffffff81a52e56&gt;] kmemdup_noprof+0x26/0x50
+    [&lt;ffffffff821b2f37&gt;] setup_mq_sysctls+0x57/0x1d0
+    [&lt;ffffffff821b29cc&gt;] copy_ipcs+0x29c/0x3b0
+    [&lt;ffffffff815d6a10&gt;] create_new_namespaces+0x1d0/0x920
+    [&lt;ffffffff815d7449&gt;] copy_namespaces+0x2e9/0x3e0
+    [&lt;ffffffff815458f3&gt;] copy_process+0x29f3/0x7ff0
+    [&lt;ffffffff8154b080&gt;] kernel_clone+0xc0/0x650
+    [&lt;ffffffff8154b6b1&gt;] __do_sys_clone+0xa1/0xe0
+    [&lt;ffffffff843df8ff&gt;] do_syscall_64+0xbf/0x1c0
+    [&lt;ffffffff846000b0&gt;] entry_SYSCALL_64_after_hwframe+0x4b/0x53</description><pubDate>Fri, 27 Dec 2024 13:54:24 +0000</pubDate></item><item><title>CVE-2024-53176 | smb: During unmount, ensure all cached dir instances drop their dentry</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53176</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: During unmount, ensure all cached dir instances drop their dentry
+
+The unmount process (cifs_kill_sb() calling close_all_cached_dirs()) can
+race with various cached directory operations, which ultimately results
+in dentries not being dropped and these kernel BUGs:
+
+BUG: Dentry ffff88814f37e358{i=1000000000080,n=/}  still in use (2) [unmount of cifs cifs]
+VFS: Busy inodes after unmount of cifs (cifs)
+------------[ cut here ]------------
+kernel BUG at fs/super.c:661!
+
+This happens when a cfid is in the process of being cleaned up when, and
+has been removed from the cfids-&gt;entries list, including:
+
+- Receiving a lease break from the server
+- Server reconnection triggers invalidate_all_cached_dirs(), which
+  removes all the cfids from the list
+- The laundromat thread decides to expire an old cfid.
+
+To solve these problems, dropping the dentry is done in queued work done
+in a newly-added cfid_put_wq workqueue, and close_all_cached_dirs()
+flushes that workqueue after it drops all the dentries of which it's
+aware. This is a global workqueue (rather than scoped to a mount), but
+the queued work is minimal.
+
+The final cleanup work for cleaning up a cfid is performed via work
+queued in the serverclose_wq workqueue; this is done separate from
+dropping the dentries so that close_all_cached_dirs() doesn't block on
+any server operations.
+
+Both of these queued works expect to invoked with a cfid reference and
+a tcon reference to avoid those objects from being freed while the work
+is ongoing.
+
+While we're here, add proper locking to close_all_cached_dirs(), and
+locking around the freeing of cfid-&gt;dentry.</description><pubDate>Fri, 27 Dec 2024 13:54:25 +0000</pubDate></item><item><title>CVE-2024-53177 | smb: prevent use-after-free due to open_cached_dir error paths</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53177</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: prevent use-after-free due to open_cached_dir error paths
+
+If open_cached_dir() encounters an error parsing the lease from the
+server, the error handling may race with receiving a lease break,
+resulting in open_cached_dir() freeing the cfid while the queued work is
+pending.
+
+Update open_cached_dir() to drop refs rather than directly freeing the
+cfid.
+
+Have cached_dir_lease_break(), cfids_laundromat_worker(), and
+invalidate_all_cached_dirs() clear has_lease immediately while still
+holding cfids-&gt;cfid_list_lock, and then use this to also simplify the
+reference counting in cfids_laundromat_worker() and
+invalidate_all_cached_dirs().
+
+Fixes this KASAN splat (which manually injects an error and lease break
+in open_cached_dir()):
+
+==================================================================
+BUG: KASAN: slab-use-after-free in smb2_cached_lease_break+0x27/0xb0
+Read of size 8 at addr ffff88811cc24c10 by task kworker/3:1/65
+
+CPU: 3 UID: 0 PID: 65 Comm: kworker/3:1 Not tainted 6.12.0-rc6-g255cf264e6e5-dirty #87
+Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+Workqueue: cifsiod smb2_cached_lease_break
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x77/0xb0
+ print_report+0xce/0x660
+ kasan_report+0xd3/0x110
+ smb2_cached_lease_break+0x27/0xb0
+ process_one_work+0x50a/0xc50
+ worker_thread+0x2ba/0x530
+ kthread+0x17c/0x1c0
+ ret_from_fork+0x34/0x60
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+Allocated by task 2464:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0xaa/0xb0
+ open_cached_dir+0xa7d/0x1fb0
+ smb2_query_path_info+0x43c/0x6e0
+ cifs_get_fattr+0x346/0xf10
+ cifs_get_inode_info+0x157/0x210
+ cifs_revalidate_dentry_attr+0x2d1/0x460
+ cifs_getattr+0x173/0x470
+ vfs_statx_path+0x10f/0x160
+ vfs_statx+0xe9/0x150
+ vfs_fstatat+0x5e/0xc0
+ __do_sys_newfstatat+0x91/0xf0
+ do_syscall_64+0x95/0x1a0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+Freed by task 2464:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x51/0x70
+ kfree+0x174/0x520
+ open_cached_dir+0x97f/0x1fb0
+ smb2_query_path_info+0x43c/0x6e0
+ cifs_get_fattr+0x346/0xf10
+ cifs_get_inode_info+0x157/0x210
+ cifs_revalidate_dentry_attr+0x2d1/0x460
+ cifs_getattr+0x173/0x470
+ vfs_statx_path+0x10f/0x160
+ vfs_statx+0xe9/0x150
+ vfs_fstatat+0x5e/0xc0
+ __do_sys_newfstatat+0x91/0xf0
+ do_syscall_64+0x95/0x1a0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+Last potentially related work creation:
+ kasan_save_stack+0x33/0x60
+ __kasan_record_aux_stack+0xad/0xc0
+ insert_work+0x32/0x100
+ __queue_work+0x5c9/0x870
+ queue_work_on+0x82/0x90
+ open_cached_dir+0x1369/0x1fb0
+ smb2_query_path_info+0x43c/0x6e0
+ cifs_get_fattr+0x346/0xf10
+ cifs_get_inode_info+0x157/0x210
+ cifs_revalidate_dentry_attr+0x2d1/0x460
+ cifs_getattr+0x173/0x470
+ vfs_statx_path+0x10f/0x160
+ vfs_statx+0xe9/0x150
+ vfs_fstatat+0x5e/0xc0
+ __do_sys_newfstatat+0x91/0xf0
+ do_syscall_64+0x95/0x1a0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+The buggy address belongs to the object at ffff88811cc24c00
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 16 bytes inside of
+ freed 1024-byte region [ffff88811cc24c00, ffff88811cc25000)</description><pubDate>Fri, 27 Dec 2024 13:54:25 +0000</pubDate></item><item><title>CVE-2024-53178 | smb: Don&amp;#x27;t leak cfid when reconnect races with open_cached_dir</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53178</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: Don't leak cfid when reconnect races with open_cached_dir
+
+open_cached_dir() may either race with the tcon reconnection even before
+compound_send_recv() or directly trigger a reconnection via
+SMB2_open_init() or SMB_query_info_init().
+
+The reconnection process invokes invalidate_all_cached_dirs() via
+cifs_mark_open_files_invalid(), which removes all cfids from the
+cfids-&gt;entries list but doesn't drop a ref if has_lease isn't true. This
+results in the currently-being-constructed cfid not being on the list,
+but still having a refcount of 2. It leaks if returned from
+open_cached_dir().
+
+Fix this by setting cfid-&gt;has_lease when the ref is actually taken; the
+cfid will not be used by other threads until it has a valid time.
+
+Addresses these kmemleaks:
+
+unreferenced object 0xffff8881090c4000 (size 1024):
+  comm "bash", pid 1860, jiffies 4295126592
+  hex dump (first 32 bytes):
+    00 01 00 00 00 00 ad de 22 01 00 00 00 00 ad de  ........".......
+    00 ca 45 22 81 88 ff ff f8 dc 4f 04 81 88 ff ff  ..E"......O.....
+  backtrace (crc 6f58c20f):
+    [&lt;ffffffff8b895a1e&gt;] __kmalloc_cache_noprof+0x2be/0x350
+    [&lt;ffffffff8bda06e3&gt;] open_cached_dir+0x993/0x1fb0
+    [&lt;ffffffff8bdaa750&gt;] cifs_readdir+0x15a0/0x1d50
+    [&lt;ffffffff8b9a853f&gt;] iterate_dir+0x28f/0x4b0
+    [&lt;ffffffff8b9a9aed&gt;] __x64_sys_getdents64+0xfd/0x200
+    [&lt;ffffffff8cf6da05&gt;] do_syscall_64+0x95/0x1a0
+    [&lt;ffffffff8d00012f&gt;] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+unreferenced object 0xffff8881044fdcf8 (size 8):
+  comm "bash", pid 1860, jiffies 4295126592
+  hex dump (first 8 bytes):
+    00 cc cc cc cc cc cc cc                          ........
+  backtrace (crc 10c106a9):
+    [&lt;ffffffff8b89a3d3&gt;] __kmalloc_node_track_caller_noprof+0x363/0x480
+    [&lt;ffffffff8b7d7256&gt;] kstrdup+0x36/0x60
+    [&lt;ffffffff8bda0700&gt;] open_cached_dir+0x9b0/0x1fb0
+    [&lt;ffffffff8bdaa750&gt;] cifs_readdir+0x15a0/0x1d50
+    [&lt;ffffffff8b9a853f&gt;] iterate_dir+0x28f/0x4b0
+    [&lt;ffffffff8b9a9aed&gt;] __x64_sys_getdents64+0xfd/0x200
+    [&lt;ffffffff8cf6da05&gt;] do_syscall_64+0x95/0x1a0
+    [&lt;ffffffff8d00012f&gt;] entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+And addresses these BUG splats when unmounting the SMB filesystem:
+
+BUG: Dentry ffff888140590ba0{i=1000000000080,n=/}  still in use (2) [unmount of cifs cifs]
+WARNING: CPU: 3 PID: 3433 at fs/dcache.c:1536 umount_check+0xd0/0x100
+Modules linked in:
+CPU: 3 UID: 0 PID: 3433 Comm: bash Not tainted 6.12.0-rc4-g850925a8133c-dirty #49
+Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+RIP: 0010:umount_check+0xd0/0x100
+Code: 8d 7c 24 40 e8 31 5a f4 ff 49 8b 54 24 40 41 56 49 89 e9 45 89 e8 48 89 d9 41 57 48 89 de 48 c7 c7 80 e7 db ac e8 f0 72 9a ff &lt;0f&gt; 0b 58 31 c0 5a 5b 5d 41 5c 41 5d 41 5e 41 5f e9 2b e5 5d 01 41
+RSP: 0018:ffff88811cc27978 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff888140590ba0 RCX: ffffffffaaf20bae
+RDX: dffffc0000000000 RSI: 0000000000000008 RDI: ffff8881f6fb6f40
+RBP: ffff8881462ec000 R08: 0000000000000001 R09: ffffed1023984ee3
+R10: ffff88811cc2771f R11: 00000000016cfcc0 R12: ffff888134383e08
+R13: 0000000000000002 R14: ffff8881462ec668 R15: ffffffffaceab4c0
+FS:  00007f23bfa98740(0000) GS:ffff8881f6f80000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000556de4a6f808 CR3: 0000000123c80000 CR4: 0000000000350ef0
+Call Trace:
+ &lt;TASK&gt;
+ d_walk+0x6a/0x530
+ shrink_dcache_for_umount+0x6a/0x200
+ generic_shutdown_super+0x52/0x2a0
+ kill_anon_super+0x22/0x40
+ cifs_kill_sb+0x159/0x1e0
+ deactivate_locked_super+0x66/0xe0
+ cleanup_mnt+0x140/0x210
+ task_work_run+0xfb/0x170
+ syscall_exit_to_user_mode+0x29f/0x2b0
+ do_syscall_64+0xa1/0x1a0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7f23bfb93ae7
+Code: ff ff ff ff c3 66 0f 1f 44 00 00 48 8b 0d 11 93 0d 00 f7 d8 64 89 01 b8 ff ff ff ff eb bf 0f 1f 44 00 00 b8 50 00 00 00 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 92 0d 00 f7 d8 64 89 
+---truncated---</description><pubDate>Fri, 27 Dec 2024 13:54:25 +0000</pubDate></item><item><title>CVE-2024-53179 | smb: client: fix use-after-free of signing key</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53179</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: fix use-after-free of signing key
+
+Customers have reported use-after-free in @ses-&gt;auth_key.response with
+SMB2.1 + sign mounts which occurs due to following race:
+
+task A                         task B
+cifs_mount()
+ dfs_mount_share()
+  get_session()
+   cifs_mount_get_session()    cifs_send_recv()
+    cifs_get_smb_ses()          compound_send_recv()
+     cifs_setup_session()        smb2_setup_request()
+      kfree_sensitive()           smb2_calc_signature()
+                                   crypto_shash_setkey() *UAF*
+
+Fix this by ensuring that we have a valid @ses-&gt;auth_key.response by
+checking whether @ses-&gt;ses_status is SES_GOOD or SES_EXITING with
+@ses-&gt;ses_lock held.  After commit 24a9799aa8ef ("smb: client: fix UAF
+in smb2_reconnect_server()"), we made sure to call -&gt;logoff() only
+when @ses was known to be good (e.g. valid -&gt;auth_key.response), so
+it's safe to access signing key when @ses-&gt;ses_status == SES_EXITING.</description><pubDate>Fri, 27 Dec 2024 13:54:26 +0000</pubDate></item><item><title>CVE-2024-53180 | ALSA: pcm: Add sanity NULL check for the default mmap fault handler</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53180</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: pcm: Add sanity NULL check for the default mmap fault handler
+
+A driver might allow the mmap access before initializing its
+runtime-&gt;dma_area properly.  Add a proper NULL check before passing to
+virt_to_page() for avoiding a panic.</description><pubDate>Fri, 27 Dec 2024 13:54:26 +0000</pubDate></item><item><title>CVE-2024-53181 | um: vector: Do not use drvdata in release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53181</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+um: vector: Do not use drvdata in release
+
+The drvdata is not available in release. Let's just use container_of()
+to get the vector_device instance. Otherwise, removing a vector device
+will result in a crash:
+
+RIP: 0033:vector_device_release+0xf/0x50
+RSP: 00000000e187bc40  EFLAGS: 00010202
+RAX: 0000000060028f61 RBX: 00000000600f1baf RCX: 00000000620074e0
+RDX: 000000006220b9c0 RSI: 0000000060551c80 RDI: 0000000000000000
+RBP: 00000000e187bc50 R08: 00000000603ad594 R09: 00000000e187bb70
+R10: 000000000000135a R11: 00000000603ad422 R12: 00000000623ae028
+R13: 000000006287a200 R14: 0000000062006d30 R15: 00000000623700b6
+Kernel panic - not syncing: Segfault with no mm
+CPU: 0 UID: 0 PID: 16 Comm: kworker/0:1 Not tainted 6.12.0-rc6-g59b723cd2adb #1
+Workqueue: events mc_work_proc
+Stack:
+ 60028f61 623ae028 e187bc80 60276fcd
+ 6220b9c0 603f5820 623ae028 00000000
+ e187bcb0 603a2bcd 623ae000 62370010
+Call Trace:
+ [&lt;60028f61&gt;] ? vector_device_release+0x0/0x50
+ [&lt;60276fcd&gt;] device_release+0x70/0xba
+ [&lt;603a2bcd&gt;] kobject_put+0xba/0xe7
+ [&lt;60277265&gt;] put_device+0x19/0x1c
+ [&lt;60281266&gt;] platform_device_put+0x26/0x29
+ [&lt;60281e5f&gt;] platform_device_unregister+0x2c/0x2e
+ [&lt;60029422&gt;] vector_remove+0x52/0x58
+ [&lt;60031316&gt;] ? mconsole_reply+0x0/0x50
+ [&lt;600310c8&gt;] mconsole_remove+0x160/0x1cc
+ [&lt;603b19f4&gt;] ? strlen+0x0/0x15
+ [&lt;60066611&gt;] ? __dequeue_entity+0x1a9/0x206
+ [&lt;600666a7&gt;] ? set_next_entity+0x39/0x63
+ [&lt;6006666e&gt;] ? set_next_entity+0x0/0x63
+ [&lt;60038fa6&gt;] ? um_set_signals+0x0/0x43
+ [&lt;6003070c&gt;] mc_work_proc+0x77/0x91
+ [&lt;60057664&gt;] process_scheduled_works+0x1b3/0x2dd
+ [&lt;60055f32&gt;] ? assign_work+0x0/0x58
+ [&lt;60057f0a&gt;] worker_thread+0x1e9/0x293
+ [&lt;6005406f&gt;] ? set_pf_worker+0x0/0x64
+ [&lt;6005d65d&gt;] ? arch_local_irq_save+0x0/0x2d
+ [&lt;6005d748&gt;] ? kthread_exit+0x0/0x3a
+ [&lt;60057d21&gt;] ? worker_thread+0x0/0x293
+ [&lt;6005dbf1&gt;] kthread+0x126/0x12b
+ [&lt;600219c5&gt;] new_thread_handler+0x85/0xb6</description><pubDate>Fri, 27 Dec 2024 13:54:27 +0000</pubDate></item><item><title>CVE-2024-53182 | Revert &amp;quot;block, bfq: merge bfq_release_process_ref() into bfq_put_cooperator()&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53182</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "block, bfq: merge bfq_release_process_ref() into bfq_put_cooperator()"
+
+This reverts commit bc3b1e9e7c50e1de0f573eea3871db61dd4787de.
+
+The bic is associated with sync_bfqq, and bfq_release_process_ref cannot
+be put into bfq_put_cooperator.
+
+kasan report:
+[  400.347277] ==================================================================
+[  400.347287] BUG: KASAN: slab-use-after-free in bic_set_bfqq+0x200/0x230
+[  400.347420] Read of size 8 at addr ffff88881cab7d60 by task dockerd/5800
+[  400.347430]
+[  400.347436] CPU: 24 UID: 0 PID: 5800 Comm: dockerd Kdump: loaded Tainted: G E 6.12.0 #32
+[  400.347450] Tainted: [E]=UNSIGNED_MODULE
+[  400.347454] Hardware name: VMware, Inc. VMware20,1/440BX Desktop Reference Platform, BIOS VMW201.00V.20192059.B64.2207280713 07/28/2022
+[  400.347460] Call Trace:
+[  400.347464]  &lt;TASK&gt;
+[  400.347468]  dump_stack_lvl+0x5d/0x80
+[  400.347490]  print_report+0x174/0x505
+[  400.347521]  kasan_report+0xe0/0x160
+[  400.347541]  bic_set_bfqq+0x200/0x230
+[  400.347549]  bfq_bic_update_cgroup+0x419/0x740
+[  400.347560]  bfq_bio_merge+0x133/0x320
+[  400.347584]  blk_mq_submit_bio+0x1761/0x1e20
+[  400.347625]  __submit_bio+0x28b/0x7b0
+[  400.347664]  submit_bio_noacct_nocheck+0x6b2/0xd30
+[  400.347690]  iomap_readahead+0x50c/0x680
+[  400.347731]  read_pages+0x17f/0x9c0
+[  400.347785]  page_cache_ra_unbounded+0x366/0x4a0
+[  400.347795]  filemap_fault+0x83d/0x2340
+[  400.347819]  __xfs_filemap_fault+0x11a/0x7d0 [xfs]
+[  400.349256]  __do_fault+0xf1/0x610
+[  400.349270]  do_fault+0x977/0x11a0
+[  400.349281]  __handle_mm_fault+0x5d1/0x850
+[  400.349314]  handle_mm_fault+0x1f8/0x560
+[  400.349324]  do_user_addr_fault+0x324/0x970
+[  400.349337]  exc_page_fault+0x76/0xf0
+[  400.349350]  asm_exc_page_fault+0x26/0x30
+[  400.349360] RIP: 0033:0x55a480d77375
+[  400.349384] Code: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 49 3b 66 10 0f 86 ae 02 00 00 55 48 89 e5 48 83 ec 58 48 8b 10 &lt;83&gt; 7a 10 00 0f 84 27 02 00 00 44 0f b6 42 28 44 0f b6 4a 29 41 80
+[  400.349392] RSP: 002b:00007f18c37fd8b8 EFLAGS: 00010216
+[  400.349401] RAX: 00007f18c37fd9d0 RBX: 0000000000000000 RCX: 0000000000000000
+[  400.349407] RDX: 000055a484407d38 RSI: 000000c000e8b0c0 RDI: 0000000000000000
+[  400.349412] RBP: 00007f18c37fd910 R08: 000055a484017f60 R09: 000055a484066f80
+[  400.349417] R10: 0000000000194000 R11: 0000000000000005 R12: 0000000000000008
+[  400.349422] R13: 0000000000000000 R14: 000000c000476a80 R15: 0000000000000000
+[  400.349430]  &lt;/TASK&gt;
+[  400.349452]
+[  400.349454] Allocated by task 5800:
+[  400.349459]  kasan_save_stack+0x30/0x50
+[  400.349469]  kasan_save_track+0x14/0x30
+[  400.349475]  __kasan_slab_alloc+0x89/0x90
+[  400.349482]  kmem_cache_alloc_node_noprof+0xdc/0x2a0
+[  400.349492]  bfq_get_queue+0x1ef/0x1100
+[  400.349502]  __bfq_get_bfqq_handle_split+0x11a/0x510
+[  400.349511]  bfq_insert_requests+0xf55/0x9030
+[  400.349519]  blk_mq_flush_plug_list+0x446/0x14c0
+[  400.349527]  __blk_flush_plug+0x27c/0x4e0
+[  400.349534]  blk_finish_plug+0x52/0xa0
+[  400.349540]  _xfs_buf_ioapply+0x739/0xc30 [xfs]
+[  400.350246]  __xfs_buf_submit+0x1b2/0x640 [xfs]
+[  400.350967]  xfs_buf_read_map+0x306/0xa20 [xfs]
+[  400.351672]  xfs_trans_read_buf_map+0x285/0x7d0 [xfs]
+[  400.352386]  xfs_imap_to_bp+0x107/0x270 [xfs]
+[  400.353077]  xfs_iget+0x70d/0x1eb0 [xfs]
+[  400.353786]  xfs_lookup+0x2ca/0x3a0 [xfs]
+[  400.354506]  xfs_vn_lookup+0x14e/0x1a0 [xfs]
+[  400.355197]  __lookup_slow+0x19c/0x340
+[  400.355204]  lookup_one_unlocked+0xfc/0x120
+[  400.355211]  ovl_lookup_single+0x1b3/0xcf0 [overlay]
+[  400.355255]  ovl_lookup_layer+0x316/0x490 [overlay]
+[  400.355295]  ovl_lookup+0x844/0x1fd0 [overlay]
+[  400.355351]  lookup_one_qstr_excl+0xef/0x150
+[  400.355357]  do_unlinkat+0x22a/0x620
+[  400.355366]  __x64_sys_unlinkat+0x109/0x1e0
+[  400.355375]  do_syscall_64+0x82/0x160
+[  400.355384]  entry_SYSCALL_64_after_hwframe+0x76/0x7
+---truncated---</description><pubDate>Fri, 27 Dec 2024 13:54:27 +0000</pubDate></item><item><title>CVE-2024-53183 | um: net: Do not use drvdata in release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53183</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+um: net: Do not use drvdata in release
+
+The drvdata is not available in release. Let's just use container_of()
+to get the uml_net instance. Otherwise, removing a network device will
+result in a crash:
+
+RIP: 0033:net_device_release+0x10/0x6f
+RSP: 00000000e20c7c40  EFLAGS: 00010206
+RAX: 000000006002e4e7 RBX: 00000000600f1baf RCX: 00000000624074e0
+RDX: 0000000062778000 RSI: 0000000060551c80 RDI: 00000000627af028
+RBP: 00000000e20c7c50 R08: 00000000603ad594 R09: 00000000e20c7b70
+R10: 000000000000135a R11: 00000000603ad422 R12: 0000000000000000
+R13: 0000000062c7af00 R14: 0000000062406d60 R15: 00000000627700b6
+Kernel panic - not syncing: Segfault with no mm
+CPU: 0 UID: 0 PID: 29 Comm: kworker/0:2 Not tainted 6.12.0-rc6-g59b723cd2adb #1
+Workqueue: events mc_work_proc
+Stack:
+ 627af028 62c7af00 e20c7c80 60276fcd
+ 62778000 603f5820 627af028 00000000
+ e20c7cb0 603a2bcd 627af000 62770010
+Call Trace:
+ [&lt;60276fcd&gt;] device_release+0x70/0xba
+ [&lt;603a2bcd&gt;] kobject_put+0xba/0xe7
+ [&lt;60277265&gt;] put_device+0x19/0x1c
+ [&lt;60281266&gt;] platform_device_put+0x26/0x29
+ [&lt;60281e5f&gt;] platform_device_unregister+0x2c/0x2e
+ [&lt;6002ec9c&gt;] net_remove+0x63/0x69
+ [&lt;60031316&gt;] ? mconsole_reply+0x0/0x50
+ [&lt;600310c8&gt;] mconsole_remove+0x160/0x1cc
+ [&lt;60087d40&gt;] ? __remove_hrtimer+0x38/0x74
+ [&lt;60087ff8&gt;] ? hrtimer_try_to_cancel+0x8c/0x98
+ [&lt;6006b3cf&gt;] ? dl_server_stop+0x3f/0x48
+ [&lt;6006b390&gt;] ? dl_server_stop+0x0/0x48
+ [&lt;600672e8&gt;] ? dequeue_entities+0x327/0x390
+ [&lt;60038fa6&gt;] ? um_set_signals+0x0/0x43
+ [&lt;6003070c&gt;] mc_work_proc+0x77/0x91
+ [&lt;60057664&gt;] process_scheduled_works+0x1b3/0x2dd
+ [&lt;60055f32&gt;] ? assign_work+0x0/0x58
+ [&lt;60057f0a&gt;] worker_thread+0x1e9/0x293
+ [&lt;6005406f&gt;] ? set_pf_worker+0x0/0x64
+ [&lt;6005d65d&gt;] ? arch_local_irq_save+0x0/0x2d
+ [&lt;6005d748&gt;] ? kthread_exit+0x0/0x3a
+ [&lt;60057d21&gt;] ? worker_thread+0x0/0x293
+ [&lt;6005dbf1&gt;] kthread+0x126/0x12b
+ [&lt;600219c5&gt;] new_thread_handler+0x85/0xb6</description><pubDate>Fri, 27 Dec 2024 13:54:27 +0000</pubDate></item><item><title>CVE-2024-53184 | um: ubd: Do not use drvdata in release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53184</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+um: ubd: Do not use drvdata in release
+
+The drvdata is not available in release. Let's just use container_of()
+to get the ubd instance. Otherwise, removing a ubd device will result
+in a crash:
+
+RIP: 0033:blk_mq_free_tag_set+0x1f/0xba
+RSP: 00000000e2083bf0  EFLAGS: 00010246
+RAX: 000000006021463a RBX: 0000000000000348 RCX: 0000000062604d00
+RDX: 0000000004208060 RSI: 00000000605241a0 RDI: 0000000000000348
+RBP: 00000000e2083c10 R08: 0000000062414010 R09: 00000000601603f7
+R10: 000000000000133a R11: 000000006038c4bd R12: 0000000000000000
+R13: 0000000060213a5c R14: 0000000062405d20 R15: 00000000604f7aa0
+Kernel panic - not syncing: Segfault with no mm
+CPU: 0 PID: 17 Comm: kworker/0:1 Not tainted 6.8.0-rc3-00107-gba3f67c11638 #1
+Workqueue: events mc_work_proc
+Stack:
+ 00000000 604f7ef0 62c5d000 62405d20
+ e2083c30 6002c776 6002c755 600e47ff
+ e2083c60 6025ffe3 04208060 603d36e0
+Call Trace:
+ [&lt;6002c776&gt;] ubd_device_release+0x21/0x55
+ [&lt;6002c755&gt;] ? ubd_device_release+0x0/0x55
+ [&lt;600e47ff&gt;] ? kfree+0x0/0x100
+ [&lt;6025ffe3&gt;] device_release+0x70/0xba
+ [&lt;60381d6a&gt;] kobject_put+0xb5/0xe2
+ [&lt;6026027b&gt;] put_device+0x19/0x1c
+ [&lt;6026a036&gt;] platform_device_put+0x26/0x29
+ [&lt;6026ac5a&gt;] platform_device_unregister+0x2c/0x2e
+ [&lt;6002c52e&gt;] ubd_remove+0xb8/0xd6
+ [&lt;6002bb74&gt;] ? mconsole_reply+0x0/0x50
+ [&lt;6002b926&gt;] mconsole_remove+0x160/0x1cc
+ [&lt;6002bbbc&gt;] ? mconsole_reply+0x48/0x50
+ [&lt;6003379c&gt;] ? um_set_signals+0x3b/0x43
+ [&lt;60061c55&gt;] ? update_min_vruntime+0x14/0x70
+ [&lt;6006251f&gt;] ? dequeue_task_fair+0x164/0x235
+ [&lt;600620aa&gt;] ? update_cfs_group+0x0/0x40
+ [&lt;603a0e77&gt;] ? __schedule+0x0/0x3ed
+ [&lt;60033761&gt;] ? um_set_signals+0x0/0x43
+ [&lt;6002af6a&gt;] mc_work_proc+0x77/0x91
+ [&lt;600520b4&gt;] process_scheduled_works+0x1af/0x2c3
+ [&lt;6004ede3&gt;] ? assign_work+0x0/0x58
+ [&lt;600527a1&gt;] worker_thread+0x2f7/0x37a
+ [&lt;6004ee3b&gt;] ? set_pf_worker+0x0/0x64
+ [&lt;6005765d&gt;] ? arch_local_irq_save+0x0/0x2d
+ [&lt;60058e07&gt;] ? kthread_exit+0x0/0x3a
+ [&lt;600524aa&gt;] ? worker_thread+0x0/0x37a
+ [&lt;60058f9f&gt;] kthread+0x130/0x135
+ [&lt;6002068e&gt;] new_thread_handler+0x85/0xb6</description><pubDate>Fri, 27 Dec 2024 13:54:28 +0000</pubDate></item><item><title>CVE-2024-53185 | smb: client: fix NULL ptr deref in crypto_aead_setkey()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53185</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: fix NULL ptr deref in crypto_aead_setkey()
+
+Neither SMB3.0 or SMB3.02 supports encryption negotiate context, so
+when SMB2_GLOBAL_CAP_ENCRYPTION flag is set in the negotiate response,
+the client uses AES-128-CCM as the default cipher.  See MS-SMB2
+3.3.5.4.
+
+Commit b0abcd65ec54 ("smb: client: fix UAF in async decryption") added
+a @server-&gt;cipher_type check to conditionally call
+smb3_crypto_aead_allocate(), but that check would always be false as
+@server-&gt;cipher_type is unset for SMB3.02.
+
+Fix the following KASAN splat by setting @server-&gt;cipher_type for
+SMB3.02 as well.
+
+mount.cifs //srv/share /mnt -o vers=3.02,seal,...
+
+BUG: KASAN: null-ptr-deref in crypto_aead_setkey+0x2c/0x130
+Read of size 8 at addr 0000000000000020 by task mount.cifs/1095
+CPU: 1 UID: 0 PID: 1095 Comm: mount.cifs Not tainted 6.12.0 #1
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-3.fc41
+04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x5d/0x80
+ ? crypto_aead_setkey+0x2c/0x130
+ kasan_report+0xda/0x110
+ ? crypto_aead_setkey+0x2c/0x130
+ crypto_aead_setkey+0x2c/0x130
+ crypt_message+0x258/0xec0 [cifs]
+ ? __asan_memset+0x23/0x50
+ ? __pfx_crypt_message+0x10/0x10 [cifs]
+ ? mark_lock+0xb0/0x6a0
+ ? hlock_class+0x32/0xb0
+ ? mark_lock+0xb0/0x6a0
+ smb3_init_transform_rq+0x352/0x3f0 [cifs]
+ ? lock_acquire.part.0+0xf4/0x2a0
+ smb_send_rqst+0x144/0x230 [cifs]
+ ? __pfx_smb_send_rqst+0x10/0x10 [cifs]
+ ? hlock_class+0x32/0xb0
+ ? smb2_setup_request+0x225/0x3a0 [cifs]
+ ? __pfx_cifs_compound_last_callback+0x10/0x10 [cifs]
+ compound_send_recv+0x59b/0x1140 [cifs]
+ ? __pfx_compound_send_recv+0x10/0x10 [cifs]
+ ? __create_object+0x5e/0x90
+ ? hlock_class+0x32/0xb0
+ ? do_raw_spin_unlock+0x9a/0xf0
+ cifs_send_recv+0x23/0x30 [cifs]
+ SMB2_tcon+0x3ec/0xb30 [cifs]
+ ? __pfx_SMB2_tcon+0x10/0x10 [cifs]
+ ? lock_acquire.part.0+0xf4/0x2a0
+ ? __pfx_lock_release+0x10/0x10
+ ? do_raw_spin_trylock+0xc6/0x120
+ ? lock_acquire+0x3f/0x90
+ ? _get_xid+0x16/0xd0 [cifs]
+ ? __pfx_SMB2_tcon+0x10/0x10 [cifs]
+ ? cifs_get_smb_ses+0xcdd/0x10a0 [cifs]
+ cifs_get_smb_ses+0xcdd/0x10a0 [cifs]
+ ? __pfx_cifs_get_smb_ses+0x10/0x10 [cifs]
+ ? cifs_get_tcp_session+0xaa0/0xca0 [cifs]
+ cifs_mount_get_session+0x8a/0x210 [cifs]
+ dfs_mount_share+0x1b0/0x11d0 [cifs]
+ ? __pfx___lock_acquire+0x10/0x10
+ ? __pfx_dfs_mount_share+0x10/0x10 [cifs]
+ ? lock_acquire.part.0+0xf4/0x2a0
+ ? find_held_lock+0x8a/0xa0
+ ? hlock_class+0x32/0xb0
+ ? lock_release+0x203/0x5d0
+ cifs_mount+0xb3/0x3d0 [cifs]
+ ? do_raw_spin_trylock+0xc6/0x120
+ ? __pfx_cifs_mount+0x10/0x10 [cifs]
+ ? lock_acquire+0x3f/0x90
+ ? find_nls+0x16/0xa0
+ ? smb3_update_mnt_flags+0x372/0x3b0 [cifs]
+ cifs_smb3_do_mount+0x1e2/0xc80 [cifs]
+ ? __pfx_vfs_parse_fs_string+0x10/0x10
+ ? __pfx_cifs_smb3_do_mount+0x10/0x10 [cifs]
+ smb3_get_tree+0x1bf/0x330 [cifs]
+ vfs_get_tree+0x4a/0x160
+ path_mount+0x3c1/0xfb0
+ ? kasan_quarantine_put+0xc7/0x1d0
+ ? __pfx_path_mount+0x10/0x10
+ ? kmem_cache_free+0x118/0x3e0
+ ? user_path_at+0x74/0xa0
+ __x64_sys_mount+0x1a6/0x1e0
+ ? __pfx___x64_sys_mount+0x10/0x10
+ ? mark_held_locks+0x1a/0x90
+ do_syscall_64+0xbb/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f</description><pubDate>Fri, 27 Dec 2024 13:54:28 +0000</pubDate></item><item><title>CVE-2024-53186 | ksmbd: fix use-after-free in SMB request handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53186</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix use-after-free in SMB request handling
+
+A race condition exists between SMB request handling in
+`ksmbd_conn_handler_loop()` and the freeing of `ksmbd_conn` in the
+workqueue handler `handle_ksmbd_work()`. This leads to a UAF.
+- KASAN: slab-use-after-free Read in handle_ksmbd_work
+- KASAN: slab-use-after-free in rtlock_slowlock_locked
+
+This race condition arises as follows:
+- `ksmbd_conn_handler_loop()` waits for `conn-&gt;r_count` to reach zero:
+  `wait_event(conn-&gt;r_count_q, atomic_read(&amp;conn-&gt;r_count) == 0);`
+- Meanwhile, `handle_ksmbd_work()` decrements `conn-&gt;r_count` using
+  `atomic_dec_return(&amp;conn-&gt;r_count)`, and if it reaches zero, calls
+  `ksmbd_conn_free()`, which frees `conn`.
+- However, after `handle_ksmbd_work()` decrements `conn-&gt;r_count`,
+  it may still access `conn-&gt;r_count_q` in the following line:
+  `waitqueue_active(&amp;conn-&gt;r_count_q)` or `wake_up(&amp;conn-&gt;r_count_q)`
+  This results in a UAF, as `conn` has already been freed.
+
+The discovery of this UAF can be referenced in the following PR for
+syzkaller's support for SMB requests.</description><pubDate>Fri, 27 Dec 2024 13:54:29 +0000</pubDate></item><item><title>CVE-2024-53187 | io_uring: check for overflows in io_pin_pages</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53187</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: check for overflows in io_pin_pages
+
+WARNING: CPU: 0 PID: 5834 at io_uring/memmap.c:144 io_pin_pages+0x149/0x180 io_uring/memmap.c:144
+CPU: 0 UID: 0 PID: 5834 Comm: syz-executor825 Not tainted 6.12.0-next-20241118-syzkaller #0
+Call Trace:
+ &lt;TASK&gt;
+ __io_uaddr_map+0xfb/0x2d0 io_uring/memmap.c:183
+ io_rings_map io_uring/io_uring.c:2611 [inline]
+ io_allocate_scq_urings+0x1c0/0x650 io_uring/io_uring.c:3470
+ io_uring_create+0x5b5/0xc00 io_uring/io_uring.c:3692
+ io_uring_setup io_uring/io_uring.c:3781 [inline]
+ ...
+ &lt;/TASK&gt;
+
+io_pin_pages()'s uaddr parameter came directly from the user and can be
+garbage. Don't just add size to it as it can overflow.</description><pubDate>Fri, 27 Dec 2024 13:54:29 +0000</pubDate></item><item><title>CVE-2024-53188 | wifi: ath12k: fix crash when unbinding</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53188</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath12k: fix crash when unbinding
+
+If there is an error during some initialization related to firmware,
+the function ath12k_dp_cc_cleanup is called to release resources.
+However this is released again when the device is unbinded (ath12k_pci),
+and we get:
+BUG: kernel NULL pointer dereference, address: 0000000000000020
+at RIP: 0010:ath12k_dp_cc_cleanup.part.0+0xb6/0x500 [ath12k]
+Call Trace:
+ath12k_dp_cc_cleanup
+ath12k_dp_free
+ath12k_core_deinit
+ath12k_pci_remove
+...
+
+The issue is always reproducible from a VM because the MSI addressing
+initialization is failing.
+
+In order to fix the issue, just set to NULL the released structure in
+ath12k_dp_cc_cleanup at the end.</description><pubDate>Fri, 27 Dec 2024 13:54:29 +0000</pubDate></item><item><title>CVE-2024-53189 | wifi: nl80211: fix bounds checker error in nl80211_parse_sched_scan</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53189</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: nl80211: fix bounds checker error in nl80211_parse_sched_scan
+
+The channels array in the cfg80211_scan_request has a __counted_by
+attribute attached to it, which points to the n_channels variable. This
+attribute is used in bounds checking, and if it is not set before the
+array is filled, then the bounds sanitizer will issue a warning or a
+kernel panic if CONFIG_UBSAN_TRAP is set.
+
+This patch sets the size of allocated memory as the initial value for
+n_channels. It is updated with the actual number of added elements after
+the array is filled.</description><pubDate>Fri, 27 Dec 2024 13:54:30 +0000</pubDate></item><item><title>CVE-2024-53190 | wifi: rtlwifi: Drastically reduce the attempts to read efuse in case of failures</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53190</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: rtlwifi: Drastically reduce the attempts to read efuse in case of failures
+
+Syzkaller reported a hung task with uevent_show() on stack trace. That
+specific issue was addressed by another commit [0], but even with that
+fix applied (for example, running v6.12-rc5) we face another type of hung
+task that comes from the same reproducer [1]. By investigating that, we
+could narrow it to the following path:
+
+(a) Syzkaller emulates a Realtek USB WiFi adapter using raw-gadget and
+dummy_hcd infrastructure.
+
+(b) During the probe of rtl8192cu, the driver ends-up performing an efuse
+read procedure (which is related to EEPROM load IIUC), and here lies the
+issue: the function read_efuse() calls read_efuse_byte() many times, as
+loop iterations depending on the efuse size (in our example, 512 in total).
+
+This procedure for reading efuse bytes relies in a loop that performs an
+I/O read up to *10k* times in case of failures. We measured the time of
+the loop inside read_efuse_byte() alone, and in this reproducer (which
+involves the dummy_hcd emulation layer), it takes 15 seconds each. As a
+consequence, we have the driver stuck in its probe routine for big time,
+exposing a stack trace like below if we attempt to reboot the system, for
+example:
+
+task:kworker/0:3 state:D stack:0 pid:662 tgid:662 ppid:2 flags:0x00004000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __schedule+0xe22/0xeb6
+ schedule_timeout+0xe7/0x132
+ __wait_for_common+0xb5/0x12e
+ usb_start_wait_urb+0xc5/0x1ef
+ ? usb_alloc_urb+0x95/0xa4
+ usb_control_msg+0xff/0x184
+ _usbctrl_vendorreq_sync+0xa0/0x161
+ _usb_read_sync+0xb3/0xc5
+ read_efuse_byte+0x13c/0x146
+ read_efuse+0x351/0x5f0
+ efuse_read_all_map+0x42/0x52
+ rtl_efuse_shadow_map_update+0x60/0xef
+ rtl_get_hwinfo+0x5d/0x1c2
+ rtl92cu_read_eeprom_info+0x10a/0x8d5
+ ? rtl92c_read_chip_version+0x14f/0x17e
+ rtl_usb_probe+0x323/0x851
+ usb_probe_interface+0x278/0x34b
+ really_probe+0x202/0x4a4
+ __driver_probe_device+0x166/0x1b2
+ driver_probe_device+0x2f/0xd8
+ [...]
+
+We propose hereby to drastically reduce the attempts of doing the I/O
+reads in case of failures, restricted to USB devices (given that
+they're inherently slower than PCIe ones). By retrying up to 10 times
+(instead of 10000), we got reponsiveness in the reproducer, while seems
+reasonable to believe that there's no sane USB device implementation in
+the field requiring this amount of retries at every I/O read in order
+to properly work. Based on that assumption, it'd be good to have it
+backported to stable but maybe not since driver implementation (the 10k
+number comes from day 0), perhaps up to 6.x series makes sense.
+
+[0] Commit 15fffc6a5624 ("driver core: Fix uevent_show() vs driver detach race")
+
+[1] A note about that: this syzkaller report presents multiple reproducers
+that differs by the type of emulated USB device. For this specific case,
+check the entry from 2024/08/08 06:23 in the list of crashes; the C repro
+is available at https://syzkaller.appspot.com/text?tag=ReproC&amp;x=1521fc83980000.</description><pubDate>Fri, 27 Dec 2024 13:54:30 +0000</pubDate></item><item><title>CVE-2024-53191 | wifi: ath12k: fix warning when unbinding</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53191</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath12k: fix warning when unbinding
+
+If there is an error during some initialization related to firmware,
+the buffers dp-&gt;tx_ring[i].tx_status are released.
+However this is released again when the device is unbinded (ath12k_pci),
+and we get:
+WARNING: CPU: 0 PID: 2098 at mm/slub.c:4689 free_large_kmalloc+0x4d/0x80
+Call Trace:
+free_large_kmalloc
+ath12k_dp_free
+ath12k_core_deinit
+ath12k_pci_remove
+...
+
+The issue is always reproducible from a VM because the MSI addressing
+initialization is failing.
+
+In order to fix the issue, just set the buffers to NULL after releasing in
+order to avoid the double free.</description><pubDate>Fri, 27 Dec 2024 13:54:30 +0000</pubDate></item><item><title>CVE-2024-53192 | clk: clk-loongson2: Fix potential buffer overflow in flexible-array member access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53192</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: clk-loongson2: Fix potential buffer overflow in flexible-array member access
+
+Flexible-array member `hws` in `struct clk_hw_onecell_data` is annotated
+with the `counted_by()` attribute. This means that when memory is
+allocated for this array, the _counter_, which in this case is member
+`num` in the flexible structure, should be set to the maximum number of
+elements the flexible array can contain, or fewer.
+
+In this case, the total number of elements for the flexible array is
+determined by variable `clks_num` when allocating heap space via
+`devm_kzalloc()`, as shown below:
+
+289         struct loongson2_clk_provider *clp;
+	...
+296         for (p = data; p-&gt;name; p++)
+297                 clks_num++;
+298
+299         clp = devm_kzalloc(dev, struct_size(clp, clk_data.hws, clks_num),
+300                            GFP_KERNEL);
+
+So, `clp-&gt;clk_data.num` should be set to `clks_num` or less, and not
+exceed `clks_num`, as is currently the case. Otherwise, if data is
+written into `clp-&gt;clk_data.hws[clks_num]`, the instrumentation
+provided by the compiler won't detect the overflow, leading to a
+memory corruption bug at runtime.
+
+Fix this issue by setting `clp-&gt;clk_data.num` to `clks_num`.</description><pubDate>Fri, 27 Dec 2024 13:54:31 +0000</pubDate></item><item><title>CVE-2024-53193 | clk: clk-loongson2: Fix memory corruption bug in struct loongson2_clk_provider</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53193</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: clk-loongson2: Fix memory corruption bug in struct loongson2_clk_provider
+
+Some heap space is allocated for the flexible structure `struct
+clk_hw_onecell_data` and its flexible-array member `hws` through
+the composite structure `struct loongson2_clk_provider` in function
+`loongson2_clk_probe()`, as shown below:
+
+289         struct loongson2_clk_provider *clp;
+	...
+296         for (p = data; p-&gt;name; p++)
+297                 clks_num++;
+298
+299         clp = devm_kzalloc(dev, struct_size(clp, clk_data.hws, clks_num),
+300                            GFP_KERNEL);
+
+Then some data is written into the flexible array:
+
+350                 clp-&gt;clk_data.hws[p-&gt;id] = hw;
+
+This corrupts `clk_lock`, which is the spinlock variable immediately
+following the `clk_data` member in `struct loongson2_clk_provider`:
+
+struct loongson2_clk_provider {
+	void __iomem *base;
+	struct device *dev;
+	struct clk_hw_onecell_data clk_data;
+	spinlock_t clk_lock;	/* protect access to DIV registers */
+};
+
+The problem is that the flexible structure is currently placed in the
+middle of `struct loongson2_clk_provider` instead of at the end.
+
+Fix this by moving `struct clk_hw_onecell_data clk_data;` to the end of
+`struct loongson2_clk_provider`. Also, add a code comment to help
+prevent this from happening again in case new members are added to the
+structure in the future.
+
+This change also fixes the following -Wflex-array-member-not-at-end
+warning:
+
+drivers/clk/clk-loongson2.c:32:36: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]</description><pubDate>Fri, 27 Dec 2024 13:54:31 +0000</pubDate></item><item><title>CVE-2024-53194 | PCI: Fix use-after-free of slot-&amp;gt;bus on hot remove</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53194</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: Fix use-after-free of slot-&gt;bus on hot remove
+
+Dennis reports a boot crash on recent Lenovo laptops with a USB4 dock.
+
+Since commit 0fc70886569c ("thunderbolt: Reset USB4 v2 host router") and
+commit 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot
+firmware"), USB4 v2 and v1 Host Routers are reset on probe of the
+thunderbolt driver.
+
+The reset clears the Presence Detect State and Data Link Layer Link Active
+bits at the USB4 Host Router's Root Port and thus causes hot removal of the
+dock.
+
+The crash occurs when pciehp is unbound from one of the dock's Downstream
+Ports:  pciehp creates a pci_slot on bind and destroys it on unbind.  The
+pci_slot contains a pointer to the pci_bus below the Downstream Port, but
+a reference on that pci_bus is never acquired.  The pci_bus is destroyed
+before the pci_slot, so a use-after-free ensues when pci_slot_release()
+accesses slot-&gt;bus.
+
+In principle this should not happen because pci_stop_bus_device() unbinds
+pciehp (and therefore destroys the pci_slot) before the pci_bus is
+destroyed by pci_remove_bus_device().
+
+However the stacktrace provided by Dennis shows that pciehp is unbound from
+pci_remove_bus_device() instead of pci_stop_bus_device().  To understand
+the significance of this, one needs to know that the PCI core uses a two
+step process to remove a portion of the hierarchy:  It first unbinds all
+drivers in the sub-hierarchy in pci_stop_bus_device() and then actually
+removes the devices in pci_remove_bus_device().  There is no precaution to
+prevent driver binding in-between pci_stop_bus_device() and
+pci_remove_bus_device().
+
+In Dennis' case, it seems removal of the hierarchy by pciehp races with
+driver binding by pci_bus_add_devices().  pciehp is bound to the
+Downstream Port after pci_stop_bus_device() has run, so it is unbound by
+pci_remove_bus_device() instead of pci_stop_bus_device().  Because the
+pci_bus has already been destroyed at that point, accesses to it result in
+a use-after-free.
+
+One might conclude that driver binding needs to be prevented after
+pci_stop_bus_device() has run.  However it seems risky that pci_slot points
+to pci_bus without holding a reference.  Solely relying on correct ordering
+of driver unbind versus pci_bus destruction is certainly not defensive
+programming.
+
+If pci_slot has a need to access data in pci_bus, it ought to acquire a
+reference.  Amend pci_create_slot() accordingly.  Dennis reports that the
+crash is not reproducible with this change.
+
+Abridged stacktrace:
+
+  pcieport 0000:00:07.0: PME: Signaling with IRQ 156
+  pcieport 0000:00:07.0: pciehp: Slot #12 AttnBtn- PwrCtrl- MRL- AttnInd- PwrInd- HotPlug+ Surprise+ Interlock- NoCompl+ IbPresDis- LLActRep+
+  pci_bus 0000:20: dev 00, created physical slot 12
+  pcieport 0000:00:07.0: pciehp: Slot(12): Card not present
+  ...
+  pcieport 0000:21:02.0: pciehp: pcie_disable_notification: SLOTCTRL d8 write cmd 0
+  Oops: general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6b6b: 0000 [#1] PREEMPT SMP NOPTI
+  CPU: 13 UID: 0 PID: 134 Comm: irq/156-pciehp Not tainted 6.11.0-devel+ #1
+  RIP: 0010:dev_driver_string+0x12/0x40
+  pci_destroy_slot
+  pciehp_remove
+  pcie_port_remove_service
+  device_release_driver_internal
+  bus_remove_device
+  device_del
+  device_unregister
+  remove_iter
+  device_for_each_child
+  pcie_portdrv_remove
+  pci_device_remove
+  device_release_driver_internal
+  bus_remove_device
+  device_del
+  pci_remove_bus_device (recursive invocation)
+  pci_remove_bus_device
+  pciehp_unconfigure_device
+  pciehp_disable_slot
+  pciehp_handle_presence_or_link_change
+  pciehp_ist</description><pubDate>Fri, 27 Dec 2024 13:54:32 +0000</pubDate></item><item><title>CVE-2024-53195 | KVM: arm64: Get rid of userspace_irqchip_in_use</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53195</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: arm64: Get rid of userspace_irqchip_in_use
+
+Improper use of userspace_irqchip_in_use led to syzbot hitting the
+following WARN_ON() in kvm_timer_update_irq():
+
+WARNING: CPU: 0 PID: 3281 at arch/arm64/kvm/arch_timer.c:459
+kvm_timer_update_irq+0x21c/0x394
+Call trace:
+  kvm_timer_update_irq+0x21c/0x394 arch/arm64/kvm/arch_timer.c:459
+  kvm_timer_vcpu_reset+0x158/0x684 arch/arm64/kvm/arch_timer.c:968
+  kvm_reset_vcpu+0x3b4/0x560 arch/arm64/kvm/reset.c:264
+  kvm_vcpu_set_target arch/arm64/kvm/arm.c:1553 [inline]
+  kvm_arch_vcpu_ioctl_vcpu_init arch/arm64/kvm/arm.c:1573 [inline]
+  kvm_arch_vcpu_ioctl+0x112c/0x1b3c arch/arm64/kvm/arm.c:1695
+  kvm_vcpu_ioctl+0x4ec/0xf74 virt/kvm/kvm_main.c:4658
+  vfs_ioctl fs/ioctl.c:51 [inline]
+  __do_sys_ioctl fs/ioctl.c:907 [inline]
+  __se_sys_ioctl fs/ioctl.c:893 [inline]
+  __arm64_sys_ioctl+0x108/0x184 fs/ioctl.c:893
+  __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+  invoke_syscall+0x78/0x1b8 arch/arm64/kernel/syscall.c:49
+  el0_svc_common+0xe8/0x1b0 arch/arm64/kernel/syscall.c:132
+  do_el0_svc+0x40/0x50 arch/arm64/kernel/syscall.c:151
+  el0_svc+0x54/0x14c arch/arm64/kernel/entry-common.c:712
+  el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:730
+  el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+The following sequence led to the scenario:
+ - Userspace creates a VM and a vCPU.
+ - The vCPU is initialized with KVM_ARM_VCPU_PMU_V3 during
+   KVM_ARM_VCPU_INIT.
+ - Without any other setup, such as vGIC or vPMU, userspace issues
+   KVM_RUN on the vCPU. Since the vPMU is requested, but not setup,
+   kvm_arm_pmu_v3_enable() fails in kvm_arch_vcpu_run_pid_change().
+   As a result, KVM_RUN returns after enabling the timer, but before
+   incrementing 'userspace_irqchip_in_use':
+   kvm_arch_vcpu_run_pid_change()
+       ret = kvm_arm_pmu_v3_enable()
+           if (!vcpu-&gt;arch.pmu.created)
+               return -EINVAL;
+       if (ret)
+           return ret;
+       [...]
+       if (!irqchip_in_kernel(kvm))
+           static_branch_inc(&amp;userspace_irqchip_in_use);
+ - Userspace ignores the error and issues KVM_ARM_VCPU_INIT again.
+   Since the timer is already enabled, control moves through the
+   following flow, ultimately hitting the WARN_ON():
+   kvm_timer_vcpu_reset()
+       if (timer-&gt;enabled)
+          kvm_timer_update_irq()
+              if (!userspace_irqchip())
+                  ret = kvm_vgic_inject_irq()
+                      ret = vgic_lazy_init()
+                          if (unlikely(!vgic_initialized(kvm)))
+                              if (kvm-&gt;arch.vgic.vgic_model !=
+                                  KVM_DEV_TYPE_ARM_VGIC_V2)
+                                      return -EBUSY;
+                  WARN_ON(ret);
+
+Theoretically, since userspace_irqchip_in_use's functionality can be
+simply replaced by '!irqchip_in_kernel()', get rid of the static key
+to avoid the mismanagement, which also helps with the syzbot issue.</description><pubDate>Fri, 27 Dec 2024 13:54:32 +0000</pubDate></item><item><title>CVE-2024-53196 | KVM: arm64: Don&amp;#x27;t retire aborted MMIO instruction</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53196</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: arm64: Don't retire aborted MMIO instruction
+
+Returning an abort to the guest for an unsupported MMIO access is a
+documented feature of the KVM UAPI. Nevertheless, it's clear that this
+plumbing has seen limited testing, since userspace can trivially cause a
+WARN in the MMIO return:
+
+  WARNING: CPU: 0 PID: 30558 at arch/arm64/include/asm/kvm_emulate.h:536 kvm_handle_mmio_return+0x46c/0x5c4 arch/arm64/include/asm/kvm_emulate.h:536
+  Call trace:
+   kvm_handle_mmio_return+0x46c/0x5c4 arch/arm64/include/asm/kvm_emulate.h:536
+   kvm_arch_vcpu_ioctl_run+0x98/0x15b4 arch/arm64/kvm/arm.c:1133
+   kvm_vcpu_ioctl+0x75c/0xa78 virt/kvm/kvm_main.c:4487
+   __do_sys_ioctl fs/ioctl.c:51 [inline]
+   __se_sys_ioctl fs/ioctl.c:893 [inline]
+   __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:893
+   __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+   invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
+   el0_svc_common+0x1e0/0x23c arch/arm64/kernel/syscall.c:132
+   do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
+   el0_svc+0x38/0x68 arch/arm64/kernel/entry-common.c:712
+   el0t_64_sync_handler+0x90/0xfc arch/arm64/kernel/entry-common.c:730
+   el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:598
+
+The splat is complaining that KVM is advancing PC while an exception is
+pending, i.e. that KVM is retiring the MMIO instruction despite a
+pending synchronous external abort. Womp womp.
+
+Fix the glaring UAPI bug by skipping over all the MMIO emulation in
+case there is a pending synchronous exception. Note that while userspace
+is capable of pending an asynchronous exception (SError, IRQ, or FIQ),
+it is still safe to retire the MMIO instruction in this case as (1) they
+are by definition asynchronous, and (2) KVM relies on hardware support
+for pending/delivering these exceptions instead of the software state
+machine for advancing PC.</description><pubDate>Fri, 27 Dec 2024 13:54:32 +0000</pubDate></item><item><title>CVE-2024-53197 | ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy and Mbox devices</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53197</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy and Mbox devices
+
+A bogus device can provide a bNumConfigurations value that exceeds the
+initial value used in usb_get_configuration for allocating dev-&gt;config.
+
+This can lead to out-of-bounds accesses later, e.g. in
+usb_destroy_configuration.</description><pubDate>Fri, 27 Dec 2024 13:54:33 +0000</pubDate></item><item><title>CVE-2024-53198 | xen: Fix the issue of resource not being properly released in xenbus_dev_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53198</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xen: Fix the issue of resource not being properly released in xenbus_dev_probe()
+
+This patch fixes an issue in the function xenbus_dev_probe(). In the
+xenbus_dev_probe() function, within the if (err) branch at line 313, the
+program incorrectly returns err directly without releasing the resources
+allocated by err = drv-&gt;probe(dev, id). As the return value is non-zero,
+the upper layers assume the processing logic has failed. However, the probe
+operation was performed earlier without a corresponding remove operation.
+Since the probe actually allocates resources, failing to perform the remove
+operation could lead to problems.
+
+To fix this issue, we followed the resource release logic of the
+xenbus_dev_remove() function by adding a new block fail_remove before the
+fail_put block. After entering the branch if (err) at line 313, the
+function will use a goto statement to jump to the fail_remove block,
+ensuring that the previously acquired resources are correctly released,
+thus preventing the reference count leak.
+
+This bug was identified by an experimental static analysis tool developed
+by our team. The tool specializes in analyzing reference count operations
+and detecting potential issues where resources are not properly managed.
+In this case, the tool flagged the missing release operation as a
+potential problem, which led to the development of this patch.</description><pubDate>Fri, 27 Dec 2024 13:54:33 +0000</pubDate></item><item><title>CVE-2024-53199 | ASoC: imx-audmix: Add NULL check in imx_audmix_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53199</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: imx-audmix: Add NULL check in imx_audmix_probe
+
+devm_kasprintf() can return a NULL pointer on failure,but this
+returned value in imx_audmix_probe() is not checked.
+Add NULL check in imx_audmix_probe(), to handle kernel NULL
+pointer dereference error.</description><pubDate>Fri, 27 Dec 2024 13:54:34 +0000</pubDate></item><item><title>CVE-2024-53200 | drm/amd/display: Fix null check for pipe_ctx-&amp;gt;plane_state in hwss_setup_dpp</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53200</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix null check for pipe_ctx-&gt;plane_state in hwss_setup_dpp
+
+This commit addresses a null pointer dereference issue in
+hwss_setup_dpp(). The issue could occur when pipe_ctx-&gt;plane_state is
+null. The fix adds a check to ensure `pipe_ctx-&gt;plane_state` is not null
+before accessing. This prevents a null pointer dereference.</description><pubDate>Fri, 27 Dec 2024 13:54:34 +0000</pubDate></item><item><title>CVE-2024-53201 | drm/amd/display: Fix null check for pipe_ctx-&amp;gt;plane_state in dcn20_program_pipe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53201</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix null check for pipe_ctx-&gt;plane_state in dcn20_program_pipe
+
+This commit addresses a null pointer dereference issue in
+dcn20_program_pipe(). Previously, commit 8e4ed3cf1642 ("drm/amd/display:
+Add null check for pipe_ctx-&gt;plane_state in dcn20_program_pipe")
+partially fixed the null pointer dereference issue. However, in
+dcn20_update_dchubp_dpp(), the variable pipe_ctx is passed in, and
+plane_state is accessed again through pipe_ctx. Multiple if statements
+directly call attributes of plane_state, leading to potential null
+pointer dereference issues. This patch adds necessary null checks to
+ensure stability.</description><pubDate>Fri, 27 Dec 2024 13:54:34 +0000</pubDate></item><item><title>CVE-2024-53202 | firmware_loader: Fix possible resource leak in fw_log_firmware_info()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53202</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+firmware_loader: Fix possible resource leak in fw_log_firmware_info()
+
+The alg instance should be released under the exception path, otherwise
+there may be resource leak here.
+
+To mitigate this, free the alg instance with crypto_free_shash when kmalloc
+fails.</description><pubDate>Fri, 27 Dec 2024 13:54:35 +0000</pubDate></item><item><title>CVE-2024-53203 | usb: typec: fix potential array underflow in ucsi_ccg_sync_control()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53203</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: fix potential array underflow in ucsi_ccg_sync_control()
+
+The "command" variable can be controlled by the user via debugfs.  The
+worry is that if con_index is zero then "&amp;uc-&gt;ucsi-&gt;connector[con_index
+- 1]" would be an array underflow.</description><pubDate>Fri, 27 Dec 2024 13:54:35 +0000</pubDate></item><item><title>CVE-2024-53204 | phy: realtek: usb: fix NULL deref in rtk_usb3phy_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53204</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+phy: realtek: usb: fix NULL deref in rtk_usb3phy_probe
+
+In rtk_usb3phy_probe() devm_kzalloc() may return NULL
+but this returned value is not checked.</description><pubDate>Fri, 27 Dec 2024 13:54:35 +0000</pubDate></item><item><title>CVE-2024-53205 | phy: realtek: usb: fix NULL deref in rtk_usb2phy_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53205</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+phy: realtek: usb: fix NULL deref in rtk_usb2phy_probe
+
+In rtk_usb2phy_probe() devm_kzalloc() may return NULL
+but this returned value is not checked.</description><pubDate>Fri, 27 Dec 2024 13:54:36 +0000</pubDate></item><item><title>CVE-2024-53206 | tcp: Fix use-after-free of nreq in reqsk_timer_handler().</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53206</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp: Fix use-after-free of nreq in reqsk_timer_handler().
+
+The cited commit replaced inet_csk_reqsk_queue_drop_and_put() with
+__inet_csk_reqsk_queue_drop() and reqsk_put() in reqsk_timer_handler().
+
+Then, oreq should be passed to reqsk_put() instead of req; otherwise
+use-after-free of nreq could happen when reqsk is migrated but the
+retry attempt failed (e.g. due to timeout).
+
+Let's pass oreq to reqsk_put().</description><pubDate>Fri, 27 Dec 2024 13:54:36 +0000</pubDate></item><item><title>CVE-2024-53207 | Bluetooth: MGMT: Fix possible deadlocks</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53207</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: MGMT: Fix possible deadlocks
+
+This fixes possible deadlocks like the following caused by
+hci_cmd_sync_dequeue causing the destroy function to run:
+
+ INFO: task kworker/u19:0:143 blocked for more than 120 seconds.
+       Tainted: G        W  O        6.8.0-2024-03-19-intel-next-iLS-24ww14 #1
+ "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+ task:kworker/u19:0   state:D stack:0     pid:143   tgid:143   ppid:2      flags:0x00004000
+ Workqueue: hci0 hci_cmd_sync_work [bluetooth]
+ Call Trace:
+  &lt;TASK&gt;
+  __schedule+0x374/0xaf0
+  schedule+0x3c/0xf0
+  schedule_preempt_disabled+0x1c/0x30
+  __mutex_lock.constprop.0+0x3ef/0x7a0
+  __mutex_lock_slowpath+0x13/0x20
+  mutex_lock+0x3c/0x50
+  mgmt_set_connectable_complete+0xa4/0x150 [bluetooth]
+  ? kfree+0x211/0x2a0
+  hci_cmd_sync_dequeue+0xae/0x130 [bluetooth]
+  ? __pfx_cmd_complete_rsp+0x10/0x10 [bluetooth]
+  cmd_complete_rsp+0x26/0x80 [bluetooth]
+  mgmt_pending_foreach+0x4d/0x70 [bluetooth]
+  __mgmt_power_off+0x8d/0x180 [bluetooth]
+  ? _raw_spin_unlock_irq+0x23/0x40
+  hci_dev_close_sync+0x445/0x5b0 [bluetooth]
+  hci_set_powered_sync+0x149/0x250 [bluetooth]
+  set_powered_sync+0x24/0x60 [bluetooth]
+  hci_cmd_sync_work+0x90/0x150 [bluetooth]
+  process_one_work+0x13e/0x300
+  worker_thread+0x2f7/0x420
+  ? __pfx_worker_thread+0x10/0x10
+  kthread+0x107/0x140
+  ? __pfx_kthread+0x10/0x10
+  ret_from_fork+0x3d/0x60
+  ? __pfx_kthread+0x10/0x10
+  ret_from_fork_asm+0x1b/0x30
+  &lt;/TASK&gt;</description><pubDate>Fri, 27 Dec 2024 13:54:37 +0000</pubDate></item><item><title>CVE-2024-53208 | Bluetooth: MGMT: Fix slab-use-after-free Read in set_powered_sync</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53208</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: MGMT: Fix slab-use-after-free Read in set_powered_sync
+
+This fixes the following crash:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in set_powered_sync+0x3a/0xc0 net/bluetooth/mgmt.c:1353
+Read of size 8 at addr ffff888029b4dd18 by task kworker/u9:0/54
+
+CPU: 1 UID: 0 PID: 54 Comm: kworker/u9:0 Not tainted 6.11.0-rc6-syzkaller-01155-gf723224742fc #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024
+Workqueue: hci0 hci_cmd_sync_work
+Call Trace:
+ &lt;TASK&gt;
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ print_address_description mm/kasan/report.c:377 [inline]
+ print_report+0x169/0x550 mm/kasan/report.c:488
+q kasan_report+0x143/0x180 mm/kasan/report.c:601
+ set_powered_sync+0x3a/0xc0 net/bluetooth/mgmt.c:1353
+ hci_cmd_sync_work+0x22b/0x400 net/bluetooth/hci_sync.c:328
+ process_one_work kernel/workqueue.c:3231 [inline]
+ process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
+ worker_thread+0x86d/0xd10 kernel/workqueue.c:3389
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ &lt;/TASK&gt;
+
+Allocated by task 5247:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3f/0x80 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:370 [inline]
+ __kasan_kmalloc+0x98/0xb0 mm/kasan/common.c:387
+ kasan_kmalloc include/linux/kasan.h:211 [inline]
+ __kmalloc_cache_noprof+0x19c/0x2c0 mm/slub.c:4193
+ kmalloc_noprof include/linux/slab.h:681 [inline]
+ kzalloc_noprof include/linux/slab.h:807 [inline]
+ mgmt_pending_new+0x65/0x250 net/bluetooth/mgmt_util.c:269
+ mgmt_pending_add+0x36/0x120 net/bluetooth/mgmt_util.c:296
+ set_powered+0x3cd/0x5e0 net/bluetooth/mgmt.c:1394
+ hci_mgmt_cmd+0xc47/0x11d0 net/bluetooth/hci_sock.c:1712
+ hci_sock_sendmsg+0x7b8/0x11c0 net/bluetooth/hci_sock.c:1832
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg+0x221/0x270 net/socket.c:745
+ sock_write_iter+0x2dd/0x400 net/socket.c:1160
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0xa72/0xc90 fs/read_write.c:590
+ ksys_write+0x1a0/0x2c0 fs/read_write.c:643
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5246:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3f/0x80 mm/kasan/common.c:68
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:579
+ poison_slab_object+0xe0/0x150 mm/kasan/common.c:240
+ __kasan_slab_free+0x37/0x60 mm/kasan/common.c:256
+ kasan_slab_free include/linux/kasan.h:184 [inline]
+ slab_free_hook mm/slub.c:2256 [inline]
+ slab_free mm/slub.c:4477 [inline]
+ kfree+0x149/0x360 mm/slub.c:4598
+ settings_rsp+0x2bc/0x390 net/bluetooth/mgmt.c:1443
+ mgmt_pending_foreach+0xd1/0x130 net/bluetooth/mgmt_util.c:259
+ __mgmt_power_off+0x112/0x420 net/bluetooth/mgmt.c:9455
+ hci_dev_close_sync+0x665/0x11a0 net/bluetooth/hci_sync.c:5191
+ hci_dev_do_close net/bluetooth/hci_core.c:483 [inline]
+ hci_dev_close+0x112/0x210 net/bluetooth/hci_core.c:508
+ sock_do_ioctl+0x158/0x460 net/socket.c:1222
+ sock_ioctl+0x629/0x8e0 net/socket.c:1341
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:907 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83gv
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f</description><pubDate>Fri, 27 Dec 2024 13:54:37 +0000</pubDate></item><item><title>CVE-2024-53209 | bnxt_en: Fix receive ring space parameters when XDP is active</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53209</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bnxt_en: Fix receive ring space parameters when XDP is active
+
+The MTU setting at the time an XDP multi-buffer is attached
+determines whether the aggregation ring will be used and the
+rx_skb_func handler.  This is done in bnxt_set_rx_skb_mode().
+
+If the MTU is later changed, the aggregation ring setting may need
+to be changed and it may become out-of-sync with the settings
+initially done in bnxt_set_rx_skb_mode().  This may result in
+random memory corruption and crashes as the HW may DMA data larger
+than the allocated buffer size, such as:
+
+BUG: kernel NULL pointer dereference, address: 00000000000003c0
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 17 PID: 0 Comm: swapper/17 Kdump: loaded Tainted: G S         OE      6.1.0-226bf9805506 #1
+Hardware name: Wiwynn Delta Lake PVT BZA.02601.0150/Delta Lake-Class1, BIOS F0E_3A12 08/26/2021
+RIP: 0010:bnxt_rx_pkt+0xe97/0x1ae0 [bnxt_en]
+Code: 8b 95 70 ff ff ff 4c 8b 9d 48 ff ff ff 66 41 89 87 b4 00 00 00 e9 0b f7 ff ff 0f b7 43 0a 49 8b 95 a8 04 00 00 25 ff 0f 00 00 &lt;0f&gt; b7 14 42 48 c1 e2 06 49 03 95 a0 04 00 00 0f b6 42 33f
+RSP: 0018:ffffa19f40cc0d18 EFLAGS: 00010202
+RAX: 00000000000001e0 RBX: ffff8e2c805c6100 RCX: 00000000000007ff
+RDX: 0000000000000000 RSI: ffff8e2c271ab990 RDI: ffff8e2c84f12380
+RBP: ffffa19f40cc0e48 R08: 000000000001000d R09: 974ea2fcddfa4cbf
+R10: 0000000000000000 R11: ffffa19f40cc0ff8 R12: ffff8e2c94b58980
+R13: ffff8e2c952d6600 R14: 0000000000000016 R15: ffff8e2c271ab990
+FS:  0000000000000000(0000) GS:ffff8e3b3f840000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000003c0 CR3: 0000000e8580a004 CR4: 00000000007706e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+PKRU: 55555554
+Call Trace:
+ &lt;IRQ&gt;
+ __bnxt_poll_work+0x1c2/0x3e0 [bnxt_en]
+
+To address the issue, we now call bnxt_set_rx_skb_mode() within
+bnxt_change_mtu() to properly set the AGG rings configuration and
+update rx_skb_func based on the new MTU value.
+Additionally, BNXT_FLAG_NO_AGG_RINGS is cleared at the beginning of
+bnxt_set_rx_skb_mode() to make sure it gets set or cleared based on
+the current MTU.</description><pubDate>Fri, 27 Dec 2024 13:54:37 +0000</pubDate></item><item><title>CVE-2024-53210 | s390/iucv: MSG_PEEK causes memory leak in iucv_sock_destruct()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53210</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/iucv: MSG_PEEK causes memory leak in iucv_sock_destruct()
+
+Passing MSG_PEEK flag to skb_recv_datagram() increments skb refcount
+(skb-&gt;users) and iucv_sock_recvmsg() does not decrement skb refcount
+at exit.
+This results in skb memory leak in skb_queue_purge() and WARN_ON in
+iucv_sock_destruct() during socket close. To fix this decrease
+skb refcount by one if MSG_PEEK is set in order to prevent memory
+leak and WARN_ON.
+
+WARNING: CPU: 2 PID: 6292 at net/iucv/af_iucv.c:286 iucv_sock_destruct+0x144/0x1a0 [af_iucv]
+CPU: 2 PID: 6292 Comm: afiucv_test_msg Kdump: loaded Tainted: G        W          6.10.0-rc7 #1
+Hardware name: IBM 3931 A01 704 (z/VM 7.3.0)
+Call Trace:
+        [&lt;001587c682c4aa98&gt;] iucv_sock_destruct+0x148/0x1a0 [af_iucv]
+        [&lt;001587c682c4a9d0&gt;] iucv_sock_destruct+0x80/0x1a0 [af_iucv]
+        [&lt;001587c704117a32&gt;] __sk_destruct+0x52/0x550
+        [&lt;001587c704104a54&gt;] __sock_release+0xa4/0x230
+        [&lt;001587c704104c0c&gt;] sock_close+0x2c/0x40
+        [&lt;001587c702c5f5a8&gt;] __fput+0x2e8/0x970
+        [&lt;001587c7024148c4&gt;] task_work_run+0x1c4/0x2c0
+        [&lt;001587c7023b0716&gt;] do_exit+0x996/0x1050
+        [&lt;001587c7023b13aa&gt;] do_group_exit+0x13a/0x360
+        [&lt;001587c7023b1626&gt;] __s390x_sys_exit_group+0x56/0x60
+        [&lt;001587c7022bccca&gt;] do_syscall+0x27a/0x380
+        [&lt;001587c7049a6a0c&gt;] __do_syscall+0x9c/0x160
+        [&lt;001587c7049ce8a8&gt;] system_call+0x70/0x98
+        Last Breaking-Event-Address:
+        [&lt;001587c682c4a9d4&gt;] iucv_sock_destruct+0x84/0x1a0 [af_iucv]</description><pubDate>Fri, 27 Dec 2024 13:54:38 +0000</pubDate></item><item><title>CVE-2024-53211 | net/l2tp: fix warning in l2tp_exit_net found by syzbot</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53211</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/l2tp: fix warning in l2tp_exit_net found by syzbot
+
+In l2tp's net exit handler, we check that an IDR is empty before
+destroying it:
+
+	WARN_ON_ONCE(!idr_is_empty(&amp;pn-&gt;l2tp_tunnel_idr));
+	idr_destroy(&amp;pn-&gt;l2tp_tunnel_idr);
+
+By forcing memory allocation failures in idr_alloc_32, syzbot is able
+to provoke a condition where idr_is_empty returns false despite there
+being no items in the IDR. This turns out to be because the radix tree
+of the IDR contains only internal radix-tree nodes and it is this that
+causes idr_is_empty to return false. The internal nodes are cleaned by
+idr_destroy.
+
+Use idr_for_each to check that the IDR is empty instead of
+idr_is_empty to avoid the problem.</description><pubDate>Fri, 27 Dec 2024 13:54:38 +0000</pubDate></item><item><title>CVE-2024-53212 | netlink: fix false positive warning in extack during dumps</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53212</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netlink: fix false positive warning in extack during dumps
+
+Commit under fixes extended extack reporting to dumps.
+It works under normal conditions, because extack errors are
+usually reported during -&gt;start() or the first -&gt;dump(),
+it's quite rare that the dump starts okay but fails later.
+If the dump does fail later, however, the input skb will
+already have the initiating message pulled, so checking
+if bad attr falls within skb-&gt;data will fail.
+
+Switch the check to using nlh, which is always valid.
+
+syzbot found a way to hit that scenario by filling up
+the receive queue. In this case we initiate a dump
+but don't call -&gt;dump() until there is read space for
+an skb.
+
+WARNING: CPU: 1 PID: 5845 at net/netlink/af_netlink.c:2210 netlink_ack_tlv_fill+0x1a8/0x560 net/netlink/af_netlink.c:2209
+RIP: 0010:netlink_ack_tlv_fill+0x1a8/0x560 net/netlink/af_netlink.c:2209
+Call Trace:
+ &lt;TASK&gt;
+ netlink_dump_done+0x513/0x970 net/netlink/af_netlink.c:2250
+ netlink_dump+0x91f/0xe10 net/netlink/af_netlink.c:2351
+ netlink_recvmsg+0x6bb/0x11d0 net/netlink/af_netlink.c:1983
+ sock_recvmsg_nosec net/socket.c:1051 [inline]
+ sock_recvmsg+0x22f/0x280 net/socket.c:1073
+ __sys_recvfrom+0x246/0x3d0 net/socket.c:2267
+ __do_sys_recvfrom net/socket.c:2285 [inline]
+ __se_sys_recvfrom net/socket.c:2281 [inline]
+ __x64_sys_recvfrom+0xde/0x100 net/socket.c:2281
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ RIP: 0033:0x7ff37dd17a79</description><pubDate>Fri, 27 Dec 2024 13:54:39 +0000</pubDate></item><item><title>CVE-2024-53213 | net: usb: lan78xx: Fix double free issue with interrupt buffer allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53213</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: usb: lan78xx: Fix double free issue with interrupt buffer allocation
+
+In lan78xx_probe(), the buffer `buf` was being freed twice: once
+implicitly through `usb_free_urb(dev-&gt;urb_intr)` with the
+`URB_FREE_BUFFER` flag and again explicitly by `kfree(buf)`. This caused
+a double free issue.
+
+To resolve this, reordered `kmalloc()` and `usb_alloc_urb()` calls to
+simplify the initialization sequence and removed the redundant
+`kfree(buf)`.  Now, `buf` is allocated after `usb_alloc_urb()`, ensuring
+it is correctly managed by  `usb_fill_int_urb()` and freed by
+`usb_free_urb()` as intended.</description><pubDate>Fri, 27 Dec 2024 13:54:39 +0000</pubDate></item><item><title>CVE-2024-53214 | vfio/pci: Properly hide first-in-list PCIe extended capability</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53214</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vfio/pci: Properly hide first-in-list PCIe extended capability
+
+There are cases where a PCIe extended capability should be hidden from
+the user. For example, an unknown capability (i.e., capability with ID
+greater than PCI_EXT_CAP_ID_MAX) or a capability that is intentionally
+chosen to be hidden from the user.
+
+Hiding a capability is done by virtualizing and modifying the 'Next
+Capability Offset' field of the previous capability so it points to the
+capability after the one that should be hidden.
+
+The special case where the first capability in the list should be hidden
+is handled differently because there is no previous capability that can
+be modified. In this case, the capability ID and version are zeroed
+while leaving the next pointer intact. This hides the capability and
+leaves an anchor for the rest of the capability list.
+
+However, today, hiding the first capability in the list is not done
+properly if the capability is unknown, as struct
+vfio_pci_core_device-&gt;pci_config_map is set to the capability ID during
+initialization but the capability ID is not properly checked later when
+used in vfio_config_do_rw(). This leads to the following warning [1] and
+to an out-of-bounds access to ecap_perms array.
+
+Fix it by checking cap_id in vfio_config_do_rw(), and if it is greater
+than PCI_EXT_CAP_ID_MAX, use an alternative struct perm_bits for direct
+read only access instead of the ecap_perms array.
+
+Note that this is safe since the above is the only case where cap_id can
+exceed PCI_EXT_CAP_ID_MAX (except for the special capabilities, which
+are already checked before).
+
+[1]
+
+WARNING: CPU: 118 PID: 5329 at drivers/vfio/pci/vfio_pci_config.c:1900 vfio_pci_config_rw+0x395/0x430 [vfio_pci_core]
+CPU: 118 UID: 0 PID: 5329 Comm: simx-qemu-syste Not tainted 6.12.0+ #1
+(snip)
+Call Trace:
+ &lt;TASK&gt;
+ ? show_regs+0x69/0x80
+ ? __warn+0x8d/0x140
+ ? vfio_pci_config_rw+0x395/0x430 [vfio_pci_core]
+ ? report_bug+0x18f/0x1a0
+ ? handle_bug+0x63/0xa0
+ ? exc_invalid_op+0x19/0x70
+ ? asm_exc_invalid_op+0x1b/0x20
+ ? vfio_pci_config_rw+0x395/0x430 [vfio_pci_core]
+ ? vfio_pci_config_rw+0x244/0x430 [vfio_pci_core]
+ vfio_pci_rw+0x101/0x1b0 [vfio_pci_core]
+ vfio_pci_core_read+0x1d/0x30 [vfio_pci_core]
+ vfio_device_fops_read+0x27/0x40 [vfio]
+ vfs_read+0xbd/0x340
+ ? vfio_device_fops_unl_ioctl+0xbb/0x740 [vfio]
+ ? __rseq_handle_notify_resume+0xa4/0x4b0
+ __x64_sys_pread64+0x96/0xc0
+ x64_sys_call+0x1c3d/0x20d0
+ do_syscall_64+0x4d/0x120
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e</description><pubDate>Fri, 27 Dec 2024 13:54:39 +0000</pubDate></item><item><title>CVE-2024-53215 | svcrdma: fix miss destroy percpu_counter in svc_rdma_proc_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53215</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+svcrdma: fix miss destroy percpu_counter in svc_rdma_proc_init()
+
+There's issue as follows:
+RPC: Registered rdma transport module.
+RPC: Registered rdma backchannel transport module.
+RPC: Unregistered rdma transport module.
+RPC: Unregistered rdma backchannel transport module.
+BUG: unable to handle page fault for address: fffffbfff80c609a
+PGD 123fee067 P4D 123fee067 PUD 123fea067 PMD 10c624067 PTE 0
+Oops: Oops: 0000 [#1] PREEMPT SMP KASAN NOPTI
+RIP: 0010:percpu_counter_destroy_many+0xf7/0x2a0
+Call Trace:
+ &lt;TASK&gt;
+ __die+0x1f/0x70
+ page_fault_oops+0x2cd/0x860
+ spurious_kernel_fault+0x36/0x450
+ do_kern_addr_fault+0xca/0x100
+ exc_page_fault+0x128/0x150
+ asm_exc_page_fault+0x26/0x30
+ percpu_counter_destroy_many+0xf7/0x2a0
+ mmdrop+0x209/0x350
+ finish_task_switch.isra.0+0x481/0x840
+ schedule_tail+0xe/0xd0
+ ret_from_fork+0x23/0x80
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+If register_sysctl() return NULL, then svc_rdma_proc_cleanup() will not
+destroy the percpu counters which init in svc_rdma_proc_init().
+If CONFIG_HOTPLUG_CPU is enabled, residual nodes may be in the
+'percpu_counters' list. The above issue may occur once the module is
+removed. If the CONFIG_HOTPLUG_CPU configuration is not enabled, memory
+leakage occurs.
+To solve above issue just destroy all percpu counters when
+register_sysctl() return NULL.</description><pubDate>Fri, 27 Dec 2024 13:54:40 +0000</pubDate></item><item><title>CVE-2024-53216 | nfsd: release svc_expkey/svc_export with rcu_work</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53216</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: release svc_expkey/svc_export with rcu_work
+
+The last reference for `cache_head` can be reduced to zero in `c_show`
+and `e_show`(using `rcu_read_lock` and `rcu_read_unlock`). Consequently,
+`svc_export_put` and `expkey_put` will be invoked, leading to two
+issues:
+
+1. The `svc_export_put` will directly free ex_uuid. However,
+   `e_show`/`c_show` will access `ex_uuid` after `cache_put`, which can
+   trigger a use-after-free issue, shown below.
+
+   ==================================================================
+   BUG: KASAN: slab-use-after-free in svc_export_show+0x362/0x430 [nfsd]
+   Read of size 1 at addr ff11000010fdc120 by task cat/870
+
+   CPU: 1 UID: 0 PID: 870 Comm: cat Not tainted 6.12.0-rc3+ #1
+   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+   1.16.1-2.fc37 04/01/2014
+   Call Trace:
+    &lt;TASK&gt;
+    dump_stack_lvl+0x53/0x70
+    print_address_description.constprop.0+0x2c/0x3a0
+    print_report+0xb9/0x280
+    kasan_report+0xae/0xe0
+    svc_export_show+0x362/0x430 [nfsd]
+    c_show+0x161/0x390 [sunrpc]
+    seq_read_iter+0x589/0x770
+    seq_read+0x1e5/0x270
+    proc_reg_read+0xe1/0x140
+    vfs_read+0x125/0x530
+    ksys_read+0xc1/0x160
+    do_syscall_64+0x5f/0x170
+    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+   Allocated by task 830:
+    kasan_save_stack+0x20/0x40
+    kasan_save_track+0x14/0x30
+    __kasan_kmalloc+0x8f/0xa0
+    __kmalloc_node_track_caller_noprof+0x1bc/0x400
+    kmemdup_noprof+0x22/0x50
+    svc_export_parse+0x8a9/0xb80 [nfsd]
+    cache_do_downcall+0x71/0xa0 [sunrpc]
+    cache_write_procfs+0x8e/0xd0 [sunrpc]
+    proc_reg_write+0xe1/0x140
+    vfs_write+0x1a5/0x6d0
+    ksys_write+0xc1/0x160
+    do_syscall_64+0x5f/0x170
+    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+   Freed by task 868:
+    kasan_save_stack+0x20/0x40
+    kasan_save_track+0x14/0x30
+    kasan_save_free_info+0x3b/0x60
+    __kasan_slab_free+0x37/0x50
+    kfree+0xf3/0x3e0
+    svc_export_put+0x87/0xb0 [nfsd]
+    cache_purge+0x17f/0x1f0 [sunrpc]
+    nfsd_destroy_serv+0x226/0x2d0 [nfsd]
+    nfsd_svc+0x125/0x1e0 [nfsd]
+    write_threads+0x16a/0x2a0 [nfsd]
+    nfsctl_transaction_write+0x74/0xa0 [nfsd]
+    vfs_write+0x1a5/0x6d0
+    ksys_write+0xc1/0x160
+    do_syscall_64+0x5f/0x170
+    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+2. We cannot sleep while using `rcu_read_lock`/`rcu_read_unlock`.
+   However, `svc_export_put`/`expkey_put` will call path_put, which
+   subsequently triggers a sleeping operation due to the following
+   `dput`.
+
+   =============================
+   WARNING: suspicious RCU usage
+   5.10.0-dirty #141 Not tainted
+   -----------------------------
+   ...
+   Call Trace:
+   dump_stack+0x9a/0xd0
+   ___might_sleep+0x231/0x240
+   dput+0x39/0x600
+   path_put+0x1b/0x30
+   svc_export_put+0x17/0x80
+   e_show+0x1c9/0x200
+   seq_read_iter+0x63f/0x7c0
+   seq_read+0x226/0x2d0
+   vfs_read+0x113/0x2c0
+   ksys_read+0xc9/0x170
+   do_syscall_64+0x33/0x40
+   entry_SYSCALL_64_after_hwframe+0x67/0xd1
+
+Fix these issues by using `rcu_work` to help release
+`svc_expkey`/`svc_export`. This approach allows for an asynchronous
+context to invoke `path_put` and also facilitates the freeing of
+`uuid/exp/key` after an RCU grace period.</description><pubDate>Fri, 27 Dec 2024 13:54:40 +0000</pubDate></item><item><title>CVE-2024-53217 | NFSD: Prevent NULL dereference in nfsd4_process_cb_update()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53217</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFSD: Prevent NULL dereference in nfsd4_process_cb_update()
+
+@ses is initialized to NULL. If __nfsd4_find_backchannel() finds no
+available backchannel session, setup_callback_client() will try to
+dereference @ses and segfault.</description><pubDate>Fri, 27 Dec 2024 13:54:41 +0000</pubDate></item><item><title>CVE-2024-53218 | f2fs: fix race in concurrent f2fs_stop_gc_thread</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53218</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix race in concurrent f2fs_stop_gc_thread
+
+In my test case, concurrent calls to f2fs shutdown report the following
+stack trace:
+
+ Oops: general protection fault, probably for non-canonical address 0xc6cfff63bb5513fc: 0000 [#1] PREEMPT SMP PTI
+ CPU: 0 UID: 0 PID: 678 Comm: f2fs_rep_shutdo Not tainted 6.12.0-rc5-next-20241029-g6fb2fa9805c5-dirty #85
+ Call Trace:
+  &lt;TASK&gt;
+  ? show_regs+0x8b/0xa0
+  ? __die_body+0x26/0xa0
+  ? die_addr+0x54/0x90
+  ? exc_general_protection+0x24b/0x5c0
+  ? asm_exc_general_protection+0x26/0x30
+  ? kthread_stop+0x46/0x390
+  f2fs_stop_gc_thread+0x6c/0x110
+  f2fs_do_shutdown+0x309/0x3a0
+  f2fs_ioc_shutdown+0x150/0x1c0
+  __f2fs_ioctl+0xffd/0x2ac0
+  f2fs_ioctl+0x76/0xe0
+  vfs_ioctl+0x23/0x60
+  __x64_sys_ioctl+0xce/0xf0
+  x64_sys_call+0x2b1b/0x4540
+  do_syscall_64+0xa7/0x240
+  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+The root cause is a race condition in f2fs_stop_gc_thread() called from
+different f2fs shutdown paths:
+
+  [CPU0]                       [CPU1]
+  ----------------------       -----------------------
+  f2fs_stop_gc_thread          f2fs_stop_gc_thread
+                                 gc_th = sbi-&gt;gc_thread
+    gc_th = sbi-&gt;gc_thread
+    kfree(gc_th)
+    sbi-&gt;gc_thread = NULL
+                                 &lt; gc_th != NULL &gt;
+                                 kthread_stop(gc_th-&gt;f2fs_gc_task) //UAF
+
+The commit c7f114d864ac ("f2fs: fix to avoid use-after-free in
+f2fs_stop_gc_thread()") attempted to fix this issue by using a read
+semaphore to prevent races between shutdown and remount threads, but
+it fails to prevent all race conditions.
+
+Fix it by converting to write lock of s_umount in f2fs_do_shutdown().</description><pubDate>Fri, 27 Dec 2024 13:54:41 +0000</pubDate></item><item><title>CVE-2024-53219 | virtiofs: use pages instead of pointer for kernel direct IO</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53219</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+virtiofs: use pages instead of pointer for kernel direct IO
+
+When trying to insert a 10MB kernel module kept in a virtio-fs with cache
+disabled, the following warning was reported:
+
+  ------------[ cut here ]------------
+  WARNING: CPU: 1 PID: 404 at mm/page_alloc.c:4551 ......
+  Modules linked in:
+  CPU: 1 PID: 404 Comm: insmod Not tainted 6.9.0-rc5+ #123
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996) ......
+  RIP: 0010:__alloc_pages+0x2bf/0x380
+  ......
+  Call Trace:
+   &lt;TASK&gt;
+   ? __warn+0x8e/0x150
+   ? __alloc_pages+0x2bf/0x380
+   __kmalloc_large_node+0x86/0x160
+   __kmalloc+0x33c/0x480
+   virtio_fs_enqueue_req+0x240/0x6d0
+   virtio_fs_wake_pending_and_unlock+0x7f/0x190
+   queue_request_and_unlock+0x55/0x60
+   fuse_simple_request+0x152/0x2b0
+   fuse_direct_io+0x5d2/0x8c0
+   fuse_file_read_iter+0x121/0x160
+   __kernel_read+0x151/0x2d0
+   kernel_read+0x45/0x50
+   kernel_read_file+0x1a9/0x2a0
+   init_module_from_file+0x6a/0xe0
+   idempotent_init_module+0x175/0x230
+   __x64_sys_finit_module+0x5d/0xb0
+   x64_sys_call+0x1c3/0x9e0
+   do_syscall_64+0x3d/0xc0
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+   ......
+   &lt;/TASK&gt;
+  ---[ end trace 0000000000000000 ]---
+
+The warning is triggered as follows:
+
+1) syscall finit_module() handles the module insertion and it invokes
+kernel_read_file() to read the content of the module first.
+
+2) kernel_read_file() allocates a 10MB buffer by using vmalloc() and
+passes it to kernel_read(). kernel_read() constructs a kvec iter by
+using iov_iter_kvec() and passes it to fuse_file_read_iter().
+
+3) virtio-fs disables the cache, so fuse_file_read_iter() invokes
+fuse_direct_io(). As for now, the maximal read size for kvec iter is
+only limited by fc-&gt;max_read. For virtio-fs, max_read is UINT_MAX, so
+fuse_direct_io() doesn't split the 10MB buffer. It saves the address and
+the size of the 10MB-sized buffer in out_args[0] of a fuse request and
+passes the fuse request to virtio_fs_wake_pending_and_unlock().
+
+4) virtio_fs_wake_pending_and_unlock() uses virtio_fs_enqueue_req() to
+queue the request. Because virtiofs need DMA-able address, so
+virtio_fs_enqueue_req() uses kmalloc() to allocate a bounce buffer for
+all fuse args, copies these args into the bounce buffer and passed the
+physical address of the bounce buffer to virtiofsd. The total length of
+these fuse args for the passed fuse request is about 10MB, so
+copy_args_to_argbuf() invokes kmalloc() with a 10MB size parameter and
+it triggers the warning in __alloc_pages():
+
+	if (WARN_ON_ONCE_GFP(order &gt; MAX_PAGE_ORDER, gfp))
+		return NULL;
+
+5) virtio_fs_enqueue_req() will retry the memory allocation in a
+kworker, but it won't help, because kmalloc() will always return NULL
+due to the abnormal size and finit_module() will hang forever.
+
+A feasible solution is to limit the value of max_read for virtio-fs, so
+the length passed to kmalloc() will be limited. However it will affect
+the maximal read size for normal read. And for virtio-fs write initiated
+from kernel, it has the similar problem but now there is no way to limit
+fc-&gt;max_write in kernel.
+
+So instead of limiting both the values of max_read and max_write in
+kernel, introducing use_pages_for_kvec_io in fuse_conn and setting it as
+true in virtiofs. When use_pages_for_kvec_io is enabled, fuse will use
+pages instead of pointer to pass the KVEC_IO data.
+
+After switching to pages for KVEC_IO data, these pages will be used for
+DMA through virtio-fs. If these pages are backed by vmalloc(),
+{flush|invalidate}_kernel_vmap_range() are necessary to flush or
+invalidate the cache before the DMA operation. So add two new fields in
+fuse_args_pages to record the base address of vmalloc area and the
+condition indicating whether invalidation is needed. Perform the flush
+in fuse_get_user_pages() for write operations and the invalidation in
+fuse_release_user_pages() for read operations.
+
+It may seem necessary to introduce another fie
+---truncated---</description><pubDate>Fri, 27 Dec 2024 13:54:41 +0000</pubDate></item><item><title>CVE-2024-53220 | f2fs: fix to account dirty data in __get_secs_required()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53220</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to account dirty data in __get_secs_required()
+
+It will trigger system panic w/ testcase in [1]:
+
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/segment.c:2752!
+RIP: 0010:new_curseg+0xc81/0x2110
+Call Trace:
+ f2fs_allocate_data_block+0x1c91/0x4540
+ do_write_page+0x163/0xdf0
+ f2fs_outplace_write_data+0x1aa/0x340
+ f2fs_do_write_data_page+0x797/0x2280
+ f2fs_write_single_data_page+0x16cd/0x2190
+ f2fs_write_cache_pages+0x994/0x1c80
+ f2fs_write_data_pages+0x9cc/0xea0
+ do_writepages+0x194/0x7a0
+ filemap_fdatawrite_wbc+0x12b/0x1a0
+ __filemap_fdatawrite_range+0xbb/0xf0
+ file_write_and_wait_range+0xa1/0x110
+ f2fs_do_sync_file+0x26f/0x1c50
+ f2fs_sync_file+0x12b/0x1d0
+ vfs_fsync_range+0xfa/0x230
+ do_fsync+0x3d/0x80
+ __x64_sys_fsync+0x37/0x50
+ x64_sys_call+0x1e88/0x20d0
+ do_syscall_64+0x4b/0x110
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+The root cause is if checkpoint_disabling and lfs_mode are both on,
+it will trigger OPU for all overwritten data, it may cost more free
+segment than expected, so f2fs must account those data correctly to
+calculate cosumed free segments later, and return ENOSPC earlier to
+avoid run out of free segment during block allocation.
+
+[1] https://lore.kernel.org/fstests/20241015025106.3203676-1-chao@kernel.org/</description><pubDate>Fri, 27 Dec 2024 13:54:42 +0000</pubDate></item><item><title>CVE-2024-53221 | f2fs: fix null-ptr-deref in f2fs_submit_page_bio()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53221</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix null-ptr-deref in f2fs_submit_page_bio()
+
+There's issue as follows when concurrently installing the f2fs.ko
+module and mounting the f2fs file system:
+KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
+RIP: 0010:__bio_alloc+0x2fb/0x6c0 [f2fs]
+Call Trace:
+ &lt;TASK&gt;
+ f2fs_submit_page_bio+0x126/0x8b0 [f2fs]
+ __get_meta_page+0x1d4/0x920 [f2fs]
+ get_checkpoint_version.constprop.0+0x2b/0x3c0 [f2fs]
+ validate_checkpoint+0xac/0x290 [f2fs]
+ f2fs_get_valid_checkpoint+0x207/0x950 [f2fs]
+ f2fs_fill_super+0x1007/0x39b0 [f2fs]
+ mount_bdev+0x183/0x250
+ legacy_get_tree+0xf4/0x1e0
+ vfs_get_tree+0x88/0x340
+ do_new_mount+0x283/0x5e0
+ path_mount+0x2b2/0x15b0
+ __x64_sys_mount+0x1fe/0x270
+ do_syscall_64+0x5f/0x170
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+Above issue happens as the biset of the f2fs file system is not
+initialized before register "f2fs_fs_type".
+To address above issue just register "f2fs_fs_type" at the last in
+init_f2fs_fs(). Ensure that all f2fs file system resources are
+initialized.</description><pubDate>Fri, 27 Dec 2024 13:54:42 +0000</pubDate></item><item><title>CVE-2024-53222 | zram: fix NULL pointer in comp_algorithm_show()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53222</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+zram: fix NULL pointer in comp_algorithm_show()
+
+LTP reported a NULL pointer dereference as followed:
+
+ CPU: 7 UID: 0 PID: 5995 Comm: cat Kdump: loaded Not tainted 6.12.0-rc6+ #3
+ Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+ pstate: 40400005 (nZcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+ pc : __pi_strcmp+0x24/0x140
+ lr : zcomp_available_show+0x60/0x100 [zram]
+ sp : ffff800088b93b90
+ x29: ffff800088b93b90 x28: 0000000000000001 x27: 0000000000400cc0
+ x26: 0000000000000ffe x25: ffff80007b3e2388 x24: 0000000000000000
+ x23: ffff80007b3e2390 x22: ffff0004041a9000 x21: ffff80007b3e2900
+ x20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000000
+ x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+ x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+ x11: 0000000000000000 x10: ffff80007b3e2900 x9 : ffff80007b3cb280
+ x8 : 0101010101010101 x7 : 0000000000000000 x6 : 0000000000000000
+ x5 : 0000000000000040 x4 : 0000000000000000 x3 : 00656c722d6f7a6c
+ x2 : 0000000000000000 x1 : ffff80007b3e2900 x0 : 0000000000000000
+ Call trace:
+  __pi_strcmp+0x24/0x140
+  comp_algorithm_show+0x40/0x70 [zram]
+  dev_attr_show+0x28/0x80
+  sysfs_kf_seq_show+0x90/0x140
+  kernfs_seq_show+0x34/0x48
+  seq_read_iter+0x1d4/0x4e8
+  kernfs_fop_read_iter+0x40/0x58
+  new_sync_read+0x9c/0x168
+  vfs_read+0x1a8/0x1f8
+  ksys_read+0x74/0x108
+  __arm64_sys_read+0x24/0x38
+  invoke_syscall+0x50/0x120
+  el0_svc_common.constprop.0+0xc8/0xf0
+  do_el0_svc+0x24/0x38
+  el0_svc+0x38/0x138
+  el0t_64_sync_handler+0xc0/0xc8
+  el0t_64_sync+0x188/0x190
+
+The zram-&gt;comp_algs[ZRAM_PRIMARY_COMP] can be NULL in zram_add() if
+comp_algorithm_set() has not been called.  User can access the zram device
+by sysfs after device_add_disk(), so there is a time window to trigger the
+NULL pointer dereference.  Move it ahead device_add_disk() to make sure
+when user can access the zram device, it is ready.  comp_algorithm_set()
+is protected by zram-&gt;init_lock in other places and no such problem.</description><pubDate>Fri, 27 Dec 2024 13:54:42 +0000</pubDate></item><item><title>CVE-2024-53223 | clk: ralink: mtmips: fix clocks probe order in oldest ralink SoCs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53223</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: ralink: mtmips: fix clocks probe order in oldest ralink SoCs
+
+Base clocks are the first in being probed and are real dependencies of the
+rest of fixed, factor and peripheral clocks. For old ralink SoCs RT2880,
+RT305x and RT3883 'xtal' must be defined first since in any other case,
+when fixed clocks are probed they are delayed until 'xtal' is probed so the
+following warning appears:
+
+ WARNING: CPU: 0 PID: 0 at drivers/clk/ralink/clk-mtmips.c:499 rt3883_bus_recalc_rate+0x98/0x138
+ Modules linked in:
+ CPU: 0 PID: 0 Comm: swapper Not tainted 6.6.43 #0
+ Stack : 805e58d0 00000000 00000004 8004f950 00000000 00000004 00000000 00000000
+ 80669c54 80830000 80700000 805ae570 80670068 00000001 80669bf8 00000000
+ 00000000 00000000 805ae570 80669b38 00000020 804db7dc 00000000 00000000
+ 203a6d6d 80669b78 80669e48 70617773 00000000 805ae570 00000000 00000009
+ 00000000 00000001 00000004 00000001 00000000 00000000 83fe43b0 00000000
+ ...
+ Call Trace:
+ [&lt;800065d0&gt;] show_stack+0x64/0xf4
+ [&lt;804bca14&gt;] dump_stack_lvl+0x38/0x60
+ [&lt;800218ac&gt;] __warn+0x94/0xe4
+ [&lt;8002195c&gt;] warn_slowpath_fmt+0x60/0x94
+ [&lt;80259ff8&gt;] rt3883_bus_recalc_rate+0x98/0x138
+ [&lt;80254530&gt;] __clk_register+0x568/0x688
+ [&lt;80254838&gt;] of_clk_hw_register+0x18/0x2c
+ [&lt;8070b910&gt;] rt2880_clk_of_clk_init_driver+0x18c/0x594
+ [&lt;8070b628&gt;] of_clk_init+0x1c0/0x23c
+ [&lt;806fc448&gt;] plat_time_init+0x58/0x18c
+ [&lt;806fdaf0&gt;] time_init+0x10/0x6c
+ [&lt;806f9bc4&gt;] start_kernel+0x458/0x67c
+
+ ---[ end trace 0000000000000000 ]---
+
+When this driver was mainlined we could not find any active users of old
+ralink SoCs so we cannot perform any real tests for them. Now, one user
+of a Belkin f9k1109 version 1 device which uses RT3883 SoC appeared and
+reported some issues in openWRT:
+- https://github.com/openwrt/openwrt/issues/16054
+
+Thus, define a 'rt2880_xtal_recalc_rate()' just returning the expected
+frequency 40Mhz and use it along the old ralink SoCs to have a correct
+boot trace with no warnings and a working clock plan from the beggining.</description><pubDate>Fri, 27 Dec 2024 13:54:43 +0000</pubDate></item><item><title>CVE-2024-53224 | RDMA/mlx5: Move events notifier registration to be after device registration</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53224</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/mlx5: Move events notifier registration to be after device registration
+
+Move pkey change work initialization and cleanup from device resources
+stage to notifier stage, since this is the stage which handles this work
+events.
+
+Fix a race between the device deregistration and pkey change work by moving
+MLX5_IB_STAGE_DEVICE_NOTIFIER to be after MLX5_IB_STAGE_IB_REG in order to
+ensure that the notifier is deregistered before the device during cleanup.
+Which ensures there are no works that are being executed after the
+device has already unregistered which can cause the panic below.
+
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+PGD 0 P4D 0
+Oops: 0000 [#1] PREEMPT SMP PTI
+CPU: 1 PID: 630071 Comm: kworker/1:2 Kdump: loaded Tainted: G W OE --------- --- 5.14.0-162.6.1.el9_1.x86_64 #1
+Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS 090008 02/27/2023
+Workqueue: events pkey_change_handler [mlx5_ib]
+RIP: 0010:setup_qp+0x38/0x1f0 [mlx5_ib]
+Code: ee 41 54 45 31 e4 55 89 f5 53 48 89 fb 48 83 ec 20 8b 77 08 65 48 8b 04 25 28 00 00 00 48 89 44 24 18 48 8b 07 48 8d 4c 24 16 &lt;4c&gt; 8b 38 49 8b 87 80 0b 00 00 4c 89 ff 48 8b 80 08 05 00 00 8b 40
+RSP: 0018:ffffbcc54068be20 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff954054494128 RCX: ffffbcc54068be36
+RDX: ffff954004934000 RSI: 0000000000000001 RDI: ffff954054494128
+RBP: 0000000000000023 R08: ffff954001be2c20 R09: 0000000000000001
+R10: ffff954001be2c20 R11: ffff9540260133c0 R12: 0000000000000000
+R13: 0000000000000023 R14: 0000000000000000 R15: ffff9540ffcb0905
+FS: 0000000000000000(0000) GS:ffff9540ffc80000(0000) knlGS:0000000000000000
+CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000010625c001 CR4: 00000000003706e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+mlx5_ib_gsi_pkey_change+0x20/0x40 [mlx5_ib]
+process_one_work+0x1e8/0x3c0
+worker_thread+0x50/0x3b0
+? rescuer_thread+0x380/0x380
+kthread+0x149/0x170
+? set_kthread_struct+0x50/0x50
+ret_from_fork+0x22/0x30
+Modules linked in: rdma_ucm(OE) rdma_cm(OE) iw_cm(OE) ib_ipoib(OE) ib_cm(OE) ib_umad(OE) mlx5_ib(OE) mlx5_fwctl(OE) fwctl(OE) ib_uverbs(OE) mlx5_core(OE) mlxdevm(OE) ib_core(OE) mlx_compat(OE) psample mlxfw(OE) tls knem(OE) netconsole nfsv3 nfs_acl nfs lockd grace fscache netfs qrtr rfkill sunrpc intel_rapl_msr intel_rapl_common rapl hv_balloon hv_utils i2c_piix4 pcspkr joydev fuse ext4 mbcache jbd2 sr_mod sd_mod cdrom t10_pi sg ata_generic pci_hyperv pci_hyperv_intf hyperv_drm drm_shmem_helper drm_kms_helper hv_storvsc syscopyarea hv_netvsc sysfillrect sysimgblt hid_hyperv fb_sys_fops scsi_transport_fc hyperv_keyboard drm ata_piix crct10dif_pclmul crc32_pclmul crc32c_intel libata ghash_clmulni_intel hv_vmbus serio_raw [last unloaded: ib_core]
+CR2: 0000000000000000
+---[ end trace f6f8be4eae12f7bc ]---</description><pubDate>Fri, 27 Dec 2024 13:54:43 +0000</pubDate></item><item><title>CVE-2024-53225 | iommu/tegra241-cmdqv: Fix alignment failure at max_n_shift</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53225</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommu/tegra241-cmdqv: Fix alignment failure at max_n_shift
+
+When configuring a kernel with PAGE_SIZE=4KB, depending on its setting of
+CONFIG_CMA_ALIGNMENT, VCMDQ_LOG2SIZE_MAX=19 could fail the alignment test
+and trigger a WARN_ON:
+    WARNING: at drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3646
+    Call trace:
+     arm_smmu_init_one_queue+0x15c/0x210
+     tegra241_cmdqv_init_structures+0x114/0x338
+     arm_smmu_device_probe+0xb48/0x1d90
+
+Fix it by capping max_n_shift to CMDQ_MAX_SZ_SHIFT as SMMUv3 CMDQ does.</description><pubDate>Fri, 27 Dec 2024 13:54:44 +0000</pubDate></item><item><title>CVE-2024-53226 | RDMA/hns: Fix NULL pointer derefernce in hns_roce_map_mr_sg()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53226</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/hns: Fix NULL pointer derefernce in hns_roce_map_mr_sg()
+
+ib_map_mr_sg() allows ULPs to specify NULL as the sg_offset argument.
+The driver needs to check whether it is a NULL pointer before
+dereferencing it.</description><pubDate>Fri, 27 Dec 2024 13:54:44 +0000</pubDate></item><item><title>CVE-2024-53227 | scsi: bfa: Fix use-after-free in bfad_im_module_exit()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53227</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: bfa: Fix use-after-free in bfad_im_module_exit()
+
+BUG: KASAN: slab-use-after-free in __lock_acquire+0x2aca/0x3a20
+Read of size 8 at addr ffff8881082d80c8 by task modprobe/25303
+
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x95/0xe0
+ print_report+0xcb/0x620
+ kasan_report+0xbd/0xf0
+ __lock_acquire+0x2aca/0x3a20
+ lock_acquire+0x19b/0x520
+ _raw_spin_lock+0x2b/0x40
+ attribute_container_unregister+0x30/0x160
+ fc_release_transport+0x19/0x90 [scsi_transport_fc]
+ bfad_im_module_exit+0x23/0x60 [bfa]
+ bfad_init+0xdb/0xff0 [bfa]
+ do_one_initcall+0xdc/0x550
+ do_init_module+0x22d/0x6b0
+ load_module+0x4e96/0x5ff0
+ init_module_from_file+0xcd/0x130
+ idempotent_init_module+0x330/0x620
+ __x64_sys_finit_module+0xb3/0x110
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ &lt;/TASK&gt;
+
+Allocated by task 25303:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x7f/0x90
+ fc_attach_transport+0x4f/0x4740 [scsi_transport_fc]
+ bfad_im_module_init+0x17/0x80 [bfa]
+ bfad_init+0x23/0xff0 [bfa]
+ do_one_initcall+0xdc/0x550
+ do_init_module+0x22d/0x6b0
+ load_module+0x4e96/0x5ff0
+ init_module_from_file+0xcd/0x130
+ idempotent_init_module+0x330/0x620
+ __x64_sys_finit_module+0xb3/0x110
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 25303:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x38/0x50
+ kfree+0x212/0x480
+ bfad_im_module_init+0x7e/0x80 [bfa]
+ bfad_init+0x23/0xff0 [bfa]
+ do_one_initcall+0xdc/0x550
+ do_init_module+0x22d/0x6b0
+ load_module+0x4e96/0x5ff0
+ init_module_from_file+0xcd/0x130
+ idempotent_init_module+0x330/0x620
+ __x64_sys_finit_module+0xb3/0x110
+ do_syscall_64+0xc1/0x1d0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Above issue happens as follows:
+
+bfad_init
+  error = bfad_im_module_init()
+    fc_release_transport(bfad_im_scsi_transport_template);
+  if (error)
+    goto ext;
+
+ext:
+  bfad_im_module_exit();
+    fc_release_transport(bfad_im_scsi_transport_template);
+    --&gt; Trigger double release
+
+Don't call bfad_im_module_exit() if bfad_im_module_init() failed.</description><pubDate>Fri, 27 Dec 2024 13:54:44 +0000</pubDate></item><item><title>CVE-2024-53228 | riscv: kvm: Fix out-of-bounds array access</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53228</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: kvm: Fix out-of-bounds array access
+
+In kvm_riscv_vcpu_sbi_init() the entry-&gt;ext_idx can contain an
+out-of-bound index. This is used as a special marker for the base
+extensions, that cannot be disabled. However, when traversing the
+extensions, that special marker is not checked prior indexing the
+array.
+
+Add an out-of-bounds check to the function.</description><pubDate>Fri, 27 Dec 2024 13:54:45 +0000</pubDate></item><item><title>CVE-2024-53229 | RDMA/rxe: Fix the qp flush warnings in req</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53229</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/rxe: Fix the qp flush warnings in req
+
+When the qp is in error state, the status of WQEs in the queue should be
+set to error. Or else the following will appear.
+
+[  920.617269] WARNING: CPU: 1 PID: 21 at drivers/infiniband/sw/rxe/rxe_comp.c:756 rxe_completer+0x989/0xcc0 [rdma_rxe]
+[  920.617744] Modules linked in: rnbd_client(O) rtrs_client(O) rtrs_core(O) rdma_ucm rdma_cm iw_cm ib_cm crc32_generic rdma_rxe ip6_udp_tunnel udp_tunnel ib_uverbs ib_core loop brd null_blk ipv6
+[  920.618516] CPU: 1 PID: 21 Comm: ksoftirqd/1 Tainted: G           O       6.1.113-storage+ #65
+[  920.618986] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[  920.619396] RIP: 0010:rxe_completer+0x989/0xcc0 [rdma_rxe]
+[  920.619658] Code: 0f b6 84 24 3a 02 00 00 41 89 84 24 44 04 00 00 e9 2a f7 ff ff 39 ca bb 03 00 00 00 b8 0e 00 00 00 48 0f 45 d8 e9 15 f7 ff ff &lt;0f&gt; 0b e9 cb f8 ff ff 41 bf f5 ff ff ff e9 08 f8 ff ff 49 8d bc 24
+[  920.620482] RSP: 0018:ffff97b7c00bbc38 EFLAGS: 00010246
+[  920.620817] RAX: 0000000000000000 RBX: 000000000000000c RCX: 0000000000000008
+[  920.621183] RDX: ffff960dc396ebc0 RSI: 0000000000005400 RDI: ffff960dc4e2fbac
+[  920.621548] RBP: 0000000000000000 R08: 0000000000000001 R09: ffffffffac406450
+[  920.621884] R10: ffffffffac4060c0 R11: 0000000000000001 R12: ffff960dc4e2f800
+[  920.622254] R13: ffff960dc4e2f928 R14: ffff97b7c029c580 R15: 0000000000000000
+[  920.622609] FS:  0000000000000000(0000) GS:ffff960ef7d00000(0000) knlGS:0000000000000000
+[  920.622979] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  920.623245] CR2: 00007fa056965e90 CR3: 00000001107f1000 CR4: 00000000000006e0
+[  920.623680] Call Trace:
+[  920.623815]  &lt;TASK&gt;
+[  920.623933]  ? __warn+0x79/0xc0
+[  920.624116]  ? rxe_completer+0x989/0xcc0 [rdma_rxe]
+[  920.624356]  ? report_bug+0xfb/0x150
+[  920.624594]  ? handle_bug+0x3c/0x60
+[  920.624796]  ? exc_invalid_op+0x14/0x70
+[  920.624976]  ? asm_exc_invalid_op+0x16/0x20
+[  920.625203]  ? rxe_completer+0x989/0xcc0 [rdma_rxe]
+[  920.625474]  ? rxe_completer+0x329/0xcc0 [rdma_rxe]
+[  920.625749]  rxe_do_task+0x80/0x110 [rdma_rxe]
+[  920.626037]  rxe_requester+0x625/0xde0 [rdma_rxe]
+[  920.626310]  ? rxe_cq_post+0xe2/0x180 [rdma_rxe]
+[  920.626583]  ? do_complete+0x18d/0x220 [rdma_rxe]
+[  920.626812]  ? rxe_completer+0x1a3/0xcc0 [rdma_rxe]
+[  920.627050]  rxe_do_task+0x80/0x110 [rdma_rxe]
+[  920.627285]  tasklet_action_common.constprop.0+0xa4/0x120
+[  920.627522]  handle_softirqs+0xc2/0x250
+[  920.627728]  ? sort_range+0x20/0x20
+[  920.627942]  run_ksoftirqd+0x1f/0x30
+[  920.628158]  smpboot_thread_fn+0xc7/0x1b0
+[  920.628334]  kthread+0xd6/0x100
+[  920.628504]  ? kthread_complete_and_exit+0x20/0x20
+[  920.628709]  ret_from_fork+0x1f/0x30
+[  920.628892]  &lt;/TASK&gt;</description><pubDate>Fri, 27 Dec 2024 13:54:45 +0000</pubDate></item><item><title>CVE-2024-53230 | cpufreq: CPPC: Fix possible null-ptr-deref for cppc_get_cpu_cost()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53230</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpufreq: CPPC: Fix possible null-ptr-deref for cppc_get_cpu_cost()
+
+cpufreq_cpu_get_raw() may return NULL if the cpu is not in
+policy-&gt;cpus cpu mask and it will cause null pointer dereference,
+so check NULL for cppc_get_cpu_cost().</description><pubDate>Fri, 27 Dec 2024 13:54:46 +0000</pubDate></item><item><title>CVE-2024-53231 | cpufreq: CPPC: Fix possible null-ptr-deref for cpufreq_cpu_get_raw()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53231</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cpufreq: CPPC: Fix possible null-ptr-deref for cpufreq_cpu_get_raw()
+
+cpufreq_cpu_get_raw() may return NULL if the cpu is not in
+policy-&gt;cpus cpu mask and it will cause null pointer dereference.</description><pubDate>Fri, 27 Dec 2024 13:54:46 +0000</pubDate></item><item><title>CVE-2024-53232 | iommu/s390: Implement blocking domain</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53232</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommu/s390: Implement blocking domain
+
+This fixes a crash when surprise hot-unplugging a PCI device. This crash
+happens because during hot-unplug __iommu_group_set_domain_nofail()
+attaching the default domain fails when the platform no longer
+recognizes the device as it has already been removed and we end up with
+a NULL domain pointer and UAF. This is exactly the case referred to in
+the second comment in __iommu_device_set_domain() and just as stated
+there if we can instead attach the blocking domain the UAF is prevented
+as this can handle the already removed device. Implement the blocking
+domain to use this handling.  With this change, the crash is fixed but
+we still hit a warning attempting to change DMA ownership on a blocked
+device.</description><pubDate>Fri, 27 Dec 2024 13:54:46 +0000</pubDate></item><item><title>CVE-2024-53233 | unicode: Fix utf8_load() error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53233</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+unicode: Fix utf8_load() error path
+
+utf8_load() requests the symbol "utf8_data_table" and then checks if the
+requested UTF-8 version is supported. If it's unsupported, it tries to
+put the data table using symbol_put(). If an unsupported version is
+requested, symbol_put() fails like this:
+
+ kernel BUG at kernel/module/main.c:786!
+ RIP: 0010:__symbol_put+0x93/0xb0
+ Call Trace:
+  &lt;TASK&gt;
+  ? __die_body.cold+0x19/0x27
+  ? die+0x2e/0x50
+  ? do_trap+0xca/0x110
+  ? do_error_trap+0x65/0x80
+  ? __symbol_put+0x93/0xb0
+  ? exc_invalid_op+0x51/0x70
+  ? __symbol_put+0x93/0xb0
+  ? asm_exc_invalid_op+0x1a/0x20
+  ? __pfx_cmp_name+0x10/0x10
+  ? __symbol_put+0x93/0xb0
+  ? __symbol_put+0x62/0xb0
+  utf8_load+0xf8/0x150
+
+That happens because symbol_put() expects the unique string that
+identify the symbol, instead of a pointer to the loaded symbol. Fix that
+by using such string.</description><pubDate>Fri, 27 Dec 2024 13:54:47 +0000</pubDate></item><item><title>CVE-2024-53234 | erofs: handle NONHEAD !delta[1] lclusters gracefully</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53234</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: handle NONHEAD !delta[1] lclusters gracefully
+
+syzbot reported a WARNING in iomap_iter_done:
+ iomap_fiemap+0x73b/0x9b0 fs/iomap/fiemap.c:80
+ ioctl_fiemap fs/ioctl.c:220 [inline]
+
+Generally, NONHEAD lclusters won't have delta[1]==0, except for crafted
+images and filesystems created by pre-1.0 mkfs versions.
+
+Previously, it would immediately bail out if delta[1]==0, which led to
+inadequate decompressed lengths (thus FIEMAP is impacted).  Treat it as
+delta[1]=1 to work around these legacy mkfs versions.
+
+`lclusterbits &gt; 14` is illegal for compact indexes, error out too.</description><pubDate>Fri, 27 Dec 2024 13:54:47 +0000</pubDate></item><item><title>CVE-2024-53235 | erofs: fix file-backed mounts over FUSE</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53235</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: fix file-backed mounts over FUSE
+
+syzbot reported a null-ptr-deref in fuse_read_args_fill:
+ fuse_read_folio+0xb0/0x100 fs/fuse/file.c:905
+ filemap_read_folio+0xc6/0x2a0 mm/filemap.c:2367
+ do_read_cache_folio+0x263/0x5c0 mm/filemap.c:3825
+ read_mapping_folio include/linux/pagemap.h:1011 [inline]
+ erofs_bread+0x34d/0x7e0 fs/erofs/data.c:41
+ erofs_read_superblock fs/erofs/super.c:281 [inline]
+ erofs_fc_fill_super+0x2b9/0x2500 fs/erofs/super.c:625
+
+Unlike most filesystems, some network filesystems and FUSE need
+unavoidable valid `file` pointers for their read I/Os [1].
+Anyway, those use cases need to be supported too.
+
+[1] https://docs.kernel.org/filesystems/vfs.html</description><pubDate>Fri, 27 Dec 2024 13:54:47 +0000</pubDate></item><item><title>CVE-2024-53236 | xsk: Free skb when TX metadata options are invalid</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53236</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xsk: Free skb when TX metadata options are invalid
+
+When a new skb is allocated for transmitting an xsk descriptor, i.e., for
+every non-multibuf descriptor or the first frag of a multibuf descriptor,
+but the descriptor is later found to have invalid options set for the TX
+metadata, the new skb is never freed. This can leak skbs until the send
+buffer is full which makes sending more packets impossible.
+
+Fix this by freeing the skb in the error path if we are currently dealing
+with the first frag, i.e., an skb allocated in this iteration of
+xsk_build_skb.</description><pubDate>Fri, 27 Dec 2024 13:54:48 +0000</pubDate></item><item><title>CVE-2024-53237 | Bluetooth: fix use-after-free in device_for_each_child()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53237</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: fix use-after-free in device_for_each_child()
+
+Syzbot has reported the following KASAN splat:
+
+BUG: KASAN: slab-use-after-free in device_for_each_child+0x18f/0x1a0
+Read of size 8 at addr ffff88801f605308 by task kbnepd bnep0/4980
+
+CPU: 0 UID: 0 PID: 4980 Comm: kbnepd bnep0 Not tainted 6.12.0-rc4-00161-gae90f6a6170d #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x100/0x190
+ ? device_for_each_child+0x18f/0x1a0
+ print_report+0x13a/0x4cb
+ ? __virt_addr_valid+0x5e/0x590
+ ? __phys_addr+0xc6/0x150
+ ? device_for_each_child+0x18f/0x1a0
+ kasan_report+0xda/0x110
+ ? device_for_each_child+0x18f/0x1a0
+ ? __pfx_dev_memalloc_noio+0x10/0x10
+ device_for_each_child+0x18f/0x1a0
+ ? __pfx_device_for_each_child+0x10/0x10
+ pm_runtime_set_memalloc_noio+0xf2/0x180
+ netdev_unregister_kobject+0x1ed/0x270
+ unregister_netdevice_many_notify+0x123c/0x1d80
+ ? __mutex_trylock_common+0xde/0x250
+ ? __pfx_unregister_netdevice_many_notify+0x10/0x10
+ ? trace_contention_end+0xe6/0x140
+ ? __mutex_lock+0x4e7/0x8f0
+ ? __pfx_lock_acquire.part.0+0x10/0x10
+ ? rcu_is_watching+0x12/0xc0
+ ? unregister_netdev+0x12/0x30
+ unregister_netdevice_queue+0x30d/0x3f0
+ ? __pfx_unregister_netdevice_queue+0x10/0x10
+ ? __pfx_down_write+0x10/0x10
+ unregister_netdev+0x1c/0x30
+ bnep_session+0x1fb3/0x2ab0
+ ? __pfx_bnep_session+0x10/0x10
+ ? __pfx_lock_release+0x10/0x10
+ ? __pfx_woken_wake_function+0x10/0x10
+ ? __kthread_parkme+0x132/0x200
+ ? __pfx_bnep_session+0x10/0x10
+ ? kthread+0x13a/0x370
+ ? __pfx_bnep_session+0x10/0x10
+ kthread+0x2b7/0x370
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x48/0x80
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+Allocated by task 4974:
+ kasan_save_stack+0x30/0x50
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0xaa/0xb0
+ __kmalloc_noprof+0x1d1/0x440
+ hci_alloc_dev_priv+0x1d/0x2820
+ __vhci_create_device+0xef/0x7d0
+ vhci_write+0x2c7/0x480
+ vfs_write+0x6a0/0xfc0
+ ksys_write+0x12f/0x260
+ do_syscall_64+0xc7/0x250
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 4979:
+ kasan_save_stack+0x30/0x50
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x4f/0x70
+ kfree+0x141/0x490
+ hci_release_dev+0x4d9/0x600
+ bt_host_release+0x6a/0xb0
+ device_release+0xa4/0x240
+ kobject_put+0x1ec/0x5a0
+ put_device+0x1f/0x30
+ vhci_release+0x81/0xf0
+ __fput+0x3f6/0xb30
+ task_work_run+0x151/0x250
+ do_exit+0xa79/0x2c30
+ do_group_exit+0xd5/0x2a0
+ get_signal+0x1fcd/0x2210
+ arch_do_signal_or_restart+0x93/0x780
+ syscall_exit_to_user_mode+0x140/0x290
+ do_syscall_64+0xd4/0x250
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+In 'hci_conn_del_sysfs()', 'device_unregister()' may be called when
+an underlying (kobject) reference counter is greater than 1. This
+means that reparenting (happened when the device is actually freed)
+is delayed and, during that delay, parent controller device (hciX)
+may be deleted. Since the latter may create a dangling pointer to
+freed parent, avoid that scenario by reparenting to NULL explicitly.</description><pubDate>Fri, 27 Dec 2024 13:54:48 +0000</pubDate></item><item><title>CVE-2024-53238 | Bluetooth: btmtk: adjust the position to init iso data anchor</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53238</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: btmtk: adjust the position to init iso data anchor
+
+MediaTek iso data anchor init should be moved to where MediaTek
+claims iso data interface.
+If there is an unexpected BT usb disconnect during setup flow,
+it will cause a NULL pointer crash issue when releasing iso
+anchor since the anchor wasn't been init yet. Adjust the position
+to do iso data anchor init.
+
+[   17.137991] pc : usb_kill_anchored_urbs+0x60/0x168
+[   17.137998] lr : usb_kill_anchored_urbs+0x44/0x168
+[   17.137999] sp : ffffffc0890cb5f0
+[   17.138000] x29: ffffffc0890cb5f0 x28: ffffff80bb6c2e80
+[   17.144081] gpio gpiochip0: registered chardev handle for 1 lines
+[   17.148421]  x27: 0000000000000000
+[   17.148422] x26: ffffffd301ff4298 x25: 0000000000000003 x24: 00000000000000f0
+[   17.148424] x23: 0000000000000000 x22: 00000000ffffffff x21: 0000000000000001
+[   17.148425] x20: ffffffffffffffd8 x19: ffffff80c0f25560 x18: 0000000000000000
+[   17.148427] x17: ffffffd33864e408 x16: ffffffd33808f7c8 x15: 0000000000200000
+[   17.232789] x14: e0cd73cf80ffffff x13: 50f2137c0a0338c9 x12: 0000000000000001
+[   17.239912] x11: 0000000080150011 x10: 0000000000000002 x9 : 0000000000000001
+[   17.247035] x8 : 0000000000000000 x7 : 0000000000008080 x6 : 8080000000000000
+[   17.254158] x5 : ffffffd33808ebc0 x4 : fffffffe033dcf20 x3 : 0000000080150011
+[   17.261281] x2 : ffffff8087a91400 x1 : 0000000000000000 x0 : ffffff80c0f25588
+[   17.268404] Call trace:
+[   17.270841]  usb_kill_anchored_urbs+0x60/0x168
+[   17.275274]  btusb_mtk_release_iso_intf+0x2c/0xd8 [btusb (HASH:5afe 6)]
+[   17.284226]  btusb_mtk_disconnect+0x14/0x28 [btusb (HASH:5afe 6)]
+[   17.292652]  btusb_disconnect+0x70/0x140 [btusb (HASH:5afe 6)]
+[   17.300818]  usb_unbind_interface+0xc4/0x240
+[   17.305079]  device_release_driver_internal+0x18c/0x258
+[   17.310296]  device_release_driver+0x1c/0x30
+[   17.314557]  bus_remove_device+0x140/0x160
+[   17.318643]  device_del+0x1c0/0x330
+[   17.322121]  usb_disable_device+0x80/0x180
+[   17.326207]  usb_disconnect+0xec/0x300
+[   17.329948]  hub_quiesce+0x80/0xd0
+[   17.333339]  hub_disconnect+0x44/0x190
+[   17.337078]  usb_unbind_interface+0xc4/0x240
+[   17.341337]  device_release_driver_internal+0x18c/0x258
+[   17.346551]  device_release_driver+0x1c/0x30
+[   17.350810]  usb_driver_release_interface+0x70/0x88
+[   17.355677]  proc_ioctl+0x13c/0x228
+[   17.359157]  proc_ioctl_default+0x50/0x80
+[   17.363155]  usbdev_ioctl+0x830/0xd08
+[   17.366808]  __arm64_sys_ioctl+0x94/0xd0
+[   17.370723]  invoke_syscall+0x6c/0xf8
+[   17.374377]  el0_svc_common+0x84/0xe0
+[   17.378030]  do_el0_svc+0x20/0x30
+[   17.381334]  el0_svc+0x34/0x60
+[   17.384382]  el0t_64_sync_handler+0x88/0xf0
+[   17.388554]  el0t_64_sync+0x180/0x188
+[   17.392208] Code: f9400677 f100a2f4 54fffea0 d503201f (b8350288)
+[   17.398289] ---[ end trace 0000000000000000 ]---</description><pubDate>Fri, 27 Dec 2024 13:54:49 +0000</pubDate></item><item><title>CVE-2024-53239 | ALSA: 6fire: Release resources at card release</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53239</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: 6fire: Release resources at card release
+
+The current 6fire code tries to release the resources right after the
+call of usb6fire_chip_abort().  But at this moment, the card object
+might be still in use (as we're calling snd_card_free_when_closed()).
+
+For avoid potential UAFs, move the release of resources to the card's
+private_free instead of the manual call of usb6fire_chip_destroy() at
+the USB disconnect callback.</description><pubDate>Fri, 27 Dec 2024 13:54:49 +0000</pubDate></item><item><title>CVE-2024-53164 | net: sched: fix ordering of qlen adjustment</title><link>https://www.cve.org/CVERecord?id=CVE-2024-53164</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: sched: fix ordering of qlen adjustment
 
