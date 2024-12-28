@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 28 Dec 2024 09:54:42 +0000</lastBuildDate><item><title>CVE-2024-56676 | thermal: testing: Initialize some variables annoteded with _free()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56676</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 28 Dec 2024 13:13:09 +0000</lastBuildDate><item><title>CVE-2024-12994 | running-elephant Datart File Upload import extractModel deserialization</title><link>https://www.cve.org/CVERecord?id=CVE-2024-12994</link><description>A vulnerability was found in running-elephant Datart 1.0.0-rc3. It has been rated as critical. Affected by this issue is the function extractModel of the file /import of the component File Upload. The manipulation of the argument file leads to deserialization. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Sat, 28 Dec 2024 13:13:10 +0000</pubDate></item><item><title>CVE-2024-56676 | thermal: testing: Initialize some variables annoteded with _free()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56676</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 thermal: testing: Initialize some variables annoteded with _free()
 
@@ -28,7 +28,7 @@ area was not pageblock_order aligned.
 Fix it by moving the fadump_cma_init() after initmem_init(),
 where other such cma reservations also gets called.
 
-&lt;stack trace&gt;
+
 ==============
 page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10010
 flags: 0x13ffff800000000(node=1|zone=0|lastcpupid=0x7ffff) CMA
@@ -187,7 +187,7 @@ conditions.
 [CPU0]           [CPU1]         [CPU2]
 ext4_read_inode_bitmap
   ext4_read_bh()
-  &lt;bh read complete&gt;
+  
                  ext4_read_inode_bitmap
                    if (buffer_uptodate(bh))
                      return bh
@@ -198,7 +198,7 @@ ext4_read_inode_bitmap
   ext4_simulate_fail_bh()
     clear_buffer_uptodate
                                       mark_buffer_dirty
-                                        &lt;report warning&gt;
+                                        
                                         WARN_ON_ONCE(!buffer_uptodate(bh))
 
 The best approach would be to perform fault injection in the IO completion
@@ -370,7 +370,7 @@ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 RIP: 0010:__asan_load8+0x4c/0xa0
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  blkdev_put_whole+0x41/0x70
  bdev_release+0x1a3/0x250
  blkdev_release+0x11/0x20
@@ -433,7 +433,7 @@ to an operating system deadlock. This issue has been present since v6.9.
 
 '''
 sk_psock_strp_data_ready
-    write_lock_bh(&amp;sk-&gt;sk_callback_lock)
+    write_lock_bh(&amp;amp;sk-&gt;sk_callback_lock)
     strp_data_ready
       strp_read_sock
         read_sock -&gt; tcp_read_sock
@@ -445,7 +445,7 @@ sk_psock_strp_data_ready
                 sk_psock_skb_ingress_self
                   sk_psock_skb_ingress_enqueue
                     sk_psock_data_ready
-                      read_lock_bh(&amp;sk-&gt;sk_callback_lock) &lt;= dead lock
+                      read_lock_bh(&amp;amp;sk-&gt;sk_callback_lock) &lt;= dead lock
 
 '''
 
@@ -651,7 +651,7 @@ Kernel log:
  5 [ffffbd13003e8f70] hrtimer_interrupt at ffffffff8cfed756
  6 [ffffbd13003e8fd0] __sysvec_apic_timer_interrupt at ffffffff8cea01af
  7 [ffffbd13003e8ff0] sysvec_apic_timer_interrupt at ffffffff8df1b83d
--- &lt;IRQ stack&gt; --
+--  --
  8 [ffffbd13003d3708] asm_sysvec_apic_timer_interrupt at ffffffff8e000ecb
     [exception RIP: fib6_select_path+299]
     RIP: ffffffff8ddafe7b  RSP: ffffbd13003d37b8  RFLAGS: 00000287
@@ -725,7 +725,7 @@ The segmentation fault happens because:
 During modprobe:
 1. In igen6_probe(), igen6_pvt will be allocated with kzalloc()
 2. In igen6_register_mci(), mci-&gt;pvt_info will point to
-   &amp;igen6_pvt-&gt;imc[mc]
+   &amp;amp;igen6_pvt-&gt;imc[mc]
 
 During rmmod:
 1. In mci_release() in edac_mc.c, it will kfree(mci-&gt;pvt_info)
