@@ -1,5 +1,181 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 29 Dec 2024 08:50:38 +0000</lastBuildDate><item><title>CVE-2024-56709 | io_uring: check if iowq is killed before queuing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56709</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 29 Dec 2024 08:57:56 +0000</lastBuildDate><item><title>CVE-2024-56710 | ceph: fix memory leak in ceph_direct_read_write()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56710</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ceph: fix memory leak in ceph_direct_read_write()
+
+The bvecs array which is allocated in iter_get_bvecs_alloc() is leaked
+and pages remain pinned if ceph_alloc_sparse_ext_map() fails.
+
+There is no need to delay the allocation of sparse_ext map until after
+the bvecs array is set up, so fix this by moving sparse_ext allocation
+a bit earlier.  Also, make a similar adjustment in __ceph_sync_read()
+for consistency (a leak of the same kind in __ceph_sync_read() has been
+addressed differently).</description><pubDate>Sun, 29 Dec 2024 08:57:57 +0000</pubDate></item><item><title>CVE-2024-56711 | drm/panel: himax-hx83102: Add a check to prevent NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56711</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panel: himax-hx83102: Add a check to prevent NULL pointer dereference
+
+drm_mode_duplicate() could return NULL due to lack of memory,
+which will then call NULL pointer dereference. Add a check to
+prevent it.</description><pubDate>Sun, 29 Dec 2024 08:57:58 +0000</pubDate></item><item><title>CVE-2024-56712 | udmabuf: fix memory leak on last export_udmabuf() error path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56712</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+udmabuf: fix memory leak on last export_udmabuf() error path
+
+In export_udmabuf(), if dma_buf_fd() fails because the FD table is full, a
+dma_buf owning the udmabuf has already been created; but the error handling
+in udmabuf_create() will tear down the udmabuf without doing anything about
+the containing dma_buf.
+
+This leaves a dma_buf in memory that contains a dangling pointer; though
+that doesn't seem to lead to anything bad except a memory leak.
+
+Fix it by moving the dma_buf_fd() call out of export_udmabuf() so that we
+can give it different error handling.
+
+Note that the shape of this code changed a lot in commit 5e72b2b41a21
+("udmabuf: convert udmabuf driver to use folios"); but the memory leak
+seems to have existed since the introduction of udmabuf.</description><pubDate>Sun, 29 Dec 2024 08:57:58 +0000</pubDate></item><item><title>CVE-2024-56713 | net: netdevsim: fix nsim_pp_hold_write()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56713</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: netdevsim: fix nsim_pp_hold_write()
+
+nsim_pp_hold_write() has two problems:
+
+1) It may return with rtnl held, as found by syzbot.
+
+2) Its return value does not propagate an error if any.</description><pubDate>Sun, 29 Dec 2024 08:57:59 +0000</pubDate></item><item><title>CVE-2024-56714 | ionic: no double destroy workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56714</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ionic: no double destroy workqueue
+
+There are some FW error handling paths that can cause us to
+try to destroy the workqueue more than once, so let's be sure
+we're checking for that.
+
+The case where this popped up was in an AER event where the
+handlers got called in such a way that ionic_reset_prepare()
+and thus ionic_dev_teardown() got called twice in a row.
+The second time through the workqueue was already destroyed,
+and destroy_workqueue() choked on the bad wq pointer.
+
+We didn't hit this in AER handler testing before because at
+that time we weren't using a private workqueue.  Later we
+replaced the use of the system workqueue with our own private
+workqueue but hadn't rerun the AER handler testing since then.</description><pubDate>Sun, 29 Dec 2024 08:57:59 +0000</pubDate></item><item><title>CVE-2024-56715 | ionic: Fix netdev notifier unregister on failure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56715</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ionic: Fix netdev notifier unregister on failure
+
+If register_netdev() fails, then the driver leaks the netdev notifier.
+Fix this by calling ionic_lif_unregister() on register_netdev()
+failure. This will also call ionic_lif_unregister_phc() if it has
+already been registered.</description><pubDate>Sun, 29 Dec 2024 08:58:00 +0000</pubDate></item><item><title>CVE-2024-56716 | netdevsim: prevent bad user input in nsim_dev_health_break_write()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56716</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netdevsim: prevent bad user input in nsim_dev_health_break_write()
+
+If either a zero count or a large one is provided, kernel can crash.</description><pubDate>Sun, 29 Dec 2024 08:58:00 +0000</pubDate></item><item><title>CVE-2024-56717 | net: mscc: ocelot: fix incorrect IFH SRC_PORT field in ocelot_ifh_set_basic()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56717</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: mscc: ocelot: fix incorrect IFH SRC_PORT field in ocelot_ifh_set_basic()
+
+Packets injected by the CPU should have a SRC_PORT field equal to the
+CPU port module index in the Analyzer block (ocelot-&gt;num_phys_ports).
+
+The blamed commit copied the ocelot_ifh_set_basic() call incorrectly
+from ocelot_xmit_common() in net/dsa/tag_ocelot.c. Instead of calling
+with "x", it calls with BIT_ULL(x), but the field is not a port mask,
+but rather a single port index.
+
+[ side note: this is the technical debt of code duplication :( ]
+
+The error used to be silent and doesn't appear to have other
+user-visible manifestations, but with new changes in the packing
+library, it now fails loudly as follows:
+
+------------[ cut here ]------------
+Cannot store 0x40 inside bits 46-43 - will truncate
+sja1105 spi2.0: xmit timed out
+WARNING: CPU: 1 PID: 102 at lib/packing.c:98 __pack+0x90/0x198
+sja1105 spi2.0: timed out polling for tstamp
+CPU: 1 UID: 0 PID: 102 Comm: felix_xmit
+Tainted: G        W        N 6.13.0-rc1-00372-gf706b85d972d-dirty #2605
+Call trace:
+ __pack+0x90/0x198 (P)
+ __pack+0x90/0x198 (L)
+ packing+0x78/0x98
+ ocelot_ifh_set_basic+0x260/0x368
+ ocelot_port_inject_frame+0xa8/0x250
+ felix_port_deferred_xmit+0x14c/0x258
+ kthread_worker_fn+0x134/0x350
+ kthread+0x114/0x138
+
+The code path pertains to the ocelot switchdev driver and to the felix
+secondary DSA tag protocol, ocelot-8021q. Here seen with ocelot-8021q.
+
+The messenger (packing) is not really to blame, so fix the original
+commit instead.</description><pubDate>Sun, 29 Dec 2024 08:58:01 +0000</pubDate></item><item><title>CVE-2024-56718 | net/smc: protect link down work from execute after lgr freed</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56718</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: protect link down work from execute after lgr freed
+
+link down work may be scheduled before lgr freed but execute
+after lgr freed, which may result in crash. So it is need to
+hold a reference before shedule link down work, and put the
+reference after work executed or canceled.
+
+The relevant crash call stack as follows:
+ list_del corruption. prev-&gt;next should be ffffb638c9c0fe20,
+    but was 0000000000000000
+ ------------[ cut here ]------------
+ kernel BUG at lib/list_debug.c:51!
+ invalid opcode: 0000 [#1] SMP NOPTI
+ CPU: 6 PID: 978112 Comm: kworker/6:119 Kdump: loaded Tainted: G #1
+ Hardware name: Alibaba Cloud Alibaba Cloud ECS, BIOS 2221b89 04/01/2014
+ Workqueue: events smc_link_down_work [smc]
+ RIP: 0010:__list_del_entry_valid.cold+0x31/0x47
+ RSP: 0018:ffffb638c9c0fdd8 EFLAGS: 00010086
+ RAX: 0000000000000054 RBX: ffff942fb75e5128 RCX: 0000000000000000
+ RDX: ffff943520930aa0 RSI: ffff94352091fc80 RDI: ffff94352091fc80
+ RBP: 0000000000000000 R08: 0000000000000000 R09: ffffb638c9c0fc38
+ R10: ffffb638c9c0fc30 R11: ffffffffa015eb28 R12: 0000000000000002
+ R13: ffffb638c9c0fe20 R14: 0000000000000001 R15: ffff942f9cd051c0
+ FS:  0000000000000000(0000) GS:ffff943520900000(0000) knlGS:0000000000000000
+ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ CR2: 00007f4f25214000 CR3: 000000025fbae004 CR4: 00000000007706e0
+ DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+ DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+ PKRU: 55555554
+ Call Trace:
+  rwsem_down_write_slowpath+0x17e/0x470
+  smc_link_down_work+0x3c/0x60 [smc]
+  process_one_work+0x1ac/0x350
+  worker_thread+0x49/0x2f0
+  ? rescuer_thread+0x360/0x360
+  kthread+0x118/0x140
+  ? __kthread_bind_mask+0x60/0x60
+  ret_from_fork+0x1f/0x30</description><pubDate>Sun, 29 Dec 2024 08:58:01 +0000</pubDate></item><item><title>CVE-2024-56719 | net: stmmac: fix TSO DMA API usage causing oops</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56719</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: stmmac: fix TSO DMA API usage causing oops
+
+Commit 66600fac7a98 ("net: stmmac: TSO: Fix unbalanced DMA map/unmap
+for non-paged SKB data") moved the assignment of tx_skbuff_dma[]'s
+members to be later in stmmac_tso_xmit().
+
+The buf (dma cookie) and len stored in this structure are passed to
+dma_unmap_single() by stmmac_tx_clean(). The DMA API requires that
+the dma cookie passed to dma_unmap_single() is the same as the value
+returned from dma_map_single(). However, by moving the assignment
+later, this is not the case when priv-&gt;dma_cap.addr64 &gt; 32 as "des"
+is offset by proto_hdr_len.
+
+This causes problems such as:
+
+  dwc-eth-dwmac 2490000.ethernet eth0: Tx DMA map failed
+
+and with DMA_API_DEBUG enabled:
+
+  DMA-API: dwc-eth-dwmac 2490000.ethernet: device driver tries to +free DMA memory it has not allocated [device address=0x000000ffffcf65c0] [size=66 bytes]
+
+Fix this by maintaining "des" as the original DMA cookie, and use
+tso_des to pass the offset DMA cookie to stmmac_tso_allocator().
+
+Full details of the crashes can be found at:
+https://lore.kernel.org/all/d8112193-0386-4e14-b516-37c2d838171a@nvidia.com/
+https://lore.kernel.org/all/klkzp5yn5kq5efgtrow6wbvnc46bcqfxs65nz3qy77ujr5turc@bwwhelz2l4dw/</description><pubDate>Sun, 29 Dec 2024 08:58:02 +0000</pubDate></item><item><title>CVE-2024-56709 | io_uring: check if iowq is killed before queuing</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56709</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 io_uring: check if iowq is killed before queuing
 
