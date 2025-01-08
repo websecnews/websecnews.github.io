@@ -1,5 +1,273 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 08 Jan 2025 17:46:10 +0000</lastBuildDate><item><title>CVE-2023-35685 | In DevmemIntMapPages of devicemem_server.c, there is a possible physical page uaf due to a logic error in the code. This could lead to local...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-35685</link><description>In DevmemIntMapPages of devicemem_server.c, there is a possible physical page uaf due to a logic error in the code. This could lead to local escalation of privilege in the kernel with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Wed, 08 Jan 2025 17:46:12 +0000</pubDate></item><item><title>CVE-2025-21111 | Dell VxRail, versions 8.0.000 through 8.0.311, contain(s) a Plaintext Storage of a Password vulnerability. A high privileged attacker with l...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21111</link><description>Dell VxRail, versions 8.0.000 through 8.0.311, contain(s) a Plaintext Storage of a Password vulnerability. A high privileged attacker with local access could potentially exploit this vulnerability, leading to Information exposure.</description><pubDate>Wed, 08 Jan 2025 17:46:12 +0000</pubDate></item><item><title>CVE-2024-51442 | Command Injection in Minidlna version v1.3.3 and before allows an attacker to execute arbitrary OS commands via a specially crafted minidlna...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-51442</link><description>Command Injection in Minidlna version v1.3.3 and before allows an attacker to execute arbitrary OS commands via a specially crafted minidlna.conf configuration file.</description><pubDate>Wed, 08 Jan 2025 17:29:33 +0000</pubDate></item><item><title>CVE-2024-6350 | EmberZNet malformed MAC layer packet leads to denial of service</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6350</link><description>A malformed 802.15.4 packet causes a buffer overflow to occur leading to an assert and a denial of service. A watchdog reset clears the error condition automatically.</description><pubDate>Wed, 08 Jan 2025 17:29:33 +0000</pubDate></item><item><title>CVE-2024-13187 | Kingsoft WPS Office TCC code injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-13187</link><description>A vulnerability was found in Kingsoft WPS Office 6.14.0 on macOS. It has been declared as critical. Affected by this vulnerability is an unknown functionality of the component TCC Handler. The manipulation leads to code injection. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Wed, 08 Jan 2025 16:42:27 +0000</pubDate></item><item><title>CVE-2024-56770 | net/sched: netem: account for backlog updates from child qdisc</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56770</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 08 Jan 2025 17:52:39 +0000</lastBuildDate><item><title>CVE-2024-56771 | mtd: spinand: winbond: Fix 512GW, 01GW, 01JW and 02JW ECC information</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56771</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mtd: spinand: winbond: Fix 512GW, 01GW, 01JW and 02JW ECC information
+
+These four chips:
+* W25N512GW
+* W25N01GW
+* W25N01JW
+* W25N02JW
+all require a single bit of ECC strength and thus feature an on-die
+Hamming-like ECC engine. There is no point in filling a -&gt;get_status()
+callback for them because the main ECC status bytes are located in
+standard places, and retrieving the number of bitflips in case of
+corrected chunk is both useless and unsupported (if there are bitflips,
+then there is 1 at most, so no need to query the chip for that).
+
+Without this change, a kernel warning triggers every time a bit flips.</description><pubDate>Wed, 08 Jan 2025 17:52:41 +0000</pubDate></item><item><title>CVE-2024-56772 | kunit: string-stream: Fix a UAF bug in kunit_init_suite()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56772</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+kunit: string-stream: Fix a UAF bug in kunit_init_suite()
+
+In kunit_debugfs_create_suite(), if alloc_string_stream() fails in the
+kunit_suite_for_each_test_case() loop, the "suite-&gt;log = stream"
+has assigned before, and the error path only free the suite-&gt;log's stream
+memory but not set it to NULL, so the later string_stream_clear() of
+suite-&gt;log in kunit_init_suite() will cause below UAF bug.
+
+Set stream pointer to NULL after free to fix it.
+
+	Unable to handle kernel paging request at virtual address 006440150000030d
+	Mem abort info:
+	  ESR = 0x0000000096000004
+	  EC = 0x25: DABT (current EL), IL = 32 bits
+	  SET = 0, FnV = 0
+	  EA = 0, S1PTW = 0
+	  FSC = 0x04: level 0 translation fault
+	Data abort info:
+	  ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+	  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+	  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+	[006440150000030d] address between user and kernel address ranges
+	Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+	Dumping ftrace buffer:
+	   (ftrace buffer empty)
+	Modules linked in: iio_test_gts industrialio_gts_helper cfg80211 rfkill ipv6 [last unloaded: iio_test_gts]
+	CPU: 5 UID: 0 PID: 6253 Comm: modprobe Tainted: G    B   W        N 6.12.0-rc4+ #458
+	Tainted: [B]=BAD_PAGE, [W]=WARN, [N]=TEST
+	Hardware name: linux,dummy-virt (DT)
+	pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+	pc : string_stream_clear+0x54/0x1ac
+	lr : string_stream_clear+0x1a8/0x1ac
+	sp : ffffffc080b47410
+	x29: ffffffc080b47410 x28: 006440550000030d x27: ffffff80c96b5e98
+	x26: ffffff80c96b5e80 x25: ffffffe461b3f6c0 x24: 0000000000000003
+	x23: ffffff80c96b5e88 x22: 1ffffff019cdf4fc x21: dfffffc000000000
+	x20: ffffff80ce6fa7e0 x19: 032202a80000186d x18: 0000000000001840
+	x17: 0000000000000000 x16: 0000000000000000 x15: ffffffe45c355cb4
+	x14: ffffffe45c35589c x13: ffffffe45c03da78 x12: ffffffb810168e75
+	x11: 1ffffff810168e74 x10: ffffffb810168e74 x9 : dfffffc000000000
+	x8 : 0000000000000004 x7 : 0000000000000003 x6 : 0000000000000001
+	x5 : ffffffc080b473a0 x4 : 0000000000000000 x3 : 0000000000000000
+	x2 : 0000000000000001 x1 : ffffffe462fbf620 x0 : dfffffc000000000
+	Call trace:
+	 string_stream_clear+0x54/0x1ac
+	 __kunit_test_suites_init+0x108/0x1d8
+	 kunit_exec_run_tests+0xb8/0x100
+	 kunit_module_notify+0x400/0x55c
+	 notifier_call_chain+0xfc/0x3b4
+	 blocking_notifier_call_chain+0x68/0x9c
+	 do_init_module+0x24c/0x5c8
+	 load_module+0x4acc/0x4e90
+	 init_module_from_file+0xd4/0x128
+	 idempotent_init_module+0x2d4/0x57c
+	 __arm64_sys_finit_module+0xac/0x100
+	 invoke_syscall+0x6c/0x258
+	 el0_svc_common.constprop.0+0x160/0x22c
+	 do_el0_svc+0x44/0x5c
+	 el0_svc+0x48/0xb8
+	 el0t_64_sync_handler+0x13c/0x158
+	 el0t_64_sync+0x190/0x194
+	Code: f9400753 d2dff800 f2fbffe0 d343fe7c (38e06b80)
+	---[ end trace 0000000000000000 ]---
+	Kernel panic - not syncing: Oops: Fatal exception</description><pubDate>Wed, 08 Jan 2025 17:52:42 +0000</pubDate></item><item><title>CVE-2024-56773 | kunit: Fix potential null dereference in kunit_device_driver_test()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56773</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+kunit: Fix potential null dereference in kunit_device_driver_test()
+
+kunit_kzalloc() may return a NULL pointer, dereferencing it without
+NULL check may lead to NULL dereference.
+Add a NULL check for test_state.</description><pubDate>Wed, 08 Jan 2025 17:52:42 +0000</pubDate></item><item><title>CVE-2024-56774 | btrfs: add a sanity check for btrfs root in btrfs_search_slot()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56774</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: add a sanity check for btrfs root in btrfs_search_slot()
+
+Syzbot reports a null-ptr-deref in btrfs_search_slot().
+
+The reproducer is using rescue=ibadroots, and the extent tree root is
+corrupted thus the extent tree is NULL.
+
+When scrub tries to search the extent tree to gather the needed extent
+info, btrfs_search_slot() doesn't check if the target root is NULL or
+not, resulting the null-ptr-deref.
+
+Add sanity check for btrfs root before using it in btrfs_search_slot().</description><pubDate>Wed, 08 Jan 2025 17:52:43 +0000</pubDate></item><item><title>CVE-2024-56775 | drm/amd/display: Fix handling of plane refcount</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56775</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix handling of plane refcount
+
+[Why]
+The mechanism to backup and restore plane states doesn't maintain
+refcount, which can cause issues if the refcount of the plane changes
+in between backup and restore operations, such as memory leaks if the
+refcount was supposed to go down, or double frees / invalid memory
+accesses if the refcount was supposed to go up.
+
+[How]
+Cache and re-apply current refcount when restoring plane states.</description><pubDate>Wed, 08 Jan 2025 17:52:43 +0000</pubDate></item><item><title>CVE-2024-56776 | drm/sti: avoid potential dereference of error pointers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56776</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/sti: avoid potential dereference of error pointers
+
+The return value of drm_atomic_get_crtc_state() needs to be
+checked. To avoid use of error pointer 'crtc_state' in case
+of the failure.</description><pubDate>Wed, 08 Jan 2025 17:52:43 +0000</pubDate></item><item><title>CVE-2024-56777 | drm/sti: avoid potential dereference of error pointers in sti_gdp_atomic_check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56777</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/sti: avoid potential dereference of error pointers in sti_gdp_atomic_check
+
+The return value of drm_atomic_get_crtc_state() needs to be
+checked. To avoid use of error pointer 'crtc_state' in case
+of the failure.</description><pubDate>Wed, 08 Jan 2025 17:52:44 +0000</pubDate></item><item><title>CVE-2024-56778 | drm/sti: avoid potential dereference of error pointers in sti_hqvdp_atomic_check</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56778</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/sti: avoid potential dereference of error pointers in sti_hqvdp_atomic_check
+
+The return value of drm_atomic_get_crtc_state() needs to be
+checked. To avoid use of error pointer 'crtc_state' in case
+of the failure.</description><pubDate>Wed, 08 Jan 2025 17:52:44 +0000</pubDate></item><item><title>CVE-2024-56779 | nfsd: fix nfs4_openowner leak when concurrent nfsd4_open occur</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56779</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: fix nfs4_openowner leak when concurrent nfsd4_open occur
+
+The action force umount(umount -f) will attempt to kill all rpc_task even
+umount operation may ultimately fail if some files remain open.
+Consequently, if an action attempts to open a file, it can potentially
+send two rpc_task to nfs server.
+
+                   NFS CLIENT
+thread1                             thread2
+open("file")
+...
+nfs4_do_open
+ _nfs4_do_open
+  _nfs4_open_and_get_state
+   _nfs4_proc_open
+    nfs4_run_open_task
+     /* rpc_task1 */
+     rpc_run_task
+     rpc_wait_for_completion_task
+
+                                    umount -f
+                                    nfs_umount_begin
+                                     rpc_killall_tasks
+                                      rpc_signal_task
+     rpc_task1 been wakeup
+     and return -512
+ _nfs4_do_open // while loop
+    ...
+    nfs4_run_open_task
+     /* rpc_task2 */
+     rpc_run_task
+     rpc_wait_for_completion_task
+
+While processing an open request, nfsd will first attempt to find or
+allocate an nfs4_openowner. If it finds an nfs4_openowner that is not
+marked as NFS4_OO_CONFIRMED, this nfs4_openowner will released. Since
+two rpc_task can attempt to open the same file simultaneously from the
+client to server, and because two instances of nfsd can run
+concurrently, this situation can lead to lots of memory leak.
+Additionally, when we echo 0 to /proc/fs/nfsd/threads, warning will be
+triggered.
+
+                    NFS SERVER
+nfsd1                  nfsd2       echo 0 &gt; /proc/fs/nfsd/threads
+
+nfsd4_open
+ nfsd4_process_open1
+  find_or_alloc_open_stateowner
+   // alloc oo1, stateid1
+                       nfsd4_open
+                        nfsd4_process_open1
+                        find_or_alloc_open_stateowner
+                        // find oo1, without NFS4_OO_CONFIRMED
+                         release_openowner
+                          unhash_openowner_locked
+                          list_del_init(&amp;oo-&gt;oo_perclient)
+                          // cannot find this oo
+                          // from client, LEAK!!!
+                         alloc_stateowner // alloc oo2
+
+ nfsd4_process_open2
+  init_open_stateid
+  // associate oo1
+  // with stateid1, stateid1 LEAK!!!
+  nfs4_get_vfs_file
+  // alloc nfsd_file1 and nfsd_file_mark1
+  // all LEAK!!!
+
+                         nfsd4_process_open2
+                         ...
+
+                                    write_threads
+                                     ...
+                                     nfsd_destroy_serv
+                                      nfsd_shutdown_net
+                                       nfs4_state_shutdown_net
+                                        nfs4_state_destroy_net
+                                         destroy_client
+                                          __destroy_client
+                                          // won't find oo1!!!
+                                     nfsd_shutdown_generic
+                                      nfsd_file_cache_shutdown
+                                       kmem_cache_destroy
+                                       for nfsd_file_slab
+                                       and nfsd_file_mark_slab
+                                       // bark since nfsd_file1
+                                       // and nfsd_file_mark1
+                                       // still alive
+
+=======================================================================
+BUG nfsd_file (Not tainted): Objects remaining in nfsd_file on
+__kmem_cache_shutdown()
+-----------------------------------------------------------------------
+
+Slab 0xffd4000004438a80 objects=34 used=1 fp=0xff11000110e2ad28
+flags=0x17ffffc0000240(workingset|head|node=0|zone=2|lastcpupid=0x1fffff)
+CPU: 4 UID: 0 PID: 757 Comm: sh Not tainted 6.12.0-rc6+ #19
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+1.16.1-2.fc37 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ dum
+---truncated---</description><pubDate>Wed, 08 Jan 2025 17:52:45 +0000</pubDate></item><item><title>CVE-2024-56780 | quota: flush quota_release_work upon quota writeback</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56780</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+quota: flush quota_release_work upon quota writeback
+
+One of the paths quota writeback is called from is:
+
+freeze_super()
+  sync_filesystem()
+    ext4_sync_fs()
+      dquot_writeback_dquots()
+
+Since we currently don't always flush the quota_release_work queue in
+this path, we can end up with the following race:
+
+ 1. dquot are added to releasing_dquots list during regular operations.
+ 2. FS Freeze starts, however, this does not flush the quota_release_work queue.
+ 3. Freeze completes.
+ 4. Kernel eventually tries to flush the workqueue while FS is frozen which
+    hits a WARN_ON since transaction gets started during frozen state:
+
+  ext4_journal_check_start+0x28/0x110 [ext4] (unreliable)
+  __ext4_journal_start_sb+0x64/0x1c0 [ext4]
+  ext4_release_dquot+0x90/0x1d0 [ext4]
+  quota_release_workfn+0x43c/0x4d0
+
+Which is the following line:
+
+  WARN_ON(sb-&gt;s_writers.frozen == SB_FREEZE_COMPLETE);
+
+Which ultimately results in generic/390 failing due to dmesg
+noise. This was detected on powerpc machine 15 cores.
+
+To avoid this, make sure to flush the workqueue during
+dquot_writeback_dquots() so we dont have any pending workitems after
+freeze.</description><pubDate>Wed, 08 Jan 2025 17:52:45 +0000</pubDate></item><item><title>CVE-2023-35685 | In DevmemIntMapPages of devicemem_server.c, there is a possible physical page uaf due to a logic error in the code. This could lead to local...</title><link>https://www.cve.org/CVERecord?id=CVE-2023-35685</link><description>In DevmemIntMapPages of devicemem_server.c, there is a possible physical page uaf due to a logic error in the code. This could lead to local escalation of privilege in the kernel with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Wed, 08 Jan 2025 17:46:12 +0000</pubDate></item><item><title>CVE-2025-21111 | Dell VxRail, versions 8.0.000 through 8.0.311, contain(s) a Plaintext Storage of a Password vulnerability. A high privileged attacker with l...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21111</link><description>Dell VxRail, versions 8.0.000 through 8.0.311, contain(s) a Plaintext Storage of a Password vulnerability. A high privileged attacker with local access could potentially exploit this vulnerability, leading to Information exposure.</description><pubDate>Wed, 08 Jan 2025 17:46:12 +0000</pubDate></item><item><title>CVE-2024-51442 | Command Injection in Minidlna version v1.3.3 and before allows an attacker to execute arbitrary OS commands via a specially crafted minidlna...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-51442</link><description>Command Injection in Minidlna version v1.3.3 and before allows an attacker to execute arbitrary OS commands via a specially crafted minidlna.conf configuration file.</description><pubDate>Wed, 08 Jan 2025 17:29:33 +0000</pubDate></item><item><title>CVE-2024-6350 | EmberZNet malformed MAC layer packet leads to denial of service</title><link>https://www.cve.org/CVERecord?id=CVE-2024-6350</link><description>A malformed 802.15.4 packet causes a buffer overflow to occur leading to an assert and a denial of service. A watchdog reset clears the error condition automatically.</description><pubDate>Wed, 08 Jan 2025 17:29:33 +0000</pubDate></item><item><title>CVE-2024-13187 | Kingsoft WPS Office TCC code injection</title><link>https://www.cve.org/CVERecord?id=CVE-2024-13187</link><description>A vulnerability was found in Kingsoft WPS Office 6.14.0 on macOS. It has been declared as critical. Affected by this vulnerability is an unknown functionality of the component TCC Handler. The manipulation leads to code injection. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Wed, 08 Jan 2025 16:42:27 +0000</pubDate></item><item><title>CVE-2024-56770 | net/sched: netem: account for backlog updates from child qdisc</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56770</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/sched: netem: account for backlog updates from child qdisc
 
