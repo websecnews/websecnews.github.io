@@ -1,5 +1,155 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 08 Jan 2025 17:52:39 +0000</lastBuildDate><item><title>CVE-2024-56771 | mtd: spinand: winbond: Fix 512GW, 01GW, 01JW and 02JW ECC information</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56771</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 08 Jan 2025 17:59:39 +0000</lastBuildDate><item><title>CVE-2024-56781 | powerpc/prom_init: Fixup missing powermac #size-cells</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56781</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+powerpc/prom_init: Fixup missing powermac #size-cells
+
+On some powermacs `escc` nodes are missing `#size-cells` properties,
+which is deprecated and now triggers a warning at boot since commit
+045b14ca5c36 ("of: WARN on deprecated #address-cells/#size-cells
+handling").
+
+For example:
+
+  Missing '#size-cells' in /pci@f2000000/mac-io@c/escc@13000
+  WARNING: CPU: 0 PID: 0 at drivers/of/base.c:133 of_bus_n_size_cells+0x98/0x108
+  Hardware name: PowerMac3,1 7400 0xc0209 PowerMac
+  ...
+  Call Trace:
+    of_bus_n_size_cells+0x98/0x108 (unreliable)
+    of_bus_default_count_cells+0x40/0x60
+    __of_get_address+0xc8/0x21c
+    __of_address_to_resource+0x5c/0x228
+    pmz_init_port+0x5c/0x2ec
+    pmz_probe.isra.0+0x144/0x1e4
+    pmz_console_init+0x10/0x48
+    console_init+0xcc/0x138
+    start_kernel+0x5c4/0x694
+
+As powermacs boot via prom_init it's possible to add the missing
+properties to the device tree during boot, avoiding the warning. Note
+that `escc-legacy` nodes are also missing `#size-cells` properties, but
+they are skipped by the macio driver, so leave them alone.
+
+Depends-on: 045b14ca5c36 ("of: WARN on deprecated #address-cells/#size-cells handling")</description><pubDate>Wed, 08 Jan 2025 17:59:41 +0000</pubDate></item><item><title>CVE-2024-56782 | ACPI: x86: Add adev NULL check to acpi_quirk_skip_serdev_enumeration()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56782</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ACPI: x86: Add adev NULL check to acpi_quirk_skip_serdev_enumeration()
+
+acpi_dev_hid_match() does not check for adev == NULL, dereferencing
+it unconditional.
+
+Add a check for adev being NULL before calling acpi_dev_hid_match().
+
+At the moment acpi_quirk_skip_serdev_enumeration() is never called with
+a controller_parent without an ACPI companion, but better safe than sorry.</description><pubDate>Wed, 08 Jan 2025 17:59:41 +0000</pubDate></item><item><title>CVE-2024-56783 | netfilter: nft_socket: remove WARN_ON_ONCE on maximum cgroup level</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56783</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nft_socket: remove WARN_ON_ONCE on maximum cgroup level
+
+cgroup maximum depth is INT_MAX by default, there is a cgroup toggle to
+restrict this maximum depth to a more reasonable value not to harm
+performance. Remove unnecessary WARN_ON_ONCE which is reachable from
+userspace.</description><pubDate>Wed, 08 Jan 2025 17:59:42 +0000</pubDate></item><item><title>CVE-2024-56784 | drm/amd/display: Adding array index check to prevent memory corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56784</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Adding array index check to prevent memory corruption
+
+[Why &amp; How]
+Array indices out of bound caused memory corruption. Adding checks to
+ensure that array index stays in bound.</description><pubDate>Wed, 08 Jan 2025 17:59:42 +0000</pubDate></item><item><title>CVE-2024-56785 | MIPS: Loongson64: DTS: Really fix PCIe port nodes for ls7a</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56785</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+MIPS: Loongson64: DTS: Really fix PCIe port nodes for ls7a
+
+Fix the dtc warnings:
+
+    arch/mips/boot/dts/loongson/ls7a-pch.dtsi:68.16-416.5: Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells' found, but node is not an interrupt provider
+    arch/mips/boot/dts/loongson/ls7a-pch.dtsi:68.16-416.5: Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells' found, but node is not an interrupt provider
+    arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+
+And a runtime warning introduced in commit 045b14ca5c36 ("of: WARN on
+deprecated #address-cells/#size-cells handling"):
+
+    WARNING: CPU: 0 PID: 1 at drivers/of/base.c:106 of_bus_n_addr_cells+0x9c/0xe0
+    Missing '#address-cells' in /bus@10000000/pci@1a000000/pci_bridge@9,0
+
+The fix is similar to commit d89a415ff8d5 ("MIPS: Loongson64: DTS: Fix PCIe
+port nodes for ls7a"), which has fixed the issue for ls2k (despite its
+subject mentions ls7a).</description><pubDate>Wed, 08 Jan 2025 17:59:43 +0000</pubDate></item><item><title>CVE-2024-56786 | bpf: put bpf_link&amp;#x27;s program when link is safe to be deallocated</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56786</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: put bpf_link's program when link is safe to be deallocated
+
+In general, BPF link's underlying BPF program should be considered to be
+reachable through attach hook -&gt; link -&gt; prog chain, and, pessimistically,
+we have to assume that as long as link's memory is not safe to free,
+attach hook's code might hold a pointer to BPF program and use it.
+
+As such, it's not (generally) correct to put link's program early before
+waiting for RCU GPs to go through. More eager bpf_prog_put() that we
+currently do is mostly correct due to BPF program's release code doing
+similar RCU GP waiting, but as will be shown in the following patches,
+BPF program can be non-sleepable (and, thus, reliant on only "classic"
+RCU GP), while BPF link's attach hook can have sleepable semantics and
+needs to be protected by RCU Tasks Trace, and for such cases BPF link
+has to go through RCU Tasks Trace + "classic" RCU GPs before being
+deallocated. And so, if we put BPF program early, we might free BPF
+program before we free BPF link, leading to use-after-free situation.
+
+So, this patch defers bpf_prog_put() until we are ready to perform
+bpf_link's deallocation. At worst, this delays BPF program freeing by
+one extra RCU GP, but that seems completely acceptable. Alternatively,
+we'd need more elaborate ways to determine BPF hook, BPF link, and BPF
+program lifetimes, and how they relate to each other, which seems like
+an unnecessary complication.
+
+Note, for most BPF links we still will perform eager bpf_prog_put() and
+link dealloc, so for those BPF links there are no observable changes
+whatsoever. Only BPF links that use deferred dealloc might notice
+slightly delayed freeing of BPF programs.
+
+Also, to reduce code and logic duplication, extract program put + link
+dealloc logic into bpf_link_dealloc() helper.</description><pubDate>Wed, 08 Jan 2025 17:59:43 +0000</pubDate></item><item><title>CVE-2024-56787 | soc: imx8m: Probe the SoC driver as platform driver</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56787</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+soc: imx8m: Probe the SoC driver as platform driver
+
+With driver_async_probe=* on kernel command line, the following trace is
+produced because on i.MX8M Plus hardware because the soc-imx8m.c driver
+calls of_clk_get_by_name() which returns -EPROBE_DEFER because the clock
+driver is not yet probed. This was not detected during regular testing
+without driver_async_probe.
+
+Convert the SoC code to platform driver and instantiate a platform device
+in its current device_initcall() to probe the platform driver. Rework
+.soc_revision callback to always return valid error code and return SoC
+revision via parameter. This way, if anything in the .soc_revision callback
+return -EPROBE_DEFER, it gets propagated to .probe and the .probe will get
+retried later.
+
+"
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 1 at drivers/soc/imx/soc-imx8m.c:115 imx8mm_soc_revision+0xdc/0x180
+CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.11.0-next-20240924-00002-g2062bb554dea #603
+Hardware name: DH electronics i.MX8M Plus DHCOM Premium Developer Kit (3) (DT)
+pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : imx8mm_soc_revision+0xdc/0x180
+lr : imx8mm_soc_revision+0xd0/0x180
+sp : ffff8000821fbcc0
+x29: ffff8000821fbce0 x28: 0000000000000000 x27: ffff800081810120
+x26: ffff8000818a9970 x25: 0000000000000006 x24: 0000000000824311
+x23: ffff8000817f42c8 x22: ffff0000df8be210 x21: fffffffffffffdfb
+x20: ffff800082780000 x19: 0000000000000001 x18: ffffffffffffffff
+x17: ffff800081fff418 x16: ffff8000823e1000 x15: ffff0000c03b65e8
+x14: ffff0000c00051b0 x13: ffff800082790000 x12: 0000000000000801
+x11: ffff80008278ffff x10: ffff80008209d3a6 x9 : ffff80008062e95c
+x8 : ffff8000821fb9a0 x7 : 0000000000000000 x6 : 00000000000080e3
+x5 : ffff0000df8c03d8 x4 : 0000000000000000 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : fffffffffffffdfb x0 : fffffffffffffdfb
+Call trace:
+ imx8mm_soc_revision+0xdc/0x180
+ imx8_soc_init+0xb0/0x1e0
+ do_one_initcall+0x94/0x1a8
+ kernel_init_freeable+0x240/0x2a8
+ kernel_init+0x28/0x140
+ ret_from_fork+0x10/0x20
+---[ end trace 0000000000000000 ]---
+SoC: i.MX8MP revision 1.1
+"</description><pubDate>Wed, 08 Jan 2025 17:59:43 +0000</pubDate></item><item><title>CVE-2024-56771 | mtd: spinand: winbond: Fix 512GW, 01GW, 01JW and 02JW ECC information</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56771</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mtd: spinand: winbond: Fix 512GW, 01GW, 01JW and 02JW ECC information
 
@@ -186,7 +336,7 @@ nfsd4_open
                         // find oo1, without NFS4_OO_CONFIRMED
                          release_openowner
                           unhash_openowner_locked
-                          list_del_init(&amp;oo-&gt;oo_perclient)
+                          list_del_init(&amp;amp;oo-&gt;oo_perclient)
                           // cannot find this oo
                           // from client, LEAK!!!
                          alloc_stateowner // alloc oo2
@@ -231,7 +381,7 @@ CPU: 4 UID: 0 PID: 757 Comm: sh Not tainted 6.12.0-rc6+ #19
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 1.16.1-2.fc37 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  dum
 ---truncated---</description><pubDate>Wed, 08 Jan 2025 17:52:45 +0000</pubDate></item><item><title>CVE-2024-56780 | quota: flush quota_release_work upon quota writeback</title><link>https://www.cve.org/CVERecord?id=CVE-2024-56780</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
