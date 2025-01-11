@@ -1,5 +1,265 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 14:27:09 +0000</lastBuildDate><item><title>CVE-2024-57809 | PCI: imx6: Fix suspend/resume support on i.MX6QDL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57809</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 14:43:10 +0000</lastBuildDate><item><title>CVE-2024-57839 | Revert &amp;quot;readahead: properly shorten readahead when falling back to do_page_cache_ra()&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57839</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "readahead: properly shorten readahead when falling back to do_page_cache_ra()"
+
+This reverts commit 7c877586da3178974a8a94577b6045a48377ff25.
+
+Anders and Philippe have reported that recent kernels occasionally hang
+when used with NFS in readahead code.  The problem has been bisected to
+7c877586da3 ("readahead: properly shorten readahead when falling back to
+do_page_cache_ra()").  The cause of the problem is that ra-&gt;size can be
+shrunk by read_pages() call and subsequently we end up calling
+do_page_cache_ra() with negative (read huge positive) number of pages. 
+Let's revert 7c877586da3 for now until we can find a proper way how the
+logic in read_pages() and page_cache_ra_order() can coexist.  This can
+lead to reduced readahead throughput due to readahead window confusion but
+that's better than outright hangs.</description><pubDate>Sat, 11 Jan 2025 14:43:12 +0000</pubDate></item><item><title>CVE-2024-57843 | virtio-net: fix overflow inside virtnet_rq_alloc</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57843</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+virtio-net: fix overflow inside virtnet_rq_alloc
+
+When the frag just got a page, then may lead to regression on VM.
+Specially if the sysctl net.core.high_order_alloc_disable value is 1,
+then the frag always get a page when do refill.
+
+Which could see reliable crashes or scp failure (scp a file 100M in size
+to VM).
+
+The issue is that the virtnet_rq_dma takes up 16 bytes at the beginning
+of a new frag. When the frag size is larger than PAGE_SIZE,
+everything is fine. However, if the frag is only one page and the
+total size of the buffer and virtnet_rq_dma is larger than one page, an
+overflow may occur.
+
+The commit f9dac92ba908 ("virtio_ring: enable premapped mode whatever
+use_dma_api") introduced this problem. And we reverted some commits to
+fix this in last linux version. Now we try to enable it and fix this
+bug directly.
+
+Here, when the frag size is not enough, we reduce the buffer len to fix
+this problem.</description><pubDate>Sat, 11 Jan 2025 14:43:12 +0000</pubDate></item><item><title>CVE-2024-57849 | s390/cpum_sf: Handle CPU hotplug remove during sampling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57849</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/cpum_sf: Handle CPU hotplug remove during sampling
+
+CPU hotplug remove handling triggers the following function
+call sequence:
+
+   CPUHP_AP_PERF_S390_SF_ONLINE  --&gt; s390_pmu_sf_offline_cpu()
+   ...
+   CPUHP_AP_PERF_ONLINE          --&gt; perf_event_exit_cpu()
+
+The s390 CPUMF sampling CPU hotplug handler invokes:
+
+ s390_pmu_sf_offline_cpu()
+ +--&gt;  cpusf_pmu_setup()
+       +--&gt; setup_pmc_cpu()
+            +--&gt; deallocate_buffers()
+
+This function de-allocates all sampling data buffers (SDBs) allocated
+for that CPU at event initialization. It also clears the
+PMU_F_RESERVED bit. The CPU is gone and can not be sampled.
+
+With the event still being active on the removed CPU, the CPU event
+hotplug support in kernel performance subsystem triggers the
+following function calls on the removed CPU:
+
+  perf_event_exit_cpu()
+  +--&gt; perf_event_exit_cpu_context()
+       +--&gt; __perf_event_exit_context()
+	    +--&gt; __perf_remove_from_context()
+	         +--&gt; event_sched_out()
+	              +--&gt; cpumsf_pmu_del()
+	                   +--&gt; cpumsf_pmu_stop()
+                                +--&gt; hw_perf_event_update()
+
+to stop and remove the event. During removal of the event, the
+sampling device driver tries to read out the remaining samples from
+the sample data buffers (SDBs). But they have already been freed
+(and may have been re-assigned). This may lead to a use after free
+situation in which case the samples are most likely invalid. In the
+best case the memory has not been reassigned and still contains
+valid data.
+
+Remedy this situation and check if the CPU is still in reserved
+state (bit PMU_F_RESERVED set). In this case the SDBs have not been
+released an contain valid data. This is always the case when
+the event is removed (and no CPU hotplug off occured).
+If the PMU_F_RESERVED bit is not set, the SDB buffers are gone.</description><pubDate>Sat, 11 Jan 2025 14:43:13 +0000</pubDate></item><item><title>CVE-2024-57850 | jffs2: Prevent rtime decompress memory corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57850</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+jffs2: Prevent rtime decompress memory corruption
+
+The rtime decompression routine does not fully check bounds during the
+entirety of the decompression pass and can corrupt memory outside the
+decompression buffer if the compressed data is corrupted. This adds the
+required check to prevent this failure mode.</description><pubDate>Sat, 11 Jan 2025 14:43:13 +0000</pubDate></item><item><title>CVE-2024-57872 | scsi: ufs: pltfrm: Dellocate HBA during ufshcd_pltfrm_remove()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57872</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: pltfrm: Dellocate HBA during ufshcd_pltfrm_remove()
+
+This will ensure that the scsi host is cleaned up properly using
+scsi_host_dev_release(). Otherwise, it may lead to memory leaks.</description><pubDate>Sat, 11 Jan 2025 14:43:14 +0000</pubDate></item><item><title>CVE-2025-23124 | block: RCU protect disk-&amp;gt;conv_zones_bitmap</title><link>https://www.cve.org/CVERecord?id=CVE-2025-23124</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: RCU protect disk-&gt;conv_zones_bitmap
+
+Ensure that a disk revalidation changing the conventional zones bitmap
+of a disk does not cause invalid memory references when using the
+disk_zone_is_conv() helper by RCU protecting the disk-&gt;conv_zones_bitmap
+pointer.
+
+disk_zone_is_conv() is modified to operate under the RCU read lock and
+the function disk_set_conv_zones_bitmap() is added to update a disk
+conv_zones_bitmap pointer using rcu_replace_pointer() with the disk
+zone_wplugs_lock spinlock held.
+
+disk_free_zone_resources() is modified to call
+disk_update_zone_resources() with a NULL bitmap pointer to free the disk
+conv_zones_bitmap. disk_set_conv_zones_bitmap() is also used in
+disk_update_zone_resources() to set the new (revalidated) bitmap and
+free the old one.</description><pubDate>Sat, 11 Jan 2025 14:43:14 +0000</pubDate></item><item><title>CVE-2025-23125 | drm/dp_mst: Fix resetting msg rx state after topology removal</title><link>https://www.cve.org/CVERecord?id=CVE-2025-23125</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/dp_mst: Fix resetting msg rx state after topology removal
+
+If the MST topology is removed during the reception of an MST down reply
+or MST up request sideband message, the
+drm_dp_mst_topology_mgr::up_req_recv/down_rep_recv states could be reset
+from one thread via drm_dp_mst_topology_mgr_set_mst(false), racing with
+the reading/parsing of the message from another thread via
+drm_dp_mst_handle_down_rep() or drm_dp_mst_handle_up_req(). The race is
+possible since the reader/parser doesn't hold any lock while accessing
+the reception state. This in turn can lead to a memory corruption in the
+reader/parser as described by commit bd2fccac61b4 ("drm/dp_mst: Fix MST
+sideband message body length check").
+
+Fix the above by resetting the message reception state if needed before
+reading/parsing a message. Another solution would be to hold the
+drm_dp_mst_topology_mgr::lock for the whole duration of the message
+reception/parsing in drm_dp_mst_handle_down_rep() and
+drm_dp_mst_handle_up_req(), however this would require a bigger change.
+Since the fix is also needed for stable, opting for the simpler solution
+in this patch.</description><pubDate>Sat, 11 Jan 2025 14:43:15 +0000</pubDate></item><item><title>CVE-2025-23126 | arm64: ptrace: fix partial SETREGSET for NT_ARM_POE</title><link>https://www.cve.org/CVERecord?id=CVE-2025-23126</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: ptrace: fix partial SETREGSET for NT_ARM_POE
+
+Currently poe_set() doesn't initialize the temporary 'ctrl' variable,
+and a SETREGSET call with a length of zero will leave this
+uninitialized. Consequently an arbitrary value will be written back to
+target-&gt;thread.por_el0, potentially leaking up to 64 bits of memory from
+the kernel stack. The read is limited to a specific slot on the stack,
+and the issue does not provide a write mechanism.
+
+Fix this by initializing the temporary value before copying the regset
+from userspace, as for other regsets (e.g. NT_PRSTATUS, NT_PRFPREG,
+NT_ARM_SYSTEM_CALL). In the case of a zero-length write, the existing
+contents of POR_EL1 will be retained.
+
+Before this patch:
+
+| # ./poe-test
+| Attempting to write NT_ARM_POE::por_el0 = 0x900d900d900d900d
+| SETREGSET(nt=0x40f, len=8) wrote 8 bytes
+|
+| Attempting to read NT_ARM_POE::por_el0
+| GETREGSET(nt=0x40f, len=8) read 8 bytes
+| Read NT_ARM_POE::por_el0 = 0x900d900d900d900d
+|
+| Attempting to write NT_ARM_POE (zero length)
+| SETREGSET(nt=0x40f, len=0) wrote 0 bytes
+|
+| Attempting to read NT_ARM_POE::por_el0
+| GETREGSET(nt=0x40f, len=8) read 8 bytes
+| Read NT_ARM_POE::por_el0 = 0xffff8000839c3d50
+
+After this patch:
+
+| # ./poe-test
+| Attempting to write NT_ARM_POE::por_el0 = 0x900d900d900d900d
+| SETREGSET(nt=0x40f, len=8) wrote 8 bytes
+|
+| Attempting to read NT_ARM_POE::por_el0
+| GETREGSET(nt=0x40f, len=8) read 8 bytes
+| Read NT_ARM_POE::por_el0 = 0x900d900d900d900d
+|
+| Attempting to write NT_ARM_POE (zero length)
+| SETREGSET(nt=0x40f, len=0) wrote 0 bytes
+|
+| Attempting to read NT_ARM_POE::por_el0
+| GETREGSET(nt=0x40f, len=8) read 8 bytes
+| Read NT_ARM_POE::por_el0 = 0x900d900d900d900d</description><pubDate>Sat, 11 Jan 2025 14:43:15 +0000</pubDate></item><item><title>CVE-2025-23127 | arm64: ptrace: fix partial SETREGSET for NT_ARM_FPMR</title><link>https://www.cve.org/CVERecord?id=CVE-2025-23127</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: ptrace: fix partial SETREGSET for NT_ARM_FPMR
+
+Currently fpmr_set() doesn't initialize the temporary 'fpmr' variable,
+and a SETREGSET call with a length of zero will leave this
+uninitialized. Consequently an arbitrary value will be written back to
+target-&gt;thread.uw.fpmr, potentially leaking up to 64 bits of memory from
+the kernel stack. The read is limited to a specific slot on the stack,
+and the issue does not provide a write mechanism.
+
+Fix this by initializing the temporary value before copying the regset
+from userspace, as for other regsets (e.g. NT_PRSTATUS, NT_PRFPREG,
+NT_ARM_SYSTEM_CALL). In the case of a zero-length write, the existing
+contents of FPMR will be retained.
+
+Before this patch:
+
+| # ./fpmr-test
+| Attempting to write NT_ARM_FPMR::fpmr = 0x900d900d900d900d
+| SETREGSET(nt=0x40e, len=8) wrote 8 bytes
+|
+| Attempting to read NT_ARM_FPMR::fpmr
+| GETREGSET(nt=0x40e, len=8) read 8 bytes
+| Read NT_ARM_FPMR::fpmr = 0x900d900d900d900d
+|
+| Attempting to write NT_ARM_FPMR (zero length)
+| SETREGSET(nt=0x40e, len=0) wrote 0 bytes
+|
+| Attempting to read NT_ARM_FPMR::fpmr
+| GETREGSET(nt=0x40e, len=8) read 8 bytes
+| Read NT_ARM_FPMR::fpmr = 0xffff800083963d50
+
+After this patch:
+
+| # ./fpmr-test
+| Attempting to write NT_ARM_FPMR::fpmr = 0x900d900d900d900d
+| SETREGSET(nt=0x40e, len=8) wrote 8 bytes
+|
+| Attempting to read NT_ARM_FPMR::fpmr
+| GETREGSET(nt=0x40e, len=8) read 8 bytes
+| Read NT_ARM_FPMR::fpmr = 0x900d900d900d900d
+|
+| Attempting to write NT_ARM_FPMR (zero length)
+| SETREGSET(nt=0x40e, len=0) wrote 0 bytes
+|
+| Attempting to read NT_ARM_FPMR::fpmr
+| GETREGSET(nt=0x40e, len=8) read 8 bytes
+| Read NT_ARM_FPMR::fpmr = 0x900d900d900d900d</description><pubDate>Sat, 11 Jan 2025 14:43:15 +0000</pubDate></item><item><title>CVE-2025-23128 | arm64: ptrace: fix partial SETREGSET for NT_ARM_TAGGED_ADDR_CTRL</title><link>https://www.cve.org/CVERecord?id=CVE-2025-23128</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: ptrace: fix partial SETREGSET for NT_ARM_TAGGED_ADDR_CTRL
+
+Currently tagged_addr_ctrl_set() doesn't initialize the temporary 'ctrl'
+variable, and a SETREGSET call with a length of zero will leave this
+uninitialized. Consequently tagged_addr_ctrl_set() will consume an
+arbitrary value, potentially leaking up to 64 bits of memory from the
+kernel stack. The read is limited to a specific slot on the stack, and
+the issue does not provide a write mechanism.
+
+As set_tagged_addr_ctrl() only accepts values where bits [63:4] zero and
+rejects other values, a partial SETREGSET attempt will randomly succeed
+or fail depending on the value of the uninitialized value, and the
+exposure is significantly limited.
+
+Fix this by initializing the temporary value before copying the regset
+from userspace, as for other regsets (e.g. NT_PRSTATUS, NT_PRFPREG,
+NT_ARM_SYSTEM_CALL). In the case of a zero-length write, the existing
+value of the tagged address ctrl will be retained.
+
+The NT_ARM_TAGGED_ADDR_CTRL regset is only visible in the
+user_aarch64_view used by a native AArch64 task to manipulate another
+native AArch64 task. As get_tagged_addr_ctrl() only returns an error
+value when called for a compat task, tagged_addr_ctrl_get() and
+tagged_addr_ctrl_set() should never observe an error value from
+get_tagged_addr_ctrl(). Add a WARN_ON_ONCE() to both to indicate that
+such an error would be unexpected, and error handlnig is not missing in
+either case.</description><pubDate>Sat, 11 Jan 2025 14:43:16 +0000</pubDate></item><item><title>CVE-2024-57809 | PCI: imx6: Fix suspend/resume support on i.MX6QDL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57809</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 PCI: imx6: Fix suspend/resume support on i.MX6QDL
 
