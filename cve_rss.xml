@@ -1,5 +1,77 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 12:51:34 +0000</lastBuildDate><item><title>CVE-2024-41149 | block: avoid to reuse `hctx` not removed from cpuhp callback list</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41149</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 14:27:09 +0000</lastBuildDate><item><title>CVE-2024-57809 | PCI: imx6: Fix suspend/resume support on i.MX6QDL</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57809</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI: imx6: Fix suspend/resume support on i.MX6QDL
+
+The suspend/resume functionality is currently broken on the i.MX6QDL
+platform, as documented in the NXP errata (ERR005723):
+
+  https://www.nxp.com/docs/en/errata/IMX6DQCE.pdf
+
+This patch addresses the issue by sharing most of the suspend/resume
+sequences used by other i.MX devices, while avoiding modifications to
+critical registers that disrupt the PCIe functionality. It targets the
+same problem as the following downstream commit:
+
+  https://github.com/nxp-imx/linux-imx/commit/4e92355e1f79d225ea842511fcfd42b343b32995
+
+Unlike the downstream commit, this patch also resets the connected PCIe
+device if possible. Without this reset, certain drivers, such as ath10k
+or iwlwifi, will crash on resume. The device reset is also done by the
+driver on other i.MX platforms, making this patch consistent with
+existing practices.
+
+Upon resuming, the kernel will hang and display an error. Here's an
+example of the error encountered with the ath10k driver:
+
+  ath10k_pci 0000:01:00.0: Unable to change power state from D3hot to D0, device inaccessible
+  Unhandled fault: imprecise external abort (0x1406) at 0x0106f944
+
+Without this patch, suspend/resume will fail on i.MX6QDL devices if a
+PCIe device is connected.
+
+[kwilczynski: commit log, added tag for stable releases]</description><pubDate>Sat, 11 Jan 2025 14:27:11 +0000</pubDate></item><item><title>CVE-2024-57838 | s390/entry: Mark IRQ entries to fix stack depot warnings</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57838</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/entry: Mark IRQ entries to fix stack depot warnings
+
+The stack depot filters out everything outside of the top interrupt
+context as an uninteresting or irrelevant part of the stack traces. This
+helps with stack trace de-duplication, avoiding an explosion of saved
+stack traces that share the same IRQ context code path but originate
+from different randomly interrupted points, eventually exhausting the
+stack depot.
+
+Filtering uses in_irqentry_text() to identify functions within the
+.irqentry.text and .softirqentry.text sections, which then become the
+last stack trace entries being saved.
+
+While __do_softirq() is placed into the .softirqentry.text section by
+common code, populating .irqentry.text is architecture-specific.
+
+Currently, the .irqentry.text section on s390 is empty, which prevents
+stack depot filtering and de-duplication and could result in warnings
+like:
+
+Stack depot reached limit capacity
+WARNING: CPU: 0 PID: 286113 at lib/stackdepot.c:252 depot_alloc_stack+0x39a/0x3c8
+
+with PREEMPT and KASAN enabled.
+
+Fix this by moving the IO/EXT interrupt handlers from .kprobes.text into
+the .irqentry.text section and updating the kprobes blacklist to include
+the .irqentry.text section.
+
+This is done only for asynchronous interrupts and explicitly not for
+program checks, which are synchronous and where the context beyond the
+program check is important to preserve. Despite machine checks being
+somewhat in between, they are extremely rare, and preserving context
+when possible is also of value.
+
+SVCs and Restart Interrupts are not relevant, one being always at the
+boundary to user space and the other being a one-time thing.
+
+IRQ entries filtering is also optionally used in ftrace function graph,
+where the same logic applies.</description><pubDate>Sat, 11 Jan 2025 14:27:11 +0000</pubDate></item><item><title>CVE-2024-41149 | block: avoid to reuse `hctx` not removed from cpuhp callback list</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41149</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 block: avoid to reuse `hctx` not removed from cpuhp callback list
 
@@ -135,28 +207,28 @@ cores, which triggers the following warning when the irqs are disabled:
 [    3.458141]  s11: ffffffff81524812 t3 : 0000000000000001 t4 : ff60000080092bc0
 [    3.458172]  t5 : 0000000000000000 t6 : ff200000000236d0
 [    3.458203] status: 0000000200000100 badaddr: ffffffff800b669a cause: 0000000000000003
-[    3.458373] [&lt;ffffffff800b669a&gt;] smp_call_function_many_cond+0x452/0x520
-[    3.458593] [&lt;ffffffff800b67c2&gt;] on_each_cpu_cond_mask+0x1e/0x30
-[    3.458625] [&lt;ffffffff8000e4ca&gt;] __flush_tlb_range+0x118/0x1ca
-[    3.458656] [&lt;ffffffff8000e6b2&gt;] flush_tlb_kernel_range+0x1e/0x26
-[    3.458683] [&lt;ffffffff801ea56a&gt;] kfence_protect+0xc0/0xce
-[    3.458717] [&lt;ffffffff801e9456&gt;] kfence_guarded_free+0xc6/0x1c0
-[    3.458742] [&lt;ffffffff801e9d6c&gt;] __kfence_free+0x62/0xc6
-[    3.458764] [&lt;ffffffff801c57d8&gt;] kfree+0x106/0x32c
-[    3.458786] [&lt;ffffffff80588cf2&gt;] detach_buf_split+0x188/0x1a8
-[    3.458816] [&lt;ffffffff8058708c&gt;] virtqueue_get_buf_ctx+0xb6/0x1f6
-[    3.458839] [&lt;ffffffff805871da&gt;] virtqueue_get_buf+0xe/0x16
-[    3.458880] [&lt;ffffffff80613d6a&gt;] virtblk_done+0x5c/0xe2
-[    3.458908] [&lt;ffffffff8058766e&gt;] vring_interrupt+0x6a/0x74
-[    3.458930] [&lt;ffffffff800747d8&gt;] __handle_irq_event_percpu+0x7c/0xe2
-[    3.458956] [&lt;ffffffff800748f0&gt;] handle_irq_event+0x3c/0x86
-[    3.458978] [&lt;ffffffff800786cc&gt;] handle_simple_irq+0x9e/0xbe
-[    3.459004] [&lt;ffffffff80073934&gt;] generic_handle_domain_irq+0x1c/0x2a
-[    3.459027] [&lt;ffffffff804bf87c&gt;] imsic_handle_irq+0xba/0x120
-[    3.459056] [&lt;ffffffff80073934&gt;] generic_handle_domain_irq+0x1c/0x2a
-[    3.459080] [&lt;ffffffff804bdb76&gt;] riscv_intc_aia_irq+0x24/0x34
-[    3.459103] [&lt;ffffffff809d0452&gt;] handle_riscv_irq+0x2e/0x4c
-[    3.459133] [&lt;ffffffff809d923e&gt;] call_on_irq_stack+0x32/0x40
+[    3.458373] [] smp_call_function_many_cond+0x452/0x520
+[    3.458593] [] on_each_cpu_cond_mask+0x1e/0x30
+[    3.458625] [] __flush_tlb_range+0x118/0x1ca
+[    3.458656] [] flush_tlb_kernel_range+0x1e/0x26
+[    3.458683] [] kfence_protect+0xc0/0xce
+[    3.458717] [] kfence_guarded_free+0xc6/0x1c0
+[    3.458742] [] __kfence_free+0x62/0xc6
+[    3.458764] [] kfree+0x106/0x32c
+[    3.458786] [] detach_buf_split+0x188/0x1a8
+[    3.458816] [] virtqueue_get_buf_ctx+0xb6/0x1f6
+[    3.458839] [] virtqueue_get_buf+0xe/0x16
+[    3.458880] [] virtblk_done+0x5c/0xe2
+[    3.458908] [] vring_interrupt+0x6a/0x74
+[    3.458930] [] __handle_irq_event_percpu+0x7c/0xe2
+[    3.458956] [] handle_irq_event+0x3c/0x86
+[    3.458978] [] handle_simple_irq+0x9e/0xbe
+[    3.459004] [] generic_handle_domain_irq+0x1c/0x2a
+[    3.459027] [] imsic_handle_irq+0xba/0x120
+[    3.459056] [] generic_handle_domain_irq+0x1c/0x2a
+[    3.459080] [] riscv_intc_aia_irq+0x24/0x34
+[    3.459103] [] handle_riscv_irq+0x2e/0x4c
+[    3.459133] [] call_on_irq_stack+0x32/0x40
 
 So only flush the local TLB and let the lazy kfence page fault handling
 deal with the faults which could happen when a core has an old protected
@@ -176,17 +248,17 @@ simply by accessing /sys/kernel/debug file using ls command:
 [   57.597154] 6.12.0-10553-gb86545e02e8c #20 Tainted: G        W
 [   57.597162] ------------------------------------------------------
 [   57.597168] ls/4605 is trying to acquire lock:
-[   57.597176] c00000003eb56710 (&amp;mm-&gt;mmap_lock){++++}-{4:4}, at: __might_fault+0x58/0xc0
+[   57.597176] c00000003eb56710 (&amp;amp;mm-&gt;mmap_lock){++++}-{4:4}, at: __might_fault+0x58/0xc0
 [   57.597200]
                but task is already holding lock:
-[   57.597207] c0000018e27c6810 (&amp;sb-&gt;s_type-&gt;i_mutex_key#3){++++}-{4:4}, at: iterate_dir+0x94/0x1d4
+[   57.597207] c0000018e27c6810 (&amp;amp;sb-&gt;s_type-&gt;i_mutex_key#3){++++}-{4:4}, at: iterate_dir+0x94/0x1d4
 [   57.597226]
                which lock already depends on the new lock.
 
 [   57.597233]
                the existing dependency chain (in reverse order) is:
 [   57.597241]
-               -&gt; #5 (&amp;sb-&gt;s_type-&gt;i_mutex_key#3){++++}-{4:4}:
+               -&gt; #5 (&amp;amp;sb-&gt;s_type-&gt;i_mutex_key#3){++++}-{4:4}:
 [   57.597255]        down_write+0x6c/0x18c
 [   57.597264]        start_creating+0xb4/0x24c
 [   57.597274]        debugfs_create_dir+0x2c/0x1e8
@@ -199,7 +271,7 @@ simply by accessing /sys/kernel/debug file using ls command:
 [   57.597334]        kernel_init+0x34/0x1cc
 [   57.597342]        ret_from_kernel_user_thread+0x14/0x1c
 [   57.597350]
-               -&gt; #4 (&amp;q-&gt;debugfs_mutex){+.+.}-{4:4}:
+               -&gt; #4 (&amp;amp;q-&gt;debugfs_mutex){+.+.}-{4:4}:
 [   57.597362]        __mutex_lock+0xfc/0x12a0
 [   57.597370]        blk_register_queue+0xd4/0x294
 [   57.597379]        add_disk_fwnode+0x2e4/0x548
@@ -210,7 +282,7 @@ simply by accessing /sys/kernel/debug file using ls command:
 [   57.597418]        kernel_init+0x34/0x1cc
 [   57.597426]        ret_from_kernel_user_thread+0x14/0x1c
 [   57.597434]
-               -&gt; #3 (&amp;q-&gt;sysfs_lock){+.+.}-{4:4}:
+               -&gt; #3 (&amp;amp;q-&gt;sysfs_lock){+.+.}-{4:4}:
 [   57.597446]        __mutex_lock+0xfc/0x12a0
 [   57.597454]        queue_attr_store+0x9c/0x110
 [   57.597462]        sysfs_kf_write+0x70/0xb0
@@ -220,7 +292,7 @@ simply by accessing /sys/kernel/debug file using ls command:
 [   57.597495]        system_call_exception+0x130/0x360
 [   57.597504]        system_call_common+0x160/0x2c4
 [   57.597516]
-               -&gt; #2 (&amp;q-&gt;q_usage_counter(io)#21){++++}-{0:0}:
+               -&gt; #2 (&amp;amp;q-&gt;q_usage_counter(io)#21){++++}-{0:0}:
 [   57.597530]        __submit_bio+0x5ec/0x828
 [   57.597538]        submit_bio_noacct_nocheck+0x1e4/0x4f0
 [   57.597547]        iomap_readahead+0x2a0/0x448
@@ -264,7 +336,7 @@ that this inode has been deleted, and iput is executed to reclaim it.
 WARNING: CPU: 1 PID: 5824 at fs/inode.c:407 drop_nlink+0xc4/0x110 fs/inode.c:407
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  nilfs_rmdir+0x1b0/0x250 fs/nilfs2/namei.c:342
  vfs_rmdir+0x3a3/0x510 fs/namei.c:4394
  do_rmdir+0x3b5/0x580 fs/namei.c:4453
@@ -286,7 +358,7 @@ before calling a function that locks hdev.
 [  561.670349] 6.12.0-rc6+ #26 Not tainted
 [  561.670351] ------------------------------------------------------
 [  561.670353] iso-tester/3289 is trying to acquire lock:
-[  561.670355] ffff88811f600078 (&amp;hdev-&gt;lock){+.+.}-{3:3},
+[  561.670355] ffff88811f600078 (&amp;amp;hdev-&gt;lock){+.+.}-{3:3},
                at: iso_conn_big_sync+0x73/0x260 [bluetooth]
 [  561.670405]
                but task is already holding lock:
@@ -320,7 +392,7 @@ before calling a function that locks hdev.
 [  561.670626]        do_syscall_64+0x87/0x150
 [  561.670629]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
 [  561.670632]
-               -&gt; #0 (&amp;hdev-&gt;lock){+.+.}-{3:3}:
+               -&gt; #0 (&amp;amp;hdev-&gt;lock){+.+.}-{3:3}:
 [  561.670636]        __lock_acquire+0x32ad/0x6ab0
 [  561.670639]        lock_acquire.part.0+0x118/0x360
 [  561.670642]        lock_acquire+0x7c/0xc0
@@ -340,7 +412,7 @@ before calling a function that locks hdev.
                other info that might help us debug this:
 
 [  561.670745] Chain exists of:
-&amp;hdev-&gt;lock --&gt; sk_lock-AF_BLUETOOTH-BTPROTO_ISO --&gt; sk_lock-AF_BLUETOOTH
+&amp;amp;hdev-&gt;lock --&gt; sk_lock-AF_BLUETOOTH-BTPROTO_ISO --&gt; sk_lock-AF_BLUETOOTH
 
 [  561.670751]  Possible unsafe locking scenario:
 
@@ -350,7 +422,7 @@ before calling a function that locks hdev.
 [  561.670758]                                lock(sk_lock
                                               AF_BLUETOOTH-BTPROTO_ISO);
 [  561.670761]                                lock(sk_lock-AF_BLUETOOTH);
-[  561.670764]   lock(&amp;hdev-&gt;lock);
+[  561.670764]   lock(&amp;amp;hdev-&gt;lock);
 [  561.670767]
                 *** DEADLOCK ***</description><pubDate>Sat, 11 Jan 2025 12:51:41 +0000</pubDate></item><item><title>CVE-2024-54193 | accel/ivpu: Fix WARN in ivpu_ipc_send_receive_internal()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-54193</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -380,7 +452,7 @@ avoid any potential deadlock with hdev lock.
                at: iso_connect_cfm+0x253/0x840 [bluetooth]
 [   75.308021]
                but task is already holding lock:
-[   75.308022] ffff8fdd61a10078 (&amp;hdev-&gt;lock)
+[   75.308022] ffff8fdd61a10078 (&amp;amp;hdev-&gt;lock)
                at: hci_le_per_adv_report_evt+0x47/0x2f0 [bluetooth]
 [   75.308053]
                which lock already depends on the new lock.
@@ -388,7 +460,7 @@ avoid any potential deadlock with hdev lock.
 [   75.308054]
                the existing dependency chain (in reverse order) is:
 [   75.308055]
-               -&gt; #1 (&amp;hdev-&gt;lock){+.+.}-{3:3}:
+               -&gt; #1 (&amp;amp;hdev-&gt;lock){+.+.}-{3:3}:
 [   75.308057]        __mutex_lock+0xad/0xc50
 [   75.308061]        mutex_lock_nested+0x1b/0x30
 [   75.308063]        iso_sock_listen+0x143/0x5c0 [bluetooth]
@@ -420,10 +492,10 @@ avoid any potential deadlock with hdev lock.
 
 [   75.308264]        CPU0                CPU1
 [   75.308265]        ----                ----
-[   75.308265]   lock(&amp;hdev-&gt;lock);
+[   75.308265]   lock(&amp;amp;hdev-&gt;lock);
 [   75.308267]                            lock(sk_lock-
                                                 AF_BLUETOOTH-BTPROTO_ISO);
-[   75.308268]                            lock(&amp;hdev-&gt;lock);
+[   75.308268]                            lock(&amp;amp;hdev-&gt;lock);
 [   75.308269]   lock(sk_lock-AF_BLUETOOTH-BTPROTO_ISO);
 [   75.308270]
                 *** DEADLOCK ***
@@ -431,9 +503,9 @@ avoid any potential deadlock with hdev lock.
 [   75.308271] 4 locks held by kworker/u81:2/2623:
 [   75.308272]  #0: ffff8fdd66e52148 ((wq_completion)hci0#2){+.+.}-{0:0},
                 at: process_one_work+0x443/0x740
-[   75.308276]  #1: ffffafb488b7fe48 ((work_completion)(&amp;hdev-&gt;rx_work)),
+[   75.308276]  #1: ffffafb488b7fe48 ((work_completion)(&amp;amp;hdev-&gt;rx_work)),
                 at: process_one_work+0x1ce/0x740
-[   75.308280]  #2: ffff8fdd61a10078 (&amp;hdev-&gt;lock){+.+.}-{3:3}
+[   75.308280]  #2: ffff8fdd61a10078 (&amp;amp;hdev-&gt;lock){+.+.}-{3:3}
                 at: hci_le_per_adv_report_evt+0x47/0x2f0 [bluetooth]
 [   75.308304]  #3: ffffffffb6ba4900 (rcu_read_lock){....}-{1:2},
                 at: hci_connect_cfm+0x29/0x190 [bluetooth]</description><pubDate>Sat, 11 Jan 2025 12:51:42 +0000</pubDate></item><item><title>CVE-2024-54680 | smb: client: fix TCP timers deadlock after rmmod</title><link>https://www.cve.org/CVERecord?id=CVE-2024-54680</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -638,13 +710,13 @@ hypercall via VMGEXIT trips the WARN:
   Hardware name: Google Astoria/astoria, BIOS 0.20240617.0-0 06/17/2024
   RIP: 0010:complete_hypercall_exit+0x44/0xe0 [kvm]
   Call Trace:
-   &lt;TASK&gt;
+   
    kvm_arch_vcpu_ioctl_run+0x2400/0x2720 [kvm]
    kvm_vcpu_ioctl+0x54f/0x630 [kvm]
    __se_sys_ioctl+0x6b/0xc0
    do_syscall_64+0x83/0x160
    entry_SYSCALL_64_after_hwframe+0x76/0x7e
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---</description><pubDate>Sat, 11 Jan 2025 12:51:44 +0000</pubDate></item><item><title>CVE-2024-55916 | Drivers: hv: util: Avoid accessing a ringbuffer not initialized yet</title><link>https://www.cve.org/CVERecord?id=CVE-2024-55916</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 Drivers: hv: util: Avoid accessing a ringbuffer not initialized yet
@@ -668,8 +740,8 @@ Call Trace:
  handle_softirqs
  irq_exit_rcu
  sysvec_hyperv_stimer0
- &lt;/IRQ&gt;
- &lt;TASK&gt;
+ 
+ 
  asm_sysvec_hyperv_stimer0
 ...
  kvp_register_done
@@ -719,7 +791,7 @@ Read of size 8 at addr ffff8880767dd2b8 by task syz-executor187/5836
 CPU: 0 UID: 0 PID: 5836 Comm: syz-executor187 Not tainted 6.13.0-rc2-syzkaller-00159-gf932fb9b4074 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/25/2024
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -747,11 +819,11 @@ Call Trace:
 The reproducer for this bug is:
 
 ------------------------8&lt;-------------------------
- #include &lt;fcntl.h&gt;
- #include &lt;stdlib.h&gt;
- #include &lt;unistd.h&gt;
- #include &lt;asm/types.h&gt;
- #include &lt;sys/mman.h&gt;
+ #include 
+ #include 
+ #include 
+ #include types.h&gt;
+ #include mman.h&gt;
 
  int main(int argc, char **argv)
  {
@@ -800,7 +872,7 @@ CR2: 00007f0dca6ead58 CR3: 00000000119da000 CR4: 00000000003526f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
   skb_cow_data+0x2da/0xcb0 net/core/skbuff.c:5284
   tipc_aead_decrypt net/tipc/crypto.c:894 [inline]
   tipc_crypto_rcv+0x402/0x24e0 net/tipc/crypto.c:1844
@@ -998,7 +1070,7 @@ failure occurs regarding the simple quota feature.
   [5.597946] CPU: 1 UID: 0 PID: 268 Comm: mount Not tainted 6.13.0-rc2-00031-gf92f4749861b #146
   [5.598450] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
   [5.599008] RIP: 0010:btrfs_read_qgroup_config+0x74d/0x7a0
-  [5.604303]  &lt;TASK&gt;
+  [5.604303]  
   [5.605230]  ? btrfs_read_qgroup_config+0x74d/0x7a0
   [5.605538]  ? exc_invalid_op+0x56/0x70
   [5.605775]  ? btrfs_read_qgroup_config+0x74d/0x7a0
@@ -1052,10 +1124,10 @@ scsi: megaraid_sas: Fix for a potential deadlock
 This fixes a 'possible circular locking dependency detected' warning
       CPU0                    CPU1
       ----                    ----
- lock(&amp;instance-&gt;reset_mutex);
-                              lock(&amp;shost-&gt;scan_mutex);
-                              lock(&amp;instance-&gt;reset_mutex);
- lock(&amp;shost-&gt;scan_mutex);
+ lock(&amp;amp;instance-&gt;reset_mutex);
+                              lock(&amp;amp;shost-&gt;scan_mutex);
+                              lock(&amp;amp;instance-&gt;reset_mutex);
+ lock(&amp;amp;shost-&gt;scan_mutex);
 
 Fix this by temporarily releasing the reset_mutex.</description><pubDate>Sat, 11 Jan 2025 12:51:49 +0000</pubDate></item><item><title>CVE-2024-41932 | sched: fix warning in sched_setaffinity</title><link>https://www.cve.org/CVERecord?id=CVE-2024-41932</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -1091,7 +1163,7 @@ long time hold.</description><pubDate>Sat, 11 Jan 2025 12:51:51 +0000</pubDate><
 i3c: Use i3cdev-&gt;desc-&gt;info instead of calling i3c_device_get_info() to avoid deadlock
 
 A deadlock may happen since the i3c_master_register() acquires
-&amp;i3cbus-&gt;lock twice. See the log below.
+&amp;amp;i3cbus-&gt;lock twice. See the log below.
 Use i3cdev-&gt;desc-&gt;info instead of calling i3c_device_info() to
 avoid acquiring the lock twice.
 
@@ -1103,26 +1175,26 @@ WARNING: possible recursive locking detected
 6.11.0-mainline
 --------------------------------------------
 init/1 is trying to acquire lock:
-f1ffff80a6a40dc0 (&amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_bus_normaluse_lock
+f1ffff80a6a40dc0 (&amp;amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_bus_normaluse_lock
 
 but task is already holding lock:
-f1ffff80a6a40dc0 (&amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_master_register
+f1ffff80a6a40dc0 (&amp;amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_master_register
 
 other info that might help us debug this:
  Possible unsafe locking scenario:
 
        CPU0
        ----
-  lock(&amp;i3cbus-&gt;lock);
-  lock(&amp;i3cbus-&gt;lock);
+  lock(&amp;amp;i3cbus-&gt;lock);
+  lock(&amp;amp;i3cbus-&gt;lock);
 
  *** DEADLOCK ***
 
  May be due to missing lock nesting notation
 
 2 locks held by init/1:
- #0: fcffff809b6798f8 (&amp;dev-&gt;mutex){....}-{3:3}, at: __driver_attach
- #1: f1ffff80a6a40dc0 (&amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_master_register
+ #0: fcffff809b6798f8 (&amp;amp;dev-&gt;mutex){....}-{3:3}, at: __driver_attach
+ #1: f1ffff80a6a40dc0 (&amp;amp;i3cbus-&gt;lock){++++}-{3:3}, at: i3c_master_register
 
 stack backtrace:
 CPU: 6 UID: 0 PID: 1 Comm: init
@@ -1311,31 +1383,31 @@ the RAID stripe-tree, we get the following splat from lockdep:
  6.11.0-rc3-btrfs-for-next #599 Not tainted
  --------------------------------------------
  btrfs/2326 is trying to acquire lock:
- ffff88810f215c98 (&amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
+ ffff88810f215c98 (&amp;amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
 
  but task is already holding lock:
- ffff88810f215c98 (&amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
+ ffff88810f215c98 (&amp;amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
 
  other info that might help us debug this:
   Possible unsafe locking scenario:
 
         CPU0
         ----
-   lock(&amp;fs_info-&gt;dev_replace.rwsem);
-   lock(&amp;fs_info-&gt;dev_replace.rwsem);
+   lock(&amp;amp;fs_info-&gt;dev_replace.rwsem);
+   lock(&amp;amp;fs_info-&gt;dev_replace.rwsem);
 
   *** DEADLOCK ***
 
   May be due to missing lock nesting notation
 
  1 lock held by btrfs/2326:
-  #0: ffff88810f215c98 (&amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
+  #0: ffff88810f215c98 (&amp;amp;fs_info-&gt;dev_replace.rwsem){++++}-{3:3}, at: btrfs_map_block+0x39f/0x2250
 
  stack backtrace:
  CPU: 1 UID: 0 PID: 2326 Comm: btrfs Not tainted 6.11.0-rc3-btrfs-for-next #599
  Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011
  Call Trace:
-  &lt;TASK&gt;
+  
   dump_stack_lvl+0x5b/0x80
   __lock_acquire+0x2798/0x69d0
   ? __pfx___lock_acquire+0x10/0x10
@@ -1434,7 +1506,7 @@ Commit 028ddcac477b ("bcache: Remove unnecessary NULL point check in
 node allocations") leads a NULL pointer deference in cache_set_flush().
 
 1721         if (!IS_ERR_OR_NULL(c-&gt;root))
-1722                 list_add(&amp;c-&gt;root-&gt;list, &amp;c-&gt;btree_cache);
+1722                 list_add(&amp;amp;c-&gt;root-&gt;list, &amp;amp;c-&gt;btree_cache);
 
 &gt;From the above code in cache_set_flush(), if previous registration code
 fails before allocating c-&gt;root, it is possible c-&gt;root is NULL as what
