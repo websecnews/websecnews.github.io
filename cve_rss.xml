@@ -1,5 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 15:11:22 +0000</lastBuildDate><item><title>CVE-2024-57879 | Bluetooth: iso: Always release hdev at the end of iso_listen_bis</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57879</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 11 Jan 2025 15:26:22 +0000</lastBuildDate><item><title>CVE-2024-57881 | mm/page_alloc: don&amp;#x27;t call pfn_to_page() on possibly non-existent PFN in split_large_buddy()</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57881</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/page_alloc: don't call pfn_to_page() on possibly non-existent PFN in split_large_buddy()
+
+In split_large_buddy(), we might call pfn_to_page() on a PFN that might
+not exist.  In corner cases, such as when freeing the highest pageblock in
+the last memory section, this could result with CONFIG_SPARSEMEM &amp;&amp;
+!CONFIG_SPARSEMEM_EXTREME in __pfn_to_section() returning NULL and and
+__section_mem_map_addr() dereferencing that NULL pointer.
+
+Let's fix it, and avoid doing a pfn_to_page() call for the first
+iteration, where we already have the page.
+
+So far this was found by code inspection, but let's just CC stable as the
+fix is easy.</description><pubDate>Sat, 11 Jan 2025 15:26:24 +0000</pubDate></item><item><title>CVE-2024-57879 | Bluetooth: iso: Always release hdev at the end of iso_listen_bis</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57879</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 Bluetooth: iso: Always release hdev at the end of iso_listen_bis
 
