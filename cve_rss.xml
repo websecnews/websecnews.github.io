@@ -1,5 +1,745 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 Jan 2025 10:33:07 +0000</lastBuildDate><item><title>CVE-2025-21631 | block, bfq: fix waker_bfqq UAF after bfq_split_bfqq()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21631</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 19 Jan 2025 12:13:36 +0000</lastBuildDate><item><title>CVE-2024-57904 | iio: adc: at91: call input_free_device() on allocated iio_dev</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57904</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: at91: call input_free_device() on allocated iio_dev
+
+Current implementation of at91_ts_register() calls input_free_deivce()
+on st-&gt;ts_input, however, the err label can be reached before the
+allocated iio_dev is stored to st-&gt;ts_input. Thus call
+input_free_device() on input instead of st-&gt;ts_input.</description><pubDate>Sun, 19 Jan 2025 12:13:38 +0000</pubDate></item><item><title>CVE-2024-57905 | iio: adc: ti-ads1119: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57905</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: ti-ads1119: fix information leak in triggered buffer
+
+The 'scan' local struct is used to push data to user space from a
+triggered buffer, but it has a hole between the sample (unsigned int)
+and the timestamp. This hole is never initialized.
+
+Initialize the struct to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:39 +0000</pubDate></item><item><title>CVE-2024-57906 | iio: adc: ti-ads8688: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57906</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: ti-ads8688: fix information leak in triggered buffer
+
+The 'buffer' local array is used to push data to user space from a
+triggered buffer, but it does not set values for inactive channels, as
+it only uses iio_for_each_active_channel() to assign new values.
+
+Initialize the array to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:39 +0000</pubDate></item><item><title>CVE-2024-57907 | iio: adc: rockchip_saradc: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57907</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: rockchip_saradc: fix information leak in triggered buffer
+
+The 'data' local struct is used to push data to user space from a
+triggered buffer, but it does not set values for inactive channels, as
+it only uses iio_for_each_active_channel() to assign new values.
+
+Initialize the struct to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:40 +0000</pubDate></item><item><title>CVE-2024-57908 | iio: imu: kmx61: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57908</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: imu: kmx61: fix information leak in triggered buffer
+
+The 'buffer' local array is used to push data to user space from a
+triggered buffer, but it does not set values for inactive channels, as
+it only uses iio_for_each_active_channel() to assign new values.
+
+Initialize the array to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:40 +0000</pubDate></item><item><title>CVE-2024-57909 | iio: light: bh1745: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57909</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: bh1745: fix information leak in triggered buffer
+
+The 'scan' local struct is used to push data to user space from a
+triggered buffer, but it does not set values for inactive channels, as
+it only uses iio_for_each_active_channel() to assign new values.
+
+Initialize the struct to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:41 +0000</pubDate></item><item><title>CVE-2024-57910 | iio: light: vcnl4035: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57910</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: vcnl4035: fix information leak in triggered buffer
+
+The 'buffer' local array is used to push data to userspace from a
+triggered buffer, but it does not set an initial value for the single
+data element, which is an u16 aligned to 8 bytes. That leaves at least
+4 bytes uninitialized even after writing an integer value with
+regmap_read().
+
+Initialize the array to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:41 +0000</pubDate></item><item><title>CVE-2024-57911 | iio: dummy: iio_simply_dummy_buffer: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57911</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: dummy: iio_simply_dummy_buffer: fix information leak in triggered buffer
+
+The 'data' array is allocated via kmalloc() and it is used to push data
+to user space from a triggered buffer, but it does not set values for
+inactive channels, as it only uses iio_for_each_active_channel()
+to assign new values.
+
+Use kzalloc for the memory allocation to avoid pushing uninitialized
+information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:41 +0000</pubDate></item><item><title>CVE-2024-57912 | iio: pressure: zpa2326: fix information leak in triggered buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57912</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: pressure: zpa2326: fix information leak in triggered buffer
+
+The 'sample' local struct is used to push data to user space from a
+triggered buffer, but it has a hole between the temperature and the
+timestamp (u32 pressure, u16 temperature, GAP, u64 timestamp).
+This hole is never initialized.
+
+Initialize the struct to zero before using it to avoid pushing
+uninitialized information to userspace.</description><pubDate>Sun, 19 Jan 2025 12:13:42 +0000</pubDate></item><item><title>CVE-2024-57913 | usb: gadget: f_fs: Remove WARN_ON in functionfs_bind</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57913</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_fs: Remove WARN_ON in functionfs_bind
+
+This commit addresses an issue related to below kernel panic where
+panic_on_warn is enabled. It is caused by the unnecessary use of WARN_ON
+in functionsfs_bind, which easily leads to the following scenarios.
+
+1.adb_write in adbd               2. UDC write via configfs
+  =================	             =====================
+
+-&gt;usb_ffs_open_thread()           -&gt;UDC write
+ -&gt;open_functionfs()               -&gt;configfs_write_iter()
+  -&gt;adb_open()                      -&gt;gadget_dev_desc_UDC_store()
+   -&gt;adb_write()                     -&gt;usb_gadget_register_driver_owner
+                                      -&gt;driver_register()
+-&gt;StartMonitor()                       -&gt;bus_add_driver()
+ -&gt;adb_read()                           -&gt;gadget_bind_driver()
+&lt;times-out without BIND event&gt;           -&gt;configfs_composite_bind()
+                                          -&gt;usb_add_function()
+-&gt;open_functionfs()                        -&gt;ffs_func_bind()
+ -&gt;adb_open()                               -&gt;functionfs_bind()
+                                       &lt;ffs-&gt;state !=FFS_ACTIVE&gt;
+
+The adb_open, adb_read, and adb_write operations are invoked from the
+daemon, but trying to bind the function is a process that is invoked by
+UDC write through configfs, which opens up the possibility of a race
+condition between the two paths. In this race scenario, the kernel panic
+occurs due to the WARN_ON from functionfs_bind when panic_on_warn is
+enabled. This commit fixes the kernel panic by removing the unnecessary
+WARN_ON.
+
+Kernel panic - not syncing: kernel: panic_on_warn set ...
+[   14.542395] Call trace:
+[   14.542464]  ffs_func_bind+0x1c8/0x14a8
+[   14.542468]  usb_add_function+0xcc/0x1f0
+[   14.542473]  configfs_composite_bind+0x468/0x588
+[   14.542478]  gadget_bind_driver+0x108/0x27c
+[   14.542483]  really_probe+0x190/0x374
+[   14.542488]  __driver_probe_device+0xa0/0x12c
+[   14.542492]  driver_probe_device+0x3c/0x220
+[   14.542498]  __driver_attach+0x11c/0x1fc
+[   14.542502]  bus_for_each_dev+0x104/0x160
+[   14.542506]  driver_attach+0x24/0x34
+[   14.542510]  bus_add_driver+0x154/0x270
+[   14.542514]  driver_register+0x68/0x104
+[   14.542518]  usb_gadget_register_driver_owner+0x48/0xf4
+[   14.542523]  gadget_dev_desc_UDC_store+0xf8/0x144
+[   14.542526]  configfs_write_iter+0xf0/0x138</description><pubDate>Sun, 19 Jan 2025 12:13:42 +0000</pubDate></item><item><title>CVE-2024-57914 | usb: typec: tcpci: fix NULL pointer issue on shared irq case</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57914</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: tcpci: fix NULL pointer issue on shared irq case
+
+The tcpci_irq() may meet below NULL pointer dereference issue:
+
+[    2.641851] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000010
+[    2.641951] status 0x1, 0x37f
+[    2.650659] Mem abort info:
+[    2.656490]   ESR = 0x0000000096000004
+[    2.660230]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    2.665532]   SET = 0, FnV = 0
+[    2.668579]   EA = 0, S1PTW = 0
+[    2.671715]   FSC = 0x04: level 0 translation fault
+[    2.676584] Data abort info:
+[    2.679459]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+[    2.684936]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[    2.689980]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[    2.695284] [0000000000000010] user address but active_mm is swapper
+[    2.701632] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+[    2.707883] Modules linked in:
+[    2.710936] CPU: 1 UID: 0 PID: 87 Comm: irq/111-2-0051 Not tainted 6.12.0-rc6-06316-g7f63786ad3d1-dirty #4
+[    2.720570] Hardware name: NXP i.MX93 11X11 EVK board (DT)
+[    2.726040] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    2.732989] pc : tcpci_irq+0x38/0x318
+[    2.736647] lr : _tcpci_irq+0x14/0x20
+[    2.740295] sp : ffff80008324bd30
+[    2.743597] x29: ffff80008324bd70 x28: ffff800080107894 x27: ffff800082198f70
+[    2.750721] x26: ffff0000050e6680 x25: ffff000004d172ac x24: ffff0000050f0000
+[    2.757845] x23: ffff000004d17200 x22: 0000000000000001 x21: ffff0000050f0000
+[    2.764969] x20: ffff000004d17200 x19: 0000000000000000 x18: 0000000000000001
+[    2.772093] x17: 0000000000000000 x16: ffff80008183d8a0 x15: ffff00007fbab040
+[    2.779217] x14: ffff00007fb918c0 x13: 0000000000000000 x12: 000000000000017a
+[    2.786341] x11: 0000000000000001 x10: 0000000000000a90 x9 : ffff80008324bd00
+[    2.793465] x8 : ffff0000050f0af0 x7 : ffff00007fbaa840 x6 : 0000000000000031
+[    2.800589] x5 : 000000000000017a x4 : 0000000000000002 x3 : 0000000000000002
+[    2.807713] x2 : ffff80008324bd3a x1 : 0000000000000010 x0 : 0000000000000000
+[    2.814838] Call trace:
+[    2.817273]  tcpci_irq+0x38/0x318
+[    2.820583]  _tcpci_irq+0x14/0x20
+[    2.823885]  irq_thread_fn+0x2c/0xa8
+[    2.827456]  irq_thread+0x16c/0x2f4
+[    2.830940]  kthread+0x110/0x114
+[    2.834164]  ret_from_fork+0x10/0x20
+[    2.837738] Code: f9426420 f9001fe0 d2800000 52800201 (f9400a60)
+
+This may happen on shared irq case. Such as two Type-C ports share one
+irq. After the first port finished tcpci_register_port(), it may trigger
+interrupt. However, if the interrupt comes by chance the 2nd port finishes
+devm_request_threaded_irq(), the 2nd port interrupt handler will run at
+first. Then the above issue happens due to tcpci is still a NULL pointer
+in tcpci_irq() when dereference to regmap.
+
+  devm_request_threaded_irq()
+				&lt;-- port1 irq comes
+  disable_irq(client-&gt;irq);
+  tcpci_register_port()
+
+This will restore the logic to the state before commit (77e85107a771 "usb:
+typec: tcpci: support edge irq").
+
+However, moving tcpci_register_port() earlier creates a problem when use
+edge irq because tcpci_init() will be called before
+devm_request_threaded_irq(). The tcpci_init() writes the ALERT_MASK to
+the hardware to tell it to start generating interrupts but we're not ready
+to deal with them yet, then the ALERT events may be missed and ALERT line
+will not recover to high level forever. To avoid the issue, this will also
+set ALERT_MASK register after devm_request_threaded_irq() return.</description><pubDate>Sun, 19 Jan 2025 12:13:43 +0000</pubDate></item><item><title>CVE-2024-57915 | usb: gadget: u_serial: Disable ep before setting port to null to fix the crash caused by port being null</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57915</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: u_serial: Disable ep before setting port to null to fix the crash caused by port being null
+
+Considering that in some extreme cases, when performing the
+unbinding operation, gserial_disconnect has cleared gser-&gt;ioport,
+which triggers gadget reconfiguration, and then calls gs_read_complete,
+resulting in access to a null pointer. Therefore, ep is disabled before
+gserial_disconnect sets port to null to prevent this from happening.
+
+Call trace:
+ gs_read_complete+0x58/0x240
+ usb_gadget_giveback_request+0x40/0x160
+ dwc3_remove_requests+0x170/0x484
+ dwc3_ep0_out_start+0xb0/0x1d4
+ __dwc3_gadget_start+0x25c/0x720
+ kretprobe_trampoline.cfi_jt+0x0/0x8
+ kretprobe_trampoline.cfi_jt+0x0/0x8
+ udc_bind_to_driver+0x1d8/0x300
+ usb_gadget_probe_driver+0xa8/0x1dc
+ gadget_dev_desc_UDC_store+0x13c/0x188
+ configfs_write_iter+0x160/0x1f4
+ vfs_write+0x2d0/0x40c
+ ksys_write+0x7c/0xf0
+ __arm64_sys_write+0x20/0x30
+ invoke_syscall+0x60/0x150
+ el0_svc_common+0x8c/0xf8
+ do_el0_svc+0x28/0xa0
+ el0_svc+0x24/0x84</description><pubDate>Sun, 19 Jan 2025 12:13:43 +0000</pubDate></item><item><title>CVE-2024-57916 | misc: microchip: pci1xxxx: Resolve kernel panic during GPIO IRQ handling</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57916</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: microchip: pci1xxxx: Resolve kernel panic during GPIO IRQ handling
+
+Resolve kernel panic caused by improper handling of IRQs while
+accessing GPIO values. This is done by replacing generic_handle_irq with
+handle_nested_irq.</description><pubDate>Sun, 19 Jan 2025 12:13:44 +0000</pubDate></item><item><title>CVE-2024-57917 | topology: Keep the cpumask unchanged when printing cpumap</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57917</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+topology: Keep the cpumask unchanged when printing cpumap
+
+During fuzz testing, the following warning was discovered:
+
+ different return values (15 and 11) from vsnprintf("%*pbl
+ ", ...)
+
+ test:keyward is WARNING in kvasprintf
+ WARNING: CPU: 55 PID: 1168477 at lib/kasprintf.c:30 kvasprintf+0x121/0x130
+ Call Trace:
+  kvasprintf+0x121/0x130
+  kasprintf+0xa6/0xe0
+  bitmap_print_to_buf+0x89/0x100
+  core_siblings_list_read+0x7e/0xb0
+  kernfs_file_read_iter+0x15b/0x270
+  new_sync_read+0x153/0x260
+  vfs_read+0x215/0x290
+  ksys_read+0xb9/0x160
+  do_syscall_64+0x56/0x100
+  entry_SYSCALL_64_after_hwframe+0x78/0xe2
+
+The call trace shows that kvasprintf() reported this warning during the
+printing of core_siblings_list. kvasprintf() has several steps:
+
+ (1) First, calculate the length of the resulting formatted string.
+
+ (2) Allocate a buffer based on the returned length.
+
+ (3) Then, perform the actual string formatting.
+
+ (4) Check whether the lengths of the formatted strings returned in
+     steps (1) and (2) are consistent.
+
+If the core_cpumask is modified between steps (1) and (3), the lengths
+obtained in these two steps may not match. Indeed our test includes cpu
+hotplugging, which should modify core_cpumask while printing.
+
+To fix this issue, cache the cpumask into a temporary variable before
+calling cpumap_print_{list, cpumask}_to_buf(), to keep it unchanged
+during the printing process.</description><pubDate>Sun, 19 Jan 2025 12:13:44 +0000</pubDate></item><item><title>CVE-2024-57918 | drm/amd/display: fix page fault due to max surface definition mismatch</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57918</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: fix page fault due to max surface definition mismatch
+
+DC driver is using two different values to define the maximum number of
+surfaces: MAX_SURFACES and MAX_SURFACE_NUM. Consolidate MAX_SURFACES as
+the unique definition for surface updates across DC.
+
+It fixes page fault faced by Cosmic users on AMD display versions that
+support two overlay planes, since the introduction of cursor overlay
+mode.
+
+[Nov26 21:33] BUG: unable to handle page fault for address: 0000000051d0f08b
+[  +0.000015] #PF: supervisor read access in kernel mode
+[  +0.000006] #PF: error_code(0x0000) - not-present page
+[  +0.000005] PGD 0 P4D 0
+[  +0.000007] Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+[  +0.000006] CPU: 4 PID: 71 Comm: kworker/u32:6 Not tainted 6.10.0+ #300
+[  +0.000006] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0131 01/30/2024
+[  +0.000007] Workqueue: events_unbound commit_work [drm_kms_helper]
+[  +0.000040] RIP: 0010:copy_stream_update_to_stream.isra.0+0x30d/0x750 [amdgpu]
+[  +0.000847] Code: 8b 10 49 89 94 24 f8 00 00 00 48 8b 50 08 49 89 94 24 00 01 00 00 8b 40 10 41 89 84 24 08 01 00 00 49 8b 45 78 48 85 c0 74 0b &lt;0f&gt; b6 00 41 88 84 24 90 64 00 00 49 8b 45 60 48 85 c0 74 3b 48 8b
+[  +0.000010] RSP: 0018:ffffc203802f79a0 EFLAGS: 00010206
+[  +0.000009] RAX: 0000000051d0f08b RBX: 0000000000000004 RCX: ffff9f964f0a8070
+[  +0.000004] RDX: ffff9f9710f90e40 RSI: ffff9f96600c8000 RDI: ffff9f964f000000
+[  +0.000004] RBP: ffffc203802f79f8 R08: 0000000000000000 R09: 0000000000000000
+[  +0.000005] R10: 0000000000000000 R11: 0000000000000000 R12: ffff9f96600c8000
+[  +0.000004] R13: ffff9f9710f90e40 R14: ffff9f964f000000 R15: ffff9f96600c8000
+[  +0.000004] FS:  0000000000000000(0000) GS:ffff9f9970000000(0000) knlGS:0000000000000000
+[  +0.000005] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000005] CR2: 0000000051d0f08b CR3: 00000002e6a20000 CR4: 0000000000350ef0
+[  +0.000005] Call Trace:
+[  +0.000011]  &lt;TASK&gt;
+[  +0.000010]  ? __die_body.cold+0x19/0x27
+[  +0.000012]  ? page_fault_oops+0x15a/0x2d0
+[  +0.000014]  ? exc_page_fault+0x7e/0x180
+[  +0.000009]  ? asm_exc_page_fault+0x26/0x30
+[  +0.000013]  ? copy_stream_update_to_stream.isra.0+0x30d/0x750 [amdgpu]
+[  +0.000739]  ? dc_commit_state_no_check+0xd6c/0xe70 [amdgpu]
+[  +0.000470]  update_planes_and_stream_state+0x49b/0x4f0 [amdgpu]
+[  +0.000450]  ? srso_return_thunk+0x5/0x5f
+[  +0.000009]  ? commit_minimal_transition_state+0x239/0x3d0 [amdgpu]
+[  +0.000446]  update_planes_and_stream_v2+0x24a/0x590 [amdgpu]
+[  +0.000464]  ? srso_return_thunk+0x5/0x5f
+[  +0.000009]  ? sort+0x31/0x50
+[  +0.000007]  ? amdgpu_dm_atomic_commit_tail+0x159f/0x3a30 [amdgpu]
+[  +0.000508]  ? srso_return_thunk+0x5/0x5f
+[  +0.000009]  ? amdgpu_crtc_get_scanout_position+0x28/0x40 [amdgpu]
+[  +0.000377]  ? srso_return_thunk+0x5/0x5f
+[  +0.000009]  ? drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x160/0x390 [drm]
+[  +0.000058]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? dma_fence_default_wait+0x8c/0x260
+[  +0.000010]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? wait_for_completion_timeout+0x13b/0x170
+[  +0.000006]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? dma_fence_wait_timeout+0x108/0x140
+[  +0.000010]  ? commit_tail+0x94/0x130 [drm_kms_helper]
+[  +0.000024]  ? process_one_work+0x177/0x330
+[  +0.000008]  ? worker_thread+0x266/0x3a0
+[  +0.000006]  ? __pfx_worker_thread+0x10/0x10
+[  +0.000004]  ? kthread+0xd2/0x100
+[  +0.000006]  ? __pfx_kthread+0x10/0x10
+[  +0.000006]  ? ret_from_fork+0x34/0x50
+[  +0.000004]  ? __pfx_kthread+0x10/0x10
+[  +0.000005]  ? ret_from_fork_asm+0x1a/0x30
+[  +0.000011]  &lt;/TASK&gt;
+
+(cherry picked from commit 1c86c81a86c60f9b15d3e3f43af0363cf56063e7)</description><pubDate>Sun, 19 Jan 2025 12:13:44 +0000</pubDate></item><item><title>CVE-2024-57919 | drm/amd/display: fix divide error in DM plane scale calcs</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57919</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: fix divide error in DM plane scale calcs
+
+dm_get_plane_scale doesn't take into account plane scaled size equal to
+zero, leading to a kernel oops due to division by zero. Fix by setting
+out-scale size as zero when the dst size is zero, similar to what is
+done by drm_calc_scale(). This issue started with the introduction of
+cursor ovelay mode that uses this function to assess cursor mode changes
+via dm_crtc_get_cursor_mode() before checking plane state.
+
+[Dec17 17:14] Oops: divide error: 0000 [#1] PREEMPT SMP NOPTI
+[  +0.000018] CPU: 5 PID: 1660 Comm: surface-DP-1 Not tainted 6.10.0+ #231
+[  +0.000007] Hardware name: Valve Jupiter/Jupiter, BIOS F7A0131 01/30/2024
+[  +0.000004] RIP: 0010:dm_get_plane_scale+0x3f/0x60 [amdgpu]
+[  +0.000553] Code: 44 0f b7 41 3a 44 0f b7 49 3e 83 e0 0f 48 0f a3 c2 73 21 69 41 28 e8 03 00 00 31 d2 41 f7 f1 31 d2 89 06 69 41 2c e8 03 00 00 &lt;41&gt; f7 f0 89 07 e9 d7 d8 7e e9 44 89 c8 45 89 c1 41 89 c0 eb d4 66
+[  +0.000005] RSP: 0018:ffffa8df0de6b8a0 EFLAGS: 00010246
+[  +0.000006] RAX: 00000000000003e8 RBX: ffff9ac65c1f6e00 RCX: ffff9ac65d055500
+[  +0.000003] RDX: 0000000000000000 RSI: ffffa8df0de6b8b0 RDI: ffffa8df0de6b8b4
+[  +0.000004] RBP: ffff9ac64e7a5800 R08: 0000000000000000 R09: 0000000000000a00
+[  +0.000003] R10: 00000000000000ff R11: 0000000000000054 R12: ffff9ac6d0700010
+[  +0.000003] R13: ffff9ac65d054f00 R14: ffff9ac65d055500 R15: ffff9ac64e7a60a0
+[  +0.000004] FS:  00007f869ea00640(0000) GS:ffff9ac970080000(0000) knlGS:0000000000000000
+[  +0.000004] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000003] CR2: 000055ca701becd0 CR3: 000000010e7f2000 CR4: 0000000000350ef0
+[  +0.000004] Call Trace:
+[  +0.000007]  &lt;TASK&gt;
+[  +0.000006]  ? __die_body.cold+0x19/0x27
+[  +0.000009]  ? die+0x2e/0x50
+[  +0.000007]  ? do_trap+0xca/0x110
+[  +0.000007]  ? do_error_trap+0x6a/0x90
+[  +0.000006]  ? dm_get_plane_scale+0x3f/0x60 [amdgpu]
+[  +0.000504]  ? exc_divide_error+0x38/0x50
+[  +0.000005]  ? dm_get_plane_scale+0x3f/0x60 [amdgpu]
+[  +0.000488]  ? asm_exc_divide_error+0x1a/0x20
+[  +0.000011]  ? dm_get_plane_scale+0x3f/0x60 [amdgpu]
+[  +0.000593]  dm_crtc_get_cursor_mode+0x33f/0x430 [amdgpu]
+[  +0.000562]  amdgpu_dm_atomic_check+0x2ef/0x1770 [amdgpu]
+[  +0.000501]  drm_atomic_check_only+0x5e1/0xa30 [drm]
+[  +0.000047]  drm_mode_atomic_ioctl+0x832/0xcb0 [drm]
+[  +0.000050]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10 [drm]
+[  +0.000047]  drm_ioctl_kernel+0xb3/0x100 [drm]
+[  +0.000062]  drm_ioctl+0x27a/0x4f0 [drm]
+[  +0.000049]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10 [drm]
+[  +0.000055]  amdgpu_drm_ioctl+0x4e/0x90 [amdgpu]
+[  +0.000360]  __x64_sys_ioctl+0x97/0xd0
+[  +0.000010]  do_syscall_64+0x82/0x190
+[  +0.000008]  ? __pfx_drm_mode_createblob_ioctl+0x10/0x10 [drm]
+[  +0.000044]  ? srso_return_thunk+0x5/0x5f
+[  +0.000006]  ? drm_ioctl_kernel+0xb3/0x100 [drm]
+[  +0.000040]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? __check_object_size+0x50/0x220
+[  +0.000007]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? drm_ioctl+0x2a4/0x4f0 [drm]
+[  +0.000039]  ? __pfx_drm_mode_createblob_ioctl+0x10/0x10 [drm]
+[  +0.000043]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? __pm_runtime_suspend+0x69/0xc0
+[  +0.000006]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? amdgpu_drm_ioctl+0x71/0x90 [amdgpu]
+[  +0.000366]  ? srso_return_thunk+0x5/0x5f
+[  +0.000006]  ? syscall_exit_to_user_mode+0x77/0x210
+[  +0.000007]  ? srso_return_thunk+0x5/0x5f
+[  +0.000005]  ? do_syscall_64+0x8e/0x190
+[  +0.000006]  ? srso_return_thunk+0x5/0x5f
+[  +0.000006]  ? do_syscall_64+0x8e/0x190
+[  +0.000006]  ? srso_return_thunk+0x5/0x5f
+[  +0.000007]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  +0.000008] RIP: 0033:0x55bb7cd962bc
+[  +0.000007] Code: 4c 89 6c 24 18 4c 89 64 24 20 4c 89 74 24 28 0f 57 c0 0f 11 44 24 30 89 c7 48 8d 54 24 08 b8 10 00 00 00 be bc 64
+---truncated---</description><pubDate>Sun, 19 Jan 2025 12:13:45 +0000</pubDate></item><item><title>CVE-2024-57920 | drm/amdkfd: wq_release signals dma_fence only when available</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57920</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: wq_release signals dma_fence only when available
+
+kfd_process_wq_release() signals eviction fence by
+dma_fence_signal() which wanrs if dma_fence
+is NULL.
+
+kfd_process-&gt;ef is initialized by kfd_process_device_init_vm()
+through ioctl. That means the fence is NULL for a new
+created kfd_process, and close a kfd_process right
+after open it will trigger the warning.
+
+This commit conditionally signals the eviction fence
+in kfd_process_wq_release() only when it is available.
+
+[  503.660882] WARNING: CPU: 0 PID: 9 at drivers/dma-buf/dma-fence.c:467 dma_fence_signal+0x74/0xa0
+[  503.782940] Workqueue: kfd_process_wq kfd_process_wq_release [amdgpu]
+[  503.789640] RIP: 0010:dma_fence_signal+0x74/0xa0
+[  503.877620] Call Trace:
+[  503.880066]  &lt;TASK&gt;
+[  503.882168]  ? __warn+0xcd/0x260
+[  503.885407]  ? dma_fence_signal+0x74/0xa0
+[  503.889416]  ? report_bug+0x288/0x2d0
+[  503.893089]  ? handle_bug+0x53/0xa0
+[  503.896587]  ? exc_invalid_op+0x14/0x50
+[  503.900424]  ? asm_exc_invalid_op+0x16/0x20
+[  503.904616]  ? dma_fence_signal+0x74/0xa0
+[  503.908626]  kfd_process_wq_release+0x6b/0x370 [amdgpu]
+[  503.914081]  process_one_work+0x654/0x10a0
+[  503.918186]  worker_thread+0x6c3/0xe70
+[  503.921943]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  503.926735]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  503.931527]  ? __kthread_parkme+0x82/0x140
+[  503.935631]  ? __pfx_worker_thread+0x10/0x10
+[  503.939904]  kthread+0x2a8/0x380
+[  503.943132]  ? __pfx_kthread+0x10/0x10
+[  503.946882]  ret_from_fork+0x2d/0x70
+[  503.950458]  ? __pfx_kthread+0x10/0x10
+[  503.954210]  ret_from_fork_asm+0x1a/0x30
+[  503.958142]  &lt;/TASK&gt;
+[  503.960328] ---[ end trace 0000000000000000 ]---
+
+(cherry picked from commit 2774ef7625adb5fb9e9265c26a59dca7b8fd171e)</description><pubDate>Sun, 19 Jan 2025 12:13:45 +0000</pubDate></item><item><title>CVE-2024-57921 | drm/amdgpu: Add a lock when accessing the buddy trim function</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57921</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Add a lock when accessing the buddy trim function
+
+When running YouTube videos and Steam games simultaneously,
+the tester found a system hang / race condition issue with
+the multi-display configuration setting. Adding a lock to
+the buddy allocator's trim function would be the solution.
+
+&lt;log snip&gt;
+[ 7197.250436] general protection fault, probably for non-canonical address 0xdead000000000108
+[ 7197.250447] RIP: 0010:__alloc_range+0x8b/0x340 [amddrm_buddy]
+[ 7197.250470] Call Trace:
+[ 7197.250472]  &lt;TASK&gt;
+[ 7197.250475]  ? show_regs+0x6d/0x80
+[ 7197.250481]  ? die_addr+0x37/0xa0
+[ 7197.250483]  ? exc_general_protection+0x1db/0x480
+[ 7197.250488]  ? drm_suballoc_new+0x13c/0x93d [drm_suballoc_helper]
+[ 7197.250493]  ? asm_exc_general_protection+0x27/0x30
+[ 7197.250498]  ? __alloc_range+0x8b/0x340 [amddrm_buddy]
+[ 7197.250501]  ? __alloc_range+0x109/0x340 [amddrm_buddy]
+[ 7197.250506]  amddrm_buddy_block_trim+0x1b5/0x260 [amddrm_buddy]
+[ 7197.250511]  amdgpu_vram_mgr_new+0x4f5/0x590 [amdgpu]
+[ 7197.250682]  amdttm_resource_alloc+0x46/0xb0 [amdttm]
+[ 7197.250689]  ttm_bo_alloc_resource+0xe4/0x370 [amdttm]
+[ 7197.250696]  amdttm_bo_validate+0x9d/0x180 [amdttm]
+[ 7197.250701]  amdgpu_bo_pin+0x15a/0x2f0 [amdgpu]
+[ 7197.250831]  amdgpu_dm_plane_helper_prepare_fb+0xb2/0x360 [amdgpu]
+[ 7197.251025]  ? try_wait_for_completion+0x59/0x70
+[ 7197.251030]  drm_atomic_helper_prepare_planes.part.0+0x2f/0x1e0
+[ 7197.251035]  drm_atomic_helper_prepare_planes+0x5d/0x70
+[ 7197.251037]  drm_atomic_helper_commit+0x84/0x160
+[ 7197.251040]  drm_atomic_nonblocking_commit+0x59/0x70
+[ 7197.251043]  drm_mode_atomic_ioctl+0x720/0x850
+[ 7197.251047]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+[ 7197.251049]  drm_ioctl_kernel+0xb9/0x120
+[ 7197.251053]  ? srso_alias_return_thunk+0x5/0xfbef5
+[ 7197.251056]  drm_ioctl+0x2d4/0x550
+[ 7197.251058]  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+[ 7197.251063]  amdgpu_drm_ioctl+0x4e/0x90 [amdgpu]
+[ 7197.251186]  __x64_sys_ioctl+0xa0/0xf0
+[ 7197.251190]  x64_sys_call+0x143b/0x25c0
+[ 7197.251193]  do_syscall_64+0x7f/0x180
+[ 7197.251197]  ? srso_alias_return_thunk+0x5/0xfbef5
+[ 7197.251199]  ? amdgpu_display_user_framebuffer_create+0x215/0x320 [amdgpu]
+[ 7197.251329]  ? drm_internal_framebuffer_create+0xb7/0x1a0
+[ 7197.251332]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+(cherry picked from commit 3318ba94e56b9183d0304577c74b33b6b01ce516)</description><pubDate>Sun, 19 Jan 2025 12:13:46 +0000</pubDate></item><item><title>CVE-2024-57922 | drm/amd/display: Add check for granularity in dml ceil/floor helpers</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57922</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Add check for granularity in dml ceil/floor helpers
+
+[Why]
+Wrapper functions for dcn_bw_ceil2() and dcn_bw_floor2()
+should check for granularity is non zero to avoid assert and
+divide-by-zero error in dcn_bw_ functions.
+
+[How]
+Add check for granularity 0.
+
+(cherry picked from commit f6e09701c3eb2ccb8cb0518e0b67f1c69742a4ec)</description><pubDate>Sun, 19 Jan 2025 12:13:46 +0000</pubDate></item><item><title>CVE-2024-57923 | btrfs: zlib: fix avail_in bytes for s390 zlib HW compression path</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57923</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: zlib: fix avail_in bytes for s390 zlib HW compression path
+
+Since the input data length passed to zlib_compress_folios() can be
+arbitrary, always setting strm.avail_in to a multiple of PAGE_SIZE may
+cause read-in bytes to exceed the input range. Currently this triggers
+an assert in btrfs_compress_folios() on the debug kernel (see below).
+Fix strm.avail_in calculation for S390 hardware acceleration path.
+
+  assertion failed: *total_in &lt;= orig_len, in fs/btrfs/compression.c:1041
+  ------------[ cut here ]------------
+  kernel BUG at fs/btrfs/compression.c:1041!
+  monitor event: 0040 ilc:2 [#1] PREEMPT SMP
+  CPU: 16 UID: 0 PID: 325 Comm: kworker/u273:3 Not tainted 6.13.0-20241204.rc1.git6.fae3b21430ca.300.fc41.s390x+debug #1
+  Hardware name: IBM 3931 A01 703 (z/VM 7.4.0)
+  Workqueue: btrfs-delalloc btrfs_work_helper
+  Krnl PSW : 0704d00180000000 0000021761df6538 (btrfs_compress_folios+0x198/0x1a0)
+             R:0 T:1 IO:1 EX:1 Key:0 M:1 W:0 P:0 AS:3 CC:1 PM:0 RI:0 EA:3
+  Krnl GPRS: 0000000080000000 0000000000000001 0000000000000047 0000000000000000
+             0000000000000006 ffffff01757bb000 000001976232fcc0 000000000000130c
+             000001976232fcd0 000001976232fcc8 00000118ff4a0e30 0000000000000001
+             00000111821ab400 0000011100000000 0000021761df6534 000001976232fb58
+  Krnl Code: 0000021761df6528: c020006f5ef4        larl    %r2,0000021762be2310
+             0000021761df652e: c0e5ffbd09d5        brasl   %r14,00000217615978d8
+            #0000021761df6534: af000000            mc      0,0
+            &gt;0000021761df6538: 0707                bcr     0,%r7
+             0000021761df653a: 0707                bcr     0,%r7
+             0000021761df653c: 0707                bcr     0,%r7
+             0000021761df653e: 0707                bcr     0,%r7
+             0000021761df6540: c004004bb7ec        brcl    0,000002176276d518
+  Call Trace:
+   [&lt;0000021761df6538&gt;] btrfs_compress_folios+0x198/0x1a0
+  ([&lt;0000021761df6534&gt;] btrfs_compress_folios+0x194/0x1a0)
+   [&lt;0000021761d97788&gt;] compress_file_range+0x3b8/0x6d0
+   [&lt;0000021761dcee7c&gt;] btrfs_work_helper+0x10c/0x160
+   [&lt;0000021761645760&gt;] process_one_work+0x2b0/0x5d0
+   [&lt;000002176164637e&gt;] worker_thread+0x20e/0x3e0
+   [&lt;000002176165221a&gt;] kthread+0x15a/0x170
+   [&lt;00000217615b859c&gt;] __ret_from_fork+0x3c/0x60
+   [&lt;00000217626e72d2&gt;] ret_from_fork+0xa/0x38
+  INFO: lockdep is turned off.
+  Last Breaking-Event-Address:
+   [&lt;0000021761597924&gt;] _printk+0x4c/0x58
+  Kernel panic - not syncing: Fatal exception: panic_on_oops</description><pubDate>Sun, 19 Jan 2025 12:13:47 +0000</pubDate></item><item><title>CVE-2024-57924 | fs: relax assertions on failure to encode file handles</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57924</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs: relax assertions on failure to encode file handles
+
+Encoding file handles is usually performed by a filesystem &gt;encode_fh()
+method that may fail for various reasons.
+
+The legacy users of exportfs_encode_fh(), namely, nfsd and
+name_to_handle_at(2) syscall are ready to cope with the possibility
+of failure to encode a file handle.
+
+There are a few other users of exportfs_encode_{fh,fid}() that
+currently have a WARN_ON() assertion when -&gt;encode_fh() fails.
+Relax those assertions because they are wrong.
+
+The second linked bug report states commit 16aac5ad1fa9 ("ovl: support
+encoding non-decodable file handles") in v6.6 as the regressing commit,
+but this is not accurate.
+
+The aforementioned commit only increases the chances of the assertion
+and allows triggering the assertion with the reproducer using overlayfs,
+inotify and drop_caches.
+
+Triggering this assertion was always possible with other filesystems and
+other reasons of -&gt;encode_fh() failures and more particularly, it was
+also possible with the exact same reproducer using overlayfs that is
+mounted with options index=on,nfs_export=on also on kernels &lt; v6.6.
+Therefore, I am not listing the aforementioned commit as a Fixes commit.
+
+Backport hint: this patch will have a trivial conflict applying to
+v6.6.y, and other trivial conflicts applying to stable kernels &lt; v6.6.</description><pubDate>Sun, 19 Jan 2025 12:13:47 +0000</pubDate></item><item><title>CVE-2024-57925 | ksmbd: fix a missing return value check bug</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57925</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix a missing return value check bug
+
+In the smb2_send_interim_resp(), if ksmbd_alloc_work_struct()
+fails to allocate a node, it returns a NULL pointer to the
+in_work pointer. This can lead to an illegal memory write of
+in_work-&gt;response_buf when allocate_interim_rsp_buf() attempts
+to perform a kzalloc() on it.
+
+To address this issue, incorporating a check for the return
+value of ksmbd_alloc_work_struct() ensures that the function
+returns immediately upon allocation failure, thereby preventing
+the aforementioned illegal memory access.</description><pubDate>Sun, 19 Jan 2025 12:13:48 +0000</pubDate></item><item><title>CVE-2024-57926 | drm/mediatek: Set private-&amp;gt;all_drm_private[i]-&amp;gt;drm to NULL if mtk_drm_bind returns err</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57926</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/mediatek: Set private-&gt;all_drm_private[i]-&gt;drm to NULL if mtk_drm_bind returns err
+
+The pointer need to be set to NULL, otherwise KASAN complains about
+use-after-free. Because in mtk_drm_bind, all private's drm are set
+as follows.
+
+private-&gt;all_drm_private[i]-&gt;drm = drm;
+
+And drm will be released by drm_dev_put in case mtk_drm_kms_init returns
+failure. However, the shutdown path still accesses the previous allocated
+memory in drm_atomic_helper_shutdown.
+
+[   84.874820] watchdog: watchdog0: watchdog did not stop!
+[   86.512054] ==================================================================
+[   86.513162] BUG: KASAN: use-after-free in drm_atomic_helper_shutdown+0x33c/0x378
+[   86.514258] Read of size 8 at addr ffff0000d46fc068 by task shutdown/1
+[   86.515213]
+[   86.515455] CPU: 1 UID: 0 PID: 1 Comm: shutdown Not tainted 6.13.0-rc1-mtk+gfa1a78e5d24b-dirty #55
+[   86.516752] Hardware name: Unknown Product/Unknown Product, BIOS 2022.10 10/01/2022
+[   86.517960] Call trace:
+[   86.518333]  show_stack+0x20/0x38 (C)
+[   86.518891]  dump_stack_lvl+0x90/0xd0
+[   86.519443]  print_report+0xf8/0x5b0
+[   86.519985]  kasan_report+0xb4/0x100
+[   86.520526]  __asan_report_load8_noabort+0x20/0x30
+[   86.521240]  drm_atomic_helper_shutdown+0x33c/0x378
+[   86.521966]  mtk_drm_shutdown+0x54/0x80
+[   86.522546]  platform_shutdown+0x64/0x90
+[   86.523137]  device_shutdown+0x260/0x5b8
+[   86.523728]  kernel_restart+0x78/0xf0
+[   86.524282]  __do_sys_reboot+0x258/0x2f0
+[   86.524871]  __arm64_sys_reboot+0x90/0xd8
+[   86.525473]  invoke_syscall+0x74/0x268
+[   86.526041]  el0_svc_common.constprop.0+0xb0/0x240
+[   86.526751]  do_el0_svc+0x4c/0x70
+[   86.527251]  el0_svc+0x4c/0xc0
+[   86.527719]  el0t_64_sync_handler+0x144/0x168
+[   86.528367]  el0t_64_sync+0x198/0x1a0
+[   86.528920]
+[   86.529157] The buggy address belongs to the physical page:
+[   86.529972] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff0000d46fd4d0 pfn:0x1146fc
+[   86.531319] flags: 0xbfffc0000000000(node=0|zone=2|lastcpupid=0xffff)
+[   86.532267] raw: 0bfffc0000000000 0000000000000000 dead000000000122 0000000000000000
+[   86.533390] raw: ffff0000d46fd4d0 0000000000000000 00000000ffffffff 0000000000000000
+[   86.534511] page dumped because: kasan: bad access detected
+[   86.535323]
+[   86.535559] Memory state around the buggy address:
+[   86.536265]  ffff0000d46fbf00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[   86.537314]  ffff0000d46fbf80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[   86.538363] &gt;ffff0000d46fc000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[   86.544733]                                                           ^
+[   86.551057]  ffff0000d46fc080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[   86.557510]  ffff0000d46fc100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[   86.563928] ==================================================================
+[   86.571093] Disabling lock debugging due to kernel taint
+[   86.577642] Unable to handle kernel paging request at virtual address e0e9c0920000000b
+[   86.581834] KASAN: maybe wild-memory-access in range [0x0752049000000058-0x075204900000005f]
+...</description><pubDate>Sun, 19 Jan 2025 12:13:48 +0000</pubDate></item><item><title>CVE-2024-57927 | nfs: Fix oops in nfs_netfs_init_request() when copying to cache</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57927</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfs: Fix oops in nfs_netfs_init_request() when copying to cache
+
+When netfslib wants to copy some data that has just been read on behalf of
+nfs, it creates a new write request and calls nfs_netfs_init_request() to
+initialise it, but with a NULL file pointer.  This causes
+nfs_file_open_context() to oops - however, we don't actually need the nfs
+context as we're only going to write to the cache.
+
+Fix this by just returning if we aren't given a file pointer and emit a
+warning if the request was for something other than copy-to-cache.
+
+Further, fix nfs_netfs_free_request() so that it doesn't try to free the
+context if the pointer is NULL.</description><pubDate>Sun, 19 Jan 2025 12:13:48 +0000</pubDate></item><item><title>CVE-2024-57928 | netfs: Fix enomem handling in buffered reads</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57928</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfs: Fix enomem handling in buffered reads
+
+If netfs_read_to_pagecache() gets an error from either -&gt;prepare_read() or
+from netfs_prepare_read_iterator(), it needs to decrement -&gt;nr_outstanding,
+cancel the subrequest and break out of the issuing loop.  Currently, it
+only does this for two of the cases, but there are two more that aren't
+handled.
+
+Fix this by moving the handling to a common place and jumping to it from
+all four places.  This is in preference to inserting a wrapper around
+netfs_prepare_read_iterator() as proposed by Dmitry Antipov[1].</description><pubDate>Sun, 19 Jan 2025 12:13:49 +0000</pubDate></item><item><title>CVE-2024-57929 | dm array: fix releasing a faulty array block twice in dm_array_cursor_end</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57929</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dm array: fix releasing a faulty array block twice in dm_array_cursor_end
+
+When dm_bm_read_lock() fails due to locking or checksum errors, it
+releases the faulty block implicitly while leaving an invalid output
+pointer behind. The caller of dm_bm_read_lock() should not operate on
+this invalid dm_block pointer, or it will lead to undefined result.
+For example, the dm_array_cursor incorrectly caches the invalid pointer
+on reading a faulty array block, causing a double release in
+dm_array_cursor_end(), then hitting the BUG_ON in dm-bufio cache_put().
+
+Reproduce steps:
+
+1. initialize a cache device
+
+dmsetup create cmeta --table "0 8192 linear /dev/sdc 0"
+dmsetup create cdata --table "0 65536 linear /dev/sdc 8192"
+dmsetup create corig --table "0 524288 linear /dev/sdc $262144"
+dd if=/dev/zero of=/dev/mapper/cmeta bs=4k count=1
+dmsetup create cache --table "0 524288 cache /dev/mapper/cmeta \
+/dev/mapper/cdata /dev/mapper/corig 128 2 metadata2 writethrough smq 0"
+
+2. wipe the second array block offline
+
+dmsteup remove cache cmeta cdata corig
+mapping_root=$(dd if=/dev/sdc bs=1c count=8 skip=192 \
+2&gt;/dev/null | hexdump -e '1/8 "%u\n"')
+ablock=$(dd if=/dev/sdc bs=1c count=8 skip=$((4096*mapping_root+2056)) \
+2&gt;/dev/null | hexdump -e '1/8 "%u\n"')
+dd if=/dev/zero of=/dev/sdc bs=4k count=1 seek=$ablock
+
+3. try reopen the cache device
+
+dmsetup create cmeta --table "0 8192 linear /dev/sdc 0"
+dmsetup create cdata --table "0 65536 linear /dev/sdc 8192"
+dmsetup create corig --table "0 524288 linear /dev/sdc $262144"
+dmsetup create cache --table "0 524288 cache /dev/mapper/cmeta \
+/dev/mapper/cdata /dev/mapper/corig 128 2 metadata2 writethrough smq 0"
+
+Kernel logs:
+
+(snip)
+device-mapper: array: array_block_check failed: blocknr 0 != wanted 10
+device-mapper: block manager: array validator check failed for block 10
+device-mapper: array: get_ablock failed
+device-mapper: cache metadata: dm_array_cursor_next for mapping failed
+------------[ cut here ]------------
+kernel BUG at drivers/md/dm-bufio.c:638!
+
+Fix by setting the cached block pointer to NULL on errors.
+
+In addition to the reproducer described above, this fix can be
+verified using the "array_cursor/damaged" test in dm-unit:
+  dm-unit run /pdata/array_cursor/damaged --kernel-dir &lt;KERNEL_DIR&gt;</description><pubDate>Sun, 19 Jan 2025 12:13:49 +0000</pubDate></item><item><title>CVE-2025-21631 | block, bfq: fix waker_bfqq UAF after bfq_split_bfqq()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21631</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 block, bfq: fix waker_bfqq UAF after bfq_split_bfqq()
 
@@ -10,7 +750,7 @@ Read of size 8 at addr ffff8881b57147d8 by task fsstress/232726
 
 CPU: 2 PID: 232726 Comm: fsstress Not tainted 6.6.0-g3629d1885222 #39
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0x91/0xf0 lib/dump_stack.c:106
  print_address_description.constprop.0+0x66/0x300 mm/kasan/report.c:364
@@ -116,7 +856,7 @@ Schimpe:
 WARNING: CPU: 5 PID: 1773 at arch/x86/kernel/fpu/regset.c:198 ssp_get+0x89/0xa0
 [...]
 Call Trace:
-&lt;TASK&gt;
+
 ? show_regs+0x6e/0x80
 ? ssp_get+0x89/0xa0
 ? __warn+0x91/0x150
@@ -151,7 +891,7 @@ Syzkeller reports:
 BUG: KASAN: slab-use-after-free in thread_group_cputime+0x409/0x700 kernel/sched/cputime.c:341
 Read of size 8 at addr ffff88803578c510 by task syz.2.3223/27552
  Call Trace:
-  &lt;TASK&gt;
+  
   ...
   kasan_report+0x143/0x180 mm/kasan/report.c:602
   thread_group_cputime+0x409/0x700 kernel/sched/cputime.c:341
@@ -396,7 +1136,7 @@ is exiting. This is what syzbot found, when using acct(2):
   DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
   DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
   Call Trace:
-   &lt;TASK&gt;
+   
    proc_sys_call_handler+0x403/0x5d0 fs/proc/proc_sysctl.c:601
    __kernel_write_iter+0x318/0xa80 fs/read_write.c:612
    __kernel_write+0xf6/0x140 fs/read_write.c:632
@@ -425,7 +1165,7 @@ is exiting. This is what syzbot found, when using acct(2):
   RBP: 0000000000000003 R08: 00007fffcccac6ac R09: 00007fffcccacac7
   R10: 00007fffcccac710 R11: 0000000000000202 R12: 00007fee3cd49500
   R13: 00007fffcccac6ac R14: 0000000000000000 R15: 00007fee3cd4b000
-   &lt;/TASK&gt;
+   
   Modules linked in:
   ---[ end trace 0000000000000000 ]---
   RIP: 0010:proc_scheduler+0xc6/0x3c0 net/mptcp/ctrl.c:125
@@ -531,7 +1271,7 @@ However, the DNS limits the maximum lookup length and, by extension, the
 maximum cell name, to 255 less two (length count and trailing NUL).
 
 Fix this by limiting the maximum acceptable cellname length to 253.  This
-also allows us to be sure we can create the "/afs/.&lt;cell&gt;/" mountpoint too.
+also allows us to be sure we can create the "/afs/./" mountpoint too.
 
 Further, split the YFS VL record cell name maximum to be the 256 allowed by
 the protocol and ignore the record retrieved by YFSVL.GetCellName if it
@@ -790,7 +1530,7 @@ CPU: 1 UID: 0 PID: 54 Comm: kworker/u8:3 Not tainted 6.13.0-rc3-syzkaller-00180-
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
 Workqueue: ipv6_addrconf addrconf_dad_work
 Call Trace:
- &lt;TASK&gt;
+ 
   __dump_stack lib/dump_stack.c:94 [inline]
   dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
   ubsan_epilogue lib/ubsan.c:231 [inline]
