@@ -1,5 +1,52 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Feb 2025 13:39:03 +0000</lastBuildDate><item><title>CVE-2024-57951 | hrtimers: Handle CPU state correctly on hotplug</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57951</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Feb 2025 14:00:14 +0000</lastBuildDate><item><title>CVE-2024-23563 | HCL Connections Docs is vulnerable to a sensitive information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2024-23563</link><description>HCL Connections Docs is vulnerable to a sensitive information disclosure which could allow a user to obtain sensitive information they are not entitled to, caused by improper handling of request data.</description><pubDate>Wed, 12 Feb 2025 14:00:15 +0000</pubDate></item><item><title>CVE-2024-57952 | Revert &amp;quot;libfs: fix infinite directory reads for offset dir&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57952</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "libfs: fix infinite directory reads for offset dir"
+
+The current directory offset allocator (based on mtree_alloc_cyclic)
+stores the next offset value to return in octx-&gt;next_offset. This
+mechanism typically returns values that increase monotonically over
+time. Eventually, though, the newly allocated offset value wraps
+back to a low number (say, 2) which is smaller than other already-
+allocated offset values.
+
+Yu Kuai &lt;yukuai3@huawei.com&gt; reports that, after commit 64a7ce76fb90
+("libfs: fix infinite directory reads for offset dir"), if a
+directory's offset allocator wraps, existing entries are no longer
+visible via readdir/getdents because offset_readdir() stops listing
+entries once an entry's offset is larger than octx-&gt;next_offset.
+These entries vanish persistently -- they can be looked up, but will
+never again appear in readdir(3) output.
+
+The reason for this is that the commit treats directory offsets as
+monotonically increasing integer values rather than opaque cookies,
+and introduces this comparison:
+
+	if (dentry2offset(dentry) &gt;= last_index) {
+
+On 64-bit platforms, the directory offset value upper bound is
+2^63 - 1. Directory offsets will monotonically increase for millions
+of years without wrapping.
+
+On 32-bit platforms, however, LONG_MAX is 2^31 - 1. The allocator
+can wrap after only a few weeks (at worst).
+
+Revert commit 64a7ce76fb90 ("libfs: fix infinite directory reads for
+offset dir") to prepare for a fix that can work properly on 32-bit
+systems and might apply to recent LTS kernels where shmem employs
+the simple_offset mechanism.</description><pubDate>Wed, 12 Feb 2025 14:00:16 +0000</pubDate></item><item><title>CVE-2025-21698 | Revert &amp;quot;usb: gadget: u_serial: Disable ep before setting port to null to fix the crash caused by port being null&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21698</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "usb: gadget: u_serial: Disable ep before setting port to null to fix the crash caused by port being null"
+
+This reverts commit 13014969cbf07f18d62ceea40bd8ca8ec9d36cec.
+
+It is reported to cause crashes on Tegra systems, so revert it for now.</description><pubDate>Wed, 12 Feb 2025 14:00:16 +0000</pubDate></item><item><title>CVE-2025-21699 | gfs2: Truncate address space when flipping GFS2_DIF_JDATA flag</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21699</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gfs2: Truncate address space when flipping GFS2_DIF_JDATA flag
+
+Truncate an inode's address space when flipping the GFS2_DIF_JDATA flag:
+depending on that flag, the pages in the address space will either use
+buffer heads or iomap_folio_state structs, and we cannot mix the two.</description><pubDate>Wed, 12 Feb 2025 14:00:17 +0000</pubDate></item><item><title>CVE-2024-57951 | hrtimers: Handle CPU state correctly on hotplug</title><link>https://www.cve.org/CVERecord?id=CVE-2024-57951</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 hrtimers: Handle CPU state correctly on hotplug
 
