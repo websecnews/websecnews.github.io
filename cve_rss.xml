@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Mar 2025 09:51:44 +0000</lastBuildDate><item><title>CVE-2024-58088 | bpf: Fix deadlock when freeing cgroup storage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-58088</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Mar 2025 09:58:39 +0000</lastBuildDate><item><title>CVE-2025-2239 | Absolute Path Disclosure Vulnerability in Hillstone Next Generation FireWall</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2239</link><description>Generation of Error Message Containing Sensitive Information vulnerability in Hillstone Networks Hillstone Next Generation FireWall.This issue affects Hillstone Next Generation FireWall: from 5.5R8P1 before 5.5R8P23.</description><pubDate>Wed, 12 Mar 2025 09:58:41 +0000</pubDate></item><item><title>CVE-2024-58088 | bpf: Fix deadlock when freeing cgroup storage</title><link>https://www.cve.org/CVERecord?id=CVE-2024-58088</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bpf: Fix deadlock when freeing cgroup storage
 
@@ -15,7 +15,7 @@ which faces the same issue as bpf_task_storage, instead of its busy
 counter, NULL was passed to bpf_local_storage_map_free() which opened
 a window to cause deadlock:
 
-	&lt;TASK&gt;
+	
 		(acquiring local_storage-&gt;lock)
 	_raw_spin_lock_irqsave+0x3d/0x50
 	bpf_local_storage_update+0xd1/0x460
@@ -34,7 +34,7 @@ a window to cause deadlock:
 	kthread+0xd2/0x100
 	ret_from_fork+0x34/0x50
 	ret_from_fork_asm+0x1a/0x30
-	&lt;/TASK&gt;
+	
 
 Progs:
  - A: SEC("fentry/cgroup_storage_ptr")
@@ -320,7 +320,7 @@ PGD 0 P4D 0
 PREEMPT SMP
 RIP: 0010:bpf_prog_5e21a6db8fcff1aa_drop+0x10/0x2d
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die+0x1f/0x60
  ? page_fault_oops+0x148/0x420
  ? search_bpf_extables+0x5b/0x70
@@ -626,7 +626,7 @@ the hmm selftests:
   [  102.111924][T14893] CR2: 00007ff27d400000 CR3: 000000010866e000 CR4: 0000000000750ef0
   [  102.113478][T14893] PKRU: 55555554
   [  102.114172][T14893] Call Trace:
-  [  102.114805][T14893]  &lt;TASK&gt;
+  [  102.114805][T14893]  
   [  102.115397][T14893]  ? folio_lruvec_lock_irqsave+0x10e/0x170
   [  102.116547][T14893]  ? __warn.cold+0x110/0x210
   [  102.117461][T14893]  ? folio_lruvec_lock_irqsave+0x10e/0x170
@@ -659,7 +659,7 @@ drop_monitor: fix incorrect initialization order
 Syzkaller reports the following bug:
 
 BUG: spinlock bad magic on CPU#1, syz-executor.0/7995
- lock: 0xffff88805303f3e0, .magic: 00000000, .owner: &lt;none&gt;/-1, .owner_cpu: 0
+ lock: 0xffff88805303f3e0, .magic: 00000000, .owner: /-1, .owner_cpu: 0
 CPU: 1 PID: 7995 Comm: syz-executor.0 Tainted: G            E     5.10.209+ #1
 Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
 Call Trace:
@@ -782,7 +782,7 @@ CPU: 1 UID: 0 PID: 1804 Comm: kworker/u8:7 Tainted: G                T   6.12.13
 Tainted: [T]=RANDSTRUCT
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
 Workqueue: netns cleanup_net
-RIP: 0010:[&lt;ffffffff84947381&gt;] __list_del_entry_valid_or_report+0x141/0x200 lib/list_debug.c:58
+RIP: 0010:[] __list_del_entry_valid_or_report+0x141/0x200 lib/list_debug.c:58
 Code: c2 76 91 31 c0 e8 9f b1 f7 fc 0f 0b 4d 89 f0 48 c7 c1 02 ff ff ff 48 89 ea 48 89 ee 48 c7 c7 e0 c2 76 91 31 c0 e8 7f b1 f7 fc &lt;0f&gt; 0b 4d 89 e8 48 c7 c1 04 ff ff ff 48 89 ea 48 89 ee 48 c7 c7 60
 RSP: 0018:fffffe8040b4fbd0 EFLAGS: 00010283
 RAX: 00000000000000cc RBX: dffffc0000000000 RCX: ffffffff818c4054
@@ -807,10 +807,10 @@ Stack:
  ffff8880aaa62c00 0000000000000004 ffff88811145311c 0000000000000005
  0000000000000001 ffff8880aaa62000 fffffe8040b4fd40 ffffffff8a0c360d
 Call Trace:
- &lt;TASK&gt;
- [&lt;ffffffff8a0c360d&gt;] __list_del_entry_valid include/linux/list.h:131 [inline] fffffe8040b4fc28
- [&lt;ffffffff8a0c360d&gt;] __list_del_entry include/linux/list.h:248 [inline] fffffe8040b4fc28
- [&lt;ffffffff8a0c360d&gt;] list_del include/linux/list.h:262 [inl
+ 
+ [] __list_del_entry_valid include/linux/list.h:131 [inline] fffffe8040b4fc28
+ [] __list_del_entry include/linux/list.h:248 [inline] fffffe8040b4fc28
+ [] list_del include/linux/list.h:262 [inl
 ---truncated---</description><pubDate>Wed, 12 Mar 2025 09:51:54 +0000</pubDate></item><item><title>CVE-2025-21866 | powerpc/code-patching: Fix KASAN hit by not flagging text patching area as VM_ALLOC</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21866</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 powerpc/code-patching: Fix KASAN hit by not flagging text patching area as VM_ALLOC
@@ -843,7 +843,7 @@ with a KASAN-enabled kernel 6.13-rc6:
   --- interrupt: c00 at 0x5a1274
   NIP:  005a1274 LR: 006a3b3c CTR: 005296c8
   REGS: c2437f40 TRAP: 0c00   Tainted: G        W           (6.13.0-rc6-PMacG4)
-  MSR:  0200f932 &lt;VEC,EE,PR,FP,ME,IR,DR,RI&gt;  CR: 24004422  XER: 00000000
+  MSR:  0200f932   CR: 24004422  XER: 00000000
 
   GPR00: 00000166 af8f3fa0 a7ee3540 00000001 00000000 013b6500 005a5858 0200f932
   GPR08: 00000000 00001fe9 013d5fc8 005296c8 2822244c 00b2fcd8 00000000 af8f4b57
