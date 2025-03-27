@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 27 Mar 2025 13:46:14 +0000</lastBuildDate><item><title>CVE-2025-21867 | bpf, test_run: Fix use-after-free issue in eth_skb_pkt_type()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21867</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 27 Mar 2025 14:00:12 +0000</lastBuildDate><item><title>CVE-2025-26619 | Vega Cross-Site Scripting (XSS) via event filter when not using CSP mode `expressionInterpeter`</title><link>https://www.cve.org/CVERecord?id=CVE-2025-26619</link><description>Vega is a visualization grammar, a declarative format for creating, saving, and sharing interactive visualization designs. In `vega` 5.30.0 and lower and in `vega-functions` 5.15.0 and lower , it was possible to call JavaScript functions from the Vega expression language that were not meant to be supported. The issue is patched in `vega` `5.31.0`  and `vega-functions` `5.16.0`. Some workarounds are available. Run `vega` without `vega.expressionInterpreter`. This mode is not the default as it is slower. Alternatively, using the interpreter described in CSP safe mode (Content Security Policy) prevents arbitrary Javascript from running, so users of this mode are not affected by this vulnerability.</description><pubDate>Thu, 27 Mar 2025 14:00:14 +0000</pubDate></item><item><title>CVE-2025-26737 | WordPress City Store theme &amp;lt;= 1.4.5 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-26737</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in yudleethemes City Store allows DOM-Based XSS.This issue affects City Store: from n/a through 1.4.5.</description><pubDate>Thu, 27 Mar 2025 14:00:14 +0000</pubDate></item><item><title>CVE-2025-26738 | WordPress Quick Interest Slider plugin &amp;lt;= 3.1.3 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-26738</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Graham Quick Interest Slider allows DOM-Based XSS.This issue affects Quick Interest Slider: from n/a through 3.1.3.</description><pubDate>Thu, 27 Mar 2025 14:00:15 +0000</pubDate></item><item><title>CVE-2025-21867 | bpf, test_run: Fix use-after-free issue in eth_skb_pkt_type()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21867</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bpf, test_run: Fix use-after-free issue in eth_skb_pkt_type()
 
@@ -73,7 +73,7 @@ Sabrina reported the following splat:
     DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
     DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
     Call Trace:
-    &lt;TASK&gt;
+    
     gro_cells_init+0x1ba/0x270
     xfrm_input_init+0x4b/0x2a0
     xfrm_init+0x38/0x50
@@ -86,12 +86,12 @@ Sabrina reported the following splat:
     kernel_init+0x20/0x1d0
     ret_from_fork+0x46/0x80
     ret_from_fork_asm+0x1a/0x30
-    &lt;/TASK&gt;
+    
     irq event stamp: 584330
-    hardirqs last  enabled at (584338): [&lt;ffffffff8168bf87&gt;] __up_console_sem+0x77/0xb0
-    hardirqs last disabled at (584345): [&lt;ffffffff8168bf6c&gt;] __up_console_sem+0x5c/0xb0
-    softirqs last  enabled at (583242): [&lt;ffffffff833ee96d&gt;] netlink_insert+0x14d/0x470
-    softirqs last disabled at (583754): [&lt;ffffffff8317c8cd&gt;] netif_napi_add_weight_locked+0x77d/0xba0
+    hardirqs last  enabled at (584338): [] __up_console_sem+0x77/0xb0
+    hardirqs last disabled at (584345): [] __up_console_sem+0x5c/0xb0
+    softirqs last  enabled at (583242): [] netlink_insert+0x14d/0x470
+    softirqs last disabled at (583754): [] netif_napi_add_weight_locked+0x77d/0xba0
 
 on kernel built with MAX_SKB_FRAGS=45, where SKB_WITH_OVERHEAD(1024)
 is smaller than GRO_MAX_HEAD.
@@ -137,7 +137,7 @@ Erhard reports the following KASAN hit on Talos II (power9) with kernel 6.13:
 [   12.029561] --- interrupt: 3000 at 0x3fff82f5cfa8
 [   12.029608] NIP:  00003fff82f5cfa8 LR: 00003fff82f5cfa8 CTR: 0000000000000000
 [   12.029660] REGS: c000000008dbfe80 TRAP: 3000   Tainted: G                T   (6.13.0-P9-dirty)
-[   12.029735] MSR:  900000000280f032 &lt;SF,HV,VEC,VSX,EE,PR,FP,ME,IR,DR,RI&gt;  CR: 42004848  XER: 00000000
+[   12.029735] MSR:  900000000280f032   CR: 42004848  XER: 00000000
 [   12.029855] IRQMASK: 0
                GPR00: 0000000000000169 00003fffdcf789a0 00003fff83067100 0000000000000005
                GPR04: 00003fffdcf78a98 0000000000000090 0000000000000000 0000000000000008
