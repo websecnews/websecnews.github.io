@@ -1,5 +1,156 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 01 Apr 2025 15:48:22 +0000</lastBuildDate><item><title>CVE-2025-21902 | acpi: typec: ucsi: Introduce a -&amp;gt;poll_cci method</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21902</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 01 Apr 2025 15:55:18 +0000</lastBuildDate><item><title>CVE-2025-21984 | mm: fix kernel BUG when userfaultfd_move encounters swapcache</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21984</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: fix kernel BUG when userfaultfd_move encounters swapcache
+
+userfaultfd_move() checks whether the PTE entry is present or a
+swap entry.
+
+- If the PTE entry is present, move_present_pte() handles folio
+  migration by setting:
+
+  src_folio-&gt;index = linear_page_index(dst_vma, dst_addr);
+
+- If the PTE entry is a swap entry, move_swap_pte() simply copies
+  the PTE to the new dst_addr.
+
+This approach is incorrect because, even if the PTE is a swap entry,
+it can still reference a folio that remains in the swap cache.
+
+This creates a race window between steps 2 and 4.
+ 1. add_to_swap: The folio is added to the swapcache.
+ 2. try_to_unmap: PTEs are converted to swap entries.
+ 3. pageout: The folio is written back.
+ 4. Swapcache is cleared.
+If userfaultfd_move() occurs in the window between steps 2 and 4,
+after the swap PTE has been moved to the destination, accessing the
+destination triggers do_swap_page(), which may locate the folio in
+the swapcache. However, since the folio's index has not been updated
+to match the destination VMA, do_swap_page() will detect a mismatch.
+
+This can result in two critical issues depending on the system
+configuration.
+
+If KSM is disabled, both small and large folios can trigger a BUG
+during the add_rmap operation due to:
+
+ page_pgoff(folio, page) != linear_page_index(vma, address)
+
+[   13.336953] page: refcount:6 mapcount:1 mapping:00000000f43db19c index:0xffffaf150 pfn:0x4667c
+[   13.337520] head: order:2 mapcount:1 entire_mapcount:0 nr_pages_mapped:1 pincount:0
+[   13.337716] memcg:ffff00000405f000
+[   13.337849] anon flags: 0x3fffc0000020459(locked|uptodate|dirty|owner_priv_1|head|swapbacked|node=0|zone=0|lastcpupid=0xffff)
+[   13.338630] raw: 03fffc0000020459 ffff80008507b538 ffff80008507b538 ffff000006260361
+[   13.338831] raw: 0000000ffffaf150 0000000000004000 0000000600000000 ffff00000405f000
+[   13.339031] head: 03fffc0000020459 ffff80008507b538 ffff80008507b538 ffff000006260361
+[   13.339204] head: 0000000ffffaf150 0000000000004000 0000000600000000 ffff00000405f000
+[   13.339375] head: 03fffc0000000202 fffffdffc0199f01 ffffffff00000000 0000000000000001
+[   13.339546] head: 0000000000000004 0000000000000000 00000000ffffffff 0000000000000000
+[   13.339736] page dumped because: VM_BUG_ON_PAGE(page_pgoff(folio, page) != linear_page_index(vma, address))
+[   13.340190] ------------[ cut here ]------------
+[   13.340316] kernel BUG at mm/rmap.c:1380!
+[   13.340683] Internal error: Oops - BUG: 00000000f2000800 [#1] PREEMPT SMP
+[   13.340969] Modules linked in:
+[   13.341257] CPU: 1 UID: 0 PID: 107 Comm: a.out Not tainted 6.14.0-rc3-gcf42737e247a-dirty #299
+[   13.341470] Hardware name: linux,dummy-virt (DT)
+[   13.341671] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.341815] pc : __page_check_anon_rmap+0xa0/0xb0
+[   13.341920] lr : __page_check_anon_rmap+0xa0/0xb0
+[   13.342018] sp : ffff80008752bb20
+[   13.342093] x29: ffff80008752bb20 x28: fffffdffc0199f00 x27: 0000000000000001
+[   13.342404] x26: 0000000000000000 x25: 0000000000000001 x24: 0000000000000001
+[   13.342575] x23: 0000ffffaf0d0000 x22: 0000ffffaf0d0000 x21: fffffdffc0199f00
+[   13.342731] x20: fffffdffc0199f00 x19: ffff000006210700 x18: 00000000ffffffff
+[   13.342881] x17: 6c203d2120296567 x16: 6170202c6f696c6f x15: 662866666f67705f
+[   13.343033] x14: 6567617028454741 x13: 2929737365726464 x12: ffff800083728ab0
+[   13.343183] x11: ffff800082996bf8 x10: 0000000000000fd7 x9 : ffff80008011bc40
+[   13.343351] x8 : 0000000000017fe8 x7 : 00000000fffff000 x6 : ffff8000829eebf8
+[   13.343498] x5 : c0000000fffff000 x4 : 0000000000000000 x3 : 0000000000000000
+[   13.343645] x2 : 0000000000000000 x1 : ffff0000062db980 x0 : 000000000000005f
+[   13.343876] Call trace:
+[   13.344045]  __page_check_anon_rmap+0xa0/0xb0 (P)
+[   13.344234]  folio_add_anon_rmap_ptes+0x22c/0x320
+[   13.344333]  do_swap_page+0x1060/0x1400
+[   13.344417]  __handl
+---truncated---</description><pubDate>Tue, 01 Apr 2025 15:55:20 +0000</pubDate></item><item><title>CVE-2025-21985 | drm/amd/display: Fix out-of-bound accesses</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21985</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix out-of-bound accesses
+
+[WHAT &amp; HOW]
+hpo_stream_to_link_encoder_mapping has size MAX_HPO_DP2_ENCODERS(=4),
+but location can have size up to 6. As a result, it is necessary to
+check location against MAX_HPO_DP2_ENCODERS.
+
+Similiarly, disp_cfg_stream_location can be used as an array index which
+should be 0..5, so the ASSERT's conditions should be less without equal.</description><pubDate>Tue, 01 Apr 2025 15:55:20 +0000</pubDate></item><item><title>CVE-2025-21986 | net: switchdev: Convert blocking notification chain to a raw one</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21986</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: switchdev: Convert blocking notification chain to a raw one
+
+A blocking notification chain uses a read-write semaphore to protect the
+integrity of the chain. The semaphore is acquired for writing when
+adding / removing notifiers to / from the chain and acquired for reading
+when traversing the chain and informing notifiers about an event.
+
+In case of the blocking switchdev notification chain, recursive
+notifications are possible which leads to the semaphore being acquired
+twice for reading and to lockdep warnings being generated [1].
+
+Specifically, this can happen when the bridge driver processes a
+SWITCHDEV_BRPORT_UNOFFLOADED event which causes it to emit notifications
+about deferred events when calling switchdev_deferred_process().
+
+Fix this by converting the notification chain to a raw notification
+chain in a similar fashion to the netdev notification chain. Protect
+the chain using the RTNL mutex by acquiring it when modifying the chain.
+Events are always informed under the RTNL mutex, but add an assertion in
+call_switchdev_blocking_notifiers() to make sure this is not violated in
+the future.
+
+Maintain the "blocking" prefix as events are always emitted from process
+context and listeners are allowed to block.
+
+[1]:
+WARNING: possible recursive locking detected
+6.14.0-rc4-custom-g079270089484 #1 Not tainted
+--------------------------------------------
+ip/52731 is trying to acquire lock:
+ffffffff850918d8 ((switchdev_blocking_notif_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x58/0xa0
+
+but task is already holding lock:
+ffffffff850918d8 ((switchdev_blocking_notif_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x58/0xa0
+
+other info that might help us debug this:
+Possible unsafe locking scenario:
+CPU0
+----
+lock((switchdev_blocking_notif_chain).rwsem);
+lock((switchdev_blocking_notif_chain).rwsem);
+
+*** DEADLOCK ***
+May be due to missing lock nesting notation
+3 locks held by ip/52731:
+ #0: ffffffff84f795b0 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x727/0x1dc0
+ #1: ffffffff8731f628 (&amp;net-&gt;rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x790/0x1dc0
+ #2: ffffffff850918d8 ((switchdev_blocking_notif_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x58/0xa0
+
+stack backtrace:
+...
+? __pfx_down_read+0x10/0x10
+? __pfx_mark_lock+0x10/0x10
+? __pfx_switchdev_port_attr_set_deferred+0x10/0x10
+blocking_notifier_call_chain+0x58/0xa0
+switchdev_port_attr_notify.constprop.0+0xb3/0x1b0
+? __pfx_switchdev_port_attr_notify.constprop.0+0x10/0x10
+? mark_held_locks+0x94/0xe0
+? switchdev_deferred_process+0x11a/0x340
+switchdev_port_attr_set_deferred+0x27/0xd0
+switchdev_deferred_process+0x164/0x340
+br_switchdev_port_unoffload+0xc8/0x100 [bridge]
+br_switchdev_blocking_event+0x29f/0x580 [bridge]
+notifier_call_chain+0xa2/0x440
+blocking_notifier_call_chain+0x6e/0xa0
+switchdev_bridge_port_unoffload+0xde/0x1a0
+...</description><pubDate>Tue, 01 Apr 2025 15:55:21 +0000</pubDate></item><item><title>CVE-2025-21902 | acpi: typec: ucsi: Introduce a -&amp;gt;poll_cci method</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21902</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 acpi: typec: ucsi: Introduce a -&gt;poll_cci method
 
@@ -23,14 +174,14 @@ Hardware name: LENOVO 21D0/LNVNB161216, BIOS J6CN45WW 03/17/2023
 Workqueue: events_long ucsi_init_work [typec_ucsi]
 RIP: 0010:ucsi_reset_ppm+0x1b4/0x1c0 [typec_ucsi]
 Call Trace:
- &lt;TASK&gt;
+ 
  ucsi_init_work+0x3c/0xac0 [typec_ucsi]
  process_one_work+0x179/0x330
  worker_thread+0x252/0x390
  kthread+0xd2/0x100
  ret_from_fork+0x34/0x50
  ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;
+ 
 
 Thus introduce a -&gt;poll_cci() method that works like -&gt;read_cci() with an
 additional forced sync and document that this should be used when polling
@@ -232,15 +383,14 @@ RIP: 0010:restore_alpha2 net/wireless/reg.c:3424 [inline]
 RIP: 0010:restore_regulatory_settings+0x3c0/0x1e50 net/wireless/reg.c:3516
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  crda_timeout_work+0x27/0x50 net/wireless/reg.c:542
  process_one_work kernel/workqueue.c:3229 [inline]
  process_scheduled_works+0xa65/0x1850 kernel/workqueue.c:3310
  worker_thread+0x870/0xd30 kernel/workqueue.c:3391
  kthread+0x2f2/0x390 kernel/kthread.c:389
  ret_from_fork+0x4d/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- &lt;/TASK&gt;</description><pubDate>Tue, 01 Apr 2025 15:48:27 +0000</pubDate></item><item><title>CVE-2025-21911 | drm/imagination: avoid deadlock on fence release</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21911</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244</description><pubDate>Tue, 01 Apr 2025 15:48:27 +0000</pubDate></item><item><title>CVE-2025-21911 | drm/imagination: avoid deadlock on fence release</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21911</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/imagination: avoid deadlock on fence release
 
@@ -279,16 +429,16 @@ register access.
     [    4.239599] 6.13.0-rc7-arm64-renesas-05496-gd088502a519f #35 Not tainted
     [    4.239603] -----------------------------
     [    4.239606] kworker/u8:5/76 is trying to lock:
-    [    4.239609] ffff0000091898a0 (&amp;p-&gt;lock){....}-{3:3}, at: gpio_rcar_config_interrupt_input_mode+0x34/0x164
+    [    4.239609] ffff0000091898a0 (&amp;amp;p-&gt;lock){....}-{3:3}, at: gpio_rcar_config_interrupt_input_mode+0x34/0x164
     [    4.239641] other info that might help us debug this:
     [    4.239643] context-{5:5}
     [    4.239646] 5 locks held by kworker/u8:5/76:
     [    4.239651]  #0: ffff0000080fb148 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0x190/0x62c
     [    4.250180] OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
-    [    4.254094]  #1: ffff80008299bd80 ((work_completion)(&amp;entry-&gt;work)){+.+.}-{0:0}, at: process_one_work+0x1b8/0x62c
+    [    4.254094]  #1: ffff80008299bd80 ((work_completion)(&amp;amp;entry-&gt;work)){+.+.}-{0:0}, at: process_one_work+0x1b8/0x62c
     [    4.254109]  #2: ffff00000920c8f8
     [    4.258345] OF: /soc/sound@ec500000/ports/port@1/endpoint: Read of boolean property 'bitclock-master' with a value.
-    [    4.264803]  (&amp;dev-&gt;mutex){....}-{4:4}, at: __device_attach_async_helper+0x3c/0xdc
+    [    4.264803]  (&amp;amp;dev-&gt;mutex){....}-{4:4}, at: __device_attach_async_helper+0x3c/0xdc
     [    4.264820]  #3: ffff00000a50ca40 (request_class#2){+.+.}-{4:4}, at: __setup_irq+0xa0/0x690
     [    4.264840]  #4:
     [    4.268872] OF: /soc/sound@ec500000/ports/port@1/endpoint: Read of boolean property 'frame-master' with a value.
@@ -432,7 +582,7 @@ WARNING: CPU: 0 PID: 1378 at drivers/usb/core/urb.c:504 usb_submit_urb+0xc4e/0x1
 RIP: 0010:usb_submit_urb+0xc4e/0x18c0 drivers/usb/core/urb.c:503
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  cxacru_cm+0x3c8/0xe50 drivers/usb/atm/cxacru.c:649
  cxacru_card_status drivers/usb/atm/cxacru.c:760 [inline]
  cxacru_bind+0xcf9/0x1150 drivers/usb/atm/cxacru.c:1223
@@ -474,7 +624,7 @@ The issue arises in list_add_leaf_cfs_rq, where both
 cfs_rq-&gt;leaf_cfs_rq_list and rq-&gt;leaf_cfs_rq_list are added to the same
 leaf list. Also, rq-&gt;tmp_alone_branch can be set to rq-&gt;leaf_cfs_rq_list.
 
-This adds a check `if (prev == &amp;rq-&gt;leaf_cfs_rq_list)` after the main
+This adds a check `if (prev == &amp;amp;rq-&gt;leaf_cfs_rq_list)` after the main
 conditional in child_cfs_rq_on_list. This ensures that the container_of
 operation will convert a correct cfs_rq struct.
 
@@ -561,8 +711,8 @@ The following code can generate a PPP filter BPF program:
 struct bpf_program fp;
 pcap_t *handle;
 handle = pcap_open_dead(DLT_PPP_PPPD, 65535);
-pcap_compile(handle, &amp;fp, "ip and outbound", 0, 0);
-bpf_dump(&amp;fp, 1);
+pcap_compile(handle, &amp;amp;fp, "ip and outbound", 0, 0);
+bpf_dump(&amp;amp;fp, 1);
 '''
 Its output is:
 '''
@@ -591,7 +741,7 @@ such as those generated by syzkaller [2], which start reading from offset
 0, the uninitialized data will be used and caught by KMSAN.
 
 [1] https://syzkaller.appspot.com/bug?extid=853242d9c9917165d791
-[2] https://syzkaller.appspot.com/text?tag=ReproC&amp;x=11994913980000</description><pubDate>Tue, 01 Apr 2025 15:48:32 +0000</pubDate></item><item><title>CVE-2025-21923 | HID: hid-steam: Fix use-after-free when detaching device</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21923</link><description>In the Linux kernel, the following vulnerability has been resolved:
+[2] https://syzkaller.appspot.com/text?tag=ReproC&amp;amp;x=11994913980000</description><pubDate>Tue, 01 Apr 2025 15:48:32 +0000</pubDate></item><item><title>CVE-2025-21923 | HID: hid-steam: Fix use-after-free when detaching device</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21923</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 HID: hid-steam: Fix use-after-free when detaching device
 
@@ -633,7 +783,7 @@ CPU: 0 UID: 0 PID: 16371 Comm: syz.2.2764 Not tainted 6.14.0-rc4-syzkaller-00052
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
  RIP: 0010:pskb_expand_head+0x6ce/0x1240 net/core/skbuff.c:2178
 Call Trace:
- &lt;TASK&gt;
+ 
   __skb_pad+0x18a/0x610 net/core/skbuff.c:2466
   __skb_put_padto include/linux/skbuff.h:3843 [inline]
   skb_put_padto include/linux/skbuff.h:3862 [inline]
@@ -749,7 +899,7 @@ This fixes:
  bad state = 0
  WARNING: CPU: 10 PID: 702 at drivers/net/wireless/inel/iwlwifi/iwl-trans.c:178 iwl_trans_send_cmd+0xba/0xe0 [iwlwifi]
  Call Trace:
-  &lt;TASK&gt;
+  
   ? __warn+0xca/0x1c0
   ? iwl_trans_send_cmd+0xba/0xe0 [iwlwifi 64fa9ad799a0e0d2ba53d4af93a53ad9a531f8d4]
   iwl_fw_dbg_clear_monitor_buf+0xd7/0x110 [iwlwifi 64fa9ad799a0e0d2ba53d4af93a53ad9a531f8d4]
@@ -873,7 +1023,7 @@ We then invoke the madvise() operation via visit(), letting prev get
 updated to point to vma as part of the operation:
 
 		/* Here vma-&gt;vm_start &lt;= start &lt; tmp &lt;= (end|vma-&gt;vm_end). */
-		error = visit(vma, &amp;prev, start, tmp, arg);
+		error = visit(vma, &amp;amp;prev, start, tmp, arg);
 
 Where the visit() function pointer in this instance is
 madvise_vma_behavior().
@@ -986,7 +1136,7 @@ An example stack:
    BUG: scheduling while atomic: swapper/2/0/0x00000302
 
    Call Trace:
-   &lt;IRQ&gt;
+   
    dump_stack_lvl (lib/dump_stack.c:117 (discriminator 1))
    dump_stack (lib/dump_stack.c:124)
    __schedule_bug (kernel/sched/core.c:5943)
@@ -1023,7 +1173,7 @@ An example stack:
    __irq_exit_rcu (kernel/softirq.c:588 kernel/softirq.c:427 kernel/softirq.c:636)
    irq_exit_rcu (kernel/softirq.c:651)
    common_interrupt (arch/x86/kernel/irq.c:247 (discriminator 14))
-   &lt;/IRQ&gt;
+   
 
 This problem seems particularly prevalent if the user advertises an
 endpoint that has a different external vs internal address.  In the case
@@ -1098,7 +1248,7 @@ forget to unlock an extent.
   task:kworker/u128:1  state:D stack:0     pid:12    tgid:12    ppid:2      flags:0x00004000
   Workqueue: btrfs-fixup btrfs_work_helper [btrfs]
   Call Trace:
-   &lt;TASK&gt;
+   
    __schedule+0x534/0xdd0
    schedule+0x39/0x140
    __lock_extent+0x31b/0x380 [btrfs]
@@ -1115,14 +1265,14 @@ forget to unlock an extent.
    ret_from_fork+0x30/0x50
    ? __pfx_kthread+0x10/0x10
    ret_from_fork_asm+0x1a/0x30
-   &lt;/TASK&gt;
+   
   INFO: task kworker/u134:0:184 blocked for more than 323 seconds.
         Not tainted 6.13.0-BTRFS-ZNS+ #503
   "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
   task:kworker/u134:0  state:D stack:0     pid:184   tgid:184   ppid:2      flags:0x00004000
   Workqueue: writeback wb_workfn (flush-btrfs-4)
   Call Trace:
-   &lt;TASK&gt;
+   
    __schedule+0x534/0xdd0
    schedule+0x39/0x140
    __lock_extent+0x31b/0x380 [btrfs]
@@ -1153,7 +1303,7 @@ forget to unlock an extent.
    ret_from_fork+0x30/0x50
    ? __pfx_kthread+0x10/0x10
    ret_from_fork_asm+0x1a/0x30
-   &lt;/TASK&gt;
+   
 
 This happens because we have another success path for the zoned mode. When
 there is no active zone available, btrfs_reserve_extent() returns
@@ -1214,7 +1364,7 @@ The following simple reproducer demonstrates these problems:
   RIP: 0010:__list_del_entry_valid_or_report+0xa3/0x120
   [...]
   Call Trace:
-   &lt;TASK&gt;
+   
    ? __list_del_entry_valid_or_report+0xa3/0x120
    ? __warn.cold+0x93/0xf2
    ? __list_del_entry_valid_or_report+0xa3/0x120
@@ -1232,7 +1382,7 @@ The following simple reproducer demonstrates these problems:
    do_syscall_64+0x6c/0x180
    entry_SYSCALL_64_after_hwframe+0x76/0x7e
    [...]
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---</description><pubDate>Tue, 01 Apr 2025 15:48:41 +0000</pubDate></item><item><title>CVE-2025-21944 | ksmbd: fix bug on trap in smb2_lock</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21944</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ksmbd: fix bug on trap in smb2_lock
@@ -1256,7 +1406,7 @@ And when validating sid, It need to check it included subauth array size.</descr
 
 ksmbd: fix type confusion via race condition when using ipc_msg_send_request
 
-req-&gt;handle is allocated using ksmbd_acquire_id(&amp;ipc_ida), based on
+req-&gt;handle is allocated using ksmbd_acquire_id(&amp;amp;ipc_ida), based on
 ida_alloc. req-&gt;handle from ksmbd_ipc_login_request and
 FSCTL_PIPE_TRANSCEIVE ioctl can be same and it could lead to type confusion
 between messages, resulting in access to unexpected parts of memory after
@@ -1276,7 +1426,7 @@ Read of size 8 at addr 0000000000000028 by task syz-executor199/2949
 CPU: 0 UID: 0 PID: 2949 Comm: syz-executor199 Not tainted 6.13.0-rc4-syzkaller-00076-gf097a36ef88d #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
 Call Trace:
- &lt;IRQ&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
  kasan_report+0xd9/0x110 mm/kasan/report.c:602
@@ -1304,8 +1454,8 @@ Call Trace:
  irq_exit_rcu+0x9/0x30 kernel/softirq.c:678
  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]
  sysvec_apic_timer_interrupt+0x90/0xb0 arch/x86/kernel/apic/apic.c:1049
- &lt;/IRQ&gt;
- &lt;TASK&gt;
+ 
+ 
  asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
  __mod_timer+0x8f6/0xdc0 kernel/time/timer.c:1185
  add_timer+0x62/0x90 kernel/time/timer.c:1295
@@ -1320,7 +1470,7 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
- &lt;/TASK&gt;
+ 
 
 This happens due to the malformed report items sent by the emulated device
 which results in a report, that has no fields, being added to the report list.
@@ -1449,7 +1599,7 @@ the already cleaned up  mana_port_debugfs value and hits the following bug:
 [  191.362606] CPU: 11 UID: 0 PID: 1674 Comm: bash Not tainted 6.14.0-rc5+ #2
 [  191.363292] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 11/21/2024
 [  191.364124] RIP: 0010:down_write+0x19/0x50
-[  191.364537] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 53 48 89 fb e8 de cd ff ff 31 c0 ba 01 00 00 00 &lt;f0&gt; 48 0f b1 13 75 16 65 48 8b 05 88 24 4c 6a 48 89 43 08 48 8b 5d
+[  191.364537] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 53 48 89 fb e8 de cd ff ff 31 c0 ba 01 00 00 00  48 0f b1 13 75 16 65 48 8b 05 88 24 4c 6a 48 89 43 08 48 8b 5d
 [  191.365867] RSP: 0000:ff45fbe0c1c037b8 EFLAGS: 00010246
 [  191.366350] RAX: 0000000000000000 RBX: 0000000000000098 RCX: ffffff8100000000
 [  191.366951] RDX: 0000000000000001 RSI: 0000000000000064 RDI: 0000000000000098
@@ -1462,7 +1612,7 @@ the already cleaned up  mana_port_debugfs value and hits the following bug:
 [  191.371557] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 [  191.372192] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
 [  191.372906] Call Trace:
-[  191.373262]  &lt;TASK&gt;
+[  191.373262]  
 [  191.373621]  ? show_regs+0x64/0x70
 [  191.374040]  ? __die+0x24/0x70
 [  191.374468]  ? page_fault_oops+0x290/0x5b0
@@ -1684,7 +1834,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007fff2e708ff8 CR3: 000000013e3b0000 CR4: 00000000007506f0
 PKRU: 55555554
 Call Trace:
- &lt;IRQ&gt;
+ 
  ? __warn+0xcd/0x2f0
  ? bnxt_rx_pkt+0x479b/0x7610
  ? report_bug+0x326/0x3c0
@@ -1737,7 +1887,7 @@ Splat looks like:
  CR2: 00007f147b76b0f8 CR3: 00000001615d4000 CR4: 00000000007506f0
  PKRU: 55555554
  Call Trace:
-  &lt;IRQ&gt;
+  
   ? __warn+0x84/0x130
   ? skb_try_coalesce+0x504/0x590
   ? report_bug+0x18a/0x1a0
@@ -1753,11 +1903,11 @@ Splat looks like:
   ip_list_rcv+0xf9/0x130
 
 How to reproduce:
-&lt;Node A&gt;
+
 ip link set $interface1 xdp obj xdp_pass.o
 ip link set $interface1 mtu 9000 up
 ip a a 10.0.0.1/24 dev $interface1
-&lt;Node B&gt;
+
 ip link set $interfac2 mtu 9000 up
 ip a a 10.0.0.2/24 dev $interface2
 ping 10.0.0.1 -s 65000
@@ -1833,7 +1983,7 @@ CPU: 0 UID: 0 PID: 5837 Comm: kworker/u9:2 Not tainted 6.13.0-rc5-syzkaller-0016
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
 Workqueue: hci1 hci_rx_work
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -1852,7 +2002,7 @@ Call Trace:
  kthread+0x2f0/0x390 kernel/kthread.c:389
  ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- &lt;/TASK&gt;
+ 
 
 Allocated by task 5837:
  kasan_save_stack mm/kasan/common.c:47 [inline]
@@ -1944,7 +2094,7 @@ invalid state after initialization.
  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   ? __die_body+0x1a/0x60
   ? die+0x38/0x60
   ? do_trap+0x10b/0x120
@@ -1964,8 +2114,7 @@ invalid state after initialization.
   ? kthread_park+0x80/0x80
   ret_from_fork+0x2d/0x50
   ? kthread_park+0x80/0x80
-  ret_from_fork_asm+0x11/0x20
-  &lt;/TASK&gt;</description><pubDate>Tue, 01 Apr 2025 15:48:52 +0000</pubDate></item><item><title>CVE-2025-21971 | net_sched: Prevent creation of classes with TC_H_ROOT</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21971</link><description>In the Linux kernel, the following vulnerability has been resolved:
+  ret_from_fork_asm+0x11/0x20</description><pubDate>Tue, 01 Apr 2025 15:48:52 +0000</pubDate></item><item><title>CVE-2025-21971 | net_sched: Prevent creation of classes with TC_H_ROOT</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21971</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net_sched: Prevent creation of classes with TC_H_ROOT
 
@@ -2032,7 +2181,7 @@ Splat looks like:
  CR2: 0000000000000000 CR3: 0000000167fd0000 CR4: 00000000007506f0
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   ? __die+0x20/0x70
   ? page_fault_oops+0x15a/0x460
   ? sched_balance_find_src_group+0x58d/0xd10
@@ -2077,7 +2226,7 @@ Splat looks like:
  CR2: 000000000000b240 CR3: 0000000145a2e000 CR4: 00000000007506f0
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   ? __die+0x20/0x70
   ? page_fault_oops+0x15a/0x460
   ? exc_page_fault+0x6e/0x180
@@ -2111,7 +2260,7 @@ produce the following WARN and hence this framebuffer is never released.
 [   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
 &lt; snip &gt;
 [   44.111289] Call Trace:
-[   44.111290]  &lt;TASK&gt;
+[   44.111290]  
 [   44.111291]  ? show_regs+0x6c/0x80
 [   44.111295]  ? __warn+0x8d/0x150
 [   44.111298]  ? framebuffer_release+0x2c/0x40
@@ -2255,19 +2404,19 @@ unreferenced object 0xff3c1ca7252e6000 (size 8192):
     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
   backtrace (crc 0):
-    [&lt;ffffffff991ec485&gt;] __kmalloc_cache_noprof+0x275/0x340
-    [&lt;ffffffffc0a6e06a&gt;] ice_init_arfs+0x3a/0xe0 [ice]
-    [&lt;ffffffffc09f1027&gt;] ice_vsi_cfg_def+0x607/0x850 [ice]
-    [&lt;ffffffffc09f244b&gt;] ice_vsi_setup+0x5b/0x130 [ice]
-    [&lt;ffffffffc09c2131&gt;] ice_init+0x1c1/0x460 [ice]
-    [&lt;ffffffffc09c64af&gt;] ice_probe+0x2af/0x520 [ice]
-    [&lt;ffffffff994fbcd3&gt;] local_pci_probe+0x43/0xa0
-    [&lt;ffffffff98f07103&gt;] work_for_cpu_fn+0x13/0x20
-    [&lt;ffffffff98f0b6d9&gt;] process_one_work+0x179/0x390
-    [&lt;ffffffff98f0c1e9&gt;] worker_thread+0x239/0x340
-    [&lt;ffffffff98f14abc&gt;] kthread+0xcc/0x100
-    [&lt;ffffffff98e45a6d&gt;] ret_from_fork+0x2d/0x50
-    [&lt;ffffffff98e083ba&gt;] ret_from_fork_asm+0x1a/0x30
+    [] __kmalloc_cache_noprof+0x275/0x340
+    [] ice_init_arfs+0x3a/0xe0 [ice]
+    [] ice_vsi_cfg_def+0x607/0x850 [ice]
+    [] ice_vsi_setup+0x5b/0x130 [ice]
+    [] ice_init+0x1c1/0x460 [ice]
+    [] ice_probe+0x2af/0x520 [ice]
+    [] local_pci_probe+0x43/0xa0
+    [] work_for_cpu_fn+0x13/0x20
+    [] process_one_work+0x179/0x390
+    [] worker_thread+0x239/0x340
+    [] kthread+0xcc/0x100
+    [] ret_from_fork+0x2d/0x50
+    [] ret_from_fork_asm+0x1a/0x30
     ...</description><pubDate>Tue, 01 Apr 2025 15:48:57 +0000</pubDate></item><item><title>CVE-2025-21982 | pinctrl: nuvoton: npcm8xx: Add NULL check in npcm8xx_gpio_fw</title><link>https://www.cve.org/CVERecord?id=CVE-2025-21982</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 pinctrl: nuvoton: npcm8xx: Add NULL check in npcm8xx_gpio_fw
@@ -2285,7 +2434,7 @@ Currently kvfree_rcu() APIs use a system workqueue which is
 Recently, it has been noted that the following kernel warning can
 be observed:
 
-&lt;snip&gt;
+
 workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_scan_work is flushing !WQ_MEM_RECLAIM events_unbound:kfree_rcu_work
   WARNING: CPU: 21 PID: 330 at kernel/workqueue.c:3719 check_flush_dependency+0x112/0x120
   Modules linked in: intel_uncore_frequency(E) intel_uncore_frequency_common(E) skx_edac(E) ...
@@ -2304,7 +2453,7 @@ workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_scan_work is flushing !WQ_MEM_RECLAIM eve
   CR2: 00007f60c3001000 CR3: 000000107d010005 CR4: 00000000007726f0
   PKRU: 55555554
   Call Trace:
-   &lt;TASK&gt;
+   
    ? __warn+0xa4/0x140
    ? check_flush_dependency+0x112/0x120
    ? report_bug+0xe1/0x140
@@ -2334,9 +2483,9 @@ workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_scan_work is flushing !WQ_MEM_RECLAIM eve
    ret_from_fork+0x30/0x40
    ? __kthread_parkme+0x70/0x70
    ret_from_fork_asm+0x11/0x20
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---
-&lt;snip&gt;
+
 
 To address this switch to use of independent WQ_MEM_RECLAIM
 workqueue, so the rules are not violated from workqueue framework
