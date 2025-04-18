@@ -1,5 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 18 Apr 2025 14:18:45 +0000</lastBuildDate><item><title>CVE-2024-29643 | An issue in croogo v.3.0.2 allows an attacker to perform Host header injection via the feed.rss component.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29643</link><description>An issue in croogo v.3.0.2 allows an attacker to perform Host header injection via the feed.rss component.</description><pubDate>Fri, 18 Apr 2025 14:18:46 +0000</pubDate></item><item><title>CVE-2025-29625 | A buffer overflow vulnerability in Astrolog v7.70 allows attackers to execute arbitrary code or cause a Denial of Service (DoS) via an overl...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-29625</link><description>A buffer overflow vulnerability in Astrolog v7.70 allows attackers to execute arbitrary code or cause a Denial of Service (DoS) via an overly long environment variable passed to FileOpen function.</description><pubDate>Fri, 18 Apr 2025 14:18:46 +0000</pubDate></item><item><title>CVE-2025-40364 | io_uring: fix io_req_prep_async with provided buffers</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40364</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 18 Apr 2025 14:34:57 +0000</lastBuildDate><item><title>CVE-2025-37838 | HSI: ssi_protocol: Fix use after free vulnerability in ssi_protocol Driver Due to Race Condition</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37838</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+HSI: ssi_protocol: Fix use after free vulnerability in ssi_protocol Driver Due to Race Condition
+
+In the ssi_protocol_probe() function, &amp;ssi-&gt;work is bound with
+ssip_xmit_work(), In ssip_pn_setup(), the ssip_pn_xmit() function
+within the ssip_pn_ops structure is capable of starting the
+work.
+
+If we remove the module which will call ssi_protocol_remove()
+to make a cleanup, it will free ssi through kfree(ssi),
+while the work mentioned above will be used. The sequence
+of operations that may lead to a UAF bug is as follows:
+
+CPU0                                    CPU1
+
+                        | ssip_xmit_work
+ssi_protocol_remove     |
+kfree(ssi);             |
+                        | struct hsi_client *cl = ssi-&gt;cl;
+                        | // use ssi
+
+Fix it by ensuring that the work is canceled before proceeding
+with the cleanup in ssi_protocol_remove().</description><pubDate>Fri, 18 Apr 2025 14:34:58 +0000</pubDate></item><item><title>CVE-2024-29643 | An issue in croogo v.3.0.2 allows an attacker to perform Host header injection via the feed.rss component.</title><link>https://www.cve.org/CVERecord?id=CVE-2024-29643</link><description>An issue in croogo v.3.0.2 allows an attacker to perform Host header injection via the feed.rss component.</description><pubDate>Fri, 18 Apr 2025 14:18:46 +0000</pubDate></item><item><title>CVE-2025-29625 | A buffer overflow vulnerability in Astrolog v7.70 allows attackers to execute arbitrary code or cause a Denial of Service (DoS) via an overl...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-29625</link><description>A buffer overflow vulnerability in Astrolog v7.70 allows attackers to execute arbitrary code or cause a Denial of Service (DoS) via an overly long environment variable passed to FileOpen function.</description><pubDate>Fri, 18 Apr 2025 14:18:46 +0000</pubDate></item><item><title>CVE-2025-40364 | io_uring: fix io_req_prep_async with provided buffers</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40364</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 io_uring: fix io_req_prep_async with provided buffers
 
