@@ -1,5 +1,611 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 18 Apr 2025 06:22:30 +0000</lastBuildDate><item><title>CVE-2025-2162 | MapPress Maps for WordPress &amp;lt; 2.94.10 - Admin+ Stored XSS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2162</link><description>The MapPress Maps for WordPress plugin before 2.94.10 does not sanitise and escape some of its settings, which could allow high privilege users such as admin to perform Stored Cross-Site Scripting attacks even when the unfiltered_html capability is disallowed (for example in multisite setup).</description><pubDate>Fri, 18 Apr 2025 06:22:32 +0000</pubDate></item><item><title>CVE-2025-1863 | Insecure default settings for recorder products</title><link>https://www.cve.org/CVERecord?id=CVE-2025-1863</link><description>Insecure default settings have been found in recorder products provided by Yokogawa Electric Corporation. The default setting of the authentication function is disabled on the affected products. Therefore, when connected to a network with default settings, anyone can access all functions related to settings and operations. As a result, an attacker can illegally manipulate and configure important data such as measured values and settings.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 18 Apr 2025 07:25:07 +0000</lastBuildDate><item><title>CVE-2025-37785 | ext4: fix OOB read when checking dotdot dir</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37785</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix OOB read when checking dotdot dir
+
+Mounting a corrupted filesystem with directory which contains '.' dir
+entry with rec_len == block size results in out-of-bounds read (later
+on, when the corrupted directory is removed).
+
+ext4_empty_dir() assumes every ext4 directory contains at least '.'
+and '..' as directory entries in the first data block. It first loads
+the '.' dir entry, performs sanity checks by calling ext4_check_dir_entry()
+and then uses its rec_len member to compute the location of '..' dir
+entry (in ext4_next_entry). It assumes the '..' dir entry fits into the
+same data block.
+
+If the rec_len of '.' is precisely one block (4KB), it slips through the
+sanity checks (it is considered the last directory entry in the data
+block) and leaves "struct ext4_dir_entry_2 *de" point exactly past the
+memory slot allocated to the data block. The following call to
+ext4_check_dir_entry() on new value of de then dereferences this pointer
+which results in out-of-bounds mem access.
+
+Fix this by extending __ext4_check_dir_entry() to check for '.' dir
+entries that reach the end of data block. Make sure to ignore the phony
+dir entries for checksum (by checking name_len for non-zero).
+
+Note: This is reported by KASAN as use-after-free in case another
+structure was recently freed from the slot past the bound, but it is
+really an OOB read.
+
+This issue was found by syzkaller tool.
+
+Call Trace:
+[   38.594108] BUG: KASAN: slab-use-after-free in __ext4_check_dir_entry+0x67e/0x710
+[   38.594649] Read of size 2 at addr ffff88802b41a004 by task syz-executor/5375
+[   38.595158]
+[   38.595288] CPU: 0 UID: 0 PID: 5375 Comm: syz-executor Not tainted 6.14.0-rc7 #1
+[   38.595298] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[   38.595304] Call Trace:
+[   38.595308]  &lt;TASK&gt;
+[   38.595311]  dump_stack_lvl+0xa7/0xd0
+[   38.595325]  print_address_description.constprop.0+0x2c/0x3f0
+[   38.595339]  ? __ext4_check_dir_entry+0x67e/0x710
+[   38.595349]  print_report+0xaa/0x250
+[   38.595359]  ? __ext4_check_dir_entry+0x67e/0x710
+[   38.595368]  ? kasan_addr_to_slab+0x9/0x90
+[   38.595378]  kasan_report+0xab/0xe0
+[   38.595389]  ? __ext4_check_dir_entry+0x67e/0x710
+[   38.595400]  __ext4_check_dir_entry+0x67e/0x710
+[   38.595410]  ext4_empty_dir+0x465/0x990
+[   38.595421]  ? __pfx_ext4_empty_dir+0x10/0x10
+[   38.595432]  ext4_rmdir.part.0+0x29a/0xd10
+[   38.595441]  ? __dquot_initialize+0x2a7/0xbf0
+[   38.595455]  ? __pfx_ext4_rmdir.part.0+0x10/0x10
+[   38.595464]  ? __pfx___dquot_initialize+0x10/0x10
+[   38.595478]  ? down_write+0xdb/0x140
+[   38.595487]  ? __pfx_down_write+0x10/0x10
+[   38.595497]  ext4_rmdir+0xee/0x140
+[   38.595506]  vfs_rmdir+0x209/0x670
+[   38.595517]  ? lookup_one_qstr_excl+0x3b/0x190
+[   38.595529]  do_rmdir+0x363/0x3c0
+[   38.595537]  ? __pfx_do_rmdir+0x10/0x10
+[   38.595544]  ? strncpy_from_user+0x1ff/0x2e0
+[   38.595561]  __x64_sys_unlinkat+0xf0/0x130
+[   38.595570]  do_syscall_64+0x5b/0x180
+[   38.595583]  entry_SYSCALL_64_after_hwframe+0x76/0x7e</description><pubDate>Fri, 18 Apr 2025 07:25:09 +0000</pubDate></item><item><title>CVE-2025-37860 | sfc: fix NULL dereferences in ef100_process_design_param()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37860</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sfc: fix NULL dereferences in ef100_process_design_param()
+
+Since cited commit, ef100_probe_main() and hence also
+ ef100_check_design_params() run before efx-&gt;net_dev is created;
+ consequently, we cannot netif_set_tso_max_size() or _segs() at this
+ point.
+Move those netif calls to ef100_probe_netdev(), and also replace
+ netif_err within the design params code with pci_err.</description><pubDate>Fri, 18 Apr 2025 07:25:09 +0000</pubDate></item><item><title>CVE-2025-37893 | LoongArch: BPF: Fix off-by-one error in build_prologue()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37893</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+LoongArch: BPF: Fix off-by-one error in build_prologue()
+
+Vincent reported that running BPF progs with tailcalls on LoongArch
+causes kernel hard lockup. Debugging the issues shows that the JITed
+image missing a jirl instruction at the end of the epilogue.
+
+There are two passes in JIT compiling, the first pass set the flags and
+the second pass generates JIT code based on those flags. With BPF progs
+mixing bpf2bpf and tailcalls, build_prologue() generates N insns in the
+first pass and then generates N+1 insns in the second pass. This makes
+epilogue_offset off by one and we will jump to some unexpected insn and
+cause lockup. Fix this by inserting a nop insn.</description><pubDate>Fri, 18 Apr 2025 07:25:09 +0000</pubDate></item><item><title>CVE-2025-37925 | jfs: reject on-disk inodes of an unsupported type</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37925</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+jfs: reject on-disk inodes of an unsupported type
+
+Syzbot has reported the following BUG:
+
+kernel BUG at fs/inode.c:668!
+Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN PTI
+CPU: 3 UID: 0 PID: 139 Comm: jfsCommit Not tainted 6.12.0-rc4-syzkaller-00085-g4e46774408d9 #0
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
+RIP: 0010:clear_inode+0x168/0x190
+Code: 4c 89 f7 e8 ba fe e5 ff e9 61 ff ff ff 44 89 f1 80 e1 07 80 c1 03 38 c1 7c c1 4c 89 f7 e8 90 ff e5 ff eb b7
+ 0b e8 01 5d 7f ff 90 0f 0b e8 f9 5c 7f ff 90 0f 0b e8 f1 5c 7f
+RSP: 0018:ffffc900027dfae8 EFLAGS: 00010093
+RAX: ffffffff82157a87 RBX: 0000000000000001 RCX: ffff888104d4b980
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc900027dfc90 R08: ffffffff82157977 R09: fffff520004fbf38
+R10: dffffc0000000000 R11: fffff520004fbf38 R12: dffffc0000000000
+R13: ffff88811315bc00 R14: ffff88811315bda8 R15: ffff88811315bb80
+FS:  0000000000000000(0000) GS:ffff888135f00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005565222e0578 CR3: 0000000026ef0000 CR4: 00000000000006f0
+Call Trace:
+ &lt;TASK&gt;
+ ? __die_body+0x5f/0xb0
+ ? die+0x9e/0xc0
+ ? do_trap+0x15a/0x3a0
+ ? clear_inode+0x168/0x190
+ ? do_error_trap+0x1dc/0x2c0
+ ? clear_inode+0x168/0x190
+ ? __pfx_do_error_trap+0x10/0x10
+ ? report_bug+0x3cd/0x500
+ ? handle_invalid_op+0x34/0x40
+ ? clear_inode+0x168/0x190
+ ? exc_invalid_op+0x38/0x50
+ ? asm_exc_invalid_op+0x1a/0x20
+ ? clear_inode+0x57/0x190
+ ? clear_inode+0x167/0x190
+ ? clear_inode+0x168/0x190
+ ? clear_inode+0x167/0x190
+ jfs_evict_inode+0xb5/0x440
+ ? __pfx_jfs_evict_inode+0x10/0x10
+ evict+0x4ea/0x9b0
+ ? __pfx_evict+0x10/0x10
+ ? iput+0x713/0xa50
+ txUpdateMap+0x931/0xb10
+ ? __pfx_txUpdateMap+0x10/0x10
+ jfs_lazycommit+0x49a/0xb80
+ ? _raw_spin_unlock_irqrestore+0x8f/0x140
+ ? lockdep_hardirqs_on+0x99/0x150
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ ? __pfx_default_wake_function+0x10/0x10
+ ? __kthread_parkme+0x169/0x1d0
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ kthread+0x2f2/0x390
+ ? __pfx_jfs_lazycommit+0x10/0x10
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x4d/0x80
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ &lt;/TASK&gt;
+
+This happens when 'clear_inode()' makes an attempt to finalize an underlying
+JFS inode of unknown type. According to JFS layout description from
+https://jfs.sourceforge.net/project/pub/jfslayout.pdf, inode types from 5 to
+15 are reserved for future extensions and should not be encountered on a valid
+filesystem. So add an extra check for valid inode type in 'copy_from_dinode()'.</description><pubDate>Fri, 18 Apr 2025 07:25:10 +0000</pubDate></item><item><title>CVE-2025-38049 | x86/resctrl: Fix allocation of cleanest CLOSID on platforms with no monitors</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38049</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/resctrl: Fix allocation of cleanest CLOSID on platforms with no monitors
+
+Commit
+
+  6eac36bb9eb0 ("x86/resctrl: Allocate the cleanest CLOSID by searching closid_num_dirty_rmid")
+
+added logic that causes resctrl to search for the CLOSID with the fewest dirty
+cache lines when creating a new control group, if requested by the arch code.
+This depends on the values read from the llc_occupancy counters. The logic is
+applicable to architectures where the CLOSID effectively forms part of the
+monitoring identifier and so do not allow complete freedom to choose an unused
+monitoring identifier for a given CLOSID.
+
+This support missed that some platforms may not have these counters.  This
+causes a NULL pointer dereference when creating a new control group as the
+array was not allocated by dom_data_init().
+
+As this feature isn't necessary on platforms that don't have cache occupancy
+monitors, add this to the check that occurs when a new control group is
+allocated.</description><pubDate>Fri, 18 Apr 2025 07:25:10 +0000</pubDate></item><item><title>CVE-2025-38104 | drm/amdgpu: Replace Mutex with Spinlock for RLCG register access to avoid Priority Inversion in SRIOV</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38104</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Replace Mutex with Spinlock for RLCG register access to avoid Priority Inversion in SRIOV
+
+RLCG Register Access is a way for virtual functions to safely access GPU
+registers in a virtualized environment., including TLB flushes and
+register reads. When multiple threads or VFs try to access the same
+registers simultaneously, it can lead to race conditions. By using the
+RLCG interface, the driver can serialize access to the registers. This
+means that only one thread can access the registers at a time,
+preventing conflicts and ensuring that operations are performed
+correctly. Additionally, when a low-priority task holds a mutex that a
+high-priority task needs, ie., If a thread holding a spinlock tries to
+acquire a mutex, it can lead to priority inversion. register access in
+amdgpu_virt_rlcg_reg_rw especially in a fast code path is critical.
+
+The call stack shows that the function amdgpu_virt_rlcg_reg_rw is being
+called, which attempts to acquire the mutex. This function is invoked
+from amdgpu_sriov_wreg, which in turn is called from
+gmc_v11_0_flush_gpu_tlb.
+
+The [ BUG: Invalid wait context ] indicates that a thread is trying to
+acquire a mutex while it is in a context that does not allow it to sleep
+(like holding a spinlock).
+
+Fixes the below:
+
+[  253.013423] =============================
+[  253.013434] [ BUG: Invalid wait context ]
+[  253.013446] 6.12.0-amdstaging-drm-next-lol-050225 #14 Tainted: G     U     OE
+[  253.013464] -----------------------------
+[  253.013475] kworker/0:1/10 is trying to lock:
+[  253.013487] ffff9f30542e3cf8 (&amp;adev-&gt;virt.rlcg_reg_lock){+.+.}-{3:3}, at: amdgpu_virt_rlcg_reg_rw+0xf6/0x330 [amdgpu]
+[  253.013815] other info that might help us debug this:
+[  253.013827] context-{4:4}
+[  253.013835] 3 locks held by kworker/0:1/10:
+[  253.013847]  #0: ffff9f3040050f58 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x3f5/0x680
+[  253.013877]  #1: ffffb789c008be40 ((work_completion)(&amp;wfc.work)){+.+.}-{0:0}, at: process_one_work+0x1d6/0x680
+[  253.013905]  #2: ffff9f3054281838 (&amp;adev-&gt;gmc.invalidate_lock){+.+.}-{2:2}, at: gmc_v11_0_flush_gpu_tlb+0x198/0x4f0 [amdgpu]
+[  253.014154] stack backtrace:
+[  253.014164] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Tainted: G     U     OE      6.12.0-amdstaging-drm-next-lol-050225 #14
+[  253.014189] Tainted: [U]=USER, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+[  253.014203] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 11/18/2024
+[  253.014224] Workqueue: events work_for_cpu_fn
+[  253.014241] Call Trace:
+[  253.014250]  &lt;TASK&gt;
+[  253.014260]  dump_stack_lvl+0x9b/0xf0
+[  253.014275]  dump_stack+0x10/0x20
+[  253.014287]  __lock_acquire+0xa47/0x2810
+[  253.014303]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  253.014321]  lock_acquire+0xd1/0x300
+[  253.014333]  ? amdgpu_virt_rlcg_reg_rw+0xf6/0x330 [amdgpu]
+[  253.014562]  ? __lock_acquire+0xa6b/0x2810
+[  253.014578]  __mutex_lock+0x85/0xe20
+[  253.014591]  ? amdgpu_virt_rlcg_reg_rw+0xf6/0x330 [amdgpu]
+[  253.014782]  ? sched_clock_noinstr+0x9/0x10
+[  253.014795]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  253.014808]  ? local_clock_noinstr+0xe/0xc0
+[  253.014822]  ? amdgpu_virt_rlcg_reg_rw+0xf6/0x330 [amdgpu]
+[  253.015012]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  253.015029]  mutex_lock_nested+0x1b/0x30
+[  253.015044]  ? mutex_lock_nested+0x1b/0x30
+[  253.015057]  amdgpu_virt_rlcg_reg_rw+0xf6/0x330 [amdgpu]
+[  253.015249]  amdgpu_sriov_wreg+0xc5/0xd0 [amdgpu]
+[  253.015435]  gmc_v11_0_flush_gpu_tlb+0x44b/0x4f0 [amdgpu]
+[  253.015667]  gfx_v11_0_hw_init+0x499/0x29c0 [amdgpu]
+[  253.015901]  ? __pfx_smu_v13_0_update_pcie_parameters+0x10/0x10 [amdgpu]
+[  253.016159]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  253.016173]  ? smu_hw_init+0x18d/0x300 [amdgpu]
+[  253.016403]  amdgpu_device_init+0x29ad/0x36a0 [amdgpu]
+[  253.016614]  amdgpu_driver_load_kms+0x1a/0xc0 [amdgpu]
+[  253.0170
+---truncated---</description><pubDate>Fri, 18 Apr 2025 07:25:10 +0000</pubDate></item><item><title>CVE-2025-38152 | remoteproc: core: Clear table_sz when rproc_shutdown</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38152</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+remoteproc: core: Clear table_sz when rproc_shutdown
+
+There is case as below could trigger kernel dump:
+Use U-Boot to start remote processor(rproc) with resource table
+published to a fixed address by rproc. After Kernel boots up,
+stop the rproc, load a new firmware which doesn't have resource table
+,and start rproc.
+
+When starting rproc with a firmware not have resource table,
+`memcpy(loaded_table, rproc-&gt;cached_table, rproc-&gt;table_sz)` will
+trigger dump, because rproc-&gt;cache_table is set to NULL during the last
+stop operation, but rproc-&gt;table_sz is still valid.
+
+This issue is found on i.MX8MP and i.MX9.
+
+Dump as below:
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+Mem abort info:
+  ESR = 0x0000000096000004
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x04: level 0 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af63000
+[0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 2 UID: 0 PID: 1060 Comm: sh Not tainted 6.14.0-rc7-next-20250317-dirty #38
+Hardware name: NXP i.MX8MPlus EVK board (DT)
+pstate: a0000005 (NzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __pi_memcpy_generic+0x110/0x22c
+lr : rproc_start+0x88/0x1e0
+Call trace:
+ __pi_memcpy_generic+0x110/0x22c (P)
+ rproc_boot+0x198/0x57c
+ state_store+0x40/0x104
+ dev_attr_store+0x18/0x2c
+ sysfs_kf_write+0x7c/0x94
+ kernfs_fop_write_iter+0x120/0x1cc
+ vfs_write+0x240/0x378
+ ksys_write+0x70/0x108
+ __arm64_sys_write+0x1c/0x28
+ invoke_syscall+0x48/0x10c
+ el0_svc_common.constprop.0+0xc0/0xe0
+ do_el0_svc+0x1c/0x28
+ el0_svc+0x30/0xcc
+ el0t_64_sync_handler+0x10c/0x138
+ el0t_64_sync+0x198/0x19c
+
+Clear rproc-&gt;table_sz to address the issue.</description><pubDate>Fri, 18 Apr 2025 07:25:11 +0000</pubDate></item><item><title>CVE-2025-38240 | drm/mediatek: dp: drm_err =&amp;gt; dev_err in HPD path to avoid NULL ptr</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38240</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/mediatek: dp: drm_err =&gt; dev_err in HPD path to avoid NULL ptr
+
+The function mtk_dp_wait_hpd_asserted() may be called before the
+`mtk_dp-&gt;drm_dev` pointer is assigned in mtk_dp_bridge_attach().
+Specifically it can be called via this callpath:
+ - mtk_edp_wait_hpd_asserted
+ - [panel probe]
+ - dp_aux_ep_probe
+
+Using "drm" level prints anywhere in this callpath causes a NULL
+pointer dereference. Change the error message directly in
+mtk_dp_wait_hpd_asserted() to dev_err() to avoid this. Also change the
+error messages in mtk_dp_parse_capabilities(), which is called by
+mtk_dp_wait_hpd_asserted().
+
+While touching these prints, also add the error code to them to make
+future debugging easier.</description><pubDate>Fri, 18 Apr 2025 07:25:11 +0000</pubDate></item><item><title>CVE-2025-38479 | dmaengine: fsl-edma: free irq correctly in remove path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38479</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: fsl-edma: free irq correctly in remove path
+
+Add fsl_edma-&gt;txirq/errirq check to avoid below warning because no
+errirq at i.MX9 platform. Otherwise there will be kernel dump:
+WARNING: CPU: 0 PID: 11 at kernel/irq/devres.c:144 devm_free_irq+0x74/0x80
+Modules linked in:
+CPU: 0 UID: 0 PID: 11 Comm: kworker/u8:0 Not tainted 6.12.0-rc7#18
+Hardware name: NXP i.MX93 11X11 EVK board (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : devm_free_irq+0x74/0x80
+lr : devm_free_irq+0x48/0x80
+Call trace:
+ devm_free_irq+0x74/0x80 (P)
+ devm_free_irq+0x48/0x80 (L)
+ fsl_edma_remove+0xc4/0xc8
+ platform_remove+0x28/0x44
+ device_remove+0x4c/0x80</description><pubDate>Fri, 18 Apr 2025 07:25:11 +0000</pubDate></item><item><title>CVE-2025-38575 | ksmbd: use aead_request_free to match aead_request_alloc</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38575</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: use aead_request_free to match aead_request_alloc
+
+Use aead_request_free() instead of kfree() to properly free memory
+allocated by aead_request_alloc(). This ensures sensitive crypto data
+is zeroed before being freed.</description><pubDate>Fri, 18 Apr 2025 07:25:12 +0000</pubDate></item><item><title>CVE-2025-38637 | net_sched: skbprio: Remove overly strict queue assertions</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38637</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net_sched: skbprio: Remove overly strict queue assertions
+
+In the current implementation, skbprio enqueue/dequeue contains an assertion
+that fails under certain conditions when SKBPRIO is used as a child qdisc under
+TBF with specific parameters. The failure occurs because TBF sometimes peeks at
+packets in the child qdisc without actually dequeuing them when tokens are
+unavailable.
+
+This peek operation creates a discrepancy between the parent and child qdisc
+queue length counters. When TBF later receives a high-priority packet,
+SKBPRIO's queue length may show a different value than what's reflected in its
+internal priority queue tracking, triggering the assertion.
+
+The fix removes this overly strict assertions in SKBPRIO, they are not
+necessary at all.</description><pubDate>Fri, 18 Apr 2025 07:25:12 +0000</pubDate></item><item><title>CVE-2025-39688 | nfsd: allow SC_STATUS_FREEABLE when searching via nfs4_lookup_stateid()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39688</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: allow SC_STATUS_FREEABLE when searching via nfs4_lookup_stateid()
+
+The pynfs DELEG8 test fails when run against nfsd. It acquires a
+delegation and then lets the lease time out. It then tries to use the
+deleg stateid and expects to see NFS4ERR_DELEG_REVOKED, but it gets
+bad NFS4ERR_BAD_STATEID instead.
+
+When a delegation is revoked, it's initially marked with
+SC_STATUS_REVOKED, or SC_STATUS_ADMIN_REVOKED and later, it's marked
+with the SC_STATUS_FREEABLE flag, which denotes that it is waiting for
+s FREE_STATEID call.
+
+nfs4_lookup_stateid() accepts a statusmask that includes the status
+flags that a found stateid is allowed to have. Currently, that mask
+never includes SC_STATUS_FREEABLE, which means that revoked delegations
+are (almost) never found.
+
+Add SC_STATUS_FREEABLE to the always-allowed status flags, and remove it
+from nfsd4_delegreturn() since it's now always implied.</description><pubDate>Fri, 18 Apr 2025 07:25:12 +0000</pubDate></item><item><title>CVE-2025-39728 | clk: samsung: Fix UBSAN panic in samsung_clk_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39728</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: samsung: Fix UBSAN panic in samsung_clk_init()
+
+With UBSAN_ARRAY_BOUNDS=y, I'm hitting the below panic due to
+dereferencing `ctx-&gt;clk_data.hws` before setting
+`ctx-&gt;clk_data.num = nr_clks`. Move that up to fix the crash.
+
+  UBSAN: array index out of bounds: 00000000f2005512 [#1] PREEMPT SMP
+  &lt;snip&gt;
+  Call trace:
+   samsung_clk_init+0x110/0x124 (P)
+   samsung_clk_init+0x48/0x124 (L)
+   samsung_cmu_register_one+0x3c/0xa0
+   exynos_arm64_register_cmu+0x54/0x64
+   __gs101_cmu_top_of_clk_init_declare+0x28/0x60
+   ...</description><pubDate>Fri, 18 Apr 2025 07:25:13 +0000</pubDate></item><item><title>CVE-2025-39735 | jfs: fix slab-out-of-bounds read in ea_get()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39735</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+jfs: fix slab-out-of-bounds read in ea_get()
+
+During the "size_check" label in ea_get(), the code checks if the extended
+attribute list (xattr) size matches ea_size. If not, it logs
+"ea_get: invalid extended attribute" and calls print_hex_dump().
+
+Here, EALIST_SIZE(ea_buf-&gt;xattr) returns 4110417968, which exceeds
+INT_MAX (2,147,483,647). Then ea_size is clamped:
+
+	int size = clamp_t(int, ea_size, 0, EALIST_SIZE(ea_buf-&gt;xattr));
+
+Although clamp_t aims to bound ea_size between 0 and 4110417968, the upper
+limit is treated as an int, causing an overflow above 2^31 - 1. This leads
+"size" to wrap around and become negative (-184549328).
+
+The "size" is then passed to print_hex_dump() (called "len" in
+print_hex_dump()), it is passed as type size_t (an unsigned
+type), this is then stored inside a variable called
+"int remaining", which is then assigned to "int linelen" which
+is then passed to hex_dump_to_buffer(). In print_hex_dump()
+the for loop, iterates through 0 to len-1, where len is
+18446744073525002176, calling hex_dump_to_buffer()
+on each iteration:
+
+	for (i = 0; i &lt; len; i += rowsize) {
+		linelen = min(remaining, rowsize);
+		remaining -= rowsize;
+
+		hex_dump_to_buffer(ptr + i, linelen, rowsize, groupsize,
+				   linebuf, sizeof(linebuf), ascii);
+
+		...
+	}
+
+The expected stopping condition (i &lt; len) is effectively broken
+since len is corrupted and very large. This eventually leads to
+the "ptr+i" being passed to hex_dump_to_buffer() to get closer
+to the end of the actual bounds of "ptr", eventually an out of
+bounds access is done in hex_dump_to_buffer() in the following
+for loop:
+
+	for (j = 0; j &lt; len; j++) {
+			if (linebuflen &lt; lx + 2)
+				goto overflow2;
+			ch = ptr[j];
+		...
+	}
+
+To fix this we should validate "EALIST_SIZE(ea_buf-&gt;xattr)"
+before it is utilised.</description><pubDate>Fri, 18 Apr 2025 07:25:13 +0000</pubDate></item><item><title>CVE-2025-39755 | staging: gpib: Fix cb7210 pcmcia Oops</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39755</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: gpib: Fix cb7210 pcmcia Oops
+
+The  pcmcia_driver struct was still only using the old .name
+initialization in the drv field. This led to a NULL pointer
+deref Oops in strcmp called from pcmcia_register_driver.
+
+Initialize the pcmcia_driver struct name field.</description><pubDate>Fri, 18 Apr 2025 07:25:13 +0000</pubDate></item><item><title>CVE-2025-39778 | objtool, nvmet: Fix out-of-bounds stack access in nvmet_ctrl_state_show()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39778</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+objtool, nvmet: Fix out-of-bounds stack access in nvmet_ctrl_state_show()
+
+The csts_state_names[] array only has six sparse entries, but the
+iteration code in nvmet_ctrl_state_show() iterates seven, resulting in a
+potential out-of-bounds stack read.  Fix that.
+
+Fixes the following warning with an UBSAN kernel:
+
+  vmlinux.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected end of section</description><pubDate>Fri, 18 Apr 2025 07:25:14 +0000</pubDate></item><item><title>CVE-2025-39930 | ASoC: simple-card-utils: Don&amp;#x27;t use __free(device_node) at graph_util_parse_dai()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39930</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: simple-card-utils: Don't use __free(device_node) at graph_util_parse_dai()
+
+commit 419d1918105e ("ASoC: simple-card-utils: use __free(device_node) for
+device node") uses __free(device_node) for dlc-&gt;of_node, but we need to
+keep it while driver is in use.
+
+Don't use __free(device_node) in graph_util_parse_dai().</description><pubDate>Fri, 18 Apr 2025 07:25:14 +0000</pubDate></item><item><title>CVE-2025-39989 | x86/mce: use is_copy_from_user() to determine copy-from-user context</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39989</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/mce: use is_copy_from_user() to determine copy-from-user context
+
+Patch series "mm/hwpoison: Fix regressions in memory failure handling",
+v4.
+
+## 1. What am I trying to do:
+
+This patchset resolves two critical regressions related to memory failure
+handling that have appeared in the upstream kernel since version 5.17, as
+compared to 5.10 LTS.
+
+    - copyin case: poison found in user page while kernel copying from user space
+    - instr case: poison found while instruction fetching in user space
+
+## 2. What is the expected outcome and why
+
+- For copyin case:
+
+Kernel can recover from poison found where kernel is doing get_user() or
+copy_from_user() if those places get an error return and the kernel return
+-EFAULT to the process instead of crashing.  More specifily, MCE handler
+checks the fixup handler type to decide whether an in kernel #MC can be
+recovered.  When EX_TYPE_UACCESS is found, the PC jumps to recovery code
+specified in _ASM_EXTABLE_FAULT() and return a -EFAULT to user space.
+
+- For instr case:
+
+If a poison found while instruction fetching in user space, full recovery
+is possible.  User process takes #PF, Linux allocates a new page and fills
+by reading from storage.
+
+
+## 3. What actually happens and why
+
+- For copyin case: kernel panic since v5.17
+
+Commit 4c132d1d844a ("x86/futex: Remove .fixup usage") introduced a new
+extable fixup type, EX_TYPE_EFAULT_REG, and later patches updated the
+extable fixup type for copy-from-user operations, changing it from
+EX_TYPE_UACCESS to EX_TYPE_EFAULT_REG.  It breaks previous EX_TYPE_UACCESS
+handling when posion found in get_user() or copy_from_user().
+
+- For instr case: user process is killed by a SIGBUS signal due to #CMCI
+  and #MCE race
+
+When an uncorrected memory error is consumed there is a race between the
+CMCI from the memory controller reporting an uncorrected error with a UCNA
+signature, and the core reporting and SRAR signature machine check when
+the data is about to be consumed.
+
+### Background: why *UN*corrected errors tied to *C*MCI in Intel platform [1]
+
+Prior to Icelake memory controllers reported patrol scrub events that
+detected a previously unseen uncorrected error in memory by signaling a
+broadcast machine check with an SRAO (Software Recoverable Action
+Optional) signature in the machine check bank.  This was overkill because
+it's not an urgent problem that no core is on the verge of consuming that
+bad data.  It's also found that multi SRAO UCE may cause nested MCE
+interrupts and finally become an IERR.
+
+Hence, Intel downgrades the machine check bank signature of patrol scrub
+from SRAO to UCNA (Uncorrected, No Action required), and signal changed to
+#CMCI.  Just to add to the confusion, Linux does take an action (in
+uc_decode_notifier()) to try to offline the page despite the UC*NA*
+signature name.
+
+### Background: why #CMCI and #MCE race when poison is consuming in
+    Intel platform [1]
+
+Having decided that CMCI/UCNA is the best action for patrol scrub errors,
+the memory controller uses it for reads too.  But the memory controller is
+executing asynchronously from the core, and can't tell the difference
+between a "real" read and a speculative read.  So it will do CMCI/UCNA if
+an error is found in any read.
+
+Thus:
+
+1) Core is clever and thinks address A is needed soon, issues a
+   speculative read.
+
+2) Core finds it is going to use address A soon after sending the read
+   request
+
+3) The CMCI from the memory controller is in a race with MCE from the
+   core that will soon try to retire the load from address A.
+
+Quite often (because speculation has got better) the CMCI from the memory
+controller is delivered before the core is committed to the instruction
+reading address A, so the interrupt is taken, and Linux offlines the page
+(marking it as poison).
+
+
+## Why user process is killed for instr case
+
+Commit 046545a661af ("mm/hwpoison: fix error page recovered but reported
+"not
+---truncated---</description><pubDate>Fri, 18 Apr 2025 07:25:14 +0000</pubDate></item><item><title>CVE-2025-40014 | objtool, spi: amd: Fix out-of-bounds stack access in amd_set_spi_freq()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40014</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+objtool, spi: amd: Fix out-of-bounds stack access in amd_set_spi_freq()
+
+If speed_hz &lt; AMD_SPI_MIN_HZ, amd_set_spi_freq() iterates over the
+entire amd_spi_freq array without breaking out early, causing 'i' to go
+beyond the array bounds.
+
+Fix that by stopping the loop when it gets to the last entry, so the low
+speed_hz value gets clamped up to AMD_SPI_MIN_HZ.
+
+Fixes the following warning with an UBSAN kernel:
+
+  drivers/spi/spi-amd.o: error: objtool: amd_set_spi_freq() falls through to next function amd_spi_set_opcode()</description><pubDate>Fri, 18 Apr 2025 07:25:15 +0000</pubDate></item><item><title>CVE-2025-40114 | iio: light: Add check for array bounds in veml6075_read_int_time_ms</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40114</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: Add check for array bounds in veml6075_read_int_time_ms
+
+The array contains only 5 elements, but the index calculated by
+veml6075_read_int_time_index can range from 0 to 7,
+which could lead to out-of-bounds access. The check prevents this issue.
+
+Coverity Issue
+CID 1574309: (#1 of 1): Out-of-bounds read (OVERRUN)
+overrun-local: Overrunning array veml6075_it_ms of 5 4-byte
+elements at element index 7 (byte offset 31) using
+index int_index (which evaluates to 7)
+
+This is hardening against potentially broken hardware. Good to have
+but not necessary to backport.</description><pubDate>Fri, 18 Apr 2025 07:25:15 +0000</pubDate></item><item><title>CVE-2025-40325 | md/raid10: wait barrier before returning discard request with REQ_NOWAIT</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40325</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/raid10: wait barrier before returning discard request with REQ_NOWAIT
+
+raid10_handle_discard should wait barrier before returning a discard bio
+which has REQ_NOWAIT. And there is no need to print warning calltrace
+if a discard bio has REQ_NOWAIT flag. Quality engineer usually checks
+dmesg and reports error if dmesg has warning/error calltrace.</description><pubDate>Fri, 18 Apr 2025 07:25:15 +0000</pubDate></item><item><title>CVE-2025-2162 | MapPress Maps for WordPress &amp;lt; 2.94.10 - Admin+ Stored XSS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2162</link><description>The MapPress Maps for WordPress plugin before 2.94.10 does not sanitise and escape some of its settings, which could allow high privilege users such as admin to perform Stored Cross-Site Scripting attacks even when the unfiltered_html capability is disallowed (for example in multisite setup).</description><pubDate>Fri, 18 Apr 2025 06:22:32 +0000</pubDate></item><item><title>CVE-2025-1863 | Insecure default settings for recorder products</title><link>https://www.cve.org/CVERecord?id=CVE-2025-1863</link><description>Insecure default settings have been found in recorder products provided by Yokogawa Electric Corporation. The default setting of the authentication function is disabled on the affected products. Therefore, when connected to a network with default settings, anyone can access all functions related to settings and operations. As a result, an attacker can illegally manipulate and configure important data such as measured values and settings.
 This issue affects GX10 / GX20 / GP10 / GP20 Paperless Recorders: R5.04.01 or earlier; GM Data Acquisition System: R5.05.01 or earlier; DX1000 / DX2000 / DX1000N Paperless Recorders: R4.21 or earlier; FX1000 Paperless Recorders: R1.31 or earlier; μR10000 / μR20000 Chart Recorders: R1.51 or earlier; MW100 Data Acquisition Units: All versions; DX1000T / DX2000T Paperless Recorders: All versions; CX1000 / CX2000 Paperless Recorders: All versions.</description><pubDate>Fri, 18 Apr 2025 06:22:33 +0000</pubDate></item><item><title>CVE-2025-3598 | Coupon Affiliates – Affiliate Plugin for WooCommerce &amp;lt;= 6.3.0 - Reflected Cross-Site Scripting via &amp;#x27;commission_summary&amp;#x27; Parameter</title><link>https://www.cve.org/CVERecord?id=CVE-2025-3598</link><description>The Coupon Affiliates – Affiliate Plugin for WooCommerce plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the commission_summary parameter in all versions up to, and including, .6.3.0 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</description><pubDate>Fri, 18 Apr 2025 05:32:52 +0000</pubDate></item><item><title>CVE-2025-3783 | SourceCodester Web-based Pharmacy Product Management System add-product.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2025-3783</link><description>A vulnerability classified as critical was found in SourceCodester Web-based Pharmacy Product Management System 1.0. Affected by this vulnerability is an unknown functionality of the file /add-product.php. The manipulation of the argument Avatar leads to unrestricted upload. The attack can be launched remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Fri, 18 Apr 2025 05:32:53 +0000</pubDate></item><item><title>CVE-2025-39469 | WordPress Modal Survey plugin &amp;lt;= 2.0.2.0.1 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39469</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Pantherius Modal Survey allows Reflected XSS.This issue affects Modal Survey: from n/a through 2.0.2.0.1.</description><pubDate>Fri, 18 Apr 2025 04:49:41 +0000</pubDate></item><item><title>CVE-2025-39470 | WordPress Ivy School &amp;lt;= 1.6.0 - Local File Inclusion Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39470</link><description>Path Traversal: '.../...//' vulnerability in ThimPress Ivy School allows PHP Local File Inclusion.This issue affects Ivy School: from n/a through 1.6.0.</description><pubDate>Fri, 18 Apr 2025 04:49:41 +0000</pubDate></item><item><title>CVE-2025-39471 | WordPress Modal Survey plugin &amp;lt;= 2.0.2.0.1 - SQL Injection vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39471</link><description>Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Pantherius Modal Survey.This issue affects Modal Survey: from n/a through 2.0.2.0.1.</description><pubDate>Fri, 18 Apr 2025 04:49:42 +0000</pubDate></item><item><title>CVE-2025-42599 | Active! mail 6 BuildInfo: 6.60.05008561 and earlier contains a stack-based buffer overflow vulnerability. Receiving a specially crafted requ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-42599</link><description>Active! mail 6 BuildInfo: 6.60.05008561 and earlier contains a stack-based buffer overflow vulnerability. Receiving a specially crafted request created and sent by a remote unauthenticated attacker may lead to arbitrary code execution and/or a denial-of-service (DoS) condition.</description><pubDate>Fri, 18 Apr 2025 04:15:09 +0000</pubDate></item><item><title>CVE-2024-13650 | Piotnet Addons For Elementor &amp;lt;= 2.4.34 - Authenticated (Contributor+) Stored Cross-Site Scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2024-13650</link><description>The Piotnet Addons For Elementor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'PAFE Before After Image Comparison Slider' widget in all versions up to, and including, 2.4.34 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Fri, 18 Apr 2025 02:51:18 +0000</pubDate></item><item><title>CVE-2025-2613 | Login Manager – Design Login Page, View Login Activity, Limit Login Attempts &amp;lt;= 2.0.5 - Authenticated (Administrator+) Stored Cross-Site Scripting via Custom URL</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2613</link><description>The Login Manager – Design Login Page, View Login Activity, Limit Login Attempts plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Custom logo and background URLs in all versions up to, and including, 2.0.5 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with administrator-level permissions and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. This only affects multi-site installations and installations where unfiltered_html has been disabled.</description><pubDate>Fri, 18 Apr 2025 02:51:18 +0000</pubDate></item><item><title>CVE-2025-3520 | Avatar &amp;lt;= 0.1.4 - Authenticated (Subscriber+) Arbitrary File Deletion</title><link>https://www.cve.org/CVERecord?id=CVE-2025-3520</link><description>The Avatar plugin for WordPress is vulnerable to arbitrary file deletion due to insufficient file path validation in a function in all versions up to, and including, 0.1.4. This makes it possible for authenticated attackers, with Subscriber-level access and above, to delete arbitrary files on the server, which can easily lead to remote code execution when the right file is deleted (such as wp-config.php).</description><pubDate>Fri, 18 Apr 2025 02:51:19 +0000</pubDate></item><item><title>CVE-2025-0467 | GPU DDK - rgxfw_hwperf_get_packet_buffer OOB write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-0467</link><description>Kernel software installed and running inside a Guest VM may exploit memory shared with the GPU Firmware to write data outside the Guest's virtualised GPU memory.</description><pubDate>Fri, 18 Apr 2025 01:42:39 +0000</pubDate></item><item><title>CVE-2025-25427 | XSS in TP-Link TL-WR841N Upnp page</title><link>https://www.cve.org/CVERecord?id=CVE-2025-25427</link><description>A Stored cross-site scripting (XSS)
 vulnerability in upnp page of the web Interface in TP-Link WR841N &lt;=4.19
 allows remote attackers to inject arbitrary JavaScript code via the port
