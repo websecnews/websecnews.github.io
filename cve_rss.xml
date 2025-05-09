@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 09 May 2025 06:55:18 +0000</lastBuildDate><item><title>CVE-2025-37876 | netfs: Only create /proc/fs/netfs with CONFIG_PROC_FS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37876</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 09 May 2025 07:11:05 +0000</lastBuildDate><item><title>CVE-2025-4469 | SourceCodester Online Student Clearance System add-admin.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-4469</link><description>A vulnerability classified as problematic has been found in SourceCodester Online Student Clearance System 1.0. Affected is an unknown function of the file /admin/add-admin.php. The manipulation of the argument Username leads to cross site scripting. It is possible to launch the attack remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Fri, 09 May 2025 07:11:07 +0000</pubDate></item><item><title>CVE-2025-4470 | SourceCodester Online Student Clearance System add-student.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-4470</link><description>A vulnerability classified as problematic was found in SourceCodester Online Student Clearance System 1.0. Affected by this vulnerability is an unknown functionality of the file /admin/add-student.php. The manipulation of the argument Fullname leads to cross site scripting. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. Other parameters might be affected as well.</description><pubDate>Fri, 09 May 2025 07:11:07 +0000</pubDate></item><item><title>CVE-2025-37876 | netfs: Only create /proc/fs/netfs with CONFIG_PROC_FS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37876</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfs: Only create /proc/fs/netfs with CONFIG_PROC_FS
 
@@ -29,7 +29,7 @@ The system crashes with something like:
 [    3.773443] CR2: ffffffff830901b4 CR3: 0000000004296001 CR4: 0000000000770ef0
 [    3.773884] PKRU: 55555554
 [    3.774058] Call Trace:
-[    3.774232]  &lt;TASK&gt;
+[    3.774232]  
 [    3.774371]  mempool_alloc_noprof+0x6a/0x190
 [    3.774649]  ? _printk+0x57/0x80
 [    3.774862]  netfs_alloc_request+0x85/0x2ce
@@ -57,7 +57,7 @@ The system crashes with something like:
 [    3.780910]  ret_from_fork+0x2d/0x50
 [    3.781156]  ? __pfx_kernel_init+0x10/0x10
 [    3.781414]  ret_from_fork_asm+0x1a/0x30
-[    3.781677]  &lt;/TASK&gt;
+[    3.781677]  
 [    3.781823] Modules linked in:
 [    3.782065] ---[ end trace 0000000000000000 ]---
 
@@ -184,7 +184,7 @@ Fix the following deadlock:
 CPU A
 _free_event()
   perf_kprobe_destroy()
-    mutex_lock(&amp;event_mutex)
+    mutex_lock(&amp;amp;event_mutex)
       perf_trace_event_unreg()
         synchronize_rcu_tasks_trace()
 
@@ -198,7 +198,7 @@ bpf_prog_test_run_syscall()
       bpf_prog_load()
         bpf_tracing_func_proto()
           trace_set_clr_event()
-            mutex_lock(&amp;event_mutex)
+            mutex_lock(&amp;amp;event_mutex)
 
 Delegate trace_set_clr_event() to workqueue to avoid
 such lock dependency.</description><pubDate>Fri, 09 May 2025 06:55:24 +0000</pubDate></item><item><title>CVE-2025-37885 | KVM: x86: Reset IRTE to host control if *new* route isn&amp;#x27;t postable</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37885</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -435,7 +435,7 @@ mtd: rawnand: brcmnand: fix PM resume warning
 
 Fixed warning on PM resume as shown below caused due to uninitialized
 struct nand_operation that checks chip select field :
-WARN_ON(op-&gt;cs &gt;= nanddev_ntargets(&amp;chip-&gt;base)
+WARN_ON(op-&gt;cs &gt;= nanddev_ntargets(&amp;amp;chip-&gt;base)
 
 [   14.588522] ------------[ cut here ]------------
 [   14.588529] WARNING: CPU: 0 PID: 1392 at drivers/mtd/nand/raw/internals.h:139 nand_reset_op+0x1e0/0x1f8
@@ -702,13 +702,13 @@ or a different future user of bg_list, better to be safe than sorry.
 Otherwise we risk the following interleaving (bg_list refcount in parens)
 
 T1 (some random op)                       T2 (btrfs_mark_bg_unused)
-                                        !list_empty(&amp;bg-&gt;bg_list); (1)
-list_del_init(&amp;bg-&gt;bg_list); (1)
+                                        !list_empty(&amp;amp;bg-&gt;bg_list); (1)
+list_del_init(&amp;amp;bg-&gt;bg_list); (1)
                                         list_move_tail (1)
 btrfs_put_block_group (0)
                                         btrfs_delete_unused_bgs
                                              bg = list_first_entry
-                                             list_del_init(&amp;bg-&gt;bg_list);
+                                             list_del_init(&amp;amp;bg-&gt;bg_list);
                                              btrfs_put_block_group(bg); (-1)
 
 Ultimately, this results in a broken ref count that hits zero one deref
@@ -865,7 +865,7 @@ from a user port fails with -ENOENT:
 https://lore.kernel.org/netdev/Z_lQXNP0s5-IiJzd@shell.armlinux.org.uk/
 
 This comes from mv88e6xxx_port_vlan_leave() -&gt; mv88e6xxx_mst_put(),
-which tries to find an MST entry in &amp;chip-&gt;msts associated with the SID,
+which tries to find an MST entry in &amp;amp;chip-&gt;msts associated with the SID,
 but fails and returns -ENOENT as such.
 
 But we know that this chip does not support MST at all, so that is not
@@ -935,7 +935,7 @@ syzkaller log:
  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
  Call Trace:
-  &lt;TASK&gt;
+  
   ib_umem_odp_get+0x1f6/0x390
   mlx5_ib_reg_user_mr+0x1e8/0x450
   ib_uverbs_reg_mr+0x28b/0x440
