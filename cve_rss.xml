@@ -1,5 +1,116 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 May 2025 16:18:39 +0000</lastBuildDate><item><title>CVE-2025-37946 | s390/pci: Fix duplicate pci_dev_put() in disable_slot() when PF has child VFs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37946</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 May 2025 16:55:34 +0000</lastBuildDate><item><title>CVE-2025-37965 | drm/amd/display: Fix invalid context error in dml helper</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37965</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Fix invalid context error in dml helper
+
+[Why]
+"BUG: sleeping function called from invalid context" error.
+after:
+"drm/amd/display: Protect FPU in dml2_validate()/dml21_validate()"
+
+The populate_dml_plane_cfg_from_plane_state() uses the GFP_KERNEL flag
+for memory allocation, which shouldn't be used in atomic contexts.
+
+The allocation is needed only for using another helper function
+get_scaler_data_for_plane().
+
+[How]
+Modify helpers to pass a pointer to scaler_data within existing context,
+eliminating the need for dynamic memory allocation/deallocation
+and copying.
+
+(cherry picked from commit bd3e84bc98f81b44f2c43936bdadc3241d654259)</description><pubDate>Tue, 20 May 2025 16:55:36 +0000</pubDate></item><item><title>CVE-2025-37966 | riscv: Fix kernel crash due to PR_SET_TAGGED_ADDR_CTRL</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37966</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: Fix kernel crash due to PR_SET_TAGGED_ADDR_CTRL
+
+When userspace does PR_SET_TAGGED_ADDR_CTRL, but Supm extension is not
+available, the kernel crashes:
+
+Oops - illegal instruction [#1]
+    [snip]
+epc : set_tagged_addr_ctrl+0x112/0x15a
+ ra : set_tagged_addr_ctrl+0x74/0x15a
+epc : ffffffff80011ace ra : ffffffff80011a30 sp : ffffffc60039be10
+    [snip]
+status: 0000000200000120 badaddr: 0000000010a79073 cause: 0000000000000002
+    set_tagged_addr_ctrl+0x112/0x15a
+    __riscv_sys_prctl+0x352/0x73c
+    do_trap_ecall_u+0x17c/0x20c
+    andle_exception+0x150/0x15c
+
+Fix it by checking if Supm is available.</description><pubDate>Tue, 20 May 2025 16:55:36 +0000</pubDate></item><item><title>CVE-2025-37967 | usb: typec: ucsi: displayport: Fix deadlock</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37967</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: typec: ucsi: displayport: Fix deadlock
+
+This patch introduces the ucsi_con_mutex_lock / ucsi_con_mutex_unlock
+functions to the UCSI driver. ucsi_con_mutex_lock ensures the connector
+mutex is only locked if a connection is established and the partner pointer
+is valid. This resolves a deadlock scenario where
+ucsi_displayport_remove_partner holds con-&gt;mutex waiting for
+dp_altmode_work to complete while dp_altmode_work attempts to acquire it.</description><pubDate>Tue, 20 May 2025 16:55:37 +0000</pubDate></item><item><title>CVE-2025-37968 | iio: light: opt3001: fix deadlock due to concurrent flag access</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37968</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: opt3001: fix deadlock due to concurrent flag access
+
+The threaded IRQ function in this driver is reading the flag twice: once to
+lock a mutex and once to unlock it. Even though the code setting the flag
+is designed to prevent it, there are subtle cases where the flag could be
+true at the mutex_lock stage and false at the mutex_unlock stage. This
+results in the mutex not being unlocked, resulting in a deadlock.
+
+Fix it by making the opt3001_irq() code generally more robust, reading the
+flag into a variable and using the variable value at both stages.</description><pubDate>Tue, 20 May 2025 16:55:37 +0000</pubDate></item><item><title>CVE-2025-37969 | iio: imu: st_lsm6dsx: fix possible lockup in st_lsm6dsx_read_tagged_fifo</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37969</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: imu: st_lsm6dsx: fix possible lockup in st_lsm6dsx_read_tagged_fifo
+
+Prevent st_lsm6dsx_read_tagged_fifo from falling in an infinite loop in
+case pattern_len is equal to zero and the device FIFO is not empty.</description><pubDate>Tue, 20 May 2025 16:55:37 +0000</pubDate></item><item><title>CVE-2025-37970 | iio: imu: st_lsm6dsx: fix possible lockup in st_lsm6dsx_read_fifo</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37970</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: imu: st_lsm6dsx: fix possible lockup in st_lsm6dsx_read_fifo
+
+Prevent st_lsm6dsx_read_fifo from falling in an infinite loop in case
+pattern_len is equal to zero and the device FIFO is not empty.</description><pubDate>Tue, 20 May 2025 16:55:38 +0000</pubDate></item><item><title>CVE-2025-37971 | staging: bcm2835-camera: Initialise dev in v4l2_dev</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37971</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: bcm2835-camera: Initialise dev in v4l2_dev
+
+Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+vchiq_state") changed mmal_init to pass dev-&gt;v4l2_dev.dev to
+vchiq_mmal_init, however nothing iniitialised dev-&gt;v4l2_dev, so we got
+a NULL pointer dereference.
+
+Set dev-&gt;v4l2_dev.dev during bcm2835_mmal_probe. The device pointer
+could be passed into v4l2_device_register to set it, however that also
+has other effects that would need additional changes.</description><pubDate>Tue, 20 May 2025 16:55:38 +0000</pubDate></item><item><title>CVE-2025-37972 | Input: mtk-pmic-keys - fix possible null pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37972</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Input: mtk-pmic-keys - fix possible null pointer dereference
+
+In mtk_pmic_keys_probe, the regs parameter is only set if the button is
+parsed in the device tree. However, on hardware where the button is left
+floating, that node will most likely be removed not to enable that
+input. In that case the code will try to dereference a null pointer.
+
+Let's use the regs struct instead as it is defined for all supported
+platforms. Note that it is ok setting the key reg even if that latter is
+disabled as the interrupt won't be enabled anyway.</description><pubDate>Tue, 20 May 2025 16:55:39 +0000</pubDate></item><item><title>CVE-2025-37973 | wifi: cfg80211: fix out-of-bounds access during multi-link element defragmentation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37973</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: cfg80211: fix out-of-bounds access during multi-link element defragmentation
+
+Currently during the multi-link element defragmentation process, the
+multi-link element length added to the total IEs length when calculating
+the length of remaining IEs after the multi-link element in
+cfg80211_defrag_mle(). This could lead to out-of-bounds access if the
+multi-link element or its corresponding fragment elements are the last
+elements in the IEs buffer.
+
+To address this issue, correctly calculate the remaining IEs length by
+deducting the multi-link element end offset from total IEs end offset.</description><pubDate>Tue, 20 May 2025 16:55:39 +0000</pubDate></item><item><title>CVE-2025-37974 | s390/pci: Fix missing check for zpci_create_device() error return</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37974</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/pci: Fix missing check for zpci_create_device() error return
+
+The zpci_create_device() function returns an error pointer that needs to
+be checked before dereferencing it as a struct zpci_dev pointer. Add the
+missing check in __clp_add() where it was missed when adding the
+scan_list in the fixed commit. Simply not adding the device to the scan
+list results in the previous behavior.</description><pubDate>Tue, 20 May 2025 16:55:39 +0000</pubDate></item><item><title>CVE-2025-37946 | s390/pci: Fix duplicate pci_dev_put() in disable_slot() when PF has child VFs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37946</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 s390/pci: Fix duplicate pci_dev_put() in disable_slot() when PF has child VFs
 
@@ -38,7 +149,7 @@ callstack:
 BUG: kernel NULL pointer dereference, address: 0000000000000000
 RIP: e030:__wake_up_common+0x4c/0x180
 Call Trace:
- &lt;TASK&gt;
+ 
  __wake_up_common_lock+0x82/0xd0
  process_msg+0x18e/0x2f0
  xenbus_thread+0x165/0x1c0
@@ -200,7 +311,7 @@ The issue manifests as follows:
   BIOS 1.12.0-1 04/01/2014
   RIP: 0010:kvm_vcpu_reset+0x1d2/0x1530 arch/x86/kvm/x86.c:12112
   Call Trace:
-   &lt;TASK&gt;
+   
    shutdown_interception+0x66/0xb0 arch/x86/kvm/svm/svm.c:2136
    svm_invoke_exit_handler+0x110/0x530 arch/x86/kvm/svm/svm.c:3395
    svm_handle_exit+0x424/0x920 arch/x86/kvm/svm/svm.c:3457
@@ -250,7 +361,7 @@ CPU: 0 UID: 0 PID: 2199114 Comm: tee Not tainted 6.14.0+ #4 NONE
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 RIP: 0010:split_huge_pmd_locked+0x3b5/0x2b60
 Call Trace:
-&lt;TASK&gt;
+
 try_to_migrate_one+0x28c/0x3730
 rmap_walk_anon+0x4f6/0x770
 unmap_folio+0x196/0x1f0
@@ -479,8 +590,8 @@ The too-aggressive code in should_flush_tlb() strikes in this window:
 	// if should_flush_tlb() agrees:
 	cpumask_set_cpu(cpu, mm_cpumask(next));
 
-	next_tlb_gen = atomic64_read(&amp;next-&gt;context.tlb_gen);
-	choose_new_asid(next, next_tlb_gen, &amp;new_asid, &amp;need_flush);
+	next_tlb_gen = atomic64_read(&amp;amp;next-&gt;context.tlb_gen);
+	choose_new_asid(next, next_tlb_gen, &amp;amp;new_asid, &amp;amp;need_flush);
 	load_new_mm_cr3(need_flush);
 	// ^ After 'need_flush' is set to false, IPIs *MUST*
 	// be sent to this CPU and not be ignored.
