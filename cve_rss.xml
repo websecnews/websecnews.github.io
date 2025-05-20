@@ -1,5 +1,87 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 May 2025 16:55:34 +0000</lastBuildDate><item><title>CVE-2025-37965 | drm/amd/display: Fix invalid context error in dml helper</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37965</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 20 May 2025 17:10:19 +0000</lastBuildDate><item><title>CVE-2025-44084 | D-link DI-8100 16.07.26A1 is vulnerable to Command Injection. An attacker can exploit this vulnerability by crafting specific HTTP requests,...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-44084</link><description>D-link DI-8100 16.07.26A1 is vulnerable to Command Injection. An attacker can exploit this vulnerability by crafting specific HTTP requests, triggering the command execution flaw and gaining the highest privilege shell access to the firmware system.</description><pubDate>Tue, 20 May 2025 17:10:21 +0000</pubDate></item><item><title>CVE-2025-37975 | riscv: module: Fix out-of-bounds relocation access</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37975</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: module: Fix out-of-bounds relocation access
+
+The current code allows rel[j] to access one element past the end of the
+relocation section. Simplify to num_relocations which is equivalent to
+the existing size expression.</description><pubDate>Tue, 20 May 2025 17:10:22 +0000</pubDate></item><item><title>CVE-2025-37976 | wifi: ath12k: Fix invalid entry fetch in ath12k_dp_mon_srng_process</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37976</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath12k: Fix invalid entry fetch in ath12k_dp_mon_srng_process
+
+[ Upstream commit 63fdc4509bcf483e79548de6bc08bf3c8e504bb3 ]
+
+Currently, ath12k_dp_mon_srng_process uses ath12k_hal_srng_src_get_next_entry
+to fetch the next entry from the destination ring. This is incorrect because
+ath12k_hal_srng_src_get_next_entry is intended for source rings, not destination
+rings. This leads to invalid entry fetches, causing potential data corruption or
+crashes due to accessing incorrect memory locations. This happens because the
+source ring and destination ring have different handling mechanisms and using
+the wrong function results in incorrect pointer arithmetic and ring management.
+
+To fix this issue, replace the call to ath12k_hal_srng_src_get_next_entry with
+ath12k_hal_srng_dst_get_next_entry in ath12k_dp_mon_srng_process. This ensures
+that the correct function is used for fetching entries from the destination
+ring, preventing invalid memory accesses.
+
+Tested-on: QCN9274 hw2.0 PCI WLAN.WBE.1.3.1-00173-QCAHKSWPL_SILICONZ-1
+Tested-on: WCN7850 hw2.0 WLAN.HMT.1.0.c5-00481-QCAHMTSWPL_V1.0_V2.0_SILICONZ-3</description><pubDate>Tue, 20 May 2025 17:10:22 +0000</pubDate></item><item><title>CVE-2025-37977 | scsi: ufs: exynos: Disable iocc if dma-coherent property isn&amp;#x27;t set</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37977</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: exynos: Disable iocc if dma-coherent property isn't set
+
+If dma-coherent property isn't set then descriptors are non-cacheable
+and the iocc shareability bits should be disabled. Without this UFS can
+end up in an incompatible configuration and suffer from random cache
+related stability issues.</description><pubDate>Tue, 20 May 2025 17:10:22 +0000</pubDate></item><item><title>CVE-2025-37978 | block: integrity: Do not call set_page_dirty_lock()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37978</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: integrity: Do not call set_page_dirty_lock()
+
+Placing multiple protection information buffers inside the same page
+can lead to oopses because set_page_dirty_lock() can't be called from
+interrupt context.
+
+Since a protection information buffer is not backed by a file there is
+no point in setting its page dirty, there is nothing to synchronize.
+Drop the call to set_page_dirty_lock() and remove the last argument to
+bio_integrity_unpin_bvec().</description><pubDate>Tue, 20 May 2025 17:10:23 +0000</pubDate></item><item><title>CVE-2025-37979 | ASoC: qcom: Fix sc7280 lpass potential buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37979</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: qcom: Fix sc7280 lpass potential buffer overflow
+
+Case values introduced in commit
+5f78e1fb7a3e ("ASoC: qcom: Add driver support for audioreach solution")
+cause out of bounds access in arrays of sc7280 driver data (e.g. in case
+of RX_CODEC_DMA_RX_0 in sc7280_snd_hw_params()).
+
+Redefine LPASS_MAX_PORTS to consider the maximum possible port id for
+q6dsp as sc7280 driver utilizes some of those values.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Tue, 20 May 2025 17:10:23 +0000</pubDate></item><item><title>CVE-2025-37980 | block: fix resource leak in blk_register_queue() error path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37980</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: fix resource leak in blk_register_queue() error path
+
+When registering a queue fails after blk_mq_sysfs_register() is
+successful but the function later encounters an error, we need
+to clean up the blk_mq_sysfs resources.
+
+Add the missing blk_mq_sysfs_unregister() call in the error path
+to properly clean up these resources and prevent a memory leak.</description><pubDate>Tue, 20 May 2025 17:10:24 +0000</pubDate></item><item><title>CVE-2025-37981 | scsi: smartpqi: Use is_kdump_kernel() to check for kdump</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37981</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: smartpqi: Use is_kdump_kernel() to check for kdump
+
+The smartpqi driver checks the reset_devices variable to determine
+whether special adjustments need to be made for kdump. This has the
+effect that after a regular kexec reboot, some driver parameters such as
+max_transfer_size are much lower than usual. More importantly, kexec
+reboot tests have revealed memory corruption caused by the driver log
+being written to system memory after a kexec.
+
+Fix this by testing is_kdump_kernel() rather than reset_devices where
+appropriate.</description><pubDate>Tue, 20 May 2025 17:10:24 +0000</pubDate></item><item><title>CVE-2025-37982 | wifi: wl1251: fix memory leak in wl1251_tx_work</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37982</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: wl1251: fix memory leak in wl1251_tx_work
+
+The skb dequeued from tx_queue is lost when wl1251_ps_elp_wakeup fails
+with a -ETIMEDOUT error. Fix that by queueing the skb back to tx_queue.</description><pubDate>Tue, 20 May 2025 17:10:24 +0000</pubDate></item><item><title>CVE-2025-37965 | drm/amd/display: Fix invalid context error in dml helper</title><link>https://www.cve.org/CVERecord?id=CVE-2025-37965</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/amd/display: Fix invalid context error in dml helper
 
