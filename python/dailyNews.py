@@ -75,11 +75,11 @@ class Feeds:
 
     def getDate(self, entry):
         if hasattr(entry, 'published'):
-            pubDate = dateparser.parse(entry.published, settings={'TIMEZONE': 'UTC'})
+            pubDate = dateparser.parse(entry.published, settings={'TIMEZONE': 'UTC', 'RETURN_AS_TIMEZONE_AWARE': True})
         elif hasattr(entry, 'updated'):
-            pubDate = dateparser.parse(entry.updated, settings={'TIMEZONE': 'UTC'})
+            pubDate = dateparser.parse(entry.updated, settings={'TIMEZONE': 'UTC', 'RETURN_AS_TIMEZONE_AWARE': True})
         else:
-            pubDate = dateparser.parse(entry.updated_date, settings={'TIMEZONE': 'UTC'})
+            pubDate = dateparser.parse(entry.updated_date, settings={'TIMEZONE': 'UTC', 'RETURN_AS_TIMEZONE_AWARE': True})
             
         return pubDate
         
