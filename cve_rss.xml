@@ -1,5 +1,244 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:00:21 +0000</lastBuildDate><item><title>CVE-2025-45939 | Apwide Golive 10.2.0 Jira plugin allows Server-Side Request Forgery (SSRF) via the test webhook function.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-45939</link><description>Apwide Golive 10.2.0 Jira plugin allows Server-Side Request Forgery (SSRF) via the test webhook function.</description><pubDate>Fri, 25 Jul 2025 14:00:23 +0000</pubDate></item><item><title>CVE-2025-38414 | wifi: ath12k: fix GCC_GCC_PCIE_HOT_RST definition for WCN7850</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38414</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:27:16 +0000</lastBuildDate><item><title>CVE-2025-38420 | wifi: carl9170: do not ping device which has failed to load firmware</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38420</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: carl9170: do not ping device which has failed to load firmware
+
+Syzkaller reports [1, 2] crashes caused by an attempts to ping
+the device which has failed to load firmware. Since such a device
+doesn't pass 'ieee80211_register_hw()', an internal workqueue
+managed by 'ieee80211_queue_work()' is not yet created and an
+attempt to queue work on it causes null-ptr-deref.
+
+[1] https://syzkaller.appspot.com/bug?extid=9a4aec827829942045ff
+[2] https://syzkaller.appspot.com/bug?extid=0d8afba53e8fb2633217</description><pubDate>Fri, 25 Jul 2025 14:27:18 +0000</pubDate></item><item><title>CVE-2025-38421 | platform/x86/amd: pmf: Use device managed allocations</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38421</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86/amd: pmf: Use device managed allocations
+
+If setting up smart PC fails for any reason then this can lead to
+a double free when unloading amd-pmf.  This is because dev-&gt;buf was
+freed but never set to NULL and is again freed in amd_pmf_remove().
+
+To avoid subtle allocation bugs in failures leading to a double free
+change all allocations into device managed allocations.</description><pubDate>Fri, 25 Jul 2025 14:27:19 +0000</pubDate></item><item><title>CVE-2025-38422 | net: lan743x: Modify the EEPROM and OTP size for PCI1xxxx devices</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38422</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: lan743x: Modify the EEPROM and OTP size for PCI1xxxx devices
+
+Maximum OTP and EEPROM size for hearthstone PCI1xxxx devices are 8 Kb
+and 64 Kb respectively. Adjust max size definitions and return correct
+EEPROM length based on device. Also prevent out-of-bound read/write.</description><pubDate>Fri, 25 Jul 2025 14:27:19 +0000</pubDate></item><item><title>CVE-2025-38423 | ASoC: codecs: wcd9375: Fix double free of regulator supplies</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38423</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: codecs: wcd9375: Fix double free of regulator supplies
+
+Driver gets regulator supplies in probe path with
+devm_regulator_bulk_get(), so should not call regulator_bulk_free() in
+error and remove paths to avoid double free.</description><pubDate>Fri, 25 Jul 2025 14:27:20 +0000</pubDate></item><item><title>CVE-2025-38424 | perf: Fix sample vs do_exit()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38424</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+perf: Fix sample vs do_exit()
+
+Baisheng Gao reported an ARM64 crash, which Mark decoded as being a
+synchronous external abort -- most likely due to trying to access
+MMIO in bad ways.
+
+The crash further shows perf trying to do a user stack sample while in
+exit_mmap()'s tlb_finish_mmu() -- i.e. while tearing down the address
+space it is trying to access.
+
+It turns out that we stop perf after we tear down the userspace mm; a
+receipie for disaster, since perf likes to access userspace for
+various reasons.
+
+Flip this order by moving up where we stop perf in do_exit().
+
+Additionally, harden PERF_SAMPLE_CALLCHAIN and PERF_SAMPLE_STACK_USER
+to abort when the current task does not have an mm (exit_mm() makes
+sure to set current-&gt;mm = NULL; before commencing with the actual
+teardown). Such that CPU wide events don't trip on this same problem.</description><pubDate>Fri, 25 Jul 2025 14:27:20 +0000</pubDate></item><item><title>CVE-2025-38425 | i2c: tegra: check msg length in SMBUS block read</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38425</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: tegra: check msg length in SMBUS block read
+
+For SMBUS block read, do not continue to read if the message length
+passed from the device is '0' or greater than the maximum allowed bytes.</description><pubDate>Fri, 25 Jul 2025 14:27:21 +0000</pubDate></item><item><title>CVE-2025-38426 | drm/amdgpu: Add basic validation for RAS header</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38426</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: Add basic validation for RAS header
+
+If RAS header read from EEPROM is corrupted, it could result in trying
+to allocate huge memory for reading the records. Add some validation to
+header fields.</description><pubDate>Fri, 25 Jul 2025 14:27:21 +0000</pubDate></item><item><title>CVE-2025-38427 | video: screen_info: Relocate framebuffers behind PCI bridges</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38427</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+video: screen_info: Relocate framebuffers behind PCI bridges
+
+Apply PCI host-bridge window offsets to screen_info framebuffers. Fixes
+invalid access to I/O memory.
+
+Resources behind a PCI host bridge can be relocated by a certain offset
+in the kernel's CPU address range used for I/O. The framebuffer memory
+range stored in screen_info refers to the CPU addresses as seen during
+boot (where the offset is 0). During boot up, firmware may assign a
+different memory offset to the PCI host bridge and thereby relocating
+the framebuffer address of the PCI graphics device as seen by the kernel.
+The information in screen_info must be updated as well.
+
+The helper pcibios_bus_to_resource() performs the relocation of the
+screen_info's framebuffer resource (given in PCI bus addresses). The
+result matches the I/O-memory resource of the PCI graphics device (given
+in CPU addresses). As before, we store away the information necessary to
+later update the information in screen_info itself.
+
+Commit 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated
+EFI framebuffers") added the code for updating screen_info. It is based
+on similar functionality that pre-existed in efifb. Efifb uses a pointer
+to the PCI resource, while the newer code does a memcpy of the region.
+Hence efifb sees any updates to the PCI resource and avoids the issue.
+
+v3:
+- Only use struct pci_bus_region for PCI bus addresses (Bjorn)
+- Clarify address semantics in commit messages and comments (Bjorn)
+v2:
+- Fixed tags (Takashi, Ivan)
+- Updated information on efifb</description><pubDate>Fri, 25 Jul 2025 14:27:22 +0000</pubDate></item><item><title>CVE-2025-38428 | Input: ims-pcu - check record size in ims_pcu_flash_firmware()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38428</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Input: ims-pcu - check record size in ims_pcu_flash_firmware()
+
+The "len" variable comes from the firmware and we generally do
+trust firmware, but it's always better to double check.  If the "len"
+is too large it could result in memory corruption when we do
+"memcpy(fragment-&gt;data, rec-&gt;data, len);"</description><pubDate>Fri, 25 Jul 2025 14:27:22 +0000</pubDate></item><item><title>CVE-2025-38429 | bus: mhi: ep: Update read pointer only after buffer is written</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38429</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bus: mhi: ep: Update read pointer only after buffer is written
+
+Inside mhi_ep_ring_add_element, the read pointer (rd_offset) is updated
+before the buffer is written, potentially causing race conditions where
+the host sees an updated read pointer before the buffer is actually
+written. Updating rd_offset prematurely can lead to the host accessing
+an uninitialized or incomplete element, resulting in data corruption.
+
+Invoke the buffer write before updating rd_offset to ensure the element
+is fully written before signaling its availability.</description><pubDate>Fri, 25 Jul 2025 14:27:23 +0000</pubDate></item><item><title>CVE-2025-38430 | nfsd: nfsd4_spo_must_allow() must check this is a v4 compound request</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38430</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfsd: nfsd4_spo_must_allow() must check this is a v4 compound request
+
+If the request being processed is not a v4 compound request, then
+examining the cstate can have undefined results.
+
+This patch adds a check that the rpc procedure being executed
+(rq_procinfo) is the NFSPROC4_COMPOUND procedure.</description><pubDate>Fri, 25 Jul 2025 14:27:23 +0000</pubDate></item><item><title>CVE-2025-52360 | A Cross-Site Scripting (XSS) vulnerability exists in the OPAC search feature of Koha Library Management System v24.05. Unsanitized input ent...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-52360</link><description>A Cross-Site Scripting (XSS) vulnerability exists in the OPAC search feature of Koha Library Management System v24.05. Unsanitized input entered in the search field is reflected in the search history interface, leading to the execution of arbitrary JavaScript in the browser context when the user interacts with the interface.</description><pubDate>Fri, 25 Jul 2025 14:27:24 +0000</pubDate></item><item><title>CVE-2025-38416 | NFC: nci: uart: Set tty-&amp;gt;disc_data only in success path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38416</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFC: nci: uart: Set tty-&gt;disc_data only in success path
+
+Setting tty-&gt;disc_data before opening the NCI device means we need to
+clean it up on error paths.  This also opens some short window if device
+starts sending data, even before NCIUARTSETDRIVER IOCTL succeeded
+(broken hardware?).  Close the window by exposing tty-&gt;disc_data only on
+the success path, when opening of the NCI device and try_module_get()
+succeeds.
+
+The code differs in error path in one aspect: tty-&gt;disc_data won't be
+ever assigned thus NULL-ified.  This however should not be relevant
+difference, because of "tty-&gt;disc_data=NULL" in nci_uart_tty_open().</description><pubDate>Fri, 25 Jul 2025 14:27:24 +0000</pubDate></item><item><title>CVE-2025-38417 | ice: fix eswitch code memory leak in reset scenario</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38417</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ice: fix eswitch code memory leak in reset scenario
+
+Add simple eswitch mode checker in attaching VF procedure and allocate
+required port representor memory structures only in switchdev mode.
+The reset flows triggers VF (if present) detach/attach procedure.
+It might involve VF port representor(s) re-creation if the device is
+configured is switchdev mode (not legacy one).
+The memory was blindly allocated in current implementation,
+regardless of the mode and not freed if in legacy mode.
+
+Kmemeleak trace:
+unreferenced object (percpu) 0x7e3bce5b888458 (size 40):
+  comm "bash", pid 1784, jiffies 4295743894
+  hex dump (first 32 bytes on cpu 45):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 0):
+    pcpu_alloc_noprof+0x4c4/0x7c0
+    ice_repr_create+0x66/0x130 [ice]
+    ice_repr_create_vf+0x22/0x70 [ice]
+    ice_eswitch_attach_vf+0x1b/0xa0 [ice]
+    ice_reset_all_vfs+0x1dd/0x2f0 [ice]
+    ice_pci_err_resume+0x3b/0xb0 [ice]
+    pci_reset_function+0x8f/0x120
+    reset_store+0x56/0xa0
+    kernfs_fop_write_iter+0x120/0x1b0
+    vfs_write+0x31c/0x430
+    ksys_write+0x61/0xd0
+    do_syscall_64+0x5b/0x180
+    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+
+Testing hints (ethX is PF netdev):
+- create at least one VF
+    echo 1 &gt; /sys/class/net/ethX/device/sriov_numvfs
+- trigger the reset
+    echo 1 &gt; /sys/class/net/ethX/device/reset</description><pubDate>Fri, 25 Jul 2025 14:27:25 +0000</pubDate></item><item><title>CVE-2025-38418 | remoteproc: core: Release rproc-&amp;gt;clean_table after rproc_attach() fails</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38418</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+remoteproc: core: Release rproc-&gt;clean_table after rproc_attach() fails
+
+When rproc-&gt;state = RPROC_DETACHED is attached to remote processor
+through rproc_attach(), if rproc_handle_resources() returns failure,
+then the clean table should be released, otherwise the following
+memory leak will occur.
+
+unreferenced object 0xffff000086a99800 (size 1024):
+comm "kworker/u12:3", pid 59, jiffies 4294893670 (age 121.140s)
+hex dump (first 32 bytes):
+00 00 00 00 00 80 00 00 00 00 00 00 00 00 10 00 ............
+00 00 00 00 00 00 08 00 00 00 00 00 00 00 00 00 ............
+backtrace:
+ [&lt;000000008bbe4ca8&gt;] slab_post_alloc_hook+0x98/0x3fc
+ [&lt;000000003b8a272b&gt;] __kmem_cache_alloc_node+0x13c/0x230
+ [&lt;000000007a507c51&gt;] __kmalloc_node_track_caller+0x5c/0x260
+ [&lt;0000000037818dae&gt;] kmemdup+0x34/0x60
+ [&lt;00000000610f7f57&gt;] rproc_boot+0x35c/0x56c
+ [&lt;0000000065f8871a&gt;] rproc_add+0x124/0x17c
+ [&lt;00000000497416ee&gt;] imx_rproc_probe+0x4ec/0x5d4
+ [&lt;000000003bcaa37d&gt;] platform_probe+0x68/0xd8
+ [&lt;00000000771577f9&gt;] really_probe+0x110/0x27c
+ [&lt;00000000531fea59&gt;] __driver_probe_device+0x78/0x12c
+ [&lt;0000000080036a04&gt;] driver_probe_device+0x3c/0x118
+ [&lt;000000007e0bddcb&gt;] __device_attach_driver+0xb8/0xf8
+ [&lt;000000000cf1fa33&gt;] bus_for_each_drv+0x84/0xe4
+ [&lt;000000001a53b53e&gt;] __device_attach+0xfc/0x18c
+ [&lt;00000000d1a2a32c&gt;] device_initial_probe+0x14/0x20
+ [&lt;00000000d8f8b7ae&gt;] bus_probe_device+0xb0/0xb4
+ unreferenced object 0xffff0000864c9690 (size 16):</description><pubDate>Fri, 25 Jul 2025 14:27:25 +0000</pubDate></item><item><title>CVE-2025-38419 | remoteproc: core: Cleanup acquired resources when rproc_handle_resources() fails in rproc_attach()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38419</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+remoteproc: core: Cleanup acquired resources when rproc_handle_resources() fails in rproc_attach()
+
+When rproc-&gt;state = RPROC_DETACHED and rproc_attach() is used
+to attach to the remote processor, if rproc_handle_resources()
+returns a failure, the resources allocated by imx_rproc_prepare()
+should be released, otherwise the following memory leak will occur.
+
+Since almost the same thing is done in imx_rproc_prepare() and
+rproc_resource_cleanup(), Function rproc_resource_cleanup() is able
+to deal with empty lists so it is better to fix the "goto" statements
+in rproc_attach(). replace the "unprepare_device" goto statement with
+"clean_up_resources" and get rid of the "unprepare_device" label.
+
+unreferenced object 0xffff0000861c5d00 (size 128):
+comm "kworker/u12:3", pid 59, jiffies 4294893509 (age 149.220s)
+hex dump (first 32 bytes):
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+00 00 02 88 00 00 00 00 00 00 10 00 00 00 00 00 ............
+backtrace:
+ [&lt;00000000f949fe18&gt;] slab_post_alloc_hook+0x98/0x37c
+ [&lt;00000000adbfb3e7&gt;] __kmem_cache_alloc_node+0x138/0x2e0
+ [&lt;00000000521c0345&gt;] kmalloc_trace+0x40/0x158
+ [&lt;000000004e330a49&gt;] rproc_mem_entry_init+0x60/0xf8
+ [&lt;000000002815755e&gt;] imx_rproc_prepare+0xe0/0x180
+ [&lt;0000000003f61b4e&gt;] rproc_boot+0x2ec/0x528
+ [&lt;00000000e7e994ac&gt;] rproc_add+0x124/0x17c
+ [&lt;0000000048594076&gt;] imx_rproc_probe+0x4ec/0x5d4
+ [&lt;00000000efc298a1&gt;] platform_probe+0x68/0xd8
+ [&lt;00000000110be6fe&gt;] really_probe+0x110/0x27c
+ [&lt;00000000e245c0ae&gt;] __driver_probe_device+0x78/0x12c
+ [&lt;00000000f61f6f5e&gt;] driver_probe_device+0x3c/0x118
+ [&lt;00000000a7874938&gt;] __device_attach_driver+0xb8/0xf8
+ [&lt;0000000065319e69&gt;] bus_for_each_drv+0x84/0xe4
+ [&lt;00000000db3eb243&gt;] __device_attach+0xfc/0x18c
+ [&lt;0000000072e4e1a4&gt;] device_initial_probe+0x14/0x20</description><pubDate>Fri, 25 Jul 2025 14:27:26 +0000</pubDate></item><item><title>CVE-2025-45777 | An issue in the OTP mechanism of Chavara Family Welfare Centre Chavara Matrimony Site v2.0 allows attackers to bypass authentication via sup...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-45777</link><description>An issue in the OTP mechanism of Chavara Family Welfare Centre Chavara Matrimony Site v2.0 allows attackers to bypass authentication via supplying a crafted request.</description><pubDate>Fri, 25 Jul 2025 14:27:26 +0000</pubDate></item><item><title>CVE-2025-45939 | Apwide Golive 10.2.0 Jira plugin allows Server-Side Request Forgery (SSRF) via the test webhook function.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-45939</link><description>Apwide Golive 10.2.0 Jira plugin allows Server-Side Request Forgery (SSRF) via the test webhook function.</description><pubDate>Fri, 25 Jul 2025 14:00:23 +0000</pubDate></item><item><title>CVE-2025-38414 | wifi: ath12k: fix GCC_GCC_PCIE_HOT_RST definition for WCN7850</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38414</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: ath12k: fix GCC_GCC_PCIE_HOT_RST definition for WCN7850
 
