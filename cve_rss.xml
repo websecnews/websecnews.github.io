@@ -1,5 +1,90 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:27:16 +0000</lastBuildDate><item><title>CVE-2025-38420 | wifi: carl9170: do not ping device which has failed to load firmware</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38420</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:47:34 +0000</lastBuildDate><item><title>CVE-2025-38433 | riscv: fix runtime constant support for nommu kernels</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38433</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: fix runtime constant support for nommu kernels
+
+the `__runtime_fixup_32` function does not handle the case where `val` is
+zero correctly (as might occur when patching a nommu kernel and referring
+to a physical address below the 4GiB boundary whose upper 32 bits are all
+zero) because nothing in the existing logic prevents the code from taking
+the `else` branch of both nop-checks and emitting two `nop` instructions.
+
+This leaves random garbage in the register that is supposed to receive the
+upper 32 bits of the pointer instead of zero that when combined with the
+value for the lower 32 bits yields an invalid pointer and causes a kernel
+panic when that pointer is eventually accessed.
+
+The author clearly considered the fact that if the `lui` is converted into
+a `nop` that the second instruction needs to be adjusted to become an `li`
+instead of an `addi`, hence introducing the `addi_insn_mask` variable, but
+didn't follow that logic through fully to the case where the `else` branch
+executes. To fix it just adjust the logic to ensure that the second `else`
+branch is not taken if the first instruction will be patched to a `nop`.</description><pubDate>Fri, 25 Jul 2025 14:47:36 +0000</pubDate></item><item><title>CVE-2025-38434 | Revert &amp;quot;riscv: Define TASK_SIZE_MAX for __access_ok()&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38434</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "riscv: Define TASK_SIZE_MAX for __access_ok()"
+
+This reverts commit ad5643cf2f69 ("riscv: Define TASK_SIZE_MAX for
+__access_ok()").
+
+This commit changes TASK_SIZE_MAX to be LONG_MAX to optimize access_ok(),
+because the previous TASK_SIZE_MAX (default to TASK_SIZE) requires some
+computation.
+
+The reasoning was that all user addresses are less than LONG_MAX, and all
+kernel addresses are greater than LONG_MAX. Therefore access_ok() can
+filter kernel addresses.
+
+Addresses between TASK_SIZE and LONG_MAX are not valid user addresses, but
+access_ok() let them pass. That was thought to be okay, because they are
+not valid addresses at hardware level.
+
+Unfortunately, one case is missed: get_user_pages_fast() happily accepts
+addresses between TASK_SIZE and LONG_MAX. futex(), for instance, uses
+get_user_pages_fast(). This causes the problem reported by Robert [1].
+
+Therefore, revert this commit. TASK_SIZE_MAX is changed to the default:
+TASK_SIZE.
+
+This unfortunately reduces performance, because TASK_SIZE is more expensive
+to compute compared to LONG_MAX. But correctness first, we can think about
+optimization later, if required.</description><pubDate>Fri, 25 Jul 2025 14:47:36 +0000</pubDate></item><item><title>CVE-2025-38435 | riscv: vector: Fix context save/restore with xtheadvector</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38435</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+riscv: vector: Fix context save/restore with xtheadvector
+
+Previously only v0-v7 were correctly saved/restored,
+and the context of v8-v31 are damanged.
+Correctly save/restore v8-v31 to avoid breaking userspace.</description><pubDate>Fri, 25 Jul 2025 14:47:36 +0000</pubDate></item><item><title>CVE-2025-38436 | drm/scheduler: signal scheduled fence when kill job</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38436</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/scheduler: signal scheduled fence when kill job
+
+When an entity from application B is killed, drm_sched_entity_kill()
+removes all jobs belonging to that entity through
+drm_sched_entity_kill_jobs_work(). If application A's job depends on a
+scheduled fence from application B's job, and that fence is not properly
+signaled during the killing process, application A's dependency cannot be
+cleared.
+
+This leads to application A hanging indefinitely while waiting for a
+dependency that will never be resolved. Fix this issue by ensuring that
+scheduled fences are properly signaled when an entity is killed, allowing
+dependent applications to continue execution.</description><pubDate>Fri, 25 Jul 2025 14:47:37 +0000</pubDate></item><item><title>CVE-2025-8159 | D-Link DIR-513 HTTP POST Request formLanguageChange stack-based overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8159</link><description>A vulnerability was found in D-Link DIR-513 1.0. It has been rated as critical. This issue affects the function formLanguageChange of the file /goform/formLanguageChange of the component HTTP POST Request Handler. The manipulation of the argument curTime leads to stack-based buffer overflow. The attack may be initiated remotely. The exploit has been disclosed to the public and may be used. This vulnerability only affects products that are no longer supported by the maintainer.</description><pubDate>Fri, 25 Jul 2025 14:47:37 +0000</pubDate></item><item><title>CVE-2025-30086 | CNCF Harbor 2.13.x before 2.13.1 and 2.12.x before 2.12.4 allows information disclosure by administrators who can exploit an ORM Leak presen...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-30086</link><description>CNCF Harbor 2.13.x before 2.13.1 and 2.12.x before 2.12.4 allows information disclosure by administrators who can exploit an ORM Leak present in the /api/v2.0/users endpoint to leak users' password hash and salt values. The q URL parameter allows a user to filter users by any column, and filter password=~ could be abused to leak out a user's password hash character by character. An attacker with administrator access could exploit this to leak highly sensitive information stored in the Harbor database. All endpoints that support the q URL parameter are vulnerable to this ORM leak attack.</description><pubDate>Fri, 25 Jul 2025 14:47:38 +0000</pubDate></item><item><title>CVE-2025-38431 | smb: client: fix regression with native SMB symlinks</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38431</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: fix regression with native SMB symlinks
+
+Some users and customers reported that their backup/copy tools started
+to fail when the directory being copied contained symlink targets that
+the client couldn't parse - even when those symlinks weren't followed.
+
+Fix this by allowing lstat(2) and readlink(2) to succeed even when the
+client can't resolve the symlink target, restoring old behavior.</description><pubDate>Fri, 25 Jul 2025 14:47:38 +0000</pubDate></item><item><title>CVE-2025-38432 | net: netpoll: Initialize UDP checksum field before checksumming</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38432</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: netpoll: Initialize UDP checksum field before checksumming
+
+commit f1fce08e63fe ("netpoll: Eliminate redundant assignment") removed
+the initialization of the UDP checksum, which was wrong and broke
+netpoll IPv6 transmission due to bad checksumming.
+
+udph-&gt;check needs to be set before calling csum_ipv6_magic().</description><pubDate>Fri, 25 Jul 2025 14:47:39 +0000</pubDate></item><item><title>CVE-2025-38420 | wifi: carl9170: do not ping device which has failed to load firmware</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38420</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: carl9170: do not ping device which has failed to load firmware
 
