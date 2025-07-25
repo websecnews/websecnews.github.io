@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 15:42:45 +0000</lastBuildDate><item><title>CVE-2025-38437 | ksmbd: fix potential use-after-free in oplock/lease break ack</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38437</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 25 Jul 2025 15:55:04 +0000</lastBuildDate><item><title>CVE-2025-3873 | Buffer overflow in Si91x crypto APIs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-3873</link><description>The following APIs for the Silcon Labs SiWx91x prior to vesion 3.4.0 failed to check the size of the output buffer of the caller which could lead to data corruption on the host (Cortex-M4) application.
+
+
+sl_si91x_aes
+sl_si91x_gcm
+sl_si91x_ccm 
+sl_si91x_sha</description><pubDate>Fri, 25 Jul 2025 15:55:05 +0000</pubDate></item><item><title>CVE-2025-38437 | ksmbd: fix potential use-after-free in oplock/lease break ack</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38437</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 ksmbd: fix potential use-after-free in oplock/lease break ack
 
@@ -50,7 +56,7 @@ CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00005be909dacff8 CR3: 0008000173408003 CR4: 0000000000f71ef0
 PKRU: 55555554
 Call Trace:
-&lt;IRQ&gt;
+
 ? show_regs+0x6d/0x80
 ? __warn+0x89/0x160
 ? __iommu_dma_unmap+0x159/0x170
@@ -89,7 +95,7 @@ BUG: kernel NULL pointer dereference, address: 0000000000000000
 RIP: 0010:net_dim+0x23/0x190
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  ? __die+0x20/0x60
  ? page_fault_oops+0x150/0x3e0
  ? common_interrupt+0xf/0xa0
@@ -156,9 +162,9 @@ boot:
 
 [   [13.2 mK  AOSAN: null-ptr-deref in range [0x0000000000000000-0x0000000000K0 0 0[07]
 [   13.017749] RIP: 0010:create_empty_buffers+0x3b/0x380
-&lt;snip&gt;
+
 [   13.025448] Call Trace:
-[   13.025692]  &lt;TASK&gt;
+[   13.025692]  
 [   13.025895]  block_read_full_folio+0x610/0x780
 [   13.026379]  ? __pfx_blkdev_get_block+0x10/0x10
 [   13.027008]  ? __folio_batch_add_and_move+0x1fa/0x2b0
@@ -170,7 +176,7 @@ boot:
 [   13.029962]  ? __pfx_blkdev_read_folio+0x10/0x10
 [   13.030381]  read_part_sector+0xb7/0x2a0
 [   13.030805]  read_lba+0x174/0x2c0
-&lt;snip&gt;
+
 [   13.045348]  nvme_scan_ns+0x684/0x850 [nvme_core]
 [   13.045858]  ? __pfx_nvme_scan_ns+0x10/0x10 [nvme_core]
 [   13.046414]  ? _raw_spin_unlock+0x15/0x40
@@ -198,7 +204,7 @@ CPU: 2 UID: 0 PID: 67 Comm: kworker/u33:0 Not tainted 6.15.0-rc5-syzkaller-00123
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Workqueue: nbd6-recv recv_work
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:408 [inline]
@@ -215,7 +221,7 @@ Call Trace:
  kthread+0x3c2/0x780 kernel/kthread.c:464
  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:153
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- &lt;/TASK&gt;
+ 
 
 nbd_genl_connect() does not properly stop the device on certain
 error paths after nbd_start_device() has been called. This causes
@@ -271,7 +277,7 @@ raid1_reshape()
 	// newpool is on the stack
 	mempool_t newpool, oldpool;
 	// initialize newpool.wait.head to stack address
-	mempool_init(&amp;newpool, ...);
+	mempool_init(&amp;amp;newpool, ...);
 	conf-&gt;r1bio_pool = newpool;
 }
 
@@ -297,7 +303,7 @@ mempool_free()
 		// wake_up() will try to access this invalid address
 		// which leads to a kernel panic
 		return;
-		wake_up(&amp;pool-&gt;wait);
+		wake_up(&amp;amp;pool-&gt;wait);
 	}
 }
 
@@ -377,7 +383,7 @@ during a page flip. An example is shown below.
 [...]
 [  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
 [  157.043420] Call Trace:
-[  157.045898]  &lt;TASK&gt;
+[  157.045898]  
 [  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
 [  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
 [  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
@@ -515,7 +521,7 @@ a request that has been freed:
 CPU: 1 UID: 0 PID: 19356 Comm: iou-wrk-19354 Not tainted 6.16.0-rc4-syzkaller-00108-g17bbde2e1716 #0 PREEMPT(full)
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:408 [inline]
  print_report+0xd2/0x2b0 mm/kasan/report.c:521
@@ -534,7 +540,7 @@ Call Trace:
  io_wq_worker+0x42f/0xeb0 io_uring/io-wq.c:696
  ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- &lt;/TASK&gt;
+ 
 
 which is supposed to be safe with how requests are allocated. But msg
 ring requests alloc and free on their own, and hence must defer freeing
@@ -592,7 +598,7 @@ NULL VMSA page in an SEV-ES VM, but any number of things can go wrong.
   DR0: 0000000000000000 DR1: 0000000000000b5f DR2: 0000000000000000
   DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
   Call Trace:
-   &lt;TASK&gt;
+   
    sev_free_vcpu+0x413/0x630 arch/x86/kvm/svm/sev.c:3169
    svm_vcpu_free+0x13a/0x2a0 arch/x86/kvm/svm/svm.c:1515
    kvm_arch_vcpu_destroy+0x6a/0x1d0 arch/x86/kvm/x86.c:12396
@@ -615,7 +621,7 @@ NULL VMSA page in an SEV-ES VM, but any number of things can go wrong.
    do_syscall_64+0x7c/0x150 arch/x86/entry/syscall_64.c:100
    entry_SYSCALL_64_after_hwframe+0x76/0x7e
   RIP: 0033:0x7f87a898e969
-   &lt;/TASK&gt;
+   
   Modules linked in: gq(O)
   gsmi: Log Shutdown Reason 0x03
   CR2: ffffebde00000000
@@ -630,7 +636,7 @@ bogus VMSA page.  Accessing P
 ipmi:msghandler: Fix potential memory corruption in ipmi_create_user()
 
 The "intf" list iterator is an invalid pointer if the correct
-"intf-&gt;intf_num" is not found.  Calling atomic_dec(&amp;intf-&gt;nr_users) on
+"intf-&gt;intf_num" is not found.  Calling atomic_dec(&amp;amp;intf-&gt;nr_users) on
 and invalid pointer will lead to memory corruption.
 
 We don't really need to call atomic_dec() if we haven't called
@@ -689,7 +695,7 @@ CR2: ffffffffffffffd6 CR3: 0000000041f1b000 CR4: 0000000000352ef0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  vcc_sendmsg+0xa10/0xc50 net/atm/common.c:644
  sock_sendmsg_nosec net/socket.c:712 [inline]
  __sock_sendmsg+0x219/0x270 net/socket.c:727
@@ -738,7 +744,7 @@ FS:  000055557ab6d500(0000) GS:ffff88808d250000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: ffffc9000d66fff8 CR3: 0000000043172000 CR4: 0000000000352ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  clip_push+0x6dc/0x720 net/atm/clip.c:200
  clip_push+0x6dc/0x720 net/atm/clip.c:200
  clip_push+0x6dc/0x720 net/atm/clip.c:200
@@ -767,7 +773,7 @@ RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
 RBP: 00007ff31cbb7ba0 R08: 0000000000000001 R09: 0000000db5aa226f
 R10: 00007ff31c7ff030 R11: 0000000000000246 R12: 00007ff31cbb608c
 R13: 00007ff31cbb6080 R14: ffffffffffffffff R15: 00007fffb5aa2090
- &lt;/TASK&gt;
+ 
 Modules linked in:</description><pubDate>Fri, 25 Jul 2025 15:42:55 +0000</pubDate></item><item><title>CVE-2025-38460 | atm: clip: Fix potential null-ptr-deref in to_atmarpd().</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38460</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 atm: clip: Fix potential null-ptr-deref in to_atmarpd().
@@ -957,8 +963,8 @@ netlink: Fix wraparounds of sk-&gt;sk_rmem_alloc.
 
 Netlink has this pattern in some places
 
-  if (atomic_read(&amp;sk-&gt;sk_rmem_alloc) &gt; sk-&gt;sk_rcvbuf)
-  	atomic_add(skb-&gt;truesize, &amp;sk-&gt;sk_rmem_alloc);
+  if (atomic_read(&amp;amp;sk-&gt;sk_rmem_alloc) &gt; sk-&gt;sk_rcvbuf)
+  	atomic_add(skb-&gt;truesize, &amp;amp;sk-&gt;sk_rmem_alloc);
 
 , which has the same problem fixed by commit 5a465a0da13e ("udp:
 Fix multiple wraparounds of sk-&gt;sk_rmem_alloc.").
