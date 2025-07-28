@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 28 Jul 2025 11:36:49 +0000</lastBuildDate><item><title>CVE-2025-5997 | Privilege Escalation in Beamsec PhishPro</title><link>https://www.cve.org/CVERecord?id=CVE-2025-5997</link><description>Incorrect Use of Privileged APIs vulnerability in Beamsec PhishPro allows Privilege Abuse.This issue affects PhishPro: before 7.5.4.2.</description><pubDate>Mon, 28 Jul 2025 11:36:51 +0000</pubDate></item><item><title>CVE-2025-38468 | net/sched: Return NULL when htb_lookup_leaf encounters an empty rbtree</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38468</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 28 Jul 2025 11:48:12 +0000</lastBuildDate><item><title>CVE-2025-8274 | Campcodes Online Recruitment Management System ajax.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8274</link><description>A vulnerability classified as critical was found in Campcodes Online Recruitment Management System 1.0. Affected by this vulnerability is an unknown functionality of the file /admin/ajax.php?action=save_recruitment_status. The manipulation of the argument ID leads to sql injection. The attack can be launched remotely. The exploit has been disclosed to the public and may be used.</description><pubDate>Mon, 28 Jul 2025 11:48:14 +0000</pubDate></item><item><title>CVE-2025-5997 | Privilege Escalation in Beamsec PhishPro</title><link>https://www.cve.org/CVERecord?id=CVE-2025-5997</link><description>Incorrect Use of Privileged APIs vulnerability in Beamsec PhishPro allows Privilege Abuse.This issue affects PhishPro: before 7.5.4.2.</description><pubDate>Mon, 28 Jul 2025 11:36:51 +0000</pubDate></item><item><title>CVE-2025-38468 | net/sched: Return NULL when htb_lookup_leaf encounters an empty rbtree</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38468</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/sched: Return NULL when htb_lookup_leaf encounters an empty rbtree
 
@@ -226,7 +226,7 @@ Theory is that we did hit following race:
 
 cpu x 			cpu y			cpu z
  found entry E		found entry E
- E is expired		&lt;preemption&gt;
+ E is expired		
  nf_ct_delete()
  return E to rcu slab
 					init_conntrack
@@ -252,7 +252,7 @@ expired but would skip E due to missing CONFIRMED bit.
 					to hashtable.
 
 cpu y resumes, it observes E as expired but CONFIRMED:
-			&lt;resumes&gt;
+			
 			nf_ct_expired()
 			 -&gt; yes (ct-&gt;timeout is 30s)
 			confirmed bit set.
@@ -275,8 +275,7 @@ cpu z still holds the table bucket lock(s) so y blocks:
 
 					unlocks spinlock
 					return NF_DROP
-			&lt;unblocks, then
-			 crashes on hlist_nulls_del_rcu pprev&gt;
+			
 
 In case CPU z does insert the entry into the hashtable, cpu y will unlink
 E again right away but no crash occurs.
@@ -473,7 +472,7 @@ Read of size 40 at addr ffff888122bf96d8 by task ping6/1543
 CPU: 50 UID: 0 PID: 1543 Comm: ping6 Not tainted 6.16.0-rc5-01302-gfadd1e6231b1 #23 PREEMPT(voluntary)
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 Call Trace:
- &lt;IRQ&gt;
+ 
  dump_stack_lvl (lib/dump_stack.c:122)
  print_report (mm/kasan/report.c:409 mm/kasan/report.c:521)
  kasan_report (mm/kasan/report.c:221 mm/kasan/report.c:636)
@@ -489,8 +488,8 @@ Call Trace:
  net_rx_action (net/core/dev.c:7518 net/core/dev.c:7643)
  handle_softirqs (kernel/softirq.c:579)
  do_softirq (kernel/softirq.c:480 (discriminator 20))
- &lt;/IRQ&gt;
- &lt;TASK&gt;
+ 
+ 
  __local_bh_enable_ip (kernel/softirq.c:407)
  __dev_queue_xmit (net/core/dev.c:4740)
  ip6_finish_output2 (./include/linux/netdevice.h:3358 ./include/net/neighbour.h:526 ./include/net/neighbour.h:540 net/ipv6/ip6_output.c:141)
@@ -510,7 +509,7 @@ RDX: 0000000000000040 RSI: 0000564cd69f10a4 RDI: 0000000000000003
 RBP: 00007ffefb7c53f0 R08: 0000564cd6a032ac R09: 000000000000001c
 R10: 0000000000000000 R11: 0000000000000202 R12: 0000564cd69f10a4
 R13: 0000000000000040 R14: 00007ffefb7c66e0 R15: 0000564cd69f10a0
- &lt;/TASK&gt;
+ 
 
 Allocated by task 1543:
  kasan_save_stack (mm/kasan/common.c:48)
@@ -731,7 +730,7 @@ use-after-free crashes:
 
   crypt_message()
     // Allocate the creq buffer containing the req
-    creq = smb2_get_aead_req(..., &amp;req);
+    creq = smb2_get_aead_req(..., &amp;amp;req);
 
     // Async encryption returns -EINPROGRESS immediately
     rc = enc ? crypto_aead_encrypt(req) : crypto_aead_decrypt(req);
@@ -780,8 +779,8 @@ code, double free pages cause kernel panic:
 
 [  876.949834]  __irq_exit_rcu+0xc7/0x130
 [  876.949836]  common_interrupt+0xb8/0xd0
-[  876.949838]  &lt;/IRQ&gt;
-[  876.949838]  &lt;TASK&gt;
+[  876.949838]  
+[  876.949838]  
 [  876.949840]  asm_common_interrupt+0x22/0x40
 [  876.949841] RIP: 0010:cpuidle_enter_state+0xc2/0x420
 [  876.949843] Code: 00 00 e8 d1 1d 5e ff e8 ac f0 ff ff 49 89 c5 0f 1f 44 00 00 31 ff e8 cd fc 5c ff 45 84 ff 0f 85 40 02 00 00 fb 0f 1f 44 00 00 &lt;45&gt; 85 f6 0f 88 84 01 00 00 49 63 d6 48 8d 04 52 48 8d 04 82 49 8d
@@ -798,7 +797,7 @@ code, double free pages cause kernel panic:
 [  876.949861]  cpu_startup_entry+0x25/0x30
 [  876.949862]  start_secondary+0x117/0x140
 [  876.949864]  common_startup_64+0x13e/0x148
-[  876.949867]  &lt;/TASK&gt;
+[  876.949867]  
 [  876.949868] ---[ end trace 0000000000000000 ]---
 [  876.949869] ------------[ cut here ]------------
 [  876.949870] list_del corruption, ffffead40445a348-&gt;next is NULL
@@ -841,7 +840,7 @@ Syzkaller reported the following splat:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 000000110c2800b7 CR3: 0000000058e44000 CR4: 0000000000350ef0
   Call Trace:
-   &lt;IRQ&gt;
+   
    tcp_reset+0x26f/0x2b0 net/ipv4/tcp_input.c:4432
    tcp_validate_incoming+0x1057/0x1b60 net/ipv4/tcp_input.c:5975
    tcp_rcv_established+0x5b5/0x21f0 net/ipv4/tcp_input.c:6166
@@ -865,8 +864,8 @@ Syzkaller reported the following splat:
    net_rx_action+0xb44/0x1010 net/core/dev.c:7644
    handle_softirqs+0x1d0/0x770 kernel/softirq.c:579
    do_softirq+0x3f/0x90 kernel/softirq.c:480
-   &lt;/IRQ&gt;
-   &lt;TASK&gt;
+   
+   
    __local_bh_enable_ip+0xed/0x110 kernel/softirq.c:407
    local_bh_enable include/linux/bottom_half.h:33 [inline]
    inet_csk_listen_stop+0x2c5/0x1070 net/ipv4/inet_connection_sock.c:1524
@@ -929,7 +928,7 @@ memcpy: detected buffer overflow: 88 byte write of buffer size 0
 WARNING: CPU: 2 PID: 8153 at lib/string_helpers.c:1032 __fortify_report+0x55/0xa0
 CPU: 2 UID: 0 PID: 8153 Comm: timerlatu/2 Kdump: loaded Not tainted 6.15.3-200.fc42.x86_64 #1 PREEMPT(lazy)
 Call Trace:
- &lt;TASK&gt;
+ 
  ? trace_buffer_lock_reserve+0x2a/0x60
  __fortify_panic+0xd/0xf
  __timerlat_dump_stack.cold+0xd/0xd
@@ -946,7 +945,7 @@ __timerlat_dump_stack() constructs the ftrace stack entry like this:
 
 struct stack_entry *entry;
 ...
-memcpy(&amp;entry-&gt;caller, fstack-&gt;calls, size);
+memcpy(&amp;amp;entry-&gt;caller, fstack-&gt;calls, size);
 entry-&gt;size = fstack-&gt;nr_entries;
 
 Since commit e7186af7fb26 ("tracing: Add back FORTIFY_SOURCE logic to
@@ -985,16 +984,16 @@ preempt_count: 201, expected: 0
 RCU nest depth: 0, expected: 0
 4 locks held by kworker/2:2/123:
  #0: ffff88800a2d1548 ((wq_completion)dm_bufio_cache){....}-{0:0}, at: process_one_work+0xe46/0x1970
- #1: ffffc90000d97d20 ((work_completion)(&amp;dm_bufio_replacement_work)){....}-{0:0}, at: process_one_work+0x763/0x1970
+ #1: ffffc90000d97d20 ((work_completion)(&amp;amp;dm_bufio_replacement_work)){....}-{0:0}, at: process_one_work+0x763/0x1970
  #2: ffffffff8555b528 (dm_bufio_clients_lock){....}-{3:3}, at: do_global_cleanup+0x1ce/0x710
- #3: ffff88801d5820b8 (&amp;c-&gt;spinlock){....}-{2:2}, at: do_global_cleanup+0x2a5/0x710
+ #3: ffff88801d5820b8 (&amp;amp;c-&gt;spinlock){....}-{2:2}, at: do_global_cleanup+0x2a5/0x710
 Preemption disabled at:
 [&lt;0000000000000000&gt;] 0x0
 CPU: 2 UID: 0 PID: 123 Comm: kworker/2:2 Not tainted 6.16.0-rc3-g90548c634bd0 #305 PREEMPT(voluntary)
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
 Workqueue: dm_bufio_cache do_global_cleanup
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x53/0x70
  __might_resched+0x360/0x4e0
  do_global_cleanup+0x2f5/0x710
@@ -1003,13 +1002,13 @@ Call Trace:
  kthread+0x359/0x690
  ret_from_fork+0xf3/0x1b0
  ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;
+ 
 
 That can be reproduced by:
 
   veritysetup format --data-block-size=4096 --hash-block-size=4096 /dev/vda /dev/vdb
   SIZE=$(blockdev --getsz /dev/vda)
-  dmsetup create myverity -r --table "0 $SIZE verity 1 /dev/vda /dev/vdb 4096 4096 &lt;data_blocks&gt; 1 sha256 &lt;root_hash&gt; &lt;salt&gt; 1 try_verify_in_tasklet"
+  dmsetup create myverity -r --table "0 $SIZE verity 1 /dev/vda /dev/vdb 4096 4096  1 sha256   1 try_verify_in_tasklet"
   mount /dev/dm-0 /mnt -o ro
   echo 102400 &gt; /sys/module/dm_bufio/parameters/max_cache_size_bytes
   [read files in /mnt]</description><pubDate>Mon, 28 Jul 2025 11:37:05 +0000</pubDate></item><item><title>CVE-2025-38497 | usb: gadget: configfs: Fix OOB read on empty string write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38497</link><description>In the Linux kernel, the following vulnerability has been resolved:
