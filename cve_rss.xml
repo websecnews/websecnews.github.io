@@ -1,5 +1,54 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 11:46:02 +0000</lastBuildDate><item><title>CVE-2025-38547 | iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38547</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 13:33:24 +0000</lastBuildDate><item><title>CVE-2023-32246 | ksmbd: call rcu_barrier() in ksmbd_server_exit()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-32246</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: call rcu_barrier() in ksmbd_server_exit()
+
+racy issue is triggered the bug by racing between closing a connection
+and rmmod. In ksmbd, rcu_barrier() is not called at module unload time,
+so nothing prevents ksmbd from getting unloaded while it still has RCU
+callbacks pending. It leads to trigger unintended execution of kernel
+code locally and use to defeat protections such as Kernel Lockdown</description><pubDate>Sat, 16 Aug 2025 13:33:26 +0000</pubDate></item><item><title>CVE-2023-32249 | ksmbd: not allow guest user on multichannel</title><link>https://www.cve.org/CVERecord?id=CVE-2023-32249</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: not allow guest user on multichannel
+
+This patch return STATUS_NOT_SUPPORTED if binding session is guest.</description><pubDate>Sat, 16 Aug 2025 13:33:26 +0000</pubDate></item><item><title>CVE-2023-3865 | ksmbd: fix out-of-bound read in smb2_write</title><link>https://www.cve.org/CVERecord?id=CVE-2023-3865</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix out-of-bound read in smb2_write
+
+ksmbd_smb2_check_message doesn't validate hdr-&gt;NextCommand. If
+-&gt;NextCommand is bigger than Offset + Length of smb2 write, It will
+allow oversized smb2 write length. It will cause OOB read in smb2_write.</description><pubDate>Sat, 16 Aug 2025 13:33:26 +0000</pubDate></item><item><title>CVE-2023-3866 | ksmbd: validate session id and tree id in the compound request</title><link>https://www.cve.org/CVERecord?id=CVE-2023-3866</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: validate session id and tree id in the compound request
+
+This patch validate session id and tree id in compound request.
+If first operation in the compound is SMB2 ECHO request, ksmbd bypass
+session and tree validation. So work-&gt;sess and work-&gt;tcon could be NULL.
+If secound request in the compound access work-&gt;sess or tcon, It cause
+NULL pointer dereferecing error.</description><pubDate>Sat, 16 Aug 2025 13:33:27 +0000</pubDate></item><item><title>CVE-2023-3867 | ksmbd: fix out of bounds read in smb2_sess_setup</title><link>https://www.cve.org/CVERecord?id=CVE-2023-3867</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix out of bounds read in smb2_sess_setup
+
+ksmbd does not consider the case of that smb2 session setup is
+in compound request. If this is the second payload of the compound,
+OOB read issue occurs while processing the first payload in
+the smb2_sess_setup().</description><pubDate>Sat, 16 Aug 2025 13:33:27 +0000</pubDate></item><item><title>CVE-2023-4130 | ksmbd: fix wrong next length validation of ea buffer in smb2_set_ea()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-4130</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix wrong next length validation of ea buffer in smb2_set_ea()
+
+There are multiple smb2_ea_info buffers in FILE_FULL_EA_INFORMATION request
+from client. ksmbd find next smb2_ea_info using -&gt;NextEntryOffset of
+current smb2_ea_info. ksmbd need to validate buffer length Before
+accessing the next ea. ksmbd should check buffer length using buf_len,
+not next variable. next is the start offset of current ea that got from
+previous ea.</description><pubDate>Sat, 16 Aug 2025 13:33:28 +0000</pubDate></item><item><title>CVE-2023-4515 | ksmbd: validate command request size</title><link>https://www.cve.org/CVERecord?id=CVE-2023-4515</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: validate command request size
+
+In commit 2b9b8f3b68ed ("ksmbd: validate command payload size"), except
+for SMB2_OPLOCK_BREAK_HE command, the request size of other commands
+is not checked, it's not expected. Fix it by add check for request
+size of other commands.</description><pubDate>Sat, 16 Aug 2025 13:33:28 +0000</pubDate></item><item><title>CVE-2025-38547 | iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38547</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps
 
