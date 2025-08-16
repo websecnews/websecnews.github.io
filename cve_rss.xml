@@ -1,5 +1,67 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 11:26:18 +0000</lastBuildDate><item><title>CVE-2025-38540 | HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38540</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 11:46:02 +0000</lastBuildDate><item><title>CVE-2025-38547 | iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38547</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: adc: axp20x_adc: Add missing sentinel to AXP717 ADC channel maps
+
+The AXP717 ADC channel maps is missing a sentinel entry at the end. This
+causes a KASAN warning.
+
+Add the missing sentinel entry.</description><pubDate>Sat, 16 Aug 2025 11:46:04 +0000</pubDate></item><item><title>CVE-2025-38548 | hwmon: (corsair-cpro) Validate the size of the received input buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38548</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+hwmon: (corsair-cpro) Validate the size of the received input buffer
+
+Add buffer_recv_size to store the size of the received bytes.
+Validate buffer_recv_size in send_usb_cmd().</description><pubDate>Sat, 16 Aug 2025 11:46:04 +0000</pubDate></item><item><title>CVE-2025-38549 | efivarfs: Fix memory leak of efivarfs_fs_info in fs_context error paths</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38549</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efivarfs: Fix memory leak of efivarfs_fs_info in fs_context error paths
+
+When processing mount options, efivarfs allocates efivarfs_fs_info (sfi)
+early in fs_context initialization. However, sfi is associated with the
+superblock and typically freed when the superblock is destroyed. If the
+fs_context is released (final put) before fill_super is called—such as
+on error paths or during reconfiguration—the sfi structure would leak,
+as ownership never transfers to the superblock.
+
+Implement the .free callback in efivarfs_context_ops to ensure any
+allocated sfi is properly freed if the fs_context is torn down before
+fill_super, preventing this memory leak.</description><pubDate>Sat, 16 Aug 2025 11:46:05 +0000</pubDate></item><item><title>CVE-2025-38550 | ipv6: mcast: Delay put pmc-&amp;gt;idev in mld_del_delrec()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38550</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv6: mcast: Delay put pmc-&gt;idev in mld_del_delrec()
+
+pmc-&gt;idev is still used in ip6_mc_clear_src(), so as mld_clear_delrec()
+does, the reference should be put after ip6_mc_clear_src() return.</description><pubDate>Sat, 16 Aug 2025 11:46:05 +0000</pubDate></item><item><title>CVE-2025-38551 | virtio-net: fix recursived rtnl_lock() during probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38551</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+virtio-net: fix recursived rtnl_lock() during probe()
+
+The deadlock appears in a stack trace like:
+
+  virtnet_probe()
+    rtnl_lock()
+    virtio_config_changed_work()
+      netdev_notify_peers()
+        rtnl_lock()
+
+It happens if the VMM sends a VIRTIO_NET_S_ANNOUNCE request while the
+virtio-net driver is still probing.
+
+The config_work in probe() will get scheduled until virtnet_open() enables
+the config change notification via virtio_config_driver_enable().</description><pubDate>Sat, 16 Aug 2025 11:46:05 +0000</pubDate></item><item><title>CVE-2025-38552 | mptcp: plug races between subflow fail and subflow creation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38552</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mptcp: plug races between subflow fail and subflow creation
+
+We have races similar to the one addressed by the previous patch between
+subflow failing and additional subflow creation. They are just harder to
+trigger.
+
+The solution is similar. Use a separate flag to track the condition
+'socket state prevent any additional subflow creation' protected by the
+fallback lock.
+
+The socket fallback makes such flag true, and also receiving or sending
+an MP_FAIL option.
+
+The field 'allow_infinite_fallback' is now always touched under the
+relevant lock, we can drop the ONCE annotation on write.</description><pubDate>Sat, 16 Aug 2025 11:46:06 +0000</pubDate></item><item><title>CVE-2025-38540 | HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38540</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras
 
@@ -112,7 +174,7 @@ then performed in copy_to_iter() oopsing with something like the following:
  RIP: 0010:usercopy_abort+0x6c/0x80
  ...
  Call Trace:
-  &lt;TASK&gt;
+  
   __check_heap_object+0xe3/0x120
   __check_object_size+0x4dc/0x6d0
   smbd_recv+0x77f/0xfe0 [cifs]
@@ -172,7 +234,7 @@ WARNING: CPU: 1 PID: 5544 at kernel/softirq.c:387 __local_bh_enable_ip+0x43/0xd0
 RIP: 0010:__local_bh_enable_ip+0x43/0xd0
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  rt_cache_route+0x7e/0xa0
  rt_set_nexthop.isra.0+0x3b3/0x3f0
  __mkroute_output+0x43a/0x460
@@ -225,12 +287,12 @@ use-after-free of the cinode structure when unmounting:
                     dispose_list()
                       evict()
                         destroy_inode()
-                          call_rcu(&amp;inode-&gt;i_rcu, i_callback)
-    spin_lock(&amp;cinode-&gt;open_file_lock)  &lt;- OK
+                          call_rcu(&amp;amp;inode-&gt;i_rcu, i_callback)
+    spin_lock(&amp;amp;cinode-&gt;open_file_lock)  &lt;- OK
                             [later] i_callback()
                               cifs_free_inode()
                                 kmem_cache_free(cinode)
-    spin_unlock(&amp;cinode-&gt;open_file_lock)  &lt;- UAF
+    spin_unlock(&amp;amp;cinode-&gt;open_file_lock)  &lt;- UAF
     cifs_done_oplock_break(cinode)       &lt;- UAF
 
 The issue occurs when umount has already released its reference to the
@@ -287,7 +349,7 @@ interrupts.</description><pubDate>Sat, 16 Aug 2025 11:26:27 +0000</pubDate></ite
 
 iio: common: st_sensors: Fix use of uninitialize device structs
 
-Throughout the various probe functions &amp;indio_dev-&gt;dev is used before it
+Throughout the various probe functions &amp;amp;indio_dev-&gt;dev is used before it
 is initialized. This caused a kernel panic in st_sensors_power_enable()
 when the call to devm_regulator_bulk_get_enable() fails and then calls
 dev_err_probe() with the uninitialized device.
@@ -324,7 +386,7 @@ malformed SKBs. Fix it to ensure a clean slate after device reset.
 [  549.186503] [     C16] CR2: 00007f77d81d6000 CR3: 000000051a032000 CR4: 0000000000750ef0
 [  549.186505] [     C16] PKRU: 55555554
 [  549.186507] [     C16] Call Trace:
-[  549.186510] [     C16]  &lt;IRQ&gt;
+[  549.186510] [     C16]  
 [  549.186513] [     C16]  ? srso_alias_return_thunk+0x5/0xfbef5
 [  549.186517] [     C16]  __skb_pad+0xc7/0xf0
 [  549.186523] [     C16]  wx_clean_rx_irq+0x355/0x3b0 [libwx]
@@ -339,8 +401,8 @@ malformed SKBs. Fix it to ensure a clean slate after device reset.
 [  549.186563] [     C16]  handle_softirqs+0xf9/0x2c0
 [  549.186568] [     C16]  __irq_exit_rcu+0xc7/0x130
 [  549.186572] [     C16]  common_interrupt+0xb8/0xd0
-[  549.186576] [     C16]  &lt;/IRQ&gt;
-[  549.186577] [     C16]  &lt;TASK&gt;
+[  549.186576] [     C16]  
+[  549.186577] [     C16]  
 [  549.186579] [     C16]  asm_common_interrupt+0x22/0x40
 [  549.186582] [     C16] RIP: 0010:cpuidle_enter_state+0xc2/0x420
 [  549.186585] [     C16] Code: 00 00 e8 11 0e 5e ff e8 ac f0 ff ff 49 89 c5 0f 1f 44 00 00 31 ff e8 0d ed 5c ff 45 84 ff 0f 85 40 02 00 00 fb 0f 1f 44 00 00 &lt;45&gt; 85 f6 0f 88 84 01 00 00 49 63 d6 48 8d 04 52 48 8d 04 82 49 8d
