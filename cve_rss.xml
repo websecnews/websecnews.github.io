@@ -1,5 +1,480 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 11:11:23 +0000</lastBuildDate><item><title>CVE-2025-38503 | btrfs: fix assertion when building free space tree</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38503</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 16 Aug 2025 11:26:18 +0000</lastBuildDate><item><title>CVE-2025-38540 | HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38540</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+HID: quirks: Add quirk for 2 Chicony Electronics HP 5MP Cameras
+
+The Chicony Electronics HP 5MP Cameras (USB ID 04F2:B824 &amp; 04F2:B82C)
+report a HID sensor interface that is not actually implemented.
+Attempting to access this non-functional sensor via iio_info causes
+system hangs as runtime PM tries to wake up an unresponsive sensor.
+
+Add these 2 devices to the HID ignore list since the sensor interface is
+non-functional by design and should not be exposed to userspace.</description><pubDate>Sat, 16 Aug 2025 11:26:20 +0000</pubDate></item><item><title>CVE-2025-38541 | wifi: mt76: mt7925: Fix null-ptr-deref in mt7925_thermal_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38541</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mt76: mt7925: Fix null-ptr-deref in mt7925_thermal_init()
+
+devm_kasprintf() returns NULL on error. Currently, mt7925_thermal_init()
+does not check for this case, which results in a NULL pointer
+dereference.
+
+Add NULL check after devm_kasprintf() to prevent this issue.</description><pubDate>Sat, 16 Aug 2025 11:26:20 +0000</pubDate></item><item><title>CVE-2025-38542 | net: appletalk: Fix device refcount leak in atrtr_create()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38542</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: appletalk: Fix device refcount leak in atrtr_create()
+
+When updating an existing route entry in atrtr_create(), the old device
+reference was not being released before assigning the new device,
+leading to a device refcount leak. Fix this by calling dev_put() to
+release the old device reference before holding the new one.</description><pubDate>Sat, 16 Aug 2025 11:26:21 +0000</pubDate></item><item><title>CVE-2025-38543 | drm/tegra: nvdec: Fix dma_alloc_coherent error check</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38543</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/tegra: nvdec: Fix dma_alloc_coherent error check
+
+Check for NULL return value with dma_alloc_coherent, in line with
+Robin's fix for vic.c in 'drm/tegra: vic: Fix DMA API misuse'.</description><pubDate>Sat, 16 Aug 2025 11:26:21 +0000</pubDate></item><item><title>CVE-2025-38544 | rxrpc: Fix bug due to prealloc collision</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38544</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rxrpc: Fix bug due to prealloc collision
+
+When userspace is using AF_RXRPC to provide a server, it has to preallocate
+incoming calls and assign to them call IDs that will be used to thread
+related recvmsg() and sendmsg() together.  The preallocated call IDs will
+automatically be attached to calls as they come in until the pool is empty.
+
+To the kernel, the call IDs are just arbitrary numbers, but userspace can
+use the call ID to hold a pointer to prepared structs.  In any case, the
+user isn't permitted to create two calls with the same call ID (call IDs
+become available again when the call ends) and EBADSLT should result from
+sendmsg() if an attempt is made to preallocate a call with an in-use call
+ID.
+
+However, the cleanup in the error handling will trigger both assertions in
+rxrpc_cleanup_call() because the call isn't marked complete and isn't
+marked as having been released.
+
+Fix this by setting the call state in rxrpc_service_prealloc_one() and then
+marking it as being released before calling the cleanup function.</description><pubDate>Sat, 16 Aug 2025 11:26:22 +0000</pubDate></item><item><title>CVE-2025-38545 | net: ethernet: ti: am65-cpsw-nuss: Fix skb size by accounting for skb_shared_info</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38545</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ethernet: ti: am65-cpsw-nuss: Fix skb size by accounting for skb_shared_info
+
+While transitioning from netdev_alloc_ip_align() to build_skb(), memory
+for the "skb_shared_info" member of an "skb" was not allocated. Fix this
+by allocating "PAGE_SIZE" as the skb length, accounting for the packet
+length, headroom and tailroom, thereby including the required memory space
+for skb_shared_info.</description><pubDate>Sat, 16 Aug 2025 11:26:22 +0000</pubDate></item><item><title>CVE-2025-38546 | atm: clip: Fix memory leak of struct clip_vcc.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38546</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+atm: clip: Fix memory leak of struct clip_vcc.
+
+ioctl(ATMARP_MKIP) allocates struct clip_vcc and set it to
+vcc-&gt;user_back.
+
+The code assumes that vcc_destroy_socket() passes NULL skb
+to vcc-&gt;push() when the socket is close()d, and then clip_push()
+frees clip_vcc.
+
+However, ioctl(ATMARPD_CTRL) sets NULL to vcc-&gt;push() in
+atm_init_atmarp(), resulting in memory leak.
+
+Let's serialise two ioctl() by lock_sock() and check vcc-&gt;push()
+in atm_init_atmarp() to prevent memleak.</description><pubDate>Sat, 16 Aug 2025 11:26:23 +0000</pubDate></item><item><title>CVE-2025-38522 | sched/ext: Prevent update_locked_rq() calls with NULL rq</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38522</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sched/ext: Prevent update_locked_rq() calls with NULL rq
+
+Avoid invoking update_locked_rq() when the runqueue (rq) pointer is NULL
+in the SCX_CALL_OP and SCX_CALL_OP_RET macros.
+
+Previously, calling update_locked_rq(NULL) with preemption enabled could
+trigger the following warning:
+
+    BUG: using __this_cpu_write() in preemptible [00000000]
+
+This happens because __this_cpu_write() is unsafe to use in preemptible
+context.
+
+rq is NULL when an ops invoked from an unlocked context. In such cases, we
+don't need to store any rq, since the value should already be NULL
+(unlocked). Ensure that update_locked_rq() is only called when rq is
+non-NULL, preventing calling __this_cpu_write() on preemptible context.</description><pubDate>Sat, 16 Aug 2025 11:26:24 +0000</pubDate></item><item><title>CVE-2025-38523 | cifs: Fix the smbd_response slab to allow usercopy</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38523</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cifs: Fix the smbd_response slab to allow usercopy
+
+The handling of received data in the smbdirect client code involves using
+copy_to_iter() to copy data from the smbd_reponse struct's packet trailer
+to a folioq buffer provided by netfslib that encapsulates a chunk of
+pagecache.
+
+If, however, CONFIG_HARDENED_USERCOPY=y, this will result in the checks
+then performed in copy_to_iter() oopsing with something like the following:
+
+ CIFS: Attempting to mount //172.31.9.1/test
+ CIFS: VFS: RDMA transport established
+ usercopy: Kernel memory exposure attempt detected from SLUB object 'smbd_response_0000000091e24ea1' (offset 81, size 63)!
+ ------------[ cut here ]------------
+ kernel BUG at mm/usercopy.c:102!
+ ...
+ RIP: 0010:usercopy_abort+0x6c/0x80
+ ...
+ Call Trace:
+  &lt;TASK&gt;
+  __check_heap_object+0xe3/0x120
+  __check_object_size+0x4dc/0x6d0
+  smbd_recv+0x77f/0xfe0 [cifs]
+  cifs_readv_from_socket+0x276/0x8f0 [cifs]
+  cifs_read_from_socket+0xcd/0x120 [cifs]
+  cifs_demultiplex_thread+0x7e9/0x2d50 [cifs]
+  kthread+0x396/0x830
+  ret_from_fork+0x2b8/0x3b0
+  ret_from_fork_asm+0x1a/0x30
+
+The problem is that the smbd_response slab's packet field isn't marked as
+being permitted for usercopy.
+
+Fix this by passing parameters to kmem_slab_create() to indicate that
+copy_to_iter() is permitted from the packet region of the smbd_response
+slab objects, less the header space.</description><pubDate>Sat, 16 Aug 2025 11:26:24 +0000</pubDate></item><item><title>CVE-2025-38524 | rxrpc: Fix recv-recv race of completed call</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38524</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rxrpc: Fix recv-recv race of completed call
+
+If a call receives an event (such as incoming data), the call gets placed
+on the socket's queue and a thread in recvmsg can be awakened to go and
+process it.  Once the thread has picked up the call off of the queue,
+further events will cause it to be requeued, and once the socket lock is
+dropped (recvmsg uses call-&gt;user_mutex to allow the socket to be used in
+parallel), a second thread can come in and its recvmsg can pop the call off
+the socket queue again.
+
+In such a case, the first thread will be receiving stuff from the call and
+the second thread will be blocked on call-&gt;user_mutex.  The first thread
+can, at this point, process both the event that it picked call for and the
+event that the second thread picked the call for and may see the call
+terminate - in which case the call will be "released", decoupling the call
+from the user call ID assigned to it (RXRPC_USER_CALL_ID in the control
+message).
+
+The first thread will return okay, but then the second thread will wake up
+holding the user_mutex and, if it sees that the call has been released by
+the first thread, it will BUG thusly:
+
+	kernel BUG at net/rxrpc/recvmsg.c:474!
+
+Fix this by just dequeuing the call and ignoring it if it is seen to be
+already released.  We can't tell userspace about it anyway as the user call
+ID has become stale.</description><pubDate>Sat, 16 Aug 2025 11:26:25 +0000</pubDate></item><item><title>CVE-2025-38525 | rxrpc: Fix irq-disabled in local_bh_enable()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38525</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rxrpc: Fix irq-disabled in local_bh_enable()
+
+The rxrpc_assess_MTU_size() function calls down into the IP layer to find
+out the MTU size for a route.  When accepting an incoming call, this is
+called from rxrpc_new_incoming_call() which holds interrupts disabled
+across the code that calls down to it.  Unfortunately, the IP layer uses
+local_bh_enable() which, config dependent, throws a warning if IRQs are
+enabled:
+
+WARNING: CPU: 1 PID: 5544 at kernel/softirq.c:387 __local_bh_enable_ip+0x43/0xd0
+...
+RIP: 0010:__local_bh_enable_ip+0x43/0xd0
+...
+Call Trace:
+ &lt;TASK&gt;
+ rt_cache_route+0x7e/0xa0
+ rt_set_nexthop.isra.0+0x3b3/0x3f0
+ __mkroute_output+0x43a/0x460
+ ip_route_output_key_hash+0xf7/0x140
+ ip_route_output_flow+0x1b/0x90
+ rxrpc_assess_MTU_size.isra.0+0x2a0/0x590
+ rxrpc_new_incoming_peer+0x46/0x120
+ rxrpc_alloc_incoming_call+0x1b1/0x400
+ rxrpc_new_incoming_call+0x1da/0x5e0
+ rxrpc_input_packet+0x827/0x900
+ rxrpc_io_thread+0x403/0xb60
+ kthread+0x2f7/0x310
+ ret_from_fork+0x2a/0x230
+ ret_from_fork_asm+0x1a/0x30
+...
+hardirqs last  enabled at (23): _raw_spin_unlock_irq+0x24/0x50
+hardirqs last disabled at (24): _raw_read_lock_irq+0x17/0x70
+softirqs last  enabled at (0): copy_process+0xc61/0x2730
+softirqs last disabled at (25): rt_add_uncached_list+0x3c/0x90
+
+Fix this by moving the call to rxrpc_assess_MTU_size() out of
+rxrpc_init_peer() and further up the stack where it can be done without
+interrupts disabled.
+
+It shouldn't be a problem for rxrpc_new_incoming_call() to do it after the
+locks are dropped as pmtud is going to be performed by the I/O thread - and
+we're in the I/O thread at this point.</description><pubDate>Sat, 16 Aug 2025 11:26:25 +0000</pubDate></item><item><title>CVE-2025-38526 | ice: add NULL check in eswitch lag check</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38526</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ice: add NULL check in eswitch lag check
+
+The function ice_lag_is_switchdev_running() is being called from outside of
+the LAG event handler code.  This results in the lag-&gt;upper_netdev being
+NULL sometimes.  To avoid a NULL-pointer dereference, there needs to be a
+check before it is dereferenced.</description><pubDate>Sat, 16 Aug 2025 11:26:25 +0000</pubDate></item><item><title>CVE-2025-38527 | smb: client: fix use-after-free in cifs_oplock_break</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38527</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: fix use-after-free in cifs_oplock_break
+
+A race condition can occur in cifs_oplock_break() leading to a
+use-after-free of the cinode structure when unmounting:
+
+  cifs_oplock_break()
+    _cifsFileInfo_put(cfile)
+      cifsFileInfo_put_final()
+        cifs_sb_deactive()
+          [last ref, start releasing sb]
+            kill_sb()
+              kill_anon_super()
+                generic_shutdown_super()
+                  evict_inodes()
+                    dispose_list()
+                      evict()
+                        destroy_inode()
+                          call_rcu(&amp;inode-&gt;i_rcu, i_callback)
+    spin_lock(&amp;cinode-&gt;open_file_lock)  &lt;- OK
+                            [later] i_callback()
+                              cifs_free_inode()
+                                kmem_cache_free(cinode)
+    spin_unlock(&amp;cinode-&gt;open_file_lock)  &lt;- UAF
+    cifs_done_oplock_break(cinode)       &lt;- UAF
+
+The issue occurs when umount has already released its reference to the
+superblock. When _cifsFileInfo_put() calls cifs_sb_deactive(), this
+releases the last reference, triggering the immediate cleanup of all
+inodes under RCU. However, cifs_oplock_break() continues to access the
+cinode after this point, resulting in use-after-free.
+
+Fix this by holding an extra reference to the superblock during the
+entire oplock break operation. This ensures that the superblock and
+its inodes remain valid until the oplock break completes.</description><pubDate>Sat, 16 Aug 2025 11:26:26 +0000</pubDate></item><item><title>CVE-2025-38528 | bpf: Reject %p% format string in bprintf-like helpers</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38528</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Reject %p% format string in bprintf-like helpers
+
+static const char fmt[] = "%p%";
+    bpf_trace_printk(fmt, sizeof(fmt));
+
+The above BPF program isn't rejected and causes a kernel warning at
+runtime:
+
+    Please remove unsupported %\x00 in format string
+    WARNING: CPU: 1 PID: 7244 at lib/vsprintf.c:2680 format_decode+0x49c/0x5d0
+
+This happens because bpf_bprintf_prepare skips over the second %,
+detected as punctuation, while processing %p. This patch fixes it by
+not skipping over punctuation. %\x00 is then processed in the next
+iteration and rejected.</description><pubDate>Sat, 16 Aug 2025 11:26:26 +0000</pubDate></item><item><title>CVE-2025-38529 | comedi: aio_iiro_16: Fix bit shift out of bounds</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38529</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: aio_iiro_16: Fix bit shift out of bounds
+
+When checking for a supported IRQ number, the following test is used:
+
+	if ((1 &lt;&lt; it-&gt;options[1]) &amp; 0xdcfc) {
+
+However, `it-&gt;options[i]` is an unchecked `int` value from userspace, so
+the shift amount could be negative or out of bounds.  Fix the test by
+requiring `it-&gt;options[1]` to be within bounds before proceeding with
+the original test.  Valid `it-&gt;options[1]` values that select the IRQ
+will be in the range [1,15]. The value 0 explicitly disables the use of
+interrupts.</description><pubDate>Sat, 16 Aug 2025 11:26:27 +0000</pubDate></item><item><title>CVE-2025-38530 | comedi: pcl812: Fix bit shift out of bounds</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38530</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: pcl812: Fix bit shift out of bounds
+
+When checking for a supported IRQ number, the following test is used:
+
+	if ((1 &lt;&lt; it-&gt;options[1]) &amp; board-&gt;irq_bits) {
+
+However, `it-&gt;options[i]` is an unchecked `int` value from userspace, so
+the shift amount could be negative or out of bounds.  Fix the test by
+requiring `it-&gt;options[1]` to be within bounds before proceeding with
+the original test.  Valid `it-&gt;options[1]` values that select the IRQ
+will be in the range [1,15]. The value 0 explicitly disables the use of
+interrupts.</description><pubDate>Sat, 16 Aug 2025 11:26:27 +0000</pubDate></item><item><title>CVE-2025-38531 | iio: common: st_sensors: Fix use of uninitialize device structs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38531</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: common: st_sensors: Fix use of uninitialize device structs
+
+Throughout the various probe functions &amp;indio_dev-&gt;dev is used before it
+is initialized. This caused a kernel panic in st_sensors_power_enable()
+when the call to devm_regulator_bulk_get_enable() fails and then calls
+dev_err_probe() with the uninitialized device.
+
+This seems to only cause a panic with dev_err_probe(), dev_err(),
+dev_warn() and dev_info() don't seem to cause a panic, but are fixed
+as well.
+
+The issue is reported and traced here: [1]</description><pubDate>Sat, 16 Aug 2025 11:26:28 +0000</pubDate></item><item><title>CVE-2025-38532 | net: libwx: properly reset Rx ring descriptor</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38532</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: libwx: properly reset Rx ring descriptor
+
+When device reset is triggered by feature changes such as toggling Rx
+VLAN offload, wx-&gt;do_reset() is called to reinitialize Rx rings. The
+hardware descriptor ring may retain stale values from previous sessions.
+And only set the length to 0 in rx_desc[0] would result in building
+malformed SKBs. Fix it to ensure a clean slate after device reset.
+
+[  549.186435] [     C16] ------------[ cut here ]------------
+[  549.186457] [     C16] kernel BUG at net/core/skbuff.c:2814!
+[  549.186468] [     C16] Oops: invalid opcode: 0000 [#1] SMP NOPTI
+[  549.186472] [     C16] CPU: 16 UID: 0 PID: 0 Comm: swapper/16 Kdump: loaded Not tainted 6.16.0-rc4+ #23 PREEMPT(voluntary)
+[  549.186476] [     C16] Hardware name: Micro-Star International Co., Ltd. MS-7E16/X670E GAMING PLUS WIFI (MS-7E16), BIOS 1.90 12/31/2024
+[  549.186478] [     C16] RIP: 0010:__pskb_pull_tail+0x3ff/0x510
+[  549.186484] [     C16] Code: 06 f0 ff 4f 34 74 7b 4d 8b 8c 24 c8 00 00 00 45 8b 84 24 c0 00 00 00 e9 c8 fd ff ff 48 c7 44 24 08 00 00 00 00 e9 5e fe ff ff &lt;0f&gt; 0b 31 c0 e9 23 90 5b ff 41 f7 c6 ff 0f 00 00 75 bf 49 8b 06 a8
+[  549.186487] [     C16] RSP: 0018:ffffb391c0640d70 EFLAGS: 00010282
+[  549.186490] [     C16] RAX: 00000000fffffff2 RBX: ffff8fe7e4d40200 RCX: 00000000fffffff2
+[  549.186492] [     C16] RDX: ffff8fe7c3a4bf8e RSI: 0000000000000180 RDI: ffff8fe7c3a4bf40
+[  549.186494] [     C16] RBP: ffffb391c0640da8 R08: ffff8fe7c3a4c0c0 R09: 000000000000000e
+[  549.186496] [     C16] R10: ffffb391c0640d88 R11: 000000000000000e R12: ffff8fe7e4d40200
+[  549.186497] [     C16] R13: 00000000fffffff2 R14: ffff8fe7fa01a000 R15: 00000000fffffff2
+[  549.186499] [     C16] FS:  0000000000000000(0000) GS:ffff8fef5ae40000(0000) knlGS:0000000000000000
+[  549.186502] [     C16] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  549.186503] [     C16] CR2: 00007f77d81d6000 CR3: 000000051a032000 CR4: 0000000000750ef0
+[  549.186505] [     C16] PKRU: 55555554
+[  549.186507] [     C16] Call Trace:
+[  549.186510] [     C16]  &lt;IRQ&gt;
+[  549.186513] [     C16]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  549.186517] [     C16]  __skb_pad+0xc7/0xf0
+[  549.186523] [     C16]  wx_clean_rx_irq+0x355/0x3b0 [libwx]
+[  549.186533] [     C16]  wx_poll+0x92/0x120 [libwx]
+[  549.186540] [     C16]  __napi_poll+0x28/0x190
+[  549.186544] [     C16]  net_rx_action+0x301/0x3f0
+[  549.186548] [     C16]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  549.186551] [     C16]  ? __raw_spin_lock_irqsave+0x1e/0x50
+[  549.186554] [     C16]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  549.186557] [     C16]  ? wake_up_nohz_cpu+0x35/0x160
+[  549.186559] [     C16]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  549.186563] [     C16]  handle_softirqs+0xf9/0x2c0
+[  549.186568] [     C16]  __irq_exit_rcu+0xc7/0x130
+[  549.186572] [     C16]  common_interrupt+0xb8/0xd0
+[  549.186576] [     C16]  &lt;/IRQ&gt;
+[  549.186577] [     C16]  &lt;TASK&gt;
+[  549.186579] [     C16]  asm_common_interrupt+0x22/0x40
+[  549.186582] [     C16] RIP: 0010:cpuidle_enter_state+0xc2/0x420
+[  549.186585] [     C16] Code: 00 00 e8 11 0e 5e ff e8 ac f0 ff ff 49 89 c5 0f 1f 44 00 00 31 ff e8 0d ed 5c ff 45 84 ff 0f 85 40 02 00 00 fb 0f 1f 44 00 00 &lt;45&gt; 85 f6 0f 88 84 01 00 00 49 63 d6 48 8d 04 52 48 8d 04 82 49 8d
+[  549.186587] [     C16] RSP: 0018:ffffb391c0277e78 EFLAGS: 00000246
+[  549.186590] [     C16] RAX: ffff8fef5ae40000 RBX: 0000000000000003 RCX: 0000000000000000
+[  549.186591] [     C16] RDX: 0000007fde0faac5 RSI: ffffffff826e53f6 RDI: ffffffff826fa9b3
+[  549.186593] [     C16] RBP: ffff8fe7c3a20800 R08: 0000000000000002 R09: 0000000000000000
+[  549.186595] [     C16] R10: 0000000000000000 R11: 000000000000ffff R12: ffffffff82ed7a40
+[  549.186596] [     C16] R13: 0000007fde0faac5 R14: 0000000000000003 R15: 0000000000000000
+[  549.186601] [     C16]  ? cpuidle_enter_state+0xb3/0x420
+[  549.186605] [     C16]  cpuidle_en
+---truncated---</description><pubDate>Sat, 16 Aug 2025 11:26:28 +0000</pubDate></item><item><title>CVE-2025-38533 | net: libwx: fix the using of Rx buffer DMA</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38533</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: libwx: fix the using of Rx buffer DMA
+
+The wx_rx_buffer structure contained two DMA address fields: 'dma' and
+'page_dma'. However, only 'page_dma' was actually initialized and used
+to program the Rx descriptor. But 'dma' was uninitialized and used in
+some paths.
+
+This could lead to undefined behavior, including DMA errors or
+use-after-free, if the uninitialized 'dma' was used. Althrough such
+error has not yet occurred, it is worth fixing in the code.</description><pubDate>Sat, 16 Aug 2025 11:26:29 +0000</pubDate></item><item><title>CVE-2025-38534 | netfs: Fix copy-to-cache so that it performs collection with ceph+fscache</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38534</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfs: Fix copy-to-cache so that it performs collection with ceph+fscache
+
+The netfs copy-to-cache that is used by Ceph with local caching sets up a
+new request to write data just read to the cache.  The request is started
+and then left to look after itself whilst the app continues.  The request
+gets notified by the backing fs upon completion of the async DIO write, but
+then tries to wake up the app because NETFS_RREQ_OFFLOAD_COLLECTION isn't
+set - but the app isn't waiting there, and so the request just hangs.
+
+Fix this by setting NETFS_RREQ_OFFLOAD_COLLECTION which causes the
+notification from the backing filesystem to put the collection onto a work
+queue instead.</description><pubDate>Sat, 16 Aug 2025 11:26:29 +0000</pubDate></item><item><title>CVE-2025-38535 | phy: tegra: xusb: Fix unbalanced regulator disable in UTMI PHY mode</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38535</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+phy: tegra: xusb: Fix unbalanced regulator disable in UTMI PHY mode
+
+When transitioning from USB_ROLE_DEVICE to USB_ROLE_NONE, the code
+assumed that the regulator should be disabled. However, if the regulator
+is marked as always-on, regulator_is_enabled() continues to return true,
+leading to an incorrect attempt to disable a regulator which is not
+enabled.
+
+This can result in warnings such as:
+
+[  250.155624] WARNING: CPU: 1 PID: 7326 at drivers/regulator/core.c:3004
+_regulator_disable+0xe4/0x1a0
+[  250.155652] unbalanced disables for VIN_SYS_5V0
+
+To fix this, we move the regulator control logic into
+tegra186_xusb_padctl_id_override() function since it's directly related
+to the ID override state. The regulator is now only disabled when the role
+transitions from USB_ROLE_HOST to USB_ROLE_NONE, by checking the VBUS_ID
+register. This ensures that regulator enable/disable operations are
+properly balanced and only occur when actually transitioning to/from host
+mode.</description><pubDate>Sat, 16 Aug 2025 11:26:30 +0000</pubDate></item><item><title>CVE-2025-38536 | net: airoha: fix potential use-after-free in airoha_npu_get()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38536</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: airoha: fix potential use-after-free in airoha_npu_get()
+
+np-&gt;name was being used after calling of_node_put(np), which
+releases the node and can lead to a use-after-free bug.
+Previously, of_node_put(np) was called unconditionally after
+of_find_device_by_node(np), which could result in a use-after-free if
+pdev is NULL.
+
+This patch moves of_node_put(np) after the error check to ensure
+the node is only released after both the error and success cases
+are handled appropriately, preventing potential resource issues.</description><pubDate>Sat, 16 Aug 2025 11:26:30 +0000</pubDate></item><item><title>CVE-2025-38537 | net: phy: Don&amp;#x27;t register LEDs for genphy</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38537</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: phy: Don't register LEDs for genphy
+
+If a PHY has no driver, the genphy driver is probed/removed directly in
+phy_attach/detach. If the PHY's ofnode has an "leds" subnode, then the
+LEDs will be (un)registered when probing/removing the genphy driver.
+This could occur if the leds are for a non-generic driver that isn't
+loaded for whatever reason. Synchronously removing the PHY device in
+phy_detach leads to the following deadlock:
+
+rtnl_lock()
+ndo_close()
+    ...
+    phy_detach()
+        phy_remove()
+            phy_leds_unregister()
+                led_classdev_unregister()
+                    led_trigger_set()
+                        netdev_trigger_deactivate()
+                            unregister_netdevice_notifier()
+                                rtnl_lock()
+
+There is a corresponding deadlock on the open/register side of things
+(and that one is reported by lockdep), but it requires a race while this
+one is deterministic.
+
+Generic PHYs do not support LEDs anyway, so don't bother registering
+them.</description><pubDate>Sat, 16 Aug 2025 11:26:30 +0000</pubDate></item><item><title>CVE-2025-38538 | dmaengine: nbpfaxi: Fix memory corruption in probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38538</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: nbpfaxi: Fix memory corruption in probe()
+
+The nbpf-&gt;chan[] array is allocated earlier in the nbpf_probe() function
+and it has "num_channels" elements.  These three loops iterate one
+element farther than they should and corrupt memory.
+
+The changes to the second loop are more involved.  In this case, we're
+copying data from the irqbuf[] array into the nbpf-&gt;chan[] array.  If
+the data in irqbuf[i] is the error IRQ then we skip it, so the iterators
+are not in sync.  I added a check to ensure that we don't go beyond the
+end of the irqbuf[] array.  I'm pretty sure this can't happen, but it
+seemed harmless to add a check.
+
+On the other hand, after the loop has ended there is a check to ensure
+that the "chan" iterator is where we expect it to be.  In the original
+code we went one element beyond the end of the array so the iterator
+wasn't in the correct place and it would always return -EINVAL.  However,
+now it will always be in the correct place.  I deleted the check since
+we know the result.</description><pubDate>Sat, 16 Aug 2025 11:26:31 +0000</pubDate></item><item><title>CVE-2025-38539 | tracing: Add down_write(trace_event_sem) when adding trace event</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38539</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing: Add down_write(trace_event_sem) when adding trace event
+
+When a module is loaded, it adds trace events defined by the module. It
+may also need to modify the modules trace printk formats to replace enum
+names with their values.
+
+If two modules are loaded at the same time, the adding of the event to the
+ftrace_events list can corrupt the walking of the list in the code that is
+modifying the printk format strings and crash the kernel.
+
+The addition of the event should take the trace_event_sem for write while
+it adds the new event.
+
+Also add a lockdep_assert_held() on that semaphore in
+__trace_add_event_dirs() as it iterates the list.</description><pubDate>Sat, 16 Aug 2025 11:26:31 +0000</pubDate></item><item><title>CVE-2025-8105 | Soledad &amp;lt;= 8.6.7 - Unauthenticated Arbitrary Shortcode Execution</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8105</link><description>The The Soledad theme for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 8.6.7. This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode. This makes it possible for unauthenticated attackers to execute arbitrary shortcodes.</description><pubDate>Sat, 16 Aug 2025 11:26:32 +0000</pubDate></item><item><title>CVE-2025-8142 | Soledad &amp;lt;= 8.6.7 - Authenticated (Contributor+) Local File Inclusion via &amp;#x27;header_layout&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8142</link><description>The Soledad theme for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 8.6.7 via the 'header_layout' parameter. This makes it possible for authenticated attackers, with Contributor-level access and above, to include and execute arbitrary .php files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where .php file types can be uploaded and included.</description><pubDate>Sat, 16 Aug 2025 11:26:32 +0000</pubDate></item><item><title>CVE-2025-8143 | Soledad &amp;lt;= 8.6.7 - Authenticated (Contributor+) Stored Cross-Site Scripting via &amp;#x27;pcsml_smartlists_h&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8143</link><description>The Soledad theme for WordPress is vulnerable to Stored Cross-Site Scripting via the ‘pcsml_smartlists_h’ parameter in all versions up to, and including, 8.6.7 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Sat, 16 Aug 2025 11:26:33 +0000</pubDate></item><item><title>CVE-2025-8878 | Paid Membership Plugin, Ecommerce, User Registration Form, Login Form, User Profile &amp;amp; Restrict Content  – ProfilePress &amp;lt;= 4.16.4 - Unauthenticated Arbitrary Shortcode Execution</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8878</link><description>The The Paid Membership Plugin, Ecommerce, User Registration Form, Login Form, User Profile &amp; Restrict Content – ProfilePress plugin for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 4.16.4. This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode. This makes it possible for unauthenticated attackers to execute arbitrary shortcodes.</description><pubDate>Sat, 16 Aug 2025 11:26:33 +0000</pubDate></item><item><title>CVE-2025-38503 | btrfs: fix assertion when building free space tree</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38503</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 btrfs: fix assertion when building free space tree
 
@@ -152,7 +627,7 @@ CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f015c70fb18 CR3: 00000001109fd006 CR4: 0000000000f70ef0
 PKRU: 55555554
 Call Trace:
- &lt;TASK&gt;
+ 
  xas_store+0x58/0x630
  __xa_store+0xa5/0x130
  xa_store+0x2c/0x50
@@ -244,18 +719,18 @@ called to reports vm area information, kasan can trigger deadlock like:
 CPU0                                CPU1
 vmalloc();
  alloc_vmap_area();
-  spin_lock(&amp;vn-&gt;busy.lock)
-                                    spin_lock_bh(&amp;some_lock);
-   &lt;interrupt occurs&gt;
-   &lt;in softirq&gt;
-   spin_lock(&amp;some_lock);
-                                    &lt;access invalid address&gt;
+  spin_lock(&amp;amp;vn-&gt;busy.lock)
+                                    spin_lock_bh(&amp;amp;some_lock);
+   
+   
+   spin_lock(&amp;amp;some_lock);
+                                    
                                     kasan_report();
                                      print_report();
                                       print_address_description();
                                        kasan_find_vm_area();
                                         find_vm_area();
-                                         spin_lock(&amp;vn-&gt;busy.lock) // deadlock!
+                                         spin_lock(&amp;amp;vn-&gt;busy.lock) // deadlock!
 
 To prevent possible deadlock while kasan reports, remove kasan_find_vm_area().</description><pubDate>Sat, 16 Aug 2025 11:11:28 +0000</pubDate></item><item><title>CVE-2025-38511 | drm/xe/pf: Clear all LMTT pages on alloc</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38511</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -316,14 +791,11 @@ zd_mac_tx_to_dev()
   while (len &gt; ZD_MAC_MAX_ACK_WAITERS) {
 
 					  filter_ack()
-					    spin_lock_irqsave(&amp;q-&gt;lock, flags);
+					    spin_lock_irqsave(&amp;amp;q-&gt;lock, flags);
 					    /* position == skb_queue_len(q) */
-					    for (i=1; i&lt;position; i++)
-				    	      skb = __skb_dequeue(q)
-
-					    if (mac-&gt;type == NL80211_IFTYPE_AP)
+					    for (i=1; itype == NL80211_IFTYPE_AP)
 					      skb = __skb_dequeue(q);
-					    spin_unlock_irqrestore(&amp;q-&gt;lock, flags);
+					    spin_unlock_irqrestore(&amp;amp;q-&gt;lock, flags);
 
     skb_dequeue() -&gt; NULL
 
@@ -411,7 +883,7 @@ acquire a non-existent semaphore:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f963f5edf71 CR3: 000000010672c000 CR4: 0000000000350ef0
   Call Trace:
-   &lt;TASK&gt;
+   
    codetag_trylock_module_list+0xd/0x20
    alloc_tag_top_users+0x369/0x4b0
    __show_mem+0x1cd/0x6e0
@@ -421,7 +893,7 @@ acquire a non-existent semaphore:
    alloc_slab_page+0x82/0xe0
    new_slab+0x212/0x240
    ___slab_alloc+0x82a/0xe00
-   &lt;/TASK&gt;
+   
 
 As David Wang points out, this issue became easier to trigger after commit
 780138b12381 ("alloc_tag: check mem_profiling_support in alloc_tag_init").
