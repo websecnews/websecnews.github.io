@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 19 Aug 2025 17:15:21 +0000</lastBuildDate><item><title>CVE-2025-38554 | mm: fix a UAF when vma-&amp;gt;mm is freed after vma-&amp;gt;vm_refcnt got dropped</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38554</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 19 Aug 2025 17:45:34 +0000</lastBuildDate><item><title>CVE-2025-55294 | Command Injection via `format` option in screenshot-desktop</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55294</link><description>screenshot-desktop allows capturing a screenshot of your local machine. This vulnerability is a command injection issue. When user-controlled input is passed into the format option of the screenshot function, it is interpolated into a shell command without sanitization. This results in arbitrary command execution with the privileges of the calling process. This vulnerability is fixed in 1.15.2.</description><pubDate>Tue, 19 Aug 2025 17:45:36 +0000</pubDate></item><item><title>CVE-2025-9149 | Wavlink WL-NU516U1 wireless.cgi sub_4032E4 command injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9149</link><description>A vulnerability was determined in Wavlink WL-NU516U1 M16U1_V240425. This impacts the function sub_4032E4 of the file /cgi-bin/wireless.cgi. This manipulation of the argument Guest_ssid causes command injection. The attack is possible to be carried out remotely. The exploit has been publicly disclosed and may be utilized.</description><pubDate>Tue, 19 Aug 2025 17:45:36 +0000</pubDate></item><item><title>CVE-2025-9150 | Surbowl dormitory-management-php violation_add.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9150</link><description>A vulnerability was identified in Surbowl dormitory-management-php up to 9f1d9d1f528cabffc66fda3652c56ff327fda317. Affected is an unknown function of the file /admin/violation_add.php?id=2. Such manipulation of the argument ID leads to sql injection. The attack may be performed from a remote location. The exploit is publicly available and might be used. This product utilizes a rolling release system for continuous delivery, and as such, version information for affected or updated releases is not disclosed. This vulnerability only affects products that are no longer supported by the maintainer.</description><pubDate>Tue, 19 Aug 2025 17:45:36 +0000</pubDate></item><item><title>CVE-2025-38554 | mm: fix a UAF when vma-&amp;gt;mm is freed after vma-&amp;gt;vm_refcnt got dropped</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38554</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mm: fix a UAF when vma-&gt;mm is freed after vma-&gt;vm_refcnt got dropped
 
@@ -27,9 +27,9 @@ T1         T2         T3
 ==         ==         ==
 lock_vma_under_rcu
   mas_walk
-          &lt;VMA gets removed from mm&gt;
+          
                       mmap
-                        &lt;the same VMA is reallocated&gt;
+                        
   vma_start_read
     __refcount_inc_not_zero_limited_acquire
                       munmap
@@ -39,7 +39,7 @@ lock_vma_under_rcu
     vma_refcount_put
       __refcount_dec_and_test
                           rcuwait_wait_event
-                            &lt;finish operation&gt;
+                            
       rcuwait_wake_up [UAF]
 
 Note that rcuwait_wait_event() in T3 does not block because refcount was
@@ -138,7 +138,7 @@ NULL pointer and crashes:
   [   15.165691] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
   [   15.165691] RIP: 0010:apple_magic_backlight_report_set+0xbf/0x210
   [   15.165691] Call Trace:
-  [   15.165691]  &lt;TASK&gt;
+  [   15.165691]  
   [   15.165691]  apple_probe+0x571/0xa20
   [   15.165691]  hid_device_probe+0x2e2/0x6f0
   [   15.165691]  really_probe+0x1ca/0x5c0
@@ -235,7 +235,7 @@ Oops: Oops: 0000 [#1] SMP NOPTI
 RIP: 0010:intel_pmt_read+0x3b/0x70 [pmt_class]
 Code:
 Call Trace:
- &lt;TASK&gt;
+ 
  ? sysfs_kf_bin_read+0xc0/0xe0
  kernfs_fop_read_iter+0xac/0x1a0
  vfs_read+0x26d/0x350
@@ -362,7 +362,7 @@ One of them will fail to store (using xchg()) the file reference in
 *pnf and will drop that reference but WON'T drop the accompanying
 reference to the net.  This leak means that when the nfs server is shut
 down it will hang in nfsd_shutdown_net() waiting for
-&amp;nn-&gt;nfsd_net_free_done.
+&amp;amp;nn-&gt;nfsd_net_free_done.
 
 This patch adds the missing nfsd_net_put().</description><pubDate>Tue, 19 Aug 2025 17:15:28 +0000</pubDate></item><item><title>CVE-2025-38568 | net/sched: mqprio: fix stack out-of-bounds write in tc entry parsing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38568</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -386,7 +386,7 @@ benet crashes as soon as SRIOV VFs are created:
  RIP: 0010:vunmap+0x5f/0x70
  [...]
  Call Trace:
-  &lt;TASK&gt;
+  
   __iommu_dma_free+0xe8/0x1c0
   be_cmd_set_mac_list+0x3fe/0x640 [be2net]
   be_cmd_set_mac+0xaf/0x110 [be2net]
@@ -444,7 +444,7 @@ Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 0
  RIP: 0010:skb_reset_transport_header include/linux/skbuff.h:3032 [inline]
  RIP: 0010:ipv6_gso_segment+0x15e2/0x21e0 net/ipv6/ip6_offload.c:151
 Call Trace:
- &lt;TASK&gt;
+ 
   skb_mac_gso_segment+0x31c/0x640 net/core/gso.c:53
   nsh_gso_segment+0x54a/0xe10 net/nsh/nsh.c:110
   skb_mac_gso_segment+0x31c/0x640 net/core/gso.c:53
@@ -494,12 +494,12 @@ Multiple race conditions existed between the PCIe hotplug driver and the
 EEH driver, leading to a variety of kernel oopses of the same general
 nature:
 
-&lt;pcie device unplug&gt;
-&lt;eeh driver trigger&gt;
-&lt;hotplug removal trigger&gt;
-&lt;pcie tree reconfiguration&gt;
-&lt;eeh recovery next step&gt;
-&lt;oops in EEH driver bus iteration loop&gt;
+
+
+
+
+
+
 
 A second class of oops is also seen when the underlying bus disappears
 during device recovery.
@@ -513,7 +513,7 @@ As syzbot [1] reported as below:
 
 R10: 0000000000000100 R11: 0000000000000206 R12: 00007ffe17473450
 R13: 00007f28b1c10854 R14: 000000000000dae5 R15: 00007ffe17474520
- &lt;/TASK&gt;
+ 
 ---[ end trace 0000000000000000 ]---
 ==================================================================
 BUG: KASAN: use-after-free in __list_del_entry_valid+0xa6/0x130 lib/list_debug.c:62
@@ -522,7 +522,7 @@ Read of size 8 at addr ffff88812d962278 by task syz-executor/564
 CPU: 1 PID: 564 Comm: syz-executor Tainted: G        W          6.1.129-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack+0x21/0x24 lib/dump_stack.c:88
  dump_stack_lvl+0xee/0x158 lib/dump_stack.c:106
  print_address_description+0x71/0x210 mm/kasan/report.c:316
@@ -567,7 +567,7 @@ RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000001
 RBP: 0000000000000002 R08: 00007ffe1746ee47 R09: 00007ffe17472360
 R10: 0000000000000009 R11: 0000000000000246 R12: 00007ffe17472360
 R13: 00007f28b1c10854 R14: 000000000000dae5 R15: 00007ffe17474520
- &lt;/TASK&gt;
+ 
 
 Allocated by task 569:
  kasan_save_stack mm/kasan/common.c:45 [inline]
@@ -595,7 +595,7 @@ f2fs: fix to avoid UAF in f2fs_sync_inode_meta()
 
 syzbot reported an UAF issue as below: [1] [2]
 
-[1] https://syzkaller.appspot.com/text?tag=CrashReport&amp;x=16594c60580000
+[1] https://syzkaller.appspot.com/text?tag=CrashReport&amp;amp;x=16594c60580000
 
 ==================================================================
 BUG: KASAN: use-after-free in __list_del_entry_valid+0xa6/0x130 lib/list_debug.c:62
@@ -605,7 +605,7 @@ CPU: 1 PID: 8 Comm: kworker/u4:0 Tainted: G        W          6.1.129-syzkaller-
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
 Workqueue: writeback wb_workfn (flush-7:0)
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0x151/0x1b7 lib/dump_stack.c:106
  print_address_description mm/kasan/report.c:316 [inline]
@@ -631,7 +631,7 @@ Call Trace:
  worker_thread+0xa60/0x1260 kernel/workqueue.c:2446
  kthread+0x26d/0x300 kernel/kthread.c:386
  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
- &lt;/TASK&gt;
+ 
 
 Allocated by task 298:
  kasan_save_stack mm/kasan/common.c:45 [inline]
@@ -727,7 +727,7 @@ $ echo '0000:0a:00.2' &gt; /sys/bus/pci/drivers/ccp/bind
 [  204.981317] Oops: Oops: 0002 [#1] SMP NOPTI
 ...
 [  204.997852] Call Trace:
-[  204.999074]  &lt;TASK&gt;
+[  204.999074]  
 [  205.000297]  start_creating+0x9f/0x1c0
 [  205.001533]  debugfs_create_dir+0x1f/0x170
 [  205.002769]  ? srso_return_thunk+0x5/0x5f
@@ -847,7 +847,7 @@ a stack buffer overflow:
 
 The caller gmin_get_var_int() then performs:
 - Allocates val[CFG_VAR_NAME_MAX + 1] (65 bytes) on stack
-- Calls gmin_get_config_var(dev, is_gmin, var, val, &amp;len) with len=64
+- Calls gmin_get_config_var(dev, is_gmin, var, val, &amp;amp;len) with len=64
 - If EFI variable is &gt;64 bytes, efi.get_variable() sets len=required_size
 - Due to bug #1, thinks call succeeded with len=required_size
 - Executes val[len] = 0, writing past end of 65-byte stack buffer
@@ -893,9 +893,9 @@ ipv6: prevent infinite loop in rt6_nlmsg_size()
 While testing prior patch, I was able to trigger
 an infinite loop in rt6_nlmsg_size() in the following place:
 
-list_for_each_entry_rcu(sibling, &amp;f6i-&gt;fib6_siblings,
+list_for_each_entry_rcu(sibling, &amp;amp;f6i-&gt;fib6_siblings,
 			fib6_siblings) {
-	rt6_nh_nlmsg_size(sibling-&gt;fib6_nh, &amp;nexthop_len);
+	rt6_nh_nlmsg_size(sibling-&gt;fib6_nh, &amp;amp;nexthop_len);
 }
 
 This is because fib6_del_route() and fib6_add_rt2node()
@@ -942,7 +942,7 @@ CR2: 00007f575db40008 CR3: 00000002bf936000 CR4: 00000000000406f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  __neigh_ifdown.llvm.6395807810224103582+0x44/0x390
  neigh_table_clear+0xb1/0x268
  ndisc_cleanup+0x21/0x38 [ipv6]
@@ -963,7 +963,7 @@ RDX: 0000000000000000 RSI: 00007f575d584efd RDI: 0000000000000004
 RBP: 00007f575d584efd R08: 0000000000000000 R09: 0000557827b47b00
 R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000020000
 R13: 0000000000000000 R14: 0000557827b470e0 R15: 00007f575dbb4270
- &lt;/TASK&gt;
+ 
 Modules linked in: ipv6(+)</description><pubDate>Tue, 19 Aug 2025 17:15:36 +0000</pubDate></item><item><title>CVE-2025-38590 | net/mlx5e: Remove skb secpath if xfrm state is not found</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38590</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/mlx5e: Remove skb secpath if xfrm state is not found
@@ -1007,7 +1007,7 @@ zero-length secpath.
  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
  Call Trace:
-  &lt;IRQ&gt;
+  
   ? try_to_wake_up+0x108/0x4c0
   ? udp4_lib_lookup2+0xbe/0x150
   ? udp_lib_lport_inuse+0x100/0x100
@@ -1037,8 +1037,7 @@ zero-length secpath.
   ? notifier_call_chain+0x33/0xa0
   handle_softirqs+0xda/0x250
   irq_exit_rcu+0x6d/0xc0
-  common_interrupt+0x81/0xa0
-  &lt;/IRQ&gt;</description><pubDate>Tue, 19 Aug 2025 17:15:36 +0000</pubDate></item><item><title>CVE-2025-38591 | bpf: Reject narrower access to pointer ctx fields</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38591</link><description>In the Linux kernel, the following vulnerability has been resolved:
+  common_interrupt+0x81/0xa0</description><pubDate>Tue, 19 Aug 2025 17:15:36 +0000</pubDate></item><item><title>CVE-2025-38591 | bpf: Reject narrower access to pointer ctx fields</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38591</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bpf: Reject narrower access to pointer ctx fields
 
@@ -1104,7 +1103,7 @@ A crash report from syzbot illustrates this:
     Google 02/12/2025
     Workqueue: hci0 hci_devcd_timeout
     Call Trace:
-     &lt;TASK&gt;
+     
      __dump_stack lib/dump_stack.c:94 [inline]
      dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
      print_address_description mm/kasan/report.c:408 [inline]
@@ -1122,7 +1121,7 @@ A crash report from syzbot illustrates this:
      kthread+0x3c2/0x780 kernel/kthread.c:464
      ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:153
      ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-     &lt;/TASK&gt;
+     
 
     The buggy address ffffc90004ed5000 belongs to a vmalloc virtual mapping
     Memory state around the buggy address:
@@ -1206,7 +1205,7 @@ eventually a kernel panic with a kernel trace similar to the following:
  WARNING: CPU: 3 PID: 313 at lib/refcount.c:28 refcount_warn_saturate+0xd8/0xe0
  Workqueue: iopf_queue/dmar0-iopfq iommu_sva_handle_iopf
  Call Trace:
-   &lt;TASK&gt;
+   
    iopf_free_group+0xe/0x20
    process_one_work+0x197/0x3d0
    worker_thread+0x23a/0x350
@@ -1218,7 +1217,7 @@ eventually a kernel panic with a kernel trace similar to the following:
    ret_from_fork+0x13b/0x170
    ? kthreads_online_cpu+0x110/0x110
    ret_from_fork_asm+0x11/0x20
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---
 
 The intel_pasid_tear_down_entry() function is responsible for blocking
@@ -1290,7 +1289,7 @@ drm/amdgpu: fix use-after-free in amdgpu_userq_suspend+0x51a/0x5a0
 [  +0.000009] Tainted: [W]=WARN
 [  +0.000003] Hardware name: ASUS System Product Name/ROG STRIX B550-F GAMING (WI-FI), BIOS 1401 12/03/2020
 [  +0.000004] Call Trace:
-[  +0.000004]  &lt;TASK&gt;
+[  +0.000004]  
 [  +0.000003]  dump_stack_lvl+0x76/0xa0
 [  +0.000011]  print_report+0xce/0x600
 [  +0.000009]  ? srso_return_thunk+0x5/0x5f
@@ -1425,7 +1424,7 @@ following circumstances:
  Oops: 0000 [#1] PREEMPT SMP NOPTI
  RIP: 0010:ath11k_hal_dump_srng_stats+0x2b4/0x3b0 [ath11k]
  Call Trace:
- &lt;TASK&gt;
+ 
  ? __die_body+0xae/0xb0
  ? page_fault_oops+0x381/0x3e0
  ? exc_page_fault+0x69/0xa0
@@ -1472,7 +1471,7 @@ This change eliminates the use-after-free and improves consistency in resource m
 [  +0.000026] CPU: 3 UID: 0 PID: 1737 Comm: amd_pci_unplug Not tainted 6.14.0+ #2
 [  +0.000008] Hardware name: ASUS System Product Name/ROG STRIX B550-F GAMING (WI-FI), BIOS 1401 12/03/2020
 [  +0.000004] Call Trace:
-[  +0.000004]  &lt;TASK&gt;
+[  +0.000004]  
 [  +0.000003]  dump_stack_lvl+0x76/0xa0
 [  +0.000010]  print_report+0xce/0x600
 [  +0.000009]  ? amdgpu_userq_mgr_fini+0x70c/0x730 [amdgpu]
@@ -1534,7 +1533,7 @@ skb due to anchor was not killed before freeing such skb.
  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
  RIP: 0010:ieee80211_tx_status_irqsafe+0x21/0xc0 [mac80211]
  Call Trace:
-  &lt;IRQ&gt;
+  
   rtl8187_tx_cb+0x116/0x150 [rtl8187]
   __usb_hcd_giveback_urb+0x9d/0x120
   usb_giveback_urb_bh+0xbb/0x140
@@ -1544,7 +1543,7 @@ skb due to anchor was not killed before freeing such skb.
   handle_softirqs+0xf0/0x340
   __irq_exit_rcu+0xcd/0xf0
   common_interrupt+0x85/0xa0
-  &lt;/IRQ&gt;
+  
 
 Tested on RTL8187BvE device.
 
