@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 22 Aug 2025 16:20:18 +0000</lastBuildDate><item><title>CVE-2025-38675 | xfrm: state: initialize state_ptrs earlier in xfrm_state_find</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38675</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 22 Aug 2025 16:43:20 +0000</lastBuildDate><item><title>CVE-2024-50644 | zhisheng17 blog 3.0.1-SNAPSHOT has an authentication bypass vulnerability. An attacker can exploit this vulnerability to access API without ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-50644</link><description>zhisheng17 blog 3.0.1-SNAPSHOT has an authentication bypass vulnerability. An attacker can exploit this vulnerability to access API without any token.</description><pubDate>Fri, 22 Aug 2025 16:43:22 +0000</pubDate></item><item><title>CVE-2025-55398 | An issue was discovered in mouse07410 asn1c thru 0.9.29 (2025-03-20) - a fork of vlm asn1c. In UPER (Unaligned Packed Encoding Rules), asn1c...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55398</link><description>An issue was discovered in mouse07410 asn1c thru 0.9.29 (2025-03-20) - a fork of vlm asn1c. In UPER (Unaligned Packed Encoding Rules), asn1c-generated decoders fail to enforce INTEGER constraints when the bound is positive and exceeds 32 bits in length, potentially allowing incorrect or malicious input to be processed.</description><pubDate>Fri, 22 Aug 2025 16:43:23 +0000</pubDate></item><item><title>CVE-2025-57771 | Roo-Code potential remote code execution via auto-execute command parsing flaw</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57771</link><description>Roo Code is an AI-powered autonomous coding agent that lives in users' editors. In versions prior to 3.25.5, Roo-Code fails to properly handle process substitution and single ampersand characters in the command parsing logic for auto-execute commands. If a user has enabled auto-approved execution for a command such as ls, an attacker who can submit crafted prompts to the agent may inject arbitrary commands to be executed alongside the intended command. Exploitation requires attacker access to submit prompts and for the user to have enabled auto-approved command execution, which is disabled by default. This vulnerability could allow an attacker to execute arbitrary code. The issue is fixed in version 3.25.5.</description><pubDate>Fri, 22 Aug 2025 16:43:23 +0000</pubDate></item><item><title>CVE-2025-55745 | UnoPim Quick Export feature is vulnerable to CSV injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55745</link><description>UnoPim is an open-source Product Information Management (PIM) system built on the Laravel framework. Versions 0.3.0 and prior are vulnerable to CSV injection, also known as formula injection, in the Quick Export feature. This vulnerability allows attackers to inject malicious content into exported CSV files. When the CSV file is opened in spreadsheet applications such as Microsoft Excel, the malicious input may be interpreted as a formula or command, potentially resulting in the execution of arbitrary code on the victim's device. Successful exploitation can lead to remote code execution, including the establishment of a reverse shell. Users are advised to upgrade to version 0.3.1 or later.</description><pubDate>Fri, 22 Aug 2025 16:43:24 +0000</pubDate></item><item><title>CVE-2025-57105 | The DI-7400G+ router has a command injection vulnerability, which allows attackers to execute arbitrary commands on the device. The sub_478D...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57105</link><description>The DI-7400G+ router has a command injection vulnerability, which allows attackers to execute arbitrary commands on the device. The sub_478D28 function in in mng_platform.asp, and sub_4A12DC function in wayos_ac_server.asp of the jhttpd program, with the parameter ac_mng_srv_host.</description><pubDate>Fri, 22 Aug 2025 16:43:25 +0000</pubDate></item><item><title>CVE-2025-38675 | xfrm: state: initialize state_ptrs earlier in xfrm_state_find</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38675</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 xfrm: state: initialize state_ptrs earlier in xfrm_state_find
 
@@ -86,7 +86,7 @@ kernel reports "BUG KASAN use-after-free" in blk_mq_free_tag_set(). The
 BUG happens because zloop_ctl_remove() calls put_disk(), which invokes
 zloop_free_disk(). The zloop_free_disk() frees the memory allocated for
 the zlo pointer. However, after the memory is freed, zloop_ctl_remove()
-calls blk_mq_free_tag_set(&amp;zlo-&gt;tag_set), which accesses the freed zlo.
+calls blk_mq_free_tag_set(&amp;amp;zlo-&gt;tag_set), which accesses the freed zlo.
 Hence the KASAN use-after-free.
 
  zloop_ctl_remove()
@@ -96,9 +96,9 @@ Hence the KASAN use-after-free.
      ...
       zloop_free_disk()
         kvfree(zlo)
-  blk_mq_free_tag_set(&amp;zlo-&gt;tag_set)
+  blk_mq_free_tag_set(&amp;amp;zlo-&gt;tag_set)
 
-To avoid the BUG, move the call to blk_mq_free_tag_set(&amp;zlo-&gt;tag_set)
+To avoid the BUG, move the call to blk_mq_free_tag_set(&amp;amp;zlo-&gt;tag_set)
 from zloop_ctl_remove() into zloop_free_disk(). This ensures that
 the tag_set is freed before the call to kvfree(zlo).</description><pubDate>Fri, 22 Aug 2025 16:20:22 +0000</pubDate></item><item><title>CVE-2025-38621 | md: make rdev_addable usable for rcu mode</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38621</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -117,14 +117,14 @@ Workqueue: md_misc md_start_sync
 RIP: 0010:rdev_addable+0x4d/0xf0
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  md_start_sync+0x329/0x480
  process_one_work+0x226/0x6d0
  worker_thread+0x19e/0x340
  kthread+0x10f/0x250
  ret_from_fork+0x14d/0x180
  ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;
+ 
 Modules linked in: raid10
 CR2: 00000000000000e0
 ---[ end trace 0000000000000000 ]---
@@ -159,7 +159,7 @@ size, below crash may happen.
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 0000000020000040 CR3: 0000000004007000 CR4: 00000000000006f0
   Call Trace:
-   &lt;TASK&gt;
+   
    udp_queue_rcv_one_skb+0x176/0x4b0 net/ipv4/udp.c:2445
    udp_queue_rcv_skb+0x155/0x1f0 net/ipv4/udp.c:2475
    udp_unicast_rcv_skb+0x71/0x90 net/ipv4/udp.c:2626
@@ -177,7 +177,7 @@ size, below crash may happen.
    vfs_write+0x300/0x420 fs/read_write.c:593
    ksys_write+0x60/0xd0 fs/read_write.c:686
    do_syscall_64+0x50/0x1c0 arch/x86/entry/syscall_64.c:63
-   &lt;/TASK&gt;
+   
 
 To trigger gso segment in udp_queue_rcv_skb(), we should also set option
 UDP_ENCAP_ESPINUDP to enable udp_sk(sk)-&gt;encap_rcv. When the encap_rcv
@@ -275,7 +275,7 @@ w/ "mode=lfs" mount option, generic/299 will cause system panic as below:
 ------------[ cut here ]------------
 kernel BUG at fs/f2fs/segment.c:2835!
 Call Trace:
- &lt;TASK&gt;
+ 
  f2fs_allocate_data_block+0x6f4/0xc50
  f2fs_map_blocks+0x970/0x1550
  f2fs_iomap_begin+0xb2/0x1e0
@@ -367,7 +367,7 @@ Splat:
   WARNING: CPU: 13 PID: 2306 at kernel/workqueue.c:4207 __flush_work+0x9a/0xb0
   [...]
   Call Trace:
-   &lt;TASK&gt;
+   
    ? __try_to_del_timer_sync+0x61/0x90
    ? __timer_delete_sync+0x2b/0x40
    mlx5_vdpa_destroy_mr_resources+0x1c/0x40 [mlx5_vdpa]
@@ -523,7 +523,7 @@ warning:
  BUG: KASAN: global-out-of-bounds in do_trace_event_raw_event_event_da_monitor+0xd6/0x1a0
  Read of size 32 at addr ffffffffaada8980 by task ...
  Call Trace:
-  &lt;TASK&gt;
+  
  [...]
   do_trace_event_raw_event_event_da_monitor+0xd6/0x1a0
   ? __pfx_do_trace_event_raw_event_event_da_monitor+0x10/0x10
@@ -568,7 +568,7 @@ FS:  00007fac7b89a6c0(0000) GS:ffff8880d6a20000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007fac7b899f98 CR3: 0000000034b3f000 CR4: 0000000000352ef0
 Call Trace:
- &lt;TASK&gt;
+ 
   ip6_route_mpath_notify+0xde/0x280 net/ipv6/route.c:5356
   ip6_route_multipath_add+0x1181/0x1bd0 net/ipv6/route.c:5536
   inet6_rtm_newroute+0xe4/0x1a0 net/ipv6/route.c:5647
@@ -621,7 +621,7 @@ in_atomic(): 0, irqs_disabled(): 0, migration_disabled() 0 pid: 5829, name: sshd
 CPU: 0 UID: 0 PID: 5829 Comm: sshd-session Not tainted 6.16.0-rc6-syzkaller-00002-g155a3c003e55 #0 PREEMPT(full)
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
  __cant_migrate kernel/sched/core.c:8860 [inline]
@@ -775,7 +775,7 @@ The following is a crash log for this case.
  CR2: 0000000000000032 CR3: 00000002bf838000 CR4: 0000000000750ee0
  PKRU: 55555554
  Call Trace:
-  &lt;IRQ&gt;
+  
   ? __die_body+0x68/0xb0
   ? page_fault_oops+0x379/0x3e0
   ? exc_page_fault+0x4f/0xa0
@@ -800,7 +800,7 @@ assertion.
  Hardware name: LENOVO 21D0/LNVNB161216, BIOS J6CN50WW 09/27/2024
  RIP: 0010:rtw89_set_sar_from_acpi+0x365/0x4d0 [rtw89_core]
  Call Trace:
-  &lt;TASK&gt;
+  
   rtw89_sar_init+0x68/0x2c0 [rtw89_core]
   rtw89_core_init+0x188e/0x1e50 [rtw89_core]
   rtw89_pci_probe+0x530/0xb50 [rtw89_pci]
@@ -887,7 +887,7 @@ Syzbot reported an issue in hfsplus filesystem:
 WARNING: CPU: 0 PID: 4400 at fs/hfsplus/extents.c:346
 	hfsplus_free_extents+0x700/0xad0
 Call Trace:
-&lt;TASK&gt;
+
 hfsplus_file_truncate+0x768/0xbb0 fs/hfsplus/extents.c:606
 hfsplus_write_begin+0xc2/0xd0 fs/hfsplus/inode.c:56
 cont_expand_zero fs/buffer.c:2383 [inline]
@@ -914,7 +914,7 @@ abnormality.
 
 The comment above this warning also describes one of the easy
 triggering situations, which can easily trigger and cause
-xfstest&amp;syzbot to report errors.
+xfstest&amp;amp;syzbot to report errors.
 
 [task A]			[task B]
 -&gt;hfsplus_file_release
@@ -1183,7 +1183,7 @@ race condition:
     aarp_expire_timeout()               |   aarp_send_probe()
                                         |   unlock(aarp_lock) // UNLOCK!!
     lock(aarp_lock) // LOCK!!           |   msleep(100);
-    __aarp_expire_timer(&amp;proxies[ct])   |
+    __aarp_expire_timer(&amp;amp;proxies[ct])   |
     free(aarp_entry)                    |
     unlock(aarp_lock) // UNLOCK!!       |
                                         |   lock(aarp_lock) // LOCK!!
@@ -1195,7 +1195,7 @@ Read of size 4 at addr ffff8880123aa360 by task repro/13278
 
 CPU: 3 UID: 0 PID: 13278 Comm: repro Not tainted 6.15.2 #3 PREEMPT(full)
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1b0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:408 [inline]
@@ -1214,7 +1214,7 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
  do_syscall_64+0xcb/0x250 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
- &lt;/TASK&gt;
+ 
 
 Allocated:
  aarp_alloc net/appletalk/aarp.c:382 [inline]
