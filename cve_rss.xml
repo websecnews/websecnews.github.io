@@ -1,5 +1,1285 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 05 Sep 2025 17:22:45 +0000</lastBuildDate><item><title>CVE-2025-9709 | NRF52810 Runtime EM Fault Injection APPROTECT Bypass</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9709</link><description>On-Chip Debug and Test Interface With Improper Access Control and Improper Protection against Electromagnetic Fault Injection (EM-FI) in Nordic Semiconductor nRF52810 allow attacker to perform EM Fault Injection and bypass APPROTECT at runtime, requiring the least amount of modification to the hardware system possible.</description><pubDate>Fri, 05 Sep 2025 17:22:47 +0000</pubDate></item><item><title>CVE-2025-9999 | Improper validation of payload elements</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9999</link><description>Some payload elements of the messages sent between two stations in a networking architecture are not properly checked on the receiving station allowing an attacker to execute unauthorized commands in the application.</description><pubDate>Fri, 05 Sep 2025 16:51:39 +0000</pubDate></item><item><title>CVE-2025-9998 | Improper validation of packets sequencing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9998</link><description>The sequence of packets received by a Networking server are not correctly checked.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 05 Sep 2025 17:35:07 +0000</lastBuildDate><item><title>CVE-2025-38731 | drm/xe: Fix vm_bind_ioctl double free bug</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38731</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Fix vm_bind_ioctl double free bug
+
+If the argument check during an array bind fails, the bind_ops are freed
+twice as seen below. Fix this by setting bind_ops to NULL after freeing.
+
+==================================================================
+BUG: KASAN: double-free in xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+Free of addr ffff88813bb9b800 by task xe_vm/14198
+
+CPU: 5 UID: 0 PID: 14198 Comm: xe_vm Not tainted 6.16.0-xe-eudebug-cmanszew+ #520 PREEMPT(full)
+Hardware name: Intel Corporation Alder Lake Client Platform/AlderLake-P DDR5 RVP, BIOS ADLPFWI1.R00.2411.A02.2110081023 10/08/2021
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x82/0xd0
+ print_report+0xcb/0x610
+ ? __virt_addr_valid+0x19a/0x300
+ ? xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+ kasan_report_invalid_free+0xc8/0xf0
+ ? xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+ ? xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+ check_slab_allocation+0x102/0x130
+ kfree+0x10d/0x440
+ ? should_fail_ex+0x57/0x2f0
+ ? xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+ xe_vm_bind_ioctl+0x1b2/0x21f0 [xe]
+ ? __pfx_xe_vm_bind_ioctl+0x10/0x10 [xe]
+ ? __lock_acquire+0xab9/0x27f0
+ ? lock_acquire+0x165/0x300
+ ? drm_dev_enter+0x53/0xe0 [drm]
+ ? find_held_lock+0x2b/0x80
+ ? drm_dev_exit+0x30/0x50 [drm]
+ ? drm_ioctl_kernel+0x128/0x1c0 [drm]
+ drm_ioctl_kernel+0x128/0x1c0 [drm]
+ ? __pfx_xe_vm_bind_ioctl+0x10/0x10 [xe]
+ ? find_held_lock+0x2b/0x80
+ ? __pfx_drm_ioctl_kernel+0x10/0x10 [drm]
+ ? should_fail_ex+0x57/0x2f0
+ ? __pfx_xe_vm_bind_ioctl+0x10/0x10 [xe]
+ drm_ioctl+0x352/0x620 [drm]
+ ? __pfx_drm_ioctl+0x10/0x10 [drm]
+ ? __pfx_rpm_resume+0x10/0x10
+ ? do_raw_spin_lock+0x11a/0x1b0
+ ? find_held_lock+0x2b/0x80
+ ? __pm_runtime_resume+0x61/0xc0
+ ? rcu_is_watching+0x20/0x50
+ ? trace_irq_enable.constprop.0+0xac/0xe0
+ xe_drm_ioctl+0x91/0xc0 [xe]
+ __x64_sys_ioctl+0xb2/0x100
+ ? rcu_is_watching+0x20/0x50
+ do_syscall_64+0x68/0x2e0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7fa9acb24ded
+
+(cherry picked from commit a01b704527c28a2fd43a17a85f8996b75ec8492a)</description><pubDate>Fri, 05 Sep 2025 17:35:09 +0000</pubDate></item><item><title>CVE-2025-38732 | netfilter: nf_reject: don&amp;#x27;t leak dst refcount for loopback packets</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38732</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_reject: don't leak dst refcount for loopback packets
+
+recent patches to add a WARN() when replacing skb dst entry found an
+old bug:
+
+WARNING: include/linux/skbuff.h:1165 skb_dst_check_unset include/linux/skbuff.h:1164 [inline]
+WARNING: include/linux/skbuff.h:1165 skb_dst_set include/linux/skbuff.h:1210 [inline]
+WARNING: include/linux/skbuff.h:1165 nf_reject_fill_skb_dst+0x2a4/0x330 net/ipv4/netfilter/nf_reject_ipv4.c:234
+[..]
+Call Trace:
+ nf_send_unreach+0x17b/0x6e0 net/ipv4/netfilter/nf_reject_ipv4.c:325
+ nft_reject_inet_eval+0x4bc/0x690 net/netfilter/nft_reject_inet.c:27
+ expr_call_ops_eval net/netfilter/nf_tables_core.c:237 [inline]
+ ..
+
+This is because blamed commit forgot about loopback packets.
+Such packets already have a dst_entry attached, even at PRE_ROUTING stage.
+
+Instead of checking hook just check if the skb already has a route
+attached to it.</description><pubDate>Fri, 05 Sep 2025 17:35:10 +0000</pubDate></item><item><title>CVE-2025-38733 | s390/mm: Do not map lowcore with identity mapping</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38733</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/mm: Do not map lowcore with identity mapping
+
+Since the identity mapping is pinned to address zero the lowcore is always
+also mapped to address zero, this happens regardless of the relocate_lowcore
+command line option. If the option is specified the lowcore is mapped
+twice, instead of only once.
+
+This means that NULL pointer accesses will succeed instead of causing an
+exception (low address protection still applies, but covers only parts).
+To fix this never map the first two pages of physical memory with the
+identity mapping.</description><pubDate>Fri, 05 Sep 2025 17:35:10 +0000</pubDate></item><item><title>CVE-2025-38734 | net/smc: fix UAF on smcsk after smc_listen_out()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38734</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/smc: fix UAF on smcsk after smc_listen_out()
+
+BPF CI testing report a UAF issue:
+
+  [   16.446633] BUG: kernel NULL pointer dereference, address: 000000000000003  0
+  [   16.447134] #PF: supervisor read access in kernel mod  e
+  [   16.447516] #PF: error_code(0x0000) - not-present pag  e
+  [   16.447878] PGD 0 P4D   0
+  [   16.448063] Oops: Oops: 0000 [#1] PREEMPT SMP NOPT  I
+  [   16.448409] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Tainted: G           OE      6.13.0-rc3-g89e8a75fda73-dirty #4  2
+  [   16.449124] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODUL  E
+  [   16.449502] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/201  4
+  [   16.450201] Workqueue: smc_hs_wq smc_listen_wor  k
+  [   16.450531] RIP: 0010:smc_listen_work+0xc02/0x159  0
+  [   16.452158] RSP: 0018:ffffb5ab40053d98 EFLAGS: 0001024  6
+  [   16.452526] RAX: 0000000000000001 RBX: 0000000000000002 RCX: 000000000000030  0
+  [   16.452994] RDX: 0000000000000280 RSI: 00003513840053f0 RDI: 000000000000000  0
+  [   16.453492] RBP: ffffa097808e3800 R08: ffffa09782dba1e0 R09: 000000000000000  5
+  [   16.453987] R10: 0000000000000000 R11: 0000000000000000 R12: ffffa0978274640  0
+  [   16.454497] R13: 0000000000000000 R14: 0000000000000000 R15: ffffa09782d4092  0
+  [   16.454996] FS:  0000000000000000(0000) GS:ffffa097bbc00000(0000) knlGS:000000000000000  0
+  [   16.455557] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003  3
+  [   16.455961] CR2: 0000000000000030 CR3: 0000000102788004 CR4: 0000000000770ef  0
+  [   16.456459] PKRU: 5555555  4
+  [   16.456654] Call Trace  :
+  [   16.456832]  &lt;TASK  &gt;
+  [   16.456989]  ? __die+0x23/0x7  0
+  [   16.457215]  ? page_fault_oops+0x180/0x4c  0
+  [   16.457508]  ? __lock_acquire+0x3e6/0x249  0
+  [   16.457801]  ? exc_page_fault+0x68/0x20  0
+  [   16.458080]  ? asm_exc_page_fault+0x26/0x3  0
+  [   16.458389]  ? smc_listen_work+0xc02/0x159  0
+  [   16.458689]  ? smc_listen_work+0xc02/0x159  0
+  [   16.458987]  ? lock_is_held_type+0x8f/0x10  0
+  [   16.459284]  process_one_work+0x1ea/0x6d  0
+  [   16.459570]  worker_thread+0x1c3/0x38  0
+  [   16.459839]  ? __pfx_worker_thread+0x10/0x1  0
+  [   16.460144]  kthread+0xe0/0x11  0
+  [   16.460372]  ? __pfx_kthread+0x10/0x1  0
+  [   16.460640]  ret_from_fork+0x31/0x5  0
+  [   16.460896]  ? __pfx_kthread+0x10/0x1  0
+  [   16.461166]  ret_from_fork_asm+0x1a/0x3  0
+  [   16.461453]  &lt;/TASK  &gt;
+  [   16.461616] Modules linked in: bpf_testmod(OE) [last unloaded: bpf_testmod(OE)  ]
+  [   16.462134] CR2: 000000000000003  0
+  [   16.462380] ---[ end trace 0000000000000000 ]---
+  [   16.462710] RIP: 0010:smc_listen_work+0xc02/0x1590
+
+The direct cause of this issue is that after smc_listen_out_connected(),
+newclcsock-&gt;sk may be NULL since it will releases the smcsk. Therefore,
+if the application closes the socket immediately after accept,
+newclcsock-&gt;sk can be NULL. A possible execution order could be as
+follows:
+
+smc_listen_work                                 | userspace
+-----------------------------------------------------------------
+lock_sock(sk)                                   |
+smc_listen_out_connected()                      |
+| \- smc_listen_out                             |
+|    | \- release_sock                          |
+     | |- sk-&gt;sk_data_ready()                   |
+                                                | fd = accept();
+                                                | close(fd);
+                                                |  \- socket-&gt;sk = NULL;
+/* newclcsock-&gt;sk is NULL now */
+SMC_STAT_SERV_SUCC_INC(sock_net(newclcsock-&gt;sk))
+
+Since smc_listen_out_connected() will not fail, simply swapping the order
+of the code can easily fix this issue.</description><pubDate>Fri, 05 Sep 2025 17:35:10 +0000</pubDate></item><item><title>CVE-2025-38735 | gve: prevent ethtool ops after shutdown</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38735</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gve: prevent ethtool ops after shutdown
+
+A crash can occur if an ethtool operation is invoked
+after shutdown() is called.
+
+shutdown() is invoked during system shutdown to stop DMA operations
+without performing expensive deallocations. It is discouraged to
+unregister the netdev in this path, so the device may still be visible
+to userspace and kernel helpers.
+
+In gve, shutdown() tears down most internal data structures. If an
+ethtool operation is dispatched after shutdown(), it will dereference
+freed or NULL pointers, leading to a kernel panic. While graceful
+shutdown normally quiesces userspace before invoking the reboot
+syscall, forced shutdowns (as observed on GCP VMs) can still trigger
+this path.
+
+Fix by calling netif_device_detach() in shutdown().
+This marks the device as detached so the ethtool ioctl handler
+will skip dispatching operations to the driver.</description><pubDate>Fri, 05 Sep 2025 17:35:11 +0000</pubDate></item><item><title>CVE-2025-38736 | net: usb: asix_devices: Fix PHY address mask in MDIO bus initialization</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38736</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: usb: asix_devices: Fix PHY address mask in MDIO bus initialization
+
+Syzbot reported shift-out-of-bounds exception on MDIO bus initialization.
+
+The PHY address should be masked to 5 bits (0-31). Without this
+mask, invalid PHY addresses could be used, potentially causing issues
+with MDIO bus operations.
+
+Fix this by masking the PHY address with 0x1f (31 decimal) to ensure
+it stays within the valid range.</description><pubDate>Fri, 05 Sep 2025 17:35:11 +0000</pubDate></item><item><title>CVE-2025-38737 | cifs: Fix oops due to uninitialised variable</title><link>https://www.cve.org/CVERecord?id=CVE-2025-38737</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cifs: Fix oops due to uninitialised variable
+
+Fix smb3_init_transform_rq() to initialise buffer to NULL before calling
+netfs_alloc_folioq_buffer() as netfs assumes it can append to the buffer it
+is given.  Setting it to NULL means it should start a fresh buffer, but the
+value is currently undefined.</description><pubDate>Fri, 05 Sep 2025 17:35:11 +0000</pubDate></item><item><title>CVE-2025-39673 | ppp: fix race conditions in ppp_fill_forward_path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39673</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ppp: fix race conditions in ppp_fill_forward_path
+
+ppp_fill_forward_path() has two race conditions:
+
+1. The ppp-&gt;channels list can change between list_empty() and
+   list_first_entry(), as ppp_lock() is not held. If the only channel
+   is deleted in ppp_disconnect_channel(), list_first_entry() may
+   access an empty head or a freed entry, and trigger a panic.
+
+2. pch-&gt;chan can be NULL. When ppp_unregister_channel() is called,
+   pch-&gt;chan is set to NULL before pch is removed from ppp-&gt;channels.
+
+Fix these by using a lockless RCU approach:
+- Use list_first_or_null_rcu() to safely test and access the first list
+  entry.
+- Convert list modifications on ppp-&gt;channels to their RCU variants and
+  add synchronize_net() after removal.
+- Check for a NULL pch-&gt;chan before dereferencing it.</description><pubDate>Fri, 05 Sep 2025 17:35:12 +0000</pubDate></item><item><title>CVE-2025-39674 | scsi: ufs: ufs-qcom: Fix ESI null pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39674</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: ufs-qcom: Fix ESI null pointer dereference
+
+ESI/MSI is a performance optimization feature that provides dedicated
+interrupts per MCQ hardware queue. This is optional feature and UFS MCQ
+should work with and without ESI feature.
+
+Commit e46a28cea29a ("scsi: ufs: qcom: Remove the MSI descriptor abuse")
+brings a regression in ESI (Enhanced System Interrupt) configuration that
+causes a null pointer dereference when Platform MSI allocation fails.
+
+The issue occurs in when platform_device_msi_init_and_alloc_irqs() in
+ufs_qcom_config_esi() fails (returns -EINVAL) but the current code uses
+__free() macro for automatic cleanup free MSI resources that were never
+successfully allocated.
+
+Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000008
+
+  Call trace:
+  mutex_lock+0xc/0x54 (P)
+  platform_device_msi_free_irqs_all+0x1c/0x40
+  ufs_qcom_config_esi+0x1d0/0x220 [ufs_qcom]
+  ufshcd_config_mcq+0x28/0x104
+  ufshcd_init+0xa3c/0xf40
+  ufshcd_pltfrm_init+0x504/0x7d4
+  ufs_qcom_probe+0x20/0x58 [ufs_qcom]
+
+Fix by restructuring the ESI configuration to try MSI allocation first,
+before any other resource allocation and instead use explicit cleanup
+instead of __free() macro to avoid cleanup of unallocated resources.
+
+Tested on SM8750 platform with MCQ enabled, both with and without
+Platform ESI support.</description><pubDate>Fri, 05 Sep 2025 17:35:12 +0000</pubDate></item><item><title>CVE-2025-39675 | drm/amd/display: Add null pointer check in mod_hdcp_hdcp1_create_session()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39675</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Add null pointer check in mod_hdcp_hdcp1_create_session()
+
+The function mod_hdcp_hdcp1_create_session() calls the function
+get_first_active_display(), but does not check its return value.
+The return value is a null pointer if the display list is empty.
+This will lead to a null pointer dereference.
+
+Add a null pointer check for get_first_active_display() and return
+MOD_HDCP_STATUS_DISPLAY_NOT_FOUND if the function return null.
+
+This is similar to the commit c3e9826a2202
+("drm/amd/display: Add null pointer check for get_first_active_display()").
+
+(cherry picked from commit 5e43eb3cd731649c4f8b9134f857be62a416c893)</description><pubDate>Fri, 05 Sep 2025 17:35:13 +0000</pubDate></item><item><title>CVE-2025-39676 | scsi: qla4xxx: Prevent a potential error pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39676</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla4xxx: Prevent a potential error pointer dereference
+
+The qla4xxx_get_ep_fwdb() function is supposed to return NULL on error,
+but qla4xxx_ep_connect() returns error pointers.  Propagating the error
+pointers will lead to an Oops in the caller, so change the error pointers
+to NULL.</description><pubDate>Fri, 05 Sep 2025 17:35:13 +0000</pubDate></item><item><title>CVE-2025-39677 | net/sched: Fix backlog accounting in qdisc_dequeue_internal</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39677</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sched: Fix backlog accounting in qdisc_dequeue_internal
+
+This issue applies for the following qdiscs: hhf, fq, fq_codel, and
+fq_pie, and occurs in their change handlers when adjusting to the new
+limit. The problem is the following in the values passed to the
+subsequent qdisc_tree_reduce_backlog call given a tbf parent:
+
+   When the tbf parent runs out of tokens, skbs of these qdiscs will
+   be placed in gso_skb. Their peek handlers are qdisc_peek_dequeued,
+   which accounts for both qlen and backlog. However, in the case of
+   qdisc_dequeue_internal, ONLY qlen is accounted for when pulling
+   from gso_skb. This means that these qdiscs are missing a
+   qdisc_qstats_backlog_dec when dropping packets to satisfy the
+   new limit in their change handlers.
+
+   One can observe this issue with the following (with tc patched to
+   support a limit of 0):
+
+   export TARGET=fq
+   tc qdisc del dev lo root
+   tc qdisc add dev lo root handle 1: tbf rate 8bit burst 100b latency 1ms
+   tc qdisc replace dev lo handle 3: parent 1:1 $TARGET limit 1000
+   echo ''; echo 'add child'; tc -s -d qdisc show dev lo
+   ping -I lo -f -c2 -s32 -W0.001 127.0.0.1 2&gt;&amp;1 &gt;/dev/null
+   echo ''; echo 'after ping'; tc -s -d qdisc show dev lo
+   tc qdisc change dev lo handle 3: parent 1:1 $TARGET limit 0
+   echo ''; echo 'after limit drop'; tc -s -d qdisc show dev lo
+   tc qdisc replace dev lo handle 2: parent 1:1 sfq
+   echo ''; echo 'post graft'; tc -s -d qdisc show dev lo
+
+   The second to last show command shows 0 packets but a positive
+   number (74) of backlog bytes. The problem becomes clearer in the
+   last show command, where qdisc_purge_queue triggers
+   qdisc_tree_reduce_backlog with the positive backlog and causes an
+   underflow in the tbf parent's backlog (4096 Mb instead of 0).
+
+To fix this issue, the codepath for all clients of qdisc_dequeue_internal
+has been simplified: codel, pie, hhf, fq, fq_pie, and fq_codel.
+qdisc_dequeue_internal handles the backlog adjustments for all cases that
+do not directly use the dequeue handler.
+
+The old fq_codel_change limit adjustment loop accumulated the arguments to
+the subsequent qdisc_tree_reduce_backlog call through the cstats field.
+However, this is confusing and error prone as fq_codel_dequeue could also
+potentially mutate this field (which qdisc_dequeue_internal calls in the
+non gso_skb case), so we have unified the code here with other qdiscs.</description><pubDate>Fri, 05 Sep 2025 17:35:13 +0000</pubDate></item><item><title>CVE-2025-39678 | platform/x86/amd/hsmp: Ensure sock-&amp;gt;metric_tbl_addr is non-NULL</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39678</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86/amd/hsmp: Ensure sock-&gt;metric_tbl_addr is non-NULL
+
+If metric table address is not allocated, accessing metrics_bin will
+result in a NULL pointer dereference, so add a check.</description><pubDate>Fri, 05 Sep 2025 17:35:14 +0000</pubDate></item><item><title>CVE-2025-39679 | drm/nouveau/nvif: Fix potential memory leak in nvif_vmm_ctor().</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39679</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/nouveau/nvif: Fix potential memory leak in nvif_vmm_ctor().
+
+When the nvif_vmm_type is invalid, we will return error directly
+without freeing the args in nvif_vmm_ctor(), which leading a memory
+leak. Fix it by setting the ret -EINVAL and goto done.</description><pubDate>Fri, 05 Sep 2025 17:35:14 +0000</pubDate></item><item><title>CVE-2025-39680 | i2c: rtl9300: Fix out-of-bounds bug in rtl9300_i2c_smbus_xfer</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39680</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: rtl9300: Fix out-of-bounds bug in rtl9300_i2c_smbus_xfer
+
+The data-&gt;block[0] variable comes from user. Without proper check,
+the variable may be very large to cause an out-of-bounds bug.
+
+Fix this bug by checking the value of data-&gt;block[0] first.
+
+1. commit 39244cc75482 ("i2c: ismt: Fix an out-of-bounds bug in
+   ismt_access()")
+2. commit 92fbb6d1296f ("i2c: xgene-slimpro: Fix out-of-bounds bug in
+   xgene_slimpro_i2c_xfer()")</description><pubDate>Fri, 05 Sep 2025 17:35:14 +0000</pubDate></item><item><title>CVE-2025-39681 | x86/cpu/hygon: Add missing resctrl_cpu_detect() in bsp_init helper</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39681</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/cpu/hygon: Add missing resctrl_cpu_detect() in bsp_init helper
+
+Since
+
+  923f3a2b48bd ("x86/resctrl: Query LLC monitoring properties once during boot")
+
+resctrl_cpu_detect() has been moved from common CPU initialization code to
+the vendor-specific BSP init helper, while Hygon didn't put that call in their
+code.
+
+This triggers a division by zero fault during early booting stage on our
+machines with X86_FEATURE_CQM* supported, where get_rdt_mon_resources() tries
+to calculate mon_l3_config with uninitialized boot_cpu_data.x86_cache_occ_scale.
+
+Add the missing resctrl_cpu_detect() in the Hygon BSP init helper.
+
+  [ bp: Massage commit message. ]</description><pubDate>Fri, 05 Sep 2025 17:35:15 +0000</pubDate></item><item><title>CVE-2025-39682 | tls: fix handling of zero-length records on the rx_list</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39682</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tls: fix handling of zero-length records on the rx_list
+
+Each recvmsg() call must process either
+ - only contiguous DATA records (any number of them)
+ - one non-DATA record
+
+If the next record has different type than what has already been
+processed we break out of the main processing loop. If the record
+has already been decrypted (which may be the case for TLS 1.3 where
+we don't know type until decryption) we queue the pending record
+to the rx_list. Next recvmsg() will pick it up from there.
+
+Queuing the skb to rx_list after zero-copy decrypt is not possible,
+since in that case we decrypted directly to the user space buffer,
+and we don't have an skb to queue (darg.skb points to the ciphertext
+skb for access to metadata like length).
+
+Only data records are allowed zero-copy, and we break the processing
+loop after each non-data record. So we should never zero-copy and
+then find out that the record type has changed. The corner case
+we missed is when the initial record comes from rx_list, and it's
+zero length.</description><pubDate>Fri, 05 Sep 2025 17:35:15 +0000</pubDate></item><item><title>CVE-2025-39683 | tracing: Limit access to parser-&amp;gt;buffer when trace_get_user failed</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39683</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing: Limit access to parser-&gt;buffer when trace_get_user failed
+
+When the length of the string written to set_ftrace_filter exceeds
+FTRACE_BUFF_MAX, the following KASAN alarm will be triggered:
+
+BUG: KASAN: slab-out-of-bounds in strsep+0x18c/0x1b0
+Read of size 1 at addr ffff0000d00bd5ba by task ash/165
+
+CPU: 1 UID: 0 PID: 165 Comm: ash Not tainted 6.16.0-g6bcdbd62bd56-dirty
+Hardware name: linux,dummy-virt (DT)
+Call trace:
+ show_stack+0x34/0x50 (C)
+ dump_stack_lvl+0xa0/0x158
+ print_address_description.constprop.0+0x88/0x398
+ print_report+0xb0/0x280
+ kasan_report+0xa4/0xf0
+ __asan_report_load1_noabort+0x20/0x30
+ strsep+0x18c/0x1b0
+ ftrace_process_regex.isra.0+0x100/0x2d8
+ ftrace_regex_release+0x484/0x618
+ __fput+0x364/0xa58
+ ____fput+0x28/0x40
+ task_work_run+0x154/0x278
+ do_notify_resume+0x1f0/0x220
+ el0_svc+0xec/0xf0
+ el0t_64_sync_handler+0xa0/0xe8
+ el0t_64_sync+0x1ac/0x1b0
+
+The reason is that trace_get_user will fail when processing a string
+longer than FTRACE_BUFF_MAX, but not set the end of parser-&gt;buffer to 0.
+Then an OOB access will be triggered in ftrace_regex_release-&gt;
+ftrace_process_regex-&gt;strsep-&gt;strpbrk. We can solve this problem by
+limiting access to parser-&gt;buffer when trace_get_user failed.</description><pubDate>Fri, 05 Sep 2025 17:35:16 +0000</pubDate></item><item><title>CVE-2025-39684 | comedi: Fix use of uninitialized memory in do_insn_ioctl() and do_insnlist_ioctl()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39684</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: Fix use of uninitialized memory in do_insn_ioctl() and do_insnlist_ioctl()
+
+syzbot reports a KMSAN kernel-infoleak in `do_insn_ioctl()`.  A kernel
+buffer is allocated to hold `insn-&gt;n` samples (each of which is an
+`unsigned int`).  For some instruction types, `insn-&gt;n` samples are
+copied back to user-space, unless an error code is being returned.  The
+problem is that not all the instruction handlers that need to return
+data to userspace fill in the whole `insn-&gt;n` samples, so that there is
+an information leak.  There is a similar syzbot report for
+`do_insnlist_ioctl()`, although it does not have a reproducer for it at
+the time of writing.
+
+One culprit is `insn_rw_emulate_bits()` which is used as the handler for
+`INSN_READ` or `INSN_WRITE` instructions for subdevices that do not have
+a specific handler for that instruction, but do have an `INSN_BITS`
+handler.  For `INSN_READ` it only fills in at most 1 sample, so if
+`insn-&gt;n` is greater than 1, the remaining `insn-&gt;n - 1` samples copied
+to userspace will be uninitialized kernel data.
+
+Another culprit is `vm80xx_ai_insn_read()` in the "vm80xx" driver.  It
+never returns an error, even if it fails to fill the buffer.
+
+Fix it in `do_insn_ioctl()` and `do_insnlist_ioctl()` by making sure
+that uninitialized parts of the allocated buffer are zeroed before
+handling each instruction.
+
+Thanks to Arnaud Lecomte for their fix to `do_insn_ioctl()`.  That fix
+replaced the call to `kmalloc_array()` with `kcalloc()`, but it is not
+always necessary to clear the whole buffer.</description><pubDate>Fri, 05 Sep 2025 17:35:16 +0000</pubDate></item><item><title>CVE-2025-39685 | comedi: pcl726: Prevent invalid irq number</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39685</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: pcl726: Prevent invalid irq number
+
+The reproducer passed in an irq number(0x80008000) that was too large,
+which triggered the oob.
+
+Added an interrupt number check to prevent users from passing in an irq
+number that was too large.
+
+If `it-&gt;options[1]` is 31, then `1 &lt;&lt; it-&gt;options[1]` is still invalid
+because it shifts a 1-bit into the sign bit (which is UB in C).
+Possible solutions include reducing the upper bound on the
+`it-&gt;options[1]` value to 30 or lower, or using `1U &lt;&lt; it-&gt;options[1]`.
+
+The old code would just not attempt to request the IRQ if the
+`options[1]` value were invalid.  And it would still configure the
+device without interrupts even if the call to `request_irq` returned an
+error.  So it would be better to combine this test with the test below.</description><pubDate>Fri, 05 Sep 2025 17:35:16 +0000</pubDate></item><item><title>CVE-2025-39686 | comedi: Make insn_rw_emulate_bits() do insn-&amp;gt;n samples</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39686</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: Make insn_rw_emulate_bits() do insn-&gt;n samples
+
+The `insn_rw_emulate_bits()` function is used as a default handler for
+`INSN_READ` instructions for subdevices that have a handler for
+`INSN_BITS` but not for `INSN_READ`.  Similarly, it is used as a default
+handler for `INSN_WRITE` instructions for subdevices that have a handler
+for `INSN_BITS` but not for `INSN_WRITE`. It works by emulating the
+`INSN_READ` or `INSN_WRITE` instruction handling with a constructed
+`INSN_BITS` instruction.  However, `INSN_READ` and `INSN_WRITE`
+instructions are supposed to be able read or write multiple samples,
+indicated by the `insn-&gt;n` value, but `insn_rw_emulate_bits()` currently
+only handles a single sample.  For `INSN_READ`, the comedi core will
+copy `insn-&gt;n` samples back to user-space.  (That triggered KASAN
+kernel-infoleak errors when `insn-&gt;n` was greater than 1, but that is
+being fixed more generally elsewhere in the comedi core.)
+
+Make `insn_rw_emulate_bits()` either handle `insn-&gt;n` samples, or return
+an error, to conform to the general expectation for `INSN_READ` and
+`INSN_WRITE` handlers.</description><pubDate>Fri, 05 Sep 2025 17:35:17 +0000</pubDate></item><item><title>CVE-2025-39687 | iio: light: as73211: Ensure buffer holes are zeroed</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39687</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: light: as73211: Ensure buffer holes are zeroed
+
+Given that the buffer is copied to a kfifo that ultimately user space
+can read, ensure we zero it.</description><pubDate>Fri, 05 Sep 2025 17:35:17 +0000</pubDate></item><item><title>CVE-2025-39689 | ftrace: Also allocate and copy hash for reading of filter files</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39689</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ftrace: Also allocate and copy hash for reading of filter files
+
+Currently the reader of set_ftrace_filter and set_ftrace_notrace just adds
+the pointer to the global tracer hash to its iterator. Unlike the writer
+that allocates a copy of the hash, the reader keeps the pointer to the
+filter hashes. This is problematic because this pointer is static across
+function calls that release the locks that can update the global tracer
+hashes. This can cause UAF and similar bugs.
+
+Allocate and copy the hash for reading the filter files like it is done
+for the writers. This not only fixes UAF bugs, but also makes the code a
+bit simpler as it doesn't have to differentiate when to free the
+iterator's hash between writers and readers.</description><pubDate>Fri, 05 Sep 2025 17:35:17 +0000</pubDate></item><item><title>CVE-2025-39690 | iio: accel: sca3300: fix uninitialized iio scan data</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39690</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: accel: sca3300: fix uninitialized iio scan data
+
+Fix potential leak of uninitialized stack data to userspace by ensuring
+that the `channels` array is zeroed before use.</description><pubDate>Fri, 05 Sep 2025 17:35:18 +0000</pubDate></item><item><title>CVE-2025-39691 | fs/buffer: fix use-after-free when call bh_read() helper</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39691</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/buffer: fix use-after-free when call bh_read() helper
+
+There's issue as follows:
+BUG: KASAN: stack-out-of-bounds in end_buffer_read_sync+0xe3/0x110
+Read of size 8 at addr ffffc9000168f7f8 by task swapper/3/0
+CPU: 3 UID: 0 PID: 0 Comm: swapper/3 Not tainted 6.16.0-862.14.0.6.x86_64
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
+Call Trace:
+ &lt;IRQ&gt;
+ dump_stack_lvl+0x55/0x70
+ print_address_description.constprop.0+0x2c/0x390
+ print_report+0xb4/0x270
+ kasan_report+0xb8/0xf0
+ end_buffer_read_sync+0xe3/0x110
+ end_bio_bh_io_sync+0x56/0x80
+ blk_update_request+0x30a/0x720
+ scsi_end_request+0x51/0x2b0
+ scsi_io_completion+0xe3/0x480
+ ? scsi_device_unbusy+0x11e/0x160
+ blk_complete_reqs+0x7b/0x90
+ handle_softirqs+0xef/0x370
+ irq_exit_rcu+0xa5/0xd0
+ sysvec_apic_timer_interrupt+0x6e/0x90
+ &lt;/IRQ&gt;
+
+ Above issue happens when do ntfs3 filesystem mount, issue may happens
+ as follows:
+           mount                            IRQ
+ntfs_fill_super
+  read_cache_page
+    do_read_cache_folio
+      filemap_read_folio
+        mpage_read_folio
+	 do_mpage_readpage
+	  ntfs_get_block_vbo
+	   bh_read
+	     submit_bh
+	     wait_on_buffer(bh);
+	                            blk_complete_reqs
+				     scsi_io_completion
+				      scsi_end_request
+				       blk_update_request
+				        end_bio_bh_io_sync
+					 end_buffer_read_sync
+					  __end_buffer_read_notouch
+					   unlock_buffer
+
+            wait_on_buffer(bh);--&gt; return will return to caller
+
+					  put_bh
+					    --&gt; trigger stack-out-of-bounds
+In the mpage_read_folio() function, the stack variable 'map_bh' is
+passed to ntfs_get_block_vbo(). Once unlock_buffer() unlocks and
+wait_on_buffer() returns to continue processing, the stack variable
+is likely to be reclaimed. Consequently, during the end_buffer_read_sync()
+process, calling put_bh() may result in stack overrun.
+
+If the bh is not allocated on the stack, it belongs to a folio.  Freeing
+a buffer head which belongs to a folio is done by drop_buffers() which
+will fail to free buffers which are still locked.  So it is safe to call
+put_bh() before __end_buffer_read_notouch().</description><pubDate>Fri, 05 Sep 2025 17:35:18 +0000</pubDate></item><item><title>CVE-2025-39692 | smb: server: split ksmbd_rdma_stop_listening() out of ksmbd_rdma_destroy()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39692</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: server: split ksmbd_rdma_stop_listening() out of ksmbd_rdma_destroy()
+
+We can't call destroy_workqueue(smb_direct_wq); before stop_sessions()!
+
+Otherwise already existing connections try to use smb_direct_wq as
+a NULL pointer.</description><pubDate>Fri, 05 Sep 2025 17:35:18 +0000</pubDate></item><item><title>CVE-2025-39693 | drm/amd/display: Avoid a NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39693</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: Avoid a NULL pointer dereference
+
+[WHY]
+Although unlikely drm_atomic_get_new_connector_state() or
+drm_atomic_get_old_connector_state() can return NULL.
+
+[HOW]
+Check returns before dereference.
+
+(cherry picked from commit 1e5e8d672fec9f2ab352be121be971877bff2af9)</description><pubDate>Fri, 05 Sep 2025 17:35:19 +0000</pubDate></item><item><title>CVE-2025-39694 | s390/sclp: Fix SCCB present check</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39694</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/sclp: Fix SCCB present check
+
+Tracing code called by the SCLP interrupt handler contains early exits
+if the SCCB address associated with an interrupt is NULL. This check is
+performed after physical to virtual address translation.
+
+If the kernel identity mapping does not start at address zero, the
+resulting virtual address is never zero, so that the NULL checks won't
+work. Subsequently this may result in incorrect accesses to the first
+page of the identity mapping.
+
+Fix this by introducing a function that handles the NULL case before
+address translation.</description><pubDate>Fri, 05 Sep 2025 17:35:19 +0000</pubDate></item><item><title>CVE-2025-39695 | RDMA/rxe: Flush delayed SKBs while releasing RXE resources</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39695</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/rxe: Flush delayed SKBs while releasing RXE resources
+
+When skb packets are sent out, these skb packets still depends on
+the rxe resources, for example, QP, sk, when these packets are
+destroyed.
+
+If these rxe resources are released when the skb packets are destroyed,
+the call traces will appear.
+
+To avoid skb packets hang too long time in some network devices,
+a timestamp is added when these skb packets are created. If these
+skb packets hang too long time in network devices, these network
+devices can free these skb packets to release rxe resources.</description><pubDate>Fri, 05 Sep 2025 17:35:20 +0000</pubDate></item><item><title>CVE-2025-39696 | ALSA: hda: tas2781: Fix wrong reference of tasdevice_priv</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39696</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: tas2781: Fix wrong reference of tasdevice_priv
+
+During the conversion to unify the calibration data management, the
+reference to tasdevice_priv was wrongly set to h-&gt;hda_priv instead of
+h-&gt;priv.  This resulted in memory corruption and crashes eventually.
+Unfortunately it's a void pointer, hence the compiler couldn't know
+that it's wrong.</description><pubDate>Fri, 05 Sep 2025 17:35:20 +0000</pubDate></item><item><title>CVE-2025-39697 | NFS: Fix a race when updating an existing write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39697</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFS: Fix a race when updating an existing write
+
+After nfs_lock_and_join_requests() tests for whether the request is
+still attached to the mapping, nothing prevents a call to
+nfs_inode_remove_request() from succeeding until we actually lock the
+page group.
+The reason is that whoever called nfs_inode_remove_request() doesn't
+necessarily have a lock on the page group head.
+
+So in order to avoid races, let's take the page group lock earlier in
+nfs_lock_and_join_requests(), and hold it across the removal of the
+request in nfs_inode_remove_request().</description><pubDate>Fri, 05 Sep 2025 17:35:20 +0000</pubDate></item><item><title>CVE-2025-39698 | io_uring/futex: ensure io_futex_wait() cleans up properly on failure</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39698</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring/futex: ensure io_futex_wait() cleans up properly on failure
+
+The io_futex_data is allocated upfront and assigned to the io_kiocb
+async_data field, but the request isn't marked with REQ_F_ASYNC_DATA
+at that point. Those two should always go together, as the flag tells
+io_uring whether the field is valid or not.
+
+Additionally, on failure cleanup, the futex handler frees the data but
+does not clear -&gt;async_data. Clear the data and the flag in the error
+path as well.
+
+Thanks to Trend Micro Zero Day Initiative and particularly ReDress for
+reporting this.</description><pubDate>Fri, 05 Sep 2025 17:35:21 +0000</pubDate></item><item><title>CVE-2025-39699 | iommu/riscv: prevent NULL deref in iova_to_phys</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39699</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommu/riscv: prevent NULL deref in iova_to_phys
+
+The riscv_iommu_pte_fetch() function returns either NULL for
+unmapped/never-mapped iova, or a valid leaf pte pointer that
+requires no further validation.
+
+riscv_iommu_iova_to_phys() failed to handle NULL returns.
+Prevent null pointer dereference in
+riscv_iommu_iova_to_phys(), and remove the pte validation.</description><pubDate>Fri, 05 Sep 2025 17:35:21 +0000</pubDate></item><item><title>CVE-2025-39700 | mm/damon/ops-common: ignore migration request to invalid nodes</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39700</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/ops-common: ignore migration request to invalid nodes
+
+damon_migrate_pages() tries migration even if the target node is invalid. 
+If users mistakenly make such invalid requests via
+DAMOS_MIGRATE_{HOT,COLD} action, the below kernel BUG can happen.
+
+    [ 7831.883495] BUG: unable to handle page fault for address: 0000000000001f48
+    [ 7831.884160] #PF: supervisor read access in kernel mode
+    [ 7831.884681] #PF: error_code(0x0000) - not-present page
+    [ 7831.885203] PGD 0 P4D 0
+    [ 7831.885468] Oops: Oops: 0000 [#1] SMP PTI
+    [ 7831.885852] CPU: 31 UID: 0 PID: 94202 Comm: kdamond.0 Not tainted 6.16.0-rc5-mm-new-damon+ #93 PREEMPT(voluntary)
+    [ 7831.886913] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-4.el9 04/01/2014
+    [ 7831.887777] RIP: 0010:__alloc_frozen_pages_noprof (include/linux/mmzone.h:1724 include/linux/mmzone.h:1750 mm/page_alloc.c:4936 mm/page_alloc.c:5137)
+    [...]
+    [ 7831.895953] Call Trace:
+    [ 7831.896195]  &lt;TASK&gt;
+    [ 7831.896397] __folio_alloc_noprof (mm/page_alloc.c:5183 mm/page_alloc.c:5192)
+    [ 7831.896787] migrate_pages_batch (mm/migrate.c:1189 mm/migrate.c:1851)
+    [ 7831.897228] ? __pfx_alloc_migration_target (mm/migrate.c:2137)
+    [ 7831.897735] migrate_pages (mm/migrate.c:2078)
+    [ 7831.898141] ? __pfx_alloc_migration_target (mm/migrate.c:2137)
+    [ 7831.898664] damon_migrate_folio_list (mm/damon/ops-common.c:321 mm/damon/ops-common.c:354)
+    [ 7831.899140] damon_migrate_pages (mm/damon/ops-common.c:405)
+    [...]
+
+Add a target node validity check in damon_migrate_pages().  The validity
+check is stolen from that of do_pages_move(), which is being used for the
+move_pages() system call.</description><pubDate>Fri, 05 Sep 2025 17:35:21 +0000</pubDate></item><item><title>CVE-2025-39701 | ACPI: pfr_update: Fix the driver update version check</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39701</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ACPI: pfr_update: Fix the driver update version check
+
+The security-version-number check should be used rather
+than the runtime version check for driver updates.
+
+Otherwise, the firmware update would fail when the update binary had
+a lower runtime version number than the current one.
+
+[ rjw: Changelog edits ]</description><pubDate>Fri, 05 Sep 2025 17:35:22 +0000</pubDate></item><item><title>CVE-2025-39702 | ipv6: sr: Fix MAC comparison to be constant-time</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39702</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv6: sr: Fix MAC comparison to be constant-time
+
+To prevent timing attacks, MACs need to be compared in constant time.
+Use the appropriate helper function for this.</description><pubDate>Fri, 05 Sep 2025 17:35:22 +0000</pubDate></item><item><title>CVE-2025-39703 | net, hsr: reject HSR frame if skb can&amp;#x27;t hold tag</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39703</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net, hsr: reject HSR frame if skb can't hold tag
+
+Receiving HSR frame with insufficient space to hold HSR tag in the skb
+can result in a crash (kernel BUG):
+
+[   45.390915] skbuff: skb_under_panic: text:ffffffff86f32cac len:26 put:14 head:ffff888042418000 data:ffff888042417ff4 tail:0xe end:0x180 dev:bridge_slave_1
+[   45.392559] ------------[ cut here ]------------
+[   45.392912] kernel BUG at net/core/skbuff.c:211!
+[   45.393276] Oops: invalid opcode: 0000 [#1] SMP DEBUG_PAGEALLOC KASAN NOPTI
+[   45.393809] CPU: 1 UID: 0 PID: 2496 Comm: reproducer Not tainted 6.15.0 #12 PREEMPT(undef)
+[   45.394433] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[   45.395273] RIP: 0010:skb_panic+0x15b/0x1d0
+
+&lt;snip registers, remove unreliable trace&gt;
+
+[   45.402911] Call Trace:
+[   45.403105]  &lt;IRQ&gt;
+[   45.404470]  skb_push+0xcd/0xf0
+[   45.404726]  br_dev_queue_push_xmit+0x7c/0x6c0
+[   45.406513]  br_forward_finish+0x128/0x260
+[   45.408483]  __br_forward+0x42d/0x590
+[   45.409464]  maybe_deliver+0x2eb/0x420
+[   45.409763]  br_flood+0x174/0x4a0
+[   45.410030]  br_handle_frame_finish+0xc7c/0x1bc0
+[   45.411618]  br_handle_frame+0xac3/0x1230
+[   45.413674]  __netif_receive_skb_core.constprop.0+0x808/0x3df0
+[   45.422966]  __netif_receive_skb_one_core+0xb4/0x1f0
+[   45.424478]  __netif_receive_skb+0x22/0x170
+[   45.424806]  process_backlog+0x242/0x6d0
+[   45.425116]  __napi_poll+0xbb/0x630
+[   45.425394]  net_rx_action+0x4d1/0xcc0
+[   45.427613]  handle_softirqs+0x1a4/0x580
+[   45.427926]  do_softirq+0x74/0x90
+[   45.428196]  &lt;/IRQ&gt;
+
+This issue was found by syzkaller.
+
+The panic happens in br_dev_queue_push_xmit() once it receives a
+corrupted skb with ETH header already pushed in linear data. When it
+attempts the skb_push() call, there's not enough headroom and
+skb_push() panics.
+
+The corrupted skb is put on the queue by HSR layer, which makes a
+sequence of unintended transformations when it receives a specific
+corrupted HSR frame (with incomplete TAG).
+
+Fix it by dropping and consuming frames that are not long enough to
+contain both ethernet and hsr headers.
+
+Alternative fix would be to check for enough headroom before skb_push()
+in br_dev_queue_push_xmit().
+
+In the reproducer, this is injected via AF_PACKET, but I don't easily
+see why it couldn't be sent over the wire from adjacent network.
+
+Further Details:
+
+In the reproducer, the following network interface chain is set up:
+
+┌────────────────┐   ┌────────────────┐
+│ veth0_to_hsr   ├───┤  hsr_slave0    ┼───┐
+└────────────────┘   └────────────────┘   │
+                                          │ ┌──────┐
+                                          ├─┤ hsr0 ├───┐
+                                          │ └──────┘   │
+┌────────────────┐   ┌────────────────┐   │            │┌────────┐
+│ veth1_to_hsr   ┼───┤  hsr_slave1    ├───┘            └┤        │
+└────────────────┘   └────────────────┘                ┌┼ bridge │
+                                                       ││        │
+                                                       │└────────┘
+                                                       │
+                                        ┌───────┐      │
+                                        │  ...  ├──────┘
+                                        └───────┘
+
+To trigger the events leading up to crash, reproducer sends a corrupted
+HSR fr
+---truncated---</description><pubDate>Fri, 05 Sep 2025 17:35:22 +0000</pubDate></item><item><title>CVE-2025-39704 | LoongArch: KVM: Fix stack protector issue in send_ipi_data()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39704</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+LoongArch: KVM: Fix stack protector issue in send_ipi_data()
+
+Function kvm_io_bus_read() is called in function send_ipi_data(), buffer
+size of parameter *val should be at least 8 bytes. Since some emulation
+functions like loongarch_ipi_readl() and kvm_eiointc_read() will write
+the buffer *val with 8 bytes signed extension regardless parameter len.
+
+Otherwise there will be buffer overflow issue when CONFIG_STACKPROTECTOR
+is enabled. The bug report is shown as follows:
+
+Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: send_ipi_data+0x194/0x1a0 [kvm]
+CPU: 11 UID: 107 PID: 2692 Comm: CPU 0/KVM Not tainted 6.17.0-rc1+ #102 PREEMPT(full)
+Stack : 9000000005901568 0000000000000000 9000000003af371c 900000013c68c000
+        900000013c68f850 900000013c68f858 0000000000000000 900000013c68f998
+        900000013c68f990 900000013c68f990 900000013c68f6c0 fffffffffffdb058
+        fffffffffffdb0e0 900000013c68f858 911e1d4d39cf0ec2 9000000105657a00
+        0000000000000001 fffffffffffffffe 0000000000000578 282049464555206e
+        6f73676e6f6f4c20 0000000000000001 00000000086b4000 0000000000000000
+        0000000000000000 0000000000000000 9000000005709968 90000000058f9000
+        900000013c68fa68 900000013c68fab4 90000000029279f0 900000010153f940
+        900000010001f360 0000000000000000 9000000003af3734 000000004390000c
+        00000000000000b0 0000000000000004 0000000000000000 0000000000071c1d
+        ...
+Call Trace:
+[&lt;9000000003af3734&gt;] show_stack+0x5c/0x180
+[&lt;9000000003aed168&gt;] dump_stack_lvl+0x6c/0x9c
+[&lt;9000000003ad0ab0&gt;] vpanic+0x108/0x2c4
+[&lt;9000000003ad0ca8&gt;] panic+0x3c/0x40
+[&lt;9000000004eb0a1c&gt;] __stack_chk_fail+0x14/0x18
+[&lt;ffff8000023473f8&gt;] send_ipi_data+0x190/0x1a0 [kvm]
+[&lt;ffff8000023313e4&gt;] __kvm_io_bus_write+0xa4/0xe8 [kvm]
+[&lt;ffff80000233147c&gt;] kvm_io_bus_write+0x54/0x90 [kvm]
+[&lt;ffff80000233f9f8&gt;] kvm_emu_iocsr+0x180/0x310 [kvm]
+[&lt;ffff80000233fe08&gt;] kvm_handle_gspr+0x280/0x478 [kvm]
+[&lt;ffff8000023443e8&gt;] kvm_handle_exit+0xc0/0x130 [kvm]</description><pubDate>Fri, 05 Sep 2025 17:35:23 +0000</pubDate></item><item><title>CVE-2025-39705 | drm/amd/display: fix a Null pointer dereference vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39705</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: fix a Null pointer dereference vulnerability
+
+[Why]
+A null pointer dereference vulnerability exists in the AMD display driver's
+(DC module) cleanup function dc_destruct().
+When display control context (dc-&gt;ctx) construction fails
+(due to memory allocation failure), this pointer remains NULL.
+During subsequent error handling when dc_destruct() is called,
+there's no NULL check before dereferencing the perf_trace member
+(dc-&gt;ctx-&gt;perf_trace), causing a kernel null pointer dereference crash.
+
+[How]
+Check if dc-&gt;ctx is non-NULL before dereferencing.
+
+(Updated commit text and removed unnecessary error message)
+(cherry picked from commit 9dd8e2ba268c636c240a918e0a31e6feaee19404)</description><pubDate>Fri, 05 Sep 2025 17:35:23 +0000</pubDate></item><item><title>CVE-2025-39706 | drm/amdkfd: Destroy KFD debugfs after destroy KFD wq</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39706</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdkfd: Destroy KFD debugfs after destroy KFD wq
+
+Since KFD proc content was moved to kernel debugfs, we can't destroy KFD
+debugfs before kfd_process_destroy_wq. Move kfd_process_destroy_wq prior
+to kfd_debugfs_fini to fix a kernel NULL pointer problem. It happens
+when /sys/kernel/debug/kfd was already destroyed in kfd_debugfs_fini but
+kfd_process_destroy_wq calls kfd_debugfs_remove_process. This line
+    debugfs_remove_recursive(entry-&gt;proc_dentry);
+tries to remove /sys/kernel/debug/kfd/proc/&lt;pid&gt; while
+/sys/kernel/debug/kfd is already gone. It hangs the kernel by kernel
+NULL pointer.
+
+(cherry picked from commit 0333052d90683d88531558dcfdbf2525cc37c233)</description><pubDate>Fri, 05 Sep 2025 17:35:24 +0000</pubDate></item><item><title>CVE-2025-39707 | drm/amdgpu: check if hubbub is NULL in debugfs/amdgpu_dm_capabilities</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39707</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amdgpu: check if hubbub is NULL in debugfs/amdgpu_dm_capabilities
+
+HUBBUB structure is not initialized on DCE hardware, so check if it is NULL
+to avoid null dereference while accessing amdgpu_dm_capabilities file in
+debugfs.</description><pubDate>Fri, 05 Sep 2025 17:35:24 +0000</pubDate></item><item><title>CVE-2025-39708 | media: iris: Fix NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39708</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: iris: Fix NULL pointer dereference
+
+A warning reported by smatch indicated a possible null pointer
+dereference where one of the arguments to API
+"iris_hfi_gen2_handle_system_error" could sometimes be null.
+
+To fix this, add a check to validate that the argument passed is not
+null before accessing its members.</description><pubDate>Fri, 05 Sep 2025 17:35:24 +0000</pubDate></item><item><title>CVE-2025-39709 | media: venus: protect against spurious interrupts during probe</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39709</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: venus: protect against spurious interrupts during probe
+
+Make sure the interrupt handler is initialized before the interrupt is
+registered.
+
+If the IRQ is registered before hfi_create(), it's possible that an
+interrupt fires before the handler setup is complete, leading to a NULL
+dereference.
+
+This error condition has been observed during system boot on Rb3Gen2.</description><pubDate>Fri, 05 Sep 2025 17:35:25 +0000</pubDate></item><item><title>CVE-2025-39710 | media: venus: Add a check for packet size after reading from shared memory</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39710</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: venus: Add a check for packet size after reading from shared memory
+
+Add a check to ensure that the packet size does not exceed the number of
+available words after reading the packet header from shared memory. This
+ensures that the size provided by the firmware is safe to process and
+prevent potential out-of-bounds memory access.</description><pubDate>Fri, 05 Sep 2025 17:35:25 +0000</pubDate></item><item><title>CVE-2025-39711 | media: ivsc: Fix crash at shutdown due to missing mei_cldev_disable() calls</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39711</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: ivsc: Fix crash at shutdown due to missing mei_cldev_disable() calls
+
+Both the ACE and CSI driver are missing a mei_cldev_disable() call in
+their remove() function.
+
+This causes the mei_cl client to stay part of the mei_device-&gt;file_list
+list even though its memory is freed by mei_cl_bus_dev_release() calling
+kfree(cldev-&gt;cl).
+
+This leads to a use-after-free when mei_vsc_remove() runs mei_stop()
+which first removes all mei bus devices calling mei_ace_remove() and
+mei_csi_remove() followed by mei_cl_bus_dev_release() and then calls
+mei_cl_all_disconnect() which walks over mei_device-&gt;file_list dereferecing
+the just freed cldev-&gt;cl.
+
+And mei_vsc_remove() it self is run at shutdown because of the
+platform_device_unregister(tp-&gt;pdev) in vsc_tp_shutdown()
+
+When building a kernel with KASAN this leads to the following KASAN report:
+
+[ 106.634504] ==================================================================
+[ 106.634623] BUG: KASAN: slab-use-after-free in mei_cl_set_disconnected (drivers/misc/mei/client.c:783) mei
+[ 106.634683] Read of size 4 at addr ffff88819cb62018 by task systemd-shutdow/1
+[ 106.634729]
+[ 106.634767] Tainted: [E]=UNSIGNED_MODULE
+[ 106.634770] Hardware name: Dell Inc. XPS 16 9640/09CK4V, BIOS 1.12.0 02/10/2025
+[ 106.634773] Call Trace:
+[ 106.634777]  &lt;TASK&gt;
+...
+[ 106.634871] kasan_report (mm/kasan/report.c:221 mm/kasan/report.c:636)
+[ 106.634901] mei_cl_set_disconnected (drivers/misc/mei/client.c:783) mei
+[ 106.634921] mei_cl_all_disconnect (drivers/misc/mei/client.c:2165 (discriminator 4)) mei
+[ 106.634941] mei_reset (drivers/misc/mei/init.c:163) mei
+...
+[ 106.635042] mei_stop (drivers/misc/mei/init.c:348) mei
+[ 106.635062] mei_vsc_remove (drivers/misc/mei/mei_dev.h:784 drivers/misc/mei/platform-vsc.c:393) mei_vsc
+[ 106.635066] platform_remove (drivers/base/platform.c:1424)
+
+Add the missing mei_cldev_disable() calls so that the mei_cl gets removed
+from mei_device-&gt;file_list before it is freed to fix this.</description><pubDate>Fri, 05 Sep 2025 17:35:25 +0000</pubDate></item><item><title>CVE-2025-39712 | media: mt9m114: Fix deadlock in get_frame_interval/set_frame_interval</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39712</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: mt9m114: Fix deadlock in get_frame_interval/set_frame_interval
+
+Getting / Setting the frame interval using the V4L2 subdev pad ops
+get_frame_interval/set_frame_interval causes a deadlock, as the
+subdev state is locked in the [1] but also in the driver itself.
+
+In [2] it's described that the caller is responsible to acquire and
+release the lock in this case. Therefore, acquiring the lock in the
+driver is wrong.
+
+Remove the lock acquisitions/releases from mt9m114_ifp_get_frame_interval()
+and mt9m114_ifp_set_frame_interval().
+
+[1] drivers/media/v4l2-core/v4l2-subdev.c - line 1129
+[2] Documentation/driver-api/media/v4l2-subdev.rst</description><pubDate>Fri, 05 Sep 2025 17:35:26 +0000</pubDate></item><item><title>CVE-2025-39713 | media: rainshadow-cec: fix TOCTOU race condition in rain_interrupt()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39713</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: rainshadow-cec: fix TOCTOU race condition in rain_interrupt()
+
+In the interrupt handler rain_interrupt(), the buffer full check on
+rain-&gt;buf_len is performed before acquiring rain-&gt;buf_lock. This
+creates a Time-of-Check to Time-of-Use (TOCTOU) race condition, as
+rain-&gt;buf_len is concurrently accessed and modified in the work
+handler rain_irq_work_handler() under the same lock.
+
+Multiple interrupt invocations can race, with each reading buf_len
+before it becomes full and then proceeding. This can lead to both
+interrupts attempting to write to the buffer, incrementing buf_len
+beyond its capacity (DATA_SIZE) and causing a buffer overflow.
+
+Fix this bug by moving the spin_lock() to before the buffer full
+check. This ensures that the check and the subsequent buffer modification
+are performed atomically, preventing the race condition. An corresponding
+spin_unlock() is added to the overflow path to correctly release the
+lock.
+
+This possible bug was found by an experimental static analysis tool
+developed by our team.</description><pubDate>Fri, 05 Sep 2025 17:35:26 +0000</pubDate></item><item><title>CVE-2025-39714 | media: usbtv: Lock resolution while streaming</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39714</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: usbtv: Lock resolution while streaming
+
+When an program is streaming (ffplay) and another program (qv4l2)
+changes the TV standard from NTSC to PAL, the kernel crashes due to trying
+to copy to unmapped memory.
+
+Changing from NTSC to PAL increases the resolution in the usbtv struct,
+but the video plane buffer isn't adjusted, so it overflows.
+
+[hverkuil: call vb2_is_busy instead of vb2_is_streaming]</description><pubDate>Fri, 05 Sep 2025 17:35:27 +0000</pubDate></item><item><title>CVE-2025-39715 | parisc: Revise gateway LWS calls to probe user read access</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39715</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+parisc: Revise gateway LWS calls to probe user read access
+
+We use load and stbys,e instructions to trigger memory reference
+interruptions without writing to memory. Because of the way read
+access support is implemented, read access interruptions are only
+triggered at privilege levels 2 and 3. The kernel and gateway
+page execute at privilege level 0, so this code never triggers
+a read access interruption. Thus, it is currently possible for
+user code to execute a LWS compare and swap operation at an
+address that is read protected at privilege level 3 (PRIV_USER).
+
+Fix this by probing read access rights at privilege level 3 and
+branching to lws_fault if access isn't allowed.</description><pubDate>Fri, 05 Sep 2025 17:35:27 +0000</pubDate></item><item><title>CVE-2025-39716 | parisc: Revise __get_user() to probe user read access</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39716</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+parisc: Revise __get_user() to probe user read access
+
+Because of the way read access support is implemented, read access
+interruptions are only triggered at privilege levels 2 and 3. The
+kernel executes at privilege level 0, so __get_user() never triggers
+a read access interruption (code 26). Thus, it is currently possible
+for user code to access a read protected address via a system call.
+
+Fix this by probing read access rights at privilege level 3 (PRIV_USER)
+and setting __gu_err to -EFAULT (-14) if access isn't allowed.
+
+Note the cmpiclr instruction does a 32-bit compare because COND macro
+doesn't work inside asm.</description><pubDate>Fri, 05 Sep 2025 17:35:27 +0000</pubDate></item><item><title>CVE-2025-39717 | open_tree_attr: do not allow id-mapping changes without OPEN_TREE_CLONE</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39717</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+open_tree_attr: do not allow id-mapping changes without OPEN_TREE_CLONE
+
+As described in commit 7a54947e727b ('Merge patch series "fs: allow
+changing idmappings"'), open_tree_attr(2) was necessary in order to
+allow for a detached mount to be created and have its idmappings changed
+without the risk of any racing threads operating on it. For this reason,
+mount_setattr(2) still does not allow for id-mappings to be changed.
+
+However, there was a bug in commit 2462651ffa76 ("fs: allow changing
+idmappings") which allowed users to bypass this restriction by calling
+open_tree_attr(2) *without* OPEN_TREE_CLONE.
+
+can_idmap_mount() prevented this bug from allowing an attached
+mountpoint's id-mapping from being modified (thanks to an is_anon_ns()
+check), but this still allows for detached (but visible) mounts to have
+their be id-mapping changed. This risks the same UAF and locking issues
+as described in the merge commit, and was likely unintentional.</description><pubDate>Fri, 05 Sep 2025 17:35:28 +0000</pubDate></item><item><title>CVE-2025-39718 | vsock/virtio: Validate length in packet header before skb_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39718</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vsock/virtio: Validate length in packet header before skb_put()
+
+When receiving a vsock packet in the guest, only the virtqueue buffer
+size is validated prior to virtio_vsock_skb_rx_put(). Unfortunately,
+virtio_vsock_skb_rx_put() uses the length from the packet header as the
+length argument to skb_put(), potentially resulting in SKB overflow if
+the host has gone wonky.
+
+Validate the length as advertised by the packet header before calling
+virtio_vsock_skb_rx_put().</description><pubDate>Fri, 05 Sep 2025 17:35:28 +0000</pubDate></item><item><title>CVE-2025-39719 | iio: imu: bno055: fix OOB access of hw_xlate array</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39719</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iio: imu: bno055: fix OOB access of hw_xlate array
+
+Fix a potential out-of-bounds array access of the hw_xlate array in
+bno055.c.
+
+In bno055_get_regmask(), hw_xlate was iterated over the length of the
+vals array instead of the length of the hw_xlate array. In the case of
+bno055_gyr_scale, the vals array is larger than the hw_xlate array,
+so this could result in an out-of-bounds access. In practice, this
+shouldn't happen though because a match should always be found which
+breaks out of the for loop before it iterates beyond the end of the
+hw_xlate array.
+
+By adding a new hw_xlate_len field to the bno055_sysfs_attr, we can be
+sure we are iterating over the correct length.</description><pubDate>Fri, 05 Sep 2025 17:35:28 +0000</pubDate></item><item><title>CVE-2025-39720 | ksmbd: fix refcount leak causing resource not released</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39720</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix refcount leak causing resource not released
+
+When ksmbd_conn_releasing(opinfo-&gt;conn) returns true,the refcount was not
+decremented properly, causing a refcount leak that prevents the count from
+reaching zero and the memory from being released.</description><pubDate>Fri, 05 Sep 2025 17:35:29 +0000</pubDate></item><item><title>CVE-2025-39721 | crypto: qat - flush misc workqueue during device shutdown</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39721</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: qat - flush misc workqueue during device shutdown
+
+Repeated loading and unloading of a device specific QAT driver, for
+example qat_4xxx, in a tight loop can lead to a crash due to a
+use-after-free scenario. This occurs when a power management (PM)
+interrupt triggers just before the device-specific driver (e.g.,
+qat_4xxx.ko) is unloaded, while the core driver (intel_qat.ko) remains
+loaded.
+
+Since the driver uses a shared workqueue (`qat_misc_wq`) across all
+devices and owned by intel_qat.ko, a deferred routine from the
+device-specific driver may still be pending in the queue. If this
+routine executes after the driver is unloaded, it can dereference freed
+memory, resulting in a page fault and kernel crash like the following:
+
+    BUG: unable to handle page fault for address: ffa000002e50a01c
+    #PF: supervisor read access in kernel mode
+    RIP: 0010:pm_bh_handler+0x1d2/0x250 [intel_qat]
+    Call Trace:
+      pm_bh_handler+0x1d2/0x250 [intel_qat]
+      process_one_work+0x171/0x340
+      worker_thread+0x277/0x3a0
+      kthread+0xf0/0x120
+      ret_from_fork+0x2d/0x50
+
+To prevent this, flush the misc workqueue during device shutdown to
+ensure that all pending work items are completed before the driver is
+unloaded.
+
+Note: This approach may slightly increase shutdown latency if the
+workqueue contains jobs from other devices, but it ensures correctness
+and stability.</description><pubDate>Fri, 05 Sep 2025 17:35:29 +0000</pubDate></item><item><title>CVE-2025-39722 | crypto: caam - Prevent crash on suspend with iMX8QM / iMX8ULP</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39722</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: caam - Prevent crash on suspend with iMX8QM / iMX8ULP
+
+Since the CAAM on these SoCs is managed by another ARM core, called the
+SECO (Security Controller) on iMX8QM and Secure Enclave on iMX8ULP, which
+also reserves access to register page 0 suspend operations cannot touch
+this page.
+
+This is similar to when running OPTEE, where OPTEE will reserve page 0.
+
+Track this situation using a new state variable no_page0, reflecting if
+page 0 is reserved elsewhere, either by other management cores in SoC or
+by OPTEE.
+
+Replace the optee_en check in suspend/resume with the new check.
+
+optee_en cannot go away as it's needed elsewhere to gate OPTEE specific
+situations.
+
+Fixes the following splat at suspend:
+
+    Internal error: synchronous external abort: 0000000096000010 [#1] SMP
+    Hardware name: Freescale i.MX8QXP ACU6C (DT)
+    pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+    pc : readl+0x0/0x18
+    lr : rd_reg32+0x18/0x3c
+    sp : ffffffc08192ba20
+    x29: ffffffc08192ba20 x28: ffffff8025190000 x27: 0000000000000000
+    x26: ffffffc0808ae808 x25: ffffffc080922338 x24: ffffff8020e89090
+    x23: 0000000000000000 x22: ffffffc080922000 x21: ffffff8020e89010
+    x20: ffffffc080387ef8 x19: ffffff8020e89010 x18: 000000005d8000d5
+    x17: 0000000030f35963 x16: 000000008f785f3f x15: 000000003b8ef57c
+    x14: 00000000c418aef8 x13: 00000000f5fea526 x12: 0000000000000001
+    x11: 0000000000000002 x10: 0000000000000001 x9 : 0000000000000000
+    x8 : ffffff8025190870 x7 : ffffff8021726880 x6 : 0000000000000002
+    x5 : ffffff80217268f0 x4 : ffffff8021726880 x3 : ffffffc081200000
+    x2 : 0000000000000001 x1 : ffffff8020e89010 x0 : ffffffc081200004
+    Call trace:
+     readl+0x0/0x18
+     caam_ctrl_suspend+0x30/0xdc
+     dpm_run_callback.constprop.0+0x24/0x5c
+     device_suspend+0x170/0x2e8
+     dpm_suspend+0xa0/0x104
+     dpm_suspend_start+0x48/0x50
+     suspend_devices_and_enter+0x7c/0x45c
+     pm_suspend+0x148/0x160
+     state_store+0xb4/0xf8
+     kobj_attr_store+0x14/0x24
+     sysfs_kf_write+0x38/0x48
+     kernfs_fop_write_iter+0xb4/0x178
+     vfs_write+0x118/0x178
+     ksys_write+0x6c/0xd0
+     __arm64_sys_write+0x14/0x1c
+     invoke_syscall.constprop.0+0x64/0xb0
+     do_el0_svc+0x90/0xb0
+     el0_svc+0x18/0x44
+     el0t_64_sync_handler+0x88/0x124
+     el0t_64_sync+0x150/0x154
+    Code: 88dffc21 88dffc21 5ac00800 d65f03c0 (b9400000)</description><pubDate>Fri, 05 Sep 2025 17:35:30 +0000</pubDate></item><item><title>CVE-2025-39723 | netfs: Fix unbuffered write error handling</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39723</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfs: Fix unbuffered write error handling
+
+If all the subrequests in an unbuffered write stream fail, the subrequest
+collector doesn't update the stream-&gt;transferred value and it retains its
+initial LONG_MAX value.  Unfortunately, if all active streams fail, then we
+take the smallest value of { LONG_MAX, LONG_MAX, ... } as the value to set
+in wreq-&gt;transferred - which is then returned from -&gt;write_iter().
+
+LONG_MAX was chosen as the initial value so that all the streams can be
+quickly assessed by taking the smallest value of all stream-&gt;transferred -
+but this only works if we've set any of them.
+
+Fix this by adding a flag to indicate whether the value in
+stream-&gt;transferred is valid and checking that when we integrate the
+values.  stream-&gt;transferred can then be initialised to zero.
+
+This was found by running the generic/750 xfstest against cifs with
+cache=none.  It splices data to the target file.  Once (if) it has used up
+all the available scratch space, the writes start failing with ENOSPC.
+This causes -&gt;write_iter() to fail.  However, it was returning
+wreq-&gt;transferred, i.e. LONG_MAX, rather than an error (because it thought
+the amount transferred was non-zero) and iter_file_splice_write() would
+then try to clean up that amount of pipe bufferage - leading to an oops
+when it overran.  The kernel log showed:
+
+    CIFS: VFS: Send error in write = -28
+
+followed by:
+
+    BUG: kernel NULL pointer dereference, address: 0000000000000008
+
+with:
+
+    RIP: 0010:iter_file_splice_write+0x3a4/0x520
+    do_splice+0x197/0x4e0
+
+or:
+
+    RIP: 0010:pipe_buf_release (include/linux/pipe_fs_i.h:282)
+    iter_file_splice_write (fs/splice.c:755)
+
+Also put a warning check into splice to announce if -&gt;write_iter() returned
+that it had written more than it was asked to.</description><pubDate>Fri, 05 Sep 2025 17:35:30 +0000</pubDate></item><item><title>CVE-2025-39724 | serial: 8250: fix panic due to PSLVERR</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39724</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+serial: 8250: fix panic due to PSLVERR
+
+When the PSLVERR_RESP_EN parameter is set to 1, the device generates
+an error response if an attempt is made to read an empty RBR (Receive
+Buffer Register) while the FIFO is enabled.
+
+In serial8250_do_startup(), calling serial_port_out(port, UART_LCR,
+UART_LCR_WLEN8) triggers dw8250_check_lcr(), which invokes
+dw8250_force_idle() and serial8250_clear_and_reinit_fifos(). The latter
+function enables the FIFO via serial_out(p, UART_FCR, p-&gt;fcr).
+Execution proceeds to the serial_port_in(port, UART_RX).
+This satisfies the PSLVERR trigger condition.
+
+When another CPU (e.g., using printk()) is accessing the UART (UART
+is busy), the current CPU fails the check (value &amp; ~UART_LCR_SPAR) ==
+(lcr &amp; ~UART_LCR_SPAR) in dw8250_check_lcr(), causing it to enter
+dw8250_force_idle().
+
+Put serial_port_out(port, UART_LCR, UART_LCR_WLEN8) under the port-&gt;lock
+to fix this issue.
+
+Panic backtrace:
+[    0.442336] Oops - unknown exception [#1]
+[    0.442343] epc : dw8250_serial_in32+0x1e/0x4a
+[    0.442351]  ra : serial8250_do_startup+0x2c8/0x88e
+...
+[    0.442416] console_on_rootfs+0x26/0x70</description><pubDate>Fri, 05 Sep 2025 17:35:30 +0000</pubDate></item><item><title>CVE-2025-39725 | mm/vmscan: fix hwpoisoned large folio handling in shrink_folio_list</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39725</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/vmscan: fix hwpoisoned large folio handling in shrink_folio_list
+
+In shrink_folio_list(), the hwpoisoned folio may be large folio, which
+can't be handled by unmap_poisoned_folio().  For THP, try_to_unmap_one()
+must be passed with TTU_SPLIT_HUGE_PMD to split huge PMD first and then
+retry.  Without TTU_SPLIT_HUGE_PMD, we will trigger null-ptr deref of
+pvmw.pte.  Even we passed TTU_SPLIT_HUGE_PMD, we will trigger a
+WARN_ON_ONCE due to the page isn't in swapcache.
+
+Since UCE is rare in real world, and race with reclaimation is more rare,
+just skipping the hwpoisoned large folio is enough.  memory_failure() will
+handle it if the UCE is triggered again.
+
+This happens when memory reclaim for large folio races with
+memory_failure(), and will lead to kernel panic.  The race is as
+follows:
+
+cpu0      cpu1
+ shrink_folio_list memory_failure
+  TestSetPageHWPoison
+  unmap_poisoned_folio
+  --&gt; trigger BUG_ON due to
+  unmap_poisoned_folio couldn't
+   handle large folio
+
+[tujinjiang@huawei.com: add comment to unmap_poisoned_folio()]</description><pubDate>Fri, 05 Sep 2025 17:35:31 +0000</pubDate></item><item><title>CVE-2025-39726 | s390/ism: fix concurrency management in ism_cmd()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39726</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/ism: fix concurrency management in ism_cmd()
+
+The s390x ISM device data sheet clearly states that only one
+request-response sequence is allowable per ISM function at any point in
+time.  Unfortunately as of today the s390/ism driver in Linux does not
+honor that requirement. This patch aims to rectify that.
+
+This problem was discovered based on Aliaksei's bug report which states
+that for certain workloads the ISM functions end up entering error state
+(with PEC 2 as seen from the logs) after a while and as a consequence
+connections handled by the respective function break, and for future
+connection requests the ISM device is not considered -- given it is in a
+dysfunctional state. During further debugging PEC 3A was observed as
+well.
+
+A kernel message like
+[ 1211.244319] zpci: 061a:00:00.0: Event 0x2 reports an error for PCI function 0x61a
+is a reliable indicator of the stated function entering error state
+with PEC 2. Let me also point out that a kernel message like
+[ 1211.244325] zpci: 061a:00:00.0: The ism driver bound to the device does not support error recovery
+is a reliable indicator that the ISM function won't be auto-recovered
+because the ISM driver currently lacks support for it.
+
+On a technical level, without this synchronization, commands (inputs to
+the FW) may be partially or fully overwritten (corrupted) by another CPU
+trying to issue commands on the same function. There is hard evidence that
+this can lead to DMB token values being used as DMB IOVAs, leading to
+PEC 2 PCI events indicating invalid DMA. But this is only one of the
+failure modes imaginable. In theory even completely losing one command
+and executing another one twice and then trying to interpret the outputs
+as if the command we intended to execute was actually executed and not
+the other one is also possible.  Frankly, I don't feel confident about
+providing an exhaustive list of possible consequences.</description><pubDate>Fri, 05 Sep 2025 17:35:31 +0000</pubDate></item><item><title>CVE-2025-9709 | NRF52810 Runtime EM Fault Injection APPROTECT Bypass</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9709</link><description>On-Chip Debug and Test Interface With Improper Access Control and Improper Protection against Electromagnetic Fault Injection (EM-FI) in Nordic Semiconductor nRF52810 allow attacker to perform EM Fault Injection and bypass APPROTECT at runtime, requiring the least amount of modification to the hardware system possible.</description><pubDate>Fri, 05 Sep 2025 17:22:47 +0000</pubDate></item><item><title>CVE-2025-9999 | Improper validation of payload elements</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9999</link><description>Some payload elements of the messages sent between two stations in a networking architecture are not properly checked on the receiving station allowing an attacker to execute unauthorized commands in the application.</description><pubDate>Fri, 05 Sep 2025 16:51:39 +0000</pubDate></item><item><title>CVE-2025-9998 | Improper validation of packets sequencing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9998</link><description>The sequence of packets received by a Networking server are not correctly checked.
 
 An attacker could exploit this vulnerability to send specially crafted messages to force the application to stop.</description><pubDate>Fri, 05 Sep 2025 16:51:40 +0000</pubDate></item><item><title>CVE-2025-27003 | WordPress Quick Paypal Payments Plugin &amp;lt;= 5.7.46 - Cross Site Request Forgery (CSRF) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-27003</link><description>Cross-Site Request Forgery (CSRF) vulnerability in fullworks Quick Paypal Payments allows Cross Site Request Forgery. This issue affects Quick Paypal Payments: from n/a through 5.7.46.</description><pubDate>Fri, 05 Sep 2025 16:40:25 +0000</pubDate></item><item><title>CVE-2025-53571 | WordPress HAPPY Plugin &amp;lt;= 1.0.6 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-53571</link><description>Missing Authorization vulnerability in VillaTheme HAPPY allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects HAPPY: from n/a through 1.0.6.</description><pubDate>Fri, 05 Sep 2025 16:40:26 +0000</pubDate></item><item><title>CVE-2025-58206 | WordPress MaxCoach Theme &amp;lt;= 3.2.5 - Local File Inclusion Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58206</link><description>Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in ThemeMove MaxCoach allows PHP Local File Inclusion. This issue affects MaxCoach: from n/a through 3.2.5.</description><pubDate>Fri, 05 Sep 2025 16:40:26 +0000</pubDate></item><item><title>CVE-2025-58214 | WordPress Indutri Theme &amp;lt; 1.3.0 - Local File Inclusion Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58214</link><description>Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in gavias Indutri allows PHP Local File Inclusion. This issue affects Indutri: from n/a through n/a.</description><pubDate>Fri, 05 Sep 2025 16:40:27 +0000</pubDate></item><item><title>CVE-2024-0028 | In Audio Service, there is a possible way to obtain MAC addresses of nearby Bluetooth devices due to a missing permission check. This could ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-0028</link><description>In Audio Service, there is a possible way to obtain MAC addresses of nearby Bluetooth devices due to a missing permission check. This could lead to local escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:53 +0000</pubDate></item><item><title>CVE-2025-26434 | In libxml2, there is a possible out of bounds read due to a buffer overflow. This could lead to local information disclosure with no additio...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-26434</link><description>In libxml2, there is a possible out of bounds read due to a buffer overflow. This could lead to local information disclosure with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:54 +0000</pubDate></item><item><title>CVE-2025-26461 | In Permission Manager, there is a possible way for the microphone privacy indicator to remain activated even after the user attempts to clos...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-26461</link><description>In Permission Manager, there is a possible way for the microphone privacy indicator to remain activated even after the user attempts to close the app due to a logic error in the code. This could lead to local escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:54 +0000</pubDate></item><item><title>CVE-2025-32316 | In gralloc4, there is a possible out of bounds write due to a missing bounds check. This could lead to local information disclosure with no ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-32316</link><description>In gralloc4, there is a possible out of bounds write due to a missing bounds check. This could lead to local information disclosure with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:55 +0000</pubDate></item><item><title>CVE-2025-32317 | In App Widget, there is a possible Information Disclosure due to a confused deputy. This could lead to local information disclosure with no ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-32317</link><description>In App Widget, there is a possible Information Disclosure due to a confused deputy. This could lead to local information disclosure with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:55 +0000</pubDate></item><item><title>CVE-2025-32318 | In Skia, there is a possible out of bounds write due to a heap buffer overflow. This could lead to remote escalation of privilege with no ad...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-32318</link><description>In Skia, there is a possible out of bounds write due to a heap buffer overflow. This could lead to remote escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:55 +0000</pubDate></item><item><title>CVE-2025-32320 | In System UI, there is a possible way to view other users' images due to a confused deputy. This could lead to local escalation of privilege...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-32320</link><description>In System UI, there is a possible way to view other users' images due to a confused deputy. This could lead to local escalation of privilege with no additional execution privileges needed. User interaction is not needed for exploitation.</description><pubDate>Fri, 05 Sep 2025 16:21:56 +0000</pubDate></item><item><title>CVE-2025-48102 | WordPress GoUrl Bitcoin Payment Gateway &amp;amp; Paid Downloads &amp;amp; Membership plugin &amp;lt;= 1.6.6 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48102</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in gourl GoUrl Bitcoin Payment Gateway &amp;amp; Paid Downloads &amp;amp; Membership allows Stored XSS. This issue affects GoUrl Bitcoin Payment Gateway &amp;amp; Paid Downloads &amp;amp; Membership: from n/a through 1.6.6.</description><pubDate>Fri, 05 Sep 2025 16:21:56 +0000</pubDate></item><item><title>CVE-2025-48103 | WordPress Today&amp;#x27;s Date Inserter plugin &amp;lt;= 1.2.1 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48103</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in mulscully Today&amp;#039;s Date Inserter allows Stored XSS. This issue affects Today&amp;#039;s Date Inserter: from n/a through 1.2.1.</description><pubDate>Fri, 05 Sep 2025 16:21:56 +0000</pubDate></item><item><title>CVE-2025-48104 | WordPress Floating Window Music Player plugin &amp;lt;= 3.4.2 - Cross Site Request Forgery (CSRF) to Stored XSS vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48104</link><description>Cross-Site Request Forgery (CSRF) vulnerability in ericzane Floating Window Music Player allows Stored XSS. This issue affects Floating Window Music Player: from n/a through 3.4.2.</description><pubDate>Fri, 05 Sep 2025 16:21:57 +0000</pubDate></item><item><title>CVE-2025-48105 | WordPress Easy Flash Embed plugin &amp;lt;= 1.0 - Cross Site Scripting (XSS) vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48105</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Vincent Boiardt Easy Flash Embed allows Stored XSS. This issue affects Easy Flash Embed: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 16:21:57 +0000</pubDate></item><item><title>CVE-2025-48317 | WordPress WooCommerce Payment Gateway for Saferpay Plugin &amp;lt;= 0.4.9 - Path Traversal Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48317</link><description>Path Traversal vulnerability in Stefan Keller WooCommerce Payment Gateway for Saferpay allows Path Traversal. This issue affects WooCommerce Payment Gateway for Saferpay: from n/a through 0.4.9.</description><pubDate>Fri, 05 Sep 2025 16:21:57 +0000</pubDate></item><item><title>CVE-2025-49401 | WordPress Quiz And Survey Master Plugin &amp;lt;= 10.2.5 - PHP Object Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-49401</link><description>Deserialization of Untrusted Data vulnerability in ExpressTech Systems Quiz And Survey Master allows Object Injection. This issue affects Quiz And Survey Master: from n/a through 10.2.5.</description><pubDate>Fri, 05 Sep 2025 16:21:58 +0000</pubDate></item><item><title>CVE-2025-53307 | WordPress Assistant Plugin &amp;lt;= 1.5.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-53307</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Brent Jett Assistant allows Reflected XSS. This issue affects Assistant: from n/a through 1.5.2.</description><pubDate>Fri, 05 Sep 2025 16:21:58 +0000</pubDate></item><item><title>CVE-2025-54744 | WordPress MasterStudy LMS Plugin &amp;lt;= 3.6.15 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54744</link><description>Missing Authorization vulnerability in Stylemix MasterStudy LMS allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects MasterStudy LMS: from n/a through 3.6.15.</description><pubDate>Fri, 05 Sep 2025 16:21:58 +0000</pubDate></item><item><title>CVE-2025-57889 | WordPress InPost Gallery Plugin &amp;lt;= 2.1.4.5 - Local File Inclusion Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57889</link><description>Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in RealMag777 InPost Gallery allows PHP Local File Inclusion. This issue affects InPost Gallery: from n/a through 2.1.4.5.</description><pubDate>Fri, 05 Sep 2025 16:21:59 +0000</pubDate></item><item><title>CVE-2025-58628 | WordPress Miraculous Theme &amp;lt; 2.0.9 - SQL Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58628</link><description>Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in kamleshyadav Miraculous allows Blind SQL Injection. This issue affects Miraculous: from n/a through n/a.</description><pubDate>Fri, 05 Sep 2025 16:21:59 +0000</pubDate></item><item><title>CVE-2025-10013 | Portabilis i-Educar exportacao-para-o-seb access control</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10013</link><description>A vulnerability was detected in Portabilis i-Educar up to 2.10. This affects an unknown function of the file /exportacao-para-o-seb. Performing manipulation results in improper access controls. The attack is possible to be carried out remotely. The exploit is now public and may be used.</description><pubDate>Fri, 05 Sep 2025 15:40:31 +0000</pubDate></item><item><title>CVE-2025-10012 | Portabilis i-Educar educar_historico_escolar_lst.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10012</link><description>A security vulnerability has been detected in Portabilis i-Educar up to 2.10. The impacted element is an unknown function of the file educar_historico_escolar_lst.php. Such manipulation of the argument ref_cod_aluno leads to sql injection. The attack can be executed remotely. The exploit has been disclosed publicly and may be used.</description><pubDate>Fri, 05 Sep 2025 14:45:40 +0000</pubDate></item><item><title>CVE-2025-58780 | index.em7 in ScienceLogic SL1 before 12.1.1 allows SQL Injection via a parameter in a request.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58780</link><description>index.em7 in ScienceLogic SL1 before 12.1.1 allows SQL Injection via a parameter in a request.</description><pubDate>Fri, 05 Sep 2025 14:32:54 +0000</pubDate></item><item><title>CVE-2025-10011 | Portabilis i-Educar edit sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10011</link><description>A weakness has been identified in Portabilis i-Educar up to 2.10. The affected element is an unknown function of the file /module/TabelaArredondamento/edit. This manipulation of the argument ID causes sql injection. Remote exploitation of the attack is possible. The exploit has been made available to the public and could be exploited.</description><pubDate>Fri, 05 Sep 2025 14:12:59 +0000</pubDate></item><item><title>CVE-2025-58783 | WordPress Gutentor Plugin &amp;lt;= 3.5.1 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58783</link><description>Missing Authorization vulnerability in gutentor Gutentor allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects Gutentor: from n/a through 3.5.1.</description><pubDate>Fri, 05 Sep 2025 13:55:16 +0000</pubDate></item><item><title>CVE-2025-58784 | WordPress ARI Fancy Lightbox Plugin &amp;lt;= 1.4.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58784</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in arisoft ARI Fancy Lightbox allows Stored XSS. This issue affects ARI Fancy Lightbox: from n/a through 1.4.0.</description><pubDate>Fri, 05 Sep 2025 13:55:16 +0000</pubDate></item><item><title>CVE-2025-58785 | WordPress Ray Enterprise Translation Plugin &amp;lt;= 1.7.1 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58785</link><description>Missing Authorization vulnerability in jbhovik Ray Enterprise Translation allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects Ray Enterprise Translation: from n/a through 1.7.1.</description><pubDate>Fri, 05 Sep 2025 13:55:16 +0000</pubDate></item><item><title>CVE-2025-58786 | WordPress Ibtana – Ecommerce Product Addons Plugin &amp;lt;= 0.4.7.4 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58786</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in VW THEMES Ibtana – Ecommerce Product Addons allows DOM-Based XSS. This issue affects Ibtana – Ecommerce Product Addons: from n/a through 0.4.7.4.</description><pubDate>Fri, 05 Sep 2025 13:55:17 +0000</pubDate></item><item><title>CVE-2025-58787 | WordPress Themify Popup Plugin &amp;lt;= 1.4.4 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58787</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in themifyme Themify Popup allows Stored XSS. This issue affects Themify Popup: from n/a through 1.4.4.</description><pubDate>Fri, 05 Sep 2025 13:55:17 +0000</pubDate></item><item><title>CVE-2025-58788 | WordPress License Manager for WooCommerce Plugin &amp;lt;= 3.0.12 - SQL Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58788</link><description>Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Saad Iqbal License Manager for WooCommerce allows Blind SQL Injection. This issue affects License Manager for WooCommerce: from n/a through 3.0.12.</description><pubDate>Fri, 05 Sep 2025 13:55:17 +0000</pubDate></item><item><title>CVE-2025-58789 | WordPress WP Full Stripe Free Plugin &amp;lt;= 8.3.0 - SQL Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58789</link><description>Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Themeisle WP Full Stripe Free allows SQL Injection. This issue affects WP Full Stripe Free: from n/a through 8.3.0.</description><pubDate>Fri, 05 Sep 2025 13:55:18 +0000</pubDate></item><item><title>CVE-2025-58790 | WordPress Kiwi Plugin &amp;lt;= 2.1.8 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58790</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WPKube Kiwi allows Stored XSS. This issue affects Kiwi: from n/a through 2.1.8.</description><pubDate>Fri, 05 Sep 2025 13:55:18 +0000</pubDate></item><item><title>CVE-2025-58791 | WordPress SEO Auto Linker Plugin &amp;lt;= 1.5.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58791</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Arjan Olsder SEO Auto Linker allows Stored XSS. This issue affects SEO Auto Linker: from n/a through 1.5.3.</description><pubDate>Fri, 05 Sep 2025 13:55:19 +0000</pubDate></item><item><title>CVE-2025-58792 | WordPress Authors List Plugin &amp;lt;= 2.0.6.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58792</link><description>Cross-Site Request Forgery (CSRF) vulnerability in WPKube Authors List allows Cross Site Request Forgery. This issue affects Authors List: from n/a through 2.0.6.1.</description><pubDate>Fri, 05 Sep 2025 13:55:19 +0000</pubDate></item><item><title>CVE-2025-58793 | WordPress WPB Elementor Addons Plugin &amp;lt;= 1.6 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58793</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WPBean WPB Elementor Addons allows Stored XSS. This issue affects WPB Elementor Addons: from n/a through 1.6.</description><pubDate>Fri, 05 Sep 2025 13:55:19 +0000</pubDate></item><item><title>CVE-2025-58794 | WordPress Notification for Telegram Plugin &amp;lt;= 3.4.6 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58794</link><description>Cross-Site Request Forgery (CSRF) vulnerability in rainafarai Notification for Telegram allows Cross Site Request Forgery. This issue affects Notification for Telegram: from n/a through 3.4.6.</description><pubDate>Fri, 05 Sep 2025 13:55:20 +0000</pubDate></item><item><title>CVE-2025-58795 | WordPress Payoneer Checkout Plugin &amp;lt;= 3.4.0 - Content Spoofing Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58795</link><description>Missing Authorization vulnerability in Payoneer Checkout Payoneer Checkout allows Content Spoofing. This issue affects Payoneer Checkout: from n/a through 3.4.0.</description><pubDate>Fri, 05 Sep 2025 13:55:20 +0000</pubDate></item><item><title>CVE-2025-58796 | WordPress Elementor Element Condition Plugin &amp;lt;= 1.0.5 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58796</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in dudaster Elementor Element Condition allows Stored XSS. This issue affects Elementor Element Condition: from n/a through 1.0.5.</description><pubDate>Fri, 05 Sep 2025 13:55:20 +0000</pubDate></item><item><title>CVE-2025-58797 | WordPress Ninja Charts Plugin &amp;lt;= 3.3.2 - Sensitive Data Exposure Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58797</link><description>Exposure of Sensitive System Information to an Unauthorized Control Sphere vulnerability in Mahmudul Hasan Arif Ninja Charts allows Retrieve Embedded Sensitive Data. This issue affects Ninja Charts: from n/a through 3.3.2.</description><pubDate>Fri, 05 Sep 2025 13:55:21 +0000</pubDate></item><item><title>CVE-2025-58798 | WordPress BCM Duplicate Menu Plugin &amp;lt;= 1.1.2 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58798</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Bjorn Manintveld BCM Duplicate Menu allows Cross Site Request Forgery. This issue affects BCM Duplicate Menu: from n/a through 1.1.2.</description><pubDate>Fri, 05 Sep 2025 13:55:21 +0000</pubDate></item><item><title>CVE-2025-58799 | WordPress Custom WooCommerce Checkout Fields Editor Plugin &amp;lt;= 1.3.4 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58799</link><description>Cross-Site Request Forgery (CSRF) vulnerability in themelocation Custom WooCommerce Checkout Fields Editor allows Cross Site Request Forgery. This issue affects Custom WooCommerce Checkout Fields Editor: from n/a through 1.3.4.</description><pubDate>Fri, 05 Sep 2025 13:55:22 +0000</pubDate></item><item><title>CVE-2025-58800 | WordPress WP Email Template Plugin &amp;lt;= 2.8.3 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58800</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Steve Truman WP Email Template allows Cross Site Request Forgery. This issue affects WP Email Template: from n/a through 2.8.3.</description><pubDate>Fri, 05 Sep 2025 13:55:22 +0000</pubDate></item><item><title>CVE-2025-58801 | WordPress Responder Plugin &amp;lt;= 4.3.8 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58801</link><description>Cross-Site Request Forgery (CSRF) vulnerability in KCS Responder allows Cross Site Request Forgery. This issue affects Responder: from n/a through 4.3.8.</description><pubDate>Fri, 05 Sep 2025 13:55:22 +0000</pubDate></item><item><title>CVE-2025-58802 | WordPress TrustMate.io – WooCommerce integration Plugin &amp;lt;= 1.14.0 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58802</link><description>Cross-Site Request Forgery (CSRF) vulnerability in michalzagdan TrustMate.io – WooCommerce integration allows Cross Site Request Forgery. This issue affects TrustMate.io – WooCommerce integration: from n/a through 1.14.0.</description><pubDate>Fri, 05 Sep 2025 13:55:23 +0000</pubDate></item><item><title>CVE-2025-58804 | WordPress WooCommerce Single Page Checkout Plugin &amp;lt;= 1.2.7 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58804</link><description>Cross-Site Request Forgery (CSRF) vulnerability in brijrajs WooCommerce Single Page Checkout allows Cross Site Request Forgery. This issue affects WooCommerce Single Page Checkout: from n/a through 1.2.7.</description><pubDate>Fri, 05 Sep 2025 13:55:23 +0000</pubDate></item><item><title>CVE-2025-58805 | WordPress Widgetize Pages Light Plugin &amp;lt;= 3.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58805</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in OTWthemes Widgetize Pages Light allows Stored XSS. This issue affects Widgetize Pages Light: from n/a through 3.0.</description><pubDate>Fri, 05 Sep 2025 13:55:23 +0000</pubDate></item><item><title>CVE-2025-58806 | WordPress WordPress Error Monitoring by Bugsnag Plugin &amp;lt;= 1.6.3 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58806</link><description>Cross-Site Request Forgery (CSRF) vulnerability in imjoehaines WordPress Error Monitoring by Bugsnag allows Stored XSS. This issue affects WordPress Error Monitoring by Bugsnag: from n/a through 1.6.3.</description><pubDate>Fri, 05 Sep 2025 13:55:24 +0000</pubDate></item><item><title>CVE-2025-58807 | WordPress Purge Varnish Cache Plugin &amp;lt;= 2.6 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58807</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Dsingh Purge Varnish Cache allows Stored XSS. This issue affects Purge Varnish Cache: from n/a through 2.6.</description><pubDate>Fri, 05 Sep 2025 13:55:24 +0000</pubDate></item><item><title>CVE-2025-58808 | WordPress prettyPhoto Plugin &amp;lt;= 1.2.4 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58808</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Babar prettyPhoto allows Stored XSS. This issue affects prettyPhoto: from n/a through 1.2.4.</description><pubDate>Fri, 05 Sep 2025 13:55:25 +0000</pubDate></item><item><title>CVE-2025-58809 | WordPress To Lead For Salesforce Plugin &amp;lt;= 2.7.3.9 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58809</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Nick Ciske To Lead For Salesforce allows Reflected XSS. This issue affects To Lead For Salesforce: from n/a through 2.7.3.9.</description><pubDate>Fri, 05 Sep 2025 13:55:25 +0000</pubDate></item><item><title>CVE-2025-58810 | WordPress Simple Link List Widget Plugin &amp;lt;= 0.3.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58810</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in jimmywb Simple Link List Widget allows Stored XSS. This issue affects Simple Link List Widget: from n/a through 0.3.2.</description><pubDate>Fri, 05 Sep 2025 13:55:25 +0000</pubDate></item><item><title>CVE-2025-58811 | WordPress Ultimate Client Dash Plugin &amp;lt;= 4.6 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58811</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WP CodeUs Ultimate Client Dash allows Stored XSS. This issue affects Ultimate Client Dash: from n/a through 4.6.</description><pubDate>Fri, 05 Sep 2025 13:55:26 +0000</pubDate></item><item><title>CVE-2025-58812 | WordPress Best Restaurant Menu by PriceListo Plugin &amp;lt;= 1.4.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58812</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in PriceListo Best Restaurant Menu by PriceListo allows Stored XSS. This issue affects Best Restaurant Menu by PriceListo: from n/a through 1.4.3.</description><pubDate>Fri, 05 Sep 2025 13:55:26 +0000</pubDate></item><item><title>CVE-2025-58813 | WordPress Consultstreet Theme &amp;lt;= 3.0.0 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58813</link><description>Missing Authorization vulnerability in ThemeArile Consultstreet allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects Consultstreet: from n/a through 3.0.0.</description><pubDate>Fri, 05 Sep 2025 13:55:26 +0000</pubDate></item><item><title>CVE-2025-58814 | WordPress Stagtools Plugin &amp;lt;= 2.3.8 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58814</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Ram Ratan Maurya Stagtools allows Stored XSS. This issue affects Stagtools: from n/a through 2.3.8.</description><pubDate>Fri, 05 Sep 2025 13:55:27 +0000</pubDate></item><item><title>CVE-2025-58815 | WordPress Aitasi Coming Soon Plugin &amp;lt;= 2.0.2 - Deserialization of untrusted data Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58815</link><description>Deserialization of Untrusted Data vulnerability in Rubel Miah Aitasi Coming Soon allows Object Injection. This issue affects Aitasi Coming Soon: from n/a through 2.0.2.</description><pubDate>Fri, 05 Sep 2025 13:55:27 +0000</pubDate></item><item><title>CVE-2025-58816 | WordPress Product Carousel Slider for Elementor Plugin &amp;lt;= 2.1.3 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58816</link><description>Missing Authorization vulnerability in Plugin Devs Product Carousel Slider for Elementor allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects Product Carousel Slider for Elementor: from n/a through 2.1.3.</description><pubDate>Fri, 05 Sep 2025 13:55:28 +0000</pubDate></item><item><title>CVE-2025-58817 | WordPress SoftMe Theme &amp;lt;= 1.1.24 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58817</link><description>Missing Authorization vulnerability in DesertThemes SoftMe allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects SoftMe: from n/a through 1.1.24.</description><pubDate>Fri, 05 Sep 2025 13:55:28 +0000</pubDate></item><item><title>CVE-2025-58818 | WordPress Developer Tools Blocker Plugin &amp;lt;= 3.2.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58818</link><description>Cross-Site Request Forgery (CSRF) vulnerability in SwiftNinjaPro Developer Tools Blocker allows Cross Site Request Forgery. This issue affects Developer Tools Blocker: from n/a through 3.2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:29 +0000</pubDate></item><item><title>CVE-2025-58819 | WordPress Bulk Featured Image Plugin &amp;lt;= 1.2.2 - Arbitrary File Upload Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58819</link><description>Unrestricted Upload of File with Dangerous Type vulnerability in CreedAlly Bulk Featured Image allows Upload a Web Shell to a Web Server. This issue affects Bulk Featured Image: from n/a through 1.2.2.</description><pubDate>Fri, 05 Sep 2025 13:55:29 +0000</pubDate></item><item><title>CVE-2025-58820 | WordPress Carousel Ultimate Plugin &amp;lt;= 1.8 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58820</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Themepoints Carousel Ultimate allows Stored XSS. This issue affects Carousel Ultimate: from n/a through 1.8.</description><pubDate>Fri, 05 Sep 2025 13:55:29 +0000</pubDate></item><item><title>CVE-2025-58821 | WordPress WP Notification Bell Plugin &amp;lt;= 1.4.5 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58821</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in wpdever WP Notification Bell allows Stored XSS. This issue affects WP Notification Bell: from n/a through 1.4.5.</description><pubDate>Fri, 05 Sep 2025 13:55:30 +0000</pubDate></item><item><title>CVE-2025-58822 | WordPress WP Mail Plugin &amp;lt;= 1.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58822</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in mndpsingh287 WP Mail allows DOM-Based XSS. This issue affects WP Mail: from n/a through 1.3.</description><pubDate>Fri, 05 Sep 2025 13:55:30 +0000</pubDate></item><item><title>CVE-2025-58823 | WordPress Get Cash Plugin &amp;lt;= 3.2.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58823</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in The African Boss Get Cash allows Stored XSS. This issue affects Get Cash: from n/a through 3.2.2.</description><pubDate>Fri, 05 Sep 2025 13:55:30 +0000</pubDate></item><item><title>CVE-2025-58824 | WordPress Shk Corporate Theme &amp;lt;= 2.4.1.1 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58824</link><description>Missing Authorization vulnerability in webriti Shk Corporate allows Exploiting Incorrectly Configured Access Control Security Levels. This issue affects Shk Corporate: from n/a through 2.4.1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:31 +0000</pubDate></item><item><title>CVE-2025-58825 | WordPress Comment Form WP – Customize Default Comment Form Plugin &amp;lt;= 2.0.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58825</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Habibur Rahman Comment Form WP &amp;#8211; Customize Default Comment Form allows Stored XSS. This issue affects Comment Form WP &amp;#8211; Customize Default Comment Form: from n/a through 2.0.0.</description><pubDate>Fri, 05 Sep 2025 13:55:31 +0000</pubDate></item><item><title>CVE-2025-58826 | WordPress WP Publication Archive  Plugin &amp;lt;= 3.0.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58826</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Eric Mann WP Publication Archive  allows Stored XSS. This issue affects WP Publication Archive : from n/a through 3.0.1.</description><pubDate>Fri, 05 Sep 2025 13:55:31 +0000</pubDate></item><item><title>CVE-2025-58827 | WordPress Job Board Manager Plugin &amp;lt;= 2.1.61 - Content Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58827</link><description>Improper Control of Generation of Code ('Code Injection') vulnerability in PickPlugins Job Board Manager allows Code Injection. This issue affects Job Board Manager: from n/a through 2.1.61.</description><pubDate>Fri, 05 Sep 2025 13:55:32 +0000</pubDate></item><item><title>CVE-2025-58828 | WordPress 코드엠샵 소셜톡 Plugin &amp;lt;= 1.2.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58828</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in codemstory 코드엠샵 소셜톡 allows Stored XSS. This issue affects 코드엠샵 소셜톡: from n/a through 1.2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:32 +0000</pubDate></item><item><title>CVE-2025-58829 | WordPress Ai Auto Tool Content Writing Assistant (Gemini Writer, ChatGPT ) All in One Plugin &amp;lt;= 2.2.6 - Server Side Request Forgery (SSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58829</link><description>Server-Side Request Forgery (SSRF) vulnerability in aitool Ai Auto Tool Content Writing Assistant (Gemini Writer, ChatGPT ) All in One allows Server Side Request Forgery. This issue affects Ai Auto Tool Content Writing Assistant (Gemini Writer, ChatGPT ) All in One: from n/a through 2.2.6.</description><pubDate>Fri, 05 Sep 2025 13:55:33 +0000</pubDate></item><item><title>CVE-2025-58830 | WordPress Parallax Scrolling Enllax.js Plugin &amp;lt;= 0.0.6 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58830</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in snagysandor Parallax Scrolling Enllax.js allows Stored XSS. This issue affects Parallax Scrolling Enllax.js: from n/a through 0.0.6.</description><pubDate>Fri, 05 Sep 2025 13:55:33 +0000</pubDate></item><item><title>CVE-2025-58831 | WordPress Parallax Scrolling Enllax.js Plugin &amp;lt;= 0.0.6 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58831</link><description>Cross-Site Request Forgery (CSRF) vulnerability in snagysandor Parallax Scrolling Enllax.js allows Cross Site Request Forgery. This issue affects Parallax Scrolling Enllax.js: from n/a through 0.0.6.</description><pubDate>Fri, 05 Sep 2025 13:55:33 +0000</pubDate></item><item><title>CVE-2025-58832 | WordPress Search by Google Plugin &amp;lt;= 1.9 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58832</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in webvitaly Search by Google allows Stored XSS. This issue affects Search by Google: from n/a through 1.9.</description><pubDate>Fri, 05 Sep 2025 13:55:34 +0000</pubDate></item><item><title>CVE-2025-58833 | WordPress Invelity MyGLS connect Plugin &amp;lt;= 1.1.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58833</link><description>Cross-Site Request Forgery (CSRF) vulnerability in INVELITY Invelity MyGLS connect allows Object Injection. This issue affects Invelity MyGLS connect: from n/a through 1.1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:34 +0000</pubDate></item><item><title>CVE-2025-58834 | WordPress short.io Plugin &amp;lt;= 2.4.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58834</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in gugu short.io allows DOM-Based XSS. This issue affects short.io: from n/a through 2.4.0.</description><pubDate>Fri, 05 Sep 2025 13:55:34 +0000</pubDate></item><item><title>CVE-2025-58835 | WordPress Bonus for Woo Plugin &amp;lt;= 7.4.1 - Other Vulnerability Type Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58835</link><description>Improper Validation of Specified Quantity in Input vulnerability in calliko Bonus for Woo allows Accessing Functionality Not Properly Constrained by ACLs. This issue affects Bonus for Woo: from n/a through 7.4.1.</description><pubDate>Fri, 05 Sep 2025 13:55:35 +0000</pubDate></item><item><title>CVE-2025-58836 | WordPress FW Anker Plugin &amp;lt;= 1.2.6 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58836</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Tikolan FW Anker allows Stored XSS. This issue affects FW Anker: from n/a through 1.2.6.</description><pubDate>Fri, 05 Sep 2025 13:55:35 +0000</pubDate></item><item><title>CVE-2025-58837 | WordPress SS Font Awesome Icon Plugin &amp;lt;= 4.1.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58837</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Shiful H SS Font Awesome Icon allows Stored XSS. This issue affects SS Font Awesome Icon: from n/a through 4.1.3.</description><pubDate>Fri, 05 Sep 2025 13:55:36 +0000</pubDate></item><item><title>CVE-2025-58838 | WordPress Smooth Accordion Plugin &amp;lt;= 2.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58838</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Zakir Smooth Accordion allows Stored XSS. This issue affects Smooth Accordion: from n/a through 2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:36 +0000</pubDate></item><item><title>CVE-2025-58839 | WordPress eDS Responsive Menu Plugin &amp;lt;= 1.2 - PHP Object Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58839</link><description>Deserialization of Untrusted Data vulnerability in aThemeArt Translations eDS Responsive Menu allows Object Injection. This issue affects eDS Responsive Menu: from n/a through 1.2.</description><pubDate>Fri, 05 Sep 2025 13:55:36 +0000</pubDate></item><item><title>CVE-2025-58840 | WordPress Custom Team Manager Plugin &amp;lt;= 2.4.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58840</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Ibnul H. Custom Team Manager allows Stored XSS. This issue affects Custom Team Manager: from n/a through 2.4.2.</description><pubDate>Fri, 05 Sep 2025 13:55:37 +0000</pubDate></item><item><title>CVE-2025-58841 | WordPress Media Author Plugin &amp;lt;= 1.0.4 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58841</link><description>Incorrect Privilege Assignment vulnerability in John Luetke Media Author allows Privilege Escalation. This issue affects Media Author: from n/a through 1.0.4.</description><pubDate>Fri, 05 Sep 2025 13:55:37 +0000</pubDate></item><item><title>CVE-2025-58842 | WordPress Donation Forms WP by Givecloud Plugin &amp;lt;= 1.0.9 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58842</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in givecloud Donation Forms WP by Givecloud allows Stored XSS. This issue affects Donation Forms WP by Givecloud: from n/a through 1.0.9.</description><pubDate>Fri, 05 Sep 2025 13:55:37 +0000</pubDate></item><item><title>CVE-2025-58843 | WordPress Auto Last Youtube Video Plugin &amp;lt;= 1.0.7 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58843</link><description>Cross-Site Request Forgery (CSRF) vulnerability in David Merinas Auto Last Youtube Video allows Stored XSS. This issue affects Auto Last Youtube Video: from n/a through 1.0.7.</description><pubDate>Fri, 05 Sep 2025 13:55:38 +0000</pubDate></item><item><title>CVE-2025-58844 | WordPress Database to Excel Plugin &amp;lt;= 1.0 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58844</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Subhash Kumar Database to Excel allows Stored XSS. This issue affects Database to Excel: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:38 +0000</pubDate></item><item><title>CVE-2025-58845 | WordPress Bulk Watermark Plugin &amp;lt;= 1.6.10 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58845</link><description>Cross-Site Request Forgery (CSRF) vulnerability in ChrisHurst Bulk Watermark allows Reflected XSS. This issue affects Bulk Watermark: from n/a through 1.6.10.</description><pubDate>Fri, 05 Sep 2025 13:55:39 +0000</pubDate></item><item><title>CVE-2025-58846 | WordPress WordPress Buffer – HYPESocial. Social Media Auto Post, Social Media Auto Publish and Schedule Plugin &amp;lt;= 2020.1.0 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58846</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Dejan Markovic WordPress Buffer – HYPESocial. Social Media Auto Post, Social Media Auto Publish and Schedule allows Reflected XSS. This issue affects WordPress Buffer – HYPESocial. Social Media Auto Post, Social Media Auto Publish and Schedule: from n/a through 2020.1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:39 +0000</pubDate></item><item><title>CVE-2025-58847 | WordPress WN Flipbox Pro Plugin &amp;lt;= 2.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58847</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Yaidier WN Flipbox Pro allows Reflected XSS. This issue affects WN Flipbox Pro: from n/a through 2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:39 +0000</pubDate></item><item><title>CVE-2025-58848 | WordPress WP likes Plugin &amp;lt;= 3.1.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58848</link><description>Cross-Site Request Forgery (CSRF) vulnerability in aakash1911 WP likes allows Reflected XSS. This issue affects WP likes: from n/a through 3.1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:40 +0000</pubDate></item><item><title>CVE-2025-58849 | WordPress Hide Real Download Path Plugin &amp;lt;= 1.6 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58849</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Deepak S Hide Real Download Path allows Stored XSS. This issue affects Hide Real Download Path: from n/a through 1.6.</description><pubDate>Fri, 05 Sep 2025 13:55:40 +0000</pubDate></item><item><title>CVE-2025-58850 | WordPress Showpass WordPress Extension Plugin &amp;lt;= 4.0.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58850</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in marcshowpass Showpass WordPress Extension allows Stored XSS. This issue affects Showpass WordPress Extension: from n/a through 4.0.3.</description><pubDate>Fri, 05 Sep 2025 13:55:41 +0000</pubDate></item><item><title>CVE-2025-58851 | WordPress Boxed Content Plugin &amp;lt;= 1.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58851</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in DigitalCourt Boxed Content allows Stored XSS. This issue affects Boxed Content: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:41 +0000</pubDate></item><item><title>CVE-2025-58852 | WordPress MSTW League Manager Plugin &amp;lt;= 2.10 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58852</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Mark O'Donnell MSTW League Manager allows Stored XSS. This issue affects MSTW League Manager: from n/a through 2.10.</description><pubDate>Fri, 05 Sep 2025 13:55:41 +0000</pubDate></item><item><title>CVE-2025-58853 | WordPress Popping Sidebars and Widgets Light Plugin &amp;lt;= 1.27 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58853</link><description>Cross-Site Request Forgery (CSRF) vulnerability in OTWthemes Popping Sidebars and Widgets Light allows Reflected XSS. This issue affects Popping Sidebars and Widgets Light: from n/a through 1.27.</description><pubDate>Fri, 05 Sep 2025 13:55:42 +0000</pubDate></item><item><title>CVE-2025-58854 | WordPress Ultimate AJAX Login Plugin &amp;lt;= 1.2.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58854</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Samer Bechara Ultimate AJAX Login allows Reflected XSS. This issue affects Ultimate AJAX Login: from n/a through 1.2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:42 +0000</pubDate></item><item><title>CVE-2025-58855 | WordPress AP HoneyPot WordPress Plugin Plugin &amp;lt;= 1.4 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58855</link><description>Improper Neutralization of Formula Elements in a CSV File vulnerability in Denis V (Artprima) AP HoneyPot WordPress Plugin allows Reflected XSS. This issue affects AP HoneyPot WordPress Plugin: from n/a through 1.4.</description><pubDate>Fri, 05 Sep 2025 13:55:42 +0000</pubDate></item><item><title>CVE-2025-58856 | WordPress Woocommerce Notify Updated Product Plugin &amp;lt;= 1.6 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58856</link><description>Cross-Site Request Forgery (CSRF) vulnerability in ablancodev Woocommerce Notify Updated Product allows Stored XSS. This issue affects Woocommerce Notify Updated Product: from n/a through 1.6.</description><pubDate>Fri, 05 Sep 2025 13:55:43 +0000</pubDate></item><item><title>CVE-2025-58857 | WordPress Table of content Plugin &amp;lt;= 1.5.3.1 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58857</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in KaizenCoders Table of content allows Stored XSS. This issue affects Table of content: from n/a through 1.5.3.1.</description><pubDate>Fri, 05 Sep 2025 13:55:43 +0000</pubDate></item><item><title>CVE-2025-58858 | WordPress WPB Image Widget Plugin &amp;lt;= 1.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58858</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WPBean WPB Image Widget allows Stored XSS. This issue affects WPB Image Widget: from n/a through 1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:44 +0000</pubDate></item><item><title>CVE-2025-58859 | WordPress Add to Feedly Plugin &amp;lt;= 1.2.11 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58859</link><description>Cross-Site Request Forgery (CSRF) vulnerability in David Merinas Add to Feedly allows Stored XSS. This issue affects Add to Feedly: from n/a through 1.2.11.</description><pubDate>Fri, 05 Sep 2025 13:55:44 +0000</pubDate></item><item><title>CVE-2025-58860 | WordPress Enable Latex Plugin &amp;lt;= 1.2.16 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58860</link><description>Cross-Site Request Forgery (CSRF) vulnerability in KaizenCoders Enable Latex allows Stored XSS. This issue affects Enable Latex: from n/a through 1.2.16.</description><pubDate>Fri, 05 Sep 2025 13:55:44 +0000</pubDate></item><item><title>CVE-2025-58861 | WordPress Quick Event Calendar Plugin &amp;lt;= 1.4.9 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58861</link><description>Cross-Site Request Forgery (CSRF) vulnerability in WP Corner Quick Event Calendar allows Stored XSS. This issue affects Quick Event Calendar: from n/a through 1.4.9.</description><pubDate>Fri, 05 Sep 2025 13:55:45 +0000</pubDate></item><item><title>CVE-2025-58862 | WordPress WordPress Events Calendar Plugin – connectDaily Plugin &amp;lt;= 1.5.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58862</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in George Sexton WordPress Events Calendar Plugin – connectDaily allows Stored XSS. This issue affects WordPress Events Calendar Plugin – connectDaily: from n/a through 1.5.3.</description><pubDate>Fri, 05 Sep 2025 13:55:45 +0000</pubDate></item><item><title>CVE-2025-58863 | WordPress Zoomify embed for WP Plugin &amp;lt;= 1.5.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58863</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in SdeWijs Zoomify embed for WP allows Stored XSS. This issue affects Zoomify embed for WP: from n/a through 1.5.2.</description><pubDate>Fri, 05 Sep 2025 13:55:45 +0000</pubDate></item><item><title>CVE-2025-58864 | WordPress 金数据 Plugin &amp;lt;= 1.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58864</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in iamroody 金数据 allows Stored XSS. This issue affects 金数据: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:46 +0000</pubDate></item><item><title>CVE-2025-58865 | WordPress Compact Admin Plugin &amp;lt;= 1.3.0 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58865</link><description>Cross-Site Request Forgery (CSRF) vulnerability in reimund Compact Admin allows Cross Site Request Forgery. This issue affects Compact Admin: from n/a through 1.3.0.</description><pubDate>Fri, 05 Sep 2025 13:55:46 +0000</pubDate></item><item><title>CVE-2025-58866 | WordPress Site Info Plugin &amp;lt;= 1.1 - Sensitive Data Exposure Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58866</link><description>Exposure of Sensitive System Information to an Unauthorized Control Sphere vulnerability in Rami Yushuvaev Site Info allows Retrieve Embedded Sensitive Data. This issue affects Site Info: from n/a through 1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:47 +0000</pubDate></item><item><title>CVE-2025-58867 | WordPress Easy Download Media Counter Plugin &amp;lt;= 1.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58867</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Remi Corson Easy Download Media Counter allows Stored XSS. This issue affects Easy Download Media Counter: from n/a through 1.2.</description><pubDate>Fri, 05 Sep 2025 13:55:47 +0000</pubDate></item><item><title>CVE-2025-58868 | WordPress SimaCookie Plugin &amp;lt;= 1.3.2 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58868</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Simasicher SimaCookie allows Stored XSS. This issue affects SimaCookie: from n/a through 1.3.2.</description><pubDate>Fri, 05 Sep 2025 13:55:48 +0000</pubDate></item><item><title>CVE-2025-58869 | WordPress SimaCookie Plugin &amp;lt;= 1.3.2 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58869</link><description>Cross-Site Request Forgery (CSRF) vulnerability in Simasicher SimaCookie allows Stored XSS. This issue affects SimaCookie: from n/a through 1.3.2.</description><pubDate>Fri, 05 Sep 2025 13:55:48 +0000</pubDate></item><item><title>CVE-2025-58870 | WordPress WP-GraphViz Plugin &amp;lt;= 1.5.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58870</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in DeBAAT WP-GraphViz allows DOM-Based XSS. This issue affects WP-GraphViz: from n/a through 1.5.1.</description><pubDate>Fri, 05 Sep 2025 13:55:48 +0000</pubDate></item><item><title>CVE-2025-58871 | WordPress Master Paper Collapse Toggle Plugin &amp;lt;= 1.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58871</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Luis Rock Master Paper Collapse Toggle allows Stored XSS. This issue affects Master Paper Collapse Toggle: from n/a through 1.1.</description><pubDate>Fri, 05 Sep 2025 13:55:49 +0000</pubDate></item><item><title>CVE-2025-58872 | WordPress Simple Price Calculator Plugin &amp;lt;= 1.3 - Broken Access Control Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58872</link><description>Insertion of Sensitive Information Into Sent Data vulnerability in premiumbizthemes Simple Price Calculator allows Retrieve Embedded Sensitive Data. This issue affects Simple Price Calculator: from n/a through 1.3.</description><pubDate>Fri, 05 Sep 2025 13:55:49 +0000</pubDate></item><item><title>CVE-2025-58873 | WordPress Pushe Web Push Notification Plugin &amp;lt;= 0.5.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58873</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in pusheco Pushe Web Push Notification allows Stored XSS. This issue affects Pushe Web Push Notification: from n/a through 0.5.0.</description><pubDate>Fri, 05 Sep 2025 13:55:50 +0000</pubDate></item><item><title>CVE-2025-58874 | WordPress StoryMap Plugin &amp;lt;= 2.1 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58874</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in josepsitjar StoryMap allows DOM-Based XSS. This issue affects StoryMap: from n/a through 2.1.</description><pubDate>Fri, 05 Sep 2025 13:55:50 +0000</pubDate></item><item><title>CVE-2025-58875 | WordPress WP Github Gist Plugin &amp;lt;= 0.5 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58875</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Sudar Muthu WP Github Gist allows Stored XSS. This issue affects WP Github Gist: from n/a through 0.5.</description><pubDate>Fri, 05 Sep 2025 13:55:51 +0000</pubDate></item><item><title>CVE-2025-58876 | WordPress Aparat Video Shortcode Plugin &amp;lt;= 0.2.4 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58876</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Ali Aghdam Aparat Video Shortcode allows Stored XSS. This issue affects Aparat Video Shortcode: from n/a through 0.2.4.</description><pubDate>Fri, 05 Sep 2025 13:55:51 +0000</pubDate></item><item><title>CVE-2025-58878 | WordPress Woocommerce Gifts Product Plugin &amp;lt;= 1.0.0 - Cross Site Request Forgery (CSRF) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58878</link><description>Cross-Site Request Forgery (CSRF) vulnerability in usamafarooq Woocommerce Gifts Product allows Cross Site Request Forgery. This issue affects Woocommerce Gifts Product: from n/a through 1.0.0.</description><pubDate>Fri, 05 Sep 2025 13:55:51 +0000</pubDate></item><item><title>CVE-2025-58880 | WordPress Translate This gTranslate Shortcode Plugin &amp;lt;= 1.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58880</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in reubenthiessen Translate This gTranslate Shortcode allows Stored XSS. This issue affects Translate This gTranslate Shortcode: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:52 +0000</pubDate></item><item><title>CVE-2025-58881 | WordPress New Simple Gallery Plugin &amp;lt;= 8.0 - SQL Injection Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58881</link><description>Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in gopiplus New Simple Gallery allows Blind SQL Injection. This issue affects New Simple Gallery: from n/a through 8.0.</description><pubDate>Fri, 05 Sep 2025 13:55:52 +0000</pubDate></item><item><title>CVE-2025-58882 | WordPress Simple Text Slider Plugin &amp;lt;= 1.0.5 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58882</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in w1zzard Simple Text Slider allows Stored XSS. This issue affects Simple Text Slider: from n/a through 1.0.5.</description><pubDate>Fri, 05 Sep 2025 13:55:52 +0000</pubDate></item><item><title>CVE-2025-58883 | WordPress Search Cloud One Plugin &amp;lt;= 2.2.5 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58883</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Thomas Harris Search Cloud One allows Stored XSS. This issue affects Search Cloud One: from n/a through 2.2.5.</description><pubDate>Fri, 05 Sep 2025 13:55:53 +0000</pubDate></item><item><title>CVE-2025-58884 | WordPress vipdrv Plugin &amp;lt;= 1.0.3 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58884</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Ivan Drago vipdrv allows Stored XSS. This issue affects vipdrv: from n/a through 1.0.3.</description><pubDate>Fri, 05 Sep 2025 13:55:53 +0000</pubDate></item><item><title>CVE-2025-58886 | WordPress Instant Locations Plugin &amp;lt;= 1.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58886</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Tan Nguyen Instant Locations allows Stored XSS. This issue affects Instant Locations: from n/a through 1.0.</description><pubDate>Fri, 05 Sep 2025 13:55:54 +0000</pubDate></item><item><title>CVE-2025-58887 | WordPress Course Booking Platform Plugin &amp;lt;= 1.0.0 - Cross Site Scripting (XSS) Vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58887</link><description>Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Course Finder | andré martin - it solutions &amp; research UG Course Booking Platform allows Stored XSS. This issue affects Course Booking Platform: from n/a through 1.0.0.</description><pubDate>Fri, 05 Sep 2025 13:55:54 +0000</pubDate></item><item><title>CVE-2025-8695 | Reflected XSS in Netcad Software&amp;#x27;s NetGIS Server</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8695</link><description>Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting') vulnerability in Netcad NetGIS Server allows Reflected XSS.This issue affects NetGIS Server: from 5.2.4 through 22.08.2025.</description><pubDate>Fri, 05 Sep 2025 13:55:54 +0000</pubDate></item><item><title>CVE-2024-21977 | Incomplete cleanup after loading a CPU microcode patch may allow a privileged attacker to degrade the entropy of the RDRAND instruction, pot...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-21977</link><description>Incomplete cleanup after loading a CPU microcode patch may allow a privileged attacker to degrade the entropy of the RDRAND instruction, potentially resulting in loss of integrity for SEV-SNP guests.</description><pubDate>Fri, 05 Sep 2025 13:34:40 +0000</pubDate></item><item><title>CVE-2025-58296 | Race condition vulnerability in the audio module.
 Impact: Successful exploitation of this vulnerability may affect function stability.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58296</link><description>Race condition vulnerability in the audio module.
