@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 11 Sep 2025 17:08:42 +0000</lastBuildDate><item><title>CVE-2025-39736 | mm/kmemleak: avoid deadlock by moving pr_warn() outside kmemleak_lock</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39736</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 11 Sep 2025 17:27:34 +0000</lastBuildDate><item><title>CVE-2025-58060 | cups has Authentication bypass with AuthType Negotiate</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58060</link><description>OpenPrinting CUPS is an open source printing system for Linux and other Unix-like operating systems. In versions 2.4.14 and earlier, when the `AuthType` is set to anything but `Basic`, if the request contains an `Authorization: Basic ...` header, the password is not checked. This results in authentication bypass. Any configuration that allows an `AuthType` that is not `Basic` is affected. Commit 429756fd1355bfc91484ff3f04960d4a6b2b155a fixes the issue.</description><pubDate>Thu, 11 Sep 2025 17:27:36 +0000</pubDate></item><item><title>CVE-2025-39736 | mm/kmemleak: avoid deadlock by moving pr_warn() outside kmemleak_lock</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39736</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mm/kmemleak: avoid deadlock by moving pr_warn() outside kmemleak_lock
 
@@ -13,13 +13,13 @@ kmemleak_lock.
 This is the path for the deadlock.
 
 mem_pool_alloc()
-  -&gt; raw_spin_lock_irqsave(&amp;kmemleak_lock, flags);
+  -&gt; raw_spin_lock_irqsave(&amp;amp;kmemleak_lock, flags);
       -&gt; pr_warn_once()
           -&gt; netconsole subsystem
 	     -&gt; netpoll
 	         -&gt; __alloc_skb
 		   -&gt; __create_object
-		     -&gt; raw_spin_lock_irqsave(&amp;kmemleak_lock, flags);
+		     -&gt; raw_spin_lock_irqsave(&amp;amp;kmemleak_lock, flags);
 
 Fix this by setting a flag and issuing the pr_warn_once() after
 kmemleak_lock is released.</description><pubDate>Thu, 11 Sep 2025 17:08:44 +0000</pubDate></item><item><title>CVE-2025-39737 | mm/kmemleak: avoid soft lockup in __kmemleak_do_cleanup()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39737</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -279,7 +279,7 @@ irq_exit()
 		      bpf_trace_run2()
 			    rcu_read_unlock_special()
                               /* will send a IPI to itself */
-			      irq_work_queue_on(&amp;rdp-&gt;defer_qs_iw, rdp-&gt;cpu);
+			      irq_work_queue_on(&amp;amp;rdp-&gt;defer_qs_iw, rdp-&gt;cpu);
 
 A simple reproducer can also be obtained by doing the following in
 tick_irq_exit(). It will hang on boot without the patch:
@@ -301,7 +301,7 @@ tests resulted in the following splat:
 [   68.797425] rcutorture_one_extend_check during change: Current 0x1  To add 0x1  To remove 0x0  preempt_count() 0x0
 [   68.797533] WARNING: CPU: 2 PID: 512 at kernel/rcu/rcutorture.c:1993 rcutorture_one_extend_check+0x419/0x560 [rcutorture]
 [   68.797601] Call Trace:
-[   68.797602]  &lt;TASK&gt;
+[   68.797602]  
 [   68.797619]  ? lockdep_softirqs_off+0xa5/0x160
 [   68.797631]  rcutorture_one_extend+0x18e/0xcc0 [rcutorture 2466dbd2ff34dbaa36049cb323a80c3306ac997c]
 [   68.797646]  ? local_clock+0x19/0x40
@@ -360,8 +360,8 @@ Syzbot reported a kernel warning due to a range invariant violation on
 the following BPF program.
 
   0: call bpf_get_netns_cookie
-  1: if r0 == 0 goto &lt;exit&gt;
-  2: if r0 &amp; Oxffffffff goto &lt;exit&gt;
+  1: if r0 == 0 goto 
+  2: if r0 &amp; Oxffffffff goto 
 
 The issue is on the path where we fall through both jumps.
 
@@ -372,9 +372,9 @@ figure this out, so the verifier walks all branches. The verifier then
 refines the register bounds using the second condition and we end
 up with inconsistent bounds on this unreachable path:
 
-  1: if r0 == 0 goto &lt;exit&gt;
+  1: if r0 == 0 goto 
     r0: u64=[0x1, 0xffffffffffffffff] var_off=(0, 0xffffffffffffffff)
-  2: if r0 &amp; 0xffffffff goto &lt;exit&gt;
+  2: if r0 &amp; 0xffffffff goto 
     r0 before reg_bounds_sync: u64=[0x1, 0xffffffffffffffff] var_off=(0, 0)
     r0 after reg_bounds_sync:  u64=[0x1, 0] var_off=(0, 0)
 
@@ -427,9 +427,9 @@ write to 0xffff96b95f42d8d8 of 1 bytes by task 88 on cpu 8:
 
 no locks held by irq_work/8/88.
 irq event stamp: 200272
-hardirqs last  enabled at (200272): [&lt;ffffffffb0f56121&gt;] finish_task_switch+0x131/0x320
-hardirqs last disabled at (200271): [&lt;ffffffffb25c7859&gt;] __schedule+0x129/0xd70
-softirqs last  enabled at (0): [&lt;ffffffffb0ee093f&gt;] copy_process+0x4df/0x1cc0
+hardirqs last  enabled at (200272): [] finish_task_switch+0x131/0x320
+hardirqs last disabled at (200271): [] __schedule+0x129/0xd70
+softirqs last  enabled at (0): [] copy_process+0x4df/0x1cc0
 softirqs last disabled at (0): [&lt;0000000000000000&gt;] 0x0
 
 ------------------------------------------------------------------------
@@ -533,13 +533,13 @@ Reproducer:
    # echo 1073741816 &gt; /proc/sys/fs/nr_open
 
 2. Run a program that uses a high file descriptor:
-   #include &lt;unistd.h&gt;
-   #include &lt;sys/resource.h&gt;
+   #include 
+   #include resource.h&gt;
 
    int main() {
        struct rlimit rlim = {1073741824, 1073741824};
-       setrlimit(RLIMIT_NOFILE, &amp;rlim);
-       dup2(2, 1073741880);  // Triggers the warning
+       setrlimit(RLIMIT_NOFILE, &amp;amp;rlim);
+       dup2(2, 1073741880);  / Triggers the warning
        return 0;
    }
 
@@ -594,13 +594,13 @@ static int siw_tcp_sendpages(struct socket *s, struct page **page, int offset,
         if (!sendpage_ok(page[i]))
                 msg.msg_flags &amp;= ~MSG_SPLICE_PAGES;
         /* Set the bvec pointing to the page, with len $bytes */
-        bvec_set_page(&amp;bvec, page[i], bytes, offset);
+        bvec_set_page(&amp;amp;bvec, page[i], bytes, offset);
         /* Set the iter to $size, aka the size of the whole sendpages (!!!) */
-        iov_iter_bvec(&amp;msg.msg_iter, ITER_SOURCE, &amp;bvec, 1, size);
+        iov_iter_bvec(&amp;amp;msg.msg_iter, ITER_SOURCE, &amp;amp;bvec, 1, size);
 try_page_again:
         lock_sock(sk);
         /* Sendmsg with $size size (!!!) */
-        rv = tcp_sendmsg_locked(sk, &amp;msg, size);
+        rv = tcp_sendmsg_locked(sk, &amp;amp;msg, size);
 
 This means we've been sending oversized iov_iters and tcp_sendmsg calls
 for a while. This has a been a benign bug because sendpage_ok() always
@@ -715,7 +715,7 @@ as the skip hint for dump resumption.
 
 AFAICS this has the same issue as the one resolved in the conntrack
 dumper, when we do
-  if (!refcount_inc_not_zero(&amp;exp-&gt;use))
+  if (!refcount_inc_not_zero(&amp;amp;exp-&gt;use))
 
 to increment the refcount, there is a chance that exp == last, which
 causes a double-increment of the refcount and subsequent memory leak.</description><pubDate>Thu, 11 Sep 2025 17:08:54 +0000</pubDate></item><item><title>CVE-2025-39765 | ALSA: timer: fix ida_free call while not allocated</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39765</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -745,7 +745,7 @@ the syzkaller reported the following information:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f6f1ad7a784 CR3: 000000007a6e2000 CR4: 00000000000006f0
   Call Trace:
-   &lt;TASK&gt;
+   
    snd_utimer_put_id sound/core/timer.c:2043 [inline] [snd_timer]
    snd_utimer_create+0x59b/0x6a0 sound/core/timer.c:2184 [snd_timer]
    snd_utimer_ioctl_create sound/core/timer.c:2202 [inline] [snd_timer]
@@ -913,7 +913,7 @@ FS:  00007f3a8a52c740(0000) GS:ffff9e631ad1c000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 000055bb289419c8 CR3: 000000011274e001 CR4: 00000000003706f0
 Call Trace:
- &lt;TASK&gt;
+ 
  bnxt_remove_one+0x57/0x180 [bnxt_en]
  pci_device_remove+0x39/0xc0
  device_release_driver_internal+0xa5/0x130
@@ -952,7 +952,7 @@ kernel log output (truncated):
 WARNING: CPU: 1 PID: 5273 at net/core/dev.c:3535 skb_warn_bad_offload+0x81/0x140
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  skb_checksum_help+0x12a/0x1f0
  validate_xmit_skb+0x1a3/0x2d0
  validate_xmit_skb_list+0x4f/0x80
@@ -1025,7 +1025,7 @@ issue.
   watchdog: BUG: soft lockup - CPU#1 stuck for 221s! [rb_consumer:66]
   CPU: 1 UID: 0 PID: 66 Comm: rb_consumer Not tainted 6.16.0+ #259 PREEMPT(none)
   Call Trace:
-   &lt;IRQ&gt;
+   
    __netdev_alloc_skb+0x2e/0x3a0
    br_ip6_multicast_alloc_query+0x212/0x1b70
    __br_multicast_send_query+0x376/0xac0
@@ -1037,7 +1037,7 @@ issue.
    handle_softirqs+0x18e/0x560
    __irq_exit_rcu+0x158/0x1a0
    sysvec_apic_timer_interrupt+0x76/0x90
-   &lt;/IRQ&gt;
+   
 
 This issue can be reproduced with:
   ip link add br0 type bridge
@@ -1090,7 +1090,7 @@ FS:  000055556316a500(0000) GS:ffff8880d68bc000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000001b30863fff CR3: 0000000050171000 CR4: 0000000000352ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  copy_vma_and_data+0x468/0x790 mm/mremap.c:1215
  move_vma+0x548/0x1780 mm/mremap.c:1282
  mremap_to+0x1b7/0x450 mm/mremap.c:1406
@@ -1107,7 +1107,7 @@ RDX: 0000000000400000 RSI: 0000000000c00000 RDI: 0000200000000000
 RBP: 00007ffe5ea5eef0 R08: 0000200000c00000 R09: 0000000000000000
 R10: 0000000000000003 R11: 0000000000000246 R12: 0000000000000002
 R13: 00007f00d0db5fa0 R14: 00007f00d0db5fa0 R15: 0000000000000005
- &lt;/TASK&gt;
+ 
 
 The underlying issue is that we recurse during the original page table
 move, but not during the recovery move.
@@ -1145,7 +1145,7 @@ negative, in addition to the warning at check_mm() function):
 [    2.552859] Hardware name: IBM,9009-41A POWER9 (architected) 0x4e0202 0xf000005 of:IBM,FW910.00 (VL910_062) hv:phyp pSeries
 [    2.552872] NIP:  c0000000007eef3c LR: c0000000007eef30 CTR: c0000000003d8c90
 [    2.552885] REGS: c0000000622e73b0 TRAP: 0700   Not tainted  (6.12.0-105.debug_vm2.el10.ppc64le+debug)
-[    2.552899] MSR:  800000000282b033 &lt;SF,VEC,VSX,EE,FP,ME,IR,DR,RI,LE&gt;  CR: 24002822  XER: 0000000a
+[    2.552899] MSR:  800000000282b033   CR: 24002822  XER: 0000000a
 [    2.552954] CFAR: c0000000008f03f0 IRQMASK: 0
 [    2.552954] GPR00: c0000000007eef30 c0000000622e7650 c000000002b1ac00 0000000000000001
 [    2.552954] GPR04: 0000000000000008 0000000000000000 c0000000007eef30 ffffffffffffffff
@@ -1197,7 +1197,7 @@ generic/464 on a zoned setup will hit the following ASSERT. This happens
 because the broken ordering fails to flush existing dirty pages before the
 file size is truncated.
 
-  assertion failed: !list_empty(&amp;ordered-&gt;list) :: 0, in fs/btrfs/zoned.c:1899
+  assertion failed: !list_empty(&amp;amp;ordered-&gt;list) :: 0, in fs/btrfs/zoned.c:1899
   ------------[ cut here ]------------
   kernel BUG at fs/btrfs/zoned.c:1899!
   Oops: invalid opcode: 0000 [#1] SMP NOPTI
@@ -1215,7 +1215,7 @@ file size is truncated.
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f907c7a918c CR3: 0000000004024000 CR4: 0000000000350ef0
   Call Trace:
-   &lt;TASK&gt;
+   
    ? srso_return_thunk+0x5/0x5f
    btrfs_finish_ordered_io+0x4a/0x60 [btrfs]
    btrfs_work_helper+0xf9/0x490 [btrfs]
@@ -1228,7 +1228,7 @@ file size is truncated.
    ret_from_fork+0x205/0x260
    ? __pfx_kthread+0x10/0x10
    ret_from_fork_asm+0x1a/0x30
-   &lt;/TASK&gt;
+   
 
 Consider process A calling writepages() with WB_SYNC_NONE. In zoned mode or
 for compressed writes, it locks several folios for delalloc and starts
@@ -1275,7 +1275,7 @@ easily reproduced by running the hotplug selftest in a loop):
  RIP: 0010:scx_set_task_state+0x7c/0xc0
  ...
  Call Trace:
-  &lt;TASK&gt;
+  
   scx_enable_task+0x11f/0x2e0
   switching_to_scx+0x24/0x110
   scx_enable.isra.0+0xd14/0x13d0
