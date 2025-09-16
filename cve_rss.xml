@@ -1,5 +1,188 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Sep 2025 13:07:17 +0000</lastBuildDate><item><title>CVE-2025-39805 | net: macb: fix unregister_netdev call order in macb_remove()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39805</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Sep 2025 13:37:37 +0000</lastBuildDate><item><title>CVE-2025-52044 | In Frappe ERPNext v15.57.5, the function get_stock_balance() at erpnext/stock/utils.py is vulnerable to SQL Injection, which allows an attac...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-52044</link><description>In Frappe ERPNext v15.57.5, the function get_stock_balance() at erpnext/stock/utils.py is vulnerable to SQL Injection, which allows an attacker to extract all information from databases by injecting SQL query into inventory_dimensions_dict parameter.</description><pubDate>Tue, 16 Sep 2025 13:37:39 +0000</pubDate></item><item><title>CVE-2025-39830 | net/mlx5: HWS, Fix memory leak in hws_pool_buddy_init error path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39830</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: HWS, Fix memory leak in hws_pool_buddy_init error path
+
+In the error path of hws_pool_buddy_init(), the buddy allocator cleanup
+doesn't free the allocator structure itself, causing a memory leak.
+
+Add the missing kfree() to properly release all allocated memory.</description><pubDate>Tue, 16 Sep 2025 13:37:40 +0000</pubDate></item><item><title>CVE-2025-39831 | fbnic: Move phylink resume out of service_task and into open/close</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39831</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fbnic: Move phylink resume out of service_task and into open/close
+
+The fbnic driver was presenting with the following locking assert coming
+out of a PM resume:
+[   42.208116][  T164] RTNL: assertion failed at drivers/net/phy/phylink.c (2611)
+[   42.208492][  T164] WARNING: CPU: 1 PID: 164 at drivers/net/phy/phylink.c:2611 phylink_resume+0x190/0x1e0
+[   42.208872][  T164] Modules linked in:
+[   42.209140][  T164] CPU: 1 UID: 0 PID: 164 Comm: bash Not tainted 6.17.0-rc2-virtme #134 PREEMPT(full)
+[   42.209496][  T164] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.17.0-5.fc42 04/01/2014
+[   42.209861][  T164] RIP: 0010:phylink_resume+0x190/0x1e0
+[   42.210057][  T164] Code: 83 e5 01 0f 85 b0 fe ff ff c6 05 1c cd 3e 02 01 90 ba 33 0a 00 00 48 c7 c6 20 3a 1d a5 48 c7 c7 e0 3e 1d a5 e8 21 b8 90 fe 90 &lt;0f&gt; 0b 90 90 e9 86 fe ff ff e8 42 ea 1f ff e9 e2 fe ff ff 48 89 ef
+[   42.210708][  T164] RSP: 0018:ffffc90000affbd8 EFLAGS: 00010296
+[   42.210983][  T164] RAX: 0000000000000000 RBX: ffff8880078d8400 RCX: 0000000000000000
+[   42.211235][  T164] RDX: 0000000000000000 RSI: 1ffffffff4f10938 RDI: 0000000000000001
+[   42.211466][  T164] RBP: 0000000000000000 R08: ffffffffa2ae79ea R09: fffffbfff4b3eb84
+[   42.211707][  T164] R10: 0000000000000003 R11: 0000000000000000 R12: ffff888007ad8000
+[   42.211997][  T164] R13: 0000000000000002 R14: ffff888006a18800 R15: ffffffffa34c59e0
+[   42.212234][  T164] FS:  00007f0dc8e39740(0000) GS:ffff88808f51f000(0000) knlGS:0000000000000000
+[   42.212505][  T164] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   42.212704][  T164] CR2: 00007f0dc8e9fe10 CR3: 000000000b56d003 CR4: 0000000000772ef0
+[   42.213227][  T164] PKRU: 55555554
+[   42.213366][  T164] Call Trace:
+[   42.213483][  T164]  &lt;TASK&gt;
+[   42.213565][  T164]  __fbnic_pm_attach.isra.0+0x8e/0xa0
+[   42.213725][  T164]  pci_reset_function+0x116/0x1d0
+[   42.213895][  T164]  reset_store+0xa0/0x100
+[   42.214025][  T164]  ? pci_dev_reset_attr_is_visible+0x50/0x50
+[   42.214221][  T164]  ? sysfs_file_kobj+0xc1/0x1e0
+[   42.214374][  T164]  ? sysfs_kf_write+0x65/0x160
+[   42.214526][  T164]  kernfs_fop_write_iter+0x2f8/0x4c0
+[   42.214677][  T164]  ? kernfs_vma_page_mkwrite+0x1f0/0x1f0
+[   42.214836][  T164]  new_sync_write+0x308/0x6f0
+[   42.214987][  T164]  ? __lock_acquire+0x34c/0x740
+[   42.215135][  T164]  ? new_sync_read+0x6f0/0x6f0
+[   42.215288][  T164]  ? lock_acquire.part.0+0xbc/0x260
+[   42.215440][  T164]  ? ksys_write+0xff/0x200
+[   42.215590][  T164]  ? perf_trace_sched_switch+0x6d0/0x6d0
+[   42.215742][  T164]  vfs_write+0x65e/0xbb0
+[   42.215876][  T164]  ksys_write+0xff/0x200
+[   42.215994][  T164]  ? __ia32_sys_read+0xc0/0xc0
+[   42.216141][  T164]  ? do_user_addr_fault+0x269/0x9f0
+[   42.216292][  T164]  ? rcu_is_watching+0x15/0xd0
+[   42.216442][  T164]  do_syscall_64+0xbb/0x360
+[   42.216591][  T164]  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+[   42.216784][  T164] RIP: 0033:0x7f0dc8ea9986
+
+A bit of digging showed that we were invoking the phylink_resume as a part
+of the fbnic_up path when we were enabling the service task while not
+holding the RTNL lock. We should be enabling this sooner as a part of the
+ndo_open path and then just letting the service task come online later.
+This will help to enforce the correct locking and brings the phylink
+interface online at the same time as the network interface, instead of at a
+later time.
+
+I tested this on QEMU to verify this was working by putting the system to
+sleep using "echo mem &gt; /sys/power/state" to put the system to sleep in the
+guest and then using the command "system_wakeup" in the QEMU monitor.</description><pubDate>Tue, 16 Sep 2025 13:37:40 +0000</pubDate></item><item><title>CVE-2025-39832 | net/mlx5: Fix lockdep assertion on sync reset unload event</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39832</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: Fix lockdep assertion on sync reset unload event
+
+Fix lockdep assertion triggered during sync reset unload event. When the
+sync reset flow is initiated using the devlink reload fw_activate
+option, the PF already holds the devlink lock while handling unload
+event. In this case, delegate sync reset unload event handling back to
+the devlink callback process to avoid double-locking and resolve the
+lockdep warning.
+
+Kernel log:
+WARNING: CPU: 9 PID: 1578 at devl_assert_locked+0x31/0x40
+[...]
+Call Trace:
+&lt;TASK&gt;
+ mlx5_unload_one_devl_locked+0x2c/0xc0 [mlx5_core]
+ mlx5_sync_reset_unload_event+0xaf/0x2f0 [mlx5_core]
+ process_one_work+0x222/0x640
+ worker_thread+0x199/0x350
+ kthread+0x10b/0x230
+ ? __pfx_worker_thread+0x10/0x10
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x8e/0x100
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+&lt;/TASK&gt;</description><pubDate>Tue, 16 Sep 2025 13:37:41 +0000</pubDate></item><item><title>CVE-2025-39833 | mISDN: hfcpci: Fix warning when deleting uninitialized timer</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39833</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mISDN: hfcpci: Fix warning when deleting uninitialized timer
+
+With CONFIG_DEBUG_OBJECTS_TIMERS unloading hfcpci module leads
+to the following splat:
+
+[  250.215892] ODEBUG: assert_init not available (active state 0) object: ffffffffc01a3dc0 object type: timer_list hint: 0x0
+[  250.217520] WARNING: CPU: 0 PID: 233 at lib/debugobjects.c:612 debug_print_object+0x1b6/0x2c0
+[  250.218775] Modules linked in: hfcpci(-) mISDN_core
+[  250.219537] CPU: 0 UID: 0 PID: 233 Comm: rmmod Not tainted 6.17.0-rc2-g6f713187ac98 #2 PREEMPT(voluntary)
+[  250.220940] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  250.222377] RIP: 0010:debug_print_object+0x1b6/0x2c0
+[  250.223131] Code: fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 4f 41 56 48 8b 14 dd a0 4e 01 9f 48 89 ee 48 c7 c7 20 46 01 9f e8 cb 84d
+[  250.225805] RSP: 0018:ffff888015ea7c08 EFLAGS: 00010286
+[  250.226608] RAX: 0000000000000000 RBX: 0000000000000005 RCX: ffffffff9be93a95
+[  250.227708] RDX: 1ffff1100d945138 RSI: 0000000000000008 RDI: ffff88806ca289c0
+[  250.228993] RBP: ffffffff9f014a00 R08: 0000000000000001 R09: ffffed1002bd4f39
+[  250.230043] R10: ffff888015ea79cf R11: 0000000000000001 R12: 0000000000000001
+[  250.231185] R13: ffffffff9eea0520 R14: 0000000000000000 R15: ffff888015ea7cc8
+[  250.232454] FS:  00007f3208f01540(0000) GS:ffff8880caf5a000(0000) knlGS:0000000000000000
+[  250.233851] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  250.234856] CR2: 00007f32090a7421 CR3: 0000000004d63000 CR4: 00000000000006f0
+[  250.236117] Call Trace:
+[  250.236599]  &lt;TASK&gt;
+[  250.236967]  ? trace_irq_enable.constprop.0+0xd4/0x130
+[  250.237920]  debug_object_assert_init+0x1f6/0x310
+[  250.238762]  ? __pfx_debug_object_assert_init+0x10/0x10
+[  250.239658]  ? __lock_acquire+0xdea/0x1c70
+[  250.240369]  __try_to_del_timer_sync+0x69/0x140
+[  250.241172]  ? __pfx___try_to_del_timer_sync+0x10/0x10
+[  250.242058]  ? __timer_delete_sync+0xc6/0x120
+[  250.242842]  ? lock_acquire+0x30/0x80
+[  250.243474]  ? __timer_delete_sync+0xc6/0x120
+[  250.244262]  __timer_delete_sync+0x98/0x120
+[  250.245015]  HFC_cleanup+0x10/0x20 [hfcpci]
+[  250.245704]  __do_sys_delete_module+0x348/0x510
+[  250.246461]  ? __pfx___do_sys_delete_module+0x10/0x10
+[  250.247338]  do_syscall_64+0xc1/0x360
+[  250.247924]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Fix this by initializing hfc_tl timer with DEFINE_TIMER macro.
+Also, use mod_timer instead of manual timeout update.</description><pubDate>Tue, 16 Sep 2025 13:37:41 +0000</pubDate></item><item><title>CVE-2025-39834 | net/mlx5: HWS, Fix memory leak in hws_action_get_shared_stc_nic error flow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39834</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: HWS, Fix memory leak in hws_action_get_shared_stc_nic error flow
+
+When an invalid stc_type is provided, the function allocates memory for
+shared_stc but jumps to unlock_and_out without freeing it, causing a
+memory leak.
+
+Fix by jumping to free_shared_stc label instead to ensure proper cleanup.</description><pubDate>Tue, 16 Sep 2025 13:37:41 +0000</pubDate></item><item><title>CVE-2025-39835 | xfs: do not propagate ENODATA disk errors into xattr code</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39835</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xfs: do not propagate ENODATA disk errors into xattr code
+
+ENODATA (aka ENOATTR) has a very specific meaning in the xfs xattr code;
+namely, that the requested attribute name could not be found.
+
+However, a medium error from disk may also return ENODATA. At best,
+this medium error may escape to userspace as "attribute not found"
+when in fact it's an IO (disk) error.
+
+At worst, we may oops in xfs_attr_leaf_get() when we do:
+
+	error = xfs_attr_leaf_hasname(args, &amp;bp);
+	if (error == -ENOATTR)  {
+		xfs_trans_brelse(args-&gt;trans, bp);
+		return error;
+	}
+
+because an ENODATA/ENOATTR error from disk leaves us with a null bp,
+and the xfs_trans_brelse will then null-deref it.
+
+As discussed on the list, we really need to modify the lower level
+IO functions to trap all disk errors and ensure that we don't let
+unique errors like this leak up into higher xfs functions - many
+like this should be remapped to EIO.
+
+However, this patch directly addresses a reported bug in the xattr
+code, and should be safe to backport to stable kernels. A larger-scope
+patch to handle more unique errors at lower levels can follow later.
+
+(Note, prior to 07120f1abdff we did not oops, but we did return the
+wrong error code to userspace.)</description><pubDate>Tue, 16 Sep 2025 13:37:42 +0000</pubDate></item><item><title>CVE-2025-39836 | efi: stmm: Fix incorrect buffer allocation method</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39836</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+efi: stmm: Fix incorrect buffer allocation method
+
+The communication buffer allocated by setup_mm_hdr() is later on passed
+to tee_shm_register_kernel_buf(). The latter expects those buffers to be
+contiguous pages, but setup_mm_hdr() just uses kmalloc(). That can cause
+various corruptions or BUGs, specifically since commit 9aec2fb0fd5e
+("slab: allocate frozen pages"), though it was broken before as well.
+
+Fix this by using alloc_pages_exact() instead of kmalloc().</description><pubDate>Tue, 16 Sep 2025 13:37:42 +0000</pubDate></item><item><title>CVE-2025-39805 | net: macb: fix unregister_netdev call order in macb_remove()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39805</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: macb: fix unregister_netdev call order in macb_remove()
 
@@ -48,7 +231,7 @@ Below is the KASAN splat after the out of bounds access happens:
 [   13.673297] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-00005-gec5d573d83f4-dirty #3
 [   13.673297] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/04
 [   13.673297] Call Trace:
-[   13.673297]  &lt;TASK&gt;
+[   13.673297]  
 [   13.673297]  dump_stack_lvl+0x5f/0x80
 [   13.673297]  print_report+0xd1/0x660
 [   13.673297]  kasan_report+0xe5/0x120
@@ -126,7 +309,7 @@ kernel:
 kernel: CPU: 3 UID: 0 PID: 75 Comm: kworker/u33:2 Not tainted 6.16.0+ #3 PREEMPT(voluntary)
 kernel: Workqueue: async async_run_entry_fn
 kernel: Call Trace:
-kernel:  &lt;TASK&gt;
+kernel:  
 kernel:  dump_stack_lvl+0x76/0xa0
 kernel:  print_report+0xd1/0x660
 kernel:  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
@@ -141,7 +324,7 @@ kernel:  quicki2c_acpi_get_dsd_property.constprop.0+0x111/0x1b0 [intel_quicki2c]
 kernel:  ? __pfx_quicki2c_acpi_get_dsd_property.constprop.0+0x10/0x10 [intel_quicki2c]
 kernel:  quicki2c_get_acpi_resources+0x237/0x730 [intel_quicki2c]
 [...]
-kernel:  &lt;/TASK&gt;
+kernel:  
 kernel:
 kernel: The buggy address belongs to stack of task kworker/u33:2/75
 kernel:  and is located at offset 48 in frame:
@@ -229,15 +412,15 @@ The issue occurs because:
 CPU0 (ftrace_dump)                              CPU1 (reader)
 echo z &gt; /proc/sysrq-trigger
 
-!trace_empty(&amp;iter)
-trace_iterator_reset(&amp;iter) &lt;- len = size = 0
+!trace_empty(&amp;amp;iter)
+trace_iterator_reset(&amp;amp;iter) &lt;- len = size = 0
                                                 cat /sys/kernel/tracing/trace_pipe
-trace_find_next_entry_inc(&amp;iter)
+trace_find_next_entry_inc(&amp;amp;iter)
   __find_next_entry
     ring_buffer_empty_cpu &lt;- all empty
   return NULL
 
-trace_printk_seq(&amp;iter.seq)
+trace_printk_seq(&amp;amp;iter.seq)
   WARN_ON_ONCE(s-&gt;seq.len &gt;= s-&gt;seq.size)
 
 In the context between trace_empty() and trace_find_next_entry_inc()
@@ -257,14 +440,14 @@ ice: fix NULL pointer dereference in ice_unplug_aux_dev() on reset
 Issuing a reset when the driver is loaded without RDMA support, will
 results in a crash as it attempts to remove RDMA's non-existent auxbus
 device:
-echo 1 &gt; /sys/class/net/&lt;if&gt;/device/reset
+echo 1 &gt; /sys/class/net//device/reset
 
 BUG: kernel NULL pointer dereference, address: 0000000000000008
 ...
 RIP: 0010:ice_unplug_aux_dev+0x29/0x70 [ice]
 ...
 Call Trace:
-&lt;TASK&gt;
+
 ice_prepare_for_reset+0x77/0x260 [ice]
 pci_dev_save_and_disable+0x2c/0x70
 pci_reset_function+0x88/0x130
@@ -344,7 +527,7 @@ Fix it by checking 'guid' before cmp.</description><pubDate>Tue, 16 Sep 2025 13:
 
 HID: intel-thc-hid: intel-thc: Fix incorrect pointer arithmetic in I2C regs save
 
-Improper use of secondary pointer (&amp;dev-&gt;i2c_subip_regs) caused
+Improper use of secondary pointer (&amp;amp;dev-&gt;i2c_subip_regs) caused
 kernel crash and out-of-bounds error:
 
  BUG: KASAN: slab-out-of-bounds in _regmap_bulk_read+0x449/0x510
@@ -353,7 +536,7 @@ kernel crash and out-of-bounds error:
  CPU: 3 UID: 0 PID: 5107 Comm: kworker/u33:5 Not tainted 6.16.0+ #3 PREEMPT(voluntary)
  Workqueue: async async_run_entry_fn
  Call Trace:
-  &lt;TASK&gt;
+  
   dump_stack_lvl+0x76/0xa0
   print_report+0xd1/0x660
   ? __pfx__raw_spin_lock_irqsave+0x10/0x10
@@ -378,7 +561,7 @@ kernel crash and out-of-bounds error:
  The buggy address is located 0 bytes to the right of
   allocated 192-byte region [ffff888136005d00, ffff888136005dc0)
 
-Replaced with direct array indexing (&amp;dev-&gt;i2c_subip_regs[i]) to ensure
+Replaced with direct array indexing (&amp;amp;dev-&gt;i2c_subip_regs[i]) to ensure
 safe memory access.</description><pubDate>Tue, 16 Sep 2025 13:07:25 +0000</pubDate></item><item><title>CVE-2025-39819 | fs/smb: Fix inconsistent refcnt update</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39819</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 fs/smb: Fix inconsistent refcnt update
@@ -516,7 +699,7 @@ Below is the KASAN splat after triggering the UAF:
 [   21.673700] CPU: 1 UID: 0 PID: 54 Comm: kworker/1:2 Not tainted 6.16.0-rc4-g9773391cf4dd-dirty #36 PREEMPT(voluntary)
 [   21.673700] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
 [   21.673700] Call Trace:
-[   21.673700]  &lt;TASK&gt;
+[   21.673700]  
 [   21.673700]  dump_stack_lvl+0x5f/0x80
 [   21.673700]  print_report+0xd1/0x660
 [   21.673700]  kasan_report+0xe5/0x120
@@ -653,7 +836,7 @@ FS:  00007f8d7e9236c0(0000) GS:ffff888125c1c000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 000000000045ad50 CR3: 0000000075bde000 CR4: 00000000003526f0
 Call Trace:
- &lt;TASK&gt;
+ 
  vcc_sendmsg+0xa10/0xc60 net/atm/common.c:645
  sock_sendmsg_nosec net/socket.c:714 [inline]
  __sock_sendmsg+0x219/0x270 net/socket.c:729
@@ -674,7 +857,7 @@ RDX: 0000000000000000 RSI: 0000200000000240 RDI: 0000000000000005
 RBP: 00007f8d7e9f4300 R08: 65732f636f72702f R09: 65732f636f72702f
 R10: 65732f636f72702f R11: 0000000000000246 R12: 00007f8d7e9c10ac
 R13: 00007f8d7e9231a0 R14: 0000200000000200 R15: 0000200000000250
- &lt;/TASK&gt;
+ 
 Modules linked in:</description><pubDate>Tue, 16 Sep 2025 13:07:30 +0000</pubDate></item><item><title>CVE-2025-39829 | trace/fgraph: Fix the warning caused by missing unregister notifier</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39829</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 trace/fgraph: Fix the warning caused by missing unregister notifier
@@ -685,7 +868,7 @@ notifier callback ftrace_suspend_notifier_call already registered
 WARNING: CPU: 2 PID: 86 at kernel/notifier.c:23 notifier_chain_register+0x44/0xb0
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  blocking_notifier_chain_register+0x34/0x60
  register_ftrace_graph+0x330/0x410
  ftrace_profile_write+0x1e9/0x340
