@@ -1,5 +1,870 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Sep 2025 07:51:35 +0000</lastBuildDate><item><title>CVE-2024-12367 | Information Disclosure in Vegagrup Software&amp;#x27;s Vega Master</title><link>https://www.cve.org/CVERecord?id=CVE-2024-12367</link><description>Exposure of Sensitive System Information to an Unauthorized Control Sphere vulnerability in VegaGrup Yazılım ve Bilişim Teknolojileri A.Ş. Vega Master allows Directory Indexing.This issue affects Vega Master: from v.1.12.35 through 20250916. 
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Sep 2025 08:33:16 +0000</lastBuildDate><item><title>CVE-2023-53263 | drm/nouveau/disp: fix use-after-free in error handling of nouveau_connector_create</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53263</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/nouveau/disp: fix use-after-free in error handling of nouveau_connector_create
+
+We can't simply free the connector after calling drm_connector_init on it.
+We need to clean up the drm side first.
+
+It might not fix all regressions from commit 2b5d1c29f6c4
+("drm/nouveau/disp: PIOR DP uses GPIO for HPD, not PMGR AUX interrupts"),
+but at least it fixes a memory corruption in error handling related to
+that commit.</description><pubDate>Tue, 16 Sep 2025 08:33:18 +0000</pubDate></item><item><title>CVE-2023-53264 | clk: imx: clk-imxrt1050: fix memory leak in imxrt1050_clocks_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53264</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: imx: clk-imxrt1050: fix memory leak in imxrt1050_clocks_probe
+
+Use devm_of_iomap() instead of of_iomap() to automatically
+handle the unused ioremap region. If any error occurs, regions allocated by
+kzalloc() will leak, but using devm_kzalloc() instead will automatically
+free the memory using devm_kfree().
+
+Also, fix error handling of hws by adding unregister_hws label, which
+unregisters remaining hws when iomap failed.</description><pubDate>Tue, 16 Sep 2025 08:33:18 +0000</pubDate></item><item><title>CVE-2023-53265 | ubi: ensure that VID header offset + VID header size &amp;lt;= alloc, size</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53265</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubi: ensure that VID header offset + VID header size &lt;= alloc, size
+
+Ensure that the VID header offset + VID header size does not exceed
+the allocated area to avoid slab OOB.
+
+BUG: KASAN: slab-out-of-bounds in crc32_body lib/crc32.c:111 [inline]
+BUG: KASAN: slab-out-of-bounds in crc32_le_generic lib/crc32.c:179 [inline]
+BUG: KASAN: slab-out-of-bounds in crc32_le_base+0x58c/0x626 lib/crc32.c:197
+Read of size 4 at addr ffff88802bb36f00 by task syz-executor136/1555
+
+CPU: 2 PID: 1555 Comm: syz-executor136 Tainted: G        W
+6.0.0-1868 #1
+Hardware name: Red Hat KVM, BIOS 1.13.0-2.module+el8.3.0+7860+a7792d29
+04/01/2014
+Call Trace:
+  &lt;TASK&gt;
+  __dump_stack lib/dump_stack.c:88 [inline]
+  dump_stack_lvl+0x85/0xad lib/dump_stack.c:106
+  print_address_description mm/kasan/report.c:317 [inline]
+  print_report.cold.13+0xb6/0x6bb mm/kasan/report.c:433
+  kasan_report+0xa7/0x11b mm/kasan/report.c:495
+  crc32_body lib/crc32.c:111 [inline]
+  crc32_le_generic lib/crc32.c:179 [inline]
+  crc32_le_base+0x58c/0x626 lib/crc32.c:197
+  ubi_io_write_vid_hdr+0x1b7/0x472 drivers/mtd/ubi/io.c:1067
+  create_vtbl+0x4d5/0x9c4 drivers/mtd/ubi/vtbl.c:317
+  create_empty_lvol drivers/mtd/ubi/vtbl.c:500 [inline]
+  ubi_read_volume_table+0x67b/0x288a drivers/mtd/ubi/vtbl.c:812
+  ubi_attach+0xf34/0x1603 drivers/mtd/ubi/attach.c:1601
+  ubi_attach_mtd_dev+0x6f3/0x185e drivers/mtd/ubi/build.c:965
+  ctrl_cdev_ioctl+0x2db/0x347 drivers/mtd/ubi/cdev.c:1043
+  vfs_ioctl fs/ioctl.c:51 [inline]
+  __do_sys_ioctl fs/ioctl.c:870 [inline]
+  __se_sys_ioctl fs/ioctl.c:856 [inline]
+  __x64_sys_ioctl+0x193/0x213 fs/ioctl.c:856
+  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+  do_syscall_64+0x3e/0x86 arch/x86/entry/common.c:80
+  entry_SYSCALL_64_after_hwframe+0x63/0x0
+RIP: 0033:0x7f96d5cf753d
+Code:
+RSP: 002b:00007fffd72206f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f96d5cf753d
+RDX: 0000000020000080 RSI: 0000000040186f40 RDI: 0000000000000003
+RBP: 0000000000400cd0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400be0
+R13: 00007fffd72207e0 R14: 0000000000000000 R15: 0000000000000000
+  &lt;/TASK&gt;
+
+Allocated by task 1555:
+  kasan_save_stack+0x20/0x3d mm/kasan/common.c:38
+  kasan_set_track mm/kasan/common.c:45 [inline]
+  set_alloc_info mm/kasan/common.c:437 [inline]
+  ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+  __kasan_kmalloc+0x88/0xa3 mm/kasan/common.c:525
+  kasan_kmalloc include/linux/kasan.h:234 [inline]
+  __kmalloc+0x138/0x257 mm/slub.c:4429
+  kmalloc include/linux/slab.h:605 [inline]
+  ubi_alloc_vid_buf drivers/mtd/ubi/ubi.h:1093 [inline]
+  create_vtbl+0xcc/0x9c4 drivers/mtd/ubi/vtbl.c:295
+  create_empty_lvol drivers/mtd/ubi/vtbl.c:500 [inline]
+  ubi_read_volume_table+0x67b/0x288a drivers/mtd/ubi/vtbl.c:812
+  ubi_attach+0xf34/0x1603 drivers/mtd/ubi/attach.c:1601
+  ubi_attach_mtd_dev+0x6f3/0x185e drivers/mtd/ubi/build.c:965
+  ctrl_cdev_ioctl+0x2db/0x347 drivers/mtd/ubi/cdev.c:1043
+  vfs_ioctl fs/ioctl.c:51 [inline]
+  __do_sys_ioctl fs/ioctl.c:870 [inline]
+  __se_sys_ioctl fs/ioctl.c:856 [inline]
+  __x64_sys_ioctl+0x193/0x213 fs/ioctl.c:856
+  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+  do_syscall_64+0x3e/0x86 arch/x86/entry/common.c:80
+  entry_SYSCALL_64_after_hwframe+0x63/0x0
+
+The buggy address belongs to the object at ffff88802bb36e00
+  which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 0 bytes to the right of
+  256-byte region [ffff88802bb36e00, ffff88802bb36f00)
+
+The buggy address belongs to the physical page:
+page:00000000ea4d1263 refcount:1 mapcount:0 mapping:0000000000000000
+index:0x0 pfn:0x2bb36
+head:00000000ea4d1263 order:1 compound_mapcount:0 compound_pincount:0
+flags: 0xfffffc0010200(slab|head|node=0|zone=1|lastcpupid=0x1fffff)
+raw: 000fffffc0010200 ffffea000066c300 dead000000000003 ffff888100042b40
+raw: 0000000000000000 00000000001
+---truncated---</description><pubDate>Tue, 16 Sep 2025 08:33:19 +0000</pubDate></item><item><title>CVE-2023-53266 | arm64: acpi: Fix possible memory leak of ffh_ctxt</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53266</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: acpi: Fix possible memory leak of ffh_ctxt
+
+Allocated 'ffh_ctxt' memory leak is possible if the SMCCC version
+and conduit checks fail and -EOPNOTSUPP is returned without freeing the
+allocated memory.
+
+Fix the same by moving the allocation after the SMCCC version and
+conduit checks.</description><pubDate>Tue, 16 Sep 2025 08:33:19 +0000</pubDate></item><item><title>CVE-2023-53267 | driver: soc: xilinx: fix memory leak in xlnx_add_cb_for_notify_event()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53267</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+driver: soc: xilinx: fix memory leak in xlnx_add_cb_for_notify_event()
+
+The kfree() should be called when memory fails to be allocated for
+cb_data in xlnx_add_cb_for_notify_event(), otherwise there will be
+a memory leak, so add kfree() to fix it.</description><pubDate>Tue, 16 Sep 2025 08:33:20 +0000</pubDate></item><item><title>CVE-2023-53268 | ASoC: fsl_mqs: move of_node_put() to the correct location</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53268</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ASoC: fsl_mqs: move of_node_put() to the correct location
+
+of_node_put() should have been done directly after
+mqs_priv-&gt;regmap = syscon_node_to_regmap(gpr_np);
+otherwise it creates a reference leak on the success path.
+
+To fix this, of_node_put() is moved to the correct location, and change
+all the gotos to direct returns.</description><pubDate>Tue, 16 Sep 2025 08:33:20 +0000</pubDate></item><item><title>CVE-2023-53269 | block: ublk: make sure that block size is set correctly</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53269</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+block: ublk: make sure that block size is set correctly
+
+block size is one very key setting for block layer, and bad block size
+could panic kernel easily.
+
+Make sure that block size is set correctly.
+
+Meantime if ublk_validate_params() fails, clear ub-&gt;params so that disk
+is prevented from being added.</description><pubDate>Tue, 16 Sep 2025 08:33:20 +0000</pubDate></item><item><title>CVE-2023-53270 | ext4: fix i_disksize exceeding i_size problem in paritally written case</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53270</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix i_disksize exceeding i_size problem in paritally written case
+
+It is possible for i_disksize can exceed i_size, triggering a warning.
+
+generic_perform_write
+ copied = iov_iter_copy_from_user_atomic(len) // copied &lt; len
+ ext4_da_write_end
+ | ext4_update_i_disksize
+ |  new_i_size = pos + copied;
+ |  WRITE_ONCE(EXT4_I(inode)-&gt;i_disksize, newsize) // update i_disksize
+ | generic_write_end
+ |  copied = block_write_end(copied, len) // copied = 0
+ |   if (unlikely(copied &lt; len))
+ |    if (!PageUptodate(page))
+ |     copied = 0;
+ |  if (pos + copied &gt; inode-&gt;i_size) // return false
+ if (unlikely(copied == 0))
+  goto again;
+ if (unlikely(iov_iter_fault_in_readable(i, bytes))) {
+  status = -EFAULT;
+  break;
+ }
+
+We get i_disksize greater than i_size here, which could trigger WARNING
+check 'i_size_read(inode) &lt; EXT4_I(inode)-&gt;i_disksize' while doing dio:
+
+ext4_dio_write_iter
+ iomap_dio_rw
+  __iomap_dio_rw // return err, length is not aligned to 512
+ ext4_handle_inode_extension
+  WARN_ON_ONCE(i_size_read(inode) &lt; EXT4_I(inode)-&gt;i_disksize) // Oops
+
+ WARNING: CPU: 2 PID: 2609 at fs/ext4/file.c:319
+ CPU: 2 PID: 2609 Comm: aa Not tainted 6.3.0-rc2
+ RIP: 0010:ext4_file_write_iter+0xbc7
+ Call Trace:
+  vfs_write+0x3b1
+  ksys_write+0x77
+  do_syscall_64+0x39
+
+Fix it by updating 'copied' value before updating i_disksize just like
+ext4_write_inline_data_end() does.
+
+A reproducer can be found in the buganizer link below.</description><pubDate>Tue, 16 Sep 2025 08:33:21 +0000</pubDate></item><item><title>CVE-2023-53271 | ubi: Fix unreferenced object reported by kmemleak in ubi_resize_volume()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53271</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubi: Fix unreferenced object reported by kmemleak in ubi_resize_volume()
+
+There is a memory leaks problem reported by kmemleak:
+
+unreferenced object 0xffff888102007a00 (size 128):
+  comm "ubirsvol", pid 32090, jiffies 4298464136 (age 2361.231s)
+  hex dump (first 32 bytes):
+ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff  ................
+  backtrace:
+[&lt;ffffffff8176cecd&gt;] __kmalloc+0x4d/0x150
+[&lt;ffffffffa02a9a36&gt;] ubi_eba_create_table+0x76/0x170 [ubi]
+[&lt;ffffffffa029764e&gt;] ubi_resize_volume+0x1be/0xbc0 [ubi]
+[&lt;ffffffffa02a3321&gt;] ubi_cdev_ioctl+0x701/0x1850 [ubi]
+[&lt;ffffffff81975d2d&gt;] __x64_sys_ioctl+0x11d/0x170
+[&lt;ffffffff83c142a5&gt;] do_syscall_64+0x35/0x80
+[&lt;ffffffff83e0006a&gt;] entry_SYSCALL_64_after_hwframe+0x46/0xb0
+
+This is due to a mismatch between create and destroy interfaces, and
+in detail that "new_eba_tbl" created by ubi_eba_create_table() but
+destroyed by kfree(), while will causing "new_eba_tbl-&gt;entries" not
+freed.
+
+Fix it by replacing kfree(new_eba_tbl) with
+ubi_eba_destroy_table(new_eba_tbl)</description><pubDate>Tue, 16 Sep 2025 08:33:21 +0000</pubDate></item><item><title>CVE-2023-53272 | net: ena: fix shift-out-of-bounds in exponential backoff</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53272</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: ena: fix shift-out-of-bounds in exponential backoff
+
+The ENA adapters on our instances occasionally reset.  Once recently
+logged a UBSAN failure to console in the process:
+
+  UBSAN: shift-out-of-bounds in build/linux/drivers/net/ethernet/amazon/ena/ena_com.c:540:13
+  shift exponent 32 is too large for 32-bit type 'unsigned int'
+  CPU: 28 PID: 70012 Comm: kworker/u72:2 Kdump: loaded not tainted 5.15.117
+  Hardware name: Amazon EC2 c5d.9xlarge/, BIOS 1.0 10/16/2017
+  Workqueue: ena ena_fw_reset_device [ena]
+  Call Trace:
+  &lt;TASK&gt;
+  dump_stack_lvl+0x4a/0x63
+  dump_stack+0x10/0x16
+  ubsan_epilogue+0x9/0x36
+  __ubsan_handle_shift_out_of_bounds.cold+0x61/0x10e
+  ? __const_udelay+0x43/0x50
+  ena_delay_exponential_backoff_us.cold+0x16/0x1e [ena]
+  wait_for_reset_state+0x54/0xa0 [ena]
+  ena_com_dev_reset+0xc8/0x110 [ena]
+  ena_down+0x3fe/0x480 [ena]
+  ena_destroy_device+0xeb/0xf0 [ena]
+  ena_fw_reset_device+0x30/0x50 [ena]
+  process_one_work+0x22b/0x3d0
+  worker_thread+0x4d/0x3f0
+  ? process_one_work+0x3d0/0x3d0
+  kthread+0x12a/0x150
+  ? set_kthread_struct+0x50/0x50
+  ret_from_fork+0x22/0x30
+  &lt;/TASK&gt;
+
+Apparently, the reset delays are getting so large they can trigger a
+UBSAN panic.
+
+Looking at the code, the current timeout is capped at 5000us.  Using a
+base value of 100us, the current code will overflow after (1&lt;&lt;29).  Even
+at values before 32, this function wraps around, perhaps
+unintentionally.
+
+Cap the value of the exponent used for this backoff at (1&lt;&lt;16) which is
+larger than currently necessary, but large enough to support bigger
+values in the future.</description><pubDate>Tue, 16 Sep 2025 08:33:22 +0000</pubDate></item><item><title>CVE-2023-53273 | Drivers: vmbus: Check for channel allocation before looking up relids</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53273</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Drivers: vmbus: Check for channel allocation before looking up relids
+
+relid2channel() assumes vmbus channel array to be allocated when called.
+However, in cases such as kdump/kexec, not all relids will be reset by the host.
+When the second kernel boots and if the guest receives a vmbus interrupt during
+vmbus driver initialization before vmbus_connect() is called, before it finishes,
+or if it fails, the vmbus interrupt service routine is called which in turn calls
+relid2channel() and can cause a null pointer dereference.
+
+Print a warning and error out in relid2channel() for a channel id that's invalid
+in the second kernel.</description><pubDate>Tue, 16 Sep 2025 08:33:22 +0000</pubDate></item><item><title>CVE-2023-53274 | clk: mediatek: mt8183: Add back SSPM related clocks</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53274</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: mediatek: mt8183: Add back SSPM related clocks
+
+This reverts commit 860690a93ef23b567f781c1b631623e27190f101.
+
+On the MT8183, the SSPM related clocks were removed claiming a lack of
+usage. This however causes some issues when the driver was converted to
+the new simple-probe mechanism. This mechanism allocates enough space
+for all the clocks defined in the clock driver, not the highest index
+in the DT binding. This leads to out-of-bound writes if their are holes
+in the DT binding or the driver (due to deprecated or unimplemented
+clocks). These errors can go unnoticed and cause memory corruption,
+leading to crashes in unrelated areas, or nothing at all. KASAN will
+detect them.
+
+Add the SSPM related clocks back to the MT8183 clock driver to fully
+implement the DT binding. The SSPM clocks are for the power management
+co-processor, and should never be turned off. They are marked as such.</description><pubDate>Tue, 16 Sep 2025 08:33:23 +0000</pubDate></item><item><title>CVE-2023-53275 | ALSA: hda: fix a possible null-pointer dereference due to data race in snd_hdac_regmap_sync()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53275</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: fix a possible null-pointer dereference due to data race in snd_hdac_regmap_sync()
+
+The variable codec-&gt;regmap is often protected by the lock
+codec-&gt;regmap_lock when is accessed. However, it is accessed without
+holding the lock when is accessed in snd_hdac_regmap_sync():
+
+  if (codec-&gt;regmap)
+
+In my opinion, this may be a harmful race, because if codec-&gt;regmap is
+set to NULL right after the condition is checked, a null-pointer
+dereference can occur in the called function regcache_sync():
+
+  map-&gt;lock(map-&gt;lock_arg); --&gt; Line 360 in drivers/base/regmap/regcache.c
+
+To fix this possible null-pointer dereference caused by data race, the
+mutex_lock coverage is extended to protect the if statement as well as the
+function call to regcache_sync().
+
+[ Note: the lack of the regmap_lock itself is harmless for the current
+  codec driver implementations, as snd_hdac_regmap_sync() is only for
+  PM runtime resume that is prohibited during the codec probe.
+  But the change makes the whole code more consistent, so it's merged
+  as is -- tiwai ]</description><pubDate>Tue, 16 Sep 2025 08:33:23 +0000</pubDate></item><item><title>CVE-2023-53276 | ubifs: Free memory for tmpfile name</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53276</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubifs: Free memory for tmpfile name
+
+When opening a ubifs tmpfile on an encrypted directory, function
+fscrypt_setup_filename allocates memory for the name that is to be
+stored in the directory entry, but after the name has been copied to the
+directory entry inode, the memory is not freed.
+
+When running kmemleak on it we see that it is registered as a leak. The
+report below is triggered by a simple program 'tmpfile' just opening a
+tmpfile:
+
+  unreferenced object 0xffff88810178f380 (size 32):
+    comm "tmpfile", pid 509, jiffies 4294934744 (age 1524.742s)
+    backtrace:
+      __kmem_cache_alloc_node
+      __kmalloc
+      fscrypt_setup_filename
+      ubifs_tmpfile
+      vfs_tmpfile
+      path_openat
+
+Free this memory after it has been copied to the inode.</description><pubDate>Tue, 16 Sep 2025 08:33:24 +0000</pubDate></item><item><title>CVE-2023-53277 | wifi: iwl3945: Add missing check for create_singlethread_workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53277</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: iwl3945: Add missing check for create_singlethread_workqueue
+
+Add the check for the return value of the create_singlethread_workqueue
+in order to avoid NULL pointer dereference.</description><pubDate>Tue, 16 Sep 2025 08:33:24 +0000</pubDate></item><item><title>CVE-2023-53278 | ubifs: Fix memory leak in ubifs_sysfs_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53278</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ubifs: Fix memory leak in ubifs_sysfs_init()
+
+When insmod ubifs.ko, a kmemleak reported as below:
+
+ unreferenced object 0xffff88817fb1a780 (size 8):
+   comm "insmod", pid 25265, jiffies 4295239702 (age 100.130s)
+   hex dump (first 8 bytes):
+     75 62 69 66 73 00 ff ff                          ubifs...
+   backtrace:
+     [&lt;ffffffff81b3fc4c&gt;] slab_post_alloc_hook+0x9c/0x3c0
+     [&lt;ffffffff81b44bf3&gt;] __kmalloc_track_caller+0x183/0x410
+     [&lt;ffffffff8198d3da&gt;] kstrdup+0x3a/0x80
+     [&lt;ffffffff8198d486&gt;] kstrdup_const+0x66/0x80
+     [&lt;ffffffff83989325&gt;] kvasprintf_const+0x155/0x190
+     [&lt;ffffffff83bf55bb&gt;] kobject_set_name_vargs+0x5b/0x150
+     [&lt;ffffffff83bf576b&gt;] kobject_set_name+0xbb/0xf0
+     [&lt;ffffffff8100204c&gt;] do_one_initcall+0x14c/0x5a0
+     [&lt;ffffffff8157e380&gt;] do_init_module+0x1f0/0x660
+     [&lt;ffffffff815857be&gt;] load_module+0x6d7e/0x7590
+     [&lt;ffffffff8158644f&gt;] __do_sys_finit_module+0x19f/0x230
+     [&lt;ffffffff815866b3&gt;] __x64_sys_finit_module+0x73/0xb0
+     [&lt;ffffffff88c98e85&gt;] do_syscall_64+0x35/0x80
+     [&lt;ffffffff88e00087&gt;] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+When kset_register() failed, we should call kset_put to cleanup it.</description><pubDate>Tue, 16 Sep 2025 08:33:24 +0000</pubDate></item><item><title>CVE-2023-53279 | misc: vmw_balloon: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53279</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: vmw_balloon: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic at
+once.</description><pubDate>Tue, 16 Sep 2025 08:33:25 +0000</pubDate></item><item><title>CVE-2023-53280 | scsi: qla2xxx: Remove unused nvme_ls_waitq wait queue</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53280</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla2xxx: Remove unused nvme_ls_waitq wait queue
+
+System crash when qla2x00_start_sp(sp) returns error code EGAIN and wake_up
+gets called for uninitialized wait queue sp-&gt;nvme_ls_waitq.
+
+    qla2xxx [0000:37:00.1]-2121:5: Returning existing qpair of ffff8ae2c0513400 for idx=0
+    qla2xxx [0000:37:00.1]-700e:5: qla2x00_start_sp failed = 11
+    BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+    PGD 0 P4D 0
+    Oops: 0000 [#1] SMP NOPTI
+    Hardware name: HPE ProLiant DL360 Gen10/ProLiant DL360 Gen10, BIOS U32 09/03/2021
+    Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
+    RIP: 0010:__wake_up_common+0x4c/0x190
+    RSP: 0018:ffff95f3e0cb7cd0 EFLAGS: 00010086
+    RAX: 0000000000000000 RBX: ffff8b08d3b26328 RCX: 0000000000000000
+    RDX: 0000000000000001 RSI: 0000000000000003 RDI: ffff8b08d3b26320
+    RBP: 0000000000000001 R08: 0000000000000000 R09: ffffffffffffffe8
+    R10: 0000000000000000 R11: ffff95f3e0cb7a60 R12: ffff95f3e0cb7d20
+    R13: 0000000000000003 R14: 0000000000000000 R15: 0000000000000000
+    FS:  0000000000000000(0000) GS:ffff8b2fdf6c0000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 0000000000000000 CR3: 0000002f1e410002 CR4: 00000000007706e0
+    DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+    DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+    PKRU: 55555554
+    Call Trace:
+     __wake_up_common_lock+0x7c/0xc0
+     qla_nvme_ls_req+0x355/0x4c0 [qla2xxx]
+     ? __nvme_fc_send_ls_req+0x260/0x380 [nvme_fc]
+     ? nvme_fc_send_ls_req.constprop.42+0x1a/0x45 [nvme_fc]
+     ? nvme_fc_connect_ctrl_work.cold.63+0x1e3/0xa7d [nvme_fc]
+
+Remove unused nvme_ls_waitq wait queue. nvme_ls_waitq logic was removed
+previously in the commits tagged Fixed: below.</description><pubDate>Tue, 16 Sep 2025 08:33:25 +0000</pubDate></item><item><title>CVE-2023-53281 | drivers: staging: rtl8723bs: Fix locking in _rtw_join_timeout_handler()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53281</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drivers: staging: rtl8723bs: Fix locking in _rtw_join_timeout_handler()
+
+Commit 041879b12ddb ("drivers: staging: rtl8192bs: Fix deadlock in
+rtw_joinbss_event_prehandle()") besides fixing the deadlock also
+modified _rtw_join_timeout_handler() to use spin_[un]lock_irq()
+instead of spin_[un]lock_bh().
+
+_rtw_join_timeout_handler() calls rtw_do_join() which takes
+pmlmepriv-&gt;scanned_queue.lock using spin_[un]lock_bh(). This
+spin_unlock_bh() call re-enables softirqs which triggers an oops in
+kernel/softirq.c: __local_bh_enable_ip() when it calls
+lockdep_assert_irqs_enabled():
+
+[  244.506087] WARNING: CPU: 2 PID: 0 at kernel/softirq.c:376 __local_bh_enable_ip+0xa6/0x100
+...
+[  244.509022] Call Trace:
+[  244.509048]  &lt;IRQ&gt;
+[  244.509100]  _rtw_join_timeout_handler+0x134/0x170 [r8723bs]
+[  244.509468]  ? __pfx__rtw_join_timeout_handler+0x10/0x10 [r8723bs]
+[  244.509772]  ? __pfx__rtw_join_timeout_handler+0x10/0x10 [r8723bs]
+[  244.510076]  call_timer_fn+0x95/0x2a0
+[  244.510200]  __run_timers.part.0+0x1da/0x2d0
+
+This oops is causd by the switch to spin_[un]lock_irq() which disables
+the IRQs for the entire duration of _rtw_join_timeout_handler().
+
+Disabling the IRQs is not necessary since all code taking this lock
+runs from either user contexts or from softirqs, switch back to
+spin_[un]lock_bh() to fix this.</description><pubDate>Tue, 16 Sep 2025 08:33:26 +0000</pubDate></item><item><title>CVE-2023-53282 | scsi: lpfc: Fix use-after-free KFENCE violation during sysfs firmware write</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53282</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: lpfc: Fix use-after-free KFENCE violation during sysfs firmware write
+
+During the sysfs firmware write process, a use-after-free read warning is
+logged from the lpfc_wr_object() routine:
+
+  BUG: KFENCE: use-after-free read in lpfc_wr_object+0x235/0x310 [lpfc]
+  Use-after-free read at 0x0000000000cf164d (in kfence-#111):
+  lpfc_wr_object+0x235/0x310 [lpfc]
+  lpfc_write_firmware.cold+0x206/0x30d [lpfc]
+  lpfc_sli4_request_firmware_update+0xa6/0x100 [lpfc]
+  lpfc_request_firmware_upgrade_store+0x66/0xb0 [lpfc]
+  kernfs_fop_write_iter+0x121/0x1b0
+  new_sync_write+0x11c/0x1b0
+  vfs_write+0x1ef/0x280
+  ksys_write+0x5f/0xe0
+  do_syscall_64+0x59/0x90
+  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The driver accessed wr_object pointer data, which was initialized into
+mailbox payload memory, after the mailbox object was released back to the
+mailbox pool.
+
+Fix by moving the mailbox free calls to the end of the routine ensuring
+that we don't reference internal mailbox memory after release.</description><pubDate>Tue, 16 Sep 2025 08:33:26 +0000</pubDate></item><item><title>CVE-2023-53283 | xen/virtio: Fix NULL deref when a bridge of PCI root bus has no parent</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53283</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+xen/virtio: Fix NULL deref when a bridge of PCI root bus has no parent
+
+When attempting to run Xen on a QEMU/KVM virtual machine with virtio
+devices (all x86_64), function xen_dt_get_node() crashes on accessing
+bus-&gt;bridge-&gt;parent-&gt;of_node because a bridge of the PCI root bus has no
+parent set:
+
+[    1.694192][    T1] BUG: kernel NULL pointer dereference, address: 0000000000000288
+[    1.695688][    T1] #PF: supervisor read access in kernel mode
+[    1.696297][    T1] #PF: error_code(0x0000) - not-present page
+[    1.696297][    T1] PGD 0 P4D 0
+[    1.696297][    T1] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[    1.696297][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.3.7-1-default #1 openSUSE Tumbleweed a577eae57964bb7e83477b5a5645a1781df990f0
+[    1.696297][    T1] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.15.0-0-g2dd4b9b-rebuilt.opensuse.org 04/01/2014
+[    1.696297][    T1] RIP: e030:xen_virtio_restricted_mem_acc+0xd9/0x1c0
+[    1.696297][    T1] Code: 45 0c 83 e8 c9 a3 ea ff 31 c0 eb d7 48 8b 87 40 ff ff ff 48 89 c2 48 8b 40 10 48 85 c0 75 f4 48 8b 82 10 01 00 00 48 8b 40 40 &lt;48&gt; 83 b8 88 02 00 00 00 0f 84 45 ff ff ff 66 90 31 c0 eb a5 48 89
+[    1.696297][    T1] RSP: e02b:ffffc90040013cc8 EFLAGS: 00010246
+[    1.696297][    T1] RAX: 0000000000000000 RBX: ffff888006c75000 RCX: 0000000000000029
+[    1.696297][    T1] RDX: ffff888005ed1000 RSI: ffffc900400f100c RDI: ffff888005ee30d0
+[    1.696297][    T1] RBP: ffff888006c75010 R08: 0000000000000001 R09: 0000000330000006
+[    1.696297][    T1] R10: ffff888005850028 R11: 0000000000000002 R12: ffffffff830439a0
+[    1.696297][    T1] R13: 0000000000000000 R14: ffff888005657900 R15: ffff888006e3e1e8
+[    1.696297][    T1] FS:  0000000000000000(0000) GS:ffff88804a000000(0000) knlGS:0000000000000000
+[    1.696297][    T1] CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    1.696297][    T1] CR2: 0000000000000288 CR3: 0000000002e36000 CR4: 0000000000050660
+[    1.696297][    T1] Call Trace:
+[    1.696297][    T1]  &lt;TASK&gt;
+[    1.696297][    T1]  virtio_features_ok+0x1b/0xd0
+[    1.696297][    T1]  virtio_dev_probe+0x19c/0x270
+[    1.696297][    T1]  really_probe+0x19b/0x3e0
+[    1.696297][    T1]  __driver_probe_device+0x78/0x160
+[    1.696297][    T1]  driver_probe_device+0x1f/0x90
+[    1.696297][    T1]  __driver_attach+0xd2/0x1c0
+[    1.696297][    T1]  bus_for_each_dev+0x74/0xc0
+[    1.696297][    T1]  bus_add_driver+0x116/0x220
+[    1.696297][    T1]  driver_register+0x59/0x100
+[    1.696297][    T1]  virtio_console_init+0x7f/0x110
+[    1.696297][    T1]  do_one_initcall+0x47/0x220
+[    1.696297][    T1]  kernel_init_freeable+0x328/0x480
+[    1.696297][    T1]  kernel_init+0x1a/0x1c0
+[    1.696297][    T1]  ret_from_fork+0x29/0x50
+[    1.696297][    T1]  &lt;/TASK&gt;
+[    1.696297][    T1] Modules linked in:
+[    1.696297][    T1] CR2: 0000000000000288
+[    1.696297][    T1] ---[ end trace 0000000000000000 ]---
+
+The PCI root bus is in this case created from ACPI description via
+acpi_pci_root_add() -&gt; pci_acpi_scan_root() -&gt; acpi_pci_root_create() -&gt;
+pci_create_root_bus() where the last function is called with
+parent=NULL. It indicates that no parent is present and then
+bus-&gt;bridge-&gt;parent is NULL too.
+
+Fix the problem by checking bus-&gt;bridge-&gt;parent in xen_dt_get_node() for
+NULL first.</description><pubDate>Tue, 16 Sep 2025 08:33:27 +0000</pubDate></item><item><title>CVE-2023-53284 | drm/msm/dpu: check for null return of devm_kzalloc() in dpu_writeback_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53284</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/msm/dpu: check for null return of devm_kzalloc() in dpu_writeback_init()
+
+Because of the possilble failure of devm_kzalloc(), dpu_wb_conn might
+be NULL and will cause null pointer dereference later.
+
+Therefore, it might be better to check it and directly return -ENOMEM.
+
+Patchwork: https://patchwork.freedesktop.org/patch/512277/
+[DB: fixed typo in commit message]</description><pubDate>Tue, 16 Sep 2025 08:33:27 +0000</pubDate></item><item><title>CVE-2023-53285 | ext4: add bounds checking in get_max_inline_xattr_value_size()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53285</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: add bounds checking in get_max_inline_xattr_value_size()
+
+Normally the extended attributes in the inode body would have been
+checked when the inode is first opened, but if someone is writing to
+the block device while the file system is mounted, it's possible for
+the inode table to get corrupted.  Add bounds checking to avoid
+reading beyond the end of allocated memory if this happens.</description><pubDate>Tue, 16 Sep 2025 08:33:28 +0000</pubDate></item><item><title>CVE-2023-53286 | RDMA/mlx5: Return the firmware result upon destroying QP/RQ</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53286</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/mlx5: Return the firmware result upon destroying QP/RQ
+
+Previously when destroying a QP/RQ, the result of the firmware
+destruction function was ignored and upper layers weren't informed
+about the failure.
+Which in turn could lead to various problems since when upper layer
+isn't aware of the failure it continues its operation thinking that the
+related QP/RQ was successfully destroyed while it actually wasn't,
+which could lead to the below kernel WARN.
+
+Currently, we return the correct firmware destruction status to upper
+layers which in case of the RQ would be mlx5_ib_destroy_wq() which
+was already capable of handling RQ destruction failure or in case of
+a QP to destroy_qp_common(), which now would actually warn upon qp
+destruction failure.
+
+WARNING: CPU: 3 PID: 995 at drivers/infiniband/core/rdma_core.c:940 uverbs_destroy_ufile_hw+0xcb/0xe0 [ib_uverbs]
+Modules linked in: xt_conntrack xt_MASQUERADE nf_conntrack_netlink nfnetlink xt_addrtype iptable_nat nf_nat br_netfilter rpcrdma rdma_ucm ib_iser libiscsi scsi_transport_iscsi rdma_cm ib_umad ib_ipoib iw_cm ib_cm mlx5_ib ib_uverbs ib_core overlay mlx5_core fuse
+CPU: 3 PID: 995 Comm: python3 Not tainted 5.16.0-rc5+ #1
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
+RIP: 0010:uverbs_destroy_ufile_hw+0xcb/0xe0 [ib_uverbs]
+Code: 41 5c 41 5d 41 5e e9 44 34 f0 e0 48 89 df e8 4c 77 ff ff 49 8b 86 10 01 00 00 48 85 c0 74 a1 4c 89 e7 ff d0 eb 9a 0f 0b eb c1 &lt;0f&gt; 0b be 04 00 00 00 48 89 df e8 b6 f6 ff ff e9 75 ff ff ff 90 0f
+RSP: 0018:ffff8881533e3e78 EFLAGS: 00010287
+RAX: ffff88811b2cf3e0 RBX: ffff888106209700 RCX: 0000000000000000
+RDX: ffff888106209780 RSI: ffff8881533e3d30 RDI: ffff888109b101a0
+RBP: 0000000000000001 R08: ffff888127cb381c R09: 0de9890000000009
+R10: ffff888127cb3800 R11: 0000000000000000 R12: ffff888106209780
+R13: ffff888106209750 R14: ffff888100f20660 R15: 0000000000000000
+FS:  00007f8be353b740(0000) GS:ffff88852c980000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f8bd5b117c0 CR3: 000000012cd8a004 CR4: 0000000000370ea0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ &lt;TASK&gt;
+ ib_uverbs_close+0x1a/0x90 [ib_uverbs]
+ __fput+0x82/0x230
+ task_work_run+0x59/0x90
+ exit_to_user_mode_prepare+0x138/0x140
+ syscall_exit_to_user_mode+0x1d/0x50
+ ? __x64_sys_close+0xe/0x40
+ do_syscall_64+0x4a/0x90
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f8be3ae0abb
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 43 f9 ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 &lt;48&gt; 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 c1 43 f9 ff 8b 44
+RSP: 002b:00007ffdb51909c0 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000557bb7f7c020 RCX: 00007f8be3ae0abb
+RDX: 0000557bb7c74010 RSI: 0000557bb7f14ca0 RDI: 0000000000000005
+RBP: 0000557bb7fbd598 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000293 R12: 0000557bb7fbd5b8
+R13: 0000557bb7fbd5a8 R14: 0000000000001000 R15: 0000557bb7f7c020
+ &lt;/TASK&gt;</description><pubDate>Tue, 16 Sep 2025 08:33:28 +0000</pubDate></item><item><title>CVE-2023-53287 | usb: cdns3: Put the cdns set active part outside the spin lock</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53287</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: cdns3: Put the cdns set active part outside the spin lock
+
+The device may be scheduled during the resume process,
+so this cannot appear in atomic operations. Since
+pm_runtime_set_active will resume suppliers, put set
+active outside the spin lock, which is only used to
+protect the struct cdns data structure, otherwise the
+kernel will report the following warning:
+
+  BUG: sleeping function called from invalid context at drivers/base/power/runtime.c:1163
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 651, name: sh
+  preempt_count: 1, expected: 0
+  RCU nest depth: 0, expected: 0
+  CPU: 0 PID: 651 Comm: sh Tainted: G        WC         6.1.20 #1
+  Hardware name: Freescale i.MX8QM MEK (DT)
+  Call trace:
+    dump_backtrace.part.0+0xe0/0xf0
+    show_stack+0x18/0x30
+    dump_stack_lvl+0x64/0x80
+    dump_stack+0x1c/0x38
+    __might_resched+0x1fc/0x240
+    __might_sleep+0x68/0xc0
+    __pm_runtime_resume+0x9c/0xe0
+    rpm_get_suppliers+0x68/0x1b0
+    __pm_runtime_set_status+0x298/0x560
+    cdns_resume+0xb0/0x1c0
+    cdns3_controller_resume.isra.0+0x1e0/0x250
+    cdns3_plat_resume+0x28/0x40</description><pubDate>Tue, 16 Sep 2025 08:33:29 +0000</pubDate></item><item><title>CVE-2023-53288 | drm/client: Fix memory leak in drm_client_modeset_probe</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53288</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/client: Fix memory leak in drm_client_modeset_probe
+
+When a new mode is set to modeset-&gt;mode, the previous mode should be freed.
+This fixes the following kmemleak report:
+
+drm_mode_duplicate+0x45/0x220 [drm]
+drm_client_modeset_probe+0x944/0xf50 [drm]
+__drm_fb_helper_initial_config_and_unlock+0xb4/0x2c0 [drm_kms_helper]
+drm_fbdev_client_hotplug+0x2bc/0x4d0 [drm_kms_helper]
+drm_client_register+0x169/0x240 [drm]
+ast_pci_probe+0x142/0x190 [ast]
+local_pci_probe+0xdc/0x180
+work_for_cpu_fn+0x4e/0xa0
+process_one_work+0x8b7/0x1540
+worker_thread+0x70a/0xed0
+kthread+0x29f/0x340
+ret_from_fork+0x1f/0x30</description><pubDate>Tue, 16 Sep 2025 08:33:29 +0000</pubDate></item><item><title>CVE-2023-53289 | media: bdisp: Add missing check for create_workqueue</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53289</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: bdisp: Add missing check for create_workqueue
+
+Add the check for the return value of the create_workqueue
+in order to avoid NULL pointer dereference.</description><pubDate>Tue, 16 Sep 2025 08:33:30 +0000</pubDate></item><item><title>CVE-2023-53290 | samples/bpf: Fix fout leak in hbm&amp;#x27;s run_bpf_prog</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53290</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+samples/bpf: Fix fout leak in hbm's run_bpf_prog
+
+Fix fout being fopen'ed but then not subsequently fclose'd. In the affected
+branch, fout is otherwise going out of scope.</description><pubDate>Tue, 16 Sep 2025 08:33:30 +0000</pubDate></item><item><title>CVE-2023-53291 | rcu/rcuscale: Stop kfree_scale_thread thread(s) after unloading rcuscale</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53291</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rcu/rcuscale: Stop kfree_scale_thread thread(s) after unloading rcuscale
+
+Running the 'kfree_rcu_test' test case [1] results in a splat [2].
+The root cause is the kfree_scale_thread thread(s) continue running
+after unloading the rcuscale module.  This commit fixes that isue by
+invoking kfree_scale_cleanup() from rcu_scale_cleanup() when removing
+the rcuscale module.
+
+[1] modprobe rcuscale kfree_rcu_test=1
+    // After some time
+    rmmod rcuscale
+    rmmod torture
+
+[2] BUG: unable to handle page fault for address: ffffffffc0601a87
+    #PF: supervisor instruction fetch in kernel mode
+    #PF: error_code(0x0010) - not-present page
+    PGD 11de4f067 P4D 11de4f067 PUD 11de51067 PMD 112f4d067 PTE 0
+    Oops: 0010 [#1] PREEMPT SMP NOPTI
+    CPU: 1 PID: 1798 Comm: kfree_scale_thr Not tainted 6.3.0-rc1-rcu+ #1
+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
+    RIP: 0010:0xffffffffc0601a87
+    Code: Unable to access opcode bytes at 0xffffffffc0601a5d.
+    RSP: 0018:ffffb25bc2e57e18 EFLAGS: 00010297
+    RAX: 0000000000000000 RBX: ffffffffc061f0b6 RCX: 0000000000000000
+    RDX: 0000000000000000 RSI: ffffffff962fd0de RDI: ffffffff962fd0de
+    RBP: ffffb25bc2e57ea8 R08: 0000000000000000 R09: 0000000000000000
+    R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
+    R13: 0000000000000000 R14: 000000000000000a R15: 00000000001c1dbe
+    FS:  0000000000000000(0000) GS:ffff921fa2200000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: ffffffffc0601a5d CR3: 000000011de4c006 CR4: 0000000000370ee0
+    DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+    DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+    Call Trace:
+     &lt;TASK&gt;
+     ? kvfree_call_rcu+0xf0/0x3a0
+     ? kthread+0xf3/0x120
+     ? kthread_complete_and_exit+0x20/0x20
+     ? ret_from_fork+0x1f/0x30
+     &lt;/TASK&gt;
+    Modules linked in: rfkill sunrpc ... [last unloaded: torture]
+    CR2: ffffffffc0601a87
+    ---[ end trace 0000000000000000 ]---</description><pubDate>Tue, 16 Sep 2025 08:33:30 +0000</pubDate></item><item><title>CVE-2023-53292 | blk-mq: fix NULL dereference on q-&amp;gt;elevator in blk_mq_elv_switch_none</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53292</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+blk-mq: fix NULL dereference on q-&gt;elevator in blk_mq_elv_switch_none
+
+After grabbing q-&gt;sysfs_lock, q-&gt;elevator may become NULL because of
+elevator switch.
+
+Fix the NULL dereference on q-&gt;elevator by checking it with lock.</description><pubDate>Tue, 16 Sep 2025 08:33:31 +0000</pubDate></item><item><title>CVE-2023-53293 | Bluetooth: btrtl: check for NULL in btrtl_set_quirks()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53293</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: btrtl: check for NULL in btrtl_set_quirks()
+
+The btrtl_set_quirks() has accessed btrtl_dev-&gt;ic_info-&gt;lmp_subver since
+b8e482d02513. However, if installing a Realtek Bluetooth controller
+without the driver supported, it will hit the NULL point accessed.
+
+Add a check for NULL to avoid the Kernel Oops.</description><pubDate>Tue, 16 Sep 2025 08:33:31 +0000</pubDate></item><item><title>CVE-2023-53294 | fs/ntfs3: Fix null-ptr-deref on inode-&amp;gt;i_op in ntfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53294</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs/ntfs3: Fix null-ptr-deref on inode-&gt;i_op in ntfs_lookup()
+
+Syzbot reported a null-ptr-deref bug:
+
+ntfs3: loop0: Different NTFS' sector size (1024) and media sector size
+(512)
+ntfs3: loop0: Mark volume as dirty due to NTFS errors
+general protection fault, probably for non-canonical address
+0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+RIP: 0010:d_flags_for_inode fs/dcache.c:1980 [inline]
+RIP: 0010:__d_add+0x5ce/0x800 fs/dcache.c:2796
+Call Trace:
+ &lt;TASK&gt;
+ d_splice_alias+0x122/0x3b0 fs/dcache.c:3191
+ lookup_open fs/namei.c:3391 [inline]
+ open_last_lookups fs/namei.c:3481 [inline]
+ path_openat+0x10e6/0x2df0 fs/namei.c:3688
+ do_filp_open+0x264/0x4f0 fs/namei.c:3718
+ do_sys_openat2+0x124/0x4e0 fs/open.c:1310
+ do_sys_open fs/open.c:1326 [inline]
+ __do_sys_open fs/open.c:1334 [inline]
+ __se_sys_open fs/open.c:1330 [inline]
+ __x64_sys_open+0x221/0x270 fs/open.c:1330
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+If the MFT record of ntfs inode is not a base record, inode-&gt;i_op can be
+NULL. And a null-ptr-deref may happen:
+
+ntfs_lookup()
+    dir_search_u() # inode-&gt;i_op is set to NULL
+    d_splice_alias()
+        __d_add()
+            d_flags_for_inode() # inode-&gt;i_op-&gt;get_link null-ptr-deref
+
+Fix this by adding a Check on inode-&gt;i_op before calling the
+d_splice_alias() function.</description><pubDate>Tue, 16 Sep 2025 08:33:32 +0000</pubDate></item><item><title>CVE-2023-53295 | udf: Do not update file length for failed writes to inline files</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53295</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+udf: Do not update file length for failed writes to inline files
+
+When write to inline file fails (or happens only partly), we still
+updated length of inline data as if the whole write succeeded. Fix the
+update of length of inline data to happen only if the write succeeds.</description><pubDate>Tue, 16 Sep 2025 08:33:32 +0000</pubDate></item><item><title>CVE-2023-53296 | sctp: check send stream number after wait_for_sndbuf</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53296</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+sctp: check send stream number after wait_for_sndbuf
+
+This patch fixes a corner case where the asoc out stream count may change
+after wait_for_sndbuf.
+
+When the main thread in the client starts a connection, if its out stream
+count is set to N while the in stream count in the server is set to N - 2,
+another thread in the client keeps sending the msgs with stream number
+N - 1, and waits for sndbuf before processing INIT_ACK.
+
+However, after processing INIT_ACK, the out stream count in the client is
+shrunk to N - 2, the same to the in stream count in the server. The crash
+occurs when the thread waiting for sndbuf is awake and sends the msg in a
+non-existing stream(N - 1), the call trace is as below:
+
+  KASAN: null-ptr-deref in range [0x0000000000000038-0x000000000000003f]
+  Call Trace:
+   &lt;TASK&gt;
+   sctp_cmd_send_msg net/sctp/sm_sideeffect.c:1114 [inline]
+   sctp_cmd_interpreter net/sctp/sm_sideeffect.c:1777 [inline]
+   sctp_side_effects net/sctp/sm_sideeffect.c:1199 [inline]
+   sctp_do_sm+0x197d/0x5310 net/sctp/sm_sideeffect.c:1170
+   sctp_primitive_SEND+0x9f/0xc0 net/sctp/primitive.c:163
+   sctp_sendmsg_to_asoc+0x10eb/0x1a30 net/sctp/socket.c:1868
+   sctp_sendmsg+0x8d4/0x1d90 net/sctp/socket.c:2026
+   inet_sendmsg+0x9d/0xe0 net/ipv4/af_inet.c:825
+   sock_sendmsg_nosec net/socket.c:722 [inline]
+   sock_sendmsg+0xde/0x190 net/socket.c:745
+
+The fix is to add an unlikely check for the send stream number after the
+thread wakes up from the wait_for_sndbuf.</description><pubDate>Tue, 16 Sep 2025 08:33:33 +0000</pubDate></item><item><title>CVE-2023-53297 | Bluetooth: L2CAP: fix &amp;quot;bad unlock balance&amp;quot; in l2cap_disconnect_rsp</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53297</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: L2CAP: fix "bad unlock balance" in l2cap_disconnect_rsp
+
+conn-&gt;chan_lock isn't acquired before l2cap_get_chan_by_scid,
+if l2cap_get_chan_by_scid returns NULL, then 'bad unlock balance'
+is triggered.</description><pubDate>Tue, 16 Sep 2025 08:33:33 +0000</pubDate></item><item><title>CVE-2023-53298 | nfc: fix memory leak of se_io context in nfc_genl_se_io</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53298</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfc: fix memory leak of se_io context in nfc_genl_se_io
+
+The callback context for sending/receiving APDUs to/from the selected
+secure element is allocated inside nfc_genl_se_io and supposed to be
+eventually freed in se_io_cb callback function. However, there are several
+error paths where the bwi_timer is not charged to call se_io_cb later, and
+the cb_context is leaked.
+
+The patch proposes to free the cb_context explicitly on those error paths.
+
+At the moment we can't simply check 'dev-&gt;ops-&gt;se_io()' return value as it
+may be negative in both cases: when the timer was charged and was not.</description><pubDate>Tue, 16 Sep 2025 08:33:34 +0000</pubDate></item><item><title>CVE-2023-53299 | md/raid10: fix leak of &amp;#x27;r10bio-&amp;gt;remaining&amp;#x27; for recovery</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53299</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+md/raid10: fix leak of 'r10bio-&gt;remaining' for recovery
+
+raid10_sync_request() will add 'r10bio-&gt;remaining' for both rdev and
+replacement rdev. However, if the read io fails, recovery_request_write()
+returns without issuing the write io, in this case, end_sync_request()
+is only called once and 'remaining' is leaked, cause an io hang.
+
+Fix the problem by decreasing 'remaining' according to if 'bio' and
+'repl_bio' is valid.</description><pubDate>Tue, 16 Sep 2025 08:33:34 +0000</pubDate></item><item><title>CVE-2023-53300 | media: hi846: Fix memleak in hi846_init_controls()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53300</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: hi846: Fix memleak in hi846_init_controls()
+
+hi846_init_controls doesn't clean the allocated ctrl_hdlr
+in case there is a failure, which causes memleak. Add
+v4l2_ctrl_handler_free to free the resource properly.</description><pubDate>Tue, 16 Sep 2025 08:33:35 +0000</pubDate></item><item><title>CVE-2023-53301 | f2fs: fix kernel crash due to null io-&amp;gt;bio</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53301</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix kernel crash due to null io-&gt;bio
+
+We should return when io-&gt;bio is null before doing anything. Otherwise, panic.
+
+BUG: kernel NULL pointer dereference, address: 0000000000000010
+RIP: 0010:__submit_merged_write_cond+0x164/0x240 [f2fs]
+Call Trace:
+ &lt;TASK&gt;
+ f2fs_submit_merged_write+0x1d/0x30 [f2fs]
+ commit_checkpoint+0x110/0x1e0 [f2fs]
+ f2fs_write_checkpoint+0x9f7/0xf00 [f2fs]
+ ? __pfx_issue_checkpoint_thread+0x10/0x10 [f2fs]
+ __checkpoint_and_complete_reqs+0x84/0x190 [f2fs]
+ ? preempt_count_add+0x82/0xc0
+ ? __pfx_issue_checkpoint_thread+0x10/0x10 [f2fs]
+ issue_checkpoint_thread+0x4c/0xf0 [f2fs]
+ ? __pfx_autoremove_wake_function+0x10/0x10
+ kthread+0xff/0x130
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x2c/0x50
+ &lt;/TASK&gt;</description><pubDate>Tue, 16 Sep 2025 08:33:35 +0000</pubDate></item><item><title>CVE-2023-53302 | wifi: iwl4965: Add missing check for create_singlethread_workqueue()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53302</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: iwl4965: Add missing check for create_singlethread_workqueue()
+
+Add the check for the return value of the create_singlethread_workqueue()
+in order to avoid NULL pointer dereference.</description><pubDate>Tue, 16 Sep 2025 08:33:36 +0000</pubDate></item><item><title>CVE-2023-53303 | net: microchip: vcap api: Fix possible memory leak for vcap_dup_rule()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53303</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: microchip: vcap api: Fix possible memory leak for vcap_dup_rule()
+
+Inject fault When select CONFIG_VCAP_KUNIT_TEST, the below memory leak
+occurs. If kzalloc() for duprule succeeds, but the following
+kmemdup() fails, the duprule, ckf and caf memory will be leaked. So kfree
+them in the error path.
+
+unreferenced object 0xffff122744c50600 (size 192):
+  comm "kunit_try_catch", pid 346, jiffies 4294896122 (age 911.812s)
+  hex dump (first 32 bytes):
+    10 27 00 00 04 00 00 00 1e 00 00 00 2c 01 00 00  .'..........,...
+    00 00 00 00 00 00 00 00 18 06 c5 44 27 12 ff ff  ...........D'...
+  backtrace:
+    [&lt;00000000394b0db8&gt;] __kmem_cache_alloc_node+0x274/0x2f8
+    [&lt;0000000001bedc67&gt;] kmalloc_trace+0x38/0x88
+    [&lt;00000000b0612f98&gt;] vcap_dup_rule+0x50/0x460
+    [&lt;000000005d2d3aca&gt;] vcap_add_rule+0x8cc/0x1038
+    [&lt;00000000eef9d0f8&gt;] test_vcap_xn_rule_creator.constprop.0.isra.0+0x238/0x494
+    [&lt;00000000cbda607b&gt;] vcap_api_rule_remove_in_front_test+0x1ac/0x698
+    [&lt;00000000c8766299&gt;] kunit_try_run_case+0xe0/0x20c
+    [&lt;00000000c4fe9186&gt;] kunit_generic_run_threadfn_adapter+0x50/0x94
+    [&lt;00000000f6864acf&gt;] kthread+0x2e8/0x374
+    [&lt;0000000022e639b3&gt;] ret_from_fork+0x10/0x20</description><pubDate>Tue, 16 Sep 2025 08:33:36 +0000</pubDate></item><item><title>CVE-2025-5519 | Information Disclosure in ArgusTech&amp;#x27;s BILGER</title><link>https://www.cve.org/CVERecord?id=CVE-2025-5519</link><description>Insertion of Sensitive Information Into Sent Data vulnerability in ArgusTech BILGER allows Choosing Message Identifier.This issue affects BILGER: before 2.4.6.</description><pubDate>Tue, 16 Sep 2025 08:33:37 +0000</pubDate></item><item><title>CVE-2025-5518 | IDOR in ArgusTech&amp;#x27;s BILGER</title><link>https://www.cve.org/CVERecord?id=CVE-2025-5518</link><description>Authorization Bypass Through User-Controlled Key vulnerability with user privileges in ArgusTech BILGER allows Exploitation of Trusted Identifiers.This issue affects BILGER: before 2.4.6.</description><pubDate>Tue, 16 Sep 2025 08:33:38 +0000</pubDate></item><item><title>CVE-2024-12367 | Information Disclosure in Vegagrup Software&amp;#x27;s Vega Master</title><link>https://www.cve.org/CVERecord?id=CVE-2024-12367</link><description>Exposure of Sensitive System Information to an Unauthorized Control Sphere vulnerability in VegaGrup Yazılım ve Bilişim Teknolojileri A.Ş. Vega Master allows Directory Indexing.This issue affects Vega Master: from v.1.12.35 through 20250916. 
 
 NOTE: The vendor did not inform about the completion of the fixing process within the specified time. The CVE will be updated when new information becomes available.</description><pubDate>Tue, 16 Sep 2025 07:51:37 +0000</pubDate></item><item><title>CVE-2025-9808 | The Events Calendar &amp;lt;= 6.15.2 - Missing Authorization to Unauthenticated Password-Protected Information Disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9808</link><description>The The Events Calendar plugin for WordPress is vulnerable to Information Exposure in all versions up to, and including, 6.15.2 via the REST endpoint. This makes it possible for unauthenticated attackers to extract information about password-protected vendors or venues.</description><pubDate>Tue, 16 Sep 2025 05:39:28 +0000</pubDate></item><item><title>CVE-2025-59453 | Click Studios Passwordstate before 9.9 Build 9972 has a potential authentication bypass for Passwordstate emergency access. By using a craft...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59453</link><description>Click Studios Passwordstate before 9.9 Build 9972 has a potential authentication bypass for Passwordstate emergency access. By using a crafted URL while on the Emergency Access web page, an unauthorized person can gain access to the Passwordstate Administration section.</description><pubDate>Tue, 16 Sep 2025 03:52:50 +0000</pubDate></item><item><title>CVE-2025-59436 | The ip (aka node-ip) package through 2.0.1 (in NPM) might allow SSRF because the IP address value 017700000001 is improperly categorized as ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59436</link><description>The ip (aka node-ip) package through 2.0.1 (in NPM) might allow SSRF because the IP address value 017700000001 is improperly categorized as globally routable via isPublic. NOTE: this issue exists because of an incomplete fix for CVE-2024-29415.</description><pubDate>Tue, 16 Sep 2025 02:37:40 +0000</pubDate></item><item><title>CVE-2025-59437 | The ip (aka node-ip) package through 2.0.1 (in NPM) might allow SSRF because the IP address value 0 is improperly categorized as globally ro...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59437</link><description>The ip (aka node-ip) package through 2.0.1 (in NPM) might allow SSRF because the IP address value 0 is improperly categorized as globally routable via isPublic. NOTE: this issue exists because of an incomplete fix for CVE-2024-29415. NOTE: in current versions of several applications, connection attempts to the IP address 0 (interpreted as 0.0.0.0) are blocked with error messages such as net::ERR_ADDRESS_INVALID. However, in some situations that depend on both application version and operating system, connection attempts to 0 and 0.0.0.0 are considered connection attempts to 127.0.0.1 (and, for this reason, a false value of isPublic would be preferable).</description><pubDate>Tue, 16 Sep 2025 02:37:41 +0000</pubDate></item><item><title>CVE-2025-10483 | SourceCodester Online Student File Management System save_user.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10483</link><description>A flaw has been found in SourceCodester Online Student File Management System 1.0. Affected by this vulnerability is an unknown functionality of the file /admin/save_user.php. This manipulation of the argument firstname causes sql injection. The attack is possible to be carried out remotely. The exploit has been published and may be used. Other parameters might be affected as well.</description><pubDate>Mon, 15 Sep 2025 22:41:02 +0000</pubDate></item><item><title>CVE-2025-10485 | pojoin h3blog HTTP Header login ppt_log cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10485</link><description>A vulnerability has been found in pojoin h3blog up to 5bf704425ebc11f4c24da51f32f36bb17ae20489. Affected by this issue is the function ppt_log of the file /login of the component HTTP Header Handler. Such manipulation of the argument X-Forwarded-For leads to cross site scripting. The attack may be performed from remote. The exploit has been disclosed to the public and may be used. This product utilizes a rolling release system for continuous delivery, and as such, version information for affected or updated releases is not disclosed.</description><pubDate>Mon, 15 Sep 2025 22:41:03 +0000</pubDate></item><item><title>CVE-2025-24088 | The issue was addressed by adding additional logic. This issue is fixed in macOS Tahoe 26. An app may be able to override MDM-enforced setti...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-24088</link><description>The issue was addressed by adding additional logic. This issue is fixed in macOS Tahoe 26. An app may be able to override MDM-enforced settings from profiles.</description><pubDate>Mon, 15 Sep 2025 22:41:03 +0000</pubDate></item><item><title>CVE-2025-24133 | This issue was addressed by restricting options offered on a locked device. This issue is fixed in iOS 26 and iPadOS 26. Keyboard suggestion...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-24133</link><description>This issue was addressed by restricting options offered on a locked device. This issue is fixed in iOS 26 and iPadOS 26. Keyboard suggestions may display sensitive information on the lock screen.</description><pubDate>Mon, 15 Sep 2025 22:41:04 +0000</pubDate></item><item><title>CVE-2025-24197 | A logic issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may b...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-24197</link><description>A logic issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:04 +0000</pubDate></item><item><title>CVE-2025-30468 | This issue was addressed through improved state management. This issue is fixed in iOS 26 and iPadOS 26. Private Browsing tabs may be access...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-30468</link><description>This issue was addressed through improved state management. This issue is fixed in iOS 26 and iPadOS 26. Private Browsing tabs may be accessed without authentication.</description><pubDate>Mon, 15 Sep 2025 22:41:04 +0000</pubDate></item><item><title>CVE-2025-31254 | This issue was addressed with improved URL validation. This issue is fixed in Safari 26, iOS 26 and iPadOS 26. Processing maliciously crafte...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31254</link><description>This issue was addressed with improved URL validation. This issue is fixed in Safari 26, iOS 26 and iPadOS 26. Processing maliciously crafted web content may lead to unexpected URL redirection.</description><pubDate>Mon, 15 Sep 2025 22:41:05 +0000</pubDate></item><item><title>CVE-2025-31255 | An authorization issue was addressed with improved state management. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31255</link><description>An authorization issue was addressed with improved state management. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:05 +0000</pubDate></item><item><title>CVE-2025-31268 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31268</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:05 +0000</pubDate></item><item><title>CVE-2025-31269 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31269</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:06 +0000</pubDate></item><item><title>CVE-2025-31270 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access protecte...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31270</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:06 +0000</pubDate></item><item><title>CVE-2025-31271 | This issue was addressed through improved state management. This issue is fixed in macOS Tahoe 26. Incoming FaceTime calls can appear or be ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-31271</link><description>This issue was addressed through improved state management. This issue is fixed in macOS Tahoe 26. Incoming FaceTime calls can appear or be accepted on a locked macOS device, even with notifications disabled on the lock screen.</description><pubDate>Mon, 15 Sep 2025 22:41:06 +0000</pubDate></item><item><title>CVE-2025-43190 | A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sonoma 14.8, ma...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43190</link><description>A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sonoma 14.8, macOS Sequoia 15.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:07 +0000</pubDate></item><item><title>CVE-2025-43203 | The issue was addressed with improved handling of caches. This issue is fixed in iOS 18.7 and iPadOS 18.7, iOS 26 and iPadOS 26. An attacker...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43203</link><description>The issue was addressed with improved handling of caches. This issue is fixed in iOS 18.7 and iPadOS 18.7, iOS 26 and iPadOS 26. An attacker with physical access to an unlocked device may be able to view an image in the most recently viewed locked note.</description><pubDate>Mon, 15 Sep 2025 22:41:07 +0000</pubDate></item><item><title>CVE-2025-43204 | This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Tahoe 26. An app may be able to break out of its sand...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43204</link><description>This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Tahoe 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:07 +0000</pubDate></item><item><title>CVE-2025-43207 | This issue was addressed with improved entitlements. This issue is fixed in macOS Tahoe 26. An app may be able to access user-sensitive data...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43207</link><description>This issue was addressed with improved entitlements. This issue is fixed in macOS Tahoe 26. An app may be able to access user-sensitive data.</description><pubDate>Mon, 15 Sep 2025 22:41:08 +0000</pubDate></item><item><title>CVE-2025-43208 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to read sensitive ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43208</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to read sensitive location information.</description><pubDate>Mon, 15 Sep 2025 22:41:08 +0000</pubDate></item><item><title>CVE-2025-43231 | A logic issue was addressed with improved checks. This issue is fixed in macOS Sonoma 14.8. An app may be able to access user-sensitive data...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43231</link><description>A logic issue was addressed with improved checks. This issue is fixed in macOS Sonoma 14.8. An app may be able to access user-sensitive data.</description><pubDate>Mon, 15 Sep 2025 22:41:08 +0000</pubDate></item><item><title>CVE-2025-43262 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. USB Restricted Mode may not be applie...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43262</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. USB Restricted Mode may not be applied to accessories connected during boot.</description><pubDate>Mon, 15 Sep 2025 22:41:09 +0000</pubDate></item><item><title>CVE-2025-43263 | The issue was addressed with improved checks. This issue is fixed in Xcode 26. An app may be able to read and write files outside of its san...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43263</link><description>The issue was addressed with improved checks. This issue is fixed in Xcode 26. An app may be able to read and write files outside of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:09 +0000</pubDate></item><item><title>CVE-2025-43272 | The issue was addressed with improved memory handling. This issue is fixed in Safari 26, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43272</link><description>The issue was addressed with improved memory handling. This issue is fixed in Safari 26, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing maliciously crafted web content may lead to an unexpected Safari crash.</description><pubDate>Mon, 15 Sep 2025 22:41:10 +0000</pubDate></item><item><title>CVE-2025-43279 | A privacy issue was addressed with improved private data redaction for log entries. This issue is fixed in macOS Tahoe 26. An app may be abl...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43279</link><description>A privacy issue was addressed with improved private data redaction for log entries. This issue is fixed in macOS Tahoe 26. An app may be able to access user-sensitive data.</description><pubDate>Mon, 15 Sep 2025 22:41:10 +0000</pubDate></item><item><title>CVE-2025-43283 | An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Tahoe 26. An app may be able to cause unexpe...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43283</link><description>An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Tahoe 26. An app may be able to cause unexpected system termination.</description><pubDate>Mon, 15 Sep 2025 22:41:10 +0000</pubDate></item><item><title>CVE-2025-43285 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43285</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:11 +0000</pubDate></item><item><title>CVE-2025-43286 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43286</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:11 +0000</pubDate></item><item><title>CVE-2025-43287 | The issue was addressed with improved memory handling. This issue is fixed in macOS Tahoe 26. Processing a maliciously crafted image may cor...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43287</link><description>The issue was addressed with improved memory handling. This issue is fixed in macOS Tahoe 26. Processing a maliciously crafted image may corrupt process memory.</description><pubDate>Mon, 15 Sep 2025 22:41:11 +0000</pubDate></item><item><title>CVE-2025-43291 | A permissions issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43291</link><description>A permissions issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to modify protected parts of the file system.</description><pubDate>Mon, 15 Sep 2025 22:41:12 +0000</pubDate></item><item><title>CVE-2025-43292 | A race condition was addressed with improved state handling. This issue is fixed in macOS Sequoia 15.7, macOS Tahoe 26. An app may be able t...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43292</link><description>A race condition was addressed with improved state handling. This issue is fixed in macOS Sequoia 15.7, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:12 +0000</pubDate></item><item><title>CVE-2025-43293 | The issue was addressed with improved input validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43293</link><description>The issue was addressed with improved input validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:12 +0000</pubDate></item><item><title>CVE-2025-43294 | An issue existed in the handling of environment variables. This issue was addressed with improved validation. This issue is fixed in macOS T...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43294</link><description>An issue existed in the handling of environment variables. This issue was addressed with improved validation. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:13 +0000</pubDate></item><item><title>CVE-2025-43295 | A denial-of-service issue was addressed with improved validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43295</link><description>A denial-of-service issue was addressed with improved validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26, iOS 18.7 and iPadOS 18.7. An app may be able to cause a denial-of-service.</description><pubDate>Mon, 15 Sep 2025 22:41:13 +0000</pubDate></item><item><title>CVE-2025-43297 | A type confusion issue was addressed with improved memory handling. This issue is fixed in macOS Tahoe 26. An app may be able to cause a den...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43297</link><description>A type confusion issue was addressed with improved memory handling. This issue is fixed in macOS Tahoe 26. An app may be able to cause a denial-of-service.</description><pubDate>Mon, 15 Sep 2025 22:41:13 +0000</pubDate></item><item><title>CVE-2025-43298 | A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sequoia 15.7, m...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43298</link><description>A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to gain root privileges.</description><pubDate>Mon, 15 Sep 2025 22:41:14 +0000</pubDate></item><item><title>CVE-2025-43299 | A denial-of-service issue was addressed with improved validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43299</link><description>A denial-of-service issue was addressed with improved validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26, iOS 18.7 and iPadOS 18.7. An app may be able to cause a denial-of-service.</description><pubDate>Mon, 15 Sep 2025 22:41:14 +0000</pubDate></item><item><title>CVE-2025-43301 | A privacy issue was addressed with improved private data redaction for log entries. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43301</link><description>A privacy issue was addressed with improved private data redaction for log entries. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access contact info related to notifications in Notification Center.</description><pubDate>Mon, 15 Sep 2025 22:41:15 +0000</pubDate></item><item><title>CVE-2025-43302 | An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 1...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43302</link><description>An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to cause unexpected system termination.</description><pubDate>Mon, 15 Sep 2025 22:41:15 +0000</pubDate></item><item><title>CVE-2025-43303 | A logging issue was addressed with improved data redaction. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43303</link><description>A logging issue was addressed with improved data redaction. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:15 +0000</pubDate></item><item><title>CVE-2025-43304 | A race condition was addressed with improved state handling. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. A...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43304</link><description>A race condition was addressed with improved state handling. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to gain root privileges.</description><pubDate>Mon, 15 Sep 2025 22:41:16 +0000</pubDate></item><item><title>CVE-2025-43305 | A logic issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. A malicious ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43305</link><description>A logic issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. A malicious app may be able to access private information.</description><pubDate>Mon, 15 Sep 2025 22:41:16 +0000</pubDate></item><item><title>CVE-2025-43307 | This issue was addressed with improved checks to prevent unauthorized actions. This issue is fixed in macOS Tahoe 26. An app may be able to ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43307</link><description>This issue was addressed with improved checks to prevent unauthorized actions. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:16 +0000</pubDate></item><item><title>CVE-2025-43308 | This issue was addressed with additional entitlement checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. A...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43308</link><description>This issue was addressed with additional entitlement checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:17 +0000</pubDate></item><item><title>CVE-2025-43310 | A configuration issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43310</link><description>A configuration issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to trick a user into copying sensitive data to the pasteboard.</description><pubDate>Mon, 15 Sep 2025 22:41:17 +0000</pubDate></item><item><title>CVE-2025-43311 | This issue was addressed with additional entitlement checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. A...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43311</link><description>This issue was addressed with additional entitlement checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:17 +0000</pubDate></item><item><title>CVE-2025-43312 | A buffer overflow was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26....</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43312</link><description>A buffer overflow was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to cause unexpected system termination.</description><pubDate>Mon, 15 Sep 2025 22:41:18 +0000</pubDate></item><item><title>CVE-2025-43314 | A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sequoia 15.7, m...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43314</link><description>A parsing issue in the handling of directory paths was addressed with improved path validation. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:18 +0000</pubDate></item><item><title>CVE-2025-43315 | This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An a...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43315</link><description>This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access user-sensitive data.</description><pubDate>Mon, 15 Sep 2025 22:41:18 +0000</pubDate></item><item><title>CVE-2025-43316 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26, visionOS 26. A malicious app may be a...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43316</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26, visionOS 26. A malicious app may be able to gain root privileges.</description><pubDate>Mon, 15 Sep 2025 22:41:19 +0000</pubDate></item><item><title>CVE-2025-43317 | A permissions issue was addressed with additional restrictions. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43317</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:19 +0000</pubDate></item><item><title>CVE-2025-43318 | This issue was addressed with additional entitlement checks. This issue is fixed in macOS Tahoe 26. An app with root privileges may be able ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43318</link><description>This issue was addressed with additional entitlement checks. This issue is fixed in macOS Tahoe 26. An app with root privileges may be able to access private information.</description><pubDate>Mon, 15 Sep 2025 22:41:20 +0000</pubDate></item><item><title>CVE-2025-43319 | This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An a...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43319</link><description>This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:20 +0000</pubDate></item><item><title>CVE-2025-43321 | The issue was resolved by blocking unsigned services from launching on Intel Macs. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 1...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43321</link><description>The issue was resolved by blocking unsigned services from launching on Intel Macs. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:20 +0000</pubDate></item><item><title>CVE-2025-43325 | An access issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sens...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43325</link><description>An access issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:21 +0000</pubDate></item><item><title>CVE-2025-43326 | An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43326</link><description>An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:21 +0000</pubDate></item><item><title>CVE-2025-43327 | The issue was addressed by adding additional logic. This issue is fixed in Safari 26, macOS Tahoe 26. Visiting a malicious website may lead ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43327</link><description>The issue was addressed by adding additional logic. This issue is fixed in Safari 26, macOS Tahoe 26. Visiting a malicious website may lead to address bar spoofing.</description><pubDate>Mon, 15 Sep 2025 22:41:21 +0000</pubDate></item><item><title>CVE-2025-43328 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitiv...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43328</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:22 +0000</pubDate></item><item><title>CVE-2025-43329 | A permissions issue was addressed with additional restrictions. This issue is fixed in watchOS 26, tvOS 26, macOS Tahoe 26, iOS 26 and iPadO...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43329</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in watchOS 26, tvOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:22 +0000</pubDate></item><item><title>CVE-2025-43330 | This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Tahoe 26. An app may be able to b...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43330</link><description>This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Sequoia 15.7, macOS Tahoe 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:23 +0000</pubDate></item><item><title>CVE-2025-43331 | A downgrade issue was addressed with additional code-signing restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to acce...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43331</link><description>A downgrade issue was addressed with additional code-signing restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:23 +0000</pubDate></item><item><title>CVE-2025-43332 | A file quarantine bypass was addressed with additional checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26....</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43332</link><description>A file quarantine bypass was addressed with additional checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:23 +0000</pubDate></item><item><title>CVE-2025-43333 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to gain root privi...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43333</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to gain root privileges.</description><pubDate>Mon, 15 Sep 2025 22:41:24 +0000</pubDate></item><item><title>CVE-2025-43337 | An access issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sens...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43337</link><description>An access issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:24 +0000</pubDate></item><item><title>CVE-2025-43340 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to break out of it...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43340</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Tahoe 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:24 +0000</pubDate></item><item><title>CVE-2025-43341 | A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43341</link><description>A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to gain root privileges.</description><pubDate>Mon, 15 Sep 2025 22:41:25 +0000</pubDate></item><item><title>CVE-2025-43342 | A correctness issue was addressed with improved checks. This issue is fixed in tvOS 26, Safari 26, iOS 18.7 and iPadOS 18.7, visionOS 26, wa...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43342</link><description>A correctness issue was addressed with improved checks. This issue is fixed in tvOS 26, Safari 26, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing maliciously crafted web content may lead to an unexpected process crash.</description><pubDate>Mon, 15 Sep 2025 22:41:25 +0000</pubDate></item><item><title>CVE-2025-43343 | The issue was addressed with improved memory handling. This issue is fixed in tvOS 26, Safari 26, visionOS 26, watchOS 26, macOS Tahoe 26, i...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43343</link><description>The issue was addressed with improved memory handling. This issue is fixed in tvOS 26, Safari 26, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing maliciously crafted web content may lead to an unexpected process crash.</description><pubDate>Mon, 15 Sep 2025 22:41:26 +0000</pubDate></item><item><title>CVE-2025-43344 | An out-of-bounds access issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Ta...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43344</link><description>An out-of-bounds access issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to cause unexpected system termination.</description><pubDate>Mon, 15 Sep 2025 22:41:26 +0000</pubDate></item><item><title>CVE-2025-43346 | An out-of-bounds access issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, watchOS 26, iOS 18.7 and iPadOS 1...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43346</link><description>An out-of-bounds access issue was addressed with improved bounds checking. This issue is fixed in tvOS 26, watchOS 26, iOS 18.7 and iPadOS 18.7, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing a maliciously crafted media file may lead to unexpected app termination or corrupt process memory.</description><pubDate>Mon, 15 Sep 2025 22:41:26 +0000</pubDate></item><item><title>CVE-2025-43347 | This issue was addressed by removing the vulnerable code. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 an...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43347</link><description>This issue was addressed by removing the vulnerable code. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An input validation issue was addressed.</description><pubDate>Mon, 15 Sep 2025 22:41:27 +0000</pubDate></item><item><title>CVE-2025-43349 | An out-of-bounds write issue was addressed with improved input validation. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43349</link><description>An out-of-bounds write issue was addressed with improved input validation. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing a maliciously crafted video file may lead to unexpected app termination.</description><pubDate>Mon, 15 Sep 2025 22:41:27 +0000</pubDate></item><item><title>CVE-2025-43353 | The issue was addressed with improved bounds checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. Processin...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43353</link><description>The issue was addressed with improved bounds checks. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, macOS Tahoe 26. Processing a maliciously crafted string may lead to heap corruption.</description><pubDate>Mon, 15 Sep 2025 22:41:28 +0000</pubDate></item><item><title>CVE-2025-43354 | A logging issue was addressed with improved data redaction. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43354</link><description>A logging issue was addressed with improved data redaction. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to access sensitive user data.</description><pubDate>Mon, 15 Sep 2025 22:41:28 +0000</pubDate></item><item><title>CVE-2025-43355 | A type confusion issue was addressed with improved memory handling. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, i...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43355</link><description>A type confusion issue was addressed with improved memory handling. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to cause a denial-of-service.</description><pubDate>Mon, 15 Sep 2025 22:41:28 +0000</pubDate></item><item><title>CVE-2025-43356 | The issue was addressed with improved handling of caches. This issue is fixed in tvOS 26, Safari 26, iOS 18.7 and iPadOS 18.7, visionOS 26, ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43356</link><description>The issue was addressed with improved handling of caches. This issue is fixed in tvOS 26, Safari 26, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. A website may be able to access sensor information without user consent.</description><pubDate>Mon, 15 Sep 2025 22:41:29 +0000</pubDate></item><item><title>CVE-2025-43357 | This issue was addressed with improved redaction of sensitive information. This issue is fixed in macOS Tahoe 26, iOS 26 and iPadOS 26. An a...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43357</link><description>This issue was addressed with improved redaction of sensitive information. This issue is fixed in macOS Tahoe 26, iOS 26 and iPadOS 26. An app may be able to fingerprint the user.</description><pubDate>Mon, 15 Sep 2025 22:41:29 +0000</pubDate></item><item><title>CVE-2025-43358 | A permissions issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, iOS 18...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43358</link><description>A permissions issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Sequoia 15.7, macOS Sonoma 14.8, iOS 18.7 and iPadOS 18.7, macOS Tahoe 26, iOS 26 and iPadOS 26. A shortcut may be able to bypass sandbox restrictions.</description><pubDate>Mon, 15 Sep 2025 22:41:29 +0000</pubDate></item><item><title>CVE-2025-43359 | A logic issue was addressed with improved state management. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, iOS 18.7 ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43359</link><description>A logic issue was addressed with improved state management. This issue is fixed in tvOS 26, macOS Sonoma 14.8, macOS Sequoia 15.7, iOS 18.7 and iPadOS 18.7, visionOS 26, watchOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. A UDP server socket bound to a local interface may become bound to all interfaces.</description><pubDate>Mon, 15 Sep 2025 22:41:30 +0000</pubDate></item><item><title>CVE-2025-43362 | The issue was addressed with improved checks. This issue is fixed in iOS 18.7 and iPadOS 18.7, iOS 26 and iPadOS 26. An app may be able to m...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43362</link><description>The issue was addressed with improved checks. This issue is fixed in iOS 18.7 and iPadOS 18.7, iOS 26 and iPadOS 26. An app may be able to monitor keystrokes without user permission.</description><pubDate>Mon, 15 Sep 2025 22:41:30 +0000</pubDate></item><item><title>CVE-2025-43366 | An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Tahoe 26. An app may be able to disclose cop...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43366</link><description>An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in macOS Tahoe 26. An app may be able to disclose coprocessor memory.</description><pubDate>Mon, 15 Sep 2025 22:41:30 +0000</pubDate></item><item><title>CVE-2025-43367 | A privacy issue was addressed by moving sensitive data. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to acce...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43367</link><description>A privacy issue was addressed by moving sensitive data. This issue is fixed in macOS Sonoma 14.8, macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:31 +0000</pubDate></item><item><title>CVE-2025-43368 | A use-after-free issue was addressed with improved memory management. This issue is fixed in Safari 26, macOS Tahoe 26, iOS 26 and iPadOS 26...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43368</link><description>A use-after-free issue was addressed with improved memory management. This issue is fixed in Safari 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing maliciously crafted web content may lead to an unexpected Safari crash.</description><pubDate>Mon, 15 Sep 2025 22:41:31 +0000</pubDate></item><item><title>CVE-2025-43369 | This issue was addressed with improved handling of symlinks. This issue is fixed in macOS Tahoe 26. An app may be able to access protected u...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43369</link><description>This issue was addressed with improved handling of symlinks. This issue is fixed in macOS Tahoe 26. An app may be able to access protected user data.</description><pubDate>Mon, 15 Sep 2025 22:41:31 +0000</pubDate></item><item><title>CVE-2025-43370 | A path handling issue was addressed with improved validation. This issue is fixed in Xcode 26. Processing an overly large path value may cra...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43370</link><description>A path handling issue was addressed with improved validation. This issue is fixed in Xcode 26. Processing an overly large path value may crash a process.</description><pubDate>Mon, 15 Sep 2025 22:41:32 +0000</pubDate></item><item><title>CVE-2025-43371 | This issue was addressed with improved checks. This issue is fixed in Xcode 26. An app may be able to break out of its sandbox.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43371</link><description>This issue was addressed with improved checks. This issue is fixed in Xcode 26. An app may be able to break out of its sandbox.</description><pubDate>Mon, 15 Sep 2025 22:41:32 +0000</pubDate></item><item><title>CVE-2025-43372 | The issue was addressed with improved input validation. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43372</link><description>The issue was addressed with improved input validation. This issue is fixed in tvOS 26, watchOS 26, visionOS 26, macOS Tahoe 26, iOS 26 and iPadOS 26. Processing a maliciously crafted media file may lead to unexpected app termination or corrupt process memory.</description><pubDate>Mon, 15 Sep 2025 22:41:33 +0000</pubDate></item><item><title>CVE-2025-43375 | The issue was addressed with improved checks. This issue is fixed in Xcode 26. Processing an overly large path value may crash a process.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43375</link><description>The issue was addressed with improved checks. This issue is fixed in Xcode 26. Processing an overly large path value may crash a process.</description><pubDate>Mon, 15 Sep 2025 22:41:33 +0000</pubDate></item><item><title>CVE-2025-10481 | SourceCodester Online Student File Management System remove_file.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10481</link><description>A security vulnerability has been detected in SourceCodester Online Student File Management System 1.0. This impacts an unknown function of the file /remove_file.php. The manipulation of the argument ID leads to sql injection. Remote exploitation of the attack is possible. The exploit has been disclosed publicly and may be used.</description><pubDate>Mon, 15 Sep 2025 22:10:00 +0000</pubDate></item><item><title>CVE-2025-10482 | SourceCodester Online Student File Management System index.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10482</link><description>A vulnerability was detected in SourceCodester Online Student File Management System 1.0. Affected is an unknown function of the file /admin/index.php. The manipulation of the argument Username results in sql injection. The attack can be executed remotely. The exploit is now public and may be used.</description><pubDate>Mon, 15 Sep 2025 22:10:00 +0000</pubDate></item><item><title>CVE-2025-43802 | Stored cross-site scripting (XSS) vulnerability in a custom object’s /o/c/&lt;object-name&gt; API endpoint in Liferay Portal 7.4.3.51 through 7.4....</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43802</link><description>Stored cross-site scripting (XSS) vulnerability in a custom object’s /o/c/ API endpoint in Liferay Portal 7.4.3.51 through 7.4.3.109, and Liferay DXP 2023.Q3.1 through 2023.Q3.4, 7.4 update 51 through update 92, and 7.3 update 33 through update 35. allows remote attackers to inject arbitrary web script or HTML via the externalReferenceCode parameter.</description><pubDate>Mon, 15 Sep 2025 22:10:01 +0000</pubDate></item><item><title>CVE-2025-10480 | SourceCodester Online Student File Management System save_file.php unrestricted upload</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10480</link><description>A weakness has been identified in SourceCodester Online Student File Management System 1.0. This affects an unknown function of the file /save_file.php. Executing manipulation can lead to unrestricted upload. The attack may be launched remotely. The exploit has been made available to the public and could be exploited.</description><pubDate>Mon, 15 Sep 2025 21:45:10 +0000</pubDate></item><item><title>CVE-2025-56274 | SourceCodester Web-based Pharmacy Product Management System 1.0 is vulnerable to Incorrect Access Control, which allows low-privileged users...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-56274</link><description>SourceCodester Web-based Pharmacy Product Management System 1.0 is vulnerable to Incorrect Access Control, which allows low-privileged users to forge high privileged (such as admin) sessions and perform sensitive operations such as adding new users.</description><pubDate>Mon, 15 Sep 2025 21:45:10 +0000</pubDate></item><item><title>CVE-2025-57118 | An issue in PHPGurukul Online-Library-Management-System v3.0 allows an attacker to escalate privileges via the index.php</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57118</link><description>An issue in PHPGurukul Online-Library-Management-System v3.0 allows an attacker to escalate privileges via the index.php</description><pubDate>Mon, 15 Sep 2025 21:45:11 +0000</pubDate></item><item><title>CVE-2025-43797 | In Liferay Portal 7.1.0 through 7.4.3.111, and Liferay DXP 2023.Q4.0, 2023.Q3.1 through 2023.Q3.4, 7.4 GA through update 92, 7.3 GA through ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-43797</link><description>In Liferay Portal 7.1.0 through 7.4.3.111, and Liferay DXP 2023.Q4.0, 2023.Q3.1 through 2023.Q3.4, 7.4 GA through update 92, 7.3 GA through update 35, and older unsupported versions, the default membership type of a newly created site is “Open” which allows any registered users to become a member of the site. A remote attacker with site membership can potentially view, add or edit content on the site.</description><pubDate>Mon, 15 Sep 2025 21:36:23 +0000</pubDate></item><item><title>CVE-2025-57117 | A Clickjacking vulnerability exists in Rems' Employee Management System 1.0. This flaw allows remote attackers to execute arbitrary JavaScri...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57117</link><description>A Clickjacking vulnerability exists in Rems' Employee Management System 1.0. This flaw allows remote attackers to execute arbitrary JavaScript on the department.php page by injecting a malicious payload into the Department Name field under Add Department.</description><pubDate>Mon, 15 Sep 2025 21:36:23 +0000</pubDate></item><item><title>CVE-2025-6947 | WatchGuard Firebox Stored Cross-Site-Scripting (XSS) Vulnerability in SIP Proxy Configuration</title><link>https://www.cve.org/CVERecord?id=CVE-2025-6947</link><description>Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting') vulnerability in WatchGuard Fireware OS allows Stored XSS via the SIP Proxy module. This vulnerability requires an authenticated administrator session to a locally managed Firebox.
 
