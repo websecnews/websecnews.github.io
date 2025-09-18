@@ -1,5 +1,143 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 18 Sep 2025 13:46:35 +0000</lastBuildDate><item><title>CVE-2022-50375 | tty: serial: fsl_lpuart: disable dma rx/tx use flags in lpuart_dma_shutdown</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50375</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 18 Sep 2025 14:14:56 +0000</lastBuildDate><item><title>CVE-2022-50400 | staging: greybus: audio_helper: remove unused and wrong debugfs usage</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50400</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: greybus: audio_helper: remove unused and wrong debugfs usage
+
+In the greybus audio_helper code, the debugfs file for the dapm has the
+potential to be removed and memory will be leaked.  There is also the
+very real potential for this code to remove ALL debugfs entries from the
+system, and it seems like this is what will really happen if this code
+ever runs.  This all is very wrong as the greybus audio driver did not
+create this debugfs file, the sound core did and controls the lifespan
+of it.
+
+So remove all of the debugfs logic from the audio_helper code as there's
+no way it could be correct.  If this really is needed, it can come back
+with a fixup for the incorrect usage of the debugfs_lookup() call which
+is what caused this to be noticed at all.</description><pubDate>Thu, 18 Sep 2025 14:14:57 +0000</pubDate></item><item><title>CVE-2023-53402 | kernel/printk/index.c: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53402</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+kernel/printk/index.c: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:14:58 +0000</pubDate></item><item><title>CVE-2023-53403 | time/debug: Fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53403</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+time/debug: Fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic at
+once.</description><pubDate>Thu, 18 Sep 2025 14:14:58 +0000</pubDate></item><item><title>CVE-2023-53404 | USB: fotg210: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53404</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: fotg210: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:14:59 +0000</pubDate></item><item><title>CVE-2023-53405 | USB: gadget: gr_udc: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53405</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: gadget: gr_udc: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:14:59 +0000</pubDate></item><item><title>CVE-2023-53406 | USB: gadget: pxa25x_udc: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53406</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: gadget: pxa25x_udc: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:14:59 +0000</pubDate></item><item><title>CVE-2023-53407 | USB: gadget: pxa27x_udc: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53407</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: gadget: pxa27x_udc: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:00 +0000</pubDate></item><item><title>CVE-2023-53408 | trace/blktrace: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53408</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+trace/blktrace: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:00 +0000</pubDate></item><item><title>CVE-2023-53409 | drivers: base: component: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53409</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drivers: base: component: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:01 +0000</pubDate></item><item><title>CVE-2023-53410 | USB: ULPI: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53410</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: ULPI: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:01 +0000</pubDate></item><item><title>CVE-2023-53411 | PM: EM: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53411</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PM: EM: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:01 +0000</pubDate></item><item><title>CVE-2023-53412 | USB: gadget: bcm63xx_udc: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53412</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: gadget: bcm63xx_udc: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:02 +0000</pubDate></item><item><title>CVE-2023-53413 | USB: isp116x: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53413</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: isp116x: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:02 +0000</pubDate></item><item><title>CVE-2023-53414 | scsi: snic: Fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53414</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: snic: Fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic at
+once.</description><pubDate>Thu, 18 Sep 2025 14:15:03 +0000</pubDate></item><item><title>CVE-2023-53415 | USB: dwc3: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53415</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: dwc3: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.
+
+Note, the root dentry for the debugfs directory for the device needs to
+be saved so we don't have to keep looking it up, which required a bit
+more refactoring to properly create and remove it when needed.</description><pubDate>Thu, 18 Sep 2025 14:15:03 +0000</pubDate></item><item><title>CVE-2023-53416 | USB: isp1362: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53416</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: isp1362: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:03 +0000</pubDate></item><item><title>CVE-2023-53417 | USB: sl811: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53417</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: sl811: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:04 +0000</pubDate></item><item><title>CVE-2023-53418 | USB: gadget: lpc32xx_udc: fix memory leak with using debugfs_lookup()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53418</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+USB: gadget: lpc32xx_udc: fix memory leak with using debugfs_lookup()
+
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.</description><pubDate>Thu, 18 Sep 2025 14:15:04 +0000</pubDate></item><item><title>CVE-2025-10670 | itsourcecode E-Logbook with Health Monitoring System for COVID-19 check_profile.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10670</link><description>A flaw has been found in itsourcecode E-Logbook with Health Monitoring System for COVID-19 1.0. This issue affects some unknown processing of the file /check_profile.php. Executing manipulation of the argument profile_id can lead to sql injection. It is possible to launch the attack remotely. The exploit has been published and may be used.</description><pubDate>Thu, 18 Sep 2025 14:15:04 +0000</pubDate></item><item><title>CVE-2025-4444 | Tor Onion Service Descriptor resource consumption</title><link>https://www.cve.org/CVERecord?id=CVE-2025-4444</link><description>A security flaw has been discovered in Tor up to 0.4.7.16/0.4.8.17. Impacted is an unknown function of the component Onion Service Descriptor Handler. Performing manipulation results in resource consumption. The attack may be initiated remotely. The attack's complexity is rated as high. The exploitability is considered difficult. Upgrading to version 0.4.8.18 and 0.4.9.3-alpha is recommended to address this issue. It is recommended to upgrade the affected component.</description><pubDate>Thu, 18 Sep 2025 14:15:05 +0000</pubDate></item><item><title>CVE-2022-50375 | tty: serial: fsl_lpuart: disable dma rx/tx use flags in lpuart_dma_shutdown</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50375</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 tty: serial: fsl_lpuart: disable dma rx/tx use flags in lpuart_dma_shutdown
 
@@ -209,8 +347,8 @@ There's a crash in mempool_free when running the lvm test
 shell/lvchange-rebuild-raid.sh.
 
 The reason for the crash is this:
-* super_written calls atomic_dec_and_test(&amp;mddev-&gt;pending_writes) and
-  wake_up(&amp;mddev-&gt;sb_wait). Then it calls rdev_dec_pending(rdev, mddev)
+* super_written calls atomic_dec_and_test(&amp;amp;mddev-&gt;pending_writes) and
+  wake_up(&amp;amp;mddev-&gt;sb_wait). Then it calls rdev_dec_pending(rdev, mddev)
   and bio_put(bio).
 * so, the process that waited on sb_wait and that is woken up is racing
   with bio_put(bio).
@@ -247,7 +385,7 @@ we decrement the number of in-progress bios.
  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
  CR2: 0000000000000000 CR3: 0000001102e99000 CR4: 00000000000006b0
  Call Trace:
-  &lt;TASK&gt;
+  
   clone_endio+0xf4/0x1c0 [dm_mod]
   clone_endio+0xf4/0x1c0 [dm_mod]
   __submit_bio+0x76/0x120
@@ -259,7 +397,7 @@ we decrement the number of in-progress bios.
   kthread+0xc2/0x100
   ? kthread_complete_and_exit+0x20/0x20
   ret_from_fork+0x1f/0x30
-  &lt;/TASK&gt;
+  
  Modules linked in: brd dm_delay dm_raid dm_mod af_packet uvesafb cfbfillrect cfbimgblt cn cfbcopyarea fb font fbdev tun autofs4 binfmt_misc configfs ipv6 virtio_rng virtio_balloon rng_core virtio_net pcspkr net_failover failover qemu_fw_cfg button mousedev raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq raid6_pq async_xor xor async_tx raid1 raid0 md_mod sd_mod t10_pi crc64_rocksoft crc64 virtio_scsi scsi_mod evdev psmouse bsg scsi_common [last unloaded: brd]
  CR2: 0000000000000000
  ---[ end trace 0000000000000000 ]---</description><pubDate>Thu, 18 Sep 2025 13:46:40 +0000</pubDate></item><item><title>CVE-2022-50382 | padata: Always leave BHs disabled when running -&amp;gt;parallel()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50382</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -273,13 +411,13 @@ context of the current task:
       -&gt;parallel()
         pcrypt_aead_enc/dec
           padata_do_serial
-            spin_lock(&amp;reorder-&gt;lock) // BHs still enabled
-              &lt;interrupt&gt;
+            spin_lock(&amp;amp;reorder-&gt;lock) // BHs still enabled
+              
                 ...
                   __do_softirq
                     ...
                       padata_do_serial
-                        spin_lock(&amp;reorder-&gt;lock)
+                        spin_lock(&amp;amp;reorder-&gt;lock)
 
 It's a bug for BHs to be on in _do_serial as Steffen points out, so
 ensure they're off in the "current task" case like they are in
@@ -297,7 +435,7 @@ staging: vme_user: Fix possible UAF in tsi148_dma_list_add
 Smatch report warning as follows:
 
 drivers/staging/vme_user/vme_tsi148.c:1757 tsi148_dma_list_add() warn:
-  '&amp;entry-&gt;list' not removed from list
+  '&amp;amp;entry-&gt;list' not removed from list
 
 In tsi148_dma_list_add(), the error path "goto err_dma" will not
 remove entry-&gt;list from list-&gt;entries, but entry will be freed,
@@ -365,7 +503,7 @@ results in the following crash:
 [ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [ 2517.913761] PKRU: 55555554
 [ 2517.917558] Call Trace:
-[ 2517.921294]  &lt;TASK&gt;
+[ 2517.921294]  
 [ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
 [ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
 [ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
@@ -379,7 +517,7 @@ results in the following crash:
 [ 2517.961655]  kthread+0x10c/0x130
 [ 2517.965211]  ? set_kthread_struct+0x40/0x40
 [ 2517.968760]  ret_from_fork+0x1f/0x30
-[ 2517.972285]  &lt;/TASK&gt;
+[ 2517.972285]  
 
 To avoid this situation, add a NULL check for req-&gt;bio before
 calling trace_block_bio_complete.</description><pubDate>Thu, 18 Sep 2025 13:46:43 +0000</pubDate></item><item><title>CVE-2022-50389 | tpm: tpm_crb: Add the missed acpi_put_table() to fix memory leak</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50389</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -399,7 +537,7 @@ significant bit to unsigned. The UBSAN warning calltrace like below:
 UBSAN: shift-out-of-bounds in ./include/drm/ttm/ttm_tt.h:122:26
 left shift of 1 by 31 places cannot be represented in type 'int'
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x7d/0xa5
  dump_stack+0x15/0x1b
  ubsan_epilogue+0xe/0x4e
@@ -452,8 +590,7 @@ Call Trace:
  __do_sys_finit_module+0xf8/0x190
  __x64_sys_finit_module+0x23/0x30
  do_syscall_64+0x58/0x80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
- &lt;/TASK&gt;</description><pubDate>Thu, 18 Sep 2025 13:46:44 +0000</pubDate></item><item><title>CVE-2022-50391 | mm/mempolicy: fix memory leak in set_mempolicy_home_node system call</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50391</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd</description><pubDate>Thu, 18 Sep 2025 13:46:44 +0000</pubDate></item><item><title>CVE-2022-50391 | mm/mempolicy: fix memory leak in set_mempolicy_home_node system call</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50391</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mm/mempolicy: fix memory leak in set_mempolicy_home_node system call
 
@@ -525,30 +662,30 @@ unreferenced object 0xffff88810c287f00 (size 256):
     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
   backtrace:
-    [&lt;ffffffff814cf9f0&gt;] kmalloc_trace+0x20/0x90 mm/slab_common.c:1046
-    [&lt;ffffffff839c9e07&gt;] kmalloc include/linux/slab.h:576 [inline]
-    [&lt;ffffffff839c9e07&gt;] kmalloc_array include/linux/slab.h:627 [inline]
-    [&lt;ffffffff839c9e07&gt;] kcalloc include/linux/slab.h:659 [inline]
-    [&lt;ffffffff839c9e07&gt;] tcf_exts_init include/net/pkt_cls.h:250 [inline]
-    [&lt;ffffffff839c9e07&gt;] tcindex_set_parms+0xa7/0xbe0 net/sched/cls_tcindex.c:342
-    [&lt;ffffffff839caa1f&gt;] tcindex_change+0xdf/0x120 net/sched/cls_tcindex.c:553
-    [&lt;ffffffff8394db62&gt;] tc_new_tfilter+0x4f2/0x1100 net/sched/cls_api.c:2147
-    [&lt;ffffffff8389e91c&gt;] rtnetlink_rcv_msg+0x4dc/0x5d0 net/core/rtnetlink.c:6082
-    [&lt;ffffffff839eba67&gt;] netlink_rcv_skb+0x87/0x1d0 net/netlink/af_netlink.c:2540
-    [&lt;ffffffff839eab87&gt;] netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-    [&lt;ffffffff839eab87&gt;] netlink_unicast+0x397/0x4c0 net/netlink/af_netlink.c:1345
-    [&lt;ffffffff839eb046&gt;] netlink_sendmsg+0x396/0x710 net/netlink/af_netlink.c:1921
-    [&lt;ffffffff8383e796&gt;] sock_sendmsg_nosec net/socket.c:714 [inline]
-    [&lt;ffffffff8383e796&gt;] sock_sendmsg+0x56/0x80 net/socket.c:734
-    [&lt;ffffffff8383eb08&gt;] ____sys_sendmsg+0x178/0x410 net/socket.c:2482
-    [&lt;ffffffff83843678&gt;] ___sys_sendmsg+0xa8/0x110 net/socket.c:2536
-    [&lt;ffffffff838439c5&gt;] __sys_sendmmsg+0x105/0x330 net/socket.c:2622
-    [&lt;ffffffff83843c14&gt;] __do_sys_sendmmsg net/socket.c:2651 [inline]
-    [&lt;ffffffff83843c14&gt;] __se_sys_sendmmsg net/socket.c:2648 [inline]
-    [&lt;ffffffff83843c14&gt;] __x64_sys_sendmmsg+0x24/0x30 net/socket.c:2648
-    [&lt;ffffffff84605fd5&gt;] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [&lt;ffffffff84605fd5&gt;] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-    [&lt;ffffffff84800087&gt;] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+    [] kmalloc_trace+0x20/0x90 mm/slab_common.c:1046
+    [] kmalloc include/linux/slab.h:576 [inline]
+    [] kmalloc_array include/linux/slab.h:627 [inline]
+    [] kcalloc include/linux/slab.h:659 [inline]
+    [] tcf_exts_init include/net/pkt_cls.h:250 [inline]
+    [] tcindex_set_parms+0xa7/0xbe0 net/sched/cls_tcindex.c:342
+    [] tcindex_change+0xdf/0x120 net/sched/cls_tcindex.c:553
+    [] tc_new_tfilter+0x4f2/0x1100 net/sched/cls_api.c:2147
+    [] rtnetlink_rcv_msg+0x4dc/0x5d0 net/core/rtnetlink.c:6082
+    [] netlink_rcv_skb+0x87/0x1d0 net/netlink/af_netlink.c:2540
+    [] netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+    [] netlink_unicast+0x397/0x4c0 net/netlink/af_netlink.c:1345
+    [] netlink_sendmsg+0x396/0x710 net/netlink/af_netlink.c:1921
+    [] sock_sendmsg_nosec net/socket.c:714 [inline]
+    [] sock_sendmsg+0x56/0x80 net/socket.c:734
+    [] ____sys_sendmsg+0x178/0x410 net/socket.c:2482
+    [] ___sys_sendmsg+0xa8/0x110 net/socket.c:2536
+    [] __sys_sendmmsg+0x105/0x330 net/socket.c:2622
+    [] __do_sys_sendmmsg net/socket.c:2651 [inline]
+    [] __se_sys_sendmmsg net/socket.c:2648 [inline]
+    [] __x64_sys_sendmmsg+0x24/0x30 net/socket.c:2648
+    [] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+    [] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+    [] entry_SYSCALL_64_after_hwframe+0x63/0xcd
 ====================================
 
 Kernel uses tcindex_change() to change an existing
@@ -951,7 +1088,7 @@ We found a crash when using SMCRv2 with 2 Mellanox ConnectX-4. It
 can be reproduced by:
 
 - smc_run nginx
-- smc_run wrk -t 32 -c 500 -d 30 http://&lt;ip&gt;:&lt;port&gt;
+- smc_run wrk -t 32 -c 500 -d 30 http://:
 
  BUG: kernel NULL pointer dereference, address: 0000000000000014
  #PF: supervisor read access in kernel mode
@@ -973,7 +1110,7 @@ can be reproduced by:
  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
  Call Trace:
-  &lt;TASK&gt;
+  
   ? mlx5_ib_map_mr_sg+0xa1/0xd0 [mlx5_ib]
   ? smcr_buf_map_link+0x24b/0x290 [smc]
   ? __smc_buf_create+0x4ee/0x9b0 [smc]
@@ -986,7 +1123,7 @@ can be reproduced by:
   kthread+0xe5/0x120
   ? __pfx_kthread+0x10/0x10
   ret_from_fork+0x2c/0x50
-  &lt;/TASK&gt;
+  
 
 During the CLC handshake, server sequentially tries available SMCRv2
 and SMCRv1 devices in smc_listen_work().
@@ -1201,7 +1338,7 @@ occur.
  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
  RIP: 0010:_raw_spin_lock+0xc/0x20
  Call Trace:
-  &lt;TASK&gt;
+  
   mlx5_ib_get_native_port_mdev+0x73/0xe0 [mlx5_ib]
   do_get_hw_stats.constprop.0+0x109/0x160 [mlx5_ib]
   mlx5_ib_get_hw_stats+0xad/0x180 [mlx5_ib]
