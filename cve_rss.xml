@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 19 Sep 2025 15:32:30 +0000</lastBuildDate><item><title>CVE-2025-39837 | platform/x86: asus-wmi: Fix racy registrations</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39837</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 19 Sep 2025 15:44:11 +0000</lastBuildDate><item><title>CVE-2025-59427 | Cloudflare vite plugin exposes secrets over the built-in dev server</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59427</link><description>The Cloudflare Vite plugin enables a full-featured integration between Vite and the Workers runtime. When utilising the Cloudflare Vite plugin in its default configuration, all files are exposed by the local dev server, including files in the root directory that contain secret information such as .env and .dev.vars. This vulnerability is fixed in 1.6.0.</description><pubDate>Fri, 19 Sep 2025 15:44:13 +0000</pubDate></item><item><title>CVE-2025-39837 | platform/x86: asus-wmi: Fix racy registrations</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39837</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 platform/x86: asus-wmi: Fix racy registrations
 
@@ -154,7 +154,7 @@ persistent memory:
   Oops: 0002 [#1] SMP NOPTI
   RIP: 0010:__init_single_page+0x9/0x6d
   Call Trace:
-   &lt;TASK&gt;
+   
    __init_zone_device_page+0x17/0x5d
    memmap_init_zone_device+0x154/0x1bb
    pagemap_range+0x2e0/0x40f
@@ -163,7 +163,7 @@ persistent memory:
    dev_dax_probe+0xce/0x2ec [device_dax]
    dax_bus_probe+0x6d/0xc9
    [... snip ...]
-   &lt;/TASK&gt;
+   
 
 It turns out that the kernel panics while initializing vmemmap (struct
 page array) when the vmemmap region spans two PGD entries, because the new
@@ -221,7 +221,7 @@ pgd_populate_kernel() looks like this:
 static inline void pgd_populate_kernel(unsigned long addr, pgd_t *pgd,
                                        p4d_t *p4d)
 {
-        pgd_populate(&amp;init_mm, pgd, p4d);
+        pgd_populate(&amp;amp;init_mm, pgd, p4d);
         if (ARCH_PAGE_TABLE_SYNC_MASK &amp; PGTBL_PGD_MODIFIED)
                 arch_sync_kernel_mappings(addr, addr);
 }
@@ -251,7 +251,7 @@ a large amount of persistent memory:
   Oops: 0002 [#1] SMP NOPTI
   RIP: 0010:__init_single_page+0x9/0x6d
   Call Trace:
-   &lt;TASK&gt;
+   
    __init_zone_device_page+0x17/0x5d
    memmap_init_zone_device+0x154/0x1bb
    pagemap_range+0x2e0/0x40f
@@ -260,7 +260,7 @@ a large amount of persistent memory:
    dev_dax_probe+0xce/0x2ec [device_dax]
    dax_bus_probe+0x6d/0xc9
    [... snip ...]
-   &lt;/TASK&gt;
+   
 
 It also fixes a crash in vmemmap_set_pmd() caused by accessing vmemmap
 before sync_global_pgds() [1]:
@@ -272,7 +272,7 @@ before sync_global_pgds() [1]:
   Oops: Oops: 0002 [#1] PREEMPT SMP NOPTI
   Tainted: [W]=WARN
   RIP: 0010:vmemmap_set_pmd+0xff/0x230
-   &lt;TASK&gt;
+   
    vmemmap_populate_hugepages+0x176/0x180
    vmemmap_populate+0x34/0x80
    __populate_section_memmap+0x41/0x90
@@ -362,7 +362,7 @@ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-4.fc41 04/01/
 RIP: 0010:vxlan_xmit+0xb58/0x15f0
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  dev_hard_start_xmit+0x5d/0x1c0
  __dev_queue_xmit+0x246/0xfd0
  packet_sendmsg+0x113a/0x1850
@@ -396,7 +396,7 @@ Hardware name: QEMU Standard PC (i440FX + PIIX, 1v996), BIOS 1.17.0-4.fc41 04/01
 RIP: 0010:vxlan_xmit+0x803/0x1600
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  dev_hard_start_xmit+0x5d/0x1c0
  __dev_queue_xmit+0x246/0xfd0
  ip6_finish_output2+0x210/0x6c0
@@ -450,7 +450,7 @@ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-4.fc41 04/01/
 RIP: 0010:vxlan_snoop+0x98/0x1e0
 [...]
 Call Trace:
- &lt;TASK&gt;
+ 
  vxlan_encap_bypass+0x209/0x240
  encap_bypass_if_local+0xb1/0x100
  vxlan_xmit_one+0x1375/0x17e0
@@ -595,7 +595,7 @@ Workqueue: smc_hs_wq smc_listen_work [smc]
 RIP: 0010:smc_ib_is_sg_need_sync+0x9e/0xd0 [smc]
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  smcr_buf_map_link+0x211/0x2a0 [smc]
  __smc_buf_create+0x522/0x970 [smc]
  smc_buf_create+0x3a/0x110 [smc]
@@ -608,7 +608,7 @@ Call Trace:
  kthread+0xe7/0x220
  ret_from_fork+0x13a/0x160
  ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;
+ 
 
 If the software RoCE device is used, ibdev-&gt;dma_device is a null pointer.
 As a result, the problem occurs. Null pointer detection is added to
@@ -632,7 +632,7 @@ bugs. The following details one of the race scenarios.
 (thread 1)                           | (thread 2)
 ptp_ocp_remove()                     |
   ptp_ocp_detach()                   | ptp_ocp_watchdog()
-    if (timer_pending(&amp;bp-&gt;watchdog))|   bp = timer_container_of()
+    if (timer_pending(&amp;amp;bp-&gt;watchdog))|   bp = timer_container_of()
       timer_delete_sync()            |
                                      |
   devlink_free(devlink) //free       |
@@ -684,7 +684,7 @@ Read of size 4 at addr ffff88803b7eb1c4 by task syz.5.3276/16995
 CPU: 3 UID: 0 PID: 16995 Comm: syz.5.3276 Not tainted syzkaller #0 PREEMPT(full)
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -716,7 +716,7 @@ RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
 RBP: 00007f2acd1b7da0 R08: 0000000000000001 R09: 00000012b6cb166f
 R10: 0000001b30e20000 R11: 0000000000000246 R12: 00007f2acd1b609c
 R13: 00007f2acd1b6090 R14: ffffffffffffffff R15: 00007ffdb6cb1490
- &lt;/TASK&gt;
+ 
 
 Allocated by task 5326:
  kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
@@ -773,7 +773,7 @@ the execution of its worker thread.
 Scenario 1: Freed before the worker is scheduled
 
 The brcmf_btcoex_info is deallocated before the worker is scheduled.
-A race condition can occur when schedule_work(&amp;bt_local-&gt;work) is
+A race condition can occur when schedule_work(&amp;amp;bt_local-&gt;work) is
 called after the target memory has been freed. The sequence of events
 is detailed below:
 
@@ -785,7 +785,7 @@ brcmf_btcoex_detach            | brcmf_btcoex_timerfunc
   cancel_work_sync();          |
   ...                          |
   kfree(cfg-&gt;btcoex); // FREE  |
-                               |   schedule_work(&amp;bt_local-&gt;work); // USE
+                               |   schedule_work(&amp;amp;bt_local-&gt;work); // USE
 
 Scenario 2: Freed after the worker is scheduled
 
@@ -926,22 +926,22 @@ systemd-random-seed                         kworker
 ----------------------------------------------------------------------
 ___mark_inode_dirty                     inode_switch_wbs_work_fn
 
-  spin_lock(&amp;inode-&gt;i_lock);
+  spin_lock(&amp;amp;inode-&gt;i_lock);
   inode_attach_wb
   locked_inode_to_wb_and_lock_list
      get inode-&gt;i_wb
-     spin_unlock(&amp;inode-&gt;i_lock);
-     spin_lock(&amp;wb-&gt;list_lock)
-  spin_lock(&amp;inode-&gt;i_lock)
+     spin_unlock(&amp;amp;inode-&gt;i_lock);
+     spin_lock(&amp;amp;wb-&gt;list_lock)
+  spin_lock(&amp;amp;inode-&gt;i_lock)
   inode_io_list_move_locked
-  spin_unlock(&amp;wb-&gt;list_lock)
-  spin_unlock(&amp;inode-&gt;i_lock)
-                                    spin_lock(&amp;old_wb-&gt;list_lock)
+  spin_unlock(&amp;amp;wb-&gt;list_lock)
+  spin_unlock(&amp;amp;inode-&gt;i_lock)
+                                    spin_lock(&amp;amp;old_wb-&gt;list_lock)
                                       inode_do_switch_wbs
-                                        spin_lock(&amp;inode-&gt;i_lock)
+                                        spin_lock(&amp;amp;inode-&gt;i_lock)
                                         inode-&gt;i_wb = new_wb
-                                        spin_unlock(&amp;inode-&gt;i_lock)
-                                    spin_unlock(&amp;old_wb-&gt;list_lock)
+                                        spin_unlock(&amp;amp;inode-&gt;i_lock)
+                                    spin_unlock(&amp;amp;old_wb-&gt;list_lock)
                                     wb_put_many(old_wb, nr_switched)
                                       cgwb_release
                                       old wb released
@@ -950,7 +950,7 @@ ___mark_inode_dirty                     inode_switch_wbs_work_fn
   issue
 
 Fix this race condition by holding inode spinlock until
-wb_wakeup_delayed() finished.</description><pubDate>Fri, 19 Sep 2025 15:32:42 +0000</pubDate></item><item><title>CVE-2025-55910 | CMSEasy v7.7.8.0 and before is vulnerable to Arbitrary file deletion in database_admin.php.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55910</link><description>CMSEasy v7.7.8.0 and before is vulnerable to Arbitrary file deletion in database_admin.php.</description><pubDate>Fri, 19 Sep 2025 15:32:43 +0000</pubDate></item><item><title>CVE-2025-59344 | AliasVault Vulnerable to Server-Side Request Forgery via Favicon Extraction</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59344</link><description>AliasVault is a privacy-first password manager with built-in email aliasing. A server-side request forgery (SSRF) vulnerability exists in the favicon extraction feature of AliasVault API versions 0.23.0 and lower. The extractor fetches a user-supplied URL, parses the returned HTML, and follows &lt;link rel="icon" href="…"&gt;. Although the initial URL is validated to allow only HTTP/HTTPS with default ports, the extractor automatically follows redirects and does not block requests to loopback or internal IP ranges. An authenticated, low-privileged user can exploit this behavior to coerce the backend into making HTTP(S) requests to arbitrary internal hosts and non-default ports. If the target host serves a favicon or any other valid image, the response is returned to the attacker in Base64 form. Even when no data is returned, timing and error behavior can be abused to map internal services. This vulnerability only affects self-hosted AliasVault instances that are reachable from the public internet with public user registration enabled. Private/internal deployments without public sign-ups are not directly exploitable. This issue has been fixed in AliasVault release 0.23.1.</description><pubDate>Fri, 19 Sep 2025 15:32:43 +0000</pubDate></item><item><title>CVE-2025-57644 | Accela Automation Platform 22.2.3.0.230103 contains multiple vulnerabilities in the Test Script feature. An authenticated administrative use...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57644</link><description>Accela Automation Platform 22.2.3.0.230103 contains multiple vulnerabilities in the Test Script feature. An authenticated administrative user can execute arbitrary Java code on the server, resulting in remote code execution. In addition, improper input validation allows for arbitrary file write and server-side request forgery (SSRF), enabling interaction with internal or external systems. Successful exploitation can lead to full server compromise, unauthorized access to sensitive data, and further network exploitation.</description><pubDate>Fri, 19 Sep 2025 15:32:44 +0000</pubDate></item><item><title>CVE-2025-8664 | XSS in Saysis Computer Systems&amp;#x27; StarCities</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8664</link><description>Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting') vulnerability in Saysis Computer Systems Trade Ltd. Co. StarCities E-Municipality Management allows Cross-Site Scripting (XSS).This issue affects StarCities E-Municipality Management: before 20250825.</description><pubDate>Fri, 19 Sep 2025 14:55:58 +0000</pubDate></item><item><title>CVE-2025-10716 | Creality Cloud App com.cxsw.sdprinter AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10716</link><description>A flaw has been found in Creality Cloud App up to 6.1.0 on Android. Affected by this vulnerability is an unknown functionality of the file AndroidManifest.xml of the component com.cxsw.sdprinter. Executing manipulation can lead to improper export of android application components. It is possible to launch the attack on the local host. The exploit has been published and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 14:46:55 +0000</pubDate></item><item><title>CVE-2025-10717 | intsig CamScanner App com.intsig.camscanner AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10717</link><description>A vulnerability has been found in intsig CamScanner App 6.91.1.5.250711 on Android. Affected by this issue is some unknown functionality of the file AndroidManifest.xml of the component com.intsig.camscanner. The manipulation leads to improper export of android application components. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 14:46:55 +0000</pubDate></item><item><title>CVE-2025-57528 | An issue was discovered in Tenda AC6 US_AC6V1.0BR_V15.03.05.16_multi_TD01 allowing attackers to cause a denial of service via the funcname, ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57528</link><description>An issue was discovered in Tenda AC6 US_AC6V1.0BR_V15.03.05.16_multi_TD01 allowing attackers to cause a denial of service via the funcname, funcpara1, funcpara2 parameters to the formSetCfm function (uri path: SetCfm).</description><pubDate>Fri, 19 Sep 2025 14:46:56 +0000</pubDate></item><item><title>CVE-2025-8532 | IDOR in Bimser&amp;#x27;s eBA Document and Workflow Management System</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8532</link><description>Authorization Bypass Through User-Controlled Key, CWE - 862 - Missing Authorization, – Improper Authorization vulnerability in Bimser Solution Software Trade Inc. EBA Document and Workflow Management System allows – Exploitation of Trusted Identifiers, – Exploitation of Authorization, – Variable Manipulation.This issue affects eBA Document and Workflow Management System: from 6.7.164 before 6.7.166.</description><pubDate>Fri, 19 Sep 2025 14:35:01 +0000</pubDate></item><item><title>CVE-2025-10712 | 07FLYCMS/07FLY-CMS/07FlyCRM login sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10712</link><description>A vulnerability was found in 07FLYCMS, 07FLY-CMS and 07FlyCRM up to 20250831. This issue affects some unknown processing of the file /index.php/Login/login. Performing manipulation of the argument Username results in sql injection. It is possible to initiate the attack remotely. The exploit has been made public and could be used. This product is published under multiple names. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:34:31 +0000</pubDate></item><item><title>CVE-2025-10715 | APEUni PTE Exam Practice App com.ape_edication AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10715</link><description>A security flaw has been discovered in APEUni PTE Exam Practice App up to 10.8.0 on Android. The impacted element is an unknown function of the file AndroidManifest.xml of the component com.ape_edication. The manipulation results in improper export of android application components. The attack requires a local approach. The exploit has been released to the public and may be exploited. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:34:32 +0000</pubDate></item><item><title>CVE-2025-46703 | Potential XSS in Extension:AtMentions</title><link>https://www.cve.org/CVERecord?id=CVE-2025-46703</link><description>Improper Encoding or Escaping of Output vulnerability in Hallo Welt! GmbH BlueSpice (Extension:AtMentions) allows Cross-Site Scripting (XSS).
+wb_wakeup_delayed() finished.</description><pubDate>Fri, 19 Sep 2025 15:32:42 +0000</pubDate></item><item><title>CVE-2025-55910 | CMSEasy v7.7.8.0 and before is vulnerable to Arbitrary file deletion in database_admin.php.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55910</link><description>CMSEasy v7.7.8.0 and before is vulnerable to Arbitrary file deletion in database_admin.php.</description><pubDate>Fri, 19 Sep 2025 15:32:43 +0000</pubDate></item><item><title>CVE-2025-59344 | AliasVault Vulnerable to Server-Side Request Forgery via Favicon Extraction</title><link>https://www.cve.org/CVERecord?id=CVE-2025-59344</link><description>AliasVault is a privacy-first password manager with built-in email aliasing. A server-side request forgery (SSRF) vulnerability exists in the favicon extraction feature of AliasVault API versions 0.23.0 and lower. The extractor fetches a user-supplied URL, parses the returned HTML, and follows . Although the initial URL is validated to allow only HTTP/HTTPS with default ports, the extractor automatically follows redirects and does not block requests to loopback or internal IP ranges. An authenticated, low-privileged user can exploit this behavior to coerce the backend into making HTTP(S) requests to arbitrary internal hosts and non-default ports. If the target host serves a favicon or any other valid image, the response is returned to the attacker in Base64 form. Even when no data is returned, timing and error behavior can be abused to map internal services. This vulnerability only affects self-hosted AliasVault instances that are reachable from the public internet with public user registration enabled. Private/internal deployments without public sign-ups are not directly exploitable. This issue has been fixed in AliasVault release 0.23.1.</description><pubDate>Fri, 19 Sep 2025 15:32:43 +0000</pubDate></item><item><title>CVE-2025-57644 | Accela Automation Platform 22.2.3.0.230103 contains multiple vulnerabilities in the Test Script feature. An authenticated administrative use...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57644</link><description>Accela Automation Platform 22.2.3.0.230103 contains multiple vulnerabilities in the Test Script feature. An authenticated administrative user can execute arbitrary Java code on the server, resulting in remote code execution. In addition, improper input validation allows for arbitrary file write and server-side request forgery (SSRF), enabling interaction with internal or external systems. Successful exploitation can lead to full server compromise, unauthorized access to sensitive data, and further network exploitation.</description><pubDate>Fri, 19 Sep 2025 15:32:44 +0000</pubDate></item><item><title>CVE-2025-8664 | XSS in Saysis Computer Systems&amp;#x27; StarCities</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8664</link><description>Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting') vulnerability in Saysis Computer Systems Trade Ltd. Co. StarCities E-Municipality Management allows Cross-Site Scripting (XSS).This issue affects StarCities E-Municipality Management: before 20250825.</description><pubDate>Fri, 19 Sep 2025 14:55:58 +0000</pubDate></item><item><title>CVE-2025-10716 | Creality Cloud App com.cxsw.sdprinter AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10716</link><description>A flaw has been found in Creality Cloud App up to 6.1.0 on Android. Affected by this vulnerability is an unknown functionality of the file AndroidManifest.xml of the component com.cxsw.sdprinter. Executing manipulation can lead to improper export of android application components. It is possible to launch the attack on the local host. The exploit has been published and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 14:46:55 +0000</pubDate></item><item><title>CVE-2025-10717 | intsig CamScanner App com.intsig.camscanner AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10717</link><description>A vulnerability has been found in intsig CamScanner App 6.91.1.5.250711 on Android. Affected by this issue is some unknown functionality of the file AndroidManifest.xml of the component com.intsig.camscanner. The manipulation leads to improper export of android application components. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 14:46:55 +0000</pubDate></item><item><title>CVE-2025-57528 | An issue was discovered in Tenda AC6 US_AC6V1.0BR_V15.03.05.16_multi_TD01 allowing attackers to cause a denial of service via the funcname, ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57528</link><description>An issue was discovered in Tenda AC6 US_AC6V1.0BR_V15.03.05.16_multi_TD01 allowing attackers to cause a denial of service via the funcname, funcpara1, funcpara2 parameters to the formSetCfm function (uri path: SetCfm).</description><pubDate>Fri, 19 Sep 2025 14:46:56 +0000</pubDate></item><item><title>CVE-2025-8532 | IDOR in Bimser&amp;#x27;s eBA Document and Workflow Management System</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8532</link><description>Authorization Bypass Through User-Controlled Key, CWE - 862 - Missing Authorization, – Improper Authorization vulnerability in Bimser Solution Software Trade Inc. EBA Document and Workflow Management System allows – Exploitation of Trusted Identifiers, – Exploitation of Authorization, – Variable Manipulation.This issue affects eBA Document and Workflow Management System: from 6.7.164 before 6.7.166.</description><pubDate>Fri, 19 Sep 2025 14:35:01 +0000</pubDate></item><item><title>CVE-2025-10712 | 07FLYCMS/07FLY-CMS/07FlyCRM login sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10712</link><description>A vulnerability was found in 07FLYCMS, 07FLY-CMS and 07FlyCRM up to 20250831. This issue affects some unknown processing of the file /index.php/Login/login. Performing manipulation of the argument Username results in sql injection. It is possible to initiate the attack remotely. The exploit has been made public and could be used. This product is published under multiple names. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:34:31 +0000</pubDate></item><item><title>CVE-2025-10715 | APEUni PTE Exam Practice App com.ape_edication AndroidManifest.xml improper export of android application components</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10715</link><description>A security flaw has been discovered in APEUni PTE Exam Practice App up to 10.8.0 on Android. The impacted element is an unknown function of the file AndroidManifest.xml of the component com.ape_edication. The manipulation results in improper export of android application components. The attack requires a local approach. The exploit has been released to the public and may be exploited. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:34:32 +0000</pubDate></item><item><title>CVE-2025-46703 | Potential XSS in Extension:AtMentions</title><link>https://www.cve.org/CVERecord?id=CVE-2025-46703</link><description>Improper Encoding or Escaping of Output vulnerability in Hallo Welt! GmbH BlueSpice (Extension:AtMentions) allows Cross-Site Scripting (XSS).
 This issue affects BlueSpice: from 5 through 5.1.1.</description><pubDate>Fri, 19 Sep 2025 13:34:32 +0000</pubDate></item><item><title>CVE-2025-48007 | Potential XSS in Extension:BlueSpiceAvatars</title><link>https://www.cve.org/CVERecord?id=CVE-2025-48007</link><description>Improper Encoding or Escaping of Output vulnerability in Hallo Welt! GmbH BlueSpice (Extension:BlueSpiceAvatars) allows Cross-Site Scripting (XSS).
 This issue affects BlueSpice: from 5 through 5.1.1.</description><pubDate>Fri, 19 Sep 2025 13:34:33 +0000</pubDate></item><item><title>CVE-2025-57880 | Potential XSS in Extension:BlueSpiceWhoIsOnline</title><link>https://www.cve.org/CVERecord?id=CVE-2025-57880</link><description>Improper Encoding or Escaping of Output vulnerability in Hallo Welt! GmbH BlueSpice (Extension:BlueSpiceWhoIsOnline) allows Cross-Site Scripting (XSS).
 This issue affects BlueSpice: from 5 through 5.1.1.</description><pubDate>Fri, 19 Sep 2025 13:34:33 +0000</pubDate></item><item><title>CVE-2025-58114 | Potential XSS in Extension:CognitiveProcessDesigner</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58114</link><description>Improper Input Validation vulnerability in Hallo Welt! GmbH BlueSpice (Extension:CognitiveProcessDesigner) allows Cross-Site Scripting (XSS).This issue affects BlueSpice: from 5 through 5.1.1.</description><pubDate>Fri, 19 Sep 2025 13:34:33 +0000</pubDate></item><item><title>CVE-2025-10710 | 07FLYCMS/07FLY-CMS/07FlyCRM index.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10710</link><description>A flaw has been found in 07FLYCMS, 07FLY-CMS and 07FlyCRM up to 20250831. This affects an unknown part of the file /index.php. This manipulation of the argument Name causes cross site scripting. The attack is possible to be carried out remotely. The exploit has been published and may be used. This product is published under multiple names. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:03:11 +0000</pubDate></item><item><title>CVE-2025-10711 | 07FLYCMS/07FLY-CMS/07FlyCRM Login cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10711</link><description>A vulnerability has been found in 07FLYCMS, 07FLY-CMS and 07FlyCRM up to 20250831. This vulnerability affects unknown code of the file /index.php/sysmanage/Login. Such manipulation of the argument Name leads to cross site scripting. The attack may be performed from remote. The exploit has been disclosed to the public and may be used. This product is published under multiple names. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 13:03:12 +0000</pubDate></item><item><title>CVE-2025-7665 | Miniorange OTP Verification with Firebase 3.1.0 - 3.6.2 - Unauthenticated Privilege Escalation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-7665</link><description>The Miniorange OTP Verification with Firebase plugin for WordPress is vulnerable to privilege escalation due to a missing capability check on the 'handle_mofirebase_form_options' function in versions 3.1.0 to 3.6.2. This makes it possible for unauthenticated attackers to update the default role to Administrator. Premium features must be enabled in order to exploit the vulnerability.</description><pubDate>Fri, 19 Sep 2025 13:03:13 +0000</pubDate></item><item><title>CVE-2025-10709 | Four-Faith Water Conservancy Informatization Platform historyDownload.do;otheruserLogin.do;getfile path traversal</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10709</link><description>A vulnerability was detected in Four-Faith Water Conservancy Informatization Platform 1.0. Affected by this issue is some unknown functionality of the file /history/historyDownload.do;otheruserLogin.do;getfile. The manipulation of the argument fileName results in path traversal. The attack can be executed remotely. The exploit is now public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 12:26:21 +0000</pubDate></item><item><title>CVE-2025-10707 | JeecgBoot sendMsg improper authorization</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10707</link><description>A weakness has been identified in JeecgBoot up to 3.8.2. Affected is an unknown function of the file /message/sysMessageTemplate/sendMsg. Executing manipulation can lead to improper authorization. The attack may be launched remotely. The exploit has been made available to the public and could be exploited. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 11:37:05 +0000</pubDate></item><item><title>CVE-2025-10708 | Four-Faith Water Conservancy Informatization Platform historyDownload.do;usrlogout.do path traversal</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10708</link><description>A security vulnerability has been detected in Four-Faith Water Conservancy Informatization Platform 1.0. Affected by this vulnerability is an unknown functionality of the file /history/historyDownload.do;usrlogout.do. The manipulation of the argument fileName leads to path traversal. Remote exploitation of the attack is possible. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Fri, 19 Sep 2025 11:37:05 +0000</pubDate></item><item><title>CVE-2025-9969 | Reflected XSS in Vizly Web Design&amp;#x27;s Real Estate Packages</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9969</link><description>Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting') vulnerability in Vizly Web Design Real Estate Packages allows Content Spoofing, CAPEC - 593 - Session Hijacking, CAPEC - 591 - Reflected XSS.This issue affects Real Estate Packages: before 5.1.</description><pubDate>Fri, 19 Sep 2025 11:37:06 +0000</pubDate></item><item><title>CVE-2025-10468 | Path Traversal in Beyaz Computer&amp;#x27;s CityPLus</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10468</link><description>Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in Beyaz Computer CityPlus allows Path Traversal.This issue affects CityPlus: before 24.29375.</description><pubDate>Fri, 19 Sep 2025 11:11:37 +0000</pubDate></item><item><title>CVE-2025-10719 | WisdomGarden｜Tronclass - Insecure Direct Object Reference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10719</link><description>Tronclass developed by WisdomGarden has an Insecure Direct object Reference vulnerability, allowing remote attackers with regular privilege to modify a specific parameter to access other users' files.</description><pubDate>Fri, 19 Sep 2025 10:11:26 +0000</pubDate></item><item><title>CVE-2025-10630 | Regex DoS in Grafana Zabbix Plugin</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10630</link><description>Grafana is an open-source platform for monitoring and observability. Grafana-Zabbix is a plugin for Grafana allowing to visualize monitoring data from Zabbix and create dashboards for analyzing metrics and realtime monitoring. 
