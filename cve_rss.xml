@@ -1,5 +1,89 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 24 Sep 2025 09:42:24 +0000</lastBuildDate><item><title>CVE-2025-58457 | Apache ZooKeeper: Insufficient Permission Check in AdminServer Snapshot/Restore Commands</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58457</link><description>Improper permission check in ZooKeeper AdminServer lets authorized clients to run snapshot and restore command with insufficient permissions.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 24 Sep 2025 11:20:42 +0000</lastBuildDate><item><title>CVE-2024-58241 | Bluetooth: hci_core: Disable works on hci_unregister_dev</title><link>https://www.cve.org/CVERecord?id=CVE-2024-58241</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: hci_core: Disable works on hci_unregister_dev
+
+This make use of disable_work_* on hci_unregister_dev since the hci_dev is
+about to be freed new submissions are not disarable.</description><pubDate>Wed, 24 Sep 2025 11:20:44 +0000</pubDate></item><item><title>CVE-2025-39889 | Bluetooth: l2cap: Check encryption key size on incoming connection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39889</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: l2cap: Check encryption key size on incoming connection
+
+This is required for passing GAP/SEC/SEM/BI-04-C PTS test case:
+  Security Mode 4 Level 4, Responder - Invalid Encryption Key Size
+  - 128 bit
+
+This tests the security key with size from 1 to 15 bytes while the
+Security Mode 4 Level 4 requests 16 bytes key size.
+
+Currently PTS fails with the following logs:
+- expected:Connection Response:
+    Code: [3 (0x03)] Code
+    Identifier: (lt)WildCard: Exists(gt)
+    Length: [8 (0x0008)]
+    Destination CID: (lt)WildCard: Exists(gt)
+    Source CID: [64 (0x0040)]
+    Result: [3 (0x0003)] Connection refused - Security block
+    Status: (lt)WildCard: Exists(gt),
+but received:Connection Response:
+    Code: [3 (0x03)] Code
+    Identifier: [1 (0x01)]
+    Length: [8 (0x0008)]
+    Destination CID: [64 (0x0040)]
+    Source CID: [64 (0x0040)]
+    Result: [0 (0x0000)] Connection Successful
+    Status: [0 (0x0000)] No further information available
+
+And HCI logs:
+&lt; HCI Command: Read Encrypti.. (0x05|0x0008) plen 2
+        Handle: 14 Address: 00:1B:DC:F2:24:10 (Vencer Co., Ltd.)
+&gt; HCI Event: Command Complete (0x0e) plen 7
+      Read Encryption Key Size (0x05|0x0008) ncmd 1
+        Status: Success (0x00)
+        Handle: 14 Address: 00:1B:DC:F2:24:10 (Vencer Co., Ltd.)
+        Key size: 7
+&gt; ACL Data RX: Handle 14 flags 0x02 dlen 12
+      L2CAP: Connection Request (0x02) ident 1 len 4
+        PSM: 4097 (0x1001)
+        Source CID: 64
+&lt; ACL Data TX: Handle 14 flags 0x00 dlen 16
+      L2CAP: Connection Response (0x03) ident 1 len 8
+        Destination CID: 64
+        Source CID: 64
+        Result: Connection successful (0x0000)
+        Status: No further information available (0x0000)</description><pubDate>Wed, 24 Sep 2025 11:20:44 +0000</pubDate></item><item><title>CVE-2025-39890 | wifi: ath12k: fix memory leak in ath12k_service_ready_ext_event</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39890</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath12k: fix memory leak in ath12k_service_ready_ext_event
+
+Currently, in ath12k_service_ready_ext_event(), svc_rdy_ext.mac_phy_caps
+is not freed in the failure case, causing a memory leak. The following
+trace is observed in kmemleak:
+
+unreferenced object 0xffff8b3eb5789c00 (size 1024):
+ comm "softirq", pid 0, jiffies 4294942577
+ hex dump (first 32 bytes):
+   00 00 00 00 01 00 00 00 00 00 00 00 7b 00 00 10  ............{...
+   01 00 00 00 00 00 00 00 01 00 00 00 1f 38 00 00  .............8..
+ backtrace (crc 44e1c357):
+   __kmalloc_noprof+0x30b/0x410
+   ath12k_wmi_mac_phy_caps_parse+0x84/0x100 [ath12k]
+   ath12k_wmi_tlv_iter+0x5e/0x140 [ath12k]
+   ath12k_wmi_svc_rdy_ext_parse+0x308/0x4c0 [ath12k]
+   ath12k_wmi_tlv_iter+0x5e/0x140 [ath12k]
+   ath12k_service_ready_ext_event.isra.0+0x44/0xd0 [ath12k]
+   ath12k_wmi_op_rx+0x2eb/0xd70 [ath12k]
+   ath12k_htc_rx_completion_handler+0x1f4/0x330 [ath12k]
+   ath12k_ce_recv_process_cb+0x218/0x300 [ath12k]
+   ath12k_pci_ce_workqueue+0x1b/0x30 [ath12k]
+   process_one_work+0x219/0x680
+   bh_worker+0x198/0x1f0
+   tasklet_action+0x13/0x30
+   handle_softirqs+0xca/0x460
+   __irq_exit_rcu+0xbe/0x110
+   irq_exit_rcu+0x9/0x30
+
+Free svc_rdy_ext.mac_phy_caps in the error case to fix this memory leak.
+
+Tested-on: QCN9274 hw2.0 PCI WLAN.WBE.1.4.1-00199-QCAHKSWPL_SILICONZ-1</description><pubDate>Wed, 24 Sep 2025 11:20:45 +0000</pubDate></item><item><title>CVE-2025-58457 | Apache ZooKeeper: Insufficient Permission Check in AdminServer Snapshot/Restore Commands</title><link>https://www.cve.org/CVERecord?id=CVE-2025-58457</link><description>Improper permission check in ZooKeeper AdminServer lets authorized clients to run snapshot and restore command with insufficient permissions.
 
 This issue affects Apache ZooKeeper: from 3.9.0 before 3.9.4.
 
