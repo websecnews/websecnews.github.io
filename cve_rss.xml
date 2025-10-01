@@ -1,5 +1,489 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 01 Oct 2025 07:43:56 +0000</lastBuildDate><item><title>CVE-2025-39891 | wifi: mwifiex: Initialize the chan_stats array to zero</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39891</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 01 Oct 2025 07:53:06 +0000</lastBuildDate><item><title>CVE-2025-39904 | arm64: kexec: initialize kexec_buf struct in load_other_segments()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39904</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64: kexec: initialize kexec_buf struct in load_other_segments()
+
+Patch series "kexec: Fix invalid field access".
+
+The kexec_buf structure was previously declared without initialization. 
+commit bf454ec31add ("kexec_file: allow to place kexec_buf randomly")
+added a field that is always read but not consistently populated by all
+architectures.  This un-initialized field will contain garbage.
+
+This is also triggering a UBSAN warning when the uninitialized data was
+accessed:
+
+	------------[ cut here ]------------
+	UBSAN: invalid-load in ./include/linux/kexec.h:210:10
+	load of value 252 is not a valid value for type '_Bool'
+
+Zero-initializing kexec_buf at declaration ensures all fields are cleanly
+set, preventing future instances of uninitialized memory being used.
+
+An initial fix was already landed for arm64[0], and this patchset fixes
+the problem on the remaining arm64 code and on riscv, as raised by Mark.
+
+Discussions about this problem could be found at[1][2].
+
+
+This patch (of 3):
+
+The kexec_buf structure was previously declared without initialization.
+commit bf454ec31add ("kexec_file: allow to place kexec_buf randomly")
+added a field that is always read but not consistently populated by all
+architectures. This un-initialized field will contain garbage.
+
+This is also triggering a UBSAN warning when the uninitialized data was
+accessed:
+
+	------------[ cut here ]------------
+	UBSAN: invalid-load in ./include/linux/kexec.h:210:10
+	load of value 252 is not a valid value for type '_Bool'
+
+Zero-initializing kexec_buf at declaration ensures all fields are
+cleanly set, preventing future instances of uninitialized memory being
+used.</description><pubDate>Wed, 01 Oct 2025 07:53:08 +0000</pubDate></item><item><title>CVE-2025-39905 | net: phylink: add lock for serializing concurrent pl-&amp;gt;phydev writes with resolver</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39905</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: phylink: add lock for serializing concurrent pl-&gt;phydev writes with resolver
+
+Currently phylink_resolve() protects itself against concurrent
+phylink_bringup_phy() or phylink_disconnect_phy() calls which modify
+pl-&gt;phydev by relying on pl-&gt;state_mutex.
+
+The problem is that in phylink_resolve(), pl-&gt;state_mutex is in a lock
+inversion state with pl-&gt;phydev-&gt;lock. So pl-&gt;phydev-&gt;lock needs to be
+acquired prior to pl-&gt;state_mutex. But that requires dereferencing
+pl-&gt;phydev in the first place, and without pl-&gt;state_mutex, that is
+racy.
+
+Hence the reason for the extra lock. Currently it is redundant, but it
+will serve a functional purpose once mutex_lock(&amp;phy-&gt;lock) will be
+moved outside of the mutex_lock(&amp;pl-&gt;state_mutex) section.
+
+Another alternative considered would have been to let phylink_resolve()
+acquire the rtnl_mutex, which is also held when phylink_bringup_phy()
+and phylink_disconnect_phy() are called. But since phylink_disconnect_phy()
+runs under rtnl_lock(), it would deadlock with phylink_resolve() when
+calling flush_work(&amp;pl-&gt;resolve). Additionally, it would have been
+undesirable because it would have unnecessarily blocked many other call
+paths as well in the entire kernel, so the smaller-scoped lock was
+preferred.</description><pubDate>Wed, 01 Oct 2025 07:53:09 +0000</pubDate></item><item><title>CVE-2025-39906 | drm/amd/display: remove oem i2c adapter on finish</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39906</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/amd/display: remove oem i2c adapter on finish
+
+Fixes a bug where unbinding of the GPU would leave the oem i2c adapter
+registered resulting in a null pointer dereference when applications try
+to access the invalid device.
+
+(cherry picked from commit 89923fb7ead4fdd37b78dd49962d9bb5892403e6)</description><pubDate>Wed, 01 Oct 2025 07:53:09 +0000</pubDate></item><item><title>CVE-2025-39907 | mtd: rawnand: stm32_fmc2: avoid overlapping mappings on ECC buffer</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39907</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mtd: rawnand: stm32_fmc2: avoid overlapping mappings on ECC buffer
+
+Avoid below overlapping mappings by using a contiguous
+non-cacheable buffer.
+
+[    4.077708] DMA-API: stm32_fmc2_nfc 48810000.nand-controller: cacheline tracking EEXIST,
+overlapping mappings aren't supported
+[    4.089103] WARNING: CPU: 1 PID: 44 at kernel/dma/debug.c:568 add_dma_entry+0x23c/0x300
+[    4.097071] Modules linked in:
+[    4.100101] CPU: 1 PID: 44 Comm: kworker/u4:2 Not tainted 6.1.82 #1
+[    4.106346] Hardware name: STMicroelectronics STM32MP257F VALID1 SNOR / MB1704 (LPDDR4 Power discrete) + MB1703 + MB1708 (SNOR MB1730) (DT)
+[    4.118824] Workqueue: events_unbound deferred_probe_work_func
+[    4.124674] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    4.131624] pc : add_dma_entry+0x23c/0x300
+[    4.135658] lr : add_dma_entry+0x23c/0x300
+[    4.139792] sp : ffff800009dbb490
+[    4.143016] x29: ffff800009dbb4a0 x28: 0000000004008022 x27: ffff8000098a6000
+[    4.150174] x26: 0000000000000000 x25: ffff8000099e7000 x24: ffff8000099e7de8
+[    4.157231] x23: 00000000ffffffff x22: 0000000000000000 x21: ffff8000098a6a20
+[    4.164388] x20: ffff000080964180 x19: ffff800009819ba0 x18: 0000000000000006
+[    4.171545] x17: 6361727420656e69 x16: 6c6568636163203a x15: 72656c6c6f72746e
+[    4.178602] x14: 6f632d646e616e2e x13: ffff800009832f58 x12: 00000000000004ec
+[    4.185759] x11: 00000000000001a4 x10: ffff80000988af58 x9 : ffff800009832f58
+[    4.192916] x8 : 00000000ffffefff x7 : ffff80000988af58 x6 : 80000000fffff000
+[    4.199972] x5 : 000000000000bff4 x4 : 0000000000000000 x3 : 0000000000000000
+[    4.207128] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000812d2c40
+[    4.214185] Call trace:
+[    4.216605]  add_dma_entry+0x23c/0x300
+[    4.220338]  debug_dma_map_sg+0x198/0x350
+[    4.224373]  __dma_map_sg_attrs+0xa0/0x110
+[    4.228411]  dma_map_sg_attrs+0x10/0x2c
+[    4.232247]  stm32_fmc2_nfc_xfer.isra.0+0x1c8/0x3fc
+[    4.237088]  stm32_fmc2_nfc_seq_read_page+0xc8/0x174
+[    4.242127]  nand_read_oob+0x1d4/0x8e0
+[    4.245861]  mtd_read_oob_std+0x58/0x84
+[    4.249596]  mtd_read_oob+0x90/0x150
+[    4.253231]  mtd_read+0x68/0xac</description><pubDate>Wed, 01 Oct 2025 07:53:10 +0000</pubDate></item><item><title>CVE-2025-39908 | net: dev_ioctl: take ops lock in hwtstamp lower paths</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39908</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: dev_ioctl: take ops lock in hwtstamp lower paths
+
+ndo hwtstamp callbacks are expected to run under the per-device ops
+lock. Make the lower get/set paths consistent with the rest of ndo
+invocations.
+
+Kernel log:
+WARNING: CPU: 13 PID: 51364 at ./include/net/netdev_lock.h:70 __netdev_update_features+0x4bd/0xe60
+...
+RIP: 0010:__netdev_update_features+0x4bd/0xe60
+...
+Call Trace:
+&lt;TASK&gt;
+netdev_update_features+0x1f/0x60
+mlx5_hwtstamp_set+0x181/0x290 [mlx5_core]
+mlx5e_hwtstamp_set+0x19/0x30 [mlx5_core]
+dev_set_hwtstamp_phylib+0x9f/0x220
+dev_set_hwtstamp_phylib+0x9f/0x220
+dev_set_hwtstamp+0x13d/0x240
+dev_ioctl+0x12f/0x4b0
+sock_ioctl+0x171/0x370
+__x64_sys_ioctl+0x3f7/0x900
+? __sys_setsockopt+0x69/0xb0
+do_syscall_64+0x6f/0x2e0
+entry_SYSCALL_64_after_hwframe+0x4b/0x53
+...
+&lt;/TASK&gt;
+....
+---[ end trace 0000000000000000 ]---
+
+Note that the mlx5_hwtstamp_set and mlx5e_hwtstamp_set functions shown
+in the trace come from an in progress patch converting the legacy ioctl
+to ndo_hwtstamp_get/set and are not present in mainline.</description><pubDate>Wed, 01 Oct 2025 07:53:10 +0000</pubDate></item><item><title>CVE-2025-39909 | mm/damon/lru_sort: avoid divide-by-zero in damon_lru_sort_apply_parameters()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39909</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/lru_sort: avoid divide-by-zero in damon_lru_sort_apply_parameters()
+
+Patch series "mm/damon: avoid divide-by-zero in DAMON module's parameters
+application".
+
+DAMON's RECLAIM and LRU_SORT modules perform no validation on
+user-configured parameters during application, which may lead to
+division-by-zero errors.
+
+Avoid the divide-by-zero by adding validation checks when DAMON modules
+attempt to apply the parameters.
+
+
+This patch (of 2):
+
+During the calculation of 'hot_thres' and 'cold_thres', either
+'sample_interval' or 'aggr_interval' is used as the divisor, which may
+lead to division-by-zero errors.  Fix it by directly returning -EINVAL
+when such a case occurs.  Additionally, since 'aggr_interval' is already
+required to be set no smaller than 'sample_interval' in damon_set_attrs(),
+only the case where 'sample_interval' is zero needs to be checked.</description><pubDate>Wed, 01 Oct 2025 07:53:11 +0000</pubDate></item><item><title>CVE-2025-39910 | mm/vmalloc, mm/kasan: respect gfp mask in kasan_populate_vmalloc()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39910</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/vmalloc, mm/kasan: respect gfp mask in kasan_populate_vmalloc()
+
+kasan_populate_vmalloc() and its helpers ignore the caller's gfp_mask and
+always allocate memory using the hardcoded GFP_KERNEL flag.  This makes
+them inconsistent with vmalloc(), which was recently extended to support
+GFP_NOFS and GFP_NOIO allocations.
+
+Page table allocations performed during shadow population also ignore the
+external gfp_mask.  To preserve the intended semantics of GFP_NOFS and
+GFP_NOIO, wrap the apply_to_page_range() calls into the appropriate
+memalloc scope.
+
+xfs calls vmalloc with GFP_NOFS, so this bug could lead to deadlock.
+
+There was a report here
+https://lkml.kernel.org/r/686ea951.050a0220.385921.0016.GAE@google.com
+
+This patch:
+ - Extends kasan_populate_vmalloc() and helpers to take gfp_mask;
+ - Passes gfp_mask down to alloc_pages_bulk() and __get_free_page();
+ - Enforces GFP_NOFS/NOIO semantics with memalloc_*_save()/restore()
+   around apply_to_page_range();
+ - Updates vmalloc.c and percpu allocator call sites accordingly.</description><pubDate>Wed, 01 Oct 2025 07:53:11 +0000</pubDate></item><item><title>CVE-2025-39911 | i40e: fix IRQ freeing in i40e_vsi_request_irq_msix error path</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39911</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix IRQ freeing in i40e_vsi_request_irq_msix error path
+
+If request_irq() in i40e_vsi_request_irq_msix() fails in an iteration
+later than the first, the error path wants to free the IRQs requested
+so far. However, it uses the wrong dev_id argument for free_irq(), so
+it does not free the IRQs correctly and instead triggers the warning:
+
+ Trying to free already-free IRQ 173
+ WARNING: CPU: 25 PID: 1091 at kernel/irq/manage.c:1829 __free_irq+0x192/0x2c0
+ Modules linked in: i40e(+) [...]
+ CPU: 25 UID: 0 PID: 1091 Comm: NetworkManager Not tainted 6.17.0-rc1+ #1 PREEMPT(lazy)
+ Hardware name: [...]
+ RIP: 0010:__free_irq+0x192/0x2c0
+ [...]
+ Call Trace:
+  &lt;TASK&gt;
+  free_irq+0x32/0x70
+  i40e_vsi_request_irq_msix.cold+0x63/0x8b [i40e]
+  i40e_vsi_request_irq+0x79/0x80 [i40e]
+  i40e_vsi_open+0x21f/0x2f0 [i40e]
+  i40e_open+0x63/0x130 [i40e]
+  __dev_open+0xfc/0x210
+  __dev_change_flags+0x1fc/0x240
+  netif_change_flags+0x27/0x70
+  do_setlink.isra.0+0x341/0xc70
+  rtnl_newlink+0x468/0x860
+  rtnetlink_rcv_msg+0x375/0x450
+  netlink_rcv_skb+0x5c/0x110
+  netlink_unicast+0x288/0x3c0
+  netlink_sendmsg+0x20d/0x430
+  ____sys_sendmsg+0x3a2/0x3d0
+  ___sys_sendmsg+0x99/0xe0
+  __sys_sendmsg+0x8a/0xf0
+  do_syscall_64+0x82/0x2c0
+  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+  [...]
+  &lt;/TASK&gt;
+ ---[ end trace 0000000000000000 ]---
+
+Use the same dev_id for free_irq() as for request_irq().
+
+I tested this with inserting code to fail intentionally.</description><pubDate>Wed, 01 Oct 2025 07:53:11 +0000</pubDate></item><item><title>CVE-2025-39912 | nfs/localio: restore creds before releasing pageio data</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39912</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfs/localio: restore creds before releasing pageio data
+
+Otherwise if the nfsd filecache code releases the nfsd_file
+immediately, it can trigger the BUG_ON(cred == current-&gt;cred) in
+__put_cred() when it puts the nfsd_file-&gt;nf_file-&gt;f-cred.</description><pubDate>Wed, 01 Oct 2025 07:53:12 +0000</pubDate></item><item><title>CVE-2025-39913 | tcp_bpf: Call sk_msg_free() when tcp_bpf_send_verdict() fails to allocate psock-&amp;gt;cork.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39913</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp_bpf: Call sk_msg_free() when tcp_bpf_send_verdict() fails to allocate psock-&gt;cork.
+
+syzbot reported the splat below. [0]
+
+The repro does the following:
+
+  1. Load a sk_msg prog that calls bpf_msg_cork_bytes(msg, cork_bytes)
+  2. Attach the prog to a SOCKMAP
+  3. Add a socket to the SOCKMAP
+  4. Activate fault injection
+  5. Send data less than cork_bytes
+
+At 5., the data is carried over to the next sendmsg() as it is
+smaller than the cork_bytes specified by bpf_msg_cork_bytes().
+
+Then, tcp_bpf_send_verdict() tries to allocate psock-&gt;cork to hold
+the data, but this fails silently due to fault injection + __GFP_NOWARN.
+
+If the allocation fails, we need to revert the sk-&gt;sk_forward_alloc
+change done by sk_msg_alloc().
+
+Let's call sk_msg_free() when tcp_bpf_send_verdict fails to allocate
+psock-&gt;cork.
+
+The "*copied" also needs to be updated such that a proper error can
+be returned to the caller, sendmsg. It fails to allocate psock-&gt;cork.
+Nothing has been corked so far, so this patch simply sets "*copied"
+to 0.
+
+[0]:
+WARNING: net/ipv4/af_inet.c:156 at inet_sock_destruct+0x623/0x730 net/ipv4/af_inet.c:156, CPU#1: syz-executor/5983
+Modules linked in:
+CPU: 1 UID: 0 PID: 5983 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full)
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
+RIP: 0010:inet_sock_destruct+0x623/0x730 net/ipv4/af_inet.c:156
+Code: 0f 0b 90 e9 62 fe ff ff e8 7a db b5 f7 90 0f 0b 90 e9 95 fe ff ff e8 6c db b5 f7 90 0f 0b 90 e9 bb fe ff ff e8 5e db b5 f7 90 &lt;0f&gt; 0b 90 e9 e1 fe ff ff 89 f9 80 e1 07 80 c1 03 38 c1 0f 8c 9f fc
+RSP: 0018:ffffc90000a08b48 EFLAGS: 00010246
+RAX: ffffffff8a09d0b2 RBX: dffffc0000000000 RCX: ffff888024a23c80
+RDX: 0000000000000100 RSI: 0000000000000fff RDI: 0000000000000000
+RBP: 0000000000000fff R08: ffff88807e07c627 R09: 1ffff1100fc0f8c4
+R10: dffffc0000000000 R11: ffffed100fc0f8c5 R12: ffff88807e07c380
+R13: dffffc0000000000 R14: ffff88807e07c60c R15: 1ffff1100fc0f872
+FS:  00005555604c4500(0000) GS:ffff888125af1000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005555604df5c8 CR3: 0000000032b06000 CR4: 00000000003526f0
+Call Trace:
+ &lt;IRQ&gt;
+ __sk_destruct+0x86/0x660 net/core/sock.c:2339
+ rcu_do_batch kernel/rcu/tree.c:2605 [inline]
+ rcu_core+0xca8/0x1770 kernel/rcu/tree.c:2861
+ handle_softirqs+0x286/0x870 kernel/softirq.c:579
+ __do_softirq kernel/softirq.c:613 [inline]
+ invoke_softirq kernel/softirq.c:453 [inline]
+ __irq_exit_rcu+0xca/0x1f0 kernel/softirq.c:680
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:696
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1052 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1052
+ &lt;/IRQ&gt;</description><pubDate>Wed, 01 Oct 2025 07:53:12 +0000</pubDate></item><item><title>CVE-2025-39914 | tracing: Silence warning when chunk allocation fails in trace_pid_write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39914</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing: Silence warning when chunk allocation fails in trace_pid_write
+
+Syzkaller trigger a fault injection warning:
+
+WARNING: CPU: 1 PID: 12326 at tracepoint_add_func+0xbfc/0xeb0
+Modules linked in:
+CPU: 1 UID: 0 PID: 12326 Comm: syz.6.10325 Tainted: G U 6.14.0-rc5-syzkaller #0
+Tainted: [U]=USER
+Hardware name: Google Compute Engine/Google Compute Engine
+RIP: 0010:tracepoint_add_func+0xbfc/0xeb0 kernel/tracepoint.c:294
+Code: 09 fe ff 90 0f 0b 90 0f b6 74 24 43 31 ff 41 bc ea ff ff ff
+RSP: 0018:ffffc9000414fb48 EFLAGS: 00010283
+RAX: 00000000000012a1 RBX: ffffffff8e240ae0 RCX: ffffc90014b78000
+RDX: 0000000000080000 RSI: ffffffff81bbd78b RDI: 0000000000000001
+RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000001 R12: ffffffffffffffef
+R13: 0000000000000000 R14: dffffc0000000000 R15: ffffffff81c264f0
+FS:  00007f27217f66c0(0000) GS:ffff8880b8700000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2e80dff8 CR3: 00000000268f8000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ &lt;TASK&gt;
+ tracepoint_probe_register_prio+0xc0/0x110 kernel/tracepoint.c:464
+ register_trace_prio_sched_switch include/trace/events/sched.h:222 [inline]
+ register_pid_events kernel/trace/trace_events.c:2354 [inline]
+ event_pid_write.isra.0+0x439/0x7a0 kernel/trace/trace_events.c:2425
+ vfs_write+0x24c/0x1150 fs/read_write.c:677
+ ksys_write+0x12b/0x250 fs/read_write.c:731
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+We can reproduce the warning by following the steps below:
+1. echo 8 &gt;&gt; set_event_notrace_pid. Let tr-&gt;filtered_pids owns one pid
+   and register sched_switch tracepoint.
+2. echo ' ' &gt;&gt; set_event_pid, and perform fault injection during chunk
+   allocation of trace_pid_list_alloc. Let pid_list with no pid and
+assign to tr-&gt;filtered_pids.
+3. echo ' ' &gt;&gt; set_event_pid. Let pid_list is NULL and assign to
+   tr-&gt;filtered_pids.
+4. echo 9 &gt;&gt; set_event_pid, will trigger the double register
+   sched_switch tracepoint warning.
+
+The reason is that syzkaller injects a fault into the chunk allocation
+in trace_pid_list_alloc, causing a failure in trace_pid_list_set, which
+may trigger double register of the same tracepoint. This only occurs
+when the system is about to crash, but to suppress this warning, let's
+add failure handling logic to trace_pid_list_set.</description><pubDate>Wed, 01 Oct 2025 07:53:13 +0000</pubDate></item><item><title>CVE-2025-39915 | net: phy: transfer phy_config_inband() locking responsibility to phylink</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39915</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: phy: transfer phy_config_inband() locking responsibility to phylink
+
+Problem description
+===================
+
+Lockdep reports a possible circular locking dependency (AB/BA) between
+&amp;pl-&gt;state_mutex and &amp;phy-&gt;lock, as follows.
+
+phylink_resolve() // acquires &amp;pl-&gt;state_mutex
+-&gt; phylink_major_config()
+   -&gt; phy_config_inband() // acquires &amp;pl-&gt;phydev-&gt;lock
+
+whereas all the other call sites where &amp;pl-&gt;state_mutex and
+&amp;pl-&gt;phydev-&gt;lock have the locking scheme reversed. Everywhere else,
+&amp;pl-&gt;phydev-&gt;lock is acquired at the top level, and &amp;pl-&gt;state_mutex at
+the lower level. A clear example is phylink_bringup_phy().
+
+The outlier is the newly introduced phy_config_inband() and the existing
+lock order is the correct one. To understand why it cannot be the other
+way around, it is sufficient to consider phylink_phy_change(), phylink's
+callback from the PHY device's phy-&gt;phy_link_change() virtual method,
+invoked by the PHY state machine.
+
+phy_link_up() and phy_link_down(), the (indirect) callers of
+phylink_phy_change(), are called with &amp;phydev-&gt;lock acquired.
+Then phylink_phy_change() acquires its own &amp;pl-&gt;state_mutex, to
+serialize changes made to its pl-&gt;phy_state and pl-&gt;link_config.
+So all other instances of &amp;pl-&gt;state_mutex and &amp;phydev-&gt;lock must be
+consistent with this order.
+
+Problem impact
+==============
+
+I think the kernel runs a serious deadlock risk if an existing
+phylink_resolve() thread, which results in a phy_config_inband() call,
+is concurrent with a phy_link_up() or phy_link_down() call, which will
+deadlock on &amp;pl-&gt;state_mutex in phylink_phy_change(). Practically
+speaking, the impact may be limited by the slow speed of the medium
+auto-negotiation protocol, which makes it unlikely for the current state
+to still be unresolved when a new one is detected, but I think the
+problem is there. Nonetheless, the problem was discovered using lockdep.
+
+Proposed solution
+=================
+
+Practically speaking, the phy_config_inband() requirement of having
+phydev-&gt;lock acquired must transfer to the caller (phylink is the only
+caller). There, it must bubble up until immediately before
+&amp;pl-&gt;state_mutex is acquired, for the cases where that takes place.
+
+Solution details, considerations, notes
+=======================================
+
+This is the phy_config_inband() call graph:
+
+                          sfp_upstream_ops :: connect_phy()
+                          |
+                          v
+                          phylink_sfp_connect_phy()
+                          |
+                          v
+                          phylink_sfp_config_phy()
+                          |
+                          |   sfp_upstream_ops :: module_insert()
+                          |   |
+                          |   v
+                          |   phylink_sfp_module_insert()
+                          |   |
+                          |   |   sfp_upstream_ops :: module_start()
+                          |   |   |
+                          |   |   v
+                          |   |   phylink_sfp_module_start()
+                          |   |   |
+                          |   v   v
+                          |   phylink_sfp_config_optical()
+ phylink_start()          |   |
+   |   phylink_resume()   v   v
+   |   |  phylink_sfp_set_config()
+   |   |  |
+   v   v  v
+ phylink_mac_initial_config()
+   |   phylink_resolve()
+   |   |  phylink_ethtool_ksettings_set()
+   v   v  v
+   phylink_major_config()
+            |
+            v
+    phy_config_inband()
+
+phylink_major_config() caller #1, phylink_mac_initial_config(), does not
+acquire &amp;pl-&gt;state_mutex nor do its callers. It must acquire
+&amp;pl-&gt;phydev-&gt;lock prior to calling phylink_major_config().
+
+phylink_major_config() caller #2, phylink_resolve() acquires
+&amp;pl-&gt;state_mutex, thus also needs to acquire &amp;pl-&gt;phydev-&gt;lock.
+
+phylink_major_config() caller #3, phylink_ethtool_ksettings_set(), is
+completely uninteresting, because it only call
+---truncated---</description><pubDate>Wed, 01 Oct 2025 07:53:13 +0000</pubDate></item><item><title>CVE-2025-39916 | mm/damon/reclaim: avoid divide-by-zero in damon_reclaim_apply_parameters()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39916</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/reclaim: avoid divide-by-zero in damon_reclaim_apply_parameters()
+
+When creating a new scheme of DAMON_RECLAIM, the calculation of
+'min_age_region' uses 'aggr_interval' as the divisor, which may lead to
+division-by-zero errors.  Fix it by directly returning -EINVAL when such a
+case occurs.</description><pubDate>Wed, 01 Oct 2025 07:53:14 +0000</pubDate></item><item><title>CVE-2025-39917 | bpf: Fix out-of-bounds dynptr write in bpf_crypto_crypt</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39917</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix out-of-bounds dynptr write in bpf_crypto_crypt
+
+Stanislav reported that in bpf_crypto_crypt() the destination dynptr's
+size is not validated to be at least as large as the source dynptr's
+size before calling into the crypto backend with 'len = src_len'. This
+can result in an OOB write when the destination is smaller than the
+source.
+
+Concretely, in mentioned function, psrc and pdst are both linear
+buffers fetched from each dynptr:
+
+  psrc = __bpf_dynptr_data(src, src_len);
+  [...]
+  pdst = __bpf_dynptr_data_rw(dst, dst_len);
+  [...]
+  err = decrypt ?
+        ctx-&gt;type-&gt;decrypt(ctx-&gt;tfm, psrc, pdst, src_len, piv) :
+        ctx-&gt;type-&gt;encrypt(ctx-&gt;tfm, psrc, pdst, src_len, piv);
+
+The crypto backend expects pdst to be large enough with a src_len length
+that can be written. Add an additional src_len &gt; dst_len check and bail
+out if it's the case. Note that these kfuncs are accessible under root
+privileges only.</description><pubDate>Wed, 01 Oct 2025 07:53:14 +0000</pubDate></item><item><title>CVE-2025-39891 | wifi: mwifiex: Initialize the chan_stats array to zero</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39891</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: mwifiex: Initialize the chan_stats array to zero
 
@@ -65,7 +549,7 @@ may happen.
   CPU: 1 UID: 0 PID: 96 Comm: tap_send Not tainted 6.17.0-rc2-dirty #44 PREEMPT(voluntary)
   RIP: 0010:br_nf_local_in+0x168/0x200
   Call Trace:
-   &lt;TASK&gt;
+   
    nf_hook_slow+0x3e/0xf0
    br_pass_frame_up+0x103/0x180
    br_handle_frame_finish+0x2de/0x5b0
@@ -82,7 +566,7 @@ may happen.
    ksys_write+0x60/0xd0
    do_syscall_64+0xa4/0x260
    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---
 
 To solve the hash conflict, nf_ct_resolve_clash() try to merge the
@@ -234,7 +718,7 @@ Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 0
  RIP: 0010:__seqprop_assert include/linux/seqlock.h:221 [inline]
  RIP: 0010:est_timer+0x6dc/0x9f0 net/core/gen_estimator.c:93
 Call Trace:
- &lt;TASK&gt;
+ 
   call_timer_fn+0x17e/0x5f0 kernel/time/timer.c:1747
   expire_timers kernel/time/timer.c:1798 [inline]
   __run_timers kernel/time/timer.c:2372 [inline]
@@ -247,8 +731,7 @@ Call Trace:
   smpboot_thread_fn+0x53f/0xa60 kernel/smpboot.c:160
   kthread+0x70e/0x8a0 kernel/kthread.c:463
   ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- &lt;/TASK&gt;</description><pubDate>Wed, 01 Oct 2025 07:44:01 +0000</pubDate></item><item><title>CVE-2025-39901 | i40e: remove read access to debugfs files</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39901</link><description>In the Linux kernel, the following vulnerability has been resolved:
+  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245</description><pubDate>Wed, 01 Oct 2025 07:44:01 +0000</pubDate></item><item><title>CVE-2025-39901 | i40e: remove read access to debugfs files</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39901</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 i40e: remove read access to debugfs files
 
@@ -265,8 +748,8 @@ saved here.
 
 On read, the files contents are presented as the name of the device
 followed by a colon and then the contents of their respective static
-buffer. For 'command' this will always be "&lt;device&gt;: ". For 'netdev_ops',
-this will be "&lt;device&gt;: &lt;last command written&gt;". But note the buffer is
+buffer. For 'command' this will always be ": ". For 'netdev_ops',
+this will be ": ". But note the buffer is
 shared between all devices operated by this module. At best, it is mostly
 meaningless information, and at worse it could be accessed simultaneously
 as there doesn't appear to be any locking mechanism.
