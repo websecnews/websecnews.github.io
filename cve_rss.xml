@@ -1,5 +1,175 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 01 Oct 2025 07:53:06 +0000</lastBuildDate><item><title>CVE-2025-39904 | arm64: kexec: initialize kexec_buf struct in load_other_segments()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39904</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 01 Oct 2025 08:13:38 +0000</lastBuildDate><item><title>CVE-2025-39923 | dmaengine: qcom: bam_dma: Fix DT error handling for num-channels/ees</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39923</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+dmaengine: qcom: bam_dma: Fix DT error handling for num-channels/ees
+
+When we don't have a clock specified in the device tree, we have no way to
+ensure the BAM is on. This is often the case for remotely-controlled or
+remotely-powered BAM instances. In this case, we need to read num-channels
+from the DT to have all the necessary information to complete probing.
+
+However, at the moment invalid device trees without clock and without
+num-channels still continue probing, because the error handling is missing
+return statements. The driver will then later try to read the number of
+channels from the registers. This is unsafe, because it relies on boot
+firmware and lucky timing to succeed. Unfortunately, the lack of proper
+error handling here has been abused for several Qualcomm SoCs upstream,
+causing early boot crashes in several situations [1, 2].
+
+Avoid these early crashes by erroring out when any of the required DT
+properties are missing. Note that this will break some of the existing DTs
+upstream (mainly BAM instances related to the crypto engine). However,
+clearly these DTs have never been tested properly, since the error in the
+kernel log was just ignored. It's safer to disable the crypto engine for
+these broken DTBs.
+
+[1]: https://lore.kernel.org/r/CY01EKQVWE36.B9X5TDXAREPF@fairphone.com/
+[2]: https://lore.kernel.org/r/20230626145959.646747-1-krzysztof.kozlowski@linaro.org/</description><pubDate>Wed, 01 Oct 2025 08:13:40 +0000</pubDate></item><item><title>CVE-2025-39924 | erofs: fix invalid algorithm for encoded extents</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39924</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: fix invalid algorithm for encoded extents
+
+The current algorithm sanity checks do not properly apply to new
+encoded extents.
+
+Unify the algorithm check with Z_EROFS_COMPRESSION(_RUNTIME)_MAX
+and ensure consistency with sbi-&gt;available_compr_algs.</description><pubDate>Wed, 01 Oct 2025 08:13:41 +0000</pubDate></item><item><title>CVE-2025-39925 | can: j1939: implement NETDEV_UNREGISTER notification handler</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39925</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: j1939: implement NETDEV_UNREGISTER notification handler
+
+syzbot is reporting
+
+  unregister_netdevice: waiting for vcan0 to become free. Usage count = 2
+
+problem, for j1939 protocol did not have NETDEV_UNREGISTER notification
+handler for undoing changes made by j1939_sk_bind().
+
+Commit 25fe97cb7620 ("can: j1939: move j1939_priv_put() into sk_destruct
+callback") expects that a call to j1939_priv_put() can be unconditionally
+delayed until j1939_sk_sock_destruct() is called. But we need to call
+j1939_priv_put() against an extra ref held by j1939_sk_bind() call
+(as a part of undoing changes made by j1939_sk_bind()) as soon as
+NETDEV_UNREGISTER notification fires (i.e. before j1939_sk_sock_destruct()
+is called via j1939_sk_release()). Otherwise, the extra ref on "struct
+j1939_priv" held by j1939_sk_bind() call prevents "struct net_device" from
+dropping the usage count to 1; making it impossible for
+unregister_netdevice() to continue.
+
+[mkl: remove space in front of label]</description><pubDate>Wed, 01 Oct 2025 08:13:41 +0000</pubDate></item><item><title>CVE-2025-39926 | genetlink: fix genl_bind() invoking bind() after -EPERM</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39926</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+genetlink: fix genl_bind() invoking bind() after -EPERM
+
+Per family bind/unbind callbacks were introduced to allow families
+to track multicast group consumer presence, e.g. to start or stop
+producing events depending on listeners.
+
+However, in genl_bind() the bind() callback was invoked even if
+capability checks failed and ret was set to -EPERM. This means that
+callbacks could run on behalf of unauthorized callers while the
+syscall still returned failure to user space.
+
+Fix this by only invoking bind() after "if (ret) break;" check
+i.e. after permission checks have succeeded.</description><pubDate>Wed, 01 Oct 2025 08:13:41 +0000</pubDate></item><item><title>CVE-2025-39927 | ceph: fix race condition validating r_parent before applying state</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39927</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ceph: fix race condition validating r_parent before applying state
+
+Add validation to ensure the cached parent directory inode matches the
+directory info in MDS replies. This prevents client-side race conditions
+where concurrent operations (e.g. rename) cause r_parent to become stale
+between request initiation and reply processing, which could lead to
+applying state changes to incorrect directory inodes.
+
+[ idryomov: folded a kerneldoc fixup and a follow-up fix from Alex to
+  move CEPH_CAP_PIN reference when r_parent is updated:
+
+  When the parent directory lock is not held, req-&gt;r_parent can become
+  stale and is updated to point to the correct inode.  However, the
+  associated CEPH_CAP_PIN reference was not being adjusted.  The
+  CEPH_CAP_PIN is a reference on an inode that is tracked for
+  accounting purposes.  Moving this pin is important to keep the
+  accounting balanced. When the pin was not moved from the old parent
+  to the new one, it created two problems: The reference on the old,
+  stale parent was never released, causing a reference leak.
+  A reference for the new parent was never acquired, creating the risk
+  of a reference underflow later in ceph_mdsc_release_request().  This
+  patch corrects the logic by releasing the pin from the old parent and
+  acquiring it for the new parent when r_parent is switched.  This
+  ensures reference accounting stays balanced. ]</description><pubDate>Wed, 01 Oct 2025 08:13:42 +0000</pubDate></item><item><title>CVE-2025-39928 | i2c: rtl9300: ensure data length is within supported range</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39928</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i2c: rtl9300: ensure data length is within supported range
+
+Add an explicit check for the xfer length to 'rtl9300_i2c_config_xfer'
+to ensure the data length isn't within the supported range. In
+particular a data length of 0 is not supported by the hardware and
+causes unintended or destructive behaviour.
+
+This limitation becomes obvious when looking at the register
+documentation [1]. 4 bits are reserved for DATA_WIDTH and the value
+of these 4 bits is used as N + 1, allowing a data length range of
+1 &lt;= len &lt;= 16.
+
+Affected by this is the SMBus Quick Operation which works with a data
+length of 0. Passing 0 as the length causes an underflow of the value
+due to:
+
+(len - 1) &amp; 0xf
+
+and effectively specifying a transfer length of 16 via the registers.
+This causes a 16-byte write operation instead of a Quick Write. For
+example, on SFP modules without write-protected EEPROM this soft-bricks
+them by overwriting some initial bytes.
+
+For completeness, also add a quirk for the zero length.
+
+[1] https://svanheule.net/realtek/longan/register/i2c_mst1_ctrl2</description><pubDate>Wed, 01 Oct 2025 08:13:42 +0000</pubDate></item><item><title>CVE-2025-39918 | wifi: mt76: fix linked list corruption</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39918</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mt76: fix linked list corruption
+
+Never leave scheduled wcid entries on the temporary on-stack list</description><pubDate>Wed, 01 Oct 2025 08:13:43 +0000</pubDate></item><item><title>CVE-2025-39919 | wifi: mt76: mt7996: add missing check for rx wcid entries</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39919</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mt76: mt7996: add missing check for rx wcid entries
+
+Non-station wcid entries must not be passed to the rx functions.
+In case of the global wcid entry, it could even lead to corruption in the wcid
+array due to pointer being casted to struct mt7996_sta_link using container_of.</description><pubDate>Wed, 01 Oct 2025 08:13:44 +0000</pubDate></item><item><title>CVE-2025-39920 | pcmcia: Add error handling for add_interval() in do_validate_mem()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39920</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pcmcia: Add error handling for add_interval() in do_validate_mem()
+
+In the do_validate_mem(), the call to add_interval() does not
+handle errors. If kmalloc() fails in add_interval(), it could
+result in a null pointer being inserted into the linked list,
+leading to illegal memory access when sub_interval() is called
+next.
+
+This patch adds an error handling for the add_interval(). If
+add_interval() returns an error, the function will return early
+with the error code.</description><pubDate>Wed, 01 Oct 2025 08:13:44 +0000</pubDate></item><item><title>CVE-2025-39921 | spi: microchip-core-qspi: stop checking viability of op-&amp;gt;max_freq in supports_op callback</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39921</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+spi: microchip-core-qspi: stop checking viability of op-&gt;max_freq in supports_op callback
+
+In commit 13529647743d9 ("spi: microchip-core-qspi: Support per spi-mem
+operation frequency switches") the logic for checking the viability of
+op-&gt;max_freq in mchp_coreqspi_setup_clock() was copied into
+mchp_coreqspi_supports_op(). Unfortunately, op-&gt;max_freq is not valid
+when this function is called during probe but is instead zero.
+Accordingly, baud_rate_val is calculated to be INT_MAX due to division
+by zero, causing probe of the attached memory device to fail.
+
+Seemingly spi-microchip-core-qspi was the only driver that had such a
+modification made to its supports_op callback when the per_op_freq
+capability was added, so just remove it to restore prior functionality.</description><pubDate>Wed, 01 Oct 2025 08:13:45 +0000</pubDate></item><item><title>CVE-2025-39922 | ixgbe: fix incorrect map used in eee linkmode</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39922</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ixgbe: fix incorrect map used in eee linkmode
+
+incorrectly used ixgbe_lp_map in loops intended to populate the
+supported and advertised EEE linkmode bitmaps based on ixgbe_ls_map.
+This results in incorrect bit setting and potential out-of-bounds
+access, since ixgbe_lp_map and ixgbe_ls_map have different sizes
+and purposes.
+
+ixgbe_lp_map[i] -&gt; ixgbe_ls_map[i]
+
+Use ixgbe_ls_map for supported and advertised linkmodes, and keep
+ixgbe_lp_map usage only for link partner (lp_advertised) mapping.</description><pubDate>Wed, 01 Oct 2025 08:13:45 +0000</pubDate></item><item><title>CVE-2025-39904 | arm64: kexec: initialize kexec_buf struct in load_other_segments()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39904</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 arm64: kexec: initialize kexec_buf struct in load_other_segments()
 
@@ -57,14 +227,14 @@ pl-&gt;phydev in the first place, and without pl-&gt;state_mutex, that is
 racy.
 
 Hence the reason for the extra lock. Currently it is redundant, but it
-will serve a functional purpose once mutex_lock(&amp;phy-&gt;lock) will be
-moved outside of the mutex_lock(&amp;pl-&gt;state_mutex) section.
+will serve a functional purpose once mutex_lock(&amp;amp;phy-&gt;lock) will be
+moved outside of the mutex_lock(&amp;amp;pl-&gt;state_mutex) section.
 
 Another alternative considered would have been to let phylink_resolve()
 acquire the rtnl_mutex, which is also held when phylink_bringup_phy()
 and phylink_disconnect_phy() are called. But since phylink_disconnect_phy()
 runs under rtnl_lock(), it would deadlock with phylink_resolve() when
-calling flush_work(&amp;pl-&gt;resolve). Additionally, it would have been
+calling flush_work(&amp;amp;pl-&gt;resolve). Additionally, it would have been
 undesirable because it would have unnecessarily blocked many other call
 paths as well in the entire kernel, so the smaller-scoped lock was
 preferred.</description><pubDate>Wed, 01 Oct 2025 07:53:09 +0000</pubDate></item><item><title>CVE-2025-39906 | drm/amd/display: remove oem i2c adapter on finish</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39906</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -127,7 +297,7 @@ WARNING: CPU: 13 PID: 51364 at ./include/net/netdev_lock.h:70 __netdev_update_fe
 RIP: 0010:__netdev_update_features+0x4bd/0xe60
 ...
 Call Trace:
-&lt;TASK&gt;
+
 netdev_update_features+0x1f/0x60
 mlx5_hwtstamp_set+0x181/0x290 [mlx5_core]
 mlx5e_hwtstamp_set+0x19/0x30 [mlx5_core]
@@ -141,7 +311,7 @@ __x64_sys_ioctl+0x3f7/0x900
 do_syscall_64+0x6f/0x2e0
 entry_SYSCALL_64_after_hwframe+0x4b/0x53
 ...
-&lt;/TASK&gt;
+
 ....
 ---[ end trace 0000000000000000 ]---
 
@@ -210,7 +380,7 @@ it does not free the IRQs correctly and instead triggers the warning:
  RIP: 0010:__free_irq+0x192/0x2c0
  [...]
  Call Trace:
-  &lt;TASK&gt;
+  
   free_irq+0x32/0x70
   i40e_vsi_request_irq_msix.cold+0x63/0x8b [i40e]
   i40e_vsi_request_irq+0x79/0x80 [i40e]
@@ -231,7 +401,7 @@ it does not free the IRQs correctly and instead triggers the warning:
   do_syscall_64+0x82/0x2c0
   entry_SYSCALL_64_after_hwframe+0x76/0x7e
   [...]
-  &lt;/TASK&gt;
+  
  ---[ end trace 0000000000000000 ]---
 
 Use the same dev_id for free_irq() as for request_irq().
@@ -290,7 +460,7 @@ FS:  00005555604c4500(0000) GS:ffff888125af1000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00005555604df5c8 CR3: 0000000032b06000 CR4: 00000000003526f0
 Call Trace:
- &lt;IRQ&gt;
+ 
  __sk_destruct+0x86/0x660 net/core/sock.c:2339
  rcu_do_batch kernel/rcu/tree.c:2605 [inline]
  rcu_core+0xca8/0x1770 kernel/rcu/tree.c:2861
@@ -300,8 +470,7 @@ Call Trace:
  __irq_exit_rcu+0xca/0x1f0 kernel/softirq.c:680
  irq_exit_rcu+0x9/0x30 kernel/softirq.c:696
  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1052 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1052
- &lt;/IRQ&gt;</description><pubDate>Wed, 01 Oct 2025 07:53:12 +0000</pubDate></item><item><title>CVE-2025-39914 | tracing: Silence warning when chunk allocation fails in trace_pid_write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39914</link><description>In the Linux kernel, the following vulnerability has been resolved:
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1052</description><pubDate>Wed, 01 Oct 2025 07:53:12 +0000</pubDate></item><item><title>CVE-2025-39914 | tracing: Silence warning when chunk allocation fails in trace_pid_write</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39914</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 tracing: Silence warning when chunk allocation fails in trace_pid_write
 
@@ -326,7 +495,7 @@ CR2: 0000001b2e80dff8 CR3: 00000000268f8000 CR4: 00000000003526f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;TASK&gt;
+ 
  tracepoint_probe_register_prio+0xc0/0x110 kernel/tracepoint.c:464
  register_trace_prio_sched_switch include/trace/events/sched.h:222 [inline]
  register_pid_events kernel/trace/trace_events.c:2354 [inline]
@@ -360,15 +529,15 @@ Problem description
 ===================
 
 Lockdep reports a possible circular locking dependency (AB/BA) between
-&amp;pl-&gt;state_mutex and &amp;phy-&gt;lock, as follows.
+&amp;amp;pl-&gt;state_mutex and &amp;amp;phy-&gt;lock, as follows.
 
-phylink_resolve() // acquires &amp;pl-&gt;state_mutex
+phylink_resolve() // acquires &amp;amp;pl-&gt;state_mutex
 -&gt; phylink_major_config()
-   -&gt; phy_config_inband() // acquires &amp;pl-&gt;phydev-&gt;lock
+   -&gt; phy_config_inband() // acquires &amp;amp;pl-&gt;phydev-&gt;lock
 
-whereas all the other call sites where &amp;pl-&gt;state_mutex and
-&amp;pl-&gt;phydev-&gt;lock have the locking scheme reversed. Everywhere else,
-&amp;pl-&gt;phydev-&gt;lock is acquired at the top level, and &amp;pl-&gt;state_mutex at
+whereas all the other call sites where &amp;amp;pl-&gt;state_mutex and
+&amp;amp;pl-&gt;phydev-&gt;lock have the locking scheme reversed. Everywhere else,
+&amp;amp;pl-&gt;phydev-&gt;lock is acquired at the top level, and &amp;amp;pl-&gt;state_mutex at
 the lower level. A clear example is phylink_bringup_phy().
 
 The outlier is the newly introduced phy_config_inband() and the existing
@@ -378,10 +547,10 @@ callback from the PHY device's phy-&gt;phy_link_change() virtual method,
 invoked by the PHY state machine.
 
 phy_link_up() and phy_link_down(), the (indirect) callers of
-phylink_phy_change(), are called with &amp;phydev-&gt;lock acquired.
-Then phylink_phy_change() acquires its own &amp;pl-&gt;state_mutex, to
+phylink_phy_change(), are called with &amp;amp;phydev-&gt;lock acquired.
+Then phylink_phy_change() acquires its own &amp;amp;pl-&gt;state_mutex, to
 serialize changes made to its pl-&gt;phy_state and pl-&gt;link_config.
-So all other instances of &amp;pl-&gt;state_mutex and &amp;phydev-&gt;lock must be
+So all other instances of &amp;amp;pl-&gt;state_mutex and &amp;amp;phydev-&gt;lock must be
 consistent with this order.
 
 Problem impact
@@ -390,7 +559,7 @@ Problem impact
 I think the kernel runs a serious deadlock risk if an existing
 phylink_resolve() thread, which results in a phy_config_inband() call,
 is concurrent with a phy_link_up() or phy_link_down() call, which will
-deadlock on &amp;pl-&gt;state_mutex in phylink_phy_change(). Practically
+deadlock on &amp;amp;pl-&gt;state_mutex in phylink_phy_change(). Practically
 speaking, the impact may be limited by the slow speed of the medium
 auto-negotiation protocol, which makes it unlikely for the current state
 to still be unresolved when a new one is detected, but I think the
@@ -402,7 +571,7 @@ Proposed solution
 Practically speaking, the phy_config_inband() requirement of having
 phydev-&gt;lock acquired must transfer to the caller (phylink is the only
 caller). There, it must bubble up until immediately before
-&amp;pl-&gt;state_mutex is acquired, for the cases where that takes place.
+&amp;amp;pl-&gt;state_mutex is acquired, for the cases where that takes place.
 
 Solution details, considerations, notes
 =======================================
@@ -444,11 +613,11 @@ This is the phy_config_inband() call graph:
     phy_config_inband()
 
 phylink_major_config() caller #1, phylink_mac_initial_config(), does not
-acquire &amp;pl-&gt;state_mutex nor do its callers. It must acquire
-&amp;pl-&gt;phydev-&gt;lock prior to calling phylink_major_config().
+acquire &amp;amp;pl-&gt;state_mutex nor do its callers. It must acquire
+&amp;amp;pl-&gt;phydev-&gt;lock prior to calling phylink_major_config().
 
 phylink_major_config() caller #2, phylink_resolve() acquires
-&amp;pl-&gt;state_mutex, thus also needs to acquire &amp;pl-&gt;phydev-&gt;lock.
+&amp;amp;pl-&gt;state_mutex, thus also needs to acquire &amp;amp;pl-&gt;phydev-&gt;lock.
 
 phylink_major_config() caller #3, phylink_ethtool_ksettings_set(), is
 completely uninteresting, because it only call
