@@ -1,5 +1,70 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 09 Oct 2025 11:42:10 +0000</lastBuildDate><item><title>CVE-2025-2934 | Allocation of Resources Without Limits or Throttling in GitLab</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2934</link><description>GitLab has remediated an issue in GitLab CE/EE affecting all versions from 5.2 prior to 18.2.8, 18.3 prior to 18.3.4, and 18.4 prior to 18.4.2 that could have allowed an authenticated attacker to create a denial of service condition by configuring malicious webhook endpoints that send crafted HTTP responses.</description><pubDate>Thu, 09 Oct 2025 11:42:12 +0000</pubDate></item><item><title>CVE-2025-10249 | Slider Revolution &amp;lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10249</link><description>The Slider Revolution plugin for WordPress is vulnerable to unauthorized access and modification of data due to a missing capability check on several functions in all versions up to, and including, 6.7.37. This makes it possible for authenticated attackers, with Contributor-level access and above, to install and activate plugin add-ons, create sliders, and download arbitrary files.</description><pubDate>Thu, 09 Oct 2025 11:31:47 +0000</pubDate></item><item><title>CVE-2025-9371 | Betheme &amp;lt;= 28.1.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via &amp;#x27;page_title&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9371</link><description>The Betheme theme for WordPress is vulnerable to Stored Cross-Site Scripting via the ‘page_title’ parameter in all versions up to, and including, 28.1.6 due to insufficient input sanitization and output escaping of theme breadcrumbs. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Thu, 09 Oct 2025 11:31:48 +0000</pubDate></item><item><title>CVE-2025-39954 | clk: sunxi-ng: mp: Fix dual-divider clock rate readback</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39954</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 09 Oct 2025 12:51:45 +0000</lastBuildDate><item><title>CVE-2025-39960 | gpiolib: acpi: initialize acpi_gpio_info struct</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39960</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gpiolib: acpi: initialize acpi_gpio_info struct
+
+Since commit 7c010d463372 ("gpiolib: acpi: Make sure we fill struct
+acpi_gpio_info"), uninitialized acpi_gpio_info struct are passed to
+__acpi_find_gpio() and later in the call stack info-&gt;quirks is used in
+acpi_populate_gpio_lookup. This breaks the i2c_hid_cpi driver:
+
+[   58.122916] i2c_hid_acpi i2c-UNIW0001:00: HID over i2c has not been provided an Int IRQ
+[   58.123097] i2c_hid_acpi i2c-UNIW0001:00: probe with driver i2c_hid_acpi failed with error -22
+
+Fix this by initializing the acpi_gpio_info pass to __acpi_find_gpio()</description><pubDate>Thu, 09 Oct 2025 12:51:47 +0000</pubDate></item><item><title>CVE-2025-39961 | iommu/amd/pgtbl: Fix possible race while increase page table level</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39961</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommu/amd/pgtbl: Fix possible race while increase page table level
+
+The AMD IOMMU host page table implementation supports dynamic page table levels
+(up to 6 levels), starting with a 3-level configuration that expands based on
+IOVA address. The kernel maintains a root pointer and current page table level
+to enable proper page table walks in alloc_pte()/fetch_pte() operations.
+
+The IOMMU IOVA allocator initially starts with 32-bit address and onces its
+exhuasted it switches to 64-bit address (max address is determined based
+on IOMMU and device DMA capability). To support larger IOVA, AMD IOMMU
+driver increases page table level.
+
+But in unmap path (iommu_v1_unmap_pages()), fetch_pte() reads
+pgtable-&gt;[root/mode] without lock. So its possible that in exteme corner case,
+when increase_address_space() is updating pgtable-&gt;[root/mode], fetch_pte()
+reads wrong page table level (pgtable-&gt;mode). It does compare the value with
+level encoded in page table and returns NULL. This will result is
+iommu_unmap ops to fail and upper layer may retry/log WARN_ON.
+
+CPU 0                                         CPU 1
+------                                       ------
+map pages                                    unmap pages
+alloc_pte() -&gt; increase_address_space()      iommu_v1_unmap_pages() -&gt; fetch_pte()
+  pgtable-&gt;root = pte (new root value)
+                                             READ pgtable-&gt;[mode/root]
+					       Reads new root, old mode
+  Updates mode (pgtable-&gt;mode += 1)
+
+Since Page table level updates are infrequent and already synchronized with a
+spinlock, implement seqcount to enable lock-free read operations on the read path.</description><pubDate>Thu, 09 Oct 2025 12:51:47 +0000</pubDate></item><item><title>CVE-2025-39962 | rxrpc: Fix untrusted unsigned subtract</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39962</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rxrpc: Fix untrusted unsigned subtract
+
+Fix the following Smatch static checker warning:
+
+   net/rxrpc/rxgk_app.c:65 rxgk_yfs_decode_ticket()
+   warn: untrusted unsigned subtract. 'ticket_len - 10 * 4'
+
+by prechecking the length of what we're trying to extract in two places in
+the token and decoding for a response packet.
+
+Also use sizeof() on the struct we're extracting rather specifying the size
+numerically to be consistent with the other related statements.</description><pubDate>Thu, 09 Oct 2025 12:51:48 +0000</pubDate></item><item><title>CVE-2025-39963 | io_uring: fix incorrect io_kiocb reference in io_link_skb</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39963</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring: fix incorrect io_kiocb reference in io_link_skb
+
+In io_link_skb function, there is a bug where prev_notif is incorrectly
+assigned using 'nd' instead of 'prev_nd'. This causes the context
+validation check to compare the current notification with itself instead
+of comparing it with the previous notification.
+
+Fix by using the correct prev_nd parameter when obtaining prev_notif.</description><pubDate>Thu, 09 Oct 2025 12:51:48 +0000</pubDate></item><item><title>CVE-2025-10004 | Allocation of Resources Without Limits or Throttling in GitLab</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10004</link><description>GitLab has remediated an issue in GitLab CE/EE affecting all versions from 13.12 to 18.2.8, 18.3 to 18.3.4, and 18.4 to 18.4.2 that could make the GitLab instance unresponsive or severely degraded by sending crafted GraphQL queries requesting large repository blobs.</description><pubDate>Thu, 09 Oct 2025 12:51:49 +0000</pubDate></item><item><title>CVE-2025-11340 | Incorrect Authorization in GitLab</title><link>https://www.cve.org/CVERecord?id=CVE-2025-11340</link><description>GitLab has remediated an issue in GitLab EE affecting all versions from 18.3 to 18.3.4, 18.4 to 18.4.2 that, under certain conditions, could have allowed authenticated users with read-only API tokens to perform unauthorized write operations on vulnerability records by exploiting incorrectly scoped GraphQL mutations.</description><pubDate>Thu, 09 Oct 2025 12:51:49 +0000</pubDate></item><item><title>CVE-2025-2934 | Allocation of Resources Without Limits or Throttling in GitLab</title><link>https://www.cve.org/CVERecord?id=CVE-2025-2934</link><description>GitLab has remediated an issue in GitLab CE/EE affecting all versions from 5.2 prior to 18.2.8, 18.3 prior to 18.3.4, and 18.4 prior to 18.4.2 that could have allowed an authenticated attacker to create a denial of service condition by configuring malicious webhook endpoints that send crafted HTTP responses.</description><pubDate>Thu, 09 Oct 2025 11:42:12 +0000</pubDate></item><item><title>CVE-2025-10249 | Slider Revolution &amp;lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read</title><link>https://www.cve.org/CVERecord?id=CVE-2025-10249</link><description>The Slider Revolution plugin for WordPress is vulnerable to unauthorized access and modification of data due to a missing capability check on several functions in all versions up to, and including, 6.7.37. This makes it possible for authenticated attackers, with Contributor-level access and above, to install and activate plugin add-ons, create sliders, and download arbitrary files.</description><pubDate>Thu, 09 Oct 2025 11:31:47 +0000</pubDate></item><item><title>CVE-2025-9371 | Betheme &amp;lt;= 28.1.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via &amp;#x27;page_title&amp;#x27;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-9371</link><description>The Betheme theme for WordPress is vulnerable to Stored Cross-Site Scripting via the ‘page_title’ parameter in all versions up to, and including, 28.1.6 due to insufficient input sanitization and output escaping of theme breadcrumbs. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</description><pubDate>Thu, 09 Oct 2025 11:31:48 +0000</pubDate></item><item><title>CVE-2025-39954 | clk: sunxi-ng: mp: Fix dual-divider clock rate readback</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39954</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 clk: sunxi-ng: mp: Fix dual-divider clock rate readback
 
