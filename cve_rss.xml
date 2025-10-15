@@ -1,5 +1,1363 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 15 Oct 2025 07:34:45 +0000</lastBuildDate><item><title>CVE-2025-11501 | Dynamically Display Posts &amp;lt;= 1.1 - Unauthenticated SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-11501</link><description>The Dynamically Display Posts plugin for WordPress is vulnerable to SQL Injection via the 'tax_query' parameter in all versions up to, and including, 1.1 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Wed, 15 Oct 2025 07:34:47 +0000</pubDate></item><item><title>CVE-2025-61941 | A path traversal issue exists in WXR9300BE6P series firmware versions prior to Ver.1.10. Arbitrary file may be altered by an administrative ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-61941</link><description>A path traversal issue exists in WXR9300BE6P series firmware versions prior to Ver.1.10. Arbitrary file may be altered by an administrative user who logs in to the affected product. Moreover, arbitrary OS command may be executed via some file alteration.</description><pubDate>Wed, 15 Oct 2025 07:34:47 +0000</pubDate></item><item><title>CVE-2025-55039 | Apache Spark, Apache Spark: RPC encryption defaults to unauthenticated AES-CTR mode, enabling man-in-the-middle ciphertext modification attacks</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55039</link><description>This issue affects Apache Spark versions before  3.4.4, 3.5.2 and 4.0.0.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 15 Oct 2025 08:15:42 +0000</lastBuildDate><item><title>CVE-2025-39991 | wifi: ath11k: fix NULL dereference in ath11k_qmi_m3_load()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39991</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: ath11k: fix NULL dereference in ath11k_qmi_m3_load()
+
+If ab-&gt;fw.m3_data points to data, then fw pointer remains null.
+Further, if m3_mem is not allocated, then fw is dereferenced to be
+passed to ath11k_err function.
+
+Replace fw-&gt;size by m3_len.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Wed, 15 Oct 2025 08:15:44 +0000</pubDate></item><item><title>CVE-2025-39992 | mm: swap: check for stable address space before operating on the VMA</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39992</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: swap: check for stable address space before operating on the VMA
+
+It is possible to hit a zero entry while traversing the vmas in unuse_mm()
+called from swapoff path and accessing it causes the OOPS:
+
+Unable to handle kernel NULL pointer dereference at virtual address
+0000000000000446--&gt; Loading the memory from offset 0x40 on the
+XA_ZERO_ENTRY as address.
+Mem abort info:
+  ESR = 0x0000000096000005
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x05: level 1 translation fault
+
+The issue is manifested from the below race between the fork() on a
+process and swapoff:
+fork(dup_mmap())			swapoff(unuse_mm)
+---------------                         -----------------
+1) Identical mtree is built using
+   __mt_dup().
+
+2) copy_pte_range()--&gt;
+	copy_nonpresent_pte():
+       The dst mm is added into the
+    mmlist to be visible to the
+    swapoff operation.
+
+3) Fatal signal is sent to the parent
+process(which is the current during the
+fork) thus skip the duplication of the
+vmas and mark the vma range with
+XA_ZERO_ENTRY as a marker for this process
+that helps during exit_mmap().
+
+				     4) swapoff is tried on the
+					'mm' added to the 'mmlist' as
+					part of the 2.
+
+				     5) unuse_mm(), that iterates
+					through the vma's of this 'mm'
+					will hit the non-NULL zero entry
+					and operating on this zero entry
+					as a vma is resulting into the
+					oops.
+
+The proper fix would be around not exposing this partially-valid tree to
+others when droping the mmap lock, which is being solved with [1].  A
+simpler solution would be checking for MMF_UNSTABLE, as it is set if
+mm_struct is not fully initialized in dup_mmap().
+
+Thanks to Liam/Lorenzo/David for all the suggestions in fixing this
+issue.</description><pubDate>Wed, 15 Oct 2025 08:15:44 +0000</pubDate></item><item><title>CVE-2025-39993 | media: rc: fix races with imon_disconnect()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39993</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: rc: fix races with imon_disconnect()
+
+Syzbot reports a KASAN issue as below:
+BUG: KASAN: use-after-free in __create_pipe include/linux/usb.h:1945 [inline]
+BUG: KASAN: use-after-free in send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
+Read of size 4 at addr ffff8880256fb000 by task syz-executor314/4465
+
+CPU: 2 PID: 4465 Comm: syz-executor314 Not tainted 6.0.0-rc1-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+__dump_stack lib/dump_stack.c:88 [inline]
+dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+print_address_description mm/kasan/report.c:317 [inline]
+print_report.cold+0x2ba/0x6e9 mm/kasan/report.c:433
+kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+__create_pipe include/linux/usb.h:1945 [inline]
+send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
+vfd_write+0x2d9/0x550 drivers/media/rc/imon.c:991
+vfs_write+0x2d7/0xdd0 fs/read_write.c:576
+ksys_write+0x127/0x250 fs/read_write.c:631
+do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The iMON driver improperly releases the usb_device reference in
+imon_disconnect without coordinating with active users of the
+device.
+
+Specifically, the fields usbdev_intf0 and usbdev_intf1 are not
+protected by the users counter (ictx-&gt;users). During probe,
+imon_init_intf0 or imon_init_intf1 increments the usb_device
+reference count depending on the interface. However, during
+disconnect, usb_put_dev is called unconditionally, regardless of
+actual usage.
+
+As a result, if vfd_write or other operations are still in
+progress after disconnect, this can lead to a use-after-free of
+the usb_device pointer.
+
+Thread 1 vfd_write                      Thread 2 imon_disconnect
+                                        ...
+                                        if
+                                          usb_put_dev(ictx-&gt;usbdev_intf0)
+                                        else
+                                          usb_put_dev(ictx-&gt;usbdev_intf1)
+...
+while
+  send_packet
+    if
+      pipe = usb_sndintpipe(
+        ictx-&gt;usbdev_intf0) UAF
+    else
+      pipe = usb_sndctrlpipe(
+        ictx-&gt;usbdev_intf0, 0) UAF
+
+Guard access to usbdev_intf0 and usbdev_intf1 after disconnect by
+checking ictx-&gt;disconnected in all writer paths. Add early return
+with -ENODEV in send_packet(), vfd_write(), lcd_write() and
+display_open() if the device is no longer present.
+
+Set and read ictx-&gt;disconnected under ictx-&gt;lock to ensure memory
+synchronization. Acquire the lock in imon_disconnect() before setting
+the flag to synchronize with any ongoing operations.
+
+Ensure writers exit early and safely after disconnect before the USB
+core proceeds with cleanup.
+
+Found by Linux Verification Center (linuxtesting.org) with Syzkaller.</description><pubDate>Wed, 15 Oct 2025 08:15:45 +0000</pubDate></item><item><title>CVE-2025-39994 | media: tuner: xc5000: Fix use-after-free in xc5000_release</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39994</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: tuner: xc5000: Fix use-after-free in xc5000_release
+
+The original code uses cancel_delayed_work() in xc5000_release(), which
+does not guarantee that the delayed work item timer_sleep has fully
+completed if it was already running. This leads to use-after-free scenarios
+where xc5000_release() may free the xc5000_priv while timer_sleep is still
+active and attempts to dereference the xc5000_priv.
+
+A typical race condition is illustrated below:
+
+CPU 0 (release thread)                 | CPU 1 (delayed work callback)
+xc5000_release()                       | xc5000_do_timer_sleep()
+  cancel_delayed_work()                |
+  hybrid_tuner_release_state(priv)     |
+    kfree(priv)                        |
+                                       |   priv = container_of() // UAF
+
+Replace cancel_delayed_work() with cancel_delayed_work_sync() to ensure
+that the timer_sleep is properly canceled before the xc5000_priv memory
+is deallocated.
+
+A deadlock concern was considered: xc5000_release() is called in a process
+context and is not holding any locks that the timer_sleep work item might
+also need. Therefore, the use of the _sync() variant is safe here.
+
+This bug was initially identified through static analysis.
+
+[hverkuil: fix typo in Subject: tunner -&gt; tuner]</description><pubDate>Wed, 15 Oct 2025 08:15:45 +0000</pubDate></item><item><title>CVE-2025-39995 | media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer in probe</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39995</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer in probe
+
+The state-&gt;timer is a cyclic timer that schedules work_i2c_poll and
+delayed_work_enable_hotplug, while rearming itself. Using timer_delete()
+fails to guarantee the timer isn't still running when destroyed, similarly
+cancel_delayed_work() cannot ensure delayed_work_enable_hotplug has
+terminated if already executing. During probe failure after timer
+initialization, these may continue running as orphans and reference the
+already-freed tc358743_state object through tc358743_irq_poll_timer.
+
+The following is the trace captured by KASAN.
+
+BUG: KASAN: slab-use-after-free in __run_timer_base.part.0+0x7d7/0x8c0
+Write of size 8 at addr ffff88800ded83c8 by task swapper/1/0
+...
+Call Trace:
+ &lt;IRQ&gt;
+ dump_stack_lvl+0x55/0x70
+ print_report+0xcf/0x610
+ ? __pfx_sched_balance_find_src_group+0x10/0x10
+ ? __run_timer_base.part.0+0x7d7/0x8c0
+ kasan_report+0xb8/0xf0
+ ? __run_timer_base.part.0+0x7d7/0x8c0
+ __run_timer_base.part.0+0x7d7/0x8c0
+ ? rcu_sched_clock_irq+0xb06/0x27d0
+ ? __pfx___run_timer_base.part.0+0x10/0x10
+ ? try_to_wake_up+0xb15/0x1960
+ ? tmigr_update_events+0x280/0x740
+ ? _raw_spin_lock_irq+0x80/0xe0
+ ? __pfx__raw_spin_lock_irq+0x10/0x10
+ tmigr_handle_remote_up+0x603/0x7e0
+ ? __pfx_tmigr_handle_remote_up+0x10/0x10
+ ? sched_balance_trigger+0x98/0x9f0
+ ? sched_tick+0x221/0x5a0
+ ? _raw_spin_lock_irq+0x80/0xe0
+ ? __pfx__raw_spin_lock_irq+0x10/0x10
+ ? tick_nohz_handler+0x339/0x440
+ ? __pfx_tmigr_handle_remote_up+0x10/0x10
+ __walk_groups.isra.0+0x42/0x150
+ tmigr_handle_remote+0x1f4/0x2e0
+ ? __pfx_tmigr_handle_remote+0x10/0x10
+ ? ktime_get+0x60/0x140
+ ? lapic_next_event+0x11/0x20
+ ? clockevents_program_event+0x1d4/0x2a0
+ ? hrtimer_interrupt+0x322/0x780
+ handle_softirqs+0x16a/0x550
+ irq_exit_rcu+0xaf/0xe0
+ sysvec_apic_timer_interrupt+0x70/0x80
+ &lt;/IRQ&gt;
+...
+
+Allocated by task 141:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x7f/0x90
+ __kmalloc_node_track_caller_noprof+0x198/0x430
+ devm_kmalloc+0x7b/0x1e0
+ tc358743_probe+0xb7/0x610  i2c_device_probe+0x51d/0x880
+ really_probe+0x1ca/0x5c0
+ __driver_probe_device+0x248/0x310
+ driver_probe_device+0x44/0x120
+ __device_attach_driver+0x174/0x220
+ bus_for_each_drv+0x100/0x190
+ __device_attach+0x206/0x370
+ bus_probe_device+0x123/0x170
+ device_add+0xd25/0x1470
+ i2c_new_client_device+0x7a0/0xcd0
+ do_one_initcall+0x89/0x300
+ do_init_module+0x29d/0x7f0
+ load_module+0x4f48/0x69e0
+ init_module_from_file+0xe4/0x150
+ idempotent_init_module+0x320/0x670
+ __x64_sys_finit_module+0xbd/0x120
+ do_syscall_64+0xac/0x280
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 141:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3a/0x60
+ __kasan_slab_free+0x3f/0x50
+ kfree+0x137/0x370
+ release_nodes+0xa4/0x100
+ devres_release_group+0x1b2/0x380
+ i2c_device_probe+0x694/0x880
+ really_probe+0x1ca/0x5c0
+ __driver_probe_device+0x248/0x310
+ driver_probe_device+0x44/0x120
+ __device_attach_driver+0x174/0x220
+ bus_for_each_drv+0x100/0x190
+ __device_attach+0x206/0x370
+ bus_probe_device+0x123/0x170
+ device_add+0xd25/0x1470
+ i2c_new_client_device+0x7a0/0xcd0
+ do_one_initcall+0x89/0x300
+ do_init_module+0x29d/0x7f0
+ load_module+0x4f48/0x69e0
+ init_module_from_file+0xe4/0x150
+ idempotent_init_module+0x320/0x670
+ __x64_sys_finit_module+0xbd/0x120
+ do_syscall_64+0xac/0x280
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+...
+
+Replace timer_delete() with timer_delete_sync() and cancel_delayed_work()
+with cancel_delayed_work_sync() to ensure proper termination of timer and
+work items before resource cleanup.
+
+This bug was initially identified through static analysis. For reproduction
+and testing, I created a functional emulation of the tc358743 device via a
+kernel module and introduced faults through the debugfs interface.</description><pubDate>Wed, 15 Oct 2025 08:15:46 +0000</pubDate></item><item><title>CVE-2025-39996 | media: b2c2: Fix use-after-free causing by irq_check_work in flexcop_pci_remove</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39996</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: b2c2: Fix use-after-free causing by irq_check_work in flexcop_pci_remove
+
+The original code uses cancel_delayed_work() in flexcop_pci_remove(), which
+does not guarantee that the delayed work item irq_check_work has fully
+completed if it was already running. This leads to use-after-free scenarios
+where flexcop_pci_remove() may free the flexcop_device while irq_check_work
+is still active and attempts to dereference the device.
+
+A typical race condition is illustrated below:
+
+CPU 0 (remove)                         | CPU 1 (delayed work callback)
+flexcop_pci_remove()                   | flexcop_pci_irq_check_work()
+  cancel_delayed_work()                |
+  flexcop_device_kfree(fc_pci-&gt;fc_dev) |
+                                       |   fc = fc_pci-&gt;fc_dev; // UAF
+
+This is confirmed by a KASAN report:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in __run_timer_base.part.0+0x7d7/0x8c0
+Write of size 8 at addr ffff8880093aa8c8 by task bash/135
+...
+Call Trace:
+ &lt;IRQ&gt;
+ dump_stack_lvl+0x55/0x70
+ print_report+0xcf/0x610
+ ? __run_timer_base.part.0+0x7d7/0x8c0
+ kasan_report+0xb8/0xf0
+ ? __run_timer_base.part.0+0x7d7/0x8c0
+ __run_timer_base.part.0+0x7d7/0x8c0
+ ? __pfx___run_timer_base.part.0+0x10/0x10
+ ? __pfx_read_tsc+0x10/0x10
+ ? ktime_get+0x60/0x140
+ ? lapic_next_event+0x11/0x20
+ ? clockevents_program_event+0x1d4/0x2a0
+ run_timer_softirq+0xd1/0x190
+ handle_softirqs+0x16a/0x550
+ irq_exit_rcu+0xaf/0xe0
+ sysvec_apic_timer_interrupt+0x70/0x80
+ &lt;/IRQ&gt;
+...
+
+Allocated by task 1:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x7f/0x90
+ __kmalloc_noprof+0x1be/0x460
+ flexcop_device_kmalloc+0x54/0xe0
+ flexcop_pci_probe+0x1f/0x9d0
+ local_pci_probe+0xdc/0x190
+ pci_device_probe+0x2fe/0x470
+ really_probe+0x1ca/0x5c0
+ __driver_probe_device+0x248/0x310
+ driver_probe_device+0x44/0x120
+ __driver_attach+0xd2/0x310
+ bus_for_each_dev+0xed/0x170
+ bus_add_driver+0x208/0x500
+ driver_register+0x132/0x460
+ do_one_initcall+0x89/0x300
+ kernel_init_freeable+0x40d/0x720
+ kernel_init+0x1a/0x150
+ ret_from_fork+0x10c/0x1a0
+ ret_from_fork_asm+0x1a/0x30
+
+Freed by task 135:
+ kasan_save_stack+0x24/0x50
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3a/0x60
+ __kasan_slab_free+0x3f/0x50
+ kfree+0x137/0x370
+ flexcop_device_kfree+0x32/0x50
+ pci_device_remove+0xa6/0x1d0
+ device_release_driver_internal+0xf8/0x210
+ pci_stop_bus_device+0x105/0x150
+ pci_stop_and_remove_bus_device_locked+0x15/0x30
+ remove_store+0xcc/0xe0
+ kernfs_fop_write_iter+0x2c3/0x440
+ vfs_write+0x871/0xd70
+ ksys_write+0xee/0x1c0
+ do_syscall_64+0xac/0x280
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+...
+
+Replace cancel_delayed_work() with cancel_delayed_work_sync() to ensure
+that the delayed work item is properly canceled and any executing delayed
+work has finished before the device memory is deallocated.
+
+This bug was initially identified through static analysis. To reproduce
+and test it, I simulated the B2C2 FlexCop PCI device in QEMU and introduced
+artificial delays within the flexcop_pci_irq_check_work() function to
+increase the likelihood of triggering the bug.</description><pubDate>Wed, 15 Oct 2025 08:15:46 +0000</pubDate></item><item><title>CVE-2025-39997 | ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39997</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
+
+The previous commit 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at
+removal") patched a UAF issue caused by the error timer.
+
+However, because the error timer kill added in this patch occurs after the
+endpoint delete, a race condition to UAF still occurs, albeit rarely.
+
+Additionally, since kill-cleanup for urb is also missing, freed memory can
+be accessed in interrupt context related to urb, which can cause UAF.
+
+Therefore, to prevent this, error timer and urb must be killed before
+freeing the heap memory.</description><pubDate>Wed, 15 Oct 2025 08:15:46 +0000</pubDate></item><item><title>CVE-2025-39998 | scsi: target: target_core_configfs: Add length check to avoid buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39998</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: target: target_core_configfs: Add length check to avoid buffer overflow
+
+A buffer overflow arises from the usage of snprintf to write into the
+buffer "buf" in target_lu_gp_members_show function located in
+/drivers/target/target_core_configfs.c. This buffer is allocated with
+size LU_GROUP_NAME_BUF (256 bytes).
+
+snprintf(...) formats multiple strings into buf with the HBA name
+(hba-&gt;hba_group.cg_item), a slash character, a devicename (dev-&gt;
+dev_group.cg_item) and a newline character, the total formatted string
+length may exceed the buffer size of 256 bytes.
+
+Since snprintf() returns the total number of bytes that would have been
+written (the length of %s/%sn ), this value may exceed the buffer length
+(256 bytes) passed to memcpy(), this will ultimately cause function
+memcpy reporting a buffer overflow error.
+
+An additional check of the return value of snprintf() can avoid this
+buffer overflow.</description><pubDate>Wed, 15 Oct 2025 08:15:47 +0000</pubDate></item><item><title>CVE-2025-39999 | blk-mq: fix blk_mq_tags double free while nr_requests grown</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39999</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+blk-mq: fix blk_mq_tags double free while nr_requests grown
+
+In the case user trigger tags grow by queue sysfs attribute nr_requests,
+hctx-&gt;sched_tags will be freed directly and replaced with a new
+allocated tags, see blk_mq_tag_update_depth().
+
+The problem is that hctx-&gt;sched_tags is from elevator-&gt;et-&gt;tags, while
+et-&gt;tags is still the freed tags, hence later elevator exit will try to
+free the tags again, causing kernel panic.
+
+Fix this problem by replacing et-&gt;tags with new allocated tags as well.
+
+Noted there are still some long term problems that will require some
+refactor to be fixed thoroughly[1].
+
+[1] https://lore.kernel.org/all/20250815080216.410665-1-yukuai1@huaweicloud.com/</description><pubDate>Wed, 15 Oct 2025 08:15:47 +0000</pubDate></item><item><title>CVE-2025-40000 | wifi: rtw89: fix use-after-free in rtw89_core_tx_kick_off_and_wait()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40000</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: rtw89: fix use-after-free in rtw89_core_tx_kick_off_and_wait()
+
+There is a bug observed when rtw89_core_tx_kick_off_and_wait() tries to
+access already freed skb_data:
+
+ BUG: KFENCE: use-after-free write in rtw89_core_tx_kick_off_and_wait drivers/net/wireless/realtek/rtw89/core.c:1110
+
+ CPU: 6 UID: 0 PID: 41377 Comm: kworker/u64:24 Not tainted  6.17.0-rc1+ #1 PREEMPT(lazy)
+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS edk2-20250523-14.fc42 05/23/2025
+ Workqueue: events_unbound cfg80211_wiphy_work [cfg80211]
+
+ Use-after-free write at 0x0000000020309d9d (in kfence-#251):
+ rtw89_core_tx_kick_off_and_wait drivers/net/wireless/realtek/rtw89/core.c:1110
+ rtw89_core_scan_complete drivers/net/wireless/realtek/rtw89/core.c:5338
+ rtw89_hw_scan_complete_cb drivers/net/wireless/realtek/rtw89/fw.c:7979
+ rtw89_chanctx_proceed_cb drivers/net/wireless/realtek/rtw89/chan.c:3165
+ rtw89_chanctx_proceed drivers/net/wireless/realtek/rtw89/chan.h:141
+ rtw89_hw_scan_complete drivers/net/wireless/realtek/rtw89/fw.c:8012
+ rtw89_mac_c2h_scanofld_rsp drivers/net/wireless/realtek/rtw89/mac.c:5059
+ rtw89_fw_c2h_work drivers/net/wireless/realtek/rtw89/fw.c:6758
+ process_one_work kernel/workqueue.c:3241
+ worker_thread kernel/workqueue.c:3400
+ kthread kernel/kthread.c:463
+ ret_from_fork arch/x86/kernel/process.c:154
+ ret_from_fork_asm arch/x86/entry/entry_64.S:258
+
+ kfence-#251: 0x0000000056e2393d-0x000000009943cb62, size=232, cache=skbuff_head_cache
+
+ allocated by task 41377 on cpu 6 at 77869.159548s (0.009551s ago):
+ __alloc_skb net/core/skbuff.c:659
+ __netdev_alloc_skb net/core/skbuff.c:734
+ ieee80211_nullfunc_get net/mac80211/tx.c:5844
+ rtw89_core_send_nullfunc drivers/net/wireless/realtek/rtw89/core.c:3431
+ rtw89_core_scan_complete drivers/net/wireless/realtek/rtw89/core.c:5338
+ rtw89_hw_scan_complete_cb drivers/net/wireless/realtek/rtw89/fw.c:7979
+ rtw89_chanctx_proceed_cb drivers/net/wireless/realtek/rtw89/chan.c:3165
+ rtw89_chanctx_proceed drivers/net/wireless/realtek/rtw89/chan.c:3194
+ rtw89_hw_scan_complete drivers/net/wireless/realtek/rtw89/fw.c:8012
+ rtw89_mac_c2h_scanofld_rsp drivers/net/wireless/realtek/rtw89/mac.c:5059
+ rtw89_fw_c2h_work drivers/net/wireless/realtek/rtw89/fw.c:6758
+ process_one_work kernel/workqueue.c:3241
+ worker_thread kernel/workqueue.c:3400
+ kthread kernel/kthread.c:463
+ ret_from_fork arch/x86/kernel/process.c:154
+ ret_from_fork_asm arch/x86/entry/entry_64.S:258
+
+ freed by task 1045 on cpu 9 at 77869.168393s (0.001557s ago):
+ ieee80211_tx_status_skb net/mac80211/status.c:1117
+ rtw89_pci_release_txwd_skb drivers/net/wireless/realtek/rtw89/pci.c:564
+ rtw89_pci_release_tx_skbs.isra.0 drivers/net/wireless/realtek/rtw89/pci.c:651
+ rtw89_pci_release_tx drivers/net/wireless/realtek/rtw89/pci.c:676
+ rtw89_pci_napi_poll drivers/net/wireless/realtek/rtw89/pci.c:4238
+ __napi_poll net/core/dev.c:7495
+ net_rx_action net/core/dev.c:7557 net/core/dev.c:7684
+ handle_softirqs kernel/softirq.c:580
+ do_softirq.part.0 kernel/softirq.c:480
+ __local_bh_enable_ip kernel/softirq.c:407
+ rtw89_pci_interrupt_threadfn drivers/net/wireless/realtek/rtw89/pci.c:927
+ irq_thread_fn kernel/irq/manage.c:1133
+ irq_thread kernel/irq/manage.c:1257
+ kthread kernel/kthread.c:463
+ ret_from_fork arch/x86/kernel/process.c:154
+ ret_from_fork_asm arch/x86/entry/entry_64.S:258
+
+It is a consequence of a race between the waiting and the signaling side
+of the completion:
+
+            Waiting thread                            Completing thread
+
+rtw89_core_tx_kick_off_and_wait()
+  rcu_assign_pointer(skb_data-&gt;wait, wait)
+  /* start waiting */
+  wait_for_completion_timeout()
+                                                rtw89_pci_tx_status()
+                                                  rtw89_core_tx_wait_complete()
+                                                    rcu_read_lock()
+                                                    /* signals completion and
+   
+---truncated---</description><pubDate>Wed, 15 Oct 2025 08:15:48 +0000</pubDate></item><item><title>CVE-2025-39966 | iommufd: Fix race during abort for file descriptors</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39966</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommufd: Fix race during abort for file descriptors
+
+fput() doesn't actually call file_operations release() synchronously, it
+puts the file on a work queue and it will be released eventually.
+
+This is normally fine, except for iommufd the file and the iommufd_object
+are tied to gether. The file has the object as it's private_data and holds
+a users refcount, while the object is expected to remain alive as long as
+the file is.
+
+When the allocation of a new object aborts before installing the file it
+will fput() the file and then go on to immediately kfree() the obj. This
+causes a UAF once the workqueue completes the fput() and tries to
+decrement the users refcount.
+
+Fix this by putting the core code in charge of the file lifetime, and call
+__fput_sync() during abort to ensure that release() is called before
+kfree. __fput_sync() is a bit too tricky to open code in all the object
+implementations. Instead the objects tell the core code where the file
+pointer is and the core will take care of the life cycle.
+
+If the object is successfully allocated then the file will hold a users
+refcount and the iommufd_object cannot be destroyed.
+
+It is worth noting that close(); ioctl(IOMMU_DESTROY); doesn't have an
+issue because close() is already using a synchronous version of fput().
+
+The UAF looks like this:
+
+    BUG: KASAN: slab-use-after-free in iommufd_eventq_fops_release+0x45/0xc0 drivers/iommu/iommufd/eventq.c:376
+    Write of size 4 at addr ffff888059c97804 by task syz.0.46/6164
+
+    CPU: 0 UID: 0 PID: 6164 Comm: syz.0.46 Not tainted syzkaller #0 PREEMPT(full)
+    Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+    Call Trace:
+     &lt;TASK&gt;
+     __dump_stack lib/dump_stack.c:94 [inline]
+     dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+     print_address_description mm/kasan/report.c:378 [inline]
+     print_report+0xcd/0x630 mm/kasan/report.c:482
+     kasan_report+0xe0/0x110 mm/kasan/report.c:595
+     check_region_inline mm/kasan/generic.c:183 [inline]
+     kasan_check_range+0x100/0x1b0 mm/kasan/generic.c:189
+     instrument_atomic_read_write include/linux/instrumented.h:96 [inline]
+     atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
+     __refcount_dec include/linux/refcount.h:455 [inline]
+     refcount_dec include/linux/refcount.h:476 [inline]
+     iommufd_eventq_fops_release+0x45/0xc0 drivers/iommu/iommufd/eventq.c:376
+     __fput+0x402/0xb70 fs/file_table.c:468
+     task_work_run+0x14d/0x240 kernel/task_work.c:227
+     resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+     exit_to_user_mode_loop+0xeb/0x110 kernel/entry/common.c:43
+     exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
+     syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
+     syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
+     do_syscall_64+0x41c/0x4c0 arch/x86/entry/syscall_64.c:100
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f</description><pubDate>Wed, 15 Oct 2025 08:15:49 +0000</pubDate></item><item><title>CVE-2025-39967 | fbcon: fix integer overflow in fbcon_do_set_font</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39967</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fbcon: fix integer overflow in fbcon_do_set_font
+
+Fix integer overflow vulnerabilities in fbcon_do_set_font() where font
+size calculations could overflow when handling user-controlled font
+parameters.
+
+The vulnerabilities occur when:
+1. CALC_FONTSZ(h, pitch, charcount) performs h * pith * charcount
+   multiplication with user-controlled values that can overflow.
+2. FONT_EXTRA_WORDS * sizeof(int) + size addition can also overflow
+3. This results in smaller allocations than expected, leading to buffer
+   overflows during font data copying.
+
+Add explicit overflow checking using check_mul_overflow() and
+check_add_overflow() kernel helpers to safety validate all size
+calculations before allocation.</description><pubDate>Wed, 15 Oct 2025 08:15:49 +0000</pubDate></item><item><title>CVE-2025-39968 | i40e: add max boundary check for VF filters</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39968</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: add max boundary check for VF filters
+
+There is no check for max filters that VF can request. Add it.</description><pubDate>Wed, 15 Oct 2025 08:15:50 +0000</pubDate></item><item><title>CVE-2025-39969 | i40e: fix validation of VF state in get resources</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39969</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix validation of VF state in get resources
+
+VF state I40E_VF_STATE_ACTIVE is not the only state in which
+VF is actually active so it should not be used to determine
+if a VF is allowed to obtain resources.
+
+Use I40E_VF_STATE_RESOURCES_LOADED that is set only in
+i40e_vc_get_vf_resources_msg() and cleared during reset.</description><pubDate>Wed, 15 Oct 2025 08:15:50 +0000</pubDate></item><item><title>CVE-2025-39970 | i40e: fix input validation logic for action_meta</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39970</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix input validation logic for action_meta
+
+Fix condition to check 'greater or equal' to prevent OOB dereference.</description><pubDate>Wed, 15 Oct 2025 08:15:50 +0000</pubDate></item><item><title>CVE-2025-39971 | i40e: fix idx validation in config queues msg</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39971</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix idx validation in config queues msg
+
+Ensure idx is within range of active/initialized TCs when iterating over
+vf-&gt;ch[idx] in i40e_vc_config_queues_msg().</description><pubDate>Wed, 15 Oct 2025 08:15:51 +0000</pubDate></item><item><title>CVE-2025-39972 | i40e: fix idx validation in i40e_validate_queue_map</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39972</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: fix idx validation in i40e_validate_queue_map
+
+Ensure idx is within range of active/initialized TCs when iterating over
+vf-&gt;ch[idx] in i40e_validate_queue_map().</description><pubDate>Wed, 15 Oct 2025 08:15:51 +0000</pubDate></item><item><title>CVE-2025-39973 | i40e: add validation for ring_len param</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39973</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+i40e: add validation for ring_len param
+
+The `ring_len` parameter provided by the virtual function (VF)
+is assigned directly to the hardware memory context (HMC) without
+any validation.
+
+To address this, introduce an upper boundary check for both Tx and Rx
+queue lengths. The maximum number of descriptors supported by the
+hardware is 8k-32.
+Additionally, enforce alignment constraints: Tx rings must be a multiple
+of 8, and Rx rings must be a multiple of 32.</description><pubDate>Wed, 15 Oct 2025 08:15:52 +0000</pubDate></item><item><title>CVE-2025-39974 | tracing/osnoise: Fix slab-out-of-bounds in _parse_integer_limit()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39974</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing/osnoise: Fix slab-out-of-bounds in _parse_integer_limit()
+
+When config osnoise cpus by write() syscall, the following KASAN splat may
+be observed:
+
+BUG: KASAN: slab-out-of-bounds in _parse_integer_limit+0x103/0x130
+Read of size 1 at addr ffff88810121e3a1 by task test/447
+CPU: 1 UID: 0 PID: 447 Comm: test Not tainted 6.17.0-rc6-dirty #288 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x55/0x70
+ print_report+0xcb/0x610
+ kasan_report+0xb8/0xf0
+ _parse_integer_limit+0x103/0x130
+ bitmap_parselist+0x16d/0x6f0
+ osnoise_cpus_write+0x116/0x2d0
+ vfs_write+0x21e/0xcc0
+ ksys_write+0xee/0x1c0
+ do_syscall_64+0xa8/0x2a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ &lt;/TASK&gt;
+
+This issue can be reproduced by below code:
+
+const char *cpulist = "1";
+int fd=open("/sys/kernel/debug/tracing/osnoise/cpus", O_WRONLY);
+write(fd, cpulist, strlen(cpulist));
+
+Function bitmap_parselist() was called to parse cpulist, it require that
+the parameter 'buf' must be terminated with a '\0' or '\n'. Fix this issue
+by adding a '\0' to 'buf' in osnoise_cpus_write().</description><pubDate>Wed, 15 Oct 2025 08:15:52 +0000</pubDate></item><item><title>CVE-2025-39975 | smb: client: fix wrong index reference in smb2_compound_op()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39975</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: fix wrong index reference in smb2_compound_op()
+
+In smb2_compound_op(), the loop that processes each command's response
+uses wrong indices when accessing response bufferes.
+
+This incorrect indexing leads to improper handling of command results.
+Also, if incorrectly computed index is greather than or equal to
+MAX_COMPOUND, it can cause out-of-bounds accesses.</description><pubDate>Wed, 15 Oct 2025 08:15:52 +0000</pubDate></item><item><title>CVE-2025-39976 | futex: Use correct exit on failure from futex_hash_allocate_default()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39976</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+futex: Use correct exit on failure from futex_hash_allocate_default()
+
+copy_process() uses the wrong error exit path from futex_hash_allocate_default().
+After exiting from futex_hash_allocate_default(), neither tasklist_lock
+nor siglock has been acquired. The exit label bad_fork_core_free unlocks
+both of these locks which is wrong.
+
+The next exit label, bad_fork_cancel_cgroup, is the correct exit.
+sched_cgroup_fork() did not allocate any resources that need to freed.
+
+Use bad_fork_cancel_cgroup on error exit from futex_hash_allocate_default().</description><pubDate>Wed, 15 Oct 2025 08:15:53 +0000</pubDate></item><item><title>CVE-2025-39977 | futex: Prevent use-after-free during requeue-PI</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39977</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+futex: Prevent use-after-free during requeue-PI
+
+syzbot managed to trigger the following race:
+
+   T1                               T2
+
+ futex_wait_requeue_pi()
+   futex_do_wait()
+     schedule()
+                               futex_requeue()
+                                 futex_proxy_trylock_atomic()
+                                   futex_requeue_pi_prepare()
+                                   requeue_pi_wake_futex()
+                                     futex_requeue_pi_complete()
+                                      /* preempt */
+
+         * timeout/ signal wakes T1 *
+
+   futex_requeue_pi_wakeup_sync() // Q_REQUEUE_PI_LOCKED
+   futex_hash_put()
+  // back to userland, on stack futex_q is garbage
+
+                                      /* back */
+                                     wake_up_state(q-&gt;task, TASK_NORMAL);
+
+In this scenario futex_wait_requeue_pi() is able to leave without using
+futex_q::lock_ptr for synchronization.
+
+This can be prevented by reading futex_q::task before updating the
+futex_q::requeue_state. A reference on the task_struct is not needed
+because requeue_pi_wake_futex() is invoked with a spinlock_t held which
+implies a RCU read section.
+
+Even if T1 terminates immediately after, the task_struct will remain valid
+during T2's wake_up_state().  A READ_ONCE on futex_q::task before
+futex_requeue_pi_complete() is enough because it ensures that the variable
+is read before the state is updated.
+
+Read futex_q::task before updating the requeue state, use it for the
+following wakeup.</description><pubDate>Wed, 15 Oct 2025 08:15:53 +0000</pubDate></item><item><title>CVE-2025-39978 | octeontx2-pf: Fix potential use after free in otx2_tc_add_flow()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39978</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+octeontx2-pf: Fix potential use after free in otx2_tc_add_flow()
+
+This code calls kfree_rcu(new_node, rcu) and then dereferences "new_node"
+and then dereferences it on the next line.  Two lines later, we take
+a mutex so I don't think this is an RCU safe region.  Re-order it to do
+the dereferences before queuing up the free.</description><pubDate>Wed, 15 Oct 2025 08:15:54 +0000</pubDate></item><item><title>CVE-2025-39979 | net/mlx5: fs, fix UAF in flow counter release</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39979</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/mlx5: fs, fix UAF in flow counter release
+
+Fix a kernel trace [1] caused by releasing an HWS action of a local flow
+counter in mlx5_cmd_hws_delete_fte(), where the HWS action refcount and
+mutex were not initialized and the counter struct could already be freed
+when deleting the rule.
+
+Fix it by adding the missing initializations and adding refcount for the
+local flow counter struct.
+
+[1] Kernel log:
+ Call Trace:
+  &lt;TASK&gt;
+  dump_stack_lvl+0x34/0x48
+  mlx5_fs_put_hws_action.part.0.cold+0x21/0x94 [mlx5_core]
+  mlx5_fc_put_hws_action+0x96/0xad [mlx5_core]
+  mlx5_fs_destroy_fs_actions+0x8b/0x152 [mlx5_core]
+  mlx5_cmd_hws_delete_fte+0x5a/0xa0 [mlx5_core]
+  del_hw_fte+0x1ce/0x260 [mlx5_core]
+  mlx5_del_flow_rules+0x12d/0x240 [mlx5_core]
+  ? ttwu_queue_wakelist+0xf4/0x110
+  mlx5_ib_destroy_flow+0x103/0x1b0 [mlx5_ib]
+  uverbs_free_flow+0x20/0x50 [ib_uverbs]
+  destroy_hw_idr_uobject+0x1b/0x50 [ib_uverbs]
+  uverbs_destroy_uobject+0x34/0x1a0 [ib_uverbs]
+  uobj_destroy+0x3c/0x80 [ib_uverbs]
+  ib_uverbs_run_method+0x23e/0x360 [ib_uverbs]
+  ? uverbs_finalize_object+0x60/0x60 [ib_uverbs]
+  ib_uverbs_cmd_verbs+0x14f/0x2c0 [ib_uverbs]
+  ? do_tty_write+0x1a9/0x270
+  ? file_tty_write.constprop.0+0x98/0xc0
+  ? new_sync_write+0xfc/0x190
+  ib_uverbs_ioctl+0xd7/0x160 [ib_uverbs]
+  __x64_sys_ioctl+0x87/0xc0
+  do_syscall_64+0x59/0x90</description><pubDate>Wed, 15 Oct 2025 08:15:54 +0000</pubDate></item><item><title>CVE-2025-39980 | nexthop: Forbid FDB status change while nexthop is in a group</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39980</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nexthop: Forbid FDB status change while nexthop is in a group
+
+The kernel forbids the creation of non-FDB nexthop groups with FDB
+nexthops:
+
+ # ip nexthop add id 1 via 192.0.2.1 fdb
+ # ip nexthop add id 2 group 1
+ Error: Non FDB nexthop group cannot have fdb nexthops.
+
+And vice versa:
+
+ # ip nexthop add id 3 via 192.0.2.2 dev dummy1
+ # ip nexthop add id 4 group 3 fdb
+ Error: FDB nexthop group can only have fdb nexthops.
+
+However, as long as no routes are pointing to a non-FDB nexthop group,
+the kernel allows changing the type of a nexthop from FDB to non-FDB and
+vice versa:
+
+ # ip nexthop add id 5 via 192.0.2.2 dev dummy1
+ # ip nexthop add id 6 group 5
+ # ip nexthop replace id 5 via 192.0.2.2 fdb
+ # echo $?
+ 0
+
+This configuration is invalid and can result in a NPD [1] since FDB
+nexthops are not associated with a nexthop device:
+
+ # ip route add 198.51.100.1/32 nhid 6
+ # ping 198.51.100.1
+
+Fix by preventing nexthop FDB status change while the nexthop is in a
+group:
+
+ # ip nexthop add id 7 via 192.0.2.2 dev dummy1
+ # ip nexthop add id 8 group 7
+ # ip nexthop replace id 7 via 192.0.2.2 fdb
+ Error: Cannot change nexthop FDB status while in a group.
+
+[1]
+BUG: kernel NULL pointer dereference, address: 00000000000003c0
+[...]
+Oops: Oops: 0000 [#1] SMP
+CPU: 6 UID: 0 PID: 367 Comm: ping Not tainted 6.17.0-rc6-virtme-gb65678cacc03 #1 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-4.fc41 04/01/2014
+RIP: 0010:fib_lookup_good_nhc+0x1e/0x80
+[...]
+Call Trace:
+ &lt;TASK&gt;
+ fib_table_lookup+0x541/0x650
+ ip_route_output_key_hash_rcu+0x2ea/0x970
+ ip_route_output_key_hash+0x55/0x80
+ __ip4_datagram_connect+0x250/0x330
+ udp_connect+0x2b/0x60
+ __sys_connect+0x9c/0xd0
+ __x64_sys_connect+0x18/0x20
+ do_syscall_64+0xa4/0x2a0
+ entry_SYSCALL_64_after_hwframe+0x4b/0x53</description><pubDate>Wed, 15 Oct 2025 08:15:54 +0000</pubDate></item><item><title>CVE-2025-39981 | Bluetooth: MGMT: Fix possible UAFs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39981</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: MGMT: Fix possible UAFs
+
+This attemps to fix possible UAFs caused by struct mgmt_pending being
+freed while still being processed like in the following trace, in order
+to fix mgmt_pending_valid is introduce and use to check if the
+mgmt_pending hasn't been removed from the pending list, on the complete
+callbacks it is used to check and in addtion remove the cmd from the list
+while holding mgmt_pending_lock to avoid TOCTOU problems since if the cmd
+is left on the list it can still be accessed and freed.
+
+BUG: KASAN: slab-use-after-free in mgmt_add_adv_patterns_monitor_sync+0x35/0x50 net/bluetooth/mgmt.c:5223
+Read of size 8 at addr ffff8880709d4dc0 by task kworker/u11:0/55
+
+CPU: 0 UID: 0 PID: 55 Comm: kworker/u11:0 Not tainted 6.16.4 #2 PREEMPT(full)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+Workqueue: hci0 hci_cmd_sync_work
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xca/0x240 mm/kasan/report.c:482
+ kasan_report+0x118/0x150 mm/kasan/report.c:595
+ mgmt_add_adv_patterns_monitor_sync+0x35/0x50 net/bluetooth/mgmt.c:5223
+ hci_cmd_sync_work+0x210/0x3a0 net/bluetooth/hci_sync.c:332
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xade/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x711/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/source/fuzzing/kernel/kasan/linux-6.16.4/arch/x86/entry/entry_64.S:245
+ &lt;/TASK&gt;
+
+Allocated by task 12210:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:394
+ kasan_kmalloc include/linux/kasan.h:260 [inline]
+ __kmalloc_cache_noprof+0x230/0x3d0 mm/slub.c:4364
+ kmalloc_noprof include/linux/slab.h:905 [inline]
+ kzalloc_noprof include/linux/slab.h:1039 [inline]
+ mgmt_pending_new+0x65/0x1e0 net/bluetooth/mgmt_util.c:269
+ mgmt_pending_add+0x35/0x140 net/bluetooth/mgmt_util.c:296
+ __add_adv_patterns_monitor+0x130/0x200 net/bluetooth/mgmt.c:5247
+ add_adv_patterns_monitor+0x214/0x360 net/bluetooth/mgmt.c:5364
+ hci_mgmt_cmd+0x9c9/0xef0 net/bluetooth/hci_sock.c:1719
+ hci_sock_sendmsg+0x6ca/0xef0 net/bluetooth/hci_sock.c:1839
+ sock_sendmsg_nosec net/socket.c:714 [inline]
+ __sock_sendmsg+0x219/0x270 net/socket.c:729
+ sock_write_iter+0x258/0x330 net/socket.c:1133
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x5c9/0xb30 fs/read_write.c:686
+ ksys_write+0x145/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 12221:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
+ poison_slab_object mm/kasan/common.c:247 [inline]
+ __kasan_slab_free+0x62/0x70 mm/kasan/common.c:264
+ kasan_slab_free include/linux/kasan.h:233 [inline]
+ slab_free_hook mm/slub.c:2381 [inline]
+ slab_free mm/slub.c:4648 [inline]
+ kfree+0x18e/0x440 mm/slub.c:4847
+ mgmt_pending_free net/bluetooth/mgmt_util.c:311 [inline]
+ mgmt_pending_foreach+0x30d/0x380 net/bluetooth/mgmt_util.c:257
+ __mgmt_power_off+0x169/0x350 net/bluetooth/mgmt.c:9444
+ hci_dev_close_sync+0x754/0x1330 net/bluetooth/hci_sync.c:5290
+ hci_dev_do_close net/bluetooth/hci_core.c:501 [inline]
+ hci_dev_close+0x108/0x200 net/bluetooth/hci_core.c:526
+ sock_do_ioctl+0xd9/0x300 net/socket.c:1192
+ sock_ioctl+0x576/0x790 net/socket.c:1313
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:907 [inline]
+ __se_sys_ioctl+0xf9/0x170 fs/ioctl.c:893
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf
+---truncated---</description><pubDate>Wed, 15 Oct 2025 08:15:55 +0000</pubDate></item><item><title>CVE-2025-39982 | Bluetooth: hci_event: Fix UAF in hci_acl_create_conn_sync</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39982</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: hci_event: Fix UAF in hci_acl_create_conn_sync
+
+This fixes the following UFA in hci_acl_create_conn_sync where a
+connection still pending is command submission (conn-&gt;state == BT_OPEN)
+maybe freed, also since this also can happen with the likes of
+hci_le_create_conn_sync fix it as well:
+
+BUG: KASAN: slab-use-after-free in hci_acl_create_conn_sync+0x5ef/0x790 net/bluetooth/hci_sync.c:6861
+Write of size 2 at addr ffff88805ffcc038 by task kworker/u11:2/9541
+
+CPU: 1 UID: 0 PID: 9541 Comm: kworker/u11:2 Not tainted 6.16.0-rc7 #3 PREEMPT(full)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+Workqueue: hci3 hci_cmd_sync_work
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xca/0x230 mm/kasan/report.c:480
+ kasan_report+0x118/0x150 mm/kasan/report.c:593
+ hci_acl_create_conn_sync+0x5ef/0x790 net/bluetooth/hci_sync.c:6861
+ hci_cmd_sync_work+0x210/0x3a0 net/bluetooth/hci_sync.c:332
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/source/fuzzing/kernel/kasan/linux-6.16-rc7/arch/x86/entry/entry_64.S:245
+ &lt;/TASK&gt;
+
+Allocated by task 123736:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:394
+ kasan_kmalloc include/linux/kasan.h:260 [inline]
+ __kmalloc_cache_noprof+0x230/0x3d0 mm/slub.c:4359
+ kmalloc_noprof include/linux/slab.h:905 [inline]
+ kzalloc_noprof include/linux/slab.h:1039 [inline]
+ __hci_conn_add+0x233/0x1b30 net/bluetooth/hci_conn.c:939
+ hci_conn_add_unset net/bluetooth/hci_conn.c:1051 [inline]
+ hci_connect_acl+0x16c/0x4e0 net/bluetooth/hci_conn.c:1634
+ pair_device+0x418/0xa70 net/bluetooth/mgmt.c:3556
+ hci_mgmt_cmd+0x9c9/0xef0 net/bluetooth/hci_sock.c:1719
+ hci_sock_sendmsg+0x6ca/0xef0 net/bluetooth/hci_sock.c:1839
+ sock_sendmsg_nosec net/socket.c:712 [inline]
+ __sock_sendmsg+0x219/0x270 net/socket.c:727
+ sock_write_iter+0x258/0x330 net/socket.c:1131
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x54b/0xa90 fs/read_write.c:686
+ ksys_write+0x145/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 103680:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
+ poison_slab_object mm/kasan/common.c:247 [inline]
+ __kasan_slab_free+0x62/0x70 mm/kasan/common.c:264
+ kasan_slab_free include/linux/kasan.h:233 [inline]
+ slab_free_hook mm/slub.c:2381 [inline]
+ slab_free mm/slub.c:4643 [inline]
+ kfree+0x18e/0x440 mm/slub.c:4842
+ device_release+0x9c/0x1c0
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x22b/0x480 lib/kobject.c:737
+ hci_conn_cleanup net/bluetooth/hci_conn.c:175 [inline]
+ hci_conn_del+0x8ff/0xcb0 net/bluetooth/hci_conn.c:1173
+ hci_conn_complete_evt+0x3c7/0x1040 net/bluetooth/hci_event.c:3199
+ hci_event_func net/bluetooth/hci_event.c:7477 [inline]
+ hci_event_packet+0x7e0/0x1200 net/bluetooth/hci_event.c:7531
+ hci_rx_work+0x46a/0xe80 net/bluetooth/hci_core.c:4070
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/sour
+---truncated---</description><pubDate>Wed, 15 Oct 2025 08:15:55 +0000</pubDate></item><item><title>CVE-2025-39983 | Bluetooth: hci_event: Fix UAF in hci_conn_tx_dequeue</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39983</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Bluetooth: hci_event: Fix UAF in hci_conn_tx_dequeue
+
+This fixes the following UAF caused by not properly locking hdev when
+processing HCI_EV_NUM_COMP_PKTS:
+
+BUG: KASAN: slab-use-after-free in hci_conn_tx_dequeue+0x1be/0x220 net/bluetooth/hci_conn.c:3036
+Read of size 4 at addr ffff8880740f0940 by task kworker/u11:0/54
+
+CPU: 1 UID: 0 PID: 54 Comm: kworker/u11:0 Not tainted 6.16.0-rc7 #3 PREEMPT(full)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+Workqueue: hci1 hci_rx_work
+Call Trace:
+ &lt;TASK&gt;
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xca/0x230 mm/kasan/report.c:480
+ kasan_report+0x118/0x150 mm/kasan/report.c:593
+ hci_conn_tx_dequeue+0x1be/0x220 net/bluetooth/hci_conn.c:3036
+ hci_num_comp_pkts_evt+0x1c8/0xa50 net/bluetooth/hci_event.c:4404
+ hci_event_func net/bluetooth/hci_event.c:7477 [inline]
+ hci_event_packet+0x7e0/0x1200 net/bluetooth/hci_event.c:7531
+ hci_rx_work+0x46a/0xe80 net/bluetooth/hci_core.c:4070
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/source/fuzzing/kernel/kasan/linux-6.16-rc7/arch/x86/entry/entry_64.S:245
+ &lt;/TASK&gt;
+
+Allocated by task 54:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:394
+ kasan_kmalloc include/linux/kasan.h:260 [inline]
+ __kmalloc_cache_noprof+0x230/0x3d0 mm/slub.c:4359
+ kmalloc_noprof include/linux/slab.h:905 [inline]
+ kzalloc_noprof include/linux/slab.h:1039 [inline]
+ __hci_conn_add+0x233/0x1b30 net/bluetooth/hci_conn.c:939
+ le_conn_complete_evt+0x3d6/0x1220 net/bluetooth/hci_event.c:5628
+ hci_le_enh_conn_complete_evt+0x189/0x470 net/bluetooth/hci_event.c:5794
+ hci_event_func net/bluetooth/hci_event.c:7474 [inline]
+ hci_event_packet+0x78c/0x1200 net/bluetooth/hci_event.c:7531
+ hci_rx_work+0x46a/0xe80 net/bluetooth/hci_core.c:4070
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/source/fuzzing/kernel/kasan/linux-6.16-rc7/arch/x86/entry/entry_64.S:245
+
+Freed by task 9572:
+ kasan_save_stack mm/kasan/common.c:47 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
+ poison_slab_object mm/kasan/common.c:247 [inline]
+ __kasan_slab_free+0x62/0x70 mm/kasan/common.c:264
+ kasan_slab_free include/linux/kasan.h:233 [inline]
+ slab_free_hook mm/slub.c:2381 [inline]
+ slab_free mm/slub.c:4643 [inline]
+ kfree+0x18e/0x440 mm/slub.c:4842
+ device_release+0x9c/0x1c0
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x22b/0x480 lib/kobject.c:737
+ hci_conn_cleanup net/bluetooth/hci_conn.c:175 [inline]
+ hci_conn_del+0x8ff/0xcb0 net/bluetooth/hci_conn.c:1173
+ hci_abort_conn_sync+0x5d1/0xdf0 net/bluetooth/hci_sync.c:5689
+ hci_cmd_sync_work+0x210/0x3a0 net/bluetooth/hci_sync.c:332
+ process_one_work kernel/workqueue.c:3238 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3321
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3402
+ kthread+0x70e/0x8a0 kernel/kthread.c:464
+ ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 home/kwqcheii/source/fuzzing/kernel/kasan/linux-6.16-rc7/arch/x86/entry/entry_64.S:245</description><pubDate>Wed, 15 Oct 2025 08:15:56 +0000</pubDate></item><item><title>CVE-2025-39984 | net: tun: Update napi-&amp;gt;skb after XDP process</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39984</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: tun: Update napi-&gt;skb after XDP process
+
+The syzbot report a UAF issue:
+
+  BUG: KASAN: slab-use-after-free in skb_reset_mac_header include/linux/skbuff.h:3150 [inline]
+  BUG: KASAN: slab-use-after-free in napi_frags_skb net/core/gro.c:723 [inline]
+  BUG: KASAN: slab-use-after-free in napi_gro_frags+0x6e/0x1030 net/core/gro.c:758
+  Read of size 8 at addr ffff88802ef22c18 by task syz.0.17/6079
+  CPU: 0 UID: 0 PID: 6079 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full)
+  Call Trace:
+   &lt;TASK&gt;
+   dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+   print_address_description mm/kasan/report.c:378 [inline]
+   print_report+0xca/0x240 mm/kasan/report.c:482
+   kasan_report+0x118/0x150 mm/kasan/report.c:595
+   skb_reset_mac_header include/linux/skbuff.h:3150 [inline]
+   napi_frags_skb net/core/gro.c:723 [inline]
+   napi_gro_frags+0x6e/0x1030 net/core/gro.c:758
+   tun_get_user+0x28cb/0x3e20 drivers/net/tun.c:1920
+   tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1996
+   new_sync_write fs/read_write.c:593 [inline]
+   vfs_write+0x5c9/0xb30 fs/read_write.c:686
+   ksys_write+0x145/0x250 fs/read_write.c:738
+   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+   &lt;/TASK&gt;
+
+  Allocated by task 6079:
+   kasan_save_stack mm/kasan/common.c:47 [inline]
+   kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+   unpoison_slab_object mm/kasan/common.c:330 [inline]
+   __kasan_mempool_unpoison_object+0xa0/0x170 mm/kasan/common.c:558
+   kasan_mempool_unpoison_object include/linux/kasan.h:388 [inline]
+   napi_skb_cache_get+0x37b/0x6d0 net/core/skbuff.c:295
+   __alloc_skb+0x11e/0x2d0 net/core/skbuff.c:657
+   napi_alloc_skb+0x84/0x7d0 net/core/skbuff.c:811
+   napi_get_frags+0x69/0x140 net/core/gro.c:673
+   tun_napi_alloc_frags drivers/net/tun.c:1404 [inline]
+   tun_get_user+0x77c/0x3e20 drivers/net/tun.c:1784
+   tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1996
+   new_sync_write fs/read_write.c:593 [inline]
+   vfs_write+0x5c9/0xb30 fs/read_write.c:686
+   ksys_write+0x145/0x250 fs/read_write.c:738
+   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+  Freed by task 6079:
+   kasan_save_stack mm/kasan/common.c:47 [inline]
+   kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+   kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
+   poison_slab_object mm/kasan/common.c:243 [inline]
+   __kasan_slab_free+0x5b/0x80 mm/kasan/common.c:275
+   kasan_slab_free include/linux/kasan.h:233 [inline]
+   slab_free_hook mm/slub.c:2422 [inline]
+   slab_free mm/slub.c:4695 [inline]
+   kmem_cache_free+0x18f/0x400 mm/slub.c:4797
+   skb_pp_cow_data+0xdd8/0x13e0 net/core/skbuff.c:969
+   netif_skb_check_for_xdp net/core/dev.c:5390 [inline]
+   netif_receive_generic_xdp net/core/dev.c:5431 [inline]
+   do_xdp_generic+0x699/0x11a0 net/core/dev.c:5499
+   tun_get_user+0x2523/0x3e20 drivers/net/tun.c:1872
+   tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1996
+   new_sync_write fs/read_write.c:593 [inline]
+   vfs_write+0x5c9/0xb30 fs/read_write.c:686
+   ksys_write+0x145/0x250 fs/read_write.c:738
+   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+   do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+After commit e6d5dbdd20aa ("xdp: add multi-buff support for xdp running in
+generic mode"), the original skb may be freed in skb_pp_cow_data() when
+XDP program was attached, which was allocated in tun_napi_alloc_frags().
+However, the napi-&gt;skb still point to the original skb, update it after
+XDP process.</description><pubDate>Wed, 15 Oct 2025 08:15:56 +0000</pubDate></item><item><title>CVE-2025-39985 | can: mcba_usb: populate ndo_change_mtu() to prevent buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39985</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: mcba_usb: populate ndo_change_mtu() to prevent buffer overflow
+
+Sending an PF_PACKET allows to bypass the CAN framework logic and to
+directly reach the xmit() function of a CAN driver. The only check
+which is performed by the PF_PACKET framework is to make sure that
+skb-&gt;len fits the interface's MTU.
+
+Unfortunately, because the mcba_usb driver does not populate its
+net_device_ops-&gt;ndo_change_mtu(), it is possible for an attacker to
+configure an invalid MTU by doing, for example:
+
+  $ ip link set can0 mtu 9999
+
+After doing so, the attacker could open a PF_PACKET socket using the
+ETH_P_CANXL protocol:
+
+	socket(PF_PACKET, SOCK_RAW, htons(ETH_P_CANXL))
+
+to inject a malicious CAN XL frames. For example:
+
+	struct canxl_frame frame = {
+		.flags = 0xff,
+		.len = 2048,
+	};
+
+The CAN drivers' xmit() function are calling can_dev_dropped_skb() to
+check that the skb is valid, unfortunately under above conditions, the
+malicious packet is able to go through can_dev_dropped_skb() checks:
+
+  1. the skb-&gt;protocol is set to ETH_P_CANXL which is valid (the
+     function does not check the actual device capabilities).
+
+  2. the length is a valid CAN XL length.
+
+And so, mcba_usb_start_xmit() receives a CAN XL frame which it is not
+able to correctly handle and will thus misinterpret it as a CAN frame.
+
+This can result in a buffer overflow. The driver will consume cf-&gt;len
+as-is with no further checks on these lines:
+
+	usb_msg.dlc = cf-&gt;len;
+
+	memcpy(usb_msg.data, cf-&gt;data, usb_msg.dlc);
+
+Here, cf-&gt;len corresponds to the flags field of the CAN XL frame. In
+our previous example, we set canxl_frame-&gt;flags to 0xff. Because the
+maximum expected length is 8, a buffer overflow of 247 bytes occurs!
+
+Populate net_device_ops-&gt;ndo_change_mtu() to ensure that the
+interface's MTU can not be set to anything bigger than CAN_MTU. By
+fixing the root cause, this prevents the buffer overflow.</description><pubDate>Wed, 15 Oct 2025 08:15:57 +0000</pubDate></item><item><title>CVE-2025-39986 | can: sun4i_can: populate ndo_change_mtu() to prevent buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39986</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: sun4i_can: populate ndo_change_mtu() to prevent buffer overflow
+
+Sending an PF_PACKET allows to bypass the CAN framework logic and to
+directly reach the xmit() function of a CAN driver. The only check
+which is performed by the PF_PACKET framework is to make sure that
+skb-&gt;len fits the interface's MTU.
+
+Unfortunately, because the sun4i_can driver does not populate its
+net_device_ops-&gt;ndo_change_mtu(), it is possible for an attacker to
+configure an invalid MTU by doing, for example:
+
+  $ ip link set can0 mtu 9999
+
+After doing so, the attacker could open a PF_PACKET socket using the
+ETH_P_CANXL protocol:
+
+	socket(PF_PACKET, SOCK_RAW, htons(ETH_P_CANXL))
+
+to inject a malicious CAN XL frames. For example:
+
+	struct canxl_frame frame = {
+		.flags = 0xff,
+		.len = 2048,
+	};
+
+The CAN drivers' xmit() function are calling can_dev_dropped_skb() to
+check that the skb is valid, unfortunately under above conditions, the
+malicious packet is able to go through can_dev_dropped_skb() checks:
+
+  1. the skb-&gt;protocol is set to ETH_P_CANXL which is valid (the
+     function does not check the actual device capabilities).
+
+  2. the length is a valid CAN XL length.
+
+And so, sun4ican_start_xmit() receives a CAN XL frame which it is not
+able to correctly handle and will thus misinterpret it as a CAN frame.
+
+This can result in a buffer overflow. The driver will consume cf-&gt;len
+as-is with no further checks on this line:
+
+	dlc = cf-&gt;len;
+
+Here, cf-&gt;len corresponds to the flags field of the CAN XL frame. In
+our previous example, we set canxl_frame-&gt;flags to 0xff. Because the
+maximum expected length is 8, a buffer overflow of 247 bytes occurs a
+couple line below when doing:
+
+	for (i = 0; i &lt; dlc; i++)
+		writel(cf-&gt;data[i], priv-&gt;base + (dreg + i * 4));
+
+Populate net_device_ops-&gt;ndo_change_mtu() to ensure that the
+interface's MTU can not be set to anything bigger than CAN_MTU. By
+fixing the root cause, this prevents the buffer overflow.</description><pubDate>Wed, 15 Oct 2025 08:15:57 +0000</pubDate></item><item><title>CVE-2025-39987 | can: hi311x: populate ndo_change_mtu() to prevent buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39987</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: hi311x: populate ndo_change_mtu() to prevent buffer overflow
+
+Sending an PF_PACKET allows to bypass the CAN framework logic and to
+directly reach the xmit() function of a CAN driver. The only check
+which is performed by the PF_PACKET framework is to make sure that
+skb-&gt;len fits the interface's MTU.
+
+Unfortunately, because the sun4i_can driver does not populate its
+net_device_ops-&gt;ndo_change_mtu(), it is possible for an attacker to
+configure an invalid MTU by doing, for example:
+
+  $ ip link set can0 mtu 9999
+
+After doing so, the attacker could open a PF_PACKET socket using the
+ETH_P_CANXL protocol:
+
+	socket(PF_PACKET, SOCK_RAW, htons(ETH_P_CANXL))
+
+to inject a malicious CAN XL frames. For example:
+
+	struct canxl_frame frame = {
+		.flags = 0xff,
+		.len = 2048,
+	};
+
+The CAN drivers' xmit() function are calling can_dev_dropped_skb() to
+check that the skb is valid, unfortunately under above conditions, the
+malicious packet is able to go through can_dev_dropped_skb() checks:
+
+  1. the skb-&gt;protocol is set to ETH_P_CANXL which is valid (the
+     function does not check the actual device capabilities).
+
+  2. the length is a valid CAN XL length.
+
+And so, hi3110_hard_start_xmit() receives a CAN XL frame which it is
+not able to correctly handle and will thus misinterpret it as a CAN
+frame. The driver will consume frame-&gt;len as-is with no further
+checks.
+
+This can result in a buffer overflow later on in hi3110_hw_tx() on
+this line:
+
+	memcpy(buf + HI3110_FIFO_EXT_DATA_OFF,
+	       frame-&gt;data, frame-&gt;len);
+
+Here, frame-&gt;len corresponds to the flags field of the CAN XL frame.
+In our previous example, we set canxl_frame-&gt;flags to 0xff. Because
+the maximum expected length is 8, a buffer overflow of 247 bytes
+occurs!
+
+Populate net_device_ops-&gt;ndo_change_mtu() to ensure that the
+interface's MTU can not be set to anything bigger than CAN_MTU. By
+fixing the root cause, this prevents the buffer overflow.</description><pubDate>Wed, 15 Oct 2025 08:15:57 +0000</pubDate></item><item><title>CVE-2025-39988 | can: etas_es58x: populate ndo_change_mtu() to prevent buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39988</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: etas_es58x: populate ndo_change_mtu() to prevent buffer overflow
+
+Sending an PF_PACKET allows to bypass the CAN framework logic and to
+directly reach the xmit() function of a CAN driver. The only check
+which is performed by the PF_PACKET framework is to make sure that
+skb-&gt;len fits the interface's MTU.
+
+Unfortunately, because the etas_es58x driver does not populate its
+net_device_ops-&gt;ndo_change_mtu(), it is possible for an attacker to
+configure an invalid MTU by doing, for example:
+
+  $ ip link set can0 mtu 9999
+
+After doing so, the attacker could open a PF_PACKET socket using the
+ETH_P_CANXL protocol:
+
+	socket(PF_PACKET, SOCK_RAW, htons(ETH_P_CANXL));
+
+to inject a malicious CAN XL frames. For example:
+
+	struct canxl_frame frame = {
+		.flags = 0xff,
+		.len = 2048,
+	};
+
+The CAN drivers' xmit() function are calling can_dev_dropped_skb() to
+check that the skb is valid, unfortunately under above conditions, the
+malicious packet is able to go through can_dev_dropped_skb() checks:
+
+  1. the skb-&gt;protocol is set to ETH_P_CANXL which is valid (the
+     function does not check the actual device capabilities).
+
+  2. the length is a valid CAN XL length.
+
+And so, es58x_start_xmit() receives a CAN XL frame which it is not
+able to correctly handle and will thus misinterpret it as a CAN(FD)
+frame.
+
+This can result in a buffer overflow. For example, using the es581.4
+variant, the frame will be dispatched to es581_4_tx_can_msg(), go
+through the last check at the beginning of this function:
+
+	if (can_is_canfd_skb(skb))
+		return -EMSGSIZE;
+
+and reach this line:
+
+	memcpy(tx_can_msg-&gt;data, cf-&gt;data, cf-&gt;len);
+
+Here, cf-&gt;len corresponds to the flags field of the CAN XL frame. In
+our previous example, we set canxl_frame-&gt;flags to 0xff. Because the
+maximum expected length is 8, a buffer overflow of 247 bytes occurs!
+
+Populate net_device_ops-&gt;ndo_change_mtu() to ensure that the
+interface's MTU can not be set to anything bigger than CAN_MTU or
+CANFD_MTU (depending on the device capabilities). By fixing the root
+cause, this prevents the buffer overflow.</description><pubDate>Wed, 15 Oct 2025 08:15:58 +0000</pubDate></item><item><title>CVE-2025-39990 | bpf: Check the helper function is valid in get_helper_proto</title><link>https://www.cve.org/CVERecord?id=CVE-2025-39990</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Check the helper function is valid in get_helper_proto
+
+kernel test robot reported verifier bug [1] where the helper func
+pointer could be NULL due to disabled config option.
+
+As Alexei suggested we could check on that in get_helper_proto
+directly. Marking tail_call helper func with BPF_PTR_POISON,
+because it is unused by design.
+
+  [1] https://lore.kernel.org/oe-lkp/202507160818.68358831-lkp@intel.com</description><pubDate>Wed, 15 Oct 2025 08:15:58 +0000</pubDate></item><item><title>CVE-2025-11501 | Dynamically Display Posts &amp;lt;= 1.1 - Unauthenticated SQL Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-11501</link><description>The Dynamically Display Posts plugin for WordPress is vulnerable to SQL Injection via the 'tax_query' parameter in all versions up to, and including, 1.1 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</description><pubDate>Wed, 15 Oct 2025 07:34:47 +0000</pubDate></item><item><title>CVE-2025-61941 | A path traversal issue exists in WXR9300BE6P series firmware versions prior to Ver.1.10. Arbitrary file may be altered by an administrative ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-61941</link><description>A path traversal issue exists in WXR9300BE6P series firmware versions prior to Ver.1.10. Arbitrary file may be altered by an administrative user who logs in to the affected product. Moreover, arbitrary OS command may be executed via some file alteration.</description><pubDate>Wed, 15 Oct 2025 07:34:47 +0000</pubDate></item><item><title>CVE-2025-55039 | Apache Spark, Apache Spark: RPC encryption defaults to unauthenticated AES-CTR mode, enabling man-in-the-middle ciphertext modification attacks</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55039</link><description>This issue affects Apache Spark versions before  3.4.4, 3.5.2 and 4.0.0.
 
 
 
