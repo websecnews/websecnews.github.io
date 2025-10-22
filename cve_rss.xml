@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 22 Oct 2025 13:43:22 +0000</lastBuildDate><item><title>CVE-2022-50556 | drm: Fix potential null-ptr-deref due to drmm_mode_config_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50556</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 22 Oct 2025 14:17:57 +0000</lastBuildDate><item><title>CVE-2025-56447 | TM2 Monitoring v3.04 contains an authentication bypass and plaintext credential disclosure.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-56447</link><description>TM2 Monitoring v3.04 contains an authentication bypass and plaintext credential disclosure.</description><pubDate>Wed, 22 Oct 2025 14:17:58 +0000</pubDate></item><item><title>CVE-2025-61035 | The seffaflik thru 0.0.9 is vulnerable to symlink attacks due to incorrect default permissions given to the .kimlik file and .seffaflik file...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-61035</link><description>The seffaflik thru 0.0.9 is vulnerable to symlink attacks due to incorrect default permissions given to the .kimlik file and .seffaflik file, which is created with mode 0777 and 0775 respectively, exposing secrets to other local users. Additionally, the .kimlik file is written without symlink checks, allowing local attackers to overwrite arbitrary files. This can result in information disclosure and denial of service.</description><pubDate>Wed, 22 Oct 2025 14:17:59 +0000</pubDate></item><item><title>CVE-2025-8848 | HTML Injection in Accept-Language Header in danny-avila/librechat</title><link>https://www.cve.org/CVERecord?id=CVE-2025-8848</link><description>A vulnerability in danny-avila/librechat version 0.7.9 allows for HTML injection via the Accept-Language header. When a logged-in user sends an HTTP GET request with a crafted Accept-Language header, arbitrary HTML can be injected into the &lt;html lang=""&gt; tag of the response. This can lead to potential security risks such as cross-site scripting (XSS) attacks.</description><pubDate>Wed, 22 Oct 2025 14:18:00 +0000</pubDate></item><item><title>CVE-2022-50556 | drm: Fix potential null-ptr-deref due to drmm_mode_config_init()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50556</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm: Fix potential null-ptr-deref due to drmm_mode_config_init()
 
@@ -17,7 +17,7 @@ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 rel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014
 RIP: 0010:drm_object_attach_property+0x73/0x3c0 [drm]
 Call Trace:
- &lt;TASK&gt;
+ 
  __drm_connector_init+0xb6c/0x1100 [drm]
  bochs_pci_probe.cold.11+0x4cb/0x7fe [bochs]
  pci_device_probe+0x17d/0x340
@@ -199,9 +199,9 @@ lead to UAF, as follows:
 
  BUG: KASAN: use-after-free in __run_timers+0x173/0x710
  Write of size 8 at addr ffff88816d9490f0 by task swapper/0/0
-&lt;snip&gt;
+
  Call Trace:
-  &lt;IRQ&gt;
+  
   dump_stack_lvl+0x73/0x9f
   print_report.cold+0x132/0xaa2
   _raw_spin_lock_irqsave+0xcd/0x160
@@ -229,11 +229,11 @@ One of the concurrency UAF can be shown as below:
 do_resume                           |
   __find_device_hash_cell           |
     dm_get                          |
-      atomic_inc(&amp;md-&gt;holders)      |
+      atomic_inc(&amp;amp;md-&gt;holders)      |
                                     | dm_destroy
                                     |   __dm_destroy
                                     |     if (!dm_suspended_md(md))
-                                    |     atomic_read(&amp;md-&gt;holders)
+                                    |     atomic_read(&amp;amp;md-&gt;holders)
                                     |     msleep(1)
   dm_resume                         |
     __dm_resume                     |
@@ -241,7 +241,7 @@ do_resume                           |
         pool_resume                 |
           do_waker  #add delay work |
   dm_put                            |
-    atomic_dec(&amp;md-&gt;holders)        |
+    atomic_dec(&amp;amp;md-&gt;holders)        |
                                     |     dm_table_destroy
                                     |       pool_dtr
                                     |         __pool_dec
@@ -340,7 +340,7 @@ This can readily be replicated with libusbgx's example programs (for
 conciseness - operating directly via configfs is equivalent):
 
 	gadget-hid
-	exec 3&lt;&gt; /dev/hidg0
+	exec 3 /dev/hidg0
 	gadget-vid-pid-remove
 	exec 3&lt;&amp;-
 
@@ -432,9 +432,9 @@ Call Trace:
 This is the code
 
         ctl = block_group-&gt;free_space_ctl;
-        discard_ctl = &amp;block_group-&gt;fs_info-&gt;discard_ctl;
+        discard_ctl = &amp;amp;block_group-&gt;fs_info-&gt;discard_ctl;
 
-        lockdep_assert_held(&amp;ctl-&gt;tree_lock);
+        lockdep_assert_held(&amp;amp;ctl-&gt;tree_lock);
 
 We have a temporary free space ctl for loading the free space cache in
 order to avoid having allocations happening while we're loading the
@@ -562,7 +562,7 @@ PLT, resulting in a splat:
 | ftrace: no module PLT for _mcount
 | ------------[ ftrace bug ]------------
 | ftrace failed to modify
-| [&lt;ffff800029180014&gt;] 0xffff800029180014
+| [] 0xffff800029180014
 |  actual:   44:00:00:94
 | Initializing ftrace call sites
 | ftrace record flags: 2000000
@@ -625,7 +625,7 @@ CPU: 1 PID: 11 Comm: kworker/u4:1 Not tainted
 6.1.0-rc6-syzkaller-00308-g644e9524388a #0
 Workqueue: writeback wb_workfn (flush-7:0)
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
  print_address_description+0x74/0x340 mm/kasan/report.c:284
@@ -678,7 +678,7 @@ Read of size 4 at addr ffff888073644750 by task syz-executor420/5067
 CPU: 0 PID: 5067 Comm: syz-executor420 Not tainted 6.2.0-rc1-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0x1b1/0x290 lib/dump_stack.c:106
  print_address_description+0x74/0x340 mm/kasan/report.c:306
@@ -709,7 +709,7 @@ RDX: 00000000175d9003 RSI: 0000000020000200 RDI: 0000000000000004
 RBP: 00007f4b7a933050 R08: 0000000000000000 R09: 0000000000000000
 R10: 000000000000079f R11: 0000000000000246 R12: 00007f4b7a9330e0
 R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- &lt;/TASK&gt;
+ 
 
 Above issue is happens when enable bigalloc and inline data feature. As
 commit 131294c35ed6 fixed delayed allocation bug in ext4_clu_mapped for
@@ -735,25 +735,25 @@ raw_release() will not trigger the dev_free() to be called.
 
 BUG: memory leak
 
-[&lt;ffffffff8154bf94&gt;] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-[&lt;ffffffff8347eb55&gt;] kmalloc include/linux/slab.h:582 [inline]
-[&lt;ffffffff8347eb55&gt;] kzalloc include/linux/slab.h:703 [inline]
-[&lt;ffffffff8347eb55&gt;] dev_new drivers/usb/gadget/legacy/raw_gadget.c:191 [inline]
-[&lt;ffffffff8347eb55&gt;] raw_open+0x45/0x110 drivers/usb/gadget/legacy/raw_gadget.c:385
-[&lt;ffffffff827d1d09&gt;] misc_open+0x1a9/0x1f0 drivers/char/misc.c:165
+[] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+[] kmalloc include/linux/slab.h:582 [inline]
+[] kzalloc include/linux/slab.h:703 [inline]
+[] dev_new drivers/usb/gadget/legacy/raw_gadget.c:191 [inline]
+[] raw_open+0x45/0x110 drivers/usb/gadget/legacy/raw_gadget.c:385
+[] misc_open+0x1a9/0x1f0 drivers/char/misc.c:165
 
-[&lt;ffffffff8154bf94&gt;] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-[&lt;ffffffff8347cd2f&gt;] kmalloc include/linux/slab.h:582 [inline]
-[&lt;ffffffff8347cd2f&gt;] raw_ioctl_init+0xdf/0x410 drivers/usb/gadget/legacy/raw_gadget.c:460
-[&lt;ffffffff8347dfe9&gt;] raw_ioctl+0x5f9/0x1120 drivers/usb/gadget/legacy/raw_gadget.c:1250
-[&lt;ffffffff81685173&gt;] vfs_ioctl fs/ioctl.c:51 [inline]
+[] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+[] kmalloc include/linux/slab.h:582 [inline]
+[] raw_ioctl_init+0xdf/0x410 drivers/usb/gadget/legacy/raw_gadget.c:460
+[] raw_ioctl+0x5f9/0x1120 drivers/usb/gadget/legacy/raw_gadget.c:1250
+[] vfs_ioctl fs/ioctl.c:51 [inline]
 
-[&lt;ffffffff8154bf94&gt;] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
-[&lt;ffffffff833ecc6a&gt;] kmalloc include/linux/slab.h:582 [inline]
-[&lt;ffffffff833ecc6a&gt;] kzalloc include/linux/slab.h:703 [inline]
-[&lt;ffffffff833ecc6a&gt;] dummy_alloc_request+0x5a/0xe0 drivers/usb/gadget/udc/dummy_hcd.c:665
-[&lt;ffffffff833e9132&gt;] usb_ep_alloc_request+0x22/0xd0 drivers/usb/gadget/udc/core.c:196
-[&lt;ffffffff8347f13d&gt;] gadget_bind+0x6d/0x370 drivers/usb/gadget/legacy/raw_gadget.c:292
+[] kmalloc_trace+0x24/0x90 mm/slab_common.c:1076
+[] kmalloc include/linux/slab.h:582 [inline]
+[] kzalloc include/linux/slab.h:703 [inline]
+[] dummy_alloc_request+0x5a/0xe0 drivers/usb/gadget/udc/dummy_hcd.c:665
+[] usb_ep_alloc_request+0x22/0xd0 drivers/usb/gadget/udc/core.c:196
+[] gadget_bind+0x6d/0x370 drivers/usb/gadget/legacy/raw_gadget.c:292
 
 This commit therefore invoke kref_get() under the condition that
 raw_queue_event() return success.</description><pubDate>Wed, 22 Oct 2025 13:43:35 +0000</pubDate></item><item><title>CVE-2023-53694 | riscv: ftrace: Fixup panic by disabling preemption</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53694</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -943,7 +943,7 @@ anonymous set that has been already removed in the same transaction.
 [   64.924745] Write of size 8 at addr dead000000000122 by task test/890
 [   64.927903] CPU: 3 PID: 890 Comm: test Not tainted 6.3.0+ #253
 [   64.931120] Call Trace:
-[   64.932699]  &lt;TASK&gt;
+[   64.932699]  
 [   64.934292]  dump_stack_lvl+0x33/0x50
 [   64.935908]  ? nf_tables_commit+0xa24/0x1490 [nf_tables]
 [   64.937551]  kasan_report+0xda/0x120
@@ -1006,7 +1006,7 @@ of shift values in the u32 range leading to UBSAN shift-out-of-bounds.
 [    6.120665] Hardware name: AMD Birman-PHX/Birman-PHX, BIOS SFH_with_HPD_SEN.FD 04/05/2023
 [    6.120667] Workqueue: events amd_sfh_work_buffer [amd_sfh]
 [    6.120687] Call Trace:
-[    6.120690]  &lt;TASK&gt;
+[    6.120690]  
 [    6.120694]  dump_stack_lvl+0x48/0x70
 [    6.120704]  dump_stack+0x10/0x20
 [    6.120707]  ubsan_epilogue+0x9/0x40
@@ -1023,7 +1023,7 @@ of shift values in the u32 range leading to UBSAN shift-out-of-bounds.
 [    6.120788]  kthread+0xf7/0x130
 [    6.120792]  ? __pfx_kthread+0x10/0x10
 [    6.120795]  ret_from_fork+0x29/0x50
-[    6.120804]  &lt;/TASK&gt;
+[    6.120804]  
 ...
 
 Fix this by adding the condition to validate shift ranges.</description><pubDate>Wed, 22 Oct 2025 13:43:39 +0000</pubDate></item><item><title>CVE-2023-53704 | clk: imx: clk-imx8mp: improve error handling in imx8mp_clocks_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53704</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1074,7 +1074,7 @@ CPU: 7 PID: 1 Comm: swapper/0 Not tainted 6.3.0-rc5-150500.34-default+ #2 5c90a6
 Hardware name: IBM,9009-42G POWER9 (raw) 0x4e0202 0xf000005 of:IBM,FW950.40 (VL950_099) hv:phyp pSeries
 NIP:  c000000001269d90 LR: c0000000004c57d4 CTR: 0000000000000000
 REGS: c000000003632c30 TRAP: 0300   Not tainted  (6.3.0-rc5-150500.34-default+)
-MSR:  8000000000009033 &lt;SF,EE,ME,IR,DR,RI,LE&gt;  CR: 24842228  XER: 00000000
+MSR:  8000000000009033   CR: 24842228  XER: 00000000
 CFAR: c0000000004c57d0 DAR: c00c000100400038 DSISR: 42000000 IRQMASK: 0
 ....
 NIP [c000000001269d90] __init_single_page.isra.74+0x14/0x4c
@@ -1188,7 +1188,7 @@ knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00005602323024c8 CR3: 0000000022e0c000 CR4: 00000000000006e0
 Call Trace:
- &lt;TASK&gt;
+ 
  ring_buffer_lock_reserve+0x136/0x360
  ? __do_softirq+0x287/0x2df
  ? __pfx_rcu_softirq_qs+0x10/0x10
@@ -1206,7 +1206,7 @@ Call Trace:
  kthread+0xe7/0x110
  ? __pfx_kthread+0x10/0x10
  ret_from_fork+0x2c/0x50
- &lt;/TASK&gt;
+ 
 ---[ end trace 0000000000000000 ]---
 
 [ crash report and test reproducer credit goes to Zheng Yejian]</description><pubDate>Wed, 22 Oct 2025 13:43:41 +0000</pubDate></item><item><title>CVE-2023-53710 | wifi: mt76: mt7921: fix error code of return in mt7921_acpi_read</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53710</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1227,7 +1227,7 @@ Fix the error code of return to mark the ACPI SAR table as invalid.
 [mt7921_common]
 ...
 [    5.080786] Call Trace:
-[    5.080786]  &lt;TASK&gt;
+[    5.080786]  
 [    5.080786]  mt7921_register_device+0x37d/0x490 [mt7921_common]
 [    5.080786]  mt7921_pci_probe.part.0+0x2ee/0x310 [mt7921e]
 [    5.080786]  mt7921_pci_probe+0x52/0x70 [mt7921e]
@@ -1520,7 +1520,7 @@ sdma ecc. So this patch correct this.
 [ 7283.167036] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [ 7283.167039] CR2: 00000000f7a9d178 CR3: 00000001c42ea000 CR4: 00000000003506e0
 [ 7283.167041] Call Trace:
-[ 7283.167046]  &lt;TASK&gt;
+[ 7283.167046]  
 [ 7283.167048]  sdma_v4_0_hw_fini+0x38/0xa0 [amdgpu]
 [ 7283.167704]  amdgpu_device_ip_suspend_phase2+0x101/0x1a0 [amdgpu]
 [ 7283.168296]  amdgpu_device_suspend+0x103/0x180 [amdgpu]
@@ -1610,7 +1610,7 @@ CPU: 0 PID: 5177 Comm: syz-executor273 Not tainted 6.5.0-syzkaller-00453-g727dbd
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
 RIP: 0010:check_kcov_mode kernel/kcov.c:173 [inline]
 RIP: 0010:write_comp_data+0x21/0x90 kernel/kcov.c:236
-Code: 2e 0f 1f 84 00 00 00 00 00 65 8b 05 01 b2 7d 7e 49 89 f1 89 c6 49 89 d2 81 e6 00 01 00 00 49 89 f8 65 48 8b 14 25 80 b9 03 00 &lt;a9&gt; 00 01 ff 00 74 0e 85 f6 74 59 8b 82 04 16 00 00 85 c0 74 4f 8b
+Code: 2e 0f 1f 84 00 00 00 00 00 65 8b 05 01 b2 7d 7e 49 89 f1 89 c6 49 89 d2 81 e6 00 01 00 00 49 89 f8 65 48 8b 14 25 80 b9 03 00  00 01 ff 00 74 0e 85 f6 74 59 8b 82 04 16 00 00 85 c0 74 4f 8b
 RSP: 0018:ffffc90000007bb8 EFLAGS: 00000206
 RAX: 0000000000000101 RBX: ffffc9000dc0d140 RCX: ffffffff885893b0
 RDX: ffff88807c075940 RSI: 0000000000000100 RDI: 0000000000000001
@@ -1623,9 +1623,9 @@ CR2: 00007f6b442f6130 CR3: 000000006fe1c000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- &lt;NMI&gt;
- &lt;/NMI&gt;
- &lt;IRQ&gt;
+ 
+ 
+ 
  pie_calculate_probability+0x480/0x850 net/sched/sch_pie.c:415
  fq_pie_timer+0x1da/0x4f0 net/sched/sch_fq_pie.c:387
  call_timer_fn+0x1a0/0x580 kernel/time/timer.c:1700</description><pubDate>Wed, 22 Oct 2025 13:43:48 +0000</pubDate></item><item><title>CVE-2023-53728 | posix-timers: Ensure timer ID search-loop limit is valid</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53728</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1685,8 +1685,8 @@ consistent with before when unlock.
   --------------------------------
   inconsistent {IN-HARDIRQ-W} -&gt; {HARDIRQ-ON-W} usage.
   kworker/2:3/388 [HC0[0]:SC0[0]:HE0:SE1] takes:
-  ffff888118c00c28 (&amp;bfqd-&gt;lock){?.-.}-{2:2}, at: spin_lock_irq
-  ffff888118c00c28 (&amp;bfqd-&gt;lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390
+  ffff888118c00c28 (&amp;amp;bfqd-&gt;lock){?.-.}-{2:2}, at: spin_lock_irq
+  ffff888118c00c28 (&amp;amp;bfqd-&gt;lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390
   {IN-HARDIRQ-W} state was registered at:
     __lock_acquire+0x3d7/0x1070
     lock_acquire+0x197/0x4a0
@@ -1703,29 +1703,29 @@ consistent with before when unlock.
     sysvec_apic_timer_interrupt+0x46/0xa0
     asm_sysvec_apic_timer_interrupt+0x12/0x20
   irq event stamp: 837522
-  hardirqs last  enabled at (837521): [&lt;ffffffff84b9419d&gt;] __raw_spin_unlock_irqrestore
-  hardirqs last  enabled at (837521): [&lt;ffffffff84b9419d&gt;] _raw_spin_unlock_irqrestore+0x3d/0x40
-  hardirqs last disabled at (837522): [&lt;ffffffff84b93fa3&gt;] __raw_spin_lock_irq
-  hardirqs last disabled at (837522): [&lt;ffffffff84b93fa3&gt;] _raw_spin_lock_irq+0x43/0x50
-  softirqs last  enabled at (835852): [&lt;ffffffff84e00558&gt;] __do_softirq+0x558/0x8ec
-  softirqs last disabled at (835845): [&lt;ffffffff84c010ff&gt;] asm_call_irq_on_stack+0xf/0x20
+  hardirqs last  enabled at (837521): [] __raw_spin_unlock_irqrestore
+  hardirqs last  enabled at (837521): [] _raw_spin_unlock_irqrestore+0x3d/0x40
+  hardirqs last disabled at (837522): [] __raw_spin_lock_irq
+  hardirqs last disabled at (837522): [] _raw_spin_lock_irq+0x43/0x50
+  softirqs last  enabled at (835852): [] __do_softirq+0x558/0x8ec
+  softirqs last disabled at (835845): [] asm_call_irq_on_stack+0xf/0x20
 
   other info that might help us debug this:
    Possible unsafe locking scenario:
 
          CPU0
          ----
-    lock(&amp;bfqd-&gt;lock);
-    &lt;Interrupt&gt;
-      lock(&amp;bfqd-&gt;lock);
+    lock(&amp;amp;bfqd-&gt;lock);
+    
+      lock(&amp;amp;bfqd-&gt;lock);
 
    *** DEADLOCK ***
 
   3 locks held by kworker/2:3/388:
    #0: ffff888107af0f38 ((wq_completion)kthrotld){+.+.}-{0:0}, at: process_one_work+0x742/0x13f0
-   #1: ffff8881176bfdd8 ((work_completion)(&amp;td-&gt;dispatch_work)){+.+.}-{0:0}, at: process_one_work+0x777/0x13f0
-   #2: ffff888118c00c28 (&amp;bfqd-&gt;lock){?.-.}-{2:2}, at: spin_lock_irq
-   #2: ffff888118c00c28 (&amp;bfqd-&gt;lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390
+   #1: ffff8881176bfdd8 ((work_completion)(&amp;amp;td-&gt;dispatch_work)){+.+.}-{0:0}, at: process_one_work+0x777/0x13f0
+   #2: ffff888118c00c28 (&amp;amp;bfqd-&gt;lock){?.-.}-{2:2}, at: spin_lock_irq
+   #2: ffff888118c00c28 (&amp;amp;bfqd-&gt;lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390
 
   stack backtrace:
   CPU: 2 PID: 388 Comm: kworker/2:3 Not tainted 5.10.0-02758-g8e5f91fd772f #26
@@ -1782,7 +1782,7 @@ WARNING: possible irq lock inversion dependency detected
 syz-executor.2/23011 just changed the state of lock:
 ffffffff8e1a7a58 (nl_table_lock){.+.?}-{2:2}, at: netlink_set_err+0x2e/0x3a0 net/netlink/af_netlink.c:1612
 but this lock was taken by another, SOFTIRQ-safe lock in the past:
- (&amp;local-&gt;queue_stop_reason_lock){..-.}-{2:2}
+ (&amp;amp;local-&gt;queue_stop_reason_lock){..-.}-{2:2}
 
 and interrupts could create inverse lock ordering between them.
 
@@ -1793,10 +1793,10 @@ other info that might help us debug this:
        ----                    ----
   lock(nl_table_lock);
                                local_irq_disable();
-                               lock(&amp;local-&gt;queue_stop_reason_lock);
+                               lock(&amp;amp;local-&gt;queue_stop_reason_lock);
                                lock(nl_table_lock);
-  &lt;Interrupt&gt;
-    lock(&amp;local-&gt;queue_stop_reason_lock);
+  
+    lock(&amp;amp;local-&gt;queue_stop_reason_lock);
 
  *** DEADLOCK ***</description><pubDate>Wed, 22 Oct 2025 13:43:49 +0000</pubDate></item><item><title>CVE-2023-53732 | fs/ntfs3: Fix NULL dereference in ni_write_inode</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53732</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
