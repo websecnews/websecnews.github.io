@@ -1,5 +1,67 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 24 Oct 2025 11:56:50 +0000</lastBuildDate><item><title>CVE-2023-53733 | net: sched: cls_u32: Undo tcf_bind_filter if u32_replace_hw_knode</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53733</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 24 Oct 2025 12:36:13 +0000</lastBuildDate><item><title>CVE-2025-11576 | AI Chatbot Free Models – Customer Support, Live Chat, Virtual Assistant &amp;lt;= 1.6.5 - Unauthenticated CSV Injection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-11576</link><description>The AI Chatbot Free Models – Customer Support, Live Chat, Virtual Assistant plugin for WordPress is vulnerable to CSV Injection in all versions up to, and including, 1.6.5. This is due to insufficient sanitization in the 'newcodebyte_chatbot_export_messages' function. This makes it possible for unauthenticated attackers to embed untrusted input into exported CSV files, which can result in code execution when these files are downloaded and opened on a local system with a vulnerable configuration.</description><pubDate>Fri, 24 Oct 2025 12:36:15 +0000</pubDate></item><item><title>CVE-2025-40020 | can: peak_usb: fix shift-out-of-bounds issue</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40020</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+can: peak_usb: fix shift-out-of-bounds issue
+
+Explicitly uses a 64-bit constant when the number of bits used for its
+shifting is 32 (which is the case for PC CAN FD interfaces supported by
+this driver).
+
+[mkl: update subject, apply manually]</description><pubDate>Fri, 24 Oct 2025 12:36:15 +0000</pubDate></item><item><title>CVE-2025-40021 | tracing: dynevent: Add a missing lockdown check on dynevent</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40021</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tracing: dynevent: Add a missing lockdown check on dynevent
+
+Since dynamic_events interface on tracefs is compatible with
+kprobe_events and uprobe_events, it should also check the lockdown
+status and reject if it is set.</description><pubDate>Fri, 24 Oct 2025 12:36:16 +0000</pubDate></item><item><title>CVE-2025-40022 | crypto: af_alg - Fix incorrect boolean values in af_alg_ctx</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40022</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: af_alg - Fix incorrect boolean values in af_alg_ctx
+
+Commit 1b34cbbf4f01 ("crypto: af_alg - Disallow concurrent writes in
+af_alg_sendmsg") changed some fields from bool to 1-bit bitfields of
+type u32.
+
+However, some assignments to these fields, specifically 'more' and
+'merge', assign values greater than 1.  These relied on C's implicit
+conversion to bool, such that zero becomes false and nonzero becomes
+true.
+
+With a 1-bit bitfields of type u32 instead, mod 2 of the value is taken
+instead, resulting in 0 being assigned in some cases when 1 was intended.
+
+Fix this by restoring the bool type.</description><pubDate>Fri, 24 Oct 2025 12:36:16 +0000</pubDate></item><item><title>CVE-2025-40023 | drm/xe/vf: Don&amp;#x27;t expose sysfs attributes not applicable for VFs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40023</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe/vf: Don't expose sysfs attributes not applicable for VFs
+
+VFs can't read BMG_PCIE_CAP(0x138340) register nor access PCODE
+(already guarded by the info.skip_pcode flag) so we shouldn't
+expose attributes that require any of them to avoid errors like:
+
+ [] xe 0000:03:00.1: [drm] Tile0: GT0: VF is trying to read an \
+                     inaccessible register 0x138340+0x0
+ [] RIP: 0010:xe_gt_sriov_vf_read32+0x6c2/0x9a0 [xe]
+ [] Call Trace:
+ []  xe_mmio_read32+0x110/0x280 [xe]
+ []  auto_link_downgrade_capable_show+0x2e/0x70 [xe]
+ []  dev_attr_show+0x1a/0x70
+ []  sysfs_kf_seq_show+0xaa/0x120
+ []  kernfs_seq_show+0x41/0x60
+
+(cherry picked from commit a2d6223d224f333f705ed8495bf8bebfbc585c35)</description><pubDate>Fri, 24 Oct 2025 12:36:17 +0000</pubDate></item><item><title>CVE-2025-40024 | vhost: Take a reference on the task in struct vhost_task.</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40024</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vhost: Take a reference on the task in struct vhost_task.
+
+vhost_task_create() creates a task and keeps a reference to its
+task_struct. That task may exit early via a signal and its task_struct
+will be released.
+A pending vhost_task_wake() will then attempt to wake the task and
+access a task_struct which is no longer there.
+
+Acquire a reference on the task_struct while creating the thread and
+release the reference while the struct vhost_task itself is removed.
+If the task exits early due to a signal, then the vhost_task_wake() will
+still access a valid task_struct. The wake is safe and will be skipped
+in this case.</description><pubDate>Fri, 24 Oct 2025 12:36:17 +0000</pubDate></item><item><title>CVE-2023-53733 | net: sched: cls_u32: Undo tcf_bind_filter if u32_replace_hw_knode</title><link>https://www.cve.org/CVERecord?id=CVE-2023-53733</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: sched: cls_u32: Undo tcf_bind_filter if u32_replace_hw_knode
 
