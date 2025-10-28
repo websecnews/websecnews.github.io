@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 28 Oct 2025 09:38:30 +0000</lastBuildDate><item><title>CVE-2025-40025 | f2fs: fix to do sanity check on node footer for non inode dnode</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40025</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 28 Oct 2025 10:23:07 +0000</lastBuildDate><item><title>CVE-2025-55758 | Extension - jdownloads.com - CSRF vectors in jDownloads component 1.0.0 - 4.0.47 for Joomla</title><link>https://www.cve.org/CVERecord?id=CVE-2025-55758</link><description>Multiple CSRF attack vectors in JDownloads component 1.0.0-4.0.47 for Joomla were discovered.</description><pubDate>Tue, 28 Oct 2025 10:23:09 +0000</pubDate></item><item><title>CVE-2025-40025 | f2fs: fix to do sanity check on node footer for non inode dnode</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40025</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 f2fs: fix to do sanity check on node footer for non inode dnode
 
@@ -11,7 +11,7 @@ Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
 CPU: 0 UID: 0 PID: 5354 Comm: syz.0.0 Not tainted 6.17.0-rc1-syzkaller-00211-g90d970cade8e #0 PREEMPT(full)
 RIP: 0010:f2fs_truncate_hole+0x69e/0x6c0 fs/f2fs/file.c:1243
 Call Trace:
- &lt;TASK&gt;
+ 
  f2fs_punch_hole+0x2db/0x330 fs/f2fs/file.c:1306
  f2fs_fallocate+0x546/0x990 fs/f2fs/file.c:2018
  vfs_fallocate+0x666/0x7e0 fs/open.c:342
@@ -79,15 +79,14 @@ of the I/O instruction.
   RIP: 0010:emulator_pio_in_out+0x154/0x170 [kvm]
   PKRU: 55555554
   Call Trace:
-   &lt;TASK&gt;
+   
    kvm_fast_pio+0xd6/0x1d0 [kvm]
    vmx_handle_exit+0x149/0x610 [kvm_intel]
    kvm_arch_vcpu_ioctl_run+0xda8/0x1ac0 [kvm]
    kvm_vcpu_ioctl+0x244/0x8c0 [kvm]
    __x64_sys_ioctl+0x8a/0xd0
    do_syscall_64+0x5d/0xc60
-   entry_SYSCALL_64_after_hwframe+0x4b/0x53
-   &lt;/TASK&gt;</description><pubDate>Tue, 28 Oct 2025 09:38:32 +0000</pubDate></item><item><title>CVE-2025-40027 | net/9p: fix double req put in p9_fd_cancelled</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40027</link><description>In the Linux kernel, the following vulnerability has been resolved:
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53</description><pubDate>Tue, 28 Oct 2025 09:38:32 +0000</pubDate></item><item><title>CVE-2025-40027 | net/9p: fix double req put in p9_fd_cancelled</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40027</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net/9p: fix double req put in p9_fd_cancelled
 
@@ -103,7 +102,7 @@ RIP: 0010:list_del include/linux/list.h:148 [inline]
 RIP: 0010:p9_fd_cancelled+0xe9/0x200 net/9p/trans_fd.c:734
 
 Call Trace:
- &lt;TASK&gt;
+ 
  p9_client_flush+0x351/0x440 net/9p/client.c:614
  p9_client_rpc+0xb6b/0xc70 net/9p/client.c:734
  p9_client_version net/9p/client.c:920 [inline]
@@ -136,7 +135,7 @@ This happens because of a race condition between:
     p9_conn_create()
     ...
     // start Thread 2
-    INIT_WORK(&amp;m-&gt;rq, p9_read_work);
+    INIT_WORK(&amp;amp;m-&gt;rq, p9_read_work);
                                         p9_read_work()
     ...
     p9_client_rpc()
@@ -144,23 +143,23 @@ This happens because of a race condition between:
                                         ...
                                         p9_conn_cancel()
                                         ...
-                                        spin_lock(&amp;m-&gt;req_lock);
+                                        spin_lock(&amp;amp;m-&gt;req_lock);
     ...
     p9_fd_cancelled()
     ...
                                         ...
-                                        spin_unlock(&amp;m-&gt;req_lock);
+                                        spin_unlock(&amp;amp;m-&gt;req_lock);
                                         // status rewrite
                                         p9_client_cb(m-&gt;client, req, REQ_STATUS_ERROR)
                                         // first remove
-                                        list_del(&amp;req-&gt;req_list);
+                                        list_del(&amp;amp;req-&gt;req_list);
                                         ...
 
-    spin_lock(&amp;m-&gt;req_lock)
+    spin_lock(&amp;amp;m-&gt;req_lock)
     ...
     // second remove
-    list_del(&amp;req-&gt;req_list);
-    spin_unlock(&amp;m-&gt;req_lock)
+    list_del(&amp;amp;req-&gt;req_list);
+    spin_unlock(&amp;amp;m-&gt;req_lock)
   ...
 
 Commit 74d6a5d56629 ("9p/trans_fd: Fix concurrency del of req_list in
