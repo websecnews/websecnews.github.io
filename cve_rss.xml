@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 28 Oct 2025 11:55:35 +0000</lastBuildDate><item><title>CVE-2025-40029 | bus: fsl-mc: Check return value of platform_get_resource()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40029</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 28 Oct 2025 12:30:01 +0000</lastBuildDate><item><title>CVE-2025-1036 | Command injection vulnerability exists in the “Logging” page of the web-based configuration utility. An authenticated user with low privileg...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-1036</link><description>Command injection vulnerability exists in the “Logging” page of the web-based configuration utility. An authenticated user with low privileged network access for the configuration utility can execute arbitrary commands on the underlying OS to obtain root SSH access to the TropOS 4th Gen device.</description><pubDate>Tue, 28 Oct 2025 12:30:03 +0000</pubDate></item><item><title>CVE-2025-40029 | bus: fsl-mc: Check return value of platform_get_resource()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40029</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 bus: fsl-mc: Check return value of platform_get_resource()
 
@@ -195,15 +195,15 @@ disabled.
  preempt_count: 1, expected: 0
  INFO: lockdep is turned off.
  irq event stamp: 30580
- hardirqs last  enabled at (30579): [&lt;ffffffffc08b2527&gt;] vcpu_run+0x1787/0x1db0 [kvm]
- hardirqs last disabled at (30580): [&lt;ffffffffb4f62e32&gt;] __schedule+0x1e2/0xed0
- softirqs last  enabled at (30570): [&lt;ffffffffb4247a64&gt;] fpu_swap_kvm_fpstate+0x44/0x210
- softirqs last disabled at (30568): [&lt;ffffffffb4247a64&gt;] fpu_swap_kvm_fpstate+0x44/0x210
+ hardirqs last  enabled at (30579): [] vcpu_run+0x1787/0x1db0 [kvm]
+ hardirqs last disabled at (30580): [] __schedule+0x1e2/0xed0
+ softirqs last  enabled at (30570): [] fpu_swap_kvm_fpstate+0x44/0x210
+ softirqs last disabled at (30568): [] fpu_swap_kvm_fpstate+0x44/0x210
  CPU: 298 UID: 0 PID: 32611 Comm: qemu Tainted: G     U              6.16.0-smp--e6c618b51cfe-sleep #782 NONE
  Tainted: [U]=USER
  Hardware name: Google Astoria-Turin/astoria, BIOS 0.20241223.2-0 01/17/2025
  Call Trace:
-  &lt;TASK&gt;
+  
   dump_stack_lvl+0x7d/0xb0
   __might_resched+0x271/0x290
   __might_fault+0x28/0x80
@@ -221,7 +221,7 @@ disabled.
   do_syscall_64+0x8a/0x2c0
   entry_SYSCALL_64_after_hwframe+0x4b/0x53
  RIP: 0033:0x7f479d57a94b
-  &lt;/TASK&gt;
+  
 
 Note, this is essentially a reapply of commit 5c30e8101e8d ("KVM: SVM:
 Skip WRMSR fastpath on VM-Exit if next RIP isn't valid"), but with
@@ -263,10 +263,10 @@ syzkaller discovered the following crash: (kernel BUG)
 [   44.609635] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
 [   44.610695] RIP: 0010:userfaultfd_release_all+0x3a8/0x460
 
-&lt;snip other registers, drop unreliable trace&gt;
+
 
 [   44.617726] Call Trace:
-[   44.617926]  &lt;TASK&gt;
+[   44.617926]  
 [   44.619284]  userfaultfd_release+0xef/0x1b0
 [   44.620976]  __fput+0x3f9/0xb60
 [   44.621240]  fput_close_sync+0x110/0x210
@@ -428,9 +428,9 @@ NULL pointer dereference and kernel crash.
 [1135630.516834]  el0_svc+0x8/0x1b0
 
 kernel/trace/trace_kprobe.c: 1308
-0xffff3df8995039ec &lt;kprobe_perf_func+0x2c&gt;:     ldr     x21, [x24,#120]
+0xffff3df8995039ec :     ldr     x21, [x24,#120]
 include/linux/compiler.h: 294
-0xffff3df8995039f0 &lt;kprobe_perf_func+0x30&gt;:     ldr     x1, [x21,x0]
+0xffff3df8995039f0 :     ldr     x1, [x21,x0]
 
 kernel/trace/trace_kprobe.c
 1308: head = this_cpu_ptr(call-&gt;perf_events);
@@ -526,7 +526,7 @@ Read of size 1 at addr ffff888041e7d000 by task syz-executor317/5309
 CPU: 0 UID: 0 PID: 5309 Comm: syz-executor317 Not tainted 6.12.0-rc4-syzkaller-00261-g850925a8133c #0
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:377 [inline]
@@ -550,7 +550,7 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
- &lt;/TASK&gt;
+ 
 
 Validate the computed total length against epos-&gt;bh-&gt;b_size.
 
@@ -707,7 +707,7 @@ Backtrace:
 [  945.285262] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [  945.285884] CR2: 00007fa7ffdd31f4 CR3: 000000010540d000 CR4: 0000000000350ef0
 [  945.286683] Call Trace:
-[  945.286952]  &lt;TASK&gt;
+[  945.286952]  
 [  945.287184]  ? crypt_message+0x33f/0xad0 [cifs]
 [  945.287719]  crypto_gcm_encrypt+0x36/0xe0
 [  945.288152]  crypt_message+0x54a/0xad0 [cifs]
@@ -954,7 +954,7 @@ Read of size 1 at addr ffff888036bac33a by task syz.0.3632/18609
 CPU: 1 UID: 0 PID: 18609 Comm: syz.0.3632 Not tainted syzkaller #0 PREEMPT(full)
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
  print_report+0xca/0x240 mm/kasan/report.c:482
@@ -983,7 +983,7 @@ RDX: 0000000000000010 RSI: 0000200000000280 RDI: 000000000000000b
 RBP: 00007f47cc011e19 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 R13: 00007f47cc1d6038 R14: 00007f47cc1d5fa0 R15: 00007ffc512f8aa8
- &lt;/TASK&gt;
+ 
 
 The buggy address belongs to the physical page:
 page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888036bacd00 pfn:0x36bac
@@ -1081,7 +1081,7 @@ may happen.
   CPU: 1 UID: 0 PID: 4760 Comm: syz.4.914 Not tainted 6.17.0-rc3+ #1 NONE
   RIP: 0010:device_release+0x1bd/0x240 drivers/base/core.c:2567
   Call Trace:
-   &lt;TASK&gt;
+   
    kobject_cleanup+0x136/0x410 lib/kobject.c:689
    kobject_release lib/kobject.c:720 [inline]
    kref_put include/linux/kref.h:65 [inline]
@@ -1101,7 +1101,7 @@ may happen.
    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
    do_syscall_64+0x5f/0x2a0 arch/x86/entry/syscall_64.c:94
    entry_SYSCALL_64_after_hwframe+0x76/0x7e
-   &lt;/TASK&gt;
+   
 
 Before commit c79a39dc8d06 ("pps: Fix a use-after-free"),
 pps_register_cdev() call device_create() to create pps-&gt;dev, which will
@@ -1200,7 +1200,7 @@ knlGS:0000000000000000
 [   25.695162] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [   25.695170] CR2: 0000000000000038 CR3: 0000000136994006 CR4: 00000000003706f0
 [   25.695201] Call Trace:
-[   25.695209]  &lt;TASK&gt;
+[   25.695209]  
 [   25.695215]  __x64_sys_fanotify_mark+0x1f/0x30
 [   25.695222]  do_syscall_64+0x82/0x2c0
 ...</description><pubDate>Tue, 28 Oct 2025 11:55:56 +0000</pubDate></item><item><title>CVE-2025-40073 | drm/msm: Do not validate SSPP when it is not ready</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40073</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1360,24 +1360,24 @@ The ns_bpf_qdisc selftest triggers a kernel panic:
      s11: ff2000000eecb9d0 t3 : 0000000000000000 t4 : 0000000000ff0000
      t5 : 0000000000000000 t6 : ff60000093a6a8b6
     status: 0000000200000120 badaddr: ffffffffa38dbf58 cause: 000000000000000d
-    [&lt;ffffffff80bd5c7a&gt;] __qdisc_run+0x82/0x6f0
-    [&lt;ffffffff80b6fe58&gt;] __dev_queue_xmit+0x4c0/0x1128
-    [&lt;ffffffff80b80ae0&gt;] neigh_resolve_output+0xd0/0x170
-    [&lt;ffffffff80d2daf6&gt;] ip6_finish_output2+0x226/0x6c8
-    [&lt;ffffffff80d31254&gt;] ip6_finish_output+0x10c/0x2a0
-    [&lt;ffffffff80d31446&gt;] ip6_output+0x5e/0x178
-    [&lt;ffffffff80d2e232&gt;] ip6_xmit+0x29a/0x608
-    [&lt;ffffffff80d6f4c6&gt;] inet6_csk_xmit+0xe6/0x140
-    [&lt;ffffffff80c985e4&gt;] __tcp_transmit_skb+0x45c/0xaa8
-    [&lt;ffffffff80c995fe&gt;] tcp_connect+0x9ce/0xd10
-    [&lt;ffffffff80d66524&gt;] tcp_v6_connect+0x4ac/0x5e8
-    [&lt;ffffffff80cc19b8&gt;] __inet_stream_connect+0xd8/0x318
-    [&lt;ffffffff80cc1c36&gt;] inet_stream_connect+0x3e/0x68
-    [&lt;ffffffff80b42b20&gt;] __sys_connect_file+0x50/0x88
-    [&lt;ffffffff80b42bee&gt;] __sys_connect+0x96/0xc8
-    [&lt;ffffffff80b42c40&gt;] __riscv_sys_connect+0x20/0x30
-    [&lt;ffffffff80e5bcae&gt;] do_trap_ecall_u+0x256/0x378
-    [&lt;ffffffff80e69af2&gt;] handle_exception+0x14a/0x156
+    [] __qdisc_run+0x82/0x6f0
+    [] __dev_queue_xmit+0x4c0/0x1128
+    [] neigh_resolve_output+0xd0/0x170
+    [] ip6_finish_output2+0x226/0x6c8
+    [] ip6_finish_output+0x10c/0x2a0
+    [] ip6_output+0x5e/0x178
+    [] ip6_xmit+0x29a/0x608
+    [] inet6_csk_xmit+0xe6/0x140
+    [] __tcp_transmit_skb+0x45c/0xaa8
+    [] tcp_connect+0x9ce/0xd10
+    [] tcp_v6_connect+0x4ac/0x5e8
+    [] __inet_stream_connect+0xd8/0x318
+    [] inet_stream_connect+0x3e/0x68
+    [] __sys_connect_file+0x50/0x88
+    [] __sys_connect+0x96/0xc8
+    [] __riscv_sys_connect+0x20/0x30
+    [] do_trap_ecall_u+0x256/0x378
+    [] handle_exception+0x14a/0x156
     Code: 892a 0363 1205 489c 8bc1 c7e5 2d03 084a 2703 080a (2783) 0709
     ---[ end trace 0000000000000000 ]---
 
@@ -1413,7 +1413,7 @@ Read of size 2 at addr ffff8880289ef218 by task syz.6.248/14290
 CPU: 0 UID: 0 PID: 14290 Comm: syz.6.248 Not tainted 6.16.4 #1 PREEMPT(full)
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1b0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -1436,7 +1436,7 @@ RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000200000000000
 RBP: 00007fe0ea0480f0 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 R13: 00007fe0ea206038 R14: 00007fe0ea205fa0 R15: 00007fe0eae48000
- &lt;/TASK&gt;
+ 
 
 Allocated by task 14290:
  kasan_save_stack+0x24/0x50 mm/kasan/common.c:47
