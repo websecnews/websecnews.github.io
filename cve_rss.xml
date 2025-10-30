@@ -1,5 +1,588 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 09:46:54 +0000</lastBuildDate><item><title>CVE-2025-54470 | NeuVector telemetry sender is vulnerable to MITM and DoS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54470</link><description>This vulnerability affects NeuVector deployments only when the Report anonymous cluster data option is enabled. When this option is enabled, NeuVector sends anonymous telemetry data to the telemetry server.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 30 Oct 2025 09:55:25 +0000</lastBuildDate><item><title>CVE-2025-40086 | drm/xe: Don&amp;#x27;t allow evicting of BOs in same VM in array of VM binds</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40086</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe: Don't allow evicting of BOs in same VM in array of VM binds
+
+An array of VM binds can potentially evict other buffer objects (BOs)
+within the same VM under certain conditions, which may lead to NULL
+pointer dereferences later in the bind pipeline. To prevent this, clear
+the allow_res_evict flag in the xe_bo_validate call.
+
+v2:
+ - Invert polarity of no_res_evict (Thomas)
+ - Add comment in code explaining issue (Thomas)
+
+(cherry picked from commit 8b9ba8d6d95fe75fed6b0480bb03da4b321bea08)</description><pubDate>Thu, 30 Oct 2025 09:55:28 +0000</pubDate></item><item><title>CVE-2025-40087 | NFSD: Define a proc_layoutcommit for the FlexFiles layout type</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40087</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFSD: Define a proc_layoutcommit for the FlexFiles layout type
+
+Avoid a crash if a pNFS client should happen to send a LAYOUTCOMMIT
+operation on a FlexFiles layout.</description><pubDate>Thu, 30 Oct 2025 09:55:28 +0000</pubDate></item><item><title>CVE-2025-40088 | hfsplus: fix slab-out-of-bounds read in hfsplus_strcasecmp()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40088</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+hfsplus: fix slab-out-of-bounds read in hfsplus_strcasecmp()
+
+The hfsplus_strcasecmp() logic can trigger the issue:
+
+[  117.317703][ T9855] ==================================================================
+[  117.318353][ T9855] BUG: KASAN: slab-out-of-bounds in hfsplus_strcasecmp+0x1bc/0x490
+[  117.318991][ T9855] Read of size 2 at addr ffff88802160f40c by task repro/9855
+[  117.319577][ T9855]
+[  117.319773][ T9855] CPU: 0 UID: 0 PID: 9855 Comm: repro Not tainted 6.17.0-rc6 #33 PREEMPT(full)
+[  117.319780][ T9855] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  117.319783][ T9855] Call Trace:
+[  117.319785][ T9855]  &lt;TASK&gt;
+[  117.319788][ T9855]  dump_stack_lvl+0x1c1/0x2a0
+[  117.319795][ T9855]  ? __virt_addr_valid+0x1c8/0x5c0
+[  117.319803][ T9855]  ? __pfx_dump_stack_lvl+0x10/0x10
+[  117.319808][ T9855]  ? rcu_is_watching+0x15/0xb0
+[  117.319816][ T9855]  ? lock_release+0x4b/0x3e0
+[  117.319821][ T9855]  ? __kasan_check_byte+0x12/0x40
+[  117.319828][ T9855]  ? __virt_addr_valid+0x1c8/0x5c0
+[  117.319835][ T9855]  ? __virt_addr_valid+0x4a5/0x5c0
+[  117.319842][ T9855]  print_report+0x17e/0x7e0
+[  117.319848][ T9855]  ? __virt_addr_valid+0x1c8/0x5c0
+[  117.319855][ T9855]  ? __virt_addr_valid+0x4a5/0x5c0
+[  117.319862][ T9855]  ? __phys_addr+0xd3/0x180
+[  117.319869][ T9855]  ? hfsplus_strcasecmp+0x1bc/0x490
+[  117.319876][ T9855]  kasan_report+0x147/0x180
+[  117.319882][ T9855]  ? hfsplus_strcasecmp+0x1bc/0x490
+[  117.319891][ T9855]  hfsplus_strcasecmp+0x1bc/0x490
+[  117.319900][ T9855]  ? __pfx_hfsplus_cat_case_cmp_key+0x10/0x10
+[  117.319906][ T9855]  hfs_find_rec_by_key+0xa9/0x1e0
+[  117.319913][ T9855]  __hfsplus_brec_find+0x18e/0x470
+[  117.319920][ T9855]  ? __pfx_hfsplus_bnode_find+0x10/0x10
+[  117.319926][ T9855]  ? __pfx_hfs_find_rec_by_key+0x10/0x10
+[  117.319933][ T9855]  ? __pfx___hfsplus_brec_find+0x10/0x10
+[  117.319942][ T9855]  hfsplus_brec_find+0x28f/0x510
+[  117.319949][ T9855]  ? __pfx_hfs_find_rec_by_key+0x10/0x10
+[  117.319956][ T9855]  ? __pfx_hfsplus_brec_find+0x10/0x10
+[  117.319963][ T9855]  ? __kmalloc_noprof+0x2a9/0x510
+[  117.319969][ T9855]  ? hfsplus_find_init+0x8c/0x1d0
+[  117.319976][ T9855]  hfsplus_brec_read+0x2b/0x120
+[  117.319983][ T9855]  hfsplus_lookup+0x2aa/0x890
+[  117.319990][ T9855]  ? __pfx_hfsplus_lookup+0x10/0x10
+[  117.320003][ T9855]  ? d_alloc_parallel+0x2f0/0x15e0
+[  117.320008][ T9855]  ? __lock_acquire+0xaec/0xd80
+[  117.320013][ T9855]  ? __pfx_d_alloc_parallel+0x10/0x10
+[  117.320019][ T9855]  ? __raw_spin_lock_init+0x45/0x100
+[  117.320026][ T9855]  ? __init_waitqueue_head+0xa9/0x150
+[  117.320034][ T9855]  __lookup_slow+0x297/0x3d0
+[  117.320039][ T9855]  ? __pfx___lookup_slow+0x10/0x10
+[  117.320045][ T9855]  ? down_read+0x1ad/0x2e0
+[  117.320055][ T9855]  lookup_slow+0x53/0x70
+[  117.320065][ T9855]  walk_component+0x2f0/0x430
+[  117.320073][ T9855]  path_lookupat+0x169/0x440
+[  117.320081][ T9855]  filename_lookup+0x212/0x590
+[  117.320089][ T9855]  ? __pfx_filename_lookup+0x10/0x10
+[  117.320098][ T9855]  ? strncpy_from_user+0x150/0x290
+[  117.320105][ T9855]  ? getname_flags+0x1e5/0x540
+[  117.320112][ T9855]  user_path_at+0x3a/0x60
+[  117.320117][ T9855]  __x64_sys_umount+0xee/0x160
+[  117.320123][ T9855]  ? __pfx___x64_sys_umount+0x10/0x10
+[  117.320129][ T9855]  ? do_syscall_64+0xb7/0x3a0
+[  117.320135][ T9855]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[  117.320141][ T9855]  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[  117.320145][ T9855]  do_syscall_64+0xf3/0x3a0
+[  117.320150][ T9855]  ? exc_page_fault+0x9f/0xf0
+[  117.320154][ T9855]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[  117.320158][ T9855] RIP: 0033:0x7f7dd7908b07
+[  117.320163][ T9855] Code: 23 0d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 31 f6 e9 09 00 00 00 66 0f 1f 84 00 00 08
+[  117.320167][ T9855] RSP: 002b:00007ffd5ebd9698 EFLAGS: 00000202 
+---truncated---</description><pubDate>Thu, 30 Oct 2025 09:55:28 +0000</pubDate></item><item><title>CVE-2025-40089 | cxl/features: Add check for no entries in cxl_feature_info</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40089</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cxl/features: Add check for no entries in cxl_feature_info
+
+cxl EDAC calls cxl_feature_info() to get the feature information and
+if the hardware has no Features support, cxlfs may be passed in as
+NULL.
+
+[   51.957498] BUG: kernel NULL pointer dereference, address: 0000000000000008
+[   51.965571] #PF: supervisor read access in kernel mode
+[   51.971559] #PF: error_code(0x0000) - not-present page
+[   51.977542] PGD 17e4f6067 P4D 0
+[   51.981384] Oops: Oops: 0000 [#1] SMP NOPTI
+[   51.986300] CPU: 49 UID: 0 PID: 3782 Comm: systemd-udevd Not tainted 6.17.0dj
+test+ #64 PREEMPT(voluntary)
+[   51.997355] Hardware name: &lt;removed&gt;
+[   52.009790] RIP: 0010:cxl_feature_info+0xa/0x80 [cxl_core]
+
+Add a check for cxlfs before dereferencing it and return -EOPNOTSUPP if
+there is no cxlfs created due to no hardware support.</description><pubDate>Thu, 30 Oct 2025 09:55:29 +0000</pubDate></item><item><title>CVE-2025-40090 | ksmbd: fix recursive locking in RPC handle list access</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40090</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: fix recursive locking in RPC handle list access
+
+Since commit 305853cce3794 ("ksmbd: Fix race condition in RPC handle list
+access"), ksmbd_session_rpc_method() attempts to lock sess-&gt;rpc_lock.
+
+This causes hung connections / tasks when a client attempts to open
+a named pipe. Using Samba's rpcclient tool:
+
+ $ rpcclient //192.168.1.254 -U user%password
+ $ rpcclient $&gt; srvinfo
+ &lt;connection hung here&gt;
+
+Kernel side:
+  "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+  task:kworker/0:0 state:D stack:0 pid:5021 tgid:5021 ppid:2 flags:0x00200000
+  Workqueue: ksmbd-io handle_ksmbd_work
+  Call trace:
+  __schedule from schedule+0x3c/0x58
+  schedule from schedule_preempt_disabled+0xc/0x10
+  schedule_preempt_disabled from rwsem_down_read_slowpath+0x1b0/0x1d8
+  rwsem_down_read_slowpath from down_read+0x28/0x30
+  down_read from ksmbd_session_rpc_method+0x18/0x3c
+  ksmbd_session_rpc_method from ksmbd_rpc_open+0x34/0x68
+  ksmbd_rpc_open from ksmbd_session_rpc_open+0x194/0x228
+  ksmbd_session_rpc_open from create_smb2_pipe+0x8c/0x2c8
+  create_smb2_pipe from smb2_open+0x10c/0x27ac
+  smb2_open from handle_ksmbd_work+0x238/0x3dc
+  handle_ksmbd_work from process_scheduled_works+0x160/0x25c
+  process_scheduled_works from worker_thread+0x16c/0x1e8
+  worker_thread from kthread+0xa8/0xb8
+  kthread from ret_from_fork+0x14/0x38
+  Exception stack(0x8529ffb0 to 0x8529fff8)
+
+The task deadlocks because the lock is already held:
+  ksmbd_session_rpc_open
+    down_write(&amp;sess-&gt;rpc_lock)
+    ksmbd_rpc_open
+      ksmbd_session_rpc_method
+        down_read(&amp;sess-&gt;rpc_lock)   &lt;-- deadlock
+
+Adjust ksmbd_session_rpc_method() callers to take the lock when necessary.</description><pubDate>Thu, 30 Oct 2025 09:55:29 +0000</pubDate></item><item><title>CVE-2025-40091 | ixgbe: fix too early devlink_free() in ixgbe_remove()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40091</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ixgbe: fix too early devlink_free() in ixgbe_remove()
+
+Since ixgbe_adapter is embedded in devlink, calling devlink_free()
+prematurely in the ixgbe_remove() path can lead to UAF. Move devlink_free()
+to the end.
+
+KASAN report:
+
+ BUG: KASAN: use-after-free in ixgbe_reset_interrupt_capability+0x140/0x180 [ixgbe]
+ Read of size 8 at addr ffff0000adf813e0 by task bash/2095
+ CPU: 1 UID: 0 PID: 2095 Comm: bash Tainted: G S  6.17.0-rc2-tnguy.net-queue+ #1 PREEMPT(full)
+ [...]
+ Call trace:
+  show_stack+0x30/0x90 (C)
+  dump_stack_lvl+0x9c/0xd0
+  print_address_description.constprop.0+0x90/0x310
+  print_report+0x104/0x1f0
+  kasan_report+0x88/0x180
+  __asan_report_load8_noabort+0x20/0x30
+  ixgbe_reset_interrupt_capability+0x140/0x180 [ixgbe]
+  ixgbe_clear_interrupt_scheme+0xf8/0x130 [ixgbe]
+  ixgbe_remove+0x2d0/0x8c0 [ixgbe]
+  pci_device_remove+0xa0/0x220
+  device_remove+0xb8/0x170
+  device_release_driver_internal+0x318/0x490
+  device_driver_detach+0x40/0x68
+  unbind_store+0xec/0x118
+  drv_attr_store+0x64/0xb8
+  sysfs_kf_write+0xcc/0x138
+  kernfs_fop_write_iter+0x294/0x440
+  new_sync_write+0x1fc/0x588
+  vfs_write+0x480/0x6a0
+  ksys_write+0xf0/0x1e0
+  __arm64_sys_write+0x70/0xc0
+  invoke_syscall.constprop.0+0xcc/0x280
+  el0_svc_common.constprop.0+0xa8/0x248
+  do_el0_svc+0x44/0x68
+  el0_svc+0x54/0x160
+  el0t_64_sync_handler+0xa0/0xe8
+  el0t_64_sync+0x1b0/0x1b8</description><pubDate>Thu, 30 Oct 2025 09:55:30 +0000</pubDate></item><item><title>CVE-2025-40092 | usb: gadget: f_ncm: Refactor bind path to use __free()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40092</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_ncm: Refactor bind path to use __free()
+
+After an bind/unbind cycle, the ncm-&gt;notify_req is left stale. If a
+subsequent bind fails, the unified error label attempts to free this
+stale request, leading to a NULL pointer dereference when accessing
+ep-&gt;ops-&gt;free_request.
+
+Refactor the error handling in the bind path to use the __free()
+automatic cleanup mechanism.
+
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
+Call trace:
+ usb_ep_free_request+0x2c/0xec
+ ncm_bind+0x39c/0x3dc
+ usb_add_function+0xcc/0x1f0
+ configfs_composite_bind+0x468/0x588
+ gadget_bind_driver+0x104/0x270
+ really_probe+0x190/0x374
+ __driver_probe_device+0xa0/0x12c
+ driver_probe_device+0x3c/0x218
+ __device_attach_driver+0x14c/0x188
+ bus_for_each_drv+0x10c/0x168
+ __device_attach+0xfc/0x198
+ device_initial_probe+0x14/0x24
+ bus_probe_device+0x94/0x11c
+ device_add+0x268/0x48c
+ usb_add_gadget+0x198/0x28c
+ dwc3_gadget_init+0x700/0x858
+ __dwc3_set_mode+0x3cc/0x664
+ process_scheduled_works+0x1d8/0x488
+ worker_thread+0x244/0x334
+ kthread+0x114/0x1bc
+ ret_from_fork+0x10/0x20</description><pubDate>Thu, 30 Oct 2025 09:55:30 +0000</pubDate></item><item><title>CVE-2025-40093 | usb: gadget: f_ecm: Refactor bind path to use __free()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40093</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_ecm: Refactor bind path to use __free()
+
+After an bind/unbind cycle, the ecm-&gt;notify_req is left stale. If a
+subsequent bind fails, the unified error label attempts to free this
+stale request, leading to a NULL pointer dereference when accessing
+ep-&gt;ops-&gt;free_request.
+
+Refactor the error handling in the bind path to use the __free()
+automatic cleanup mechanism.</description><pubDate>Thu, 30 Oct 2025 09:55:31 +0000</pubDate></item><item><title>CVE-2025-40094 | usb: gadget: f_acm: Refactor bind path to use __free()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40094</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_acm: Refactor bind path to use __free()
+
+After an bind/unbind cycle, the acm-&gt;notify_req is left stale. If a
+subsequent bind fails, the unified error label attempts to free this
+stale request, leading to a NULL pointer dereference when accessing
+ep-&gt;ops-&gt;free_request.
+
+Refactor the error handling in the bind path to use the __free()
+automatic cleanup mechanism.
+
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
+Call trace:
+ usb_ep_free_request+0x2c/0xec
+ gs_free_req+0x30/0x44
+ acm_bind+0x1b8/0x1f4
+ usb_add_function+0xcc/0x1f0
+ configfs_composite_bind+0x468/0x588
+ gadget_bind_driver+0x104/0x270
+ really_probe+0x190/0x374
+ __driver_probe_device+0xa0/0x12c
+ driver_probe_device+0x3c/0x218
+ __device_attach_driver+0x14c/0x188
+ bus_for_each_drv+0x10c/0x168
+ __device_attach+0xfc/0x198
+ device_initial_probe+0x14/0x24
+ bus_probe_device+0x94/0x11c
+ device_add+0x268/0x48c
+ usb_add_gadget+0x198/0x28c
+ dwc3_gadget_init+0x700/0x858
+ __dwc3_set_mode+0x3cc/0x664
+ process_scheduled_works+0x1d8/0x488
+ worker_thread+0x244/0x334
+ kthread+0x114/0x1bc
+ ret_from_fork+0x10/0x20</description><pubDate>Thu, 30 Oct 2025 09:55:31 +0000</pubDate></item><item><title>CVE-2025-40095 | usb: gadget: f_rndis: Refactor bind path to use __free()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40095</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usb: gadget: f_rndis: Refactor bind path to use __free()
+
+After an bind/unbind cycle, the rndis-&gt;notify_req is left stale. If a
+subsequent bind fails, the unified error label attempts to free this
+stale request, leading to a NULL pointer dereference when accessing
+ep-&gt;ops-&gt;free_request.
+
+Refactor the error handling in the bind path to use the __free()
+automatic cleanup mechanism.</description><pubDate>Thu, 30 Oct 2025 09:55:31 +0000</pubDate></item><item><title>CVE-2025-40096 | drm/sched: Fix potential double free in drm_sched_job_add_resv_dependencies</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40096</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/sched: Fix potential double free in drm_sched_job_add_resv_dependencies
+
+When adding dependencies with drm_sched_job_add_dependency(), that
+function consumes the fence reference both on success and failure, so in
+the latter case the dma_fence_put() on the error path (xarray failed to
+expand) is a double free.
+
+Interestingly this bug appears to have been present ever since
+commit ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code
+back then looked like this:
+
+drm_sched_job_add_implicit_dependencies():
+...
+       for (i = 0; i &lt; fence_count; i++) {
+               ret = drm_sched_job_add_dependency(job, fences[i]);
+               if (ret)
+                       break;
+       }
+
+       for (; i &lt; fence_count; i++)
+               dma_fence_put(fences[i]);
+
+Which means for the failing 'i' the dma_fence_put was already a double
+free. Possibly there were no users at that time, or the test cases were
+insufficient to hit it.
+
+The bug was then only noticed and fixed after
+commit 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
+landed, with its fixup of
+commit 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
+
+At that point it was a slightly different flavour of a double free, which
+commit 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+noticed and attempted to fix.
+
+But it only moved the double free from happening inside the
+drm_sched_job_add_dependency(), when releasing the reference not yet
+obtained, to the caller, when releasing the reference already released by
+the former in the failure case.
+
+As such it is not easy to identify the right target for the fixes tag so
+lets keep it simple and just continue the chain.
+
+While fixing we also improve the comment and explain the reason for taking
+the reference and not dropping it.</description><pubDate>Thu, 30 Oct 2025 09:55:32 +0000</pubDate></item><item><title>CVE-2025-40097 | ALSA: hda: Fix missing pointer check in hda_component_manager_init function</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40097</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: Fix missing pointer check in hda_component_manager_init function
+
+The __component_match_add function may assign the 'matchptr' pointer
+the value ERR_PTR(-ENOMEM), which will subsequently be dereferenced.
+
+The call stack leading to the error looks like this:
+
+hda_component_manager_init
+|-&gt; component_match_add
+    |-&gt; component_match_add_release
+        |-&gt; __component_match_add ( ... ,**matchptr, ... )
+            |-&gt; *matchptr = ERR_PTR(-ENOMEM);       // assign
+|-&gt; component_master_add_with_match( ...  match)
+    |-&gt; component_match_realloc(match, match-&gt;num); // dereference
+
+Add IS_ERR() check to prevent the crash.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Thu, 30 Oct 2025 09:55:32 +0000</pubDate></item><item><title>CVE-2025-40098 | ALSA: hda: cs35l41: Fix NULL pointer dereference in cs35l41_get_acpi_mute_state()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40098</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ALSA: hda: cs35l41: Fix NULL pointer dereference in cs35l41_get_acpi_mute_state()
+
+Return value of a function acpi_evaluate_dsm() is dereferenced  without
+checking for NULL, but it is usually checked for this function.
+
+acpi_evaluate_dsm() may return NULL, when acpi_evaluate_object() returns
+acpi_status other than ACPI_SUCCESS, so add a check to prevent the crach.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.</description><pubDate>Thu, 30 Oct 2025 09:55:33 +0000</pubDate></item><item><title>CVE-2025-40099 | cifs: parse_dfs_referrals: prevent oob on malformed input</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40099</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cifs: parse_dfs_referrals: prevent oob on malformed input
+
+Malicious SMB server can send invalid reply to FSCTL_DFS_GET_REFERRALS
+
+- reply smaller than sizeof(struct get_dfs_referral_rsp)
+- reply with number of referrals smaller than NumberOfReferrals in the
+header
+
+Processing of such replies will cause oob.
+
+Return -EINVAL error on such replies to prevent oob-s.</description><pubDate>Thu, 30 Oct 2025 09:55:33 +0000</pubDate></item><item><title>CVE-2025-40100 | btrfs: do not assert we found block group item when creating free space tree</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40100</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: do not assert we found block group item when creating free space tree
+
+Currently, when building a free space tree at populate_free_space_tree(),
+if we are not using the block group tree feature, we always expect to find
+block group items (either extent items or a block group item with key type
+BTRFS_BLOCK_GROUP_ITEM_KEY) when we search the extent tree with
+btrfs_search_slot_for_read(), so we assert that we found an item. However
+this expectation is wrong since we can have a new block group created in
+the current transaction which is still empty and for which we still have
+not added the block group's item to the extent tree, in which case we do
+not have any items in the extent tree associated to the block group.
+
+The insertion of a new block group's block group item in the extent tree
+happens at btrfs_create_pending_block_groups() when it calls the helper
+insert_block_group_item(). This typically is done when a transaction
+handle is released, committed or when running delayed refs (either as
+part of a transaction commit or when serving tickets for space reservation
+if we are low on free space).
+
+So remove the assertion at populate_free_space_tree() even when the block
+group tree feature is not enabled and update the comment to mention this
+case.
+
+Syzbot reported this with the following stack trace:
+
+  BTRFS info (device loop3 state M): rebuilding free space tree
+  assertion failed: ret == 0 :: 0, in fs/btrfs/free-space-tree.c:1115
+  ------------[ cut here ]------------
+  kernel BUG at fs/btrfs/free-space-tree.c:1115!
+  Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+  CPU: 1 UID: 0 PID: 6352 Comm: syz.3.25 Not tainted syzkaller #0 PREEMPT(full)
+  Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+  RIP: 0010:populate_free_space_tree+0x700/0x710 fs/btrfs/free-space-tree.c:1115
+  Code: ff ff e8 d3 (...)
+  RSP: 0018:ffffc9000430f780 EFLAGS: 00010246
+  RAX: 0000000000000043 RBX: ffff88805b709630 RCX: fea61d0e2e79d000
+  RDX: 0000000000000000 RSI: 0000000080000000 RDI: 0000000000000000
+  RBP: ffffc9000430f8b0 R08: ffffc9000430f4a7 R09: 1ffff92000861e94
+  R10: dffffc0000000000 R11: fffff52000861e95 R12: 0000000000000001
+  R13: 1ffff92000861f00 R14: dffffc0000000000 R15: 0000000000000000
+  FS:  00007f424d9fe6c0(0000) GS:ffff888125afc000(0000) knlGS:0000000000000000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: 00007fd78ad212c0 CR3: 0000000076d68000 CR4: 00000000003526f0
+  Call Trace:
+   &lt;TASK&gt;
+   btrfs_rebuild_free_space_tree+0x1ba/0x6d0 fs/btrfs/free-space-tree.c:1364
+   btrfs_start_pre_rw_mount+0x128f/0x1bf0 fs/btrfs/disk-io.c:3062
+   btrfs_remount_rw fs/btrfs/super.c:1334 [inline]
+   btrfs_reconfigure+0xaed/0x2160 fs/btrfs/super.c:1559
+   reconfigure_super+0x227/0x890 fs/super.c:1076
+   do_remount fs/namespace.c:3279 [inline]
+   path_mount+0xd1a/0xfe0 fs/namespace.c:4027
+   do_mount fs/namespace.c:4048 [inline]
+   __do_sys_mount fs/namespace.c:4236 [inline]
+   __se_sys_mount+0x313/0x410 fs/namespace.c:4213
+   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+   do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+   RIP: 0033:0x7f424e39066a
+  Code: d8 64 89 02 (...)
+  RSP: 002b:00007f424d9fde68 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+  RAX: ffffffffffffffda RBX: 00007f424d9fdef0 RCX: 00007f424e39066a
+  RDX: 0000200000000180 RSI: 0000200000000380 RDI: 0000000000000000
+  RBP: 0000200000000180 R08: 00007f424d9fdef0 R09: 0000000000000020
+  R10: 0000000000000020 R11: 0000000000000246 R12: 0000200000000380
+  R13: 00007f424d9fdeb0 R14: 0000000000000000 R15: 00002000000002c0
+   &lt;/TASK&gt;
+  Modules linked in:
+  ---[ end trace 0000000000000000 ]---</description><pubDate>Thu, 30 Oct 2025 09:55:34 +0000</pubDate></item><item><title>CVE-2025-40101 | btrfs: fix memory leaks when rejecting a non SINGLE data profile without an RST</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40101</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: fix memory leaks when rejecting a non SINGLE data profile without an RST
+
+At the end of btrfs_load_block_group_zone_info() the first thing we do
+is to ensure that if the mapping type is not a SINGLE one and there is
+no RAID stripe tree, then we return early with an error.
+
+Doing that, though, prevents the code from running the last calls from
+this function which are about freeing memory allocated during its
+run. Hence, in this case, instead of returning early, we set the ret
+value and fall through the rest of the cleanup code.</description><pubDate>Thu, 30 Oct 2025 09:55:34 +0000</pubDate></item><item><title>CVE-2025-40102 | KVM: arm64: Prevent access to vCPU events before init</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40102</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: arm64: Prevent access to vCPU events before init
+
+Another day, another syzkaller bug. KVM erroneously allows userspace to
+pend vCPU events for a vCPU that hasn't been initialized yet, leading to
+KVM interpreting a bunch of uninitialized garbage for routing /
+injecting the exception.
+
+In one case the injection code and the hyp disagree on whether the vCPU
+has a 32bit EL1 and put the vCPU into an illegal mode for AArch64,
+tripping the BUG() in exception_target_el() during the next injection:
+
+  kernel BUG at arch/arm64/kvm/inject_fault.c:40!
+  Internal error: Oops - BUG: 00000000f2000800 [#1]  SMP
+  CPU: 3 UID: 0 PID: 318 Comm: repro Not tainted 6.17.0-rc4-00104-g10fd0285305d #6 PREEMPT
+  Hardware name: linux,dummy-virt (DT)
+  pstate: 21402009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+  pc : exception_target_el+0x88/0x8c
+  lr : pend_serror_exception+0x18/0x13c
+  sp : ffff800082f03a10
+  x29: ffff800082f03a10 x28: ffff0000cb132280 x27: 0000000000000000
+  x26: 0000000000000000 x25: ffff0000c2a99c20 x24: 0000000000000000
+  x23: 0000000000008000 x22: 0000000000000002 x21: 0000000000000004
+  x20: 0000000000008000 x19: ffff0000c2a99c20 x18: 0000000000000000
+  x17: 0000000000000000 x16: 0000000000000000 x15: 00000000200000c0
+  x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+  x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+  x8 : ffff800082f03af8 x7 : 0000000000000000 x6 : 0000000000000000
+  x5 : ffff800080f621f0 x4 : 0000000000000000 x3 : 0000000000000000
+  x2 : 000000000040009b x1 : 0000000000000003 x0 : ffff0000c2a99c20
+  Call trace:
+   exception_target_el+0x88/0x8c (P)
+   kvm_inject_serror_esr+0x40/0x3b4
+   __kvm_arm_vcpu_set_events+0xf0/0x100
+   kvm_arch_vcpu_ioctl+0x180/0x9d4
+   kvm_vcpu_ioctl+0x60c/0x9f4
+   __arm64_sys_ioctl+0xac/0x104
+   invoke_syscall+0x48/0x110
+   el0_svc_common.constprop.0+0x40/0xe0
+   do_el0_svc+0x1c/0x28
+   el0_svc+0x34/0xf0
+   el0t_64_sync_handler+0xa0/0xe4
+   el0t_64_sync+0x198/0x19c
+  Code: f946bc01 b4fffe61 9101e020 17fffff2 (d4210000)
+
+Reject the ioctls outright as no sane VMM would call these before
+KVM_ARM_VCPU_INIT anyway. Even if it did the exception would've been
+thrown away by the eventual reset of the vCPU's state.</description><pubDate>Thu, 30 Oct 2025 09:55:35 +0000</pubDate></item><item><title>CVE-2025-40103 | smb: client: Fix refcount leak for cifs_sb_tlink</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40103</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smb: client: Fix refcount leak for cifs_sb_tlink
+
+Fix three refcount inconsistency issues related to `cifs_sb_tlink`.
+
+Comments for `cifs_sb_tlink` state that `cifs_put_tlink()` needs to be
+called after successful calls to `cifs_sb_tlink()`. Three calls fail to
+update refcount accordingly, leading to possible resource leaks.</description><pubDate>Thu, 30 Oct 2025 09:55:35 +0000</pubDate></item><item><title>CVE-2025-40104 | ixgbevf: fix mailbox API compatibility by negotiating supported features</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40104</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ixgbevf: fix mailbox API compatibility by negotiating supported features
+
+There was backward compatibility in the terms of mailbox API. Various
+drivers from various OSes supporting 10G adapters from Intel portfolio
+could easily negotiate mailbox API.
+
+This convention has been broken since introducing API 1.4.
+Commit 0062e7cc955e ("ixgbevf: add VF IPsec offload code") added support
+for IPSec which is specific only for the kernel ixgbe driver. None of the
+rest of the Intel 10G PF/VF drivers supports it. And actually lack of
+support was not included in the IPSec implementation - there were no such
+code paths. No possibility to negotiate support for the feature was
+introduced along with introduction of the feature itself.
+
+Commit 339f28964147 ("ixgbevf: Add support for new mailbox communication
+between PF and VF") increasing API version to 1.5 did the same - it
+introduced code supported specifically by the PF ESX driver. It altered API
+version for the VF driver in the same time not touching the version
+defined for the PF ixgbe driver. It led to additional discrepancies,
+as the code provided within API 1.6 cannot be supported for Linux ixgbe
+driver as it causes crashes.
+
+The issue was noticed some time ago and mitigated by Jake within the commit
+d0725312adf5 ("ixgbevf: stop attempting IPSEC offload on Mailbox API 1.5").
+As a result we have regression for IPsec support and after increasing API
+to version 1.6 ixgbevf driver stopped to support ESX MBX.
+
+To fix this mess add new mailbox op asking PF driver about supported
+features. Basing on a response determine whether to set support for IPSec
+and ESX-specific enhanced mailbox.
+
+New mailbox op, for compatibility purposes, must be added within new API
+revision, as API version of OOT PF &amp; VF drivers is already increased to
+1.6 and doesn't incorporate features negotiate op.
+
+Features negotiation mechanism gives possibility to be extended with new
+features when needed in the future.</description><pubDate>Thu, 30 Oct 2025 09:55:35 +0000</pubDate></item><item><title>CVE-2025-40105 | vfs: Don&amp;#x27;t leak disconnected dentries on umount</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40105</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vfs: Don't leak disconnected dentries on umount
+
+When user calls open_by_handle_at() on some inode that is not cached, we
+will create disconnected dentry for it. If such dentry is a directory,
+exportfs_decode_fh_raw() will then try to connect this dentry to the
+dentry tree through reconnect_path(). It may happen for various reasons
+(such as corrupted fs or race with rename) that the call to
+lookup_one_unlocked() in reconnect_one() will fail to find the dentry we
+are trying to reconnect and instead create a new dentry under the
+parent. Now this dentry will not be marked as disconnected although the
+parent still may well be disconnected (at least in case this
+inconsistency happened because the fs is corrupted and .. doesn't point
+to the real parent directory). This creates inconsistency in
+disconnected flags but AFAICS it was mostly harmless. At least until
+commit f1ee616214cb ("VFS: don't keep disconnected dentries on d_anon")
+which removed adding of most disconnected dentries to sb-&gt;s_anon list.
+Thus after this commit cleanup of disconnected dentries implicitely
+relies on the fact that dput() will immediately reclaim such dentries.
+However when some leaf dentry isn't marked as disconnected, as in the
+scenario described above, the reclaim doesn't happen and the dentries
+are "leaked". Memory reclaim can eventually reclaim them but otherwise
+they stay in memory and if umount comes first, we hit infamous "Busy
+inodes after unmount" bug. Make sure all dentries created under a
+disconnected parent are marked as disconnected as well.</description><pubDate>Thu, 30 Oct 2025 09:55:36 +0000</pubDate></item><item><title>CVE-2025-54469 | NeuVector Enforcer is vulnerable to Command Injection and Buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54469</link><description>A vulnerability was identified in NeuVector, where the enforcer used environment variables CLUSTER_RPC_PORT and CLUSTER_LAN_PORT to generate a command to be executed via popen, without first sanitising their values.
+
+
+The entry process of the enforcer container is the monitor
+ process. When the enforcer container stops, the monitor process checks 
+whether the consul subprocess has exited. To perform this check, the 
+monitor process uses the popen function to execute a shell command that determines whether the ports used by the consul subprocess are still active.
+
+
+The values of environment variables CLUSTER_RPC_PORT and CLUSTER_LAN_PORT
+ are used directly to compose shell commands via popen without 
+validation or sanitization.  This behavior could allow a malicious user 
+to inject malicious commands through these variables within the enforcer
+ container.</description><pubDate>Thu, 30 Oct 2025 09:55:36 +0000</pubDate></item><item><title>CVE-2025-54471 | NeuVector is shipping cryptographic material into its binary</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54471</link><description>NeuVector used a hard-coded cryptographic key embedded in the source 
+code. At compilation time, the key value was replaced with the secret 
+key value and used to encrypt sensitive configurations  when NeuVector 
+stores the data.</description><pubDate>Thu, 30 Oct 2025 09:55:37 +0000</pubDate></item><item><title>CVE-2025-54941 | Apache Airflow: Command injection in &amp;quot;example_dag_decorator&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54941</link><description>An example dag `example_dag_decorator` had non-validated parameter that allowed the UI user to redirect the example to a malicious server and execute code on worker. This however required that the example dags are enabled in production (not default) or the example dag code copied to build your own similar dag. If you used the `example_dag_decorator` please review it and apply the changes implemented in Airflow 3.0.5 accordingly.</description><pubDate>Thu, 30 Oct 2025 09:55:37 +0000</pubDate></item><item><title>CVE-2025-54470 | NeuVector telemetry sender is vulnerable to MITM and DoS</title><link>https://www.cve.org/CVERecord?id=CVE-2025-54470</link><description>This vulnerability affects NeuVector deployments only when the Report anonymous cluster data option is enabled. When this option is enabled, NeuVector sends anonymous telemetry data to the telemetry server.
 
 
 In affected versions, NeuVector does not enforce TLS 
