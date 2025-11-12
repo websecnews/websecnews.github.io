@@ -1,5 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Nov 2025 10:28:24 +0000</lastBuildDate><item><title>CVE-2025-40112 | sparc: fix accurate exception reporting in copy_{from_to}_user for Niagara</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40112</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Nov 2025 10:48:13 +0000</lastBuildDate><item><title>CVE-2025-40166 | drm/xe/guc: Check GuC running state before deregistering exec queue</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40166</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/xe/guc: Check GuC running state before deregistering exec queue
+
+In normal operation, a registered exec queue is disabled and
+deregistered through the GuC, and freed only after the GuC confirms
+completion. However, if the driver is forced to unbind while the exec
+queue is still running, the user may call exec_destroy() after the GuC
+has already been stopped and CT communication disabled.
+
+In this case, the driver cannot receive a response from the GuC,
+preventing proper cleanup of exec queue resources. Fix this by directly
+releasing the resources when GuC is not running.
+
+Here is the failure dmesg log:
+"
+[  468.089581] ---[ end trace 0000000000000000 ]---
+[  468.089608] pci 0000:03:00.0: [drm] *ERROR* GT0: GUC ID manager unclean (1/65535)
+[  468.090558] pci 0000:03:00.0: [drm] GT0:     total 65535
+[  468.090562] pci 0000:03:00.0: [drm] GT0:     used 1
+[  468.090564] pci 0000:03:00.0: [drm] GT0:     range 1..1 (1)
+[  468.092716] ------------[ cut here ]------------
+[  468.092719] WARNING: CPU: 14 PID: 4775 at drivers/gpu/drm/xe/xe_ttm_vram_mgr.c:298 ttm_vram_mgr_fini+0xf8/0x130 [xe]
+"
+
+v2: use xe_uc_fw_is_running() instead of xe_guc_ct_enabled().
+    As CT may go down and come back during VF migration.
+
+(cherry picked from commit 9b42321a02c50a12b2beb6ae9469606257fbecea)</description><pubDate>Wed, 12 Nov 2025 10:48:15 +0000</pubDate></item><item><title>CVE-2025-40167 | ext4: detect invalid INLINE_DATA + EXTENTS flag combination</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40167</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: detect invalid INLINE_DATA + EXTENTS flag combination
+
+syzbot reported a BUG_ON in ext4_es_cache_extent() when opening a verity
+file on a corrupted ext4 filesystem mounted without a journal.
+
+The issue is that the filesystem has an inode with both the INLINE_DATA
+and EXTENTS flags set:
+
+    EXT4-fs error (device loop0): ext4_cache_extents:545: inode #15:
+    comm syz.0.17: corrupted extent tree: lblk 0 &lt; prev 66
+
+Investigation revealed that the inode has both flags set:
+    DEBUG: inode 15 - flag=1, i_inline_off=164, has_inline=1, extents_flag=1
+
+This is an invalid combination since an inode should have either:
+- INLINE_DATA: data stored directly in the inode
+- EXTENTS: data stored in extent-mapped blocks
+
+Having both flags causes ext4_has_inline_data() to return true, skipping
+extent tree validation in __ext4_iget(). The unvalidated out-of-order
+extents then trigger a BUG_ON in ext4_es_cache_extent() due to integer
+underflow when calculating hole sizes.
+
+Fix this by detecting this invalid flag combination early in ext4_iget()
+and rejecting the corrupted inode.</description><pubDate>Wed, 12 Nov 2025 10:48:16 +0000</pubDate></item><item><title>CVE-2025-40112 | sparc: fix accurate exception reporting in copy_{from_to}_user for Niagara</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40112</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 sparc: fix accurate exception reporting in copy_{from_to}_user for Niagara
 
@@ -21,8 +75,8 @@ When preparing to load the new ADSP firmware we shutdown the lite_pas_id
 for the main firmware, but we don't shutdown the corresponding lite pas_id
 for the DTB. The fact that we're leaving it "running" forever becomes
 obvious if you try to reuse (or just access) the memory region used by the
-"lite" firmware: The &amp;adsp_boot_mem is accessible, but accessing the
-&amp;adsp_boot_dtb_mem results in a crash.
+"lite" firmware: The &amp;amp;adsp_boot_mem is accessible, but accessing the
+&amp;amp;adsp_boot_dtb_mem results in a crash.
 
 We don't support reusing the memory regions currently, but nevertheless we
 should not keep part of the lite firmware running. Fix this by adding the
@@ -35,7 +89,7 @@ already the case before, the assignment to "ret" is not used anywhere.</descript
 scsi: mpt3sas: Fix crash in transport port remove by using ioc_info()
 
 During mpt3sas_transport_port_remove(), messages were logged with
-dev_printk() against &amp;mpt3sas_port-&gt;port-&gt;dev. At this point the SAS
+dev_printk() against &amp;amp;mpt3sas_port-&gt;port-&gt;dev. At this point the SAS
 transport device may already be partially unregistered or freed, leading
 to a crash when accessing its struct device.
 
@@ -59,7 +113,7 @@ guaranteed to remain valid until driver removal.
 [83428.295840] CR2: 00007f242b4db238 CR3: 00000002372b8006 CR4: 0000000000771ef0
 [83428.295844] PKRU: 55555554
 [83428.295846] Call Trace:
-[83428.295848]  &lt;TASK&gt;
+[83428.295848]  
 [83428.295850]  _dev_printk+0x5c/0x80
 [83428.295857]  ? srso_alias_return_thunk+0x5/0xfbef5
 [83428.295863]  mpt3sas_transport_port_remove+0x1c7/0x420 [mpt3sas]
@@ -144,7 +198,7 @@ Oops: Oops: 0002 [#1] SMP PTI
 CPU:2 UID: 0 PID: 87 Comm:mount Not tainted 6.17.0-rc2 #1134 PREEMPT(none)
 RIP: 0010:_raw_spin_lock_irqsave+0x1b/0x40
 Call Trace:
- &lt;TASK&gt;
+ 
  xa_destroy+0x61/0x130
  ext4_mb_init+0x483/0x540
  __ext4_fill_super+0x116d/0x17b0
@@ -202,7 +256,7 @@ When running perf_fuzzer on PTL, sometimes the below "unchecked MSR
 
 [   55.611268] unchecked MSR access error: WRMSR to 0x1986 (tried to write 0x0000000200000001) at rIP: 0xffffffffac564b28 (native_write_msr+0x8/0x30)
 [   55.611280] Call Trace:
-[   55.611282]  &lt;TASK&gt;
+[   55.611282]  
 [   55.611284]  ? intel_pmu_config_acr+0x87/0x160
 [   55.611289]  intel_pmu_enable_acr+0x6d/0x80
 [   55.611291]  intel_pmu_enable_event+0xce/0x460
@@ -381,7 +435,7 @@ The call trace looks like this:
   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022
   RIP: 0010:zero_user_segments.constprop.0+0xdc/0xe0 [btrfs]
   Call Trace:
-   &lt;TASK&gt;
+   
    btrfs_get_extent.cold+0x85/0x101 [btrfs 7453c70c03e631c8d8bfdd4264fa62d3e238da6f]
    btrfs_do_readpage+0x244/0x750 [btrfs 7453c70c03e631c8d8bfdd4264fa62d3e238da6f]
    btrfs_read_folio+0x9c/0x100 [btrfs 7453c70c03e631c8d8bfdd4264fa62d3e238da6f]
@@ -398,7 +452,7 @@ The call trace looks like this:
    __x64_sys_statx+0x90/0xe0
    do_syscall_64+0x82/0xae0
    entry_SYSCALL_64_after_hwframe+0x4b/0x53
-   &lt;/TASK&gt;
+   
 
 Please note bs &gt; ps support is still under development and the
 enablement patch is not even in btrfs development branch.
@@ -514,7 +568,7 @@ CPU: 6 PID: 6798 Comm: dmsetup Not tainted 6.6.0-g7e52f5f0ca9b #62
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
 RIP: 0010:blk_mq_wait_quiesce_done+0x0/0x50
 Call Trace:
-  &lt;TASK&gt;
+  
   blk_mq_quiesce_queue+0x2c/0x50
   dm_stop_queue+0xd/0x20
   __dm_suspend+0x130/0x330
@@ -584,7 +638,7 @@ F2FS-fs (loop0): f2fs_convert_inline_folio: corrupted inline inode ino=3, i_addr
 kernel BUG at fs/inode.c:753!
 RIP: 0010:clear_inode+0x169/0x190 fs/inode.c:753
 Call Trace:
- &lt;TASK&gt;
+ 
  evict+0x504/0x9c0 fs/inode.c:810
  f2fs_fill_super+0x5612/0x6fa0 fs/f2fs/super.c:5047
  get_tree_bdev_flags+0x40e/0x4d0 fs/super.c:1692
@@ -621,7 +675,7 @@ KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
 CPU: 1 UID: 0 PID: 5848 Comm: syz-executor263 Tainted: G        W           6.17.0-rc1-syzkaller-00014-g0e39a731820a #0 PREEMPT_{RT,(full)}
 RIP: 0010:strcmp+0x3c/0xc0 lib/string.c:284
 Call Trace:
- &lt;TASK&gt;
+ 
  f2fs_check_quota_consistency fs/f2fs/super.c:1188 [inline]
  f2fs_check_opt_consistency+0x1378/0x2c10 fs/f2fs/super.c:1436
  __f2fs_remount fs/f2fs/super.c:2653 [inline]
@@ -1109,7 +1163,7 @@ maybe uninitialized or zero in that case and may cause oops like:
  CR2: 0000764566d44000 CR3: 0000000109d81003 CR4: 0000000000772ef0
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   pgtable_walk_level+0x88/0x150
   domain_translation_struct_show.isra.0+0x2d9/0x300
   dev_domain_translation_struct_show+0x20/0x40
@@ -1253,7 +1307,7 @@ BUG: using smp_processor_id() in preemptible [00000000] code: dhcpcd/2879
 caller is usbnet_skb_return+0x74/0x490 drivers/net/usb/usbnet.c:331
 CPU: 1 UID: 0 PID: 2879 Comm: dhcpcd Not tainted 6.15.0-rc4-syzkaller-00098-g615dca38c2ea #0 PREEMPT(voluntary)
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
  check_preemption_disabled+0xd0/0xe0 lib/smp_processor_id.c:49
