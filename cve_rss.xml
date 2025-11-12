@@ -1,5 +1,123 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Nov 2025 10:48:13 +0000</lastBuildDate><item><title>CVE-2025-40166 | drm/xe/guc: Check GuC running state before deregistering exec queue</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40166</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 12 Nov 2025 10:57:31 +0000</lastBuildDate><item><title>CVE-2025-40172 | accel/qaic: Treat remaining == 0 as error in find_and_map_user_pages()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40172</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+accel/qaic: Treat remaining == 0 as error in find_and_map_user_pages()
+
+Currently, if find_and_map_user_pages() takes a DMA xfer request from the
+user with a length field set to 0, or in a rare case, the host receives
+QAIC_TRANS_DMA_XFER_CONT from the device where resources-&gt;xferred_dma_size
+is equal to the requested transaction size, the function will return 0
+before allocating an sgt or setting the fields of the dma_xfer struct.
+In that case, encode_addr_size_pairs() will try to access the sgt which
+will lead to a general protection fault.
+
+Return an EINVAL in case the user provides a zero-sized ALP, or the device
+requests continuation after all of the bytes have been transferred.</description><pubDate>Wed, 12 Nov 2025 10:57:33 +0000</pubDate></item><item><title>CVE-2025-40173 | net/ip6_tunnel: Prevent perpetual tunnel growth</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40173</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/ip6_tunnel: Prevent perpetual tunnel growth
+
+Similarly to ipv4 tunnel, ipv6 version updates dev-&gt;needed_headroom, too.
+While ipv4 tunnel headroom adjustment growth was limited in
+commit 5ae1e9922bbd ("net: ip_tunnel: prevent perpetual headroom growth"),
+ipv6 tunnel yet increases the headroom without any ceiling.
+
+Reflect ipv4 tunnel headroom adjustment limit on ipv6 version.
+
+Credits to Francesco Ruggeri, who was originally debugging this issue
+and wrote local Arista-specific patch and a reproducer.</description><pubDate>Wed, 12 Nov 2025 10:57:34 +0000</pubDate></item><item><title>CVE-2025-40174 | x86/mm: Fix SMP ordering in switch_mm_irqs_off()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40174</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/mm: Fix SMP ordering in switch_mm_irqs_off()
+
+Stephen noted that it is possible to not have an smp_mb() between
+the loaded_mm store and the tlb_gen load in switch_mm(), meaning the
+ordering against flush_tlb_mm_range() goes out the window, and it
+becomes possible for switch_mm() to not observe a recent tlb_gen
+update and fail to flush the TLBs.
+
+[ dhansen: merge conflict fixed by Ingo ]</description><pubDate>Wed, 12 Nov 2025 10:57:34 +0000</pubDate></item><item><title>CVE-2025-40175 | idpf: cleanup remaining SKBs in PTP flows</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40175</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+idpf: cleanup remaining SKBs in PTP flows
+
+When the driver requests Tx timestamp value, one of the first steps is
+to clone SKB using skb_get. It increases the reference counter for that
+SKB to prevent unexpected freeing by another component.
+However, there may be a case where the index is requested, SKB is
+assigned and never consumed by PTP flows - for example due to reset during
+running PTP apps.
+
+Add a check in release timestamping function to verify if the SKB
+assigned to Tx timestamp latch was freed, and release remaining SKBs.</description><pubDate>Wed, 12 Nov 2025 10:57:35 +0000</pubDate></item><item><title>CVE-2025-40176 | tls: wait for pending async decryptions if tls_strp_msg_hold fails</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40176</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tls: wait for pending async decryptions if tls_strp_msg_hold fails
+
+Async decryption calls tls_strp_msg_hold to create a clone of the
+input skb to hold references to the memory it uses. If we fail to
+allocate that clone, proceeding with async decryption can lead to
+various issues (UAF on the skb, writing into userspace memory after
+the recv() call has returned).
+
+In this case, wait for all pending decryption requests.</description><pubDate>Wed, 12 Nov 2025 10:57:35 +0000</pubDate></item><item><title>CVE-2025-40177 | accel/qaic: Fix bootlog initialization ordering</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40177</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+accel/qaic: Fix bootlog initialization ordering
+
+As soon as we queue MHI buffers to receive the bootlog from the device,
+we could be receiving data. Therefore all the resources needed to
+process that data need to be setup prior to queuing the buffers.
+
+We currently initialize some of the resources after queuing the buffers
+which creates a race between the probe() and any data that comes back
+from the device. If the uninitialized resources are accessed, we could
+see page faults.
+
+Fix the init ordering to close the race.</description><pubDate>Wed, 12 Nov 2025 10:57:36 +0000</pubDate></item><item><title>CVE-2025-40168 | smc: Use __sk_dst_get() and dst_dev_rcu() in smc_clc_prfx_match().</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40168</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+smc: Use __sk_dst_get() and dst_dev_rcu() in smc_clc_prfx_match().
+
+smc_clc_prfx_match() is called from smc_listen_work() and
+not under RCU nor RTNL.
+
+Using sk_dst_get(sk)-&gt;dev could trigger UAF.
+
+Let's use __sk_dst_get() and dst_dev_rcu().
+
+Note that the returned value of smc_clc_prfx_match() is not
+used in the caller.</description><pubDate>Wed, 12 Nov 2025 10:57:36 +0000</pubDate></item><item><title>CVE-2025-40169 | bpf: Reject negative offsets for ALU ops</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40169</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Reject negative offsets for ALU ops
+
+When verifying BPF programs, the check_alu_op() function validates
+instructions with ALU operations. The 'offset' field in these
+instructions is a signed 16-bit integer.
+
+The existing check 'insn-&gt;off &gt; 1' was intended to ensure the offset is
+either 0, or 1 for BPF_MOD/BPF_DIV. However, because 'insn-&gt;off' is
+signed, this check incorrectly accepts all negative values (e.g., -1).
+
+This commit tightens the validation by changing the condition to
+'(insn-&gt;off != 0 &amp;&amp; insn-&gt;off != 1)'. This ensures that any value
+other than the explicitly permitted 0 and 1 is rejected, hardening the
+verifier against malformed BPF programs.</description><pubDate>Wed, 12 Nov 2025 10:57:37 +0000</pubDate></item><item><title>CVE-2025-40170 | net: use dst_dev_rcu() in sk_setup_caps()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40170</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: use dst_dev_rcu() in sk_setup_caps()
+
+Use RCU to protect accesses to dst-&gt;dev from sk_setup_caps()
+and sk_dst_gso_max_size().
+
+Also use dst_dev_rcu() in ip6_dst_mtu_maybe_forward(),
+and ip_dst_mtu_maybe_forward().
+
+ip4_dst_hoplimit() can use dst_dev_net_rcu().</description><pubDate>Wed, 12 Nov 2025 10:57:37 +0000</pubDate></item><item><title>CVE-2025-40171 | nvmet-fc: move lsop put work to nvmet_fc_ls_req_op</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40171</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
+
+It’s possible for more than one async command to be in flight from
+__nvmet_fc_send_ls_req. For each command, a tgtport reference is taken.
+
+In the current code, only one put work item is queued at a time, which
+results in a leaked reference.
+
+To fix this, move the work item to the nvmet_fc_ls_req_op struct, which
+already tracks all resources related to the command.</description><pubDate>Wed, 12 Nov 2025 10:57:38 +0000</pubDate></item><item><title>CVE-2025-40166 | drm/xe/guc: Check GuC running state before deregistering exec queue</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40166</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/xe/guc: Check GuC running state before deregistering exec queue
 
