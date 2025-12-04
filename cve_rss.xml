@@ -1,5 +1,141 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 04 Dec 2025 14:49:50 +0000</lastBuildDate><item><title>CVE-2025-14006 | dayrui XunRuiCMS Add Data Validation admind45f74adbd95.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14006</link><description>A security vulnerability has been detected in dayrui XunRuiCMS up to 4.7.1. Affected by this issue is some unknown functionality of the file /admind45f74adbd95.php?c=field&amp;m=add&amp;rname=site&amp;rid=1&amp;page=1 of the component Add Data Validation Page. The manipulation of the argument data[name] leads to cross site scripting. The attack is possible to be carried out remotely. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 04 Dec 2025 14:49:52 +0000</pubDate></item><item><title>CVE-2025-14007 | dayrui XunRuiCMS Domain Name Binding admin79f2ec220c7e.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14007</link><description>A vulnerability was detected in dayrui XunRuiCMS up to 4.7.1. This affects an unknown part of the file /admin79f2ec220c7e.php?c=api&amp;m=demo&amp;name=mobile of the component Domain Name Binding Page. The manipulation results in cross site scripting. The attack may be performed from remote. A high complexity level is associated with this attack. It is indicated that the exploitability is difficult. The exploit is now public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 04 Dec 2025 14:49:52 +0000</pubDate></item><item><title>CVE-2024-45538 | Cross-Site Request Forgery (CSRF) vulnerability in WebAPI Framework in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-728...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45538</link><description>Cross-Site Request Forgery (CSRF) vulnerability in WebAPI Framework in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote attackers to execute arbitrary code via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:42 +0000</pubDate></item><item><title>CVE-2024-45539 | Out-of-bounds write vulnerability in cgi components in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45539</link><description>Out-of-bounds write vulnerability in cgi components in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote attackers to conduct denial-of-service attacks via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:43 +0000</pubDate></item><item><title>CVE-2024-5401 | Improper control of dynamically-managed code resources vulnerability in WebAPI component in Synology DiskStation Manager (DSM) before 7.1.1-...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5401</link><description>Improper control of dynamically-managed code resources vulnerability in WebAPI component in Synology DiskStation Manager (DSM) before 7.1.1-42962-8 and 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote authenticated users to obtain privileges without consent via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:43 +0000</pubDate></item><item><title>CVE-2025-40216 | io_uring/rsrc: don&amp;#x27;t rely on user vaddr alignment</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40216</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 04 Dec 2025 14:59:36 +0000</lastBuildDate><item><title>CVE-2025-40217 | pidfs: validate extensible ioctls</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40217</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+pidfs: validate extensible ioctls
+
+Validate extensible ioctls stricter than we do now.</description><pubDate>Thu, 04 Dec 2025 14:59:38 +0000</pubDate></item><item><title>CVE-2025-40218 | mm/damon/vaddr: do not repeat pte_offset_map_lock() until success</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40218</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/vaddr: do not repeat pte_offset_map_lock() until success
+
+DAMON's virtual address space operation set implementation (vaddr) calls
+pte_offset_map_lock() inside the page table walk callback function.  This
+is for reading and writing page table accessed bits.  If
+pte_offset_map_lock() fails, it retries by returning the page table walk
+callback function with ACTION_AGAIN.
+
+pte_offset_map_lock() can continuously fail if the target is a pmd
+migration entry, though.  Hence it could cause an infinite page table walk
+if the migration cannot be done until the page table walk is finished. 
+This indeed caused a soft lockup when CPU hotplugging and DAMON were
+running in parallel.
+
+Avoid the infinite loop by simply not retrying the page table walk.  DAMON
+is promising only a best-effort accuracy, so missing access to such pages
+is no problem.</description><pubDate>Thu, 04 Dec 2025 14:59:38 +0000</pubDate></item><item><title>CVE-2025-40219 | PCI/IOV: Add PCI rescan-remove locking when enabling/disabling SR-IOV</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40219</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI/IOV: Add PCI rescan-remove locking when enabling/disabling SR-IOV
+
+Before disabling SR-IOV via config space accesses to the parent PF,
+sriov_disable() first removes the PCI devices representing the VFs.
+
+Since commit 9d16947b7583 ("PCI: Add global pci_lock_rescan_remove()")
+such removal operations are serialized against concurrent remove and
+rescan using the pci_rescan_remove_lock. No such locking was ever added
+in sriov_disable() however. In particular when commit 18f9e9d150fc
+("PCI/IOV: Factor out sriov_add_vfs()") factored out the PCI device
+removal into sriov_del_vfs() there was still no locking around the
+pci_iov_remove_virtfn() calls.
+
+On s390 the lack of serialization in sriov_disable() may cause double
+remove and list corruption with the below (amended) trace being observed:
+
+  PSW:  0704c00180000000 0000000c914e4b38 (klist_put+56)
+  GPRS: 000003800313fb48 0000000000000000 0000000100000001 0000000000000001
+	00000000f9b520a8 0000000000000000 0000000000002fbd 00000000f4cc9480
+	0000000000000001 0000000000000000 0000000000000000 0000000180692828
+	00000000818e8000 000003800313fe2c 000003800313fb20 000003800313fad8
+  #0 [3800313fb20] device_del at c9158ad5c
+  #1 [3800313fb88] pci_remove_bus_device at c915105ba
+  #2 [3800313fbd0] pci_iov_remove_virtfn at c9152f198
+  #3 [3800313fc28] zpci_iov_remove_virtfn at c90fb67c0
+  #4 [3800313fc60] zpci_bus_remove_device at c90fb6104
+  #5 [3800313fca0] __zpci_event_availability at c90fb3dca
+  #6 [3800313fd08] chsc_process_sei_nt0 at c918fe4a2
+  #7 [3800313fd60] crw_collect_info at c91905822
+  #8 [3800313fe10] kthread at c90feb390
+  #9 [3800313fe68] __ret_from_fork at c90f6aa64
+  #10 [3800313fe98] ret_from_fork at c9194f3f2.
+
+This is because in addition to sriov_disable() removing the VFs, the
+platform also generates hot-unplug events for the VFs. This being the
+reverse operation to the hotplug events generated by sriov_enable() and
+handled via pdev-&gt;no_vf_scan. And while the event processing takes
+pci_rescan_remove_lock and checks whether the struct pci_dev still exists,
+the lack of synchronization makes this checking racy.
+
+Other races may also be possible of course though given that this lack of
+locking persisted so long observable races seem very rare. Even on s390 the
+list corruption was only observed with certain devices since the platform
+events are only triggered by config accesses after the removal, so as long
+as the removal finished synchronously they would not race. Either way the
+locking is missing so fix this by adding it to the sriov_del_vfs() helper.
+
+Just like PCI rescan-remove, locking is also missing in sriov_add_vfs()
+including for the error case where pci_stop_and_remove_bus_device() is
+called without the PCI rescan-remove lock being held. Even in the non-error
+case, adding new PCI devices and buses should be serialized via the PCI
+rescan-remove lock. Add the necessary locking.</description><pubDate>Thu, 04 Dec 2025 14:59:39 +0000</pubDate></item><item><title>CVE-2025-40220 | fuse: fix livelock in synchronous file put from fuseblk workers</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40220</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fuse: fix livelock in synchronous file put from fuseblk workers
+
+I observed a hang when running generic/323 against a fuseblk server.
+This test opens a file, initiates a lot of AIO writes to that file
+descriptor, and closes the file descriptor before the writes complete.
+Unsurprisingly, the AIO exerciser threads are mostly stuck waiting for
+responses from the fuseblk server:
+
+# cat /proc/372265/task/372313/stack
+[&lt;0&gt;] request_wait_answer+0x1fe/0x2a0 [fuse]
+[&lt;0&gt;] __fuse_simple_request+0xd3/0x2b0 [fuse]
+[&lt;0&gt;] fuse_do_getattr+0xfc/0x1f0 [fuse]
+[&lt;0&gt;] fuse_file_read_iter+0xbe/0x1c0 [fuse]
+[&lt;0&gt;] aio_read+0x130/0x1e0
+[&lt;0&gt;] io_submit_one+0x542/0x860
+[&lt;0&gt;] __x64_sys_io_submit+0x98/0x1a0
+[&lt;0&gt;] do_syscall_64+0x37/0xf0
+[&lt;0&gt;] entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+But the /weird/ part is that the fuseblk server threads are waiting for
+responses from itself:
+
+# cat /proc/372210/task/372232/stack
+[&lt;0&gt;] request_wait_answer+0x1fe/0x2a0 [fuse]
+[&lt;0&gt;] __fuse_simple_request+0xd3/0x2b0 [fuse]
+[&lt;0&gt;] fuse_file_put+0x9a/0xd0 [fuse]
+[&lt;0&gt;] fuse_release+0x36/0x50 [fuse]
+[&lt;0&gt;] __fput+0xec/0x2b0
+[&lt;0&gt;] task_work_run+0x55/0x90
+[&lt;0&gt;] syscall_exit_to_user_mode+0xe9/0x100
+[&lt;0&gt;] do_syscall_64+0x43/0xf0
+[&lt;0&gt;] entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+The fuseblk server is fuse2fs so there's nothing all that exciting in
+the server itself.  So why is the fuse server calling fuse_file_put?
+The commit message for the fstest sheds some light on that:
+
+"By closing the file descriptor before calling io_destroy, you pretty
+much guarantee that the last put on the ioctx will be done in interrupt
+context (during I/O completion).
+
+Aha.  AIO fgets a new struct file from the fd when it queues the ioctx.
+The completion of the FUSE_WRITE command from userspace causes the fuse
+server to call the AIO completion function.  The completion puts the
+struct file, queuing a delayed fput to the fuse server task.  When the
+fuse server task returns to userspace, it has to run the delayed fput,
+which in the case of a fuseblk server, it does synchronously.
+
+Sending the FUSE_RELEASE command sychronously from fuse server threads
+is a bad idea because a client program can initiate enough simultaneous
+AIOs such that all the fuse server threads end up in delayed_fput, and
+now there aren't any threads left to handle the queued fuse commands.
+
+Fix this by only using asynchronous fputs when closing files, and leave
+a comment explaining why.</description><pubDate>Thu, 04 Dec 2025 14:59:39 +0000</pubDate></item><item><title>CVE-2025-40221 | media: pci: mg4b: fix uninitialized iio scan data</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40221</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+media: pci: mg4b: fix uninitialized iio scan data
+
+Fix potential leak of uninitialized stack data to userspace by ensuring
+that the `scan` structure is zeroed before use.</description><pubDate>Thu, 04 Dec 2025 14:59:40 +0000</pubDate></item><item><title>CVE-2025-14006 | dayrui XunRuiCMS Add Data Validation admind45f74adbd95.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14006</link><description>A security vulnerability has been detected in dayrui XunRuiCMS up to 4.7.1. Affected by this issue is some unknown functionality of the file /admind45f74adbd95.php?c=field&amp;amp;m=add&amp;amp;rname=site&amp;amp;rid=1&amp;amp;page=1 of the component Add Data Validation Page. The manipulation of the argument data[name] leads to cross site scripting. The attack is possible to be carried out remotely. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 04 Dec 2025 14:49:52 +0000</pubDate></item><item><title>CVE-2025-14007 | dayrui XunRuiCMS Domain Name Binding admin79f2ec220c7e.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14007</link><description>A vulnerability was detected in dayrui XunRuiCMS up to 4.7.1. This affects an unknown part of the file /admin79f2ec220c7e.php?c=api&amp;amp;m=demo&amp;amp;name=mobile of the component Domain Name Binding Page. The manipulation results in cross site scripting. The attack may be performed from remote. A high complexity level is associated with this attack. It is indicated that the exploitability is difficult. The exploit is now public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 04 Dec 2025 14:49:52 +0000</pubDate></item><item><title>CVE-2024-45538 | Cross-Site Request Forgery (CSRF) vulnerability in WebAPI Framework in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-728...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45538</link><description>Cross-Site Request Forgery (CSRF) vulnerability in WebAPI Framework in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote attackers to execute arbitrary code via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:42 +0000</pubDate></item><item><title>CVE-2024-45539 | Out-of-bounds write vulnerability in cgi components in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology ...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-45539</link><description>Out-of-bounds write vulnerability in cgi components in Synology DiskStation Manager (DSM) before 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote attackers to conduct denial-of-service attacks via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:43 +0000</pubDate></item><item><title>CVE-2024-5401 | Improper control of dynamically-managed code resources vulnerability in WebAPI component in Synology DiskStation Manager (DSM) before 7.1.1-...</title><link>https://www.cve.org/CVERecord?id=CVE-2024-5401</link><description>Improper control of dynamically-managed code resources vulnerability in WebAPI component in Synology DiskStation Manager (DSM) before 7.1.1-42962-8 and 7.2.1-69057-2 and 7.2.2-72806 and Synology Unified Controller (DSMUC) before 3.1.4-23079 allows remote authenticated users to obtain privileges without consent via unspecified vectors.</description><pubDate>Thu, 04 Dec 2025 14:29:43 +0000</pubDate></item><item><title>CVE-2025-40216 | io_uring/rsrc: don&amp;#x27;t rely on user vaddr alignment</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40216</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 io_uring/rsrc: don't rely on user vaddr alignment
 
