@@ -1,5 +1,207 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 15:19:06 +0000</lastBuildDate><item><title>CVE-2025-14432 | Poly Video - Sensitive Data Might Be Written to Log File</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14432</link><description>In limited scenarios, sensitive data might be written to the log file if an admin uses Microsoft Teams Admin Center (TAC) to make device configuration changes. The affected log file is visible only to users with admin credentials. This is limited to Microsoft TAC and does not affect configuration changes made using the provisioning server or the device WebUI.</description><pubDate>Tue, 16 Dec 2025 15:19:08 +0000</pubDate></item><item><title>CVE-2025-62329 | HCL DevOps Deploy / HCL Launch is susceptible to an insufficient session expiration vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-62329</link><description>HCL DevOps Deploy / HCL Launch is susceptible to a race condition in http-session client-IP binding enforcement which may allow a session to be briefly reused from a new IP address before it is invalidated. This could lead to unauthorized access under certain network conditions.</description><pubDate>Tue, 16 Dec 2025 15:19:09 +0000</pubDate></item><item><title>CVE-2025-64012 | InvoicePlane commit debb446c is vulnerable to Incorrect Access Control. The invoices/view handler fails to verify ownership before returning...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-64012</link><description>InvoicePlane commit debb446c is vulnerable to Incorrect Access Control. The invoices/view handler fails to verify ownership before returning invoice data.</description><pubDate>Tue, 16 Dec 2025 15:19:09 +0000</pubDate></item><item><title>CVE-2025-68282 | usb: gadget: udc: fix use-after-free in usb_gadget_state_work</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68282</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 15:42:02 +0000</lastBuildDate><item><title>CVE-2025-68309 | PCI/AER: Fix NULL pointer access by aer_info</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68309</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PCI/AER: Fix NULL pointer access by aer_info
+
+The kzalloc(GFP_KERNEL) may return NULL, so all accesses to aer_info-&gt;xxx
+will result in kernel panic. Fix it.</description><pubDate>Tue, 16 Dec 2025 15:42:05 +0000</pubDate></item><item><title>CVE-2025-68310 | s390/pci: Avoid deadlock between PCI error recovery and mlx5 crdump</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68310</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+s390/pci: Avoid deadlock between PCI error recovery and mlx5 crdump
+
+Do not block PCI config accesses through pci_cfg_access_lock() when
+executing the s390 variant of PCI error recovery: Acquire just
+device_lock() instead of pci_dev_lock() as powerpc's EEH and
+generig PCI AER processing do.
+
+During error recovery testing a pair of tasks was reported to be hung:
+
+mlx5_core 0000:00:00.1: mlx5_health_try_recover:338:(pid 5553): health recovery flow aborted, PCI reads still not working
+INFO: task kmcheck:72 blocked for more than 122 seconds.
+      Not tainted 5.14.0-570.12.1.bringup7.el9.s390x #1
+"echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kmcheck         state:D stack:0     pid:72    tgid:72    ppid:2      flags:0x00000000
+Call Trace:
+ [&lt;000000065256f030&gt;] __schedule+0x2a0/0x590
+ [&lt;000000065256f356&gt;] schedule+0x36/0xe0
+ [&lt;000000065256f572&gt;] schedule_preempt_disabled+0x22/0x30
+ [&lt;0000000652570a94&gt;] __mutex_lock.constprop.0+0x484/0x8a8
+ [&lt;000003ff800673a4&gt;] mlx5_unload_one+0x34/0x58 [mlx5_core]
+ [&lt;000003ff8006745c&gt;] mlx5_pci_err_detected+0x94/0x140 [mlx5_core]
+ [&lt;0000000652556c5a&gt;] zpci_event_attempt_error_recovery+0xf2/0x398
+ [&lt;0000000651b9184a&gt;] __zpci_event_error+0x23a/0x2c0
+INFO: task kworker/u1664:6:1514 blocked for more than 122 seconds.
+      Not tainted 5.14.0-570.12.1.bringup7.el9.s390x #1
+"echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/u1664:6 state:D stack:0     pid:1514  tgid:1514  ppid:2      flags:0x00000000
+Workqueue: mlx5_health0000:00:00.0 mlx5_fw_fatal_reporter_err_work [mlx5_core]
+Call Trace:
+ [&lt;000000065256f030&gt;] __schedule+0x2a0/0x590
+ [&lt;000000065256f356&gt;] schedule+0x36/0xe0
+ [&lt;0000000652172e28&gt;] pci_wait_cfg+0x80/0xe8
+ [&lt;0000000652172f94&gt;] pci_cfg_access_lock+0x74/0x88
+ [&lt;000003ff800916b6&gt;] mlx5_vsc_gw_lock+0x36/0x178 [mlx5_core]
+ [&lt;000003ff80098824&gt;] mlx5_crdump_collect+0x34/0x1c8 [mlx5_core]
+ [&lt;000003ff80074b62&gt;] mlx5_fw_fatal_reporter_dump+0x6a/0xe8 [mlx5_core]
+ [&lt;0000000652512242&gt;] devlink_health_do_dump.part.0+0x82/0x168
+ [&lt;0000000652513212&gt;] devlink_health_report+0x19a/0x230
+ [&lt;000003ff80075a12&gt;] mlx5_fw_fatal_reporter_err_work+0xba/0x1b0 [mlx5_core]
+
+No kernel log of the exact same error with an upstream kernel is
+available - but the very same deadlock situation can be constructed there,
+too:
+
+- task: kmcheck
+  mlx5_unload_one() tries to acquire devlink lock while the PCI error
+  recovery code has set pdev-&gt;block_cfg_access by way of
+  pci_cfg_access_lock()
+- task: kworker
+  mlx5_crdump_collect() tries to set block_cfg_access through
+  pci_cfg_access_lock() while devlink_health_report() had acquired
+  the devlink lock.
+
+A similar deadlock situation can be reproduced by requesting a
+crdump with
+  &gt; devlink health dump show pci/&lt;BDF&gt; reporter fw_fatal
+
+while PCI error recovery is executed on the same &lt;BDF&gt; physical function
+by mlx5_core's pci_error_handlers. On s390 this can be injected with
+  &gt; zpcictl --reset-fw &lt;BDF&gt;
+
+Tests with this patch failed to reproduce that second deadlock situation,
+the devlink command is rejected with "kernel answers: Permission denied" -
+and we get a kernel log message of:
+
+mlx5_core 1ed0:00:00.1: mlx5_crdump_collect:50:(pid 254382): crdump: failed to lock vsc gw err -5
+
+because the config read of VSC_SEMAPHORE is rejected by the underlying
+hardware.
+
+Two prior attempts to address this issue have been discussed and
+ultimately rejected [see link], with the primary argument that s390's
+implementation of PCI error recovery is imposing restrictions that
+neither powerpc's EEH nor PCI AER handling need. Tests show that PCI
+error recovery on s390 is running to completion even without blocking
+access to PCI config space.</description><pubDate>Tue, 16 Dec 2025 15:42:05 +0000</pubDate></item><item><title>CVE-2025-68311 | tty: serial: ip22zilog: Use platform device for probing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68311</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tty: serial: ip22zilog: Use platform device for probing
+
+After commit 84a9582fd203 ("serial: core: Start managing serial controllers
+to enable runtime PM") serial drivers need to provide a device in
+struct uart_port.dev otherwise an oops happens. To fix this issue
+for ip22zilog driver switch driver to a platform driver and setup
+the serial device in sgi-ip22 code.</description><pubDate>Tue, 16 Dec 2025 15:42:05 +0000</pubDate></item><item><title>CVE-2025-68312 | usbnet: Prevents free active kevent</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68312</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+usbnet: Prevents free active kevent
+
+The root cause of this issue are:
+1. When probing the usbnet device, executing usbnet_link_change(dev, 0, 0);
+put the kevent work in global workqueue. However, the kevent has not yet
+been scheduled when the usbnet device is unregistered. Therefore, executing
+free_netdev() results in the "free active object (kevent)" error reported
+here.
+
+2. Another factor is that when calling usbnet_disconnect()-&gt;unregister_netdev(),
+if the usbnet device is up, ndo_stop() is executed to cancel the kevent.
+However, because the device is not up, ndo_stop() is not executed.
+
+The solution to this problem is to cancel the kevent before executing
+free_netdev().</description><pubDate>Tue, 16 Dec 2025 15:42:06 +0000</pubDate></item><item><title>CVE-2025-68313 | x86/CPU/AMD: Add RDSEED fix for Zen5</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68313</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+x86/CPU/AMD: Add RDSEED fix for Zen5
+
+There's an issue with RDSEED's 16-bit and 32-bit register output
+variants on Zen5 which return a random value of 0 "at a rate inconsistent
+with randomness while incorrectly signaling success (CF=1)". Search the
+web for AMD-SB-7055 for more detail.
+
+Add a fix glue which checks microcode revisions.
+
+  [ bp: Add microcode revisions checking, rewrite. ]</description><pubDate>Tue, 16 Dec 2025 15:42:06 +0000</pubDate></item><item><title>CVE-2025-68314 | drm/msm: make sure last_fence is always updated</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68314</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/msm: make sure last_fence is always updated
+
+Update last_fence in the vm-bind path instead of kernel managed path.
+
+last_fence is used to wait for work to finish in vm_bind contexts but not
+used for kernel managed contexts.
+
+This fixes a bug where last_fence is not waited on context close leading
+to faults as resources are freed while in use.
+
+Patchwork: https://patchwork.freedesktop.org/patch/680080/</description><pubDate>Tue, 16 Dec 2025 15:42:07 +0000</pubDate></item><item><title>CVE-2025-68315 | f2fs: fix to detect potential corrupted nid in free_nid_list</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68315</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to detect potential corrupted nid in free_nid_list
+
+As reported, on-disk footer.ino and footer.nid is the same and
+out-of-range, let's add sanity check on f2fs_alloc_nid() to detect
+any potential corruption in free_nid_list.</description><pubDate>Tue, 16 Dec 2025 15:42:07 +0000</pubDate></item><item><title>CVE-2025-68316 | scsi: ufs: core: Fix invalid probe error return value</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68316</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: core: Fix invalid probe error return value
+
+After DME Link Startup, the error return value is set to the MIPI UniPro
+GenericErrorCode which can be 0 (SUCCESS) or 1 (FAILURE).  Upon failure
+during driver probe, the error code 1 is propagated back to the driver
+probe function which must return a negative value to indicate an error,
+but 1 is not negative, so the probe is considered to be successful even
+though it failed.  Subsequently, removing the driver results in an oops
+because it is not in a valid state.
+
+This happens because none of the callers of ufshcd_init() expect a
+non-negative error code.
+
+Fix the return value and documentation to match actual usage.</description><pubDate>Tue, 16 Dec 2025 15:42:07 +0000</pubDate></item><item><title>CVE-2025-68317 | io_uring/zctx: check chained notif contexts</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68317</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring/zctx: check chained notif contexts
+
+Send zc only links ubuf_info for requests coming from the same context.
+There are some ambiguous syz reports, so let's check the assumption on
+notification completion.</description><pubDate>Tue, 16 Dec 2025 15:42:08 +0000</pubDate></item><item><title>CVE-2025-68318 | clk: thead: th1520-ap: set all AXI clocks to CLK_IS_CRITICAL</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68318</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clk: thead: th1520-ap: set all AXI clocks to CLK_IS_CRITICAL
+
+The AXI crossbar of TH1520 has no proper timeout handling, which means
+gating AXI clocks can easily lead to bus timeout and thus system hang.
+
+Set all AXI clock gates to CLK_IS_CRITICAL. All these clock gates are
+ungated by default on system reset.
+
+In addition, convert all current CLK_IGNORE_UNUSED usage to
+CLK_IS_CRITICAL to prevent unwanted clock gating.</description><pubDate>Tue, 16 Dec 2025 15:42:08 +0000</pubDate></item><item><title>CVE-2025-68319 | netconsole: Acquire su_mutex before navigating configs hierarchy</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68319</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netconsole: Acquire su_mutex before navigating configs hierarchy
+
+There is a race between operations that iterate over the userdata
+cg_children list and concurrent add/remove of userdata items through
+configfs. The update_userdata() function iterates over the
+nt-&gt;userdata_group.cg_children list, and count_extradata_entries() also
+iterates over this same list to count nodes.
+
+Quoting from Documentation/filesystems/configfs.rst:
+&gt; A subsystem can navigate the cg_children list and the ci_parent pointer
+&gt; to see the tree created by the subsystem.  This can race with configfs'
+&gt; management of the hierarchy, so configfs uses the subsystem mutex to
+&gt; protect modifications.  Whenever a subsystem wants to navigate the
+&gt; hierarchy, it must do so under the protection of the subsystem
+&gt; mutex.
+
+Without proper locking, if a userdata item is added or removed
+concurrently while these functions are iterating, the list can be
+accessed in an inconsistent state. For example, the list_for_each() loop
+can reach a node that is being removed from the list by list_del_init()
+which sets the nodes' .next pointer to point to itself, so the loop will
+never end (or reach the WARN_ON_ONCE in update_userdata() ).
+
+Fix this by holding the configfs subsystem mutex (su_mutex) during all
+operations that iterate over cg_children.
+This includes:
+- userdatum_value_store() which calls update_userdata() to iterate over
+  cg_children
+- All sysdata_*_enabled_store() functions which call
+  count_extradata_entries() to iterate over cg_children
+
+The su_mutex must be acquired before dynamic_netconsole_mutex to avoid
+potential lock ordering issues, as configfs operations may already hold
+su_mutex when calling into our code.</description><pubDate>Tue, 16 Dec 2025 15:42:09 +0000</pubDate></item><item><title>CVE-2025-68162 | In JetBrains TeamCity before 2025.11 maven embedder allowed loading extensions via project configuration</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68162</link><description>In JetBrains TeamCity before 2025.11 maven embedder allowed loading extensions via project configuration</description><pubDate>Tue, 16 Dec 2025 15:42:10 +0000</pubDate></item><item><title>CVE-2025-68163 | In JetBrains TeamCity before 2025.11 stored XSS was possible on agentpushInstall page</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68163</link><description>In JetBrains TeamCity before 2025.11 stored XSS was possible on agentpushInstall page</description><pubDate>Tue, 16 Dec 2025 15:42:10 +0000</pubDate></item><item><title>CVE-2025-68164 | In JetBrains TeamCity before 2025.11 port enumeration was possible via the Perforce connection test</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68164</link><description>In JetBrains TeamCity before 2025.11 port enumeration was possible via the Perforce connection test</description><pubDate>Tue, 16 Dec 2025 15:42:10 +0000</pubDate></item><item><title>CVE-2025-68165 | In JetBrains TeamCity before 2025.11 reflected XSS was possible on VCS Root setup</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68165</link><description>In JetBrains TeamCity before 2025.11 reflected XSS was possible on VCS Root setup</description><pubDate>Tue, 16 Dec 2025 15:42:11 +0000</pubDate></item><item><title>CVE-2025-68166 | In JetBrains TeamCity before 2025.11 a DOM-based XSS was possible on the OAuth connections tab</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68166</link><description>In JetBrains TeamCity before 2025.11 a DOM-based XSS was possible on the OAuth connections tab</description><pubDate>Tue, 16 Dec 2025 15:42:11 +0000</pubDate></item><item><title>CVE-2025-68267 | In JetBrains TeamCity before 2025.11.1 excessive privileges were possible due to storing GitHub personal access token instead of an installa...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68267</link><description>In JetBrains TeamCity before 2025.11.1 excessive privileges were possible due to storing GitHub personal access token instead of an installation token</description><pubDate>Tue, 16 Dec 2025 15:42:12 +0000</pubDate></item><item><title>CVE-2025-68268 | In JetBrains TeamCity before 2025.11.1 reflected XSS was possible on the storage settings page</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68268</link><description>In JetBrains TeamCity before 2025.11.1 reflected XSS was possible on the storage settings page</description><pubDate>Tue, 16 Dec 2025 15:42:12 +0000</pubDate></item><item><title>CVE-2025-68269 | In JetBrains IntelliJ IDEA before 2025.3 missing confirmation allowed opening of untrusted remote projects over SSH</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68269</link><description>In JetBrains IntelliJ IDEA before 2025.3 missing confirmation allowed opening of untrusted remote projects over SSH</description><pubDate>Tue, 16 Dec 2025 15:42:13 +0000</pubDate></item><item><title>CVE-2025-14432 | Poly Video - Sensitive Data Might Be Written to Log File</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14432</link><description>In limited scenarios, sensitive data might be written to the log file if an admin uses Microsoft Teams Admin Center (TAC) to make device configuration changes. The affected log file is visible only to users with admin credentials. This is limited to Microsoft TAC and does not affect configuration changes made using the provisioning server or the device WebUI.</description><pubDate>Tue, 16 Dec 2025 15:19:08 +0000</pubDate></item><item><title>CVE-2025-62329 | HCL DevOps Deploy / HCL Launch is susceptible to an insufficient session expiration vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2025-62329</link><description>HCL DevOps Deploy / HCL Launch is susceptible to a race condition in http-session client-IP binding enforcement which may allow a session to be briefly reused from a new IP address before it is invalidated. This could lead to unauthorized access under certain network conditions.</description><pubDate>Tue, 16 Dec 2025 15:19:09 +0000</pubDate></item><item><title>CVE-2025-64012 | InvoicePlane commit debb446c is vulnerable to Incorrect Access Control. The invoices/view handler fails to verify ownership before returning...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-64012</link><description>InvoicePlane commit debb446c is vulnerable to Incorrect Access Control. The invoices/view handler fails to verify ownership before returning invoice data.</description><pubDate>Tue, 16 Dec 2025 15:19:09 +0000</pubDate></item><item><title>CVE-2025-68282 | usb: gadget: udc: fix use-after-free in usb_gadget_state_work</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68282</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 usb: gadget: udc: fix use-after-free in usb_gadget_state_work
 
@@ -70,7 +272,7 @@ reproducible with generic/395 and generic/397 with KASAN enabled:
     CPU: 2 UID: 0 PID: 13305 Comm: mount.ceph Not tainted 6.14.0-rc2-build2+ #1266
     ...
     Call Trace:
-    &lt;TASK&gt;
+    
     have_mon_and_osd_map+0x56/0x70
     ceph_open_session+0x182/0x290
     ceph_get_tree+0x333/0x680
@@ -81,7 +283,7 @@ reproducible with generic/395 and generic/397 with KASAN enabled:
     __do_sys_mount+0x141/0x180
     do_syscall_64+0x9f/0x100
     entry_SYSCALL_64_after_hwframe+0x76/0x7e
-    &lt;/TASK&gt;
+    
 
     Allocated by task 13305:
     ceph_osdmap_alloc+0x16/0x130
@@ -153,7 +355,7 @@ knlGS:0000000000000000
  CR2: 0000000000000000 CR3: 00000001b8105000 CR4: 0000000000f50ef0
  PKRU: 55555554
  Call Trace:
- &lt;TASK&gt;
+ 
  dm_crtc_get_scanoutpos+0xd7/0x180 [amdgpu]
  amdgpu_display_get_crtc_scanoutpos+0x86/0x1c0 [amdgpu]
  ? __pfx_amdgpu_crtc_get_scanout_position+0x10/0x10[amdgpu]
@@ -289,7 +491,7 @@ Oops: divide error: 0000 [#1] SMP KASAN PTI
 CPU: 0 UID: 0 PID: 6068 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full)
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
 RIP: 0010:__tcp_select_window+0x824/0x1320 net/ipv4/tcp_output.c:3336
-Code: ff ff ff 44 89 f1 d3 e0 89 c1 f7 d1 41 01 cc 41 21 c4 e9 a9 00 00 00 e8 ca 49 01 f8 e9 9c 00 00 00 e8 c0 49 01 f8 44 89 e0 99 &lt;f7&gt; 7c 24 1c 41 29 d4 48 bb 00 00 00 00 00 fc ff df e9 80 00 00 00
+Code: ff ff ff 44 89 f1 d3 e0 89 c1 f7 d1 41 01 cc 41 21 c4 e9 a9 00 00 00 e8 ca 49 01 f8 e9 9c 00 00 00 e8 c0 49 01 f8 44 89 e0 99  7c 24 1c 41 29 d4 48 bb 00 00 00 00 00 fc ff df e9 80 00 00 00
 RSP: 0018:ffffc90003017640 EFLAGS: 00010293
 RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88807b469e40
 RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
@@ -300,7 +502,7 @@ FS:  000055557faa0500(0000) GS:ffff888126135000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f64a1912ff8 CR3: 0000000072122000 CR4: 00000000003526f0
 Call Trace:
- &lt;TASK&gt;
+ 
  tcp_select_window net/ipv4/tcp_output.c:281 [inline]
  __tcp_transmit_skb+0xbc7/0x3aa0 net/ipv4/tcp_output.c:1568
  tcp_transmit_skb net/ipv4/tcp_output.c:1649 [inline]
@@ -325,8 +527,7 @@ RAX: ffffffffffffffda RBX: 00007f66e9be5fa0 RCX: 00007f66e998f749
 RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
 RBP: 00007ffff9acee10 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007f66e9be5fa0 R14: 00007f66e9be5fa0 R15: 0000000000000006
- &lt;/TASK&gt;</description><pubDate>Tue, 16 Dec 2025 15:19:12 +0000</pubDate></item><item><title>CVE-2025-68292 | mm/memfd: fix information leak in hugetlb folios</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68292</link><description>In the Linux kernel, the following vulnerability has been resolved:
+R13: 00007f66e9be5fa0 R14: 00007f66e9be5fa0 R15: 0000000000000006</description><pubDate>Tue, 16 Dec 2025 15:19:12 +0000</pubDate></item><item><title>CVE-2025-68292 | mm/memfd: fix information leak in hugetlb folios</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68292</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mm/memfd: fix information leak in hugetlb folios
 
@@ -480,7 +681,7 @@ knlGS:0000000000000000
 [  408.072332] CR2: 000000c0003c6000 CR3: 000000010c106005 CR4: 0000000000772ef0
 [  408.072336] PKRU: 55555554
 [  408.072337] Call Trace:
-[  408.072338]  &lt;TASK&gt;
+[  408.072338]  
 [  408.072340]  ? sched_clock_noinstr+0x9/0x10
 [  408.072344]  ? __pfx_ceph_con_v2_try_read+0x10/0x10
 [  408.072347]  ? _raw_spin_unlock+0xe/0x40
@@ -506,7 +707,7 @@ knlGS:0000000000000000
 [  408.072397]  ret_from_fork+0x2b6/0x380
 [  408.072400]  ? __pfx_kthread+0x10/0x10
 [  408.072402]  ret_from_fork_asm+0x1a/0x30
-[  408.072406]  &lt;/TASK&gt;
+[  408.072406]  
 [  408.072407] ---[ end trace 0000000000000000 ]---
 [  408.072418] Oops: general protection fault, probably for non-canonical
 address 0xdffffc00000000
@@ -612,7 +813,7 @@ CR2: ffff9258ea95baf0 CR3: 0000000166022004 CR4:
 0000000000f72ef0
 PKRU: 55555554
 Call Trace:
-&lt;IRQ&gt;
+
 aq_ring_rx_clean+0x175/0xe60 [atlantic]
 ? aq_ring_rx_clean+0x14d/0xe60 [atlantic]
 ? aq_ring_tx_clean+0xdf/0x190 [atlantic]
@@ -642,11 +843,11 @@ Found during a code review.</description><pubDate>Tue, 16 Dec 2025 15:19:16 +000
 
 platform/x86: intel: punit_ipc: fix memory corruption
 
-This passes the address of the pointer "&amp;punit_ipcdev" when the intent
+This passes the address of the pointer "&amp;amp;punit_ipcdev" when the intent
 was to pass the pointer itself "punit_ipcdev" (without the ampersand).
 This means that the:
 
-	complete(&amp;ipcdev-&gt;cmd_complete);
+	complete(&amp;amp;ipcdev-&gt;cmd_complete);
 
 in intel_punit_ioc() will write to a wrong memory address corrupting it.</description><pubDate>Tue, 16 Dec 2025 15:19:16 +0000</pubDate></item><item><title>CVE-2025-68304 | Bluetooth: hci_core: lookup hci_conn on RX path on protocol side</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68304</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
