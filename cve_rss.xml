@@ -1,5 +1,128 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 14:01:29 +0000</lastBuildDate><item><title>CVE-2025-68198 | crash: fix crashkernel resource shrink</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68198</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 14:35:09 +0000</lastBuildDate><item><title>CVE-2025-68232 | veth: more robust handing of race to avoid txq getting stuck</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68232</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+veth: more robust handing of race to avoid txq getting stuck
+
+Commit dc82a33297fc ("veth: apply qdisc backpressure on full ptr_ring to
+reduce TX drops") introduced a race condition that can lead to a permanently
+stalled TXQ. This was observed in production on ARM64 systems (Ampere Altra
+Max).
+
+The race occurs in veth_xmit(). The producer observes a full ptr_ring and
+stops the queue (netif_tx_stop_queue()). The subsequent conditional logic,
+intended to re-wake the queue if the consumer had just emptied it (if
+(__ptr_ring_empty(...)) netif_tx_wake_queue()), can fail. This leads to a
+"lost wakeup" where the TXQ remains stopped (QUEUE_STATE_DRV_XOFF) and
+traffic halts.
+
+This failure is caused by an incorrect use of the __ptr_ring_empty() API
+from the producer side. As noted in kernel comments, this check is not
+guaranteed to be correct if a consumer is operating on another CPU. The
+empty test is based on ptr_ring-&gt;consumer_head, making it reliable only for
+the consumer. Using this check from the producer side is fundamentally racy.
+
+This patch fixes the race by adopting the more robust logic from an earlier
+version V4 of the patchset, which always flushed the peer:
+
+(1) In veth_xmit(), the racy conditional wake-up logic and its memory barrier
+are removed. Instead, after stopping the queue, we unconditionally call
+__veth_xdp_flush(rq). This guarantees that the NAPI consumer is scheduled,
+making it solely responsible for re-waking the TXQ.
+  This handles the race where veth_poll() consumes all packets and completes
+NAPI *before* veth_xmit() on the producer side has called netif_tx_stop_queue.
+The __veth_xdp_flush(rq) will observe rx_notify_masked is false and schedule
+NAPI.
+
+(2) On the consumer side, the logic for waking the peer TXQ is moved out of
+veth_xdp_rcv() and placed at the end of the veth_poll() function. This
+placement is part of fixing the race, as the netif_tx_queue_stopped() check
+must occur after rx_notify_masked is potentially set to false during NAPI
+completion.
+  This handles the race where veth_poll() consumes all packets, but haven't
+finished (rx_notify_masked is still true). The producer veth_xmit() stops the
+TXQ and __veth_xdp_flush(rq) will observe rx_notify_masked is true, meaning
+not starting NAPI.  Then veth_poll() change rx_notify_masked to false and
+stops NAPI.  Before exiting veth_poll() will observe TXQ is stopped and wake
+it up.</description><pubDate>Tue, 16 Dec 2025 14:35:12 +0000</pubDate></item><item><title>CVE-2025-68233 | drm/tegra: Add call to put_pid()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68233</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/tegra: Add call to put_pid()
+
+Add a call to put_pid() corresponding to get_task_pid().
+host1x_memory_context_alloc() does not take ownership of the PID so we
+need to free it here to avoid leaking.
+
+[mperttunen@nvidia.com: reword commit message]</description><pubDate>Tue, 16 Dec 2025 14:35:13 +0000</pubDate></item><item><title>CVE-2025-68234 | io_uring/cmd_net: fix wrong argument types for skb_queue_splice()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68234</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring/cmd_net: fix wrong argument types for skb_queue_splice()
+
+If timestamp retriving needs to be retried and the local list of
+SKB's already has entries, then it's spliced back into the socket
+queue. However, the arguments for the splice helper are transposed,
+causing exactly the wrong direction of splicing into the on-stack
+list. Fix that up.</description><pubDate>Tue, 16 Dec 2025 14:35:13 +0000</pubDate></item><item><title>CVE-2025-68235 | nouveau/firmware: Add missing kfree() of nvkm_falcon_fw::boot</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68235</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nouveau/firmware: Add missing kfree() of nvkm_falcon_fw::boot
+
+nvkm_falcon_fw::boot is allocated, but no one frees it. This causes a
+kmemleak warning.
+
+Make sure this data is deallocated.</description><pubDate>Tue, 16 Dec 2025 14:35:13 +0000</pubDate></item><item><title>CVE-2025-68236 | scsi: ufs: ufs-qcom: Fix UFS OCP issue during UFS power down (PC=3)</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68236</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: ufs: ufs-qcom: Fix UFS OCP issue during UFS power down (PC=3)
+
+According to UFS specifications, the power-off sequence for a UFS device
+includes:
+
+ - Sending an SSU command with Power_Condition=3 and await a response.
+
+ - Asserting RST_N low.
+
+ - Turning off REF_CLK.
+
+ - Turning off VCC.
+
+ - Turning off VCCQ/VCCQ2.
+
+As part of ufs shutdown, after the SSU command completion, asserting
+hardware reset (HWRST) triggers the device firmware to wake up and
+execute its reset routine. This routine initializes hardware blocks and
+takes a few milliseconds to complete. During this time, the ICCQ draws a
+large current.
+
+This large ICCQ current may cause issues for the regulator which is
+supplying power to UFS, because the turn off request from UFS driver to
+the regulator framework will be immediately followed by low power
+mode(LPM) request by regulator framework. This is done by framework
+because UFS which is the only client is requesting for disable. So if
+the rail is still in the process of shutting down while ICCQ exceeds LPM
+current thresholds, and LPM mode is activated in hardware during this
+state, it may trigger an overcurrent protection (OCP) fault in the
+regulator.
+
+To prevent this, a 10ms delay is added after asserting HWRST. This
+allows the reset operation to complete while power rails remain active
+and in high-power mode.
+
+Currently there is no way for Host to query whether the reset is
+completed or not and hence this the delay is based on experiments with
+Qualcomm UFS controllers across multiple UFS vendors.</description><pubDate>Tue, 16 Dec 2025 14:35:14 +0000</pubDate></item><item><title>CVE-2025-68237 | mtdchar: fix integer overflow in read/write ioctls</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68237</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mtdchar: fix integer overflow in read/write ioctls
+
+The "req.start" and "req.len" variables are u64 values that come from the
+user at the start of the function.  We mask away the high 32 bits of
+"req.len" so that's capped at U32_MAX but the "req.start" variable can go
+up to U64_MAX which means that the addition can still integer overflow.
+
+Use check_add_overflow() to fix this bug.</description><pubDate>Tue, 16 Dec 2025 14:35:14 +0000</pubDate></item><item><title>CVE-2025-68238 | mtd: rawnand: cadence: fix DMA device NULL pointer dereference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68238</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mtd: rawnand: cadence: fix DMA device NULL pointer dereference
+
+The DMA device pointer `dma_dev` was being dereferenced before ensuring
+that `cdns_ctrl-&gt;dmac` is properly initialized.
+
+Move the assignment of `dma_dev` after successfully acquiring the DMA
+channel to ensure the pointer is valid before use.</description><pubDate>Tue, 16 Dec 2025 14:35:15 +0000</pubDate></item><item><title>CVE-2025-68198 | crash: fix crashkernel resource shrink</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68198</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 crash: fix crashkernel resource shrink
 
@@ -30,8 +153,8 @@ following trace (x86):
 BUG: kernel NULL pointer dereference, address: 0000000000000038
 PGD 0 P4D 0
 Oops: 0000 [#1] PREEMPT SMP NOPTI
-&lt;snip...&gt;
-Call Trace: &lt;TASK&gt;
+
+Call Trace: 
 ? __die_body.cold+0x19/0x27
 ? page_fault_oops+0x15a/0x2f0
 ? search_module_extables+0x19/0x60
@@ -46,7 +169,7 @@ kexec_crash_size_store+0x41/0x80
 kernfs_fop_write_iter+0x141/0x1f0
 vfs_write+0x294/0x460
 ksys_write+0x6d/0xf0
-&lt;snip...&gt;
+
 
 This happens because __crash_shrink_memory()/kernel/crash_core.c
 incorrectly updates the crashk_res resource object even when
@@ -168,7 +291,7 @@ sleepable spinlock and not disable-irq, so the following scenarios occur:
 
 inconsistent {IN-HARDIRQ-W} -&gt; {HARDIRQ-ON-W} usage.
 irq_work/0/27 [HC0[0]:SC0[0]:HE1:SE1] takes:
-(&amp;rq-&gt;__lock){?...}-{2:2}, at: raw_spin_rq_lock_nested+0x2b/0x40
+(&amp;amp;rq-&gt;__lock){?...}-{2:2}, at: raw_spin_rq_lock_nested+0x2b/0x40
 {IN-HARDIRQ-W} state was registered at:
    lock_acquire+0x1e1/0x510
    _raw_spin_lock_nested+0x42/0x80
@@ -200,16 +323,16 @@ irq_work/0/27 [HC0[0]:SC0[0]:HE1:SE1] takes:
 
         CPU0
         ----
-   lock(&amp;rq-&gt;__lock);
-   &lt;Interrupt&gt;
-     lock(&amp;rq-&gt;__lock);
+   lock(&amp;amp;rq-&gt;__lock);
+   
+     lock(&amp;amp;rq-&gt;__lock);
 
   *** DEADLOCK ***
 
  stack backtrace:
  CPU: 0 UID: 0 PID: 27 Comm: irq_work/0
  Call Trace:
-  &lt;TASK&gt;
+  
   dump_stack_lvl+0x8c/0xd0
   dump_stack+0x14/0x20
   print_usage_bug+0x42e/0x690
@@ -249,7 +372,7 @@ irq_work/0/27 [HC0[0]:SC0[0]:HE1:SE1] takes:
   ret_from_fork+0x40/0x70
   ? __pfx_kthread+0x10/0x10
   ret_from_fork_asm+0x1a/0x30
-  &lt;/TASK&gt;
+  
 
 This commit therefore use rq_lock_irqsave/irqrestore() to replace
 rq_lock/unlock() in the scx_dump_state().</description><pubDate>Tue, 16 Dec 2025 14:01:32 +0000</pubDate></item><item><title>CVE-2025-68203 | drm/amdgpu: fix lock warning in amdgpu_userq_fence_driver_process</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68203</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -274,7 +397,7 @@ while holding a lock previously acquired in interrupt context.
 Kernel log shows:
 [ 4039.310790] inconsistent {IN-HARDIRQ-W} -&gt; {HARDIRQ-ON-W} usage.
 [ 4039.310804] kworker/7:2/409 [HC0[0]:SC0[0]:HE1:SE1] takes:
-[ 4039.310818] ffff9284e1bed000 (&amp;fence_drv-&gt;fence_list_lock){?...}-{3:3},
+[ 4039.310818] ffff9284e1bed000 (&amp;amp;fence_drv-&gt;fence_list_lock){?...}-{3:3},
 [ 4039.310993] {IN-HARDIRQ-W} state was registered at:
 [ 4039.311004]   lock_acquire+0xc6/0x300
 [ 4039.311018]   _raw_spin_lock+0x39/0x80
@@ -484,11 +607,11 @@ previously discussed in [1].
 Consider the following test program which creates a 32 TiB mapping in the
 virtual address space but only populates a single page:
 
-#include &lt;unistd.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;sys/mman.h&gt;
+#include 
+#include 
+#include mman.h&gt;
 
-/* 32 TiB */
+* 32 TiB */
 const size_t size = 32ul * 1024 * 1024 * 1024 * 1024;
 
 int main() {
@@ -542,7 +665,7 @@ the driver failed during an attempt to create a VF:
 [ 1723.358472] RIP: 0010:idpf_remove+0x11c/0x200 [idpf]
 ...
 [ 1723.364973] Call Trace:
-[ 1723.365475]  &lt;TASK&gt;
+[ 1723.365475]  
 [ 1723.365972]  pci_device_remove+0x42/0xb0
 [ 1723.366481]  device_release_driver_internal+0x1a9/0x210
 [ 1723.366987]  pci_stop_bus_device+0x6d/0x90
@@ -565,7 +688,7 @@ to NULL while the timer is still running on another CPU. The race
 scenario looks like this:
 
 CPU0					CPU1
-					&lt;SOFTIRQ&gt;
+					
 					lock_timer_base()
 					expire_timers()
 					base-&gt;running_timer = timer;
@@ -588,7 +711,7 @@ unlock_timer_base()
 					...
 					// Now timer is pending while its function set to NULL.
 					// next timer trigger
-					&lt;SOFTIRQ&gt;
+					
 					expire_timers()
 					WARN_ON_ONCE(!fn) // hit
 					...
@@ -632,7 +755,7 @@ ice/ice_adapter.c:67 ice_adapter_put+0xef/0x100 [ice]
 [  T93022] RIP: 0010:ice_adapter_put+0xef/0x100 [ice]
 ...
 [  T93022] Call Trace:
-[  T93022]  &lt;TASK&gt;
+[  T93022]  
 [  T93022]  ? ice_adapter_put+0xef/0x100 [ice
 33d2647ad4f6d866d41eefff1806df37c68aef0c]
 [  T93022]  ? __warn.cold+0xb0/0x10e
@@ -946,7 +1069,7 @@ Modules linked in:
 
 PKRU: 55555554
 Call Trace:
-&lt;TASK&gt;
+
 do_accept (net/socket.c:1989)
 __sys_accept4 (net/socket.c:2028 net/socket.c:2057)
 __x64_sys_accept (net/socket.c:2067)
@@ -982,7 +1105,7 @@ dereferencing it.
   RIP: 0010:tcm_loop_tpg_address_show+0x2e/0x50 [tcm_loop]
 ...
   Call Trace:
-   &lt;TASK&gt;
+   
    configfs_read_iter+0x12d/0x1d0 [configfs]
    vfs_read+0x1b5/0x300
    ksys_read+0x6f/0xf0
@@ -1019,7 +1142,7 @@ The kernel test has reported:
   Tainted: [T]=RANDSTRUCT
   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
   EIP: memset (arch/x86/include/asm/string_32.h:168 arch/x86/lib/memcpy_32.c:17)
-  Code: a5 8b 4d f4 83 e1 03 74 02 f3 a4 83 c4 04 5e 5f 5d 2e e9 73 41 01 00 90 90 90 3e 8d 74 26 00 55 89 e5 57 56 89 c6 89 d0 89 f7 &lt;f3&gt; aa 89 f0 5e 5f 5d 2e e9 53 41 01 00 cc cc cc 55 89 e5 53 57 56
+  Code: a5 8b 4d f4 83 e1 03 74 02 f3 a4 83 c4 04 5e 5f 5d 2e e9 73 41 01 00 90 90 90 3e 8d 74 26 00 55 89 e5 57 56 89 c6 89 d0 89 f7  aa 89 f0 5e 5f 5d 2e e9 53 41 01 00 cc cc cc 55 89 e5 53 57 56
   EAX: 0000006b EBX: 00000015 ECX: 001fefff EDX: 0000006b
   ESI: fffb9000 EDI: fffba000 EBP: c611fbf0 ESP: c611fbe8
   DS: 007b ES: 007b FS: 0000 GS: 0000 SS: 0068 EFLAGS: 00010287
@@ -1152,7 +1275,7 @@ ah6_output_done() where extension headers are copied to/from IPv6
 address fields, triggering fortify-string warnings about writes beyond
 the 16-byte address fields.
 
-  memcpy: detected field-spanning write (size 40) of single field "&amp;top_iph-&gt;saddr" at net/ipv6/ah6.c:439 (size 16)
+  memcpy: detected field-spanning write (size 40) of single field "&amp;amp;top_iph-&gt;saddr" at net/ipv6/ah6.c:439 (size 16)
   WARNING: CPU: 0 PID: 8838 at net/ipv6/ah6.c:439 ah6_output+0xe7e/0x14e0 net/ipv6/ah6.c:439
 
 The warnings are false positives as the extension headers are
@@ -1203,7 +1326,7 @@ pressure:
 
 Call stack:
   refill_skbs()
-    spin_lock_irqsave(&amp;skb_pool-&gt;lock)    &lt;- lock acquired
+    spin_lock_irqsave(&amp;amp;skb_pool-&gt;lock)    &lt;- lock acquired
     __alloc_skb()
       kmem_cache_alloc_node_noprof()
         slab_out_of_memory()
@@ -1211,7 +1334,7 @@ Call stack:
             console_flush_all()
               netpoll_send_udp()
                 skb_dequeue()
-                  spin_lock_irqsave(&amp;skb_pool-&gt;lock)     &lt;- deadlock attempt
+                  spin_lock_irqsave(&amp;amp;skb_pool-&gt;lock)     &lt;- deadlock attempt
 
 This bug was exposed by commit 248f6571fd4c51 ("netpoll: Optimize skb
 refilling on critical path") which removed refill_skbs() from the
@@ -1251,7 +1374,7 @@ Sean reported [1] the following splat when running KVM tests:
 
    WARNING: CPU: 232 PID: 15391 at xfd_validate_state+0x65/0x70
    Call Trace:
-    &lt;TASK&gt;
+    
     fpu__clear_user_states+0x9c/0x100
     arch_do_signal_or_restart+0x142/0x210
     exit_to_user_mode_loop+0x55/0x100
@@ -1325,7 +1448,7 @@ and bug fix. (Philip Yang)
 [3966658.356890] Workqueue: kfd_process_wq kfd_process_wq_release [amdgpu]
 [3966658.362839]  nfit
 [3966658.366457] RIP: 0010:kfd_get_num_sdma_engines+0x17/0x40 [amdgpu]
-[3966658.366460] Code: 00 00 e9 ac 81 02 00 66 66 2e 0f 1f 84 00 00 00 00 00 90 0f 1f 44 00 00 48 8b 4f 08 48 8b b7 00 01 00 00 8b 81 58 26 03 00 99 &lt;f7&gt; be b8 01 00 00 80 b9 70 2e 00 00 00 74 0b 83 f8 02 ba 02 00 00
+[3966658.366460] Code: 00 00 e9 ac 81 02 00 66 66 2e 0f 1f 84 00 00 00 00 00 90 0f 1f 44 00 00 48 8b 4f 08 48 8b b7 00 01 00 00 8b 81 58 26 03 00 99  be b8 01 00 00 80 b9 70 2e 00 00 00 74 0b 83 f8 02 ba 02 00 00
 [3966658.380967]  x86_pkg_temp_thermal
 [3966658.391529] RSP: 0018:ffffc900a0edfdd8 EFLAGS: 00010246
 [3966658.391531] RAX: 0000000000000008 RBX: ffff8974e593b800 RCX: ffff888645900000
@@ -1452,16 +1575,16 @@ WARNING: possible circular locking dependency detected
 6.17.0-rc3-00124-ga12c2658ced0 #1665 Not tainted
 ------------------------------------------------------
 check/1334 is trying to acquire lock:
-ff1100011d9d0678 (&amp;q-&gt;sysfs_lock){+.+.}-{4:4}, at: blk_unregister_queue+0x53/0x180
+ff1100011d9d0678 (&amp;amp;q-&gt;sysfs_lock){+.+.}-{4:4}, at: blk_unregister_queue+0x53/0x180
 
 but task is already holding lock:
-ff1100011d9d00e0 (&amp;q-&gt;q_usage_counter(queue)#3){++++}-{0:0}, at: del_gendisk+0xba/0x110
+ff1100011d9d00e0 (&amp;amp;q-&gt;q_usage_counter(queue)#3){++++}-{0:0}, at: del_gendisk+0xba/0x110
 
 which lock already depends on the new lock.
 
 the existing dependency chain (in reverse order) is:
 
--&gt; #2 (&amp;q-&gt;q_usage_counter(queue)#3){++++}-{0:0}:
+-&gt; #2 (&amp;amp;q-&gt;q_usage_counter(queue)#3){++++}-{0:0}:
        blk_queue_enter+0x40b/0x470
        blkg_conf_prep+0x7b/0x3c0
        tg_set_limit+0x10a/0x3e0
@@ -1474,7 +1597,7 @@ the existing dependency chain (in reverse order) is:
        do_syscall_64+0xdb/0x6b0
        entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
--&gt; #1 (&amp;q-&gt;rq_qos_mutex){+.+.}-{4:4}:
+-&gt; #1 (&amp;amp;q-&gt;rq_qos_mutex){+.+.}-{4:4}:
        __mutex_lock+0xd8/0xf50
        mutex_lock_nested+0x2b/0x40
        wbt_init+0x17e/0x280
@@ -1501,7 +1624,7 @@ the existing dependency chain (in reverse order) is:
        ret_from_fork+0x268/0x4c0
        ret_from_fork_asm+0x1a/0x30
 
--&gt; #0 (&amp;q-&gt;sysfs_lock){+.+.}-{4:4}:
+-&gt; #0 (&amp;amp;q-&gt;sysfs_lock){+.+.}-{4:4}:
        __lock_acquire+0x1835/0x2940
        lock_acquire+0xf9/0x450
        __mutex_lock+0xd8/0xf50
@@ -1531,16 +1654,16 @@ the existing dependency chain (in reverse order) is:
 other info that might help us debug this:
 
 Chain exists of:
-  &amp;q-&gt;sysfs_lock --&gt; &amp;q-&gt;rq_qos_mutex --&gt; &amp;q-&gt;q_usage_counter(queue)#3
+  &amp;amp;q-&gt;sysfs_lock --&gt; &amp;amp;q-&gt;rq_qos_mutex --&gt; &amp;amp;q-&gt;q_usage_counter(queue)#3
 
  Possible unsafe locking scenario:
 
        CPU0                    CPU1
        ----                    ----
-  lock(&amp;q-&gt;q_usage_counter(queue)#3);
-                               lock(&amp;q-&gt;rq_qos_mutex);
-                               lock(&amp;q-&gt;q_usage_counter(queue)#3);
-  lock(&amp;q-&gt;sysfs_lock);
+  lock(&amp;amp;q-&gt;q_usage_counter(queue)#3);
+                               lock(&amp;amp;q-&gt;rq_qos_mutex);
+                               lock(&amp;amp;q-&gt;q_usage_counter(queue)#3);
+  lock(&amp;amp;q-&gt;sysfs_lock);
 
 Root cause is that queue_usage_counter is grabbed with rq_qos_mutex
 held in blkg_conf_prep(), while queue should be freezed before
@@ -1600,7 +1723,7 @@ odm_combine_segments causes kernel NULL pointer dereference.
  CR2: 0000000000000000 CR3: 00000006485c2000 CR4: 0000000000f50ef0
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   seq_read_iter+0x125/0x490
   ? __alloc_frozen_pages_noprof+0x18f/0x350
   seq_read+0x12c/0x170
@@ -1623,7 +1746,7 @@ odm_combine_segments causes kernel NULL pointer dereference.
  RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
  R10: 0000000000000000 R11: 0000000000000202 R12: 00007f44d3f5e000
  R13: 0000000000000003 R14: 0000000000000000 R15: 0000000000040000
-  &lt;/TASK&gt;
+  
  Modules linked in: tls tcp_diag inet_diag xt_mark ccm snd_hrtimer snd_seq_dummy snd_seq_midi snd_seq_oss snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device x&gt;
   snd_hda_codec_atihdmi snd_hda_codec_realtek_lib lenovo_wmi_helpers think_lmi snd_hda_codec_generic snd_hda_codec_hdmi snd_soc_core kvm snd_compress uvcvideo sn&gt;
   platform_profile joydev amd_pmc mousedev mac_hid sch_fq_codel uinput i2c_dev parport_pc ppdev lp parport nvme_fabrics loop nfnetlink ip_tables x_tables dm_cryp&gt;
@@ -1698,15 +1821,15 @@ the IMA_DIGSIG flag from being reset.
 Here's a minimal C reproducer which sets security.selinux as the last
 step which can also replaced by removing security.evm or setting ACL,
 
-    #include &lt;stdio.h&gt;
-    #include &lt;sys/xattr.h&gt;
-    #include &lt;fcntl.h&gt;
-    #include &lt;unistd.h&gt;
-    #include &lt;string.h&gt;
-    #include &lt;stdlib.h&gt;
+    #include 
+    #include xattr.h&gt;
+    #include 
+    #include 
+    #include 
+    #include 
 
     int main() {
-        const char* file_path = "/usr/sbin/test_binary";
+        const char* file_path = "usr/sbin/test_binary";
         const char* hex_string = "030204d33204490066306402304";
         int length = strlen(hex_string);
         char* ima_attr_value;
@@ -1720,7 +1843,7 @@ step which can also replaced by removing security.evm or setting ACL,
 
         ima_attr_value = (char*)malloc(length / 2 );
         for (int i = 0, j = 0; i &lt; length; i += 2, j++) {
-            sscanf(hex_string + i, "%2hhx", &amp;ima_attr_value[j]);
+            sscanf(hex_string + i, "%2hhx", &amp;amp;ima_attr_value[j]);
         }
 
         if (fsetxattr(fd, "security.ima", ima_attr_value, length/2, 0) == -1) {
@@ -1831,7 +1954,7 @@ UAF on dst_dev()-&gt;flags.</description><pubDate>Tue, 16 Dec 2025 14:01:51 +000
 
 drm/msm: Fix GEM free for imported dma-bufs
 
-Imported dma-bufs also have obj-&gt;resv != &amp;obj-&gt;_resv.  So we should
+Imported dma-bufs also have obj-&gt;resv != &amp;amp;obj-&gt;_resv.  So we should
 check both this condition in addition to flags for handling the
 _NO_SHARE case.
 
