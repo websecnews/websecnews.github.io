@@ -1,5 +1,818 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 14:35:09 +0000</lastBuildDate><item><title>CVE-2025-68232 | veth: more robust handing of race to avoid txq getting stuck</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68232</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Tue, 16 Dec 2025 14:55:52 +0000</lastBuildDate><item><title>CVE-2025-68254 | staging: rtl8723bs: fix out-of-bounds read in OnBeacon ESR IE parsing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68254</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: rtl8723bs: fix out-of-bounds read in OnBeacon ESR IE parsing
+
+The Extended Supported Rates (ESR) IE handling in OnBeacon accessed
+*(p + 1 + ielen) and *(p + 2 + ielen) without verifying that these
+offsets lie within the received frame buffer. A malformed beacon with
+an ESR IE positioned at the end of the buffer could cause an
+out-of-bounds read, potentially triggering a kernel panic.
+
+Add a boundary check to ensure that the ESR IE body and the subsequent
+bytes are within the limits of the frame before attempting to access
+them.
+
+This prevents OOB reads caused by malformed beacon frames.</description><pubDate>Tue, 16 Dec 2025 14:55:54 +0000</pubDate></item><item><title>CVE-2025-68255 | staging: rtl8723bs: fix stack buffer overflow in OnAssocReq IE parsing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68255</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: rtl8723bs: fix stack buffer overflow in OnAssocReq IE parsing
+
+The Supported Rates IE length from an incoming Association Request frame
+was used directly as the memcpy() length when copying into a fixed-size
+16-byte stack buffer (supportRate). A malicious station can advertise an
+IE length larger than 16 bytes, causing a stack buffer overflow.
+
+Clamp ie_len to the buffer size before copying the Supported Rates IE,
+and correct the bounds check when merging Extended Supported Rates to
+prevent a second potential overflow.
+
+This prevents kernel stack corruption triggered by malformed association
+requests.</description><pubDate>Tue, 16 Dec 2025 14:55:54 +0000</pubDate></item><item><title>CVE-2025-68256 | staging: rtl8723bs: fix out-of-bounds read in rtw_get_ie() parser</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68256</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+staging: rtl8723bs: fix out-of-bounds read in rtw_get_ie() parser
+
+The Information Element (IE) parser rtw_get_ie() trusted the length
+byte of each IE without validating that the IE body (len bytes after
+the 2-byte header) fits inside the remaining frame buffer. A malformed
+frame can advertise an IE length larger than the available data, causing
+the parser to increment its pointer beyond the buffer end. This results
+in out-of-bounds reads or, depending on the pattern, an infinite loop.
+
+Fix by validating that (offset + 2 + len) does not exceed the limit
+before accepting the IE or advancing to the next element.
+
+This prevents OOB reads and ensures the parser terminates safely on
+malformed frames.</description><pubDate>Tue, 16 Dec 2025 14:55:55 +0000</pubDate></item><item><title>CVE-2025-68257 | comedi: check device&amp;#x27;s attached status in compat ioctls</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68257</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: check device's attached status in compat ioctls
+
+Syzbot identified an issue [1] that crashes kernel, seemingly due to
+unexistent callback dev-&gt;get_valid_routes(). By all means, this should
+not occur as said callback must always be set to
+get_zero_valid_routes() in __comedi_device_postconfig().
+
+As the crash seems to appear exclusively in i386 kernels, at least,
+judging from [1] reports, the blame lies with compat versions
+of standard IOCTL handlers. Several of them are modified and
+do not use comedi_unlocked_ioctl(). While functionality of these
+ioctls essentially copy their original versions, they do not
+have required sanity check for device's attached status. This,
+in turn, leads to a possibility of calling select IOCTLs on a
+device that has not been properly setup, even via COMEDI_DEVCONFIG.
+
+Doing so on unconfigured devices means that several crucial steps
+are missed, for instance, specifying dev-&gt;get_valid_routes()
+callback.
+
+Fix this somewhat crudely by ensuring device's attached status before
+performing any ioctls, improving logic consistency between modern
+and compat functions.
+
+[1] Syzbot report:
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+...
+CR2: ffffffffffffffd6 CR3: 000000006c717000 CR4: 0000000000352ef0
+Call Trace:
+ &lt;TASK&gt;
+ get_valid_routes drivers/comedi/comedi_fops.c:1322 [inline]
+ parse_insn+0x78c/0x1970 drivers/comedi/comedi_fops.c:1401
+ do_insnlist_ioctl+0x272/0x700 drivers/comedi/comedi_fops.c:1594
+ compat_insnlist drivers/comedi/comedi_fops.c:3208 [inline]
+ comedi_compat_ioctl+0x810/0x990 drivers/comedi/comedi_fops.c:3273
+ __do_compat_sys_ioctl fs/ioctl.c:695 [inline]
+ __se_compat_sys_ioctl fs/ioctl.c:638 [inline]
+ __ia32_compat_sys_ioctl+0x242/0x370 fs/ioctl.c:638
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:83 [inline]
+...</description><pubDate>Tue, 16 Dec 2025 14:55:55 +0000</pubDate></item><item><title>CVE-2025-68258 | comedi: multiq3: sanitize config options in multiq3_attach()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68258</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+comedi: multiq3: sanitize config options in multiq3_attach()
+
+Syzbot identified an issue [1] in multiq3_attach() that induces a
+task timeout due to open() or COMEDI_DEVCONFIG ioctl operations,
+specifically, in the case of multiq3 driver.
+
+This problem arose when syzkaller managed to craft weird configuration
+options used to specify the number of channels in encoder subdevice.
+If a particularly great number is passed to s-&gt;n_chan in
+multiq3_attach() via it-&gt;options[2], then multiple calls to
+multiq3_encoder_reset() at the end of driver-specific attach() method
+will be running for minutes, thus blocking tasks and affected devices
+as well.
+
+While this issue is most likely not too dangerous for real-life
+devices, it still makes sense to sanitize configuration inputs. Enable
+a sensible limit on the number of encoder chips (4 chips max, each
+with 2 channels) to stop this behaviour from manifesting.
+
+[1] Syzbot crash:
+INFO: task syz.2.19:6067 blocked for more than 143 seconds.
+...
+Call Trace:
+ &lt;TASK&gt;
+ context_switch kernel/sched/core.c:5254 [inline]
+ __schedule+0x17c4/0x4d60 kernel/sched/core.c:6862
+ __schedule_loop kernel/sched/core.c:6944 [inline]
+ schedule+0x165/0x360 kernel/sched/core.c:6959
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7016
+ __mutex_lock_common kernel/locking/mutex.c:676 [inline]
+ __mutex_lock+0x7e6/0x1350 kernel/locking/mutex.c:760
+ comedi_open+0xc0/0x590 drivers/comedi/comedi_fops.c:2868
+ chrdev_open+0x4cc/0x5e0 fs/char_dev.c:414
+ do_dentry_open+0x953/0x13f0 fs/open.c:965
+ vfs_open+0x3b/0x340 fs/open.c:1097
+...</description><pubDate>Tue, 16 Dec 2025 14:55:56 +0000</pubDate></item><item><title>CVE-2025-68259 | KVM: SVM: Don&amp;#x27;t skip unrelated instruction if INT3/INTO is replaced</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68259</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: SVM: Don't skip unrelated instruction if INT3/INTO is replaced
+
+When re-injecting a soft interrupt from an INT3, INT0, or (select) INTn
+instruction, discard the exception and retry the instruction if the code
+stream is changed (e.g. by a different vCPU) between when the CPU
+executes the instruction and when KVM decodes the instruction to get the
+next RIP.
+
+As effectively predicted by commit 6ef88d6e36c2 ("KVM: SVM: Re-inject
+INT3/INTO instead of retrying the instruction"), failure to verify that
+the correct INTn instruction was decoded can effectively clobber guest
+state due to decoding the wrong instruction and thus specifying the
+wrong next RIP.
+
+The bug most often manifests as "Oops: int3" panics on static branch
+checks in Linux guests.  Enabling or disabling a static branch in Linux
+uses the kernel's "text poke" code patching mechanism.  To modify code
+while other CPUs may be executing that code, Linux (temporarily)
+replaces the first byte of the original instruction with an int3 (opcode
+0xcc), then patches in the new code stream except for the first byte,
+and finally replaces the int3 with the first byte of the new code
+stream.  If a CPU hits the int3, i.e. executes the code while it's being
+modified, then the guest kernel must look up the RIP to determine how to
+handle the #BP, e.g. by emulating the new instruction.  If the RIP is
+incorrect, then this lookup fails and the guest kernel panics.
+
+The bug reproduces almost instantly by hacking the guest kernel to
+repeatedly check a static branch[1] while running a drgn script[2] on
+the host to constantly swap out the memory containing the guest's TSS.
+
+[1]: https://gist.github.com/osandov/44d17c51c28c0ac998ea0334edf90b5a
+[2]: https://gist.github.com/osandov/10e45e45afa29b11e0c7209247afc00b</description><pubDate>Tue, 16 Dec 2025 14:55:56 +0000</pubDate></item><item><title>CVE-2025-68260 | rust_binder: fix race condition on death_list</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68260</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+rust_binder: fix race condition on death_list
+
+Rust Binder contains the following unsafe operation:
+
+	// SAFETY: A `NodeDeath` is never inserted into the death list
+	// of any node other than its owner, so it is either in this
+	// death list or in no death list.
+	unsafe { node_inner.death_list.remove(self) };
+
+This operation is unsafe because when touching the prev/next pointers of
+a list element, we have to ensure that no other thread is also touching
+them in parallel. If the node is present in the list that `remove` is
+called on, then that is fine because we have exclusive access to that
+list. If the node is not in any list, then it's also ok. But if it's
+present in a different list that may be accessed in parallel, then that
+may be a data race on the prev/next pointers.
+
+And unfortunately that is exactly what is happening here. In
+Node::release, we:
+
+ 1. Take the lock.
+ 2. Move all items to a local list on the stack.
+ 3. Drop the lock.
+ 4. Iterate the local list on the stack.
+
+Combined with threads using the unsafe remove method on the original
+list, this leads to memory corruption of the prev/next pointers. This
+leads to crashes like this one:
+
+	Unable to handle kernel paging request at virtual address 000bb9841bcac70e
+	Mem abort info:
+	  ESR = 0x0000000096000044
+	  EC = 0x25: DABT (current EL), IL = 32 bits
+	  SET = 0, FnV = 0
+	  EA = 0, S1PTW = 0
+	  FSC = 0x04: level 0 translation fault
+	Data abort info:
+	  ISV = 0, ISS = 0x00000044, ISS2 = 0x00000000
+	  CM = 0, WnR = 1, TnD = 0, TagAccess = 0
+	  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+	[000bb9841bcac70e] address between user and kernel address ranges
+	Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
+	google-cdd 538c004.gcdd: context saved(CPU:1)
+	item - log_kevents is disabled
+	Modules linked in: ... rust_binder
+	CPU: 1 UID: 0 PID: 2092 Comm: kworker/1:178 Tainted: G S      W  OE      6.12.52-android16-5-g98debd5df505-4k #1 f94a6367396c5488d635708e43ee0c888d230b0b
+	Tainted: [S]=CPU_OUT_OF_SPEC, [W]=WARN, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+	Hardware name: MUSTANG PVT 1.0 based on LGA (DT)
+	Workqueue: events _RNvXs6_NtCsdfZWD8DztAw_6kernel9workqueueINtNtNtB7_4sync3arc3ArcNtNtCs8QPsHWIn21X_16rust_binder_main7process7ProcessEINtB5_15WorkItemPointerKy0_E3runB13_ [rust_binder]
+	pstate: 23400005 (nzCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+	pc : _RNvXs3_NtCs8QPsHWIn21X_16rust_binder_main7processNtB5_7ProcessNtNtCsdfZWD8DztAw_6kernel9workqueue8WorkItem3run+0x450/0x11f8 [rust_binder]
+	lr : _RNvXs3_NtCs8QPsHWIn21X_16rust_binder_main7processNtB5_7ProcessNtNtCsdfZWD8DztAw_6kernel9workqueue8WorkItem3run+0x464/0x11f8 [rust_binder]
+	sp : ffffffc09b433ac0
+	x29: ffffffc09b433d30 x28: ffffff8821690000 x27: ffffffd40cbaa448
+	x26: ffffff8821690000 x25: 00000000ffffffff x24: ffffff88d0376578
+	x23: 0000000000000001 x22: ffffffc09b433c78 x21: ffffff88e8f9bf40
+	x20: ffffff88e8f9bf40 x19: ffffff882692b000 x18: ffffffd40f10bf00
+	x17: 00000000c006287d x16: 00000000c006287d x15: 00000000000003b0
+	x14: 0000000000000100 x13: 000000201cb79ae0 x12: fffffffffffffff0
+	x11: 0000000000000000 x10: 0000000000000001 x9 : 0000000000000000
+	x8 : b80bb9841bcac706 x7 : 0000000000000001 x6 : fffffffebee63f30
+	x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+	x2 : 0000000000004c31 x1 : ffffff88216900c0 x0 : ffffff88e8f9bf00
+	Call trace:
+	 _RNvXs3_NtCs8QPsHWIn21X_16rust_binder_main7processNtB5_7ProcessNtNtCsdfZWD8DztAw_6kernel9workqueue8WorkItem3run+0x450/0x11f8 [rust_binder bbc172b53665bbc815363b22e97e3f7e3fe971fc]
+	 process_scheduled_works+0x1c4/0x45c
+	 worker_thread+0x32c/0x3e8
+	 kthread+0x11c/0x1c8
+	 ret_from_fork+0x10/0x20
+	Code: 94218d85 b4000155 a94026a8 d10102a0 (f9000509)
+	---[ end trace 0000000000000000 ]---
+
+Thus, modify Node::release to pop items directly off the original list.</description><pubDate>Tue, 16 Dec 2025 14:55:56 +0000</pubDate></item><item><title>CVE-2025-68261 | ext4: add i_data_sem protection in ext4_destroy_inline_data_nolock()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68261</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: add i_data_sem protection in ext4_destroy_inline_data_nolock()
+
+Fix a race between inline data destruction and block mapping.
+
+The function ext4_destroy_inline_data_nolock() changes the inode data
+layout by clearing EXT4_INODE_INLINE_DATA and setting EXT4_INODE_EXTENTS.
+At the same time, another thread may execute ext4_map_blocks(), which
+tests EXT4_INODE_EXTENTS to decide whether to call ext4_ext_map_blocks()
+or ext4_ind_map_blocks().
+
+Without i_data_sem protection, ext4_ind_map_blocks() may receive inode
+with EXT4_INODE_EXTENTS flag and triggering assert.
+
+kernel BUG at fs/ext4/indirect.c:546!
+EXT4-fs (loop2): unmounting filesystem.
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+RIP: 0010:ext4_ind_map_blocks.cold+0x2b/0x5a fs/ext4/indirect.c:546
+
+Call Trace:
+ &lt;TASK&gt;
+ ext4_map_blocks+0xb9b/0x16f0 fs/ext4/inode.c:681
+ _ext4_get_block+0x242/0x590 fs/ext4/inode.c:822
+ ext4_block_write_begin+0x48b/0x12c0 fs/ext4/inode.c:1124
+ ext4_write_begin+0x598/0xef0 fs/ext4/inode.c:1255
+ ext4_da_write_begin+0x21e/0x9c0 fs/ext4/inode.c:3000
+ generic_perform_write+0x259/0x5d0 mm/filemap.c:3846
+ ext4_buffered_write_iter+0x15b/0x470 fs/ext4/file.c:285
+ ext4_file_write_iter+0x8e0/0x17f0 fs/ext4/file.c:679
+ call_write_iter include/linux/fs.h:2271 [inline]
+ do_iter_readv_writev+0x212/0x3c0 fs/read_write.c:735
+ do_iter_write+0x186/0x710 fs/read_write.c:861
+ vfs_iter_write+0x70/0xa0 fs/read_write.c:902
+ iter_file_splice_write+0x73b/0xc90 fs/splice.c:685
+ do_splice_from fs/splice.c:763 [inline]
+ direct_splice_actor+0x10f/0x170 fs/splice.c:950
+ splice_direct_to_actor+0x33a/0xa10 fs/splice.c:896
+ do_splice_direct+0x1a9/0x280 fs/splice.c:1002
+ do_sendfile+0xb13/0x12c0 fs/read_write.c:1255
+ __do_sys_sendfile64 fs/read_write.c:1323 [inline]
+ __se_sys_sendfile64 fs/read_write.c:1309 [inline]
+ __x64_sys_sendfile64+0x1cf/0x210 fs/read_write.c:1309
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x35/0x80 arch/x86/entry/common.c:81
+ entry_SYSCALL_64_after_hwframe+0x6e/0xd8</description><pubDate>Tue, 16 Dec 2025 14:55:57 +0000</pubDate></item><item><title>CVE-2025-68262 | crypto: zstd - fix double-free in per-CPU stream cleanup</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68262</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+crypto: zstd - fix double-free in per-CPU stream cleanup
+
+The crypto/zstd module has a double-free bug that occurs when multiple
+tfms are allocated and freed.
+
+The issue happens because zstd_streams (per-CPU contexts) are freed in
+zstd_exit() during every tfm destruction, rather than being managed at
+the module level.  When multiple tfms exist, each tfm exit attempts to
+free the same shared per-CPU streams, resulting in a double-free.
+
+This leads to a stack trace similar to:
+
+  BUG: Bad page state in process kworker/u16:1  pfn:106fd93
+  page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x106fd93
+  flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+  page_type: 0xffffffff()
+  raw: 0017ffffc0000000 dead000000000100 dead000000000122 0000000000000000
+  raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+  page dumped because: nonzero entire_mapcount
+  Modules linked in: ...
+  CPU: 3 UID: 0 PID: 2506 Comm: kworker/u16:1 Kdump: loaded Tainted: G    B
+  Hardware name: ...
+  Workqueue: btrfs-delalloc btrfs_work_helper
+  Call Trace:
+   &lt;TASK&gt;
+   dump_stack_lvl+0x5d/0x80
+   bad_page+0x71/0xd0
+   free_unref_page_prepare+0x24e/0x490
+   free_unref_page+0x60/0x170
+   crypto_acomp_free_streams+0x5d/0xc0
+   crypto_acomp_exit_tfm+0x23/0x50
+   crypto_destroy_tfm+0x60/0xc0
+   ...
+
+Change the lifecycle management of zstd_streams to free the streams only
+once during module cleanup.</description><pubDate>Tue, 16 Dec 2025 14:55:57 +0000</pubDate></item><item><title>CVE-2025-68263 | ksmbd: ipc: fix use-after-free in ipc_msg_send_request</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68263</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: ipc: fix use-after-free in ipc_msg_send_request
+
+ipc_msg_send_request() waits for a generic netlink reply using an
+ipc_msg_table_entry on the stack. The generic netlink handler
+(handle_generic_event()/handle_response()) fills entry-&gt;response under
+ipc_msg_table_lock, but ipc_msg_send_request() used to validate and free
+entry-&gt;response without holding the same lock.
+
+Under high concurrency this allows a race where handle_response() is
+copying data into entry-&gt;response while ipc_msg_send_request() has just
+freed it, leading to a slab-use-after-free reported by KASAN in
+handle_generic_event():
+
+  BUG: KASAN: slab-use-after-free in handle_generic_event+0x3c4/0x5f0 [ksmbd]
+  Write of size 12 at addr ffff888198ee6e20 by task pool/109349
+  ...
+  Freed by task:
+    kvfree
+    ipc_msg_send_request [ksmbd]
+    ksmbd_rpc_open -&gt; ksmbd_session_rpc_open [ksmbd]
+
+Fix by:
+- Taking ipc_msg_table_lock in ipc_msg_send_request() while validating
+  entry-&gt;response, freeing it when invalid, and removing the entry from
+  ipc_msg_table.
+- Returning the final entry-&gt;response pointer to the caller only after
+  the hash entry is removed under the lock.
+- Returning NULL in the error path, preserving the original API
+  semantics.
+
+This makes all accesses to entry-&gt;response consistent with
+handle_response(), which already updates and fills the response buffer
+under ipc_msg_table_lock, and closes the race that allowed the UAF.</description><pubDate>Tue, 16 Dec 2025 14:55:58 +0000</pubDate></item><item><title>CVE-2025-68264 | ext4: refresh inline data size before write operations</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68264</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: refresh inline data size before write operations
+
+The cached ei-&gt;i_inline_size can become stale between the initial size
+check and when ext4_update_inline_data()/ext4_create_inline_data() use
+it. Although ext4_get_max_inline_size() reads the correct value at the
+time of the check, concurrent xattr operations can modify i_inline_size
+before ext4_write_lock_xattr() is acquired.
+
+This causes ext4_update_inline_data() and ext4_create_inline_data() to
+work with stale capacity values, leading to a BUG_ON() crash in
+ext4_write_inline_data():
+
+  kernel BUG at fs/ext4/inline.c:1331!
+  BUG_ON(pos + len &gt; EXT4_I(inode)-&gt;i_inline_size);
+
+The race window:
+1. ext4_get_max_inline_size() reads i_inline_size = 60 (correct)
+2. Size check passes for 50-byte write
+3. [Another thread adds xattr, i_inline_size changes to 40]
+4. ext4_write_lock_xattr() acquires lock
+5. ext4_update_inline_data() uses stale i_inline_size = 60
+6. Attempts to write 50 bytes but only 40 bytes actually available
+7. BUG_ON() triggers
+
+Fix this by recalculating i_inline_size via ext4_find_inline_data_nolock()
+immediately after acquiring xattr_sem. This ensures ext4_update_inline_data()
+and ext4_create_inline_data() work with current values that are protected
+from concurrent modifications.
+
+This is similar to commit a54c4613dac1 ("ext4: fix race writing to an
+inline_data file while its xattrs are changing") which fixed i_inline_off
+staleness. This patch addresses the related i_inline_size staleness issue.</description><pubDate>Tue, 16 Dec 2025 14:55:58 +0000</pubDate></item><item><title>CVE-2025-68265 | nvme: fix admin request_queue lifetime</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68265</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme: fix admin request_queue lifetime
+
+The namespaces can access the controller's admin request_queue, and
+stale references on the namespaces may exist after tearing down the
+controller. Ensure the admin request_queue is active by moving the
+controller's 'put' to after all controller references have been released
+to ensure no one is can access the request_queue. This fixes a reported
+use-after-free bug:
+
+  BUG: KASAN: slab-use-after-free in blk_queue_enter+0x41c/0x4a0
+  Read of size 8 at addr ffff88c0a53819f8 by task nvme/3287
+  CPU: 67 UID: 0 PID: 3287 Comm: nvme Tainted: G            E       6.13.2-ga1582f1a031e #15
+  Tainted: [E]=UNSIGNED_MODULE
+  Hardware name: Jabil /EGS 2S MB1, BIOS 1.00 06/18/2025
+  Call Trace:
+   &lt;TASK&gt;
+   dump_stack_lvl+0x4f/0x60
+   print_report+0xc4/0x620
+   ? _raw_spin_lock_irqsave+0x70/0xb0
+   ? _raw_read_unlock_irqrestore+0x30/0x30
+   ? blk_queue_enter+0x41c/0x4a0
+   kasan_report+0xab/0xe0
+   ? blk_queue_enter+0x41c/0x4a0
+   blk_queue_enter+0x41c/0x4a0
+   ? __irq_work_queue_local+0x75/0x1d0
+   ? blk_queue_start_drain+0x70/0x70
+   ? irq_work_queue+0x18/0x20
+   ? vprintk_emit.part.0+0x1cc/0x350
+   ? wake_up_klogd_work_func+0x60/0x60
+   blk_mq_alloc_request+0x2b7/0x6b0
+   ? __blk_mq_alloc_requests+0x1060/0x1060
+   ? __switch_to+0x5b7/0x1060
+   nvme_submit_user_cmd+0xa9/0x330
+   nvme_user_cmd.isra.0+0x240/0x3f0
+   ? force_sigsegv+0xe0/0xe0
+   ? nvme_user_cmd64+0x400/0x400
+   ? vfs_fileattr_set+0x9b0/0x9b0
+   ? cgroup_update_frozen_flag+0x24/0x1c0
+   ? cgroup_leave_frozen+0x204/0x330
+   ? nvme_ioctl+0x7c/0x2c0
+   blkdev_ioctl+0x1a8/0x4d0
+   ? blkdev_common_ioctl+0x1930/0x1930
+   ? fdget+0x54/0x380
+   __x64_sys_ioctl+0x129/0x190
+   do_syscall_64+0x5b/0x160
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+  RIP: 0033:0x7f765f703b0b
+  Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d dd 52 0f 00 f7 d8 64 89 01 48
+  RSP: 002b:00007ffe2cefe808 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+  RAX: ffffffffffffffda RBX: 00007ffe2cefe860 RCX: 00007f765f703b0b
+  RDX: 00007ffe2cefe860 RSI: 00000000c0484e41 RDI: 0000000000000003
+  RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000
+  R10: 00007f765f611d50 R11: 0000000000000202 R12: 0000000000000003
+  R13: 00000000c0484e41 R14: 0000000000000001 R15: 00007ffe2cefea60
+   &lt;/TASK&gt;</description><pubDate>Tue, 16 Dec 2025 14:55:58 +0000</pubDate></item><item><title>CVE-2025-68266 | bfs: Reconstruct file type when loading from disk</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68266</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bfs: Reconstruct file type when loading from disk
+
+syzbot is reporting that S_IFMT bits of inode-&gt;i_mode can become bogus when
+the S_IFMT bits of the 32bits "mode" field loaded from disk are corrupted
+or when the 32bits "attributes" field loaded from disk are corrupted.
+
+A documentation says that BFS uses only lower 9 bits of the "mode" field.
+But I can't find an explicit explanation that the unused upper 23 bits
+(especially, the S_IFMT bits) are initialized with 0.
+
+Therefore, ignore the S_IFMT bits of the "mode" field loaded from disk.
+Also, verify that the value of the "attributes" field loaded from disk is
+either BFS_VREG or BFS_VDIR (because BFS supports only regular files and
+the root directory).</description><pubDate>Tue, 16 Dec 2025 14:55:59 +0000</pubDate></item><item><title>CVE-2025-68239 | binfmt_misc: restore write access before closing files opened by open_exec()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68239</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+binfmt_misc: restore write access before closing files opened by open_exec()
+
+bm_register_write() opens an executable file using open_exec(), which
+internally calls do_open_execat() and denies write access on the file to
+avoid modification while it is being executed.
+
+However, when an error occurs, bm_register_write() closes the file using
+filp_close() directly. This does not restore the write permission, which
+may cause subsequent write operations on the same file to fail.
+
+Fix this by calling exe_file_allow_write_access() before filp_close() to
+restore the write permission properly.</description><pubDate>Tue, 16 Dec 2025 14:56:00 +0000</pubDate></item><item><title>CVE-2025-68240 | nilfs2: avoid having an active sc_timer before freeing sci</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68240</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nilfs2: avoid having an active sc_timer before freeing sci
+
+Because kthread_stop did not stop sc_task properly and returned -EINTR,
+the sc_timer was not properly closed, ultimately causing the problem [1]
+reported by syzbot when freeing sci due to the sc_timer not being closed.
+
+Because the thread sc_task main function nilfs_segctor_thread() returns 0
+when it succeeds, when the return value of kthread_stop() is not 0 in
+nilfs_segctor_destroy(), we believe that it has not properly closed
+sc_timer.
+
+We use timer_shutdown_sync() to sync wait for sc_timer to shutdown, and
+set the value of sc_task to NULL under the protection of lock
+sc_state_lock, so as to avoid the issue caused by sc_timer not being
+properly shutdowned.
+
+[1]
+ODEBUG: free active (active state 0) object: 00000000dacb411a object type: timer_list hint: nilfs_construction_timeout
+Call trace:
+ nilfs_segctor_destroy fs/nilfs2/segment.c:2811 [inline]
+ nilfs_detach_log_writer+0x668/0x8cc fs/nilfs2/segment.c:2877
+ nilfs_put_super+0x4c/0x12c fs/nilfs2/super.c:509</description><pubDate>Tue, 16 Dec 2025 14:56:00 +0000</pubDate></item><item><title>CVE-2025-68241 | ipv4: route: Prevent rt_bind_exception() from rebinding stale fnhe</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68241</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ipv4: route: Prevent rt_bind_exception() from rebinding stale fnhe
+
+The sit driver's packet transmission path calls: sit_tunnel_xmit() -&gt;
+update_or_create_fnhe(), which lead to fnhe_remove_oldest() being called
+to delete entries exceeding FNHE_RECLAIM_DEPTH+random.
+
+The race window is between fnhe_remove_oldest() selecting fnheX for
+deletion and the subsequent kfree_rcu(). During this time, the
+concurrent path's __mkroute_output() -&gt; find_exception() can fetch the
+soon-to-be-deleted fnheX, and rt_bind_exception() then binds it with a
+new dst using a dst_hold(). When the original fnheX is freed via RCU,
+the dst reference remains permanently leaked.
+
+CPU 0                             CPU 1
+__mkroute_output()
+  find_exception() [fnheX]
+                                  update_or_create_fnhe()
+                                    fnhe_remove_oldest() [fnheX]
+  rt_bind_exception() [bind dst]
+                                  RCU callback [fnheX freed, dst leak]
+
+This issue manifests as a device reference count leak and a warning in
+dmesg when unregistering the net device:
+
+  unregister_netdevice: waiting for sitX to become free. Usage count = N
+
+Ido Schimmel provided the simple test validation method [1].
+
+The fix clears 'oldest-&gt;fnhe_daddr' before calling fnhe_flush_routes().
+Since rt_bind_exception() checks this field, setting it to zero prevents
+the stale fnhe from being reused and bound to a new dst just before it
+is freed.
+
+[1]
+ip netns add ns1
+ip -n ns1 link set dev lo up
+ip -n ns1 address add 192.0.2.1/32 dev lo
+ip -n ns1 link add name dummy1 up type dummy
+ip -n ns1 route add 192.0.2.2/32 dev dummy1
+ip -n ns1 link add name gretap1 up arp off type gretap \
+    local 192.0.2.1 remote 192.0.2.2
+ip -n ns1 route add 198.51.0.0/16 dev gretap1
+taskset -c 0 ip netns exec ns1 mausezahn gretap1 \
+    -A 198.51.100.1 -B 198.51.0.0/16 -t udp -p 1000 -c 0 -q &amp;
+taskset -c 2 ip netns exec ns1 mausezahn gretap1 \
+    -A 198.51.100.1 -B 198.51.0.0/16 -t udp -p 1000 -c 0 -q &amp;
+sleep 10
+ip netns pids ns1 | xargs kill
+ip netns del ns1</description><pubDate>Tue, 16 Dec 2025 14:56:01 +0000</pubDate></item><item><title>CVE-2025-68242 | NFS: Fix LTP test failures when timestamps are delegated</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68242</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFS: Fix LTP test failures when timestamps are delegated
+
+The utimes01 and utime06 tests fail when delegated timestamps are
+enabled, specifically in subtests that modify the atime and mtime
+fields using the 'nobody' user ID.
+
+The problem can be reproduced as follow:
+
+# echo "/media *(rw,no_root_squash,sync)" &gt;&gt; /etc/exports
+# export -ra
+# mount -o rw,nfsvers=4.2 127.0.0.1:/media /tmpdir
+# cd /opt/ltp
+# ./runltp -d /tmpdir -s utimes01
+# ./runltp -d /tmpdir -s utime06
+
+This issue occurs because nfs_setattr does not verify the inode's
+UID against the caller's fsuid when delegated timestamps are
+permitted for the inode.
+
+This patch adds the UID check and if it does not match then the
+request is sent to the server for permission checking.</description><pubDate>Tue, 16 Dec 2025 14:56:01 +0000</pubDate></item><item><title>CVE-2025-68243 | NFS: Check the TLS certificate fields in nfs_match_client()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68243</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+NFS: Check the TLS certificate fields in nfs_match_client()
+
+If the TLS security policy is of type RPC_XPRTSEC_TLS_X509, then the
+cert_serial and privkey_serial fields need to match as well since they
+define the client's identity, as presented to the server.</description><pubDate>Tue, 16 Dec 2025 14:56:02 +0000</pubDate></item><item><title>CVE-2025-68244 | drm/i915: Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68244</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/i915: Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
+
+On completion of i915_vma_pin_ww(), a synchronous variant of
+dma_fence_work_commit() is called.  When pinning a VMA to GGTT address
+space on a Cherry View family processor, or on a Broxton generation SoC
+with VTD enabled, i.e., when stop_machine() is then called from
+intel_ggtt_bind_vma(), that can potentially lead to lock inversion among
+reservation_ww and cpu_hotplug locks.
+
+[86.861179] ======================================================
+[86.861193] WARNING: possible circular locking dependency detected
+[86.861209] 6.15.0-rc5-CI_DRM_16515-gca0305cadc2d+ #1 Tainted: G     U
+[86.861226] ------------------------------------------------------
+[86.861238] i915_module_loa/1432 is trying to acquire lock:
+[86.861252] ffffffff83489090 (cpu_hotplug_lock){++++}-{0:0}, at: stop_machine+0x1c/0x50
+[86.861290]
+but task is already holding lock:
+[86.861303] ffffc90002e0b4c8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_vma_pin.constprop.0+0x39/0x1d0 [i915]
+[86.862233]
+which lock already depends on the new lock.
+[86.862251]
+the existing dependency chain (in reverse order) is:
+[86.862265]
+-&gt; #5 (reservation_ww_class_mutex){+.+.}-{3:3}:
+[86.862292]        dma_resv_lockdep+0x19a/0x390
+[86.862315]        do_one_initcall+0x60/0x3f0
+[86.862334]        kernel_init_freeable+0x3cd/0x680
+[86.862353]        kernel_init+0x1b/0x200
+[86.862369]        ret_from_fork+0x47/0x70
+[86.862383]        ret_from_fork_asm+0x1a/0x30
+[86.862399]
+-&gt; #4 (reservation_ww_class_acquire){+.+.}-{0:0}:
+[86.862425]        dma_resv_lockdep+0x178/0x390
+[86.862440]        do_one_initcall+0x60/0x3f0
+[86.862454]        kernel_init_freeable+0x3cd/0x680
+[86.862470]        kernel_init+0x1b/0x200
+[86.862482]        ret_from_fork+0x47/0x70
+[86.862495]        ret_from_fork_asm+0x1a/0x30
+[86.862509]
+-&gt; #3 (&amp;mm-&gt;mmap_lock){++++}-{3:3}:
+[86.862531]        down_read_killable+0x46/0x1e0
+[86.862546]        lock_mm_and_find_vma+0xa2/0x280
+[86.862561]        do_user_addr_fault+0x266/0x8e0
+[86.862578]        exc_page_fault+0x8a/0x2f0
+[86.862593]        asm_exc_page_fault+0x27/0x30
+[86.862607]        filldir64+0xeb/0x180
+[86.862620]        kernfs_fop_readdir+0x118/0x480
+[86.862635]        iterate_dir+0xcf/0x2b0
+[86.862648]        __x64_sys_getdents64+0x84/0x140
+[86.862661]        x64_sys_call+0x1058/0x2660
+[86.862675]        do_syscall_64+0x91/0xe90
+[86.862689]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[86.862703]
+-&gt; #2 (&amp;root-&gt;kernfs_rwsem){++++}-{3:3}:
+[86.862725]        down_write+0x3e/0xf0
+[86.862738]        kernfs_add_one+0x30/0x3c0
+[86.862751]        kernfs_create_dir_ns+0x53/0xb0
+[86.862765]        internal_create_group+0x134/0x4c0
+[86.862779]        sysfs_create_group+0x13/0x20
+[86.862792]        topology_add_dev+0x1d/0x30
+[86.862806]        cpuhp_invoke_callback+0x4b5/0x850
+[86.862822]        cpuhp_issue_call+0xbf/0x1f0
+[86.862836]        __cpuhp_setup_state_cpuslocked+0x111/0x320
+[86.862852]        __cpuhp_setup_state+0xb0/0x220
+[86.862866]        topology_sysfs_init+0x30/0x50
+[86.862879]        do_one_initcall+0x60/0x3f0
+[86.862893]        kernel_init_freeable+0x3cd/0x680
+[86.862908]        kernel_init+0x1b/0x200
+[86.862921]        ret_from_fork+0x47/0x70
+[86.862934]        ret_from_fork_asm+0x1a/0x30
+[86.862947]
+-&gt; #1 (cpuhp_state_mutex){+.+.}-{3:3}:
+[86.862969]        __mutex_lock+0xaa/0xed0
+[86.862982]        mutex_lock_nested+0x1b/0x30
+[86.862995]        __cpuhp_setup_state_cpuslocked+0x67/0x320
+[86.863012]        __cpuhp_setup_state+0xb0/0x220
+[86.863026]        page_alloc_init_cpuhp+0x2d/0x60
+[86.863041]        mm_core_init+0x22/0x2d0
+[86.863054]        start_kernel+0x576/0xbd0
+[86.863068]        x86_64_start_reservations+0x18/0x30
+[86.863084]        x86_64_start_kernel+0xbf/0x110
+[86.863098]        common_startup_64+0x13e/0x141
+[86.863114]
+-&gt; #0 (cpu_hotplug_lock){++++}-{0:0}:
+[86.863135]        __lock_acquire+0x16
+---truncated---</description><pubDate>Tue, 16 Dec 2025 14:56:02 +0000</pubDate></item><item><title>CVE-2025-68245 | net: netpoll: fix incorrect refcount handling causing incorrect cleanup</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68245</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: netpoll: fix incorrect refcount handling causing incorrect cleanup
+
+commit efa95b01da18 ("netpoll: fix use after free") incorrectly
+ignored the refcount and prematurely set dev-&gt;npinfo to NULL during
+netpoll cleanup, leading to improper behavior and memory leaks.
+
+Scenario causing lack of proper cleanup:
+
+1) A netpoll is associated with a NIC (e.g., eth0) and netdev-&gt;npinfo is
+   allocated, and refcnt = 1
+   - Keep in mind that npinfo is shared among all netpoll instances. In
+     this case, there is just one.
+
+2) Another netpoll is also associated with the same NIC and
+   npinfo-&gt;refcnt += 1.
+   - Now dev-&gt;npinfo-&gt;refcnt = 2;
+   - There is just one npinfo associated to the netdev.
+
+3) When the first netpolls goes to clean up:
+   - The first cleanup succeeds and clears np-&gt;dev-&gt;npinfo, ignoring
+     refcnt.
+     - It basically calls `RCU_INIT_POINTER(np-&gt;dev-&gt;npinfo, NULL);`
+   - Set dev-&gt;npinfo = NULL, without proper cleanup
+   - No -&gt;ndo_netpoll_cleanup() is either called
+
+4) Now the second target tries to clean up
+   - The second cleanup fails because np-&gt;dev-&gt;npinfo is already NULL.
+     * In this case, ops-&gt;ndo_netpoll_cleanup() was never called, and
+       the skb pool is not cleaned as well (for the second netpoll
+       instance)
+  - This leaks npinfo and skbpool skbs, which is clearly reported by
+    kmemleak.
+
+Revert commit efa95b01da18 ("netpoll: fix use after free") and adds
+clarifying comments emphasizing that npinfo cleanup should only happen
+once the refcount reaches zero, ensuring stable and correct netpoll
+behavior.</description><pubDate>Tue, 16 Dec 2025 14:56:02 +0000</pubDate></item><item><title>CVE-2025-68246 | ksmbd: close accepted socket when per-IP limit rejects connection</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68246</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: close accepted socket when per-IP limit rejects connection
+
+When the per-IP connection limit is exceeded in ksmbd_kthread_fn(),
+the code sets ret = -EAGAIN and continues the accept loop without
+closing the just-accepted socket. That leaks one socket per rejected
+attempt from a single IP and enables a trivial remote DoS.
+
+Release client_sk before continuing.
+
+This bug was found with ZeroPath.</description><pubDate>Tue, 16 Dec 2025 14:56:03 +0000</pubDate></item><item><title>CVE-2025-68247 | posix-timers: Plug potential memory leak in do_timer_create()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68247</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+posix-timers: Plug potential memory leak in do_timer_create()
+
+When posix timer creation is set to allocate a given timer ID and the
+access to the user space value faults, the function terminates without
+freeing the already allocated posix timer structure.
+
+Move the allocation after the user space access to cure that.
+
+[ tglx: Massaged change log ]</description><pubDate>Tue, 16 Dec 2025 14:56:03 +0000</pubDate></item><item><title>CVE-2025-68248 | vmw_balloon: indicate success when effectively deflating during migration</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68248</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+vmw_balloon: indicate success when effectively deflating during migration
+
+When migrating a balloon page, we first deflate the old page to then
+inflate the new page.
+
+However, if inflating the new page succeeded, we effectively deflated the
+old page, reducing the balloon size.
+
+In that case, the migration actually worked: similar to migrating+
+immediately deflating the new page.  The old page will be freed back to
+the buddy.
+
+Right now, the core will leave the page be marked as isolated (as we
+returned an error).  When later trying to putback that page, we will run
+into the WARN_ON_ONCE() in balloon_page_putback().
+
+That handling was changed in commit 3544c4faccb8 ("mm/balloon_compaction:
+stop using __ClearPageMovable()"); before that change, we would have
+tolerated that way of handling it.
+
+To fix it, let's just return 0 in that case, making the core effectively
+just clear the "isolated" flag + freeing it back to the buddy as if the
+migration succeeded.  Note that the new page will also get freed when the
+core puts the last reference.
+
+Note that this also makes it all be more consistent: we will no longer
+unisolate the page in the balloon driver while keeping it marked as being
+isolated in migration core.
+
+This was found by code inspection.</description><pubDate>Tue, 16 Dec 2025 14:56:04 +0000</pubDate></item><item><title>CVE-2025-68249 | most: usb: hdm_probe: Fix calling put_device() before device initialization</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68249</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+most: usb: hdm_probe: Fix calling put_device() before device initialization
+
+The early error path in hdm_probe() can jump to err_free_mdev before
+&amp;mdev-&gt;dev has been initialized with device_initialize(). Calling
+put_device(&amp;mdev-&gt;dev) there triggers a device core WARN and ends up
+invoking kref_put(&amp;kobj-&gt;kref, kobject_release) on an uninitialized
+kobject.
+
+In this path the private struct was only kmalloc'ed and the intended
+release is effectively kfree(mdev) anyway, so free it directly instead
+of calling put_device() on an uninitialized device.
+
+This removes the WARNING and fixes the pre-initialization error path.</description><pubDate>Tue, 16 Dec 2025 14:56:04 +0000</pubDate></item><item><title>CVE-2025-68250 | hung_task: fix warnings caused by unaligned lock pointers</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68250</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+hung_task: fix warnings caused by unaligned lock pointers
+
+The blocker tracking mechanism assumes that lock pointers are at least
+4-byte aligned to use their lower bits for type encoding.
+
+However, as reported by Eero Tamminen, some architectures like m68k
+only guarantee 2-byte alignment of 32-bit values. This breaks the
+assumption and causes two related WARN_ON_ONCE checks to trigger.
+
+To fix this, the runtime checks are adjusted to silently ignore any lock
+that is not 4-byte aligned, effectively disabling the feature in such
+cases and avoiding the related warnings.
+
+Thanks to Geert Uytterhoeven for bisecting!</description><pubDate>Tue, 16 Dec 2025 14:56:04 +0000</pubDate></item><item><title>CVE-2025-68251 | erofs: avoid infinite loops due to corrupted subpage compact indexes</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68251</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+erofs: avoid infinite loops due to corrupted subpage compact indexes
+
+Robert reported an infinite loop observed by two crafted images.
+
+The root cause is that `clusterofs` can be larger than `lclustersize`
+for !NONHEAD `lclusters` in corrupted subpage compact indexes, e.g.:
+
+  blocksize = lclustersize = 512   lcn = 6   clusterofs = 515
+
+Move the corresponding check for full compress indexes to
+`z_erofs_load_lcluster_from_disk()` to also cover subpage compact
+compress indexes.
+
+It also fixes the position of `m-&gt;type &gt;= Z_EROFS_LCLUSTER_TYPE_MAX`
+check, since it should be placed right after
+`z_erofs_load_{compact,full}_lcluster()`.</description><pubDate>Tue, 16 Dec 2025 14:56:05 +0000</pubDate></item><item><title>CVE-2025-68252 | misc: fastrpc: Fix dma_buf object leak in fastrpc_map_lookup</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68252</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+misc: fastrpc: Fix dma_buf object leak in fastrpc_map_lookup
+
+In fastrpc_map_lookup, dma_buf_get is called to obtain a reference to
+the dma_buf for comparison purposes. However, this reference is never
+released when the function returns, leading to a dma_buf memory leak.
+
+Fix this by adding dma_buf_put before returning from the function,
+ensuring that the temporarily acquired reference is properly released
+regardless of whether a matching map is found.
+
+Rule: add</description><pubDate>Tue, 16 Dec 2025 14:56:05 +0000</pubDate></item><item><title>CVE-2025-68253 | mm: don&amp;#x27;t spin in add_stack_record when gfp flags don&amp;#x27;t allow</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68253</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm: don't spin in add_stack_record when gfp flags don't allow
+
+syzbot was able to find the following path:
+  add_stack_record_to_list mm/page_owner.c:182 [inline]
+  inc_stack_record_count mm/page_owner.c:214 [inline]
+  __set_page_owner+0x2c3/0x4a0 mm/page_owner.c:333
+  set_page_owner include/linux/page_owner.h:32 [inline]
+  post_alloc_hook+0x240/0x2a0 mm/page_alloc.c:1851
+  prep_new_page mm/page_alloc.c:1859 [inline]
+  get_page_from_freelist+0x21e4/0x22c0 mm/page_alloc.c:3858
+  alloc_pages_nolock_noprof+0x94/0x120 mm/page_alloc.c:7554
+
+Don't spin in add_stack_record_to_list() when it is called
+from *_nolock() context.</description><pubDate>Tue, 16 Dec 2025 14:56:06 +0000</pubDate></item><item><title>CVE-2025-68232 | veth: more robust handing of race to avoid txq getting stuck</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68232</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 veth: more robust handing of race to avoid txq getting stuck
 
