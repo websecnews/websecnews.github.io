@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 22 Dec 2025 16:30:30 +0000</lastBuildDate><item><title>CVE-2025-68326 | drm/xe/guc: Fix stack_depot usage</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68326</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Mon, 22 Dec 2025 16:53:05 +0000</lastBuildDate><item><title>CVE-2025-67443 | Schlix CMS before v2.2.9-5 is vulnerable to Cross Site Scripting (XSS). Due to lack of javascript sanitization in the login form, incorrect ...</title><link>https://www.cve.org/CVERecord?id=CVE-2025-67443</link><description>Schlix CMS before v2.2.9-5 is vulnerable to Cross Site Scripting (XSS). Due to lack of javascript sanitization in the login form, incorrect login attempts in logs are triggered as XSS in the admin panel.</description><pubDate>Mon, 22 Dec 2025 16:53:07 +0000</pubDate></item><item><title>CVE-2025-68326 | drm/xe/guc: Fix stack_depot usage</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68326</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 drm/xe/guc: Fix stack_depot usage
 
@@ -10,7 +10,7 @@ enabled to fix the following call stack:
 	[] Workqueue:  drm_sched_run_job_work [gpu_sched]
 	[] RIP: 0010:stack_depot_save_flags+0x172/0x870
 	[] Call Trace:
-	[]  &lt;TASK&gt;
+	[]  
 	[]  fast_req_track+0x58/0xb0 [xe]
 
 (cherry picked from commit 64fdf496a6929a0a194387d2bb5efaf5da2b542f)</description><pubDate>Mon, 22 Dec 2025 16:30:32 +0000</pubDate></item><item><title>CVE-2025-68327 | usb: renesas_usbhs: Fix synchronous external abort on unbind</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68327</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -255,7 +255,7 @@ FS:  000055556dab1500(0000) GS:ffff8881249d9000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 000055f77f285cd0 CR3: 000000007d871000 CR4: 00000000003526f0
 Call Trace:
- &lt;TASK&gt;
+ 
  comedi_device_detach_locked+0x12f/0xa50 drivers/comedi/drivers.c:207
  comedi_device_detach+0x67/0xb0 drivers/comedi/drivers.c:215
  comedi_device_attach+0x43d/0x900 drivers/comedi/drivers.c:1011
@@ -276,9 +276,9 @@ the per-cpu irq_work/* task context and not disable-irq, if the rq
 returned by container_of() is current CPU's rq, the following scenarios
 may occur:
 
-lock(&amp;rq-&gt;__lock);
-&lt;Interrupt&gt;
-  lock(&amp;rq-&gt;__lock);
+lock(&amp;amp;rq-&gt;__lock);
+
+  lock(&amp;amp;rq-&gt;__lock);
 
 This commit use IRQ_WORK_INIT_HARD() to replace init_irq_work() to
 initialize rq-&gt;scx.deferred_irq_work, make the deferred_irq_workfn()
@@ -299,8 +299,8 @@ comedi: pcl818: fix null-ptr-deref in pcl818_ai_cancel()
 Syzbot identified an issue [1] in pcl818_ai_cancel(), which stems from
 the fact that in case of early device detach via pcl818_detach(),
 subdevice dev-&gt;read_subdev may not have initialized its pointer to
-&amp;struct comedi_async as intended. Thus, any such dereferencing of
-&amp;s-&gt;async-&gt;cmd will lead to general protection fault and kernel crash.
+&amp;amp;struct comedi_async as intended. Thus, any such dereferencing of
+&amp;amp;s-&gt;async-&gt;cmd will lead to general protection fault and kernel crash.
 
 Mitigate this problem by removing a call to pcl818_ai_cancel() from
 pcl818_detach() altogether. This way, if the subdevice setups its
@@ -318,7 +318,7 @@ Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 0
 RIP: 0010:pcl818_ai_cancel+0x69/0x3f0 drivers/comedi/drivers/pcl818.c:762
 ...
 Call Trace:
- &lt;TASK&gt;
+ 
  pcl818_detach+0x66/0xd0 drivers/comedi/drivers/pcl818.c:1115
  comedi_device_detach_locked+0x178/0x750 drivers/comedi/drivers.c:207
  do_devconfig_ioctl drivers/comedi/comedi_fops.c:848 [inline]
@@ -376,7 +376,7 @@ R13: ffff88812c432000 R14: ffff88812c608000 R15: ffff888120bfc000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007f91d6970c99 CR3: 00000001159c4000 CR4: 00000000000006f0
 Call Trace:
- &lt;TASK&gt;
+ 
  __ext4_journal_get_create_access+0x42/0x170
  ext4_getblk+0x319/0x6f0
  ext4_bread+0x11/0x100
