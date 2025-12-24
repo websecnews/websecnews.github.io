@@ -1,5 +1,281 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 24 Dec 2025 11:14:29 +0000</lastBuildDate><item><title>CVE-2022-50697 | mrp: introduce active flags to prevent UAF when applicant uninit</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50697</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 24 Dec 2025 12:21:32 +0000</lastBuildDate><item><title>CVE-2025-68735 | drm/panthor: Prevent potential UAF in group creation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68735</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panthor: Prevent potential UAF in group creation
+
+This commit prevents the possibility of a use after free issue in the
+GROUP_CREATE ioctl function, which arose as pointer to the group is
+accessed in that ioctl function after storing it in the Xarray.
+A malicious userspace can second guess the handle of a group and try
+to call GROUP_DESTROY ioctl from another thread around the same time
+as GROUP_CREATE ioctl.
+
+To prevent the use after free exploit, this commit uses a mark on an
+entry of group pool Xarray which is added just before returning from
+the GROUP_CREATE ioctl function. The mark is checked for all ioctls
+that specify the group handle and so userspace won't be abe to delete
+a group that isn't marked yet.
+
+v2: Add R-bs and fixes tags</description><pubDate>Wed, 24 Dec 2025 12:21:34 +0000</pubDate></item><item><title>CVE-2025-68736 | landlock: Fix handling of disconnected directories</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68736</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+landlock: Fix handling of disconnected directories
+
+Disconnected files or directories can appear when they are visible and
+opened from a bind mount, but have been renamed or moved from the source
+of the bind mount in a way that makes them inaccessible from the mount
+point (i.e. out of scope).
+
+Previously, access rights tied to files or directories opened through a
+disconnected directory were collected by walking the related hierarchy
+down to the root of the filesystem, without taking into account the
+mount point because it couldn't be found. This could lead to
+inconsistent access results, potential access right widening, and
+hard-to-debug renames, especially since such paths cannot be printed.
+
+For a sandboxed task to create a disconnected directory, it needs to
+have write access (i.e. FS_MAKE_REG, FS_REMOVE_FILE, and FS_REFER) to
+the underlying source of the bind mount, and read access to the related
+mount point.   Because a sandboxed task cannot acquire more access
+rights than those defined by its Landlock domain, this could lead to
+inconsistent access rights due to missing permissions that should be
+inherited from the mount point hierarchy, while inheriting permissions
+from the filesystem hierarchy hidden by this mount point instead.
+
+Landlock now handles files and directories opened from disconnected
+directories by taking into account the filesystem hierarchy when the
+mount point is not found in the hierarchy walk, and also always taking
+into account the mount point from which these disconnected directories
+were opened.  This ensures that a rename is not allowed if it would
+widen access rights [1].
+
+The rationale is that, even if disconnected hierarchies might not be
+visible or accessible to a sandboxed task, relying on the collected
+access rights from them improves the guarantee that access rights will
+not be widened during a rename because of the access right comparison
+between the source and the destination (see LANDLOCK_ACCESS_FS_REFER).
+It may look like this would grant more access on disconnected files and
+directories, but the security policies are always enforced for all the
+evaluated hierarchies.  This new behavior should be less surprising to
+users and safer from an access control perspective.
+
+Remove a wrong WARN_ON_ONCE() canary in collect_domain_accesses() and
+fix the related comment.
+
+Because opened files have their access rights stored in the related file
+security properties, there is no impact for disconnected or unlinked
+files.</description><pubDate>Wed, 24 Dec 2025 12:21:34 +0000</pubDate></item><item><title>CVE-2025-68737 | arm64/pageattr: Propagate return value from __change_memory_common</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68737</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+arm64/pageattr: Propagate return value from __change_memory_common
+
+The rodata=on security measure requires that any code path which does
+vmalloc -&gt; set_memory_ro/set_memory_rox must protect the linear map alias
+too. Therefore, if such a call fails, we must abort set_memory_* and caller
+must take appropriate action; currently we are suppressing the error, and
+there is a real chance of such an error arising post commit a166563e7ec3
+("arm64: mm: support large block mapping when rodata=full"). Therefore,
+propagate any error to the caller.</description><pubDate>Wed, 24 Dec 2025 12:21:35 +0000</pubDate></item><item><title>CVE-2025-68738 | wifi: mt76: mt7996: fix null pointer deref in mt7996_conf_tx()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68738</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mt76: mt7996: fix null pointer deref in mt7996_conf_tx()
+
+If a link does not have an assigned channel yet, mt7996_vif_link returns
+NULL. We still need to store the updated queue settings in that case, and
+apply them later.
+Move the location of the queue params to within struct mt7996_vif_link.</description><pubDate>Wed, 24 Dec 2025 12:21:35 +0000</pubDate></item><item><title>CVE-2025-68739 | PM / devfreq: hisi: Fix potential UAF in OPP handling</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68739</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+PM / devfreq: hisi: Fix potential UAF in OPP handling
+
+Ensure all required data is acquired before calling dev_pm_opp_put(opp)
+to maintain correct resource acquisition and release order.</description><pubDate>Wed, 24 Dec 2025 12:21:35 +0000</pubDate></item><item><title>CVE-2025-68740 | ima: Handle error code returned by ima_filter_rule_match()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68740</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ima: Handle error code returned by ima_filter_rule_match()
+
+In ima_match_rules(), if ima_filter_rule_match() returns -ENOENT due to
+the rule being NULL, the function incorrectly skips the 'if (!rc)' check
+and sets 'result = true'. The LSM rule is considered a match, causing
+extra files to be measured by IMA.
+
+This issue can be reproduced in the following scenario:
+After unloading the SELinux policy module via 'semodule -d', if an IMA
+measurement is triggered before ima_lsm_rules is updated,
+in ima_match_rules(), the first call to ima_filter_rule_match() returns
+-ESTALE. This causes the code to enter the 'if (rc == -ESTALE &amp;&amp;
+!rule_reinitialized)' block, perform ima_lsm_copy_rule() and retry. In
+ima_lsm_copy_rule(), since the SELinux module has been removed, the rule
+becomes NULL, and the second call to ima_filter_rule_match() returns
+-ENOENT. This bypasses the 'if (!rc)' check and results in a false match.
+
+Call trace:
+  selinux_audit_rule_match+0x310/0x3b8
+  security_audit_rule_match+0x60/0xa0
+  ima_match_rules+0x2e4/0x4a0
+  ima_match_policy+0x9c/0x1e8
+  ima_get_action+0x48/0x60
+  process_measurement+0xf8/0xa98
+  ima_bprm_check+0x98/0xd8
+  security_bprm_check+0x5c/0x78
+  search_binary_handler+0x6c/0x318
+  exec_binprm+0x58/0x1b8
+  bprm_execve+0xb8/0x130
+  do_execveat_common.isra.0+0x1a8/0x258
+  __arm64_sys_execve+0x48/0x68
+  invoke_syscall+0x50/0x128
+  el0_svc_common.constprop.0+0xc8/0xf0
+  do_el0_svc+0x24/0x38
+  el0_svc+0x44/0x200
+  el0t_64_sync_handler+0x100/0x130
+  el0t_64_sync+0x3c8/0x3d0
+
+Fix this by changing 'if (!rc)' to 'if (rc &lt;= 0)' to ensure that error
+codes like -ENOENT do not bypass the check and accidentally result in a
+successful match.</description><pubDate>Wed, 24 Dec 2025 12:21:36 +0000</pubDate></item><item><title>CVE-2025-68741 | scsi: qla2xxx: Fix improper freeing of purex item</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68741</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla2xxx: Fix improper freeing of purex item
+
+In qla2xxx_process_purls_iocb(), an item is allocated via
+qla27xx_copy_multiple_pkt(), which internally calls
+qla24xx_alloc_purex_item().
+
+The qla24xx_alloc_purex_item() function may return a pre-allocated item
+from a per-adapter pool for small allocations, instead of dynamically
+allocating memory with kzalloc().
+
+An error handling path in qla2xxx_process_purls_iocb() incorrectly uses
+kfree() to release the item. If the item was from the pre-allocated
+pool, calling kfree() on it is a bug that can lead to memory corruption.
+
+Fix this by using the correct deallocation function,
+qla24xx_free_purex_item(), which properly handles both dynamically
+allocated and pre-allocated items.</description><pubDate>Wed, 24 Dec 2025 12:21:36 +0000</pubDate></item><item><title>CVE-2025-68742 | bpf: Fix invalid prog-&amp;gt;stats access when update_effective_progs fails</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68742</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix invalid prog-&gt;stats access when update_effective_progs fails
+
+Syzkaller triggers an invalid memory access issue following fault
+injection in update_effective_progs. The issue can be described as
+follows:
+
+__cgroup_bpf_detach
+  update_effective_progs
+    compute_effective_progs
+      bpf_prog_array_alloc &lt;-- fault inject
+  purge_effective_progs
+    /* change to dummy_bpf_prog */
+    array-&gt;items[index] = &amp;dummy_bpf_prog.prog
+
+---softirq start---
+__do_softirq
+  ...
+    __cgroup_bpf_run_filter_skb
+      __bpf_prog_run_save_cb
+        bpf_prog_run
+          stats = this_cpu_ptr(prog-&gt;stats)
+          /* invalid memory access */
+          flags = u64_stats_update_begin_irqsave(&amp;stats-&gt;syncp)
+---softirq end---
+
+  static_branch_dec(&amp;cgroup_bpf_enabled_key[atype])
+
+The reason is that fault injection caused update_effective_progs to fail
+and then changed the original prog into dummy_bpf_prog.prog in
+purge_effective_progs. Then a softirq came, and accessing the members of
+dummy_bpf_prog.prog in the softirq triggers invalid mem access.
+
+To fix it, skip updating stats when stats is NULL.</description><pubDate>Wed, 24 Dec 2025 12:21:37 +0000</pubDate></item><item><title>CVE-2025-68743 | mshv: Fix create memory region overlap check</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68743</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mshv: Fix create memory region overlap check
+
+The current check is incorrect; it only checks if the beginning or end
+of a region is within an existing region. This doesn't account for
+userspace specifying a region that begins before and ends after an
+existing region.
+
+Change the logic to a range intersection check against gfns and uaddrs
+for each region.
+
+Remove mshv_partition_region_by_uaddr() as it is no longer used.</description><pubDate>Wed, 24 Dec 2025 12:21:37 +0000</pubDate></item><item><title>CVE-2025-68744 | bpf: Free special fields when update [lru_,]percpu_hash maps</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68744</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Free special fields when update [lru_,]percpu_hash maps
+
+As [lru_,]percpu_hash maps support BPF_KPTR_{REF,PERCPU}, missing
+calls to 'bpf_obj_free_fields()' in 'pcpu_copy_value()' could cause the
+memory referenced by BPF_KPTR_{REF,PERCPU} fields to be held until the
+map gets freed.
+
+Fix this by calling 'bpf_obj_free_fields()' after
+'copy_map_value[,_long]()' in 'pcpu_copy_value()'.</description><pubDate>Wed, 24 Dec 2025 12:21:37 +0000</pubDate></item><item><title>CVE-2025-68745 | scsi: qla2xxx: Clear cmds after chip reset</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68745</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla2xxx: Clear cmds after chip reset
+
+Commit aefed3e5548f ("scsi: qla2xxx: target: Fix offline port handling
+and host reset handling") caused two problems:
+
+1. Commands sent to FW, after chip reset got stuck and never freed as FW
+   is not going to respond to them anymore.
+
+2. BUG_ON(cmd-&gt;sg_mapped) in qlt_free_cmd().  Commit 26f9ce53817a
+   ("scsi: qla2xxx: Fix missed DMA unmap for aborted commands")
+   attempted to fix this, but introduced another bug under different
+   circumstances when two different CPUs were racing to call
+   qlt_unmap_sg() at the same time: BUG_ON(!valid_dma_direction(dir)) in
+   dma_unmap_sg_attrs().
+
+So revert "scsi: qla2xxx: Fix missed DMA unmap for aborted commands" and
+partially revert "scsi: qla2xxx: target: Fix offline port handling and
+host reset handling" at __qla2x00_abort_all_cmds.</description><pubDate>Wed, 24 Dec 2025 12:21:38 +0000</pubDate></item><item><title>CVE-2025-68746 | spi: tegra210-quad: Fix timeout handling</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68746</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+spi: tegra210-quad: Fix timeout handling
+
+When the CPU that the QSPI interrupt handler runs on (typically CPU 0)
+is excessively busy, it can lead to rare cases of the IRQ thread not
+running before the transfer timeout is reached.
+
+While handling the timeouts, any pending transfers are cleaned up and
+the message that they correspond to is marked as failed, which leaves
+the curr_xfer field pointing at stale memory.
+
+To avoid this, clear curr_xfer to NULL upon timeout and check for this
+condition when the IRQ thread is finally run.
+
+While at it, also make sure to clear interrupts on failure so that new
+interrupts can be run.
+
+A better, more involved, fix would move the interrupt clearing into a
+hard IRQ handler. Ideally we would also want to signal that the IRQ
+thread no longer needs to be run after the timeout is hit to avoid the
+extra check for a valid transfer.</description><pubDate>Wed, 24 Dec 2025 12:21:38 +0000</pubDate></item><item><title>CVE-2025-68747 | drm/panthor: Fix UAF on kernel BO VA nodes</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68747</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panthor: Fix UAF on kernel BO VA nodes
+
+If the MMU is down, panthor_vm_unmap_range() might return an error.
+We expect the page table to be updated still, and if the MMU is blocked,
+the rest of the GPU should be blocked too, so no risk of accessing
+physical memory returned to the system (which the current code doesn't
+cover for anyway).
+
+Proceed with the rest of the cleanup instead of bailing out and leaving
+the va_node inserted in the drm_mm, which leads to UAF when other
+adjacent nodes are removed from the drm_mm tree.</description><pubDate>Wed, 24 Dec 2025 12:21:38 +0000</pubDate></item><item><title>CVE-2025-68748 | drm/panthor: Fix UAF race between device unplug and FW event processing</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68748</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+drm/panthor: Fix UAF race between device unplug and FW event processing
+
+The function panthor_fw_unplug() will free the FW memory sections.
+The problem is that there could still be pending FW events which are yet
+not handled at this point. process_fw_events_work() can in this case try
+to access said freed memory.
+
+Simply call disable_work_sync() to both drain and prevent future
+invocation of process_fw_events_work().</description><pubDate>Wed, 24 Dec 2025 12:21:39 +0000</pubDate></item><item><title>CVE-2025-68749 | accel/ivpu: Fix race condition when unbinding BOs</title><link>https://www.cve.org/CVERecord?id=CVE-2025-68749</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+accel/ivpu: Fix race condition when unbinding BOs
+
+Fix 'Memory manager not clean during takedown' warning that occurs
+when ivpu_gem_bo_free() removes the BO from the BOs list before it
+gets unmapped. Then file_priv_unbind() triggers a warning in
+drm_mm_takedown() during context teardown.
+
+Protect the unmapping sequence with bo_list_lock to ensure the BO is
+always fully unmapped when removed from the list. This ensures the BO
+is either fully unmapped at context teardown time or present on the
+list and unmapped by file_priv_unbind().</description><pubDate>Wed, 24 Dec 2025 12:21:39 +0000</pubDate></item><item><title>CVE-2022-50697 | mrp: introduce active flags to prevent UAF when applicant uninit</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50697</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 mrp: introduce active flags to prevent UAF when applicant uninit
 
@@ -205,7 +481,7 @@ Error message:
 [69.951] CPU: 4 PID: 451 Comm: kworker/u16:7 Tainted: G W  OE  6.1.0-rc5 #1
 [69.951] Workqueue: kvub300c vub300_cmndwork_thread [vub300]
 [69.951] Call Trace:
-[69.951]  &lt;TASK&gt;
+[69.951]  
 [69.952]  dump_stack_lvl+0x49/0x63
 [69.952]  print_report+0x171/0x4a8
 [69.952]  kasan_report+0xb4/0x130
@@ -219,7 +495,7 @@ Error message:
 [69.952]  worker_thread+0x53c/0x1240
 [69.952]  kthread+0x2b8/0x370
 [69.952]  ret_from_fork+0x1f/0x30
-[69.952]  &lt;/TASK&gt;
+[69.952]  
 
 [69.952] Allocated by task 854:
 [69.952]  kasan_save_stack+0x26/0x50
@@ -268,18 +544,18 @@ unreferenced object 0xffff88807eebc370 (size 16):
   hex dump (first 16 bytes):
     76 64 70 61 73 69 6d 5f 6e 65 74 00 6b 6b 6b a5  vdpasim_net.kkk.
   backtrace:
-    [&lt;ffffffff8174f19e&gt;] __kmalloc_node_track_caller+0x4e/0x150
-    [&lt;ffffffff81731d53&gt;] kstrdup+0x33/0x60
-    [&lt;ffffffff83a5d421&gt;] kobject_set_name_vargs+0x41/0x110
-    [&lt;ffffffff82d87aab&gt;] dev_set_name+0xab/0xe0
-    [&lt;ffffffff82d91a23&gt;] device_add+0xe3/0x1a80
-    [&lt;ffffffffa0270013&gt;] 0xffffffffa0270013
-    [&lt;ffffffff81001c27&gt;] do_one_initcall+0x87/0x2e0
-    [&lt;ffffffff813739cb&gt;] do_init_module+0x1ab/0x640
-    [&lt;ffffffff81379d20&gt;] load_module+0x5d00/0x77f0
-    [&lt;ffffffff8137bc40&gt;] __do_sys_finit_module+0x110/0x1b0
-    [&lt;ffffffff83c4d505&gt;] do_syscall_64+0x35/0x80
-    [&lt;ffffffff83e0006a&gt;] entry_SYSCALL_64_after_hwframe+0x46/0xb0
+    [] __kmalloc_node_track_caller+0x4e/0x150
+    [] kstrdup+0x33/0x60
+    [] kobject_set_name_vargs+0x41/0x110
+    [] dev_set_name+0xab/0xe0
+    [] device_add+0xe3/0x1a80
+    [] 0xffffffffa0270013
+    [] do_one_initcall+0x87/0x2e0
+    [] do_init_module+0x1ab/0x640
+    [] load_module+0x5d00/0x77f0
+    [] __do_sys_finit_module+0x110/0x1b0
+    [] do_syscall_64+0x35/0x80
+    [] entry_SYSCALL_64_after_hwframe+0x46/0xb0
 
 (vdpa_sim_blk)
 unreferenced object 0xffff8881070c1250 (size 16):
@@ -287,18 +563,18 @@ unreferenced object 0xffff8881070c1250 (size 16):
   hex dump (first 16 bytes):
     76 64 70 61 73 69 6d 5f 62 6c 6b 00 6b 6b 6b a5  vdpasim_blk.kkk.
   backtrace:
-    [&lt;ffffffff8174f19e&gt;] __kmalloc_node_track_caller+0x4e/0x150
-    [&lt;ffffffff81731d53&gt;] kstrdup+0x33/0x60
-    [&lt;ffffffff83a5d421&gt;] kobject_set_name_vargs+0x41/0x110
-    [&lt;ffffffff82d87aab&gt;] dev_set_name+0xab/0xe0
-    [&lt;ffffffff82d91a23&gt;] device_add+0xe3/0x1a80
-    [&lt;ffffffffa0220013&gt;] 0xffffffffa0220013
-    [&lt;ffffffff81001c27&gt;] do_one_initcall+0x87/0x2e0
-    [&lt;ffffffff813739cb&gt;] do_init_module+0x1ab/0x640
-    [&lt;ffffffff81379d20&gt;] load_module+0x5d00/0x77f0
-    [&lt;ffffffff8137bc40&gt;] __do_sys_finit_module+0x110/0x1b0
-    [&lt;ffffffff83c4d505&gt;] do_syscall_64+0x35/0x80
-    [&lt;ffffffff83e0006a&gt;] entry_SYSCALL_64_after_hwframe+0x46/0xb0</description><pubDate>Wed, 24 Dec 2025 11:14:33 +0000</pubDate></item><item><title>CVE-2022-50703 | soc: qcom: smsm: Fix refcount leak bugs in qcom_smsm_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50703</link><description>In the Linux kernel, the following vulnerability has been resolved:
+    [] __kmalloc_node_track_caller+0x4e/0x150
+    [] kstrdup+0x33/0x60
+    [] kobject_set_name_vargs+0x41/0x110
+    [] dev_set_name+0xab/0xe0
+    [] device_add+0xe3/0x1a80
+    [] 0xffffffffa0220013
+    [] do_one_initcall+0x87/0x2e0
+    [] do_init_module+0x1ab/0x640
+    [] load_module+0x5d00/0x77f0
+    [] __do_sys_finit_module+0x110/0x1b0
+    [] do_syscall_64+0x35/0x80
+    [] entry_SYSCALL_64_after_hwframe+0x46/0xb0</description><pubDate>Wed, 24 Dec 2025 11:14:33 +0000</pubDate></item><item><title>CVE-2022-50703 | soc: qcom: smsm: Fix refcount leak bugs in qcom_smsm_probe()</title><link>https://www.cve.org/CVERecord?id=CVE-2022-50703</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 soc: qcom: smsm: Fix refcount leak bugs in qcom_smsm_probe()
 
@@ -373,7 +649,7 @@ stack backtrace:
 CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.0.0-rc6-syzkaller-00321-g105a36f3694e #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
 Call Trace:
- &lt;IRQ&gt;
+ 
  __dump_stack lib/dump_stack.c:88 [inline]
  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
  print_usage_bug kernel/locking/lockdep.c:3961 [inline]
@@ -428,15 +704,15 @@ Since PF_IEEE802154 socket's zero-sized raw_sendmsg() request was
 able to return 0, don't call __dev_queue_xmit() if packet length is 0.
 
   ----------
-  #include &lt;sys/socket.h&gt;
-  #include &lt;netinet/in.h&gt;
+  #include socket.h&gt;
+  #include in.h&gt;
 
   int main(int argc, char *argv[])
   {
     struct sockaddr_in addr = { .sin_family = AF_INET, .sin_addr.s_addr = htonl(INADDR_LOOPBACK) };
     struct iovec iov = { };
-    struct msghdr hdr = { .msg_name = &amp;addr, .msg_namelen = sizeof(addr), .msg_iov = &amp;iov, .msg_iovlen = 1 };
-    sendmsg(socket(PF_IEEE802154, SOCK_RAW, 0), &amp;hdr, 0);
+    struct msghdr hdr = { .msg_name = &amp;amp;addr, .msg_namelen = sizeof(addr), .msg_iov = &amp;amp;iov, .msg_iovlen = 1 };
+    sendmsg(socket(PF_IEEE802154, SOCK_RAW, 0), &amp;amp;hdr, 0);
     return 0;
   }
   ----------
@@ -541,7 +817,7 @@ RAC flush causes kernel panics on BCM6358 with EHCI/OHCI when booting from TP1:
 [    4.059015] [&lt;80016414&gt;] do_notify_resume+0x1dc/0x288
 [    4.064207] [&lt;80011b50&gt;] work_notifysig+0x10/0x18
 [    4.069036]
-[    4.070538] Code: 8fc300b4  00001025  26240008 &lt;ac820000&gt; ac830004  3c048063  0c0228aa  24846a00  26240010
+[    4.070538] Code: 8fc300b4  00001025  26240008  ac830004  3c048063  0c0228aa  24846a00  26240010
 [    4.080686]
 [    4.082517] ---[ end trace 22a8edb41f5f983b ]---
 [    4.087374] Kernel panic - not syncing: Fatal exception
@@ -855,7 +1131,7 @@ BTRFS_EXCLOP_NONE state which lead to assertion failed:
   fs_info-&gt;exclusive_operation == BTRFS_EXCLOP_DEV_ADD,
   in fs/btrfs/ioctl.c:456
   Call Trace:
-   &lt;TASK&gt;
+   
    btrfs_exclop_balance+0x13c/0x310
    ? memdup_user+0xab/0xc0
    ? PTR_ERR+0x17/0x20
@@ -878,7 +1154,7 @@ BTRFS_EXCLOP_BALANCE_PAUSED state which lead to assertion failed:
   fs_info-&gt;exclusive_operation == BTRFS_EXCLOP_NONE,
   fs/btrfs/ioctl.c:458
   Call Trace:
-   &lt;TASK&gt;
+   
    btrfs_exclop_balance+0x240/0x410
    ? memdup_user+0xab/0xc0
    ? PTR_ERR+0x17/0x20
@@ -967,7 +1243,7 @@ FS:  0000000000000000(0000) GS:ffff8880b9800000(0063) knlGS:00000000f7f1cb40
 CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
 CR2: 000000002e82f000 CR3: 0000000034ff0000 CR4: 00000000003506f0
 Call Trace:
- &lt;TASK&gt;
+ 
  __sk_mem_schedule+0x6c/0xe0 net/core/sock.c:3077
  udp_rmem_schedule net/ipv4/udp.c:1539 [inline]
  __udp_enqueue_schedule_skb+0x776/0xb30 net/ipv4/udp.c:1581
@@ -1074,7 +1350,7 @@ KASAN: null-ptr-deref in range [0x00000000000000c8-0x00000000000000cf]
 RIP: 0010:__lock_acquire+0xf3/0x5e00 kernel/locking/lockdep.c:4926
 &lt;- omitting registers -&gt;
 Call Trace:
- &lt;TASK&gt;
+ 
  lock_acquire+0x1a4/0x4a0 kernel/locking/lockdep.c:5672
  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
  _raw_spin_lock_irqsave+0xb3/0x100 kernel/locking/spinlock.c:162
@@ -1104,7 +1380,7 @@ context = vmci_host_dev-&gt;context;
 
 if (vmci_host_dev-&gt;ct_type == VMCIOBJ_CONTEXT) {
     // Dereferencing the wrong pointer
-    poll_wait(..., &amp;context-&gt;host_context);
+    poll_wait(..., &amp;amp;context-&gt;host_context);
 }
 
 In this scenario, vmci_host_poll() reads vmci_host_dev-&gt;context first,
@@ -1161,7 +1437,7 @@ top.
 [  682.146698] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 [  682.146700] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [  682.146701] Call Trace:
-[  682.146703]  &lt;TASK&gt;
+[  682.146703]  
 [  682.146705]  ? __warn+0x7b/0x130
 [  682.146709]  ? group_cpus_evenly+0x1aa/0x1c0
 [  682.146712]  ? report_bug+0x1c8/0x1e0
@@ -1265,7 +1541,7 @@ Fixes this lockdep splat:
    6.2.0-rc8-debug+ #554 Not tainted
    ------------------------------------------------------
    ring0/132 is trying to acquire lock:
-   ffffff80871916d0 (&amp;gmu-&gt;lock){+.+.}-{3:3}, at: a6xx_pm_resume+0xf0/0x234
+   ffffff80871916d0 (&amp;amp;gmu-&gt;lock){+.+.}-{3:3}, at: a6xx_pm_resume+0xf0/0x234
 
    but task is already holding lock:
    ffffffdb5aee57e8 (dma_fence_map){++++}-{0:0}, at: msm_job_run+0x68/0x150
@@ -1421,7 +1697,7 @@ do_select
                                  cgroup_file_release
                                    cgroup_pressure_release
                                      psi_trigger_destroy
-                                       wake_up_pollfree(&amp;t-&gt;event_wait)
+                                       wake_up_pollfree(&amp;amp;t-&gt;event_wait)
 // vfs_poll is unblocked
                                        synchronize_rcu
                                        kfree(t)
@@ -1506,7 +1782,7 @@ Syzbot reported a panic that looks like this:
   kernel BUG at fs/btrfs/messages.c:259!
   RIP: 0010:btrfs_assertfail+0x2c/0x30 fs/btrfs/messages.c:259
   Call Trace:
-   &lt;TASK&gt;
+   
    btrfs_exclop_balance fs/btrfs/ioctl.c:465 [inline]
    btrfs_ioctl_balance fs/btrfs/ioctl.c:3564 [inline]
    btrfs_ioctl+0x531e/0x5b30 fs/btrfs/ioctl.c:4632
@@ -1688,7 +1964,7 @@ the following crash:
   [337571.282416] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
   [337571.282647] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
   [337571.282874] Call Trace:
-  [337571.283101]  &lt;TASK&gt;
+  [337571.283101]  
   [337571.283327]  ? __die_body+0x1b/0x60
   [337571.283570]  ? die_addr+0x39/0x60
   [337571.283796]  ? exc_general_protection+0x22e/0x430
@@ -1810,7 +2086,7 @@ Call trace before fix:
 [66303.927029] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [66303.927060] PKRU: 55555554
 [66303.927075] Call Trace:
-[66303.927094]  &lt;TASK&gt;
+[66303.927094]  
 [66303.927111]  ? __die+0x23/0x70
 [66303.927140]  ? page_fault_oops+0x171/0x4e0
 [66303.927176]  ? exc_page_fault+0x7f/0x180
