@@ -1,5 +1,200 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 23 Jan 2026 14:00:27 +0000</lastBuildDate><item><title>CVE-2025-71145 | usb: phy: isp1301: fix non-OF device reference imbalance</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71145</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 23 Jan 2026 14:33:37 +0000</lastBuildDate><item><title>CVE-2025-71146 | netfilter: nf_conncount: fix leaked ct in error paths</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71146</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_conncount: fix leaked ct in error paths
+
+There are some situations where ct might be leaked as error paths are
+skipping the refcounted check and return immediately. In order to solve
+it make sure that the check is always called.</description><pubDate>Fri, 23 Jan 2026 14:33:39 +0000</pubDate></item><item><title>CVE-2025-71147 | KEYS: trusted: Fix a memory leak in tpm2_load_cmd</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71147</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KEYS: trusted: Fix a memory leak in tpm2_load_cmd
+
+'tpm2_load_cmd' allocates a tempoary blob indirectly via 'tpm2_key_decode'
+but it is not freed in the failure paths. Address this by wrapping the blob
+into with a cleanup helper.</description><pubDate>Fri, 23 Jan 2026 14:33:39 +0000</pubDate></item><item><title>CVE-2025-71148 | net/handshake: restore destructor on submit failure</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71148</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/handshake: restore destructor on submit failure
+
+handshake_req_submit() replaces sk-&gt;sk_destruct but never restores it when
+submission fails before the request is hashed. handshake_sk_destruct() then
+returns early and the original destructor never runs, leaking the socket.
+Restore sk_destruct on the error path.</description><pubDate>Fri, 23 Jan 2026 14:33:40 +0000</pubDate></item><item><title>CVE-2025-71149 | io_uring/poll: correctly handle io_poll_add() return value on update</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71149</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+io_uring/poll: correctly handle io_poll_add() return value on update
+
+When the core of io_uring was updated to handle completions
+consistently and with fixed return codes, the POLL_REMOVE opcode
+with updates got slightly broken. If a POLL_ADD is pending and
+then POLL_REMOVE is used to update the events of that request, if that
+update causes the POLL_ADD to now trigger, then that completion is lost
+and a CQE is never posted.
+
+Additionally, ensure that if an update does cause an existing POLL_ADD
+to complete, that the completion value isn't always overwritten with
+-ECANCELED. For that case, whatever io_poll_add() set the value to
+should just be retained.</description><pubDate>Fri, 23 Jan 2026 14:33:40 +0000</pubDate></item><item><title>CVE-2025-71150 | ksmbd: Fix refcount leak when invalid session is found on session lookup</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71150</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: Fix refcount leak when invalid session is found on session lookup
+
+When a session is found but its state is not SMB2_SESSION_VALID, It
+indicates that no valid session was found, but it is missing to decrement
+the reference count acquired by the session lookup, which results in
+a reference count leak. This patch fixes the issue by explicitly calling
+ksmbd_user_session_put to release the reference to the session.</description><pubDate>Fri, 23 Jan 2026 14:33:40 +0000</pubDate></item><item><title>CVE-2025-71151 | cifs: Fix memory and information leak in smb3_reconfigure()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71151</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+cifs: Fix memory and information leak in smb3_reconfigure()
+
+In smb3_reconfigure(), if smb3_sync_session_ctx_passwords() fails, the
+function returns immediately without freeing and erasing the newly
+allocated new_password and new_password2. This causes both a memory leak
+and a potential information leak.
+
+Fix this by calling kfree_sensitive() on both password buffers before
+returning in this error case.</description><pubDate>Fri, 23 Jan 2026 14:33:41 +0000</pubDate></item><item><title>CVE-2025-71152 | net: dsa: properly keep track of conduit reference</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71152</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: dsa: properly keep track of conduit reference
+
+Problem description
+-------------------
+
+DSA has a mumbo-jumbo of reference handling of the conduit net device
+and its kobject which, sadly, is just wrong and doesn't make sense.
+
+There are two distinct problems.
+
+1. The OF path, which uses of_find_net_device_by_node(), never releases
+   the elevated refcount on the conduit's kobject. Nominally, the OF and
+   non-OF paths should result in objects having identical reference
+   counts taken, and it is already suspicious that
+   dsa_dev_to_net_device() has a put_device() call which is missing in
+   dsa_port_parse_of(), but we can actually even verify that an issue
+   exists. With CONFIG_DEBUG_KOBJECT_RELEASE=y, if we run this command
+   "before" and "after" applying this patch:
+
+(unbind the conduit driver for net device eno2)
+echo 0000:00:00.2 &gt; /sys/bus/pci/drivers/fsl_enetc/unbind
+
+we see these lines in the output diff which appear only with the patch
+applied:
+
+kobject: 'eno2' (ffff002009a3a6b8): kobject_release, parent 0000000000000000 (delayed 1000)
+kobject: '109' (ffff0020099d59a0): kobject_release, parent 0000000000000000 (delayed 1000)
+
+2. After we find the conduit interface one way (OF) or another (non-OF),
+   it can get unregistered at any time, and DSA remains with a long-lived,
+   but in this case stale, cpu_dp-&gt;conduit pointer. Holding the net
+   device's underlying kobject isn't actually of much help, it just
+   prevents it from being freed (but we never need that kobject
+   directly). What helps us to prevent the net device from being
+   unregistered is the parallel netdev reference mechanism (dev_hold()
+   and dev_put()).
+
+Actually we actually use that netdev tracker mechanism implicitly on
+user ports since commit 2f1e8ea726e9 ("net: dsa: link interfaces with
+the DSA master to get rid of lockdep warnings"), via netdev_upper_dev_link().
+But time still passes at DSA switch probe time between the initial
+of_find_net_device_by_node() code and the user port creation time, time
+during which the conduit could unregister itself and DSA wouldn't know
+about it.
+
+So we have to run of_find_net_device_by_node() under rtnl_lock() to
+prevent that from happening, and release the lock only with the netdev
+tracker having acquired the reference.
+
+Do we need to keep the reference until dsa_unregister_switch() /
+dsa_switch_shutdown()?
+1: Maybe yes. A switch device will still be registered even if all user
+   ports failed to probe, see commit 86f8b1c01a0a ("net: dsa: Do not
+   make user port errors fatal"), and the cpu_dp-&gt;conduit pointers
+   remain valid.  I haven't audited all call paths to see whether they
+   will actually use the conduit in lack of any user port, but if they
+   do, it seems safer to not rely on user ports for that reference.
+2. Definitely yes. We support changing the conduit which a user port is
+   associated to, and we can get into a situation where we've moved all
+   user ports away from a conduit, thus no longer hold any reference to
+   it via the net device tracker. But we shouldn't let it go nonetheless
+   - see the next change in relation to dsa_tree_find_first_conduit()
+   and LAG conduits which disappear.
+   We have to be prepared to return to the physical conduit, so the CPU
+   port must explicitly keep another reference to it. This is also to
+   say: the user ports and their CPU ports may not always keep a
+   reference to the same conduit net device, and both are needed.
+
+As for the conduit's kobject for the /sys/class/net/ entry, we don't
+care about it, we can release it as soon as we hold the net device
+object itself.
+
+History and blame attribution
+-----------------------------
+
+The code has been refactored so many times, it is very difficult to
+follow and properly attribute a blame, but I'll try to make a short
+history which I hope to be correct.
+
+We have two distinct probing paths:
+- one for OF, introduced in 2016 i
+---truncated---</description><pubDate>Fri, 23 Jan 2026 14:33:41 +0000</pubDate></item><item><title>CVE-2025-71153 | ksmbd: Fix memory leak in get_file_all_info()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71153</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ksmbd: Fix memory leak in get_file_all_info()
+
+In get_file_all_info(), if vfs_getattr() fails, the function returns
+immediately without freeing the allocated filename, leading to a memory
+leak.
+
+Fix this by freeing the filename before returning in this error case.</description><pubDate>Fri, 23 Jan 2026 14:33:42 +0000</pubDate></item><item><title>CVE-2025-71154 | net: usb: rtl8150: fix memory leak on usb_submit_urb() failure</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71154</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net: usb: rtl8150: fix memory leak on usb_submit_urb() failure
+
+In async_set_registers(), when usb_submit_urb() fails, the allocated
+  async_req structure and URB are not freed, causing a memory leak.
+
+  The completion callback async_set_reg_cb() is responsible for freeing
+  these allocations, but it is only called after the URB is successfully
+  submitted and completes (successfully or with error). If submission
+  fails, the callback never runs and the memory is leaked.
+
+  Fix this by freeing both the URB and the request structure in the error
+  path when usb_submit_urb() fails.</description><pubDate>Fri, 23 Jan 2026 14:33:42 +0000</pubDate></item><item><title>CVE-2025-71155 | KVM: s390: Fix gmap_helper_zap_one_page() again</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71155</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+KVM: s390: Fix gmap_helper_zap_one_page() again
+
+A few checks were missing in gmap_helper_zap_one_page(), which can lead
+to memory corruption in the guest under specific circumstances.
+
+Add the missing checks.</description><pubDate>Fri, 23 Jan 2026 14:33:42 +0000</pubDate></item><item><title>CVE-2025-71156 | gve: defer interrupt enabling until NAPI registration</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71156</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+gve: defer interrupt enabling until NAPI registration
+
+Currently, interrupts are automatically enabled immediately upon
+request. This allows interrupt to fire before the associated NAPI
+context is fully initialized and cause failures like below:
+
+[    0.946369] Call Trace:
+[    0.946369]  &lt;IRQ&gt;
+[    0.946369]  __napi_poll+0x2a/0x1e0
+[    0.946369]  net_rx_action+0x2f9/0x3f0
+[    0.946369]  handle_softirqs+0xd6/0x2c0
+[    0.946369]  ? handle_edge_irq+0xc1/0x1b0
+[    0.946369]  __irq_exit_rcu+0xc3/0xe0
+[    0.946369]  common_interrupt+0x81/0xa0
+[    0.946369]  &lt;/IRQ&gt;
+[    0.946369]  &lt;TASK&gt;
+[    0.946369]  asm_common_interrupt+0x22/0x40
+[    0.946369] RIP: 0010:pv_native_safe_halt+0xb/0x10
+
+Use the `IRQF_NO_AUTOEN` flag when requesting interrupts to prevent auto
+enablement and explicitly enable the interrupt in NAPI initialization
+path (and disable it during NAPI teardown).
+
+This ensures that interrupt lifecycle is strictly coupled with
+readiness of NAPI context.</description><pubDate>Fri, 23 Jan 2026 14:33:43 +0000</pubDate></item><item><title>CVE-2025-71157 | RDMA/core: always drop device refcount in ib_del_sub_device_and_put()</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71157</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/core: always drop device refcount in ib_del_sub_device_and_put()
+
+Since nldev_deldev() (introduced by commit 060c642b2ab8 ("RDMA/nldev: Add
+support to add/delete a sub IB device through netlink") grabs a reference
+using ib_device_get_by_index() before calling ib_del_sub_device_and_put(),
+we need to drop that reference before returning -EOPNOTSUPP error.</description><pubDate>Fri, 23 Jan 2026 14:33:43 +0000</pubDate></item><item><title>CVE-2025-71145 | usb: phy: isp1301: fix non-OF device reference imbalance</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71145</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 usb: phy: isp1301: fix non-OF device reference imbalance
 
