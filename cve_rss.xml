@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Jan 2026 14:50:12 +0000</lastBuildDate><item><title>CVE-2025-71162 | dmaengine: tegra-adma: Fix use-after-free</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71162</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 25 Jan 2026 22:12:41 +0000</lastBuildDate><item><title>CVE-2026-1407 | Beetel 777VR1 UART information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-1407</link><description>A security flaw has been discovered in Beetel 777VR1 up to 01.00.09/01.00.09_55. This affects an unknown part of the component UART Interface. Performing a manipulation results in information disclosure. The attack may be carried out on the physical device. The attack is considered to have high complexity. It is indicated that the exploitability is difficult. The exploit has been released to the public and may be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Sun, 25 Jan 2026 22:12:43 +0000</pubDate></item><item><title>CVE-2025-71162 | dmaengine: tegra-adma: Fix use-after-free</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71162</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 dmaengine: tegra-adma: Fix use-after-free
 
@@ -106,7 +106,7 @@ FS:  00007f8565fea740(0000) GS:ffff88856a759000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000000000520 CR3: 000000010b11a004 CR4: 0000000000370ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  device_release_driver_internal+0x19c/0x200
  bus_remove_device+0xc6/0x130
  device_del+0x160/0x3d0
@@ -214,7 +214,7 @@ FS:  00007fdfb8384740(0000) GS:ffff88856a9d6000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000000000038 CR3: 0000000112ae0005 CR4: 0000000000370ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  mlx5e_netdev_change_profile+0x45/0xb0
  mlx5e_vport_rep_load+0x27b/0x2d0
  mlx5_esw_offloads_rep_load+0x72/0xf0
@@ -365,7 +365,7 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
 }
 
 Issue here is that rt6_uncached_list_del() did not attempt to lock
-ul-&gt;lock, as list_empty(&amp;rt-&gt;dst.rt_uncached) returned
+ul-&gt;lock, as list_empty(&amp;amp;rt-&gt;dst.rt_uncached) returned
 true because the WRITE_ONCE(list-&gt;next, list) happened on the other CPU.
 
 We might use list_del_init_careful() and list_empty_careful(),
@@ -387,7 +387,7 @@ Tainted: [L]=SOFTLOCKUP
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
 Workqueue: netns cleanup_net
 Call Trace:
- &lt;TASK&gt;
+ 
   dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
   print_address_description mm/kasan/report.c:378 [inline]
   print_report+0xca/0x240 mm/kasan/report.c:482
@@ -412,7 +412,7 @@ Call Trace:
   kthread+0x711/0x8a0 kernel/kthread.c:463
   ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
- &lt;/TASK&gt;
+ 
 
 Allocated by task 803:
   kasan_save_stack mm/kasan/common.c:57 [inline]
@@ -455,7 +455,7 @@ E.g. if fpu_update_guest_xfd() sets XFD without clearing XSTATE_BV:
   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
   RIP: 0010:exc_device_not_available+0x101/0x110
   Call Trace:
-   &lt;TASK&gt;
+   
    asm_exc_device_not_available+0x1a/0x20
   RIP: 0010:restore_fpregs_from_fpstate+0x36/0x90
    switch_fpu_return+0x4a/0xb0
@@ -464,7 +464,7 @@ E.g. if fpu_update_guest_xfd() sets XFD without clearing XSTATE_BV:
    __x64_sys_ioctl+0x8f/0xd0
    do_syscall_64+0x62/0x940
    entry_SYSCALL_64_after_hwframe+0x4b/0x53
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---
 
 This can happen if the guest executes WRMSR(MSR_IA32_XFD) to set XFD[18] = 1,
@@ -480,7 +480,7 @@ and if userspace stuffs XSTATE_BV[i]=1 via KVM_SET_XSAVE:
   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
   RIP: 0010:exc_device_not_available+0x101/0x110
   Call Trace:
-   &lt;TASK&gt;
+   
    asm_exc_device_not_available+0x1a/0x20
   RIP: 0010:restore_fpregs_from_fpstate+0x36/0x90
    fpu_swap_kvm_fpstate+0x6b/0x120
@@ -490,7 +490,7 @@ and if userspace stuffs XSTATE_BV[i]=1 via KVM_SET_XSAVE:
    __x64_sys_ioctl+0x8f/0xd0
    do_syscall_64+0x62/0x940
    entry_SYSCALL_64_after_hwframe+0x4b/0x53
-   &lt;/TASK&gt;
+   
   ---[ end trace 0000000000000000 ]---
 
 The new behavior is consistent with the AMX architecture.  Per Intel's SDM,
@@ -594,7 +594,7 @@ Read of size 4 at addr ffff88807b89c86c by task syz.3.1618/9593
 CPU: 0 UID: 0 PID: 9593 Comm: syz.3.1618 Not tainted syzkaller #0 PREEMPT(full)
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -620,7 +620,7 @@ RDX: 0000200000000000 RSI: 0000000000008936 RDI: 0000000000000003
 RBP: 00007f164d013f91 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 R13: 00007f164d1e6038 R14: 00007f164d1e5fa0 R15: 00007ffde15c8288
- &lt;/TASK&gt;
+ 
 
 Allocated by task 9593:
  kasan_save_stack+0x33/0x60 mm/kasan/common.c:56
@@ -686,7 +686,7 @@ Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 1
 Workqueue: mld mld_ifc_work
  RIP: 0010:skb_panic+0x157/0x160 net/core/skbuff.c:213
 Call Trace:
- &lt;TASK&gt;
+ 
   skb_under_panic net/core/skbuff.c:223 [inline]
   skb_push+0xc3/0xe0 net/core/skbuff.c:2641
   ipgre_header+0x67/0x290 net/ipv4/ip_gre.c:897
