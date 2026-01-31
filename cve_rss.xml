@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 31 Jan 2026 11:49:01 +0000</lastBuildDate><item><title>CVE-2025-71185 | dmaengine: ti: dma-crossbar: fix device leak on am335x route allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71185</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 31 Jan 2026 14:00:27 +0000</lastBuildDate><item><title>CVE-2025-14554 | Sell BTC - Cryptocurrency Selling Calculator &amp;lt;= 1.5 - Unauthenticated Stored Cross-Site Scripting via &amp;#x27;orderform_data&amp;#x27; AJAX Action</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14554</link><description>The Sell BTC - Cryptocurrency Selling Calculator plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'orderform_data' AJAX action in all versions up to, and including, 1.5 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in order records that will execute whenever an administrator accesses the Orders page in the admin dashboard. The vulnerability was partially patched in version 1.5.</description><pubDate>Sat, 31 Jan 2026 14:00:29 +0000</pubDate></item><item><title>CVE-2025-71185 | dmaengine: ti: dma-crossbar: fix device leak on am335x route allocation</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71185</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 dmaengine: ti: dma-crossbar: fix device leak on am335x route allocation
 
@@ -54,7 +54,7 @@ The kernel test robot has reported:
   lock: 0xffff888807e35ef0, .magic: dead4ead, .owner: kcompactd0/28, .owner_cpu: 0
  CPU: 0 UID: 0 PID: 28 Comm: kcompactd0 Not tainted 6.18.0-rc5-00127-ga06157804399 #1 PREEMPT  8cc09ef94dcec767faa911515ce9e609c45db470
  Call Trace:
-  &lt;IRQ&gt;
+  
   __dump_stack (lib/dump_stack.c:95)
   dump_stack_lvl (lib/dump_stack.c:123)
   dump_stack (lib/dump_stack.c:130)
@@ -73,8 +73,8 @@ The kernel test robot has reported:
   __irq_exit_rcu (arch/x86/include/asm/jump_label.h:36 kernel/softirq.c:725)
   irq_exit_rcu (kernel/softirq.c:741)
   sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1052)
-  &lt;/IRQ&gt;
-  &lt;TASK&gt;
+  
+  
  RIP: 0010:_raw_spin_unlock_irqrestore (arch/x86/include/asm/preempt.h:95 include/linux/spinlock_api_smp.h:152 kernel/locking/spinlock.c:194)
   free_pcppages_bulk (mm/page_alloc.c:1494)
   drain_pages_zone (include/linux/spinlock.h:391 mm/page_alloc.c:2632)
@@ -87,10 +87,10 @@ The kernel test robot has reported:
   ret_from_fork (arch/x86/kernel/process.c:164)
   ? __cfi_kthread (kernel/kthread.c:412)
   ret_from_fork_asm (arch/x86/entry/entry_64.S:255)
-  &lt;/TASK&gt;
+  
 
 Matthew has analyzed the report and identified that in drain_page_zone()
-we are in a section protected by spin_lock(&amp;pcp-&gt;lock) and then get an
+we are in a section protected by spin_lock(&amp;amp;pcp-&gt;lock) and then get an
 interrupt that attempts spin_trylock() on the same lock.  The code is
 designed to work this way without disabling IRQs and occasionally fail the
 trylock with a fallback.  However, the SMP=n spinlock implementation
@@ -104,7 +104,7 @@ recognizes the need for disabling IRQs to prevent nesting spin_trylock()
 sections on SMP=n, but the need to prevent the nesting in spin_lock() has
 not been recognized.  Fix it by introducing local wrappers that change the
 spin_lock() to spin_lock_iqsave() with SMP=n and use them in all places
-that do spin_lock(&amp;pcp-&gt;lock).
+that do spin_lock(&amp;amp;pcp-&gt;lock).
 
 [vbabka@suse.cz: add pcp_ prefix to the spin_lock_irqsave wrappers, per Steven]</description><pubDate>Sat, 31 Jan 2026 11:49:06 +0000</pubDate></item><item><title>CVE-2026-23026 | dmaengine: qcom: gpi: Fix memory leak in gpi_peripheral_config()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23026</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
@@ -296,7 +296,7 @@ FS:  00007f789a3c8740(0000) GS:ffff88856aa59000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 0000000000000370 CR3: 000000010b6c0001 CR4: 0000000000370ef0
 Call Trace:
- &lt;TASK&gt;
+ 
  mlx5e_remove+0x57/0x110
  device_release_driver_internal+0x19c/0x200
  bus_remove_device+0xc6/0x130
@@ -326,7 +326,7 @@ Syzbot reported the following lockdep splat for this:
    syzkaller #0 Not tainted
    ------------------------------------------------------
    btrfs-cleaner/8725 is trying to acquire lock:
-   ffff0000d6826a48 (&amp;delayed_node-&gt;mutex){+.+.}-{4:4}, at: __btrfs_release_delayed_node+0xa0/0x9b0 fs/btrfs/delayed-inode.c:290
+   ffff0000d6826a48 (&amp;amp;delayed_node-&gt;mutex){+.+.}-{4:4}, at: __btrfs_release_delayed_node+0xa0/0x9b0 fs/btrfs/delayed-inode.c:290
 
    but task is already holding lock:
    ffff0000dbeba878 (btrfs-tree-00){++++}-{4:4}, at: btrfs_tree_read_lock_nested+0x44/0x2ec fs/btrfs/locking.c:145
@@ -357,7 +357,7 @@ Syzbot reported the following lockdep splat for this:
           kthread+0x5fc/0x75c kernel/kthread.c:463
           ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:844
 
-   -&gt; #0 (&amp;delayed_node-&gt;mutex){+.+.}-{4:4}:
+   -&gt; #0 (&amp;amp;delayed_node-&gt;mutex){+.+.}-{4:4}:
           check_prev_add kernel/locking/lockdep.c:3165 [inline]
           check_prevs_add kernel/locking/lockdep.c:3284 [inline]
           validate_chain kernel/locking/lockdep.c:3908 [inline]
@@ -422,7 +422,7 @@ CONFIG_PROVE_RAW_LOCK_NESTING warns:
 6.18.0-rc1+git... #1
 -----------------------------
 some-user-space-process/1251 is trying to lock:
-(&amp;counter-&gt;events_list_lock){....}-{3:3}, at: counter_push_event [counter]
+(&amp;amp;counter-&gt;events_list_lock){....}-{3:3}, at: counter_push_event [counter]
 other info that might help us debug this:
 context-{2:2}
 no locks held by some-user-space-process/....
@@ -470,18 +470,18 @@ like the following:
 	6.18.0-mainline-maybe-dirty #1 Tainted: G          IO
 	--------------------------------------------
 	kswapd0/68 is trying to acquire lock:
-	ffff956000fa18b0 (&amp;l-&gt;lock){+.+.}-{2:2}, at: lock_list_lru_of_memcg+0x128/0x230
+	ffff956000fa18b0 (&amp;amp;l-&gt;lock){+.+.}-{2:2}, at: lock_list_lru_of_memcg+0x128/0x230
 
 	but task is already holding lock:
-	ffff956000fa18b0 (&amp;l-&gt;lock){+.+.}-{2:2}, at: rust_helper_spin_lock+0xd/0x20
+	ffff956000fa18b0 (&amp;amp;l-&gt;lock){+.+.}-{2:2}, at: rust_helper_spin_lock+0xd/0x20
 
 	other info that might help us debug this:
 	 Possible unsafe locking scenario:
 
 	       CPU0
 	       ----
-	  lock(&amp;l-&gt;lock);
-	  lock(&amp;l-&gt;lock);
+	  lock(&amp;amp;l-&gt;lock);
+	  lock(&amp;amp;l-&gt;lock);
 
 	 *** DEADLOCK ***
 
@@ -489,7 +489,7 @@ like the following:
 
 	3 locks held by kswapd0/68:
 	 #0: ffffffff90d2e260 (fs_reclaim){+.+.}-{0:0}, at: kswapd+0x597/0x1160
-	 #1: ffff956000fa18b0 (&amp;l-&gt;lock){+.+.}-{2:2}, at: rust_helper_spin_lock+0xd/0x20
+	 #1: ffff956000fa18b0 (&amp;amp;l-&gt;lock){+.+.}-{2:2}, at: rust_helper_spin_lock+0xd/0x20
 	 #2: ffffffff90cf3680 (rcu_read_lock){....}-{1:2}, at: lock_list_lru_of_memcg+0x2d/0x230
 
 To fix this, remove the spin_lock() call from rust_shrink_free_page().</description><pubDate>Sat, 31 Jan 2026 11:49:12 +0000</pubDate></item><item><title>CVE-2025-71182 | can: j1939: make j1939_session_activate() fail if device is no longer registered</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71182</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -679,7 +679,7 @@ init_task where the CREATE_VPORT (op 501) is rejected by the FW:
 [40958.168865] RIP: 0010:idpf_vc_event_task+0x9b/0x350 [idpf]
 ...
 [40958.177932] Call Trace:
-[40958.178491]  &lt;TASK&gt;
+[40958.178491]  
 [40958.179040]  process_one_work+0x226/0x6d0
 [40958.179609]  worker_thread+0x19e/0x340
 [40958.180158]  ? __pfx_worker_thread+0x10/0x10
@@ -688,7 +688,7 @@ init_task where the CREATE_VPORT (op 501) is rejected by the FW:
 [40958.181774]  ret_from_fork+0x251/0x2b0
 [40958.182307]  ? __pfx_kthread+0x10/0x10
 [40958.182834]  ret_from_fork_asm+0x1a/0x30
-[40958.183370]  &lt;/TASK&gt;
+[40958.183370]  
 
 Fix the error handling in the init_task to make sure the service and
 mailbox tasks are disabled if the error happens during load. These are
@@ -714,7 +714,7 @@ the following splat:
    [6.1583] 6.18.0+ #4 Tainted: G     U
    [6.1591] ------------------------------------------------------
    [6.1599] kswapd0/117 is trying to acquire lock:
-   [6.1606] ffff8d9b6333c5b8 (&amp;delayed_node-&gt;mutex){+.+.}-{3:3}, at: __btrfs_release_delayed_node.part.0+0x39/0x2f0
+   [6.1606] ffff8d9b6333c5b8 (&amp;amp;delayed_node-&gt;mutex){+.+.}-{3:3}, at: __btrfs_release_delayed_node.part.0+0x39/0x2f0
    [6.1625]
             but task is already holding lock:
    [6.1633] ffffffffa4ab8ce0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x195/0xc60
@@ -756,7 +756,7 @@ the following splat:
    [6.1887]        do_syscall_64+0x97/0x3e0
    [6.1894]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
    [6.1903]
-            -&gt; #0 (&amp;delayed_node-&gt;mutex){+.+.}-{3:3}:
+            -&gt; #0 (&amp;amp;delayed_node-&gt;mutex){+.+.}-{3:3}:
    [6.1913]        __lock_acquire+0x15e9/0x2820
    [6.1920]        lock_acquire+0xc9/0x2d0
    [6.1927]        __mutex_lock+0xcc/0x10a0
@@ -778,7 +778,7 @@ the following splat:
             other info that might help us debug this:
 
    [6.1561] Chain exists of:
-              &amp;delayed_node-&gt;mutex --&gt; btrfs-tree-00 --&gt; fs_reclaim
+              &amp;amp;delayed_node-&gt;mutex --&gt; btrfs-tree-00 --&gt; fs_reclaim
 
    [6.1503]  Possible unsafe locking scenario:
 
@@ -787,7 +787,7 @@ the following splat:
    [6.1707]   lock(fs_reclaim);
    [6.1998]                                lock(btrfs-tree-00);
    [6.1291]                                lock(fs_reclaim);
-   [6.1581]   lock(&amp;del
+   [6.1581]   lock(&amp;amp;del
 ---truncated---</description><pubDate>Sat, 31 Jan 2026 11:49:15 +0000</pubDate></item><item><title>CVE-2026-23019 | net: marvell: prestera: fix NULL dereference on devlink_alloc() failure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23019</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: marvell: prestera: fix NULL dereference on devlink_alloc() failure
