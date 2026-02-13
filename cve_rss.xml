@@ -1,5 +1,52 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Feb 2026 12:00:10 +0000</lastBuildDate><item><title>CVE-2026-2443 | Libsoup: out-of-bounds read in libsoup handle_partial_get() leading to heap information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-2443</link><description>A flaw was identified in libsoup, a widely used HTTP library in GNOME-based systems. When processing specially crafted HTTP Range headers, the library may improperly validate requested byte ranges. In certain build configurations, this could allow a remote attacker to access portions of server memory beyond the intended response. Exploitation requires a vulnerable configuration and access to a server using the embedded SoupServer component.</description><pubDate>Fri, 13 Feb 2026 12:00:12 +0000</pubDate></item><item><title>CVE-2025-33042 | Apache Avro Java SDK: Code injection on Java generated code</title><link>https://www.cve.org/CVERecord?id=CVE-2025-33042</link><description>Improper Control of Generation of Code ('Code Injection') vulnerability in Apache Avro Java SDK when generating specific records from untrusted Avro schemas.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Fri, 13 Feb 2026 14:10:13 +0000</lastBuildDate><item><title>CVE-2026-23111 | netfilter: nf_tables: fix inverted genmask check in nft_map_catchall_activate()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23111</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: nf_tables: fix inverted genmask check in nft_map_catchall_activate()
+
+nft_map_catchall_activate() has an inverted element activity check
+compared to its non-catchall counterpart nft_mapelem_activate() and
+compared to what is logically required.
+
+nft_map_catchall_activate() is called from the abort path to re-activate
+catchall map elements that were deactivated during a failed transaction.
+It should skip elements that are already active (they don't need
+re-activation) and process elements that are inactive (they need to be
+restored). Instead, the current code does the opposite: it skips inactive
+elements and processes active ones.
+
+Compare the non-catchall activate callback, which is correct:
+
+  nft_mapelem_activate():
+    if (nft_set_elem_active(ext, iter-&gt;genmask))
+        return 0;   /* skip active, process inactive */
+
+With the buggy catchall version:
+
+  nft_map_catchall_activate():
+    if (!nft_set_elem_active(ext, genmask))
+        continue;   /* skip inactive, process active */
+
+The consequence is that when a DELSET operation is aborted,
+nft_setelem_data_activate() is never called for the catchall element.
+For NFT_GOTO verdict elements, this means nft_data_hold() is never
+called to restore the chain-&gt;use reference count. Each abort cycle
+permanently decrements chain-&gt;use. Once chain-&gt;use reaches zero,
+DELCHAIN succeeds and frees the chain while catchall verdict elements
+still reference it, resulting in a use-after-free.
+
+This is exploitable for local privilege escalation from an unprivileged
+user via user namespaces + nftables on distributions that enable
+CONFIG_USER_NS and CONFIG_NF_TABLES.
+
+Fix by removing the negation so the check matches nft_mapelem_activate():
+skip active elements, process inactive ones.</description><pubDate>Fri, 13 Feb 2026 14:10:15 +0000</pubDate></item><item><title>CVE-2026-23112 | nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23112</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec
+
+nvmet_tcp_build_pdu_iovec() could walk past cmd-&gt;req.sg when a PDU
+length or offset exceeds sg_cnt and then use bogus sg-&gt;length/offset
+values, leading to _copy_to_iter() GPF/KASAN. Guard sg_idx, remaining
+entries, and sg-&gt;length/offset before building the bvec.</description><pubDate>Fri, 13 Feb 2026 14:10:15 +0000</pubDate></item><item><title>CVE-2025-14349 | Business Logic Error in Universal Software&amp;#x27;s FlexCity/Kiosk</title><link>https://www.cve.org/CVERecord?id=CVE-2025-14349</link><description>Privilege Defined With Unsafe Actions, Missing Authentication for Critical Function vulnerability in Universal Software Inc. FlexCity/Kiosk allows Accessing Functionality Not Properly Constrained by ACLs, Privilege Escalation.This issue affects FlexCity/Kiosk: from 1.0 before 1.0.36.</description><pubDate>Fri, 13 Feb 2026 14:10:16 +0000</pubDate></item><item><title>CVE-2026-1618 | Admin Account Takeover in Universal Sotware&amp;#x27;s FlexCity/Kiosk</title><link>https://www.cve.org/CVERecord?id=CVE-2026-1618</link><description>Authentication Bypass Using an Alternate Path or Channel vulnerability in Universal Software Inc. FlexCity/Kiosk allows Privilege Escalation.This issue affects FlexCity/Kiosk: from 1.0 before 1.0.36.</description><pubDate>Fri, 13 Feb 2026 14:10:16 +0000</pubDate></item><item><title>CVE-2026-1619 | IDOR in Universal Sotware&amp;#x27;s FlexCity/Kiosk</title><link>https://www.cve.org/CVERecord?id=CVE-2026-1619</link><description>Authorization Bypass Through User-Controlled Key vulnerability in Universal Software Inc. FlexCity/Kiosk allows Exploitation of Trusted Identifiers.This issue affects FlexCity/Kiosk: from 1.0 before 1.0.36.</description><pubDate>Fri, 13 Feb 2026 14:10:17 +0000</pubDate></item><item><title>CVE-2026-2443 | Libsoup: out-of-bounds read in libsoup handle_partial_get() leading to heap information disclosure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-2443</link><description>A flaw was identified in libsoup, a widely used HTTP library in GNOME-based systems. When processing specially crafted HTTP Range headers, the library may improperly validate requested byte ranges. In certain build configurations, this could allow a remote attacker to access portions of server memory beyond the intended response. Exploitation requires a vulnerable configuration and access to a server using the embedded SoupServer component.</description><pubDate>Fri, 13 Feb 2026 12:00:12 +0000</pubDate></item><item><title>CVE-2025-33042 | Apache Avro Java SDK: Code injection on Java generated code</title><link>https://www.cve.org/CVERecord?id=CVE-2025-33042</link><description>Improper Control of Generation of Code ('Code Injection') vulnerability in Apache Avro Java SDK when generating specific records from untrusted Avro schemas.
 
 This issue affects Apache Avro Java SDK: all versions through 1.11.4 and version 1.12.0.
 
