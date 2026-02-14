@@ -1,5 +1,127 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 14 Feb 2026 15:29:05 +0000</lastBuildDate><item><title>CVE-2025-71201 | netfs: Fix early read unlock of page with EOF in middle</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71201</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sat, 14 Feb 2026 15:50:33 +0000</lastBuildDate><item><title>CVE-2025-71202 | iommu/sva: invalidate stale IOTLB entries for kernel address space</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71202</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+iommu/sva: invalidate stale IOTLB entries for kernel address space
+
+Introduce a new IOMMU interface to flush IOTLB paging cache entries for
+the CPU kernel address space.  This interface is invoked from the x86
+architecture code that manages combined user and kernel page tables,
+specifically before any kernel page table page is freed and reused.
+
+This addresses the main issue with vfree() which is a common occurrence
+and can be triggered by unprivileged users.  While this resolves the
+primary problem, it doesn't address some extremely rare case related to
+memory unplug of memory that was present as reserved memory at boot, which
+cannot be triggered by unprivileged users.  The discussion can be found at
+the link below.
+
+Enable SVA on x86 architecture since the IOMMU can now receive
+notification to flush the paging cache before freeing the CPU kernel page
+table pages.</description><pubDate>Sat, 14 Feb 2026 15:50:35 +0000</pubDate></item><item><title>CVE-2026-23141 | btrfs: send: check for inline extents in range_is_hole_in_parent()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23141</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+btrfs: send: check for inline extents in range_is_hole_in_parent()
+
+Before accessing the disk_bytenr field of a file extent item we need
+to check if we are dealing with an inline extent.
+This is because for inline extents their data starts at the offset of
+the disk_bytenr field. So accessing the disk_bytenr
+means we are accessing inline data or in case the inline data is less
+than 8 bytes we can actually cause an invalid
+memory access if this inline extent item is the first item in the leaf
+or access metadata from other items.</description><pubDate>Sat, 14 Feb 2026 15:50:35 +0000</pubDate></item><item><title>CVE-2026-23142 | mm/damon/sysfs-scheme: cleanup access_pattern subdirs on scheme dir setup failure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23142</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/sysfs-scheme: cleanup access_pattern subdirs on scheme dir setup failure
+
+When a DAMOS-scheme DAMON sysfs directory setup fails after setup of
+access_pattern/ directory, subdirectories of access_pattern/ directory are
+not cleaned up.  As a result, DAMON sysfs interface is nearly broken until
+the system reboots, and the memory for the unremoved directory is leaked.
+
+Cleanup the directories under such failures.</description><pubDate>Sat, 14 Feb 2026 15:50:35 +0000</pubDate></item><item><title>CVE-2026-23143 | virtio_net: Fix misalignment bug in struct virtnet_info</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23143</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+virtio_net: Fix misalignment bug in struct virtnet_info
+
+Use the new TRAILING_OVERLAP() helper to fix a misalignment bug
+along with the following warning:
+
+drivers/net/virtio_net.c:429:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+This helper creates a union between a flexible-array member (FAM)
+and a set of members that would otherwise follow it (in this case
+`u8 rss_hash_key_data[VIRTIO_NET_RSS_MAX_KEY_SIZE];`). This
+overlays the trailing members (rss_hash_key_data) onto the FAM
+(hash_key_data) while keeping the FAM and the start of MEMBERS aligned.
+The static_assert() ensures this alignment remains.
+
+Notice that due to tail padding in flexible `struct
+virtio_net_rss_config_trailer`, `rss_trailer.hash_key_data`
+(at offset 83 in struct virtnet_info) and `rss_hash_key_data` (at
+offset 84 in struct virtnet_info) are misaligned by one byte. See
+below:
+
+struct virtio_net_rss_config_trailer {
+        __le16                     max_tx_vq;            /*     0     2 */
+        __u8                       hash_key_length;      /*     2     1 */
+        __u8                       hash_key_data[];      /*     3     0 */
+
+        /* size: 4, cachelines: 1, members: 3 */
+        /* padding: 1 */
+        /* last cacheline: 4 bytes */
+};
+
+struct virtnet_info {
+...
+        struct virtio_net_rss_config_trailer rss_trailer; /*    80     4 */
+
+        /* XXX last struct has 1 byte of padding */
+
+        u8                         rss_hash_key_data[40]; /*    84    40 */
+...
+        /* size: 832, cachelines: 13, members: 48 */
+        /* sum members: 801, holes: 8, sum holes: 31 */
+        /* paddings: 2, sum paddings: 5 */
+};
+
+After changes, those members are correctly aligned at offset 795:
+
+struct virtnet_info {
+...
+        union {
+                struct virtio_net_rss_config_trailer rss_trailer; /*   792     4 */
+                struct {
+                        unsigned char __offset_to_hash_key_data[3]; /*   792     3 */
+                        u8         rss_hash_key_data[40]; /*   795    40 */
+                };                                       /*   792    43 */
+        };                                               /*   792    44 */
+...
+        /* size: 840, cachelines: 14, members: 47 */
+        /* sum members: 801, holes: 8, sum holes: 35 */
+        /* padding: 4 */
+        /* paddings: 1, sum paddings: 4 */
+        /* last cacheline: 8 bytes */
+};
+
+As a result, the RSS key passed to the device is shifted by 1
+byte: the last byte is cut off, and instead a (possibly
+uninitialized) byte is added at the beginning.
+
+As a last note `struct virtio_net_rss_config_hdr *rss_hdr;` is also
+moved to the end, since it seems those three members should stick
+around together. :)</description><pubDate>Sat, 14 Feb 2026 15:50:36 +0000</pubDate></item><item><title>CVE-2026-23144 | mm/damon/sysfs: cleanup attrs subdirs on context dir setup failure</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23144</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/damon/sysfs: cleanup attrs subdirs on context dir setup failure
+
+When a context DAMON sysfs directory setup is failed after setup of attrs/
+directory, subdirectories of attrs/ directory are not cleaned up.  As a
+result, DAMON sysfs interface is nearly broken until the system reboots,
+and the memory for the unremoved directory is leaked.
+
+Cleanup the directories under such failures.</description><pubDate>Sat, 14 Feb 2026 15:50:36 +0000</pubDate></item><item><title>CVE-2026-23145 | ext4: fix iloc.bh leak in ext4_xattr_inode_update_ref</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23145</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+ext4: fix iloc.bh leak in ext4_xattr_inode_update_ref
+
+The error branch for ext4_xattr_inode_update_ref forget to release the
+refcount for iloc.bh. Find this when review code.</description><pubDate>Sat, 14 Feb 2026 15:50:36 +0000</pubDate></item><item><title>CVE-2025-71201 | netfs: Fix early read unlock of page with EOF in middle</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71201</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfs: Fix early read unlock of page with EOF in middle
 
@@ -240,7 +362,7 @@ INFO: task syz.4.135:6326 blocked for more than 143 seconds.
 "echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs" disables this message.
 task:syz.4.135       state:D stack:26824 pid:6326  tgid:6324  ppid:5957   task_flags:0x400548 flags:0x00080000
 Call Trace:
- &lt;TASK&gt;
+ 
  context_switch kernel/sched/core.c:5256 [inline]
  __schedule+0x1139/0x6150 kernel/sched/core.c:6863
  __schedule_loop kernel/sched/core.c:6945 [inline]
@@ -395,7 +517,7 @@ the ice driver causes a NULL pointer dereference.
 [  +0.102213] ice 0000:ca:00.0: ice_init_hw failed: -16
 ...
 [  +0.000001] Call Trace:
-[  +0.000003]  &lt;TASK&gt;
+[  +0.000003]  
 [  +0.000006]  ice_unload+0x8f/0x100 [ice]
 [  +0.000081]  ice_remove+0xba/0x300 [ice]
 
@@ -444,7 +566,7 @@ In the following case, syzbot was able to cook a bare skb.
 
 WARNING: net/core/flow_dissector.c:1131 at __skb_flow_dissect+0xb57/0x68b0 net/core/flow_dissector.c:1131, CPU#1: syz.2.1418/11053
 Call Trace:
- &lt;TASK&gt;
+ 
   bond_flow_dissect drivers/net/bonding/bond_main.c:4093 [inline]
   __bond_xmit_hash+0x2d7/0xba0 drivers/net/bonding/bond_main.c:4157
   bond_xmit_hash_xdp drivers/net/bonding/bond_main.c:4208 [inline]
@@ -676,7 +798,7 @@ lead to list corruption and trigger a kernel crash as follows:
 [  417.291083] CR2: 00007fc4083efe08 CR3: 00000001c3626006 CR4: 0000000000770ee0
 [  417.291088] PKRU: 55555554
 [  417.291091] Call Trace:
-[  417.291096]  &lt;TASK&gt;
+[  417.291096]  
 [  417.291103]  nsim_bpf_destroy_prog+0x31/0x80 [netdevsim]
 [  417.291154]  __bpf_prog_offload_destroy+0x2a/0x80
 [  417.291163]  bpf_prog_dev_bound_destroy+0x6f/0xb0
@@ -689,14 +811,14 @@ lead to list corruption and trigger a kernel crash as follows:
 [  417.291221]  ret_from_fork+0x31/0x50
 [  417.291230]  ? __pfx_kthread+0x10/0x10
 [  417.291236]  ret_from_fork_asm+0x1a/0x30
-[  417.291246]  &lt;/TASK&gt;
+[  417.291246]  
 
 Add a mutex lock, to prevent simultaneous addition and deletion operations
 on the list.</description><pubDate>Sat, 14 Feb 2026 15:29:15 +0000</pubDate></item><item><title>CVE-2026-23127 | perf: Fix refcount warning on event-&amp;gt;mmap_count increment</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23127</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 perf: Fix refcount warning on event-&gt;mmap_count increment
 
-When calling refcount_inc(&amp;event-&gt;mmap_count) inside perf_mmap_rb(), the
+When calling refcount_inc(&amp;amp;event-&gt;mmap_count) inside perf_mmap_rb(), the
 following warning is triggered:
 
         refcount_t: addition on 0; use-after-free.
@@ -705,9 +827,9 @@ following warning is triggered:
 PoC:
 
     struct perf_event_attr attr = {0};
-    int fd = syscall(__NR_perf_event_open, &amp;attr, 0, -1, -1, 0);
+    int fd = syscall(__NR_perf_event_open, &amp;amp;attr, 0, -1, -1, 0);
     mmap(NULL, 0x3000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    int victim = syscall(__NR_perf_event_open, &amp;attr, 0, -1, fd,
+    int victim = syscall(__NR_perf_event_open, &amp;amp;attr, 0, -1, fd,
                          PERF_FLAG_FD_OUTPUT);
     mmap(NULL, 0x3000, PROT_READ | PROT_WRITE, MAP_SHARED, victim, 0);
 
@@ -717,7 +839,7 @@ the event triggers the warning.
 
 Since the event has copied the output_event in perf_event_set_output(),
 event-&gt;rb is set. As a result, perf_mmap_rb() calls
-refcount_inc(&amp;event-&gt;mmap_count) when event-&gt;mmap_count = 0.
+refcount_inc(&amp;amp;event-&gt;mmap_count) when event-&gt;mmap_count = 0.
 
 Disallow the case when event-&gt;mmap_count = 0. This also prevents two
 events from updating the same user_page.</description><pubDate>Sat, 14 Feb 2026 15:29:15 +0000</pubDate></item><item><title>CVE-2026-23128 | arm64: Set __nocfi on swsusp_arch_resume()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23128</link><description>In the Linux kernel, the following vulnerability has been resolved:
