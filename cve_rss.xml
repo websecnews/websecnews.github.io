@@ -1,5 +1,274 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Mar 2026 14:02:48 +0000</lastBuildDate><item><title>CVE-2025-40894 | HTML injection in Alerted Nodes Dashboard in Guardian/CMC before 25.6.0</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40894</link><description>A Stored HTML Injection vulnerability was discovered in the Alerted Nodes Dashboard functionality due to improper validation on an input parameter.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 04 Mar 2026 14:51:10 +0000</lastBuildDate><item><title>CVE-2025-71238 | scsi: qla2xxx: Fix bsg_done() causing double free</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71238</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+scsi: qla2xxx: Fix bsg_done() causing double free
+
+Kernel panic observed on system,
+
+[5353358.825191] BUG: unable to handle page fault for address: ff5f5e897b024000
+[5353358.825194] #PF: supervisor write access in kernel mode
+[5353358.825195] #PF: error_code(0x0002) - not-present page
+[5353358.825196] PGD 100006067 P4D 0
+[5353358.825198] Oops: 0002 [#1] PREEMPT SMP NOPTI
+[5353358.825200] CPU: 5 PID: 2132085 Comm: qlafwupdate.sub Kdump: loaded Tainted: G        W    L    -------  ---  5.14.0-503.34.1.el9_5.x86_64 #1
+[5353358.825203] Hardware name: HPE ProLiant DL360 Gen11/ProLiant DL360 Gen11, BIOS 2.44 01/17/2025
+[5353358.825204] RIP: 0010:memcpy_erms+0x6/0x10
+[5353358.825211] RSP: 0018:ff591da8f4f6b710 EFLAGS: 00010246
+[5353358.825212] RAX: ff5f5e897b024000 RBX: 0000000000007090 RCX: 0000000000001000
+[5353358.825213] RDX: 0000000000001000 RSI: ff591da8f4fed090 RDI: ff5f5e897b024000
+[5353358.825214] RBP: 0000000000010000 R08: ff5f5e897b024000 R09: 0000000000000000
+[5353358.825215] R10: ff46cf8c40517000 R11: 0000000000000001 R12: 0000000000008090
+[5353358.825216] R13: ff591da8f4f6b720 R14: 0000000000001000 R15: 0000000000000000
+[5353358.825218] FS:  00007f1e88d47740(0000) GS:ff46cf935f940000(0000) knlGS:0000000000000000
+[5353358.825219] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[5353358.825220] CR2: ff5f5e897b024000 CR3: 0000000231532004 CR4: 0000000000771ef0
+[5353358.825221] PKRU: 55555554
+[5353358.825222] Call Trace:
+[5353358.825223]  &lt;TASK&gt;
+[5353358.825224]  ? show_trace_log_lvl+0x1c4/0x2df
+[5353358.825229]  ? show_trace_log_lvl+0x1c4/0x2df
+[5353358.825232]  ? sg_copy_buffer+0xc8/0x110
+[5353358.825236]  ? __die_body.cold+0x8/0xd
+[5353358.825238]  ? page_fault_oops+0x134/0x170
+[5353358.825242]  ? kernelmode_fixup_or_oops+0x84/0x110
+[5353358.825244]  ? exc_page_fault+0xa8/0x150
+[5353358.825247]  ? asm_exc_page_fault+0x22/0x30
+[5353358.825252]  ? memcpy_erms+0x6/0x10
+[5353358.825253]  sg_copy_buffer+0xc8/0x110
+[5353358.825259]  qla2x00_process_vendor_specific+0x652/0x1320 [qla2xxx]
+[5353358.825317]  qla24xx_bsg_request+0x1b2/0x2d0 [qla2xxx]
+
+Most routines in qla_bsg.c call bsg_done() only for success cases.
+However a few invoke it for failure case as well leading to a double
+free. Validate before calling bsg_done().</description><pubDate>Wed, 04 Mar 2026 14:51:12 +0000</pubDate></item><item><title>CVE-2026-23232 | Revert &amp;quot;f2fs: block cache/dio write during f2fs_enable_checkpoint()&amp;quot;</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23232</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+Revert "f2fs: block cache/dio write during f2fs_enable_checkpoint()"
+
+This reverts commit 196c81fdd438f7ac429d5639090a9816abb9760a.
+
+Original patch may cause below deadlock, revert it.
+
+write				remount
+- write_begin
+ - lock_page  --- lock A
+ - prepare_write_begin
+  - f2fs_map_lock
+				- f2fs_enable_checkpoint
+				 - down_write(cp_enable_rwsem)  --- lock B
+				 - sync_inode_sb
+				  - writepages
+				   - lock_page			--- lock A
+   - down_read(cp_enable_rwsem)  --- lock A</description><pubDate>Wed, 04 Mar 2026 14:51:13 +0000</pubDate></item><item><title>CVE-2026-23233 | f2fs: fix to avoid mapping wrong physical block for swapfile</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23233</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to avoid mapping wrong physical block for swapfile
+
+Xiaolong Guo reported a f2fs bug in bugzilla [1]
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=220951
+
+Quoted:
+
+"When using stress-ng's swap stress test on F2FS filesystem with kernel 6.6+,
+the system experiences data corruption leading to either:
+1 dm-verity corruption errors and device reboot
+2 F2FS node corruption errors and boot hangs
+
+The issue occurs specifically when:
+1 Using F2FS filesystem (ext4 is unaffected)
+2 Swapfile size is less than F2FS section size (2MB)
+3 Swapfile has fragmented physical layout (multiple non-contiguous extents)
+4 Kernel version is 6.6+ (6.1 is unaffected)
+
+The root cause is in check_swap_activate() function in fs/f2fs/data.c. When the
+first extent of a small swapfile (&lt; 2MB) is not aligned to section boundaries,
+the function incorrectly treats it as the last extent, failing to map
+subsequent extents. This results in incorrect swap_extent creation where only
+the first extent is mapped, causing subsequent swap writes to overwrite wrong
+physical locations (other files' data).
+
+Steps to Reproduce
+1 Setup a device with F2FS-formatted userdata partition
+2 Compile stress-ng from https://github.com/ColinIanKing/stress-ng
+3 Run swap stress test: (Android devices)
+adb shell "cd /data/stressng; ./stress-ng-64 --metrics-brief --timeout 60
+--swap 0"
+
+Log:
+1 Ftrace shows in kernel 6.6, only first extent is mapped during second
+f2fs_map_blocks call in check_swap_activate():
+stress-ng-swap-8990: f2fs_map_blocks: ino=11002, file offset=0, start
+blkaddr=0x43143, len=0x1
+(Only 4KB mapped, not the full swapfile)
+2 in kernel 6.1, both extents are correctly mapped:
+stress-ng-swap-5966: f2fs_map_blocks: ino=28011, file offset=0, start
+blkaddr=0x13cd4, len=0x1
+stress-ng-swap-5966: f2fs_map_blocks: ino=28011, file offset=1, start
+blkaddr=0x60c84b, len=0xff
+
+The problematic code is in check_swap_activate():
+if ((pblock - SM_I(sbi)-&gt;main_blkaddr) % blks_per_sec ||
+    nr_pblocks % blks_per_sec ||
+    !f2fs_valid_pinned_area(sbi, pblock)) {
+    bool last_extent = false;
+
+    not_aligned++;
+
+    nr_pblocks = roundup(nr_pblocks, blks_per_sec);
+    if (cur_lblock + nr_pblocks &gt; sis-&gt;max)
+        nr_pblocks -= blks_per_sec;
+
+    /* this extent is last one */
+    if (!nr_pblocks) {
+        nr_pblocks = last_lblock - cur_lblock;
+        last_extent = true;
+    }
+
+    ret = f2fs_migrate_blocks(inode, cur_lblock, nr_pblocks);
+    if (ret) {
+        if (ret == -ENOENT)
+            ret = -EINVAL;
+        goto out;
+    }
+
+    if (!last_extent)
+        goto retry;
+}
+
+When the first extent is unaligned and roundup(nr_pblocks, blks_per_sec)
+exceeds sis-&gt;max, we subtract blks_per_sec resulting in nr_pblocks = 0. The
+code then incorrectly assumes this is the last extent, sets nr_pblocks =
+last_lblock - cur_lblock (entire swapfile), and performs migration. After
+migration, it doesn't retry mapping, so subsequent extents are never processed.
+"
+
+In order to fix this issue, we need to lookup block mapping info after
+we migrate all blocks in the tail of swapfile.</description><pubDate>Wed, 04 Mar 2026 14:51:13 +0000</pubDate></item><item><title>CVE-2026-23234 | f2fs: fix to avoid UAF in f2fs_write_end_io()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23234</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix to avoid UAF in f2fs_write_end_io()
+
+As syzbot reported an use-after-free issue in f2fs_write_end_io().
+
+It is caused by below race condition:
+
+loop device				umount
+- worker_thread
+ - loop_process_work
+  - do_req_filebacked
+   - lo_rw_aio
+    - lo_rw_aio_complete
+     - blk_mq_end_request
+      - blk_update_request
+       - f2fs_write_end_io
+        - dec_page_count
+        - folio_end_writeback
+					- kill_f2fs_super
+					 - kill_block_super
+					  - f2fs_put_super
+					 : free(sbi)
+       : get_pages(, F2FS_WB_CP_DATA)
+         accessed sbi which is freed
+
+In kill_f2fs_super(), we will drop all page caches of f2fs inodes before
+call free(sbi), it guarantee that all folios should end its writeback, so
+it should be safe to access sbi before last folio_end_writeback().
+
+Let's relocate ckpt thread wakeup flow before folio_end_writeback() to
+resolve this issue.</description><pubDate>Wed, 04 Mar 2026 14:51:13 +0000</pubDate></item><item><title>CVE-2026-23235 | f2fs: fix out-of-bounds access in sysfs attribute read/write</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23235</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+f2fs: fix out-of-bounds access in sysfs attribute read/write
+
+Some f2fs sysfs attributes suffer from out-of-bounds memory access and
+incorrect handling of integer values whose size is not 4 bytes.
+
+For example:
+vm:~# echo 65537 &gt; /sys/fs/f2fs/vde/carve_out
+vm:~# cat /sys/fs/f2fs/vde/carve_out
+65537
+vm:~# echo 4294967297 &gt; /sys/fs/f2fs/vde/atgc_age_threshold
+vm:~# cat /sys/fs/f2fs/vde/atgc_age_threshold
+1
+
+carve_out maps to {struct f2fs_sb_info}-&gt;carve_out, which is a 8-bit
+integer. However, the sysfs interface allows setting it to a value
+larger than 255, resulting in an out-of-range update.
+
+atgc_age_threshold maps to {struct atgc_management}-&gt;age_threshold,
+which is a 64-bit integer, but its sysfs interface cannot correctly set
+values larger than UINT_MAX.
+
+The root causes are:
+1. __sbi_store() treats all default values as unsigned int, which
+prevents updating integers larger than 4 bytes and causes out-of-bounds
+writes for integers smaller than 4 bytes.
+
+2. f2fs_sbi_show() also assumes all default values are unsigned int,
+leading to out-of-bounds reads and incorrect access to integers larger
+than 4 bytes.
+
+This patch introduces {struct f2fs_attr}-&gt;size to record the actual size
+of the integer associated with each sysfs attribute. With this
+information, sysfs read and write operations can correctly access and
+update values according to their real data size, avoiding memory
+corruption and truncation.</description><pubDate>Wed, 04 Mar 2026 14:51:14 +0000</pubDate></item><item><title>CVE-2026-23236 | fbdev: smscufx: properly copy ioctl memory to kernelspace</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23236</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fbdev: smscufx: properly copy ioctl memory to kernelspace
+
+The UFX_IOCTL_REPORT_DAMAGE ioctl does not properly copy data from
+userspace to kernelspace, and instead directly references the memory,
+which can cause problems if invalid data is passed from userspace.  Fix
+this all up by correctly copying the memory before accessing it within
+the kernel.</description><pubDate>Wed, 04 Mar 2026 14:51:14 +0000</pubDate></item><item><title>CVE-2026-23237 | platform/x86: classmate-laptop: Add missing NULL pointer checks</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23237</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+platform/x86: classmate-laptop: Add missing NULL pointer checks
+
+In a few places in the Classmate laptop driver, code using the accel
+object may run before that object's address is stored in the driver
+data of the input device using it.
+
+For example, cmpc_accel_sensitivity_store_v4() is the "show" method
+of cmpc_accel_sensitivity_attr_v4 which is added in cmpc_accel_add_v4(),
+before calling dev_set_drvdata() for inputdev-&gt;dev.  If the sysfs
+attribute is accessed prematurely, the dev_get_drvdata(&amp;inputdev-&gt;dev)
+call in in cmpc_accel_sensitivity_store_v4() returns NULL which
+leads to a NULL pointer dereference going forward.
+
+Moreover, sysfs attributes using the input device are added before
+initializing that device by cmpc_add_acpi_notify_device() and if one
+of them is accessed before running that function, a NULL pointer
+dereference will occur.
+
+For example, cmpc_accel_sensitivity_attr_v4 is added before calling
+cmpc_add_acpi_notify_device() and if it is read prematurely, the
+dev_get_drvdata(&amp;acpi-&gt;dev) call in cmpc_accel_sensitivity_show_v4()
+returns NULL which leads to a NULL pointer dereference going forward.
+
+Fix this by adding NULL pointer checks in all of the relevant places.</description><pubDate>Wed, 04 Mar 2026 14:51:14 +0000</pubDate></item><item><title>CVE-2026-23238 | romfs: check sb_set_blocksize() return value</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23238</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+romfs: check sb_set_blocksize() return value
+
+romfs_fill_super() ignores the return value of sb_set_blocksize(), which
+can fail if the requested block size is incompatible with the block
+device's configuration.
+
+This can be triggered by setting a loop device's block size larger than
+PAGE_SIZE using ioctl(LOOP_SET_BLOCK_SIZE, 32768), then mounting a romfs
+filesystem on that device.
+
+When sb_set_blocksize(sb, ROMBSIZE) is called with ROMBSIZE=4096 but the
+device has logical_block_size=32768, bdev_validate_blocksize() fails
+because the requested size is smaller than the device's logical block
+size. sb_set_blocksize() returns 0 (failure), but romfs ignores this and
+continues mounting.
+
+The superblock's block size remains at the device's logical block size
+(32768). Later, when sb_bread() attempts I/O with this oversized block
+size, it triggers a kernel BUG in folio_set_bh():
+
+    kernel BUG at fs/buffer.c:1582!
+    BUG_ON(size &gt; PAGE_SIZE);
+
+Fix by checking the return value of sb_set_blocksize() and failing the
+mount with -EINVAL if it returns 0.</description><pubDate>Wed, 04 Mar 2026 14:51:15 +0000</pubDate></item><item><title>CVE-2025-40894 | HTML injection in Alerted Nodes Dashboard in Guardian/CMC before 25.6.0</title><link>https://www.cve.org/CVERecord?id=CVE-2025-40894</link><description>A Stored HTML Injection vulnerability was discovered in the Alerted Nodes Dashboard functionality due to improper validation on an input parameter.
 
 
 
