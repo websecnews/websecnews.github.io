@@ -1,5 +1,220 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 18 Mar 2026 08:28:48 +0000</lastBuildDate><item><title>CVE-2026-22729 | CVE-2026-22729: JSONPath Injection in Spring AI Vector Stores FilterExpressionConverter</title><link>https://www.cve.org/CVERecord?id=CVE-2026-22729</link><description>A JSONPath injection vulnerability in Spring AI's AbstractFilterExpressionConverter allows authenticated users to bypass metadata-based access controls through crafted filter expressions. User-controlled input passed to FilterExpressionBuilder is concatenated into JSONPath queries without proper escaping, enabling attackers to inject arbitrary JSONPath logic and access unauthorized documents.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 18 Mar 2026 10:29:47 +0000</lastBuildDate><item><title>CVE-2025-71265 | fs: ntfs3: fix infinite loop in attr_load_runs_range on inconsistent metadata</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71265</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs: ntfs3: fix infinite loop in attr_load_runs_range on inconsistent metadata
+
+We found an infinite loop bug in the ntfs3 file system that can lead to a
+Denial-of-Service (DoS) condition.
+
+A malformed NTFS image can cause an infinite loop when an attribute header
+indicates an empty run list, while directory entries reference it as
+containing actual data. In NTFS, setting evcn=-1 with svcn=0 is a valid way
+to represent an empty run list, and run_unpack() correctly handles this by
+checking if evcn + 1 equals svcn and returning early without parsing any run
+data. However, this creates a problem when there is metadata inconsistency,
+where the attribute header claims to be empty (evcn=-1) but the caller
+expects to read actual data. When run_unpack() immediately returns success
+upon seeing this condition, it leaves the runs_tree uninitialized with
+run-&gt;runs as a NULL. The calling function attr_load_runs_range() assumes
+that a successful return means that the runs were loaded and sets clen to 0,
+expecting the next run_lookup_entry() call to succeed. Because runs_tree
+remains uninitialized, run_lookup_entry() continues to fail, and the loop
+increments vcn by zero (vcn += 0), leading to an infinite loop.
+
+This patch adds a retry counter to detect when run_lookup_entry() fails
+consecutively after attr_load_runs_vcn(). If the run is still not found on
+the second attempt, it indicates corrupted metadata and returns -EINVAL,
+preventing the Denial-of-Service (DoS) vulnerability.</description><pubDate>Wed, 18 Mar 2026 10:29:49 +0000</pubDate></item><item><title>CVE-2025-71266 | fs: ntfs3: check return value of indx_find to avoid infinite loop</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71266</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs: ntfs3: check return value of indx_find to avoid infinite loop
+
+We found an infinite loop bug in the ntfs3 file system that can lead to a
+Denial-of-Service (DoS) condition.
+
+A malformed dentry in the ntfs3 filesystem can cause the kernel to hang
+during the lookup operations. By setting the HAS_SUB_NODE flag in an
+INDEX_ENTRY within a directory's INDEX_ALLOCATION block and manipulating the
+VCN pointer, an attacker can cause the indx_find() function to repeatedly
+read the same block, allocating 4 KB of memory each time. The kernel lacks
+VCN loop detection and depth limits, causing memory exhaustion and an OOM
+crash.
+
+This patch adds a return value check for fnd_push() to prevent a memory
+exhaustion vulnerability caused by infinite loops. When the index exceeds the
+size of the fnd-&gt;nodes array, fnd_push() returns -EINVAL. The indx_find()
+function checks this return value and stops processing, preventing further
+memory allocation.</description><pubDate>Wed, 18 Mar 2026 10:29:49 +0000</pubDate></item><item><title>CVE-2025-71267 | fs: ntfs3: fix infinite loop triggered by zero-sized ATTR_LIST</title><link>https://www.cve.org/CVERecord?id=CVE-2025-71267</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+fs: ntfs3: fix infinite loop triggered by zero-sized ATTR_LIST
+
+We found an infinite loop bug in the ntfs3 file system that can lead to a
+Denial-of-Service (DoS) condition.
+
+A malformed NTFS image can cause an infinite loop when an ATTR_LIST attribute
+indicates a zero data size while the driver allocates memory for it.
+
+When ntfs_load_attr_list() processes a resident ATTR_LIST with data_size set
+to zero, it still allocates memory because of al_aligned(0). This creates an
+inconsistent state where ni-&gt;attr_list.size is zero, but ni-&gt;attr_list.le is
+non-null. This causes ni_enum_attr_ex to incorrectly assume that no attribute
+list exists and enumerates only the primary MFT record. When it finds
+ATTR_LIST, the code reloads it and restarts the enumeration, repeating
+indefinitely. The mount operation never completes, hanging the kernel thread.
+
+This patch adds validation to ensure that data_size is non-zero before memory
+allocation. When a zero-sized ATTR_LIST is detected, the function returns
+-EINVAL, preventing a DoS vulnerability.</description><pubDate>Wed, 18 Mar 2026 10:29:50 +0000</pubDate></item><item><title>CVE-2026-23242 | RDMA/siw: Fix potential NULL pointer dereference in header processing</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23242</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/siw: Fix potential NULL pointer dereference in header processing
+
+If siw_get_hdr() returns -EINVAL before set_rx_fpdu_context(),
+qp-&gt;rx_fpdu can be NULL. The error path in siw_tcp_rx_data()
+dereferences qp-&gt;rx_fpdu-&gt;more_ddp_segs without checking, which
+may lead to a NULL pointer deref. Only check more_ddp_segs when
+rx_fpdu is present.
+
+KASAN splat:
+[  101.384271] KASAN: null-ptr-deref in range [0x00000000000000c0-0x00000000000000c7]
+[  101.385869] RIP: 0010:siw_tcp_rx_data+0x13ad/0x1e50</description><pubDate>Wed, 18 Mar 2026 10:29:50 +0000</pubDate></item><item><title>CVE-2026-23243 | RDMA/umad: Reject negative data_len in ib_umad_write</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23243</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+RDMA/umad: Reject negative data_len in ib_umad_write
+
+ib_umad_write computes data_len from user-controlled count and the
+MAD header sizes. With a mismatched user MAD header size and RMPP
+header length, data_len can become negative and reach ib_create_send_mad().
+This can make the padding calculation exceed the segment size and trigger
+an out-of-bounds memset in alloc_send_rmpp_list().
+
+Add an explicit check to reject negative data_len before creating the
+send buffer.
+
+KASAN splat:
+[  211.363464] BUG: KASAN: slab-out-of-bounds in ib_create_send_mad+0xa01/0x11b0
+[  211.364077] Write of size 220 at addr ffff88800c3fa1f8 by task spray_thread/102
+[  211.365867] ib_create_send_mad+0xa01/0x11b0
+[  211.365887] ib_umad_write+0x853/0x1c80</description><pubDate>Wed, 18 Mar 2026 10:29:50 +0000</pubDate></item><item><title>CVE-2026-23244 | nvme: fix memory allocation in nvme_pr_read_keys()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23244</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nvme: fix memory allocation in nvme_pr_read_keys()
+
+nvme_pr_read_keys() takes num_keys from userspace and uses it to
+calculate the allocation size for rse via struct_size(). The upper
+limit is PR_KEYS_MAX (64K).
+
+A malicious or buggy userspace can pass a large num_keys value that
+results in a 4MB allocation attempt at most, causing a warning in
+the page allocator when the order exceeds MAX_PAGE_ORDER.
+
+To fix this, use kvzalloc() instead of kzalloc().
+
+This bug has the same reasoning and fix with the patch below:
+https://lore.kernel.org/linux-block/20251212013510.3576091-1-kartikey406@gmail.com/
+
+Warning log:
+WARNING: mm/page_alloc.c:5216 at __alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216, CPU#1: syz-executor117/272
+Modules linked in:
+CPU: 1 UID: 0 PID: 272 Comm: syz-executor117 Not tainted 6.19.0 #1 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+RIP: 0010:__alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216
+Code: ff 83 bd a8 fe ff ff 0a 0f 86 69 fb ff ff 0f b6 1d f9 f9 c4 04 80 fb 01 0f 87 3b 76 30 ff 83 e3 01 75 09 c6 05 e4 f9 c4 04 01 &lt;0f&gt; 0b 48 c7 85 70 fe ff ff 00 00 00 00 e9 8f fd ff ff 31 c0 e9 0d
+RSP: 0018:ffffc90000fcf450 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff920001f9ea0
+RDX: 0000000000000000 RSI: 000000000000000b RDI: 0000000000040dc0
+RBP: ffffc90000fcf648 R08: ffff88800b6c3380 R09: 0000000000000001
+R10: ffffc90000fcf840 R11: ffff88807ffad280 R12: 0000000000000000
+R13: 0000000000040dc0 R14: 0000000000000001 R15: ffffc90000fcf620
+FS:  0000555565db33c0(0000) GS:ffff8880be26c000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000002000000c CR3: 0000000003b72000 CR4: 00000000000006f0
+Call Trace:
+ &lt;TASK&gt;
+ alloc_pages_mpol+0x236/0x4d0 mm/mempolicy.c:2486
+ alloc_frozen_pages_noprof+0x149/0x180 mm/mempolicy.c:2557
+ ___kmalloc_large_node+0x10c/0x140 mm/slub.c:5598
+ __kmalloc_large_node_noprof+0x25/0xc0 mm/slub.c:5629
+ __do_kmalloc_node mm/slub.c:5645 [inline]
+ __kmalloc_noprof+0x483/0x6f0 mm/slub.c:5669
+ kmalloc_noprof include/linux/slab.h:961 [inline]
+ kzalloc_noprof include/linux/slab.h:1094 [inline]
+ nvme_pr_read_keys+0x8f/0x4c0 drivers/nvme/host/pr.c:245
+ blkdev_pr_read_keys block/ioctl.c:456 [inline]
+ blkdev_common_ioctl+0x1b71/0x29b0 block/ioctl.c:730
+ blkdev_ioctl+0x299/0x700 block/ioctl.c:786
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x1bf/0x220 fs/ioctl.c:583
+ x64_sys_call+0x1280/0x21b0 mnt/fuzznvme_1/fuzznvme/linux-build/v6.19/./arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x71/0x330 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7fb893d3108d
+Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffff61f2f38 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffff61f3138 RCX: 00007fb893d3108d
+RDX: 0000000020000040 RSI: 00000000c01070ce RDI: 0000000000000003
+RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffff61f3138
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007ffff61f3128 R14: 00007fb893dae530 R15: 0000000000000001
+ &lt;/TASK&gt;</description><pubDate>Wed, 18 Mar 2026 10:29:51 +0000</pubDate></item><item><title>CVE-2026-23245 | net/sched: act_gate: snapshot parameters with RCU on replace</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23245</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+net/sched: act_gate: snapshot parameters with RCU on replace
+
+The gate action can be replaced while the hrtimer callback or dump path is
+walking the schedule list.
+
+Convert the parameters to an RCU-protected snapshot and swap updates under
+tcf_lock, freeing the previous snapshot via call_rcu(). When REPLACE omits
+the entry list, preserve the existing schedule so the effective state is
+unchanged.</description><pubDate>Wed, 18 Mar 2026 10:29:51 +0000</pubDate></item><item><title>CVE-2026-23246 | wifi: mac80211: bounds-check link_id in ieee80211_ml_reconfiguration</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23246</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mac80211: bounds-check link_id in ieee80211_ml_reconfiguration
+
+link_id is taken from the ML Reconfiguration element (control &amp; 0x000f),
+so it can be 0..15. link_removal_timeout[] has IEEE80211_MLD_MAX_NUM_LINKS
+(15) elements, so index 15 is out-of-bounds. Skip subelements with
+link_id &gt;= IEEE80211_MLD_MAX_NUM_LINKS to avoid a stack out-of-bounds
+write.</description><pubDate>Wed, 18 Mar 2026 10:29:51 +0000</pubDate></item><item><title>CVE-2026-23247 | tcp: secure_seq: add back ports to TS offset</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23247</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tcp: secure_seq: add back ports to TS offset
+
+This reverts 28ee1b746f49 ("secure_seq: downgrade to per-host timestamp offsets")
+
+tcp_tw_recycle went away in 2017.
+
+Zhouyan Deng reported off-path TCP source port leakage via
+SYN cookie side-channel that can be fixed in multiple ways.
+
+One of them is to bring back TCP ports in TS offset randomization.
+
+As a bonus, we perform a single siphash() computation
+to provide both an ISN and a TS offset.</description><pubDate>Wed, 18 Mar 2026 10:29:52 +0000</pubDate></item><item><title>CVE-2026-23248 | perf/core: Fix refcount bug and potential UAF in perf_mmap</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23248</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+perf/core: Fix refcount bug and potential UAF in perf_mmap
+
+Syzkaller reported a refcount_t: addition on 0; use-after-free warning
+in perf_mmap.
+
+The issue is caused by a race condition between a failing mmap() setup
+and a concurrent mmap() on a dependent event (e.g., using output
+redirection).
+
+In perf_mmap(), the ring_buffer (rb) is allocated and assigned to
+event-&gt;rb with the mmap_mutex held. The mutex is then released to
+perform map_range().
+
+If map_range() fails, perf_mmap_close() is called to clean up.
+However, since the mutex was dropped, another thread attaching to
+this event (via inherited events or output redirection) can acquire
+the mutex, observe the valid event-&gt;rb pointer, and attempt to
+increment its reference count. If the cleanup path has already
+dropped the reference count to zero, this results in a
+use-after-free or refcount saturation warning.
+
+Fix this by extending the scope of mmap_mutex to cover the
+map_range() call. This ensures that the ring buffer initialization
+and mapping (or cleanup on failure) happens atomically effectively,
+preventing other threads from accessing a half-initialized or
+dying ring buffer.</description><pubDate>Wed, 18 Mar 2026 10:29:52 +0000</pubDate></item><item><title>CVE-2026-1217 | Yoast Duplicate Post &amp;lt;= 4.5 - Authenticated (Contributor+) Missing Authorization to Arbitrary Post Duplication and Overwrite</title><link>https://www.cve.org/CVERecord?id=CVE-2026-1217</link><description>The Yoast Duplicate Post plugin for WordPress is vulnerable to unauthorized modification of data due to a missing capability check on the clone_bulk_action_handler() and republish_request() functions in all versions up to, and including, 4.5. This makes it possible for authenticated attackers, with Contributor-level access and above, to duplicate any post on the site including private, draft, and trashed posts they shouldn't have access to. Additionally, attackers with Author-level access and above can use the Rewrite &amp; Republish feature to overwrite any published post with their own content.</description><pubDate>Wed, 18 Mar 2026 10:29:53 +0000</pubDate></item><item><title>CVE-2026-32565 | WordPress Contextual Related Posts plugin &amp;lt; 4.2.2 - Broken Access Control vulnerability</title><link>https://www.cve.org/CVERecord?id=CVE-2026-32565</link><description>Missing Authorization vulnerability in WebberZone Contextual Related Posts allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Contextual Related Posts: from n/a before 4.2.2.</description><pubDate>Wed, 18 Mar 2026 10:29:53 +0000</pubDate></item><item><title>CVE-2026-22729 | CVE-2026-22729: JSONPath Injection in Spring AI Vector Stores FilterExpressionConverter</title><link>https://www.cve.org/CVERecord?id=CVE-2026-22729</link><description>A JSONPath injection vulnerability in Spring AI's AbstractFilterExpressionConverter allows authenticated users to bypass metadata-based access controls through crafted filter expressions. User-controlled input passed to FilterExpressionBuilder is concatenated into JSONPath queries without proper escaping, enabling attackers to inject arbitrary JSONPath logic and access unauthorized documents.
 
 This vulnerability affects applications using vector stores that extend AbstractFilterExpressionConverter for multi-tenant isolation, role-based access control, or document filtering based on metadata.
 
