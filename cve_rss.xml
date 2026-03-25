@@ -1,5 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 25 Mar 2026 11:02:04 +0000</lastBuildDate><item><title>CVE-2026-23279 | wifi: mac80211: fix NULL pointer dereference in mesh_rx_csa_frame()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23279</link><description>In the Linux kernel, the following vulnerability has been resolved:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Wed, 25 Mar 2026 12:34:37 +0000</lastBuildDate><item><title>CVE-2026-4760 | Potential unauthorized access to files on the Web HMI server host</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4760</link><description>From
+Panorama Web HMI, an attacker can gain read access to certain Web HMI server
+files, if he knows their paths and if these files are accessible to the Servin
+process execution account.
+
+  *  Installations based on Panorama Suite 2022-SP1 (22.50.005) are vulnerable unless update PS-2210-02-4079 (or higher) is installed
+  *  Installations based on Panorama Suite 2023 (23.00.004) are vulnerable 
+unless updates PS-2300-03-3078 (or higher) and PS-2300-04-3078 (or higher)
+and PS-2300-82-3078
+
+(or higher)
+
+are installed
+  *  Installations based on Panorama Suite 2025 (25.00.016)
+
+are vulnerable unless updates PS-2500-02-1078 (or higher) and PS-2500-04-1078 (or higher) are installed 
+  *  Installations based on Panorama Suite 2025 Updated Dec. 25 (25.10.007)
+
+are vulnerable unless updates PS-2510-02-1077 (or higher) and PS-2510-04-1077 (or higher)
+
+are installed
+
+
+
+
+Please refer to security bulletin BS-035, available on the Panorama CSIRT website:  https://my.codra.net/en-gb/csirt .</description><pubDate>Wed, 25 Mar 2026 12:34:39 +0000</pubDate></item><item><title>CVE-2026-23279 | wifi: mac80211: fix NULL pointer dereference in mesh_rx_csa_frame()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23279</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 wifi: mac80211: fix NULL pointer dereference in mesh_rx_csa_frame()
 
@@ -93,7 +118,7 @@ drbd: fix null-pointer dereference on local read error
 In drbd_request_endio(), READ_COMPLETED_WITH_ERROR is passed to
 __req_mod() with a NULL peer_device:
 
-  __req_mod(req, what, NULL, &amp;m);
+  __req_mod(req, what, NULL, &amp;amp;m);
 
 The READ_COMPLETED_WITH_ERROR handler then unconditionally passes this
 NULL peer_device to drbd_set_out_of_sync(), which dereferences it,
@@ -196,7 +221,7 @@ done with it.</description><pubDate>Wed, 25 Mar 2026 11:02:10 +0000</pubDate></i
 
 scsi: target: Fix recursive locking in __configfs_open_file()
 
-In flush_write_buffer, &amp;p-&gt;frag_sem is acquired and then the loaded store
+In flush_write_buffer, &amp;amp;p-&gt;frag_sem is acquired and then the loaded store
 function is called, which, here, is target_core_item_dbroot_store().  This
 function called filp_open(), following which these functions were called
 (in reverse order), according to the call trace:
@@ -245,7 +270,7 @@ neigh_lookup().
  RIP: 0010:neigh_lookup+0x20/0x270
  [...]
  Call Trace:
-  &lt;TASK&gt;
+  
   vxlan_xmit+0x638/0x1ef0 [vxlan]
   dev_hard_start_xmit+0x9e/0x2e0
   __dev_queue_xmit+0xbee/0x14e0
@@ -557,7 +582,7 @@ load.
 [    6.097847] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [    6.097847] CR2: 0000000000000000 CR3: 0000000003030000 CR4: 00000000001026b0
 [    6.097847] Call Trace:
-[    6.097847]  &lt;TASK&gt;
+[    6.097847]  
 [    6.097847]  ? eqbr_irq_mask+0x63/0x70
 [    6.097847]  ? no_action+0x10/0x10
 [    6.097847]  eqbr_irq_mask_ack+0x11/0x60
@@ -631,13 +656,13 @@ Let's do it with irq_work.
   [   39.914623] 6.15.0-next-20250530-next-2025053 #1 Not tainted
   [   39.915271] -----------------------------
   [   39.915731] repro/837 is trying to lock:
-  [   39.916191] ffff88801acfabd8 (&amp;event-&gt;waitq){....}-{3:3}, at: __wake_up+0x26/0x60
+  [   39.916191] ffff88801acfabd8 (&amp;amp;event-&gt;waitq){....}-{3:3}, at: __wake_up+0x26/0x60
   [   39.917182] other info that might help us debug this:
   [   39.917761] context-{5:5}
   [   39.918079] 4 locks held by repro/837:
   [   39.918530]  #0: ffffffff8725cd00 (rcu_read_lock){....}-{1:3}, at: __perf_event_task_sched_in+0xd1/0xbc0
-  [   39.919612]  #1: ffff88806ca3c6f8 (&amp;cpuctx_lock){....}-{2:2}, at: __perf_event_task_sched_in+0x1a7/0xbc0
-  [   39.920748]  #2: ffff88800d91fc18 (&amp;ctx-&gt;lock){....}-{2:2}, at: __perf_event_task_sched_in+0x1f9/0xbc0
+  [   39.919612]  #1: ffff88806ca3c6f8 (&amp;amp;cpuctx_lock){....}-{2:2}, at: __perf_event_task_sched_in+0x1a7/0xbc0
+  [   39.920748]  #2: ffff88800d91fc18 (&amp;amp;ctx-&gt;lock){....}-{2:2}, at: __perf_event_task_sched_in+0x1f9/0xbc0
   [   39.921819]  #3: ffffffff8725cd00 (rcu_read_lock){....}-{1:3}, at: perf_event_wakeup+0x6c/0x470</description><pubDate>Wed, 25 Mar 2026 11:02:16 +0000</pubDate></item><item><title>CVE-2026-23312 | net: usb: kaweth: validate USB endpoints</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23312</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 net: usb: kaweth: validate USB endpoints
@@ -764,7 +789,7 @@ static void bpf_shim_tramp_link_release(struct bpf_link *link)
 		return;
 
 +	msleep(100);
-	WARN_ON_ONCE(bpf_trampoline_unlink_prog(&amp;shim_link-&gt;link,
+	WARN_ON_ONCE(bpf_trampoline_unlink_prog(&amp;amp;shim_link-&gt;link,
 		shim_link-&gt;trampoline, NULL));
 	bpf_trampoline_put(shim_link-&gt;trampoline);
 }
@@ -850,7 +875,7 @@ this warning:
   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
   CR2: 00007f66346e0f60 CR3: 000000001607c000 CR4: 0000000000350ef0
   Call Trace:
-   &lt;TASK&gt;
+   
    genl_family_rcv_msg_doit+0x117/0x180 net/netlink/genetlink.c:1115
    genl_family_rcv_msg net/netlink/genetlink.c:1195 [inline]
    genl_rcv_msg+0x3a8/0x3f0 net/netlink/genetlink.c:1210
@@ -878,7 +903,7 @@ this warning:
   RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
   R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6634985fa8
   R13: 00007f6634985fac R14: 0000000000000000 R15: 0000000000001770
-   &lt;/TASK&gt;
+   
 
 The actions that caused that seem to be:
 
@@ -964,7 +989,7 @@ the list_node field is reused for both the xskb pool list and the buffer
 free list, this causes a buffer leak as described below.
 
 xp_free() checks if a buffer is already on the free list using
-list_empty(&amp;xskb-&gt;list_node). When list_del() is used to remove a node
+list_empty(&amp;amp;xskb-&gt;list_node). When list_del() is used to remove a node
 from the xskb pool list, it doesn't reinitialize the node pointers.
 This means list_empty() will return false even after the node has been
 removed, causing xp_free() to incorrectly skip adding the buffer to the
@@ -988,7 +1013,7 @@ Read of size 8 at addr ffff88810130f5c0 by task syz.1.62/2258
 CPU: 2 UID: 0 PID: 2258 Comm: syz.1.62 Not tainted 6.19.0-dirty #3 PREEMPT(voluntary)
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
 Call Trace:
- &lt;TASK&gt;
+ 
  __dump_stack lib/dump_stack.c:94 [inline]
  dump_stack_lvl+0xab/0xe0 lib/dump_stack.c:120
  print_address_description mm/kasan/report.c:378 [inline]
@@ -1017,7 +1042,7 @@ RDX: 00002000000001c0 RSI: 00000000c030ce02 RDI: 0000000000000003
 RBP: 00007fdaf33749df R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
 R13: 00007fdaf3586038 R14: 00007fdaf3585fa0 R15: 00007ffced2af768
- &lt;/TASK&gt;
+ 
 
 Add 'in_size' parameter to cxl_payload_from_user_allowed() and validate
 the payload is large enough.</description><pubDate>Wed, 25 Mar 2026 11:02:21 +0000</pubDate></item><item><title>CVE-2026-23328 | accel/amdxdna: Fix NULL pointer dereference of mgmt_chann</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23328</link><description>In the Linux kernel, the following vulnerability has been resolved:
@@ -1052,7 +1077,7 @@ trace:
 [  148.576242] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 [  148.576247] CR2: 0000000000000118 CR3: 000000011ad17000 CR4: 0000000000350ef0
 [  148.576252] Call Trace:
-[  148.576258]  &lt;TASK&gt;
+[  148.576258]  
 [  148.576269]  _dev_warn+0x7c/0x96
 [  148.576290]  libie_fwlog_deinit+0x112/0x117 [libie_fwlog]
 [  148.576303]  ixgbe_remove+0x63/0x290 [ixgbe]
@@ -1213,7 +1238,7 @@ CPU: 0 UID: 0 PID: 5326 Comm: kworker/0:5 Not tainted 6.19.0-rc2 #2 PREEMPT(volu
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
 Workqueue: events cfg80211_rfkill_block_work
 Call Trace:
- &lt;TASK&gt;
+ 
  dump_stack_lvl+0x116/0x1f0
  print_report+0xcd/0x630
  kasan_report+0xe0/0x110
@@ -1224,7 +1249,7 @@ Call Trace:
  kthread+0x3c5/0x780
  ret_from_fork+0x56d/0x700
  ret_from_fork_asm+0x1a/0x30
- &lt;/TASK&gt;
+ 
 
 The problem arises due to the rfkill_block work is not cancelled when wiphy
 is being unregistered. In order to fix the issue cancel the corresponding
@@ -1301,7 +1326,7 @@ With KASAN enabled, this leads to reports like:
   BUG: KASAN: slab-use-after-free in __qdisc_run+0x133f/0x1760
   ...
   Call Trace:
-   &lt;TASK&gt;
+   
    ...
    __qdisc_run+0x133f/0x1760
    __dev_queue_xmit+0x248f/0x3550
@@ -1311,7 +1336,7 @@ With KASAN enabled, this leads to reports like:
    udp_send_skb+0xb0a/0x1590
    udp_sendmsg+0x13c9/0x1fc0
    ...
-   &lt;/TASK&gt;
+   
 
   Allocated by task 1270 on cpu 5 at 44.558414s:
    ...
@@ -1381,17 +1406,17 @@ task B (bq_enqueue -&gt; bq_flush_to_queue) on the same CPU:
   Task A (xdp_do_flush)          Task B (cpu_map_enqueue)
   ----------------------         ------------------------
   bq_flush_to_queue(bq)
-    spin_lock(&amp;q-&gt;producer_lock)
+    spin_lock(&amp;amp;q-&gt;producer_lock)
     /* flush bq-&gt;q[] to ptr_ring */
     bq-&gt;count = 0
-    spin_unlock(&amp;q-&gt;producer_lock)
+    spin_unlock(&amp;amp;q-&gt;producer_lock)
                                    bq_enqueue(rcpu, xdpf)
     &lt;-- CFS preempts Task A --&gt;      bq-&gt;q[bq-&gt;count++] = xdpf
                                      /* ... more enqueues until full ... */
                                      bq_flush_to_queue(bq)
-                                       spin_lock(&amp;q-&gt;producer_lock)
+                                       spin_lock(&amp;amp;q-&gt;producer_lock)
                                        /* flush to ptr_ring */
-                                       spin_unlock(&amp;q-&gt;producer_lock)
+                                       spin_unlock(&amp;amp;q-&gt;producer_lock)
                                        __list_del_clearprev(flush_node)
                                          /* sets flush_node.prev = NULL */
     &lt;-- Task A resumes --&gt;
@@ -1452,7 +1477,7 @@ leads to all kinds of unspecific calltraces.
 [ 7340.420286] CR2: 00007f415bfffd58 CR3: 0000000103f03002 CR4: 0000000000772ef0
 [ 7340.421237] PKRU: 55555554
 [ 7340.421623] Call Trace:
-[ 7340.421987]  &lt;TASK&gt;
+[ 7340.421987]  
 [ 7340.422309]  ? softleaf_from_pte+0x77/0xa0
 [ 7340.422855]  swap_pte_batch+0xa7/0x290
 [ 7340.423363]  zap_nonpresent_ptes.constprop.0.isra.0+0xd1/0x270
@@ -1598,14 +1623,14 @@ causes orphaned nvdimm objects to reprobe after cxl_acpi is removed.
 The nvdimm_bus object is registered by the cxl_nvb object when
 cxl_acpi_probe() is called. With the nvdimm_bus object missing,
 __nd_device_register() will trigger NULL pointer dereference when
-accessing the dev-&gt;parent that points to &amp;nvdimm_bus-&gt;dev.
+accessing the dev-&gt;parent that points to &amp;amp;nvdimm_bus-&gt;dev.
 
 [  192.884510] BUG: kernel NULL pointer dereference, address: 000000000000006c
 [  192.895383] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS edk2-20250812-19.fc42 08/12/2025
 [  192.897721] Workqueue: cxl_port cxl_bus_rescan_queue [cxl_core]
 [  192.899459] RIP: 0010:kobject_get+0xc/0x90
 [  192.924871] Call Trace:
-[  192.925959]  &lt;TASK&gt;
+[  192.925959]  
 [  192.926976]  ? pm_runtime_init+0xb9/0xe0
 [  192.929712]  __nd_device_register.part.0+0x4d/0xc0 [libnvdimm]
 [  192.933314]  __nvdimm_create+0x206/0x290 [libnvdimm]
@@ -1742,7 +1767,7 @@ crashes:
  CR2: 000000000000000c CR3: 0000000121227005 CR4: 0000000000773ef0
  PKRU: 55555554
  Call Trace:
-  &lt;TASK&gt;
+  
   ice_vsi_cfg_rxq+0xca/0x460 [ice]
   ice_vsi_cfg_rxqs+0x54/0x70 [ice]
   ice_loopback_test+0xa9/0x520 [ice]
@@ -2003,7 +2028,7 @@ net: phy: register phy led_triggers during probe to avoid AB-BA deadlock
 There is an AB-BA deadlock when both LEDS_TRIGGER_NETDEV and
 LED_TRIGGER_PHY are enabled:
 
-[ 1362.049207] [&lt;8054e4b8&gt;] led_trigger_register+0x5c/0x1fc             &lt;-- Trying to get lock "triggers_list_lock" via down_write(&amp;triggers_list_lock);
+[ 1362.049207] [&lt;8054e4b8&gt;] led_trigger_register+0x5c/0x1fc             &lt;-- Trying to get lock "triggers_list_lock" via down_write(&amp;amp;triggers_list_lock);
 [ 1362.054536] [&lt;80662830&gt;] phy_led_triggers_register+0xd0/0x234
 [ 1362.060329] [&lt;8065e200&gt;] phy_attach_direct+0x33c/0x40c
 [ 1362.065489] [&lt;80651fc4&gt;] phylink_fwnode_phy_connect+0x15c/0x23c
@@ -2021,7 +2046,7 @@ while holding RTNL and then taking triggers_list_lock.
 
 [ 1362.191101] [&lt;806c2640&gt;] register_netdevice_notifier+0x60/0x168      &lt;-- Trying to get lock "rtnl_mutex" via rtnl_lock();
 [ 1362.197073] [&lt;805504ac&gt;] netdev_trig_activate+0x194/0x1e4
-[ 1362.202490] [&lt;8054e28c&gt;] led_trigger_set+0x1d4/0x360                 &lt;-- Hold lock "triggers_list_lock" by down_read(&amp;triggers_list_lock);
+[ 1362.202490] [&lt;8054e28c&gt;] led_trigger_set+0x1d4/0x360                 &lt;-- Hold lock "triggers_list_lock" by down_read(&amp;amp;triggers_list_lock);
 [ 1362.207511] [&lt;8054eb38&gt;] led_trigger_write+0xd8/0x14c
 [ 1362.212566] [&lt;80381d98&gt;] sysfs_kf_bin_write+0x80/0xbc
 [ 1362.217688] [&lt;8037fcd8&gt;] kernfs_fop_write_iter+0x17c/0x28c
@@ -2074,7 +2099,7 @@ result is a kernel panic on boot with the following backtrace;
 [   14.971966] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 [   14.971968] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 [   14.971972] Call Trace:
-[   14.971977]  &lt;TASK&gt;
+[   14.971977]  
 [   14.971981]  ? show_trace_log_lvl+0x1c4/0x2df
 [   14.971994]  ? show_trace_log_lvl+0x1c4/0x2df
 [   14.972003]  ? acpi_ev_address_space_dispatch+0x16e/0x3c0
@@ -2200,7 +2225,7 @@ blktrace/002 (blktrace ftrace corruption with sysfs trace)   [failed]
     [   81.362877] Tainted: [N]=TEST
     [   81.362878] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
     [   81.362881] Call Trace:
-    [   81.362884]  &lt;TASK&gt;
+    [   81.362884]  
     [   81.362886]  dump_stack_lvl+0x8d/0xb0
     ...
     (See '/mnt/sda/blktests/results/nodev/blktrace/002.dmesg' for the entire message)
@@ -2213,7 +2238,7 @@ blktrace/002 (blktrace ftrace corruption with sysfs trace)   [failed]
 [   81.362877] Tainted: [N]=TEST
 [   81.362878] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
 [   81.362881] Call Trace:
-[   81.362884]  &lt;TASK&gt;
+[   81.362884]  
 [   81.362886]  dump_stack_lvl+0x8d/0xb0
 [   81.362895]  check_preemption_disabled+0xce/0xe0
 [   81.362902]  tracing_record_cmdline+0x10/0x40
@@ -2240,7 +2265,7 @@ blktrace/002 (blktrace ftrace corruption with sysfs trace)   [failed]
 [   81.363123] RBP: 0000000000001000 R08: 0000002863a10a81 R09: 00007f281915f000
 [   81.363124] R10: 00007f2818f77b60 R11: 0000000000000246 R12: 0000559f8bfae000
 [   81.363126] R13: 0000000000000000 R14: 0000000000000000 R15: 000000000000000a
-[   81.363142]  &lt;/TASK&gt;
+[   81.363142]  
 
 The same BUG fires from blk_add_trace_plug(), blk_add_trace_unplug(),
 and blk_add_trace_rq() paths as well.
@@ -2336,7 +2361,7 @@ out of bounds error when running the encode op:
 [  138.425778][    C1] CPU: 1 UID: 0 PID: 255 Comm: ife_out_out_bou Not tainted 7.0.0-rc1-00169-gfbdfa8da05b6 #624 PREEMPT(full)
 [  138.425795][    C1] Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011
 [  138.425800][    C1] Call Trace:
-[  138.425804][    C1]  &lt;IRQ&gt;
+[  138.425804][    C1]  
 [  138.425808][    C1]  dump_stack_lvl (lib/dump_stack.c:122)
 [  138.425828][    C1]  print_report (mm/kasan/report.c:379 mm/kasan/report.c:482)
 [  138.425839][    C1]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)
@@ -2382,7 +2407,7 @@ even cause division by zero, like it happened in the following splat:
  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
  CR2: 000000003cdd2000 CR3: 0000000007b58002 CR4: 0000000000172ef0
  Call Trace:
-  &lt;TASK&gt;
+  
   ets_qdisc_change+0x870/0xf40 [sch_ets]
   qdisc_create+0x12b/0x540
   tc_modify_qdisc+0x6d7/0xbd0
@@ -2396,14 +2421,14 @@ even cause division by zero, like it happened in the following splat:
   do_syscall_64+0x111/0xf80
   entry_SYSCALL_64_after_hwframe+0x77/0x7f
  RIP: 0033:0x7f440b81c77e
- Code: 4d 89 d8 e8 d4 bc 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 &lt;c9&gt; c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
+ Code: 4d 89 d8 e8 d4 bc 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05  c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
  RSP: 002b:00007fff951e4c10 EFLAGS: 00000202 ORIG_RAX: 000000000000002e
  RAX: ffffffffffffffda RBX: 0000000000481820 RCX: 00007f440b81c77e
  RDX: 0000000000000000 RSI: 00007fff951e4cd0 RDI: 0000000000000003
  RBP: 00007fff951e4c20 R08: 0000000000000000 R09: 0000000000000000
  R10: 0000000000000000 R11: 0000000000000202 R12: 00007fff951f4fa8
  R13: 00000000699ddede R14: 00007f440bb01000 R15: 0000000000486980
-  &lt;/TASK&gt;
+  
  Modules linked in: sch_ets(E) netdevsim(E)
  ---[ end trace 0000000000000000 ]---
  RIP: 0010:ets_offload_change+0x11f/0x290 [sch_ets]
@@ -2454,7 +2479,7 @@ neigh_lookup(). This causes a kernel NULL pointer dereference.
  RIP: 0010:neigh_lookup+0x16/0xe0
  [...]
  Call Trace:
-  &lt;IRQ&gt;
+  
   ? neigh_lookup+0x16/0xe0
   br_do_suppress_nd+0x160/0x290 [bridge]
   br_handle_frame_finish+0x500/0x620 [bridge]
@@ -2544,7 +2569,7 @@ FS:  000055557a6a5500(0000) GS:ffff888125496000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
 CR2: 00007fb5ea271fc0 CR3: 000000003269e000 CR4: 00000000003526f0
 Call Trace:
- &lt;TASK&gt;
+ 
  __nft_release_table+0xceb/0x11f0 net/netfilter/nf_tables_api.c:12115
  nft_rcv_nl_event+0xc25/0xdb0 net/netfilter/nf_tables_api.c:12187
  notifier_call_chain+0x19d/0x3a0 kernel/notifier.c:85
@@ -2585,7 +2610,7 @@ drivers/net/ethernet/drivers/net/ethernet/google/gve/gve_tx_dqo.c:178:5 index 18
 range for type 'dma_addr_t[18]' (aka 'unsigned long long[18]')
 Workqueue: gve gve_service_task [gve]
 Call Trace:
-&lt;TASK&gt;
+
 dump_stack_lvl+0x33/0xa0
 __ubsan_handle_out_of_bounds+0xdc/0x110
 gve_tx_stop_ring_dqo+0x182/0x200 [gve]
@@ -2663,7 +2688,7 @@ Changes in v2:
 - This allocates only what's needed up to the cap, avoiding waste
   for small operations
 
-Reviwed-by: Sean Anderson &lt;sean.anderson@linux.dev&gt;</description><pubDate>Wed, 25 Mar 2026 11:02:41 +0000</pubDate></item><item><title>CVE-2026-23391 | netfilter: xt_CT: drop pending enqueued packets on template removal</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23391</link><description>In the Linux kernel, the following vulnerability has been resolved:
+Reviwed-by: Sean Anderson</description><pubDate>Wed, 25 Mar 2026 11:02:41 +0000</pubDate></item><item><title>CVE-2026-23391 | netfilter: xt_CT: drop pending enqueued packets on template removal</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23391</link><description>In the Linux kernel, the following vulnerability has been resolved:
 
 netfilter: xt_CT: drop pending enqueued packets on template removal
 
@@ -2716,7 +2741,7 @@ mep_delete_implementation()
                                              if (peer_mep-&gt;ccm_defect)
                                                ccm_rx_timer_start()
                                                  queue_delayed_work(ccm_rx_dwork)
-  hlist_del_rcu(&amp;peer_mep-&gt;head);
+  hlist_del_rcu(&amp;amp;peer_mep-&gt;head);
   kfree_rcu(peer_mep, rcu);
                                            ccm_rx_work_expired()
                                              // on freed peer_mep
