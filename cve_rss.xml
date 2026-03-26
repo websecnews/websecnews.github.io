@@ -1,5 +1,114 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 26 Mar 2026 09:42:26 +0000</lastBuildDate><item><title>CVE-2026-4262 | Incorrect authorization in HiJiffy Chatbot</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4262</link><description>Vulnerability of incorrect authorization in HiJiffy Chatbot allows an attacker to download private messages from other users via the parameter 'ID' in '/api/v1/download/&lt;ID&gt;/'.</description><pubDate>Thu, 26 Mar 2026 09:42:28 +0000</pubDate></item><item><title>CVE-2026-4263 | Incorrect authorization in HiJiffy Chatbot</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4263</link><description>Vulnerability of incorrect authorization in HiJiffy Chatbot allows an attacker to download private messages from other users via the parameter 
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 26 Mar 2026 10:36:23 +0000</lastBuildDate><item><title>CVE-2026-23396 | wifi: mac80211: fix NULL deref in mesh_matches_local()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23396</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+wifi: mac80211: fix NULL deref in mesh_matches_local()
+
+mesh_matches_local() unconditionally dereferences ie-&gt;mesh_config to
+compare mesh configuration parameters. When called from
+mesh_rx_csa_frame(), the parsed action-frame elements may not contain a
+Mesh Configuration IE, leaving ie-&gt;mesh_config NULL and triggering a
+kernel NULL pointer dereference.
+
+The other two callers are already safe:
+  - ieee80211_mesh_rx_bcn_presp() checks !elems-&gt;mesh_config before
+    calling mesh_matches_local()
+  - mesh_plink_get_event() is only reached through
+    mesh_process_plink_frame(), which checks !elems-&gt;mesh_config, too
+
+mesh_rx_csa_frame() is the only caller that passes raw parsed elements
+to mesh_matches_local() without guarding mesh_config. An adjacent
+attacker can exploit this by sending a crafted CSA action frame that
+includes a valid Mesh ID IE but omits the Mesh Configuration IE,
+crashing the kernel.
+
+The captured crash log:
+
+Oops: general protection fault, probably for non-canonical address ...
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+Workqueue: events_unbound cfg80211_wiphy_work
+[...]
+Call Trace:
+ &lt;TASK&gt;
+ ? __pfx_mesh_matches_local (net/mac80211/mesh.c:65)
+ ieee80211_mesh_rx_queued_mgmt (net/mac80211/mesh.c:1686)
+ [...]
+ ieee80211_iface_work (net/mac80211/iface.c:1754 net/mac80211/iface.c:1802)
+ [...]
+ cfg80211_wiphy_work (net/wireless/core.c:426)
+ process_one_work (net/kernel/workqueue.c:3280)
+ ? assign_work (net/kernel/workqueue.c:1219)
+ worker_thread (net/kernel/workqueue.c:3352)
+ ? __pfx_worker_thread (net/kernel/workqueue.c:3385)
+ kthread (net/kernel/kthread.c:436)
+ [...]
+ ret_from_fork_asm (net/arch/x86/entry/entry_64.S:255)
+ &lt;/TASK&gt;
+
+This patch adds a NULL check for ie-&gt;mesh_config at the top of
+mesh_matches_local() to return false early when the Mesh Configuration
+IE is absent.</description><pubDate>Thu, 26 Mar 2026 10:36:25 +0000</pubDate></item><item><title>CVE-2026-23397 | nfnetlink_osf: validate individual option lengths in fingerprints</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23397</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+nfnetlink_osf: validate individual option lengths in fingerprints
+
+nfnl_osf_add_callback() validates opt_num bounds and string
+NUL-termination but does not check individual option length fields.
+A zero-length option causes nf_osf_match_one() to enter the option
+matching loop even when foptsize sums to zero, which matches packets
+with no TCP options where ctx-&gt;optp is NULL:
+
+ Oops: general protection fault
+ KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+ RIP: 0010:nf_osf_match_one (net/netfilter/nfnetlink_osf.c:98)
+ Call Trace:
+  nf_osf_match (net/netfilter/nfnetlink_osf.c:227)
+  xt_osf_match_packet (net/netfilter/xt_osf.c:32)
+  ipt_do_table (net/ipv4/netfilter/ip_tables.c:293)
+  nf_hook_slow (net/netfilter/core.c:623)
+  ip_local_deliver (net/ipv4/ip_input.c:262)
+  ip_rcv (net/ipv4/ip_input.c:573)
+
+Additionally, an MSS option (kind=2) with length &lt; 4 causes
+out-of-bounds reads when nf_osf_match_one() unconditionally accesses
+optp[2] and optp[3] for MSS value extraction.  While RFC 9293
+section 3.2 specifies that the MSS option is always exactly 4
+bytes (Kind=2, Length=4), the check uses "&lt; 4" rather than
+"!= 4" because lengths greater than 4 do not cause memory
+safety issues -- the buffer is guaranteed to be at least
+foptsize bytes by the ctx-&gt;optsize == foptsize check.
+
+Reject fingerprints where any option has zero length, or where an MSS
+option has length less than 4, at add time rather than trusting these
+values in the packet matching hot path.</description><pubDate>Thu, 26 Mar 2026 10:36:25 +0000</pubDate></item><item><title>CVE-2026-23398 | icmp: fix NULL pointer dereference in icmp_tag_validation()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23398</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+icmp: fix NULL pointer dereference in icmp_tag_validation()
+
+icmp_tag_validation() unconditionally dereferences the result of
+rcu_dereference(inet_protos[proto]) without checking for NULL.
+The inet_protos[] array is sparse -- only about 15 of 256 protocol
+numbers have registered handlers. When ip_no_pmtu_disc is set to 3
+(hardened PMTU mode) and the kernel receives an ICMP Fragmentation
+Needed error with a quoted inner IP header containing an unregistered
+protocol number, the NULL dereference causes a kernel panic in
+softirq context.
+
+ Oops: general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] SMP KASAN NOPTI
+ KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+ RIP: 0010:icmp_unreach (net/ipv4/icmp.c:1085 net/ipv4/icmp.c:1143)
+ Call Trace:
+  &lt;IRQ&gt;
+  icmp_rcv (net/ipv4/icmp.c:1527)
+  ip_protocol_deliver_rcu (net/ipv4/ip_input.c:207)
+  ip_local_deliver_finish (net/ipv4/ip_input.c:242)
+  ip_local_deliver (net/ipv4/ip_input.c:262)
+  ip_rcv (net/ipv4/ip_input.c:573)
+  __netif_receive_skb_one_core (net/core/dev.c:6164)
+  process_backlog (net/core/dev.c:6628)
+  handle_softirqs (kernel/softirq.c:561)
+  &lt;/IRQ&gt;
+
+Add a NULL check before accessing icmp_strict_tag_validation. If the
+protocol has no registered handler, return false since it cannot
+perform strict tag validation.</description><pubDate>Thu, 26 Mar 2026 10:36:26 +0000</pubDate></item><item><title>CVE-2026-4262 | Incorrect authorization in HiJiffy Chatbot</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4262</link><description>Vulnerability of incorrect authorization in HiJiffy Chatbot allows an attacker to download private messages from other users via the parameter 'ID' in '/api/v1/download//'.</description><pubDate>Thu, 26 Mar 2026 09:42:28 +0000</pubDate></item><item><title>CVE-2026-4263 | Incorrect authorization in HiJiffy Chatbot</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4263</link><description>Vulnerability of incorrect authorization in HiJiffy Chatbot allows an attacker to download private messages from other users via the parameter 
 'visitor' in '/api/v1/webchat/message'.</description><pubDate>Thu, 26 Mar 2026 09:42:29 +0000</pubDate></item><item><title>CVE-2026-4862 | UTT HiPER 1250GW Parameter formConfigDnsFilterGlobal strcpy buffer overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4862</link><description>A security vulnerability has been detected in UTT HiPER 1250GW up to 3.2.7-210907-180535. This issue affects the function strcpy of the file /goform/formConfigDnsFilterGlobal of the component Parameter Handler. Such manipulation of the argument GroupName leads to buffer overflow. The attack can be launched remotely. The exploit has been disclosed publicly and may be used.</description><pubDate>Thu, 26 Mar 2026 09:42:29 +0000</pubDate></item><item><title>CVE-2026-4860 | 648540858 wvp-GB28181-pro API Endpoint RedisTemplateConfig.java GenericFastJsonRedisSerializer deserialization</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4860</link><description>A security flaw has been discovered in 648540858 wvp-GB28181-pro up to 2.7.4. This affects the function GenericFastJsonRedisSerializer of the file src/main/java/com/genersoft/iot/vmp/conf/redis/RedisTemplateConfig.java of the component API Endpoint. The manipulation results in deserialization. It is possible to launch the attack remotely. The exploit has been released to the public and may be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 26 Mar 2026 08:38:12 +0000</pubDate></item><item><title>CVE-2026-4861 | Wavlink WL-NU516U1 nas.cgi ftext stack-based overflow</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4861</link><description>A weakness has been identified in Wavlink WL-NU516U1 260227. This vulnerability affects the function ftext of the file /cgi-bin/nas.cgi. This manipulation of the argument Content-Length causes stack-based buffer overflow. The attack can be initiated remotely. The exploit has been made available to the public and could be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 26 Mar 2026 08:38:12 +0000</pubDate></item><item><title>CVE-2026-4849 | code-projects Simple Laundry System Parameter modify.php cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4849</link><description>A vulnerability was identified in code-projects Simple Laundry System 1.0. This impacts an unknown function of the file /modify.php of the component Parameter Handler. The manipulation of the argument firstName leads to cross site scripting. The attack may be initiated remotely. The exploit is publicly available and might be used.</description><pubDate>Thu, 26 Mar 2026 08:38:13 +0000</pubDate></item><item><title>CVE-2026-4850 | code-projects Simple Laundry System Parameter checkregisitem.php sql injection</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4850</link><description>A security flaw has been discovered in code-projects Simple Laundry System 1.0. Affected is an unknown function of the file /checkregisitem.php of the component Parameter Handler. The manipulation of the argument Long-arm-shirtVol results in sql injection. The attack may be launched remotely. The exploit has been released to the public and may be used for attacks.</description><pubDate>Thu, 26 Mar 2026 08:38:13 +0000</pubDate></item><item><title>CVE-2026-4874 | Org.keycloak.protocol.oidc.grants: org.keycloak.services.managers: keycloak: server-side request forgery via oidc token endpoint manipulation</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4874</link><description>A flaw was found in Keycloak. An authenticated attacker can perform Server-Side Request Forgery (SSRF) by manipulating the `client_session_host` parameter during refresh token requests. This occurs when a Keycloak client is configured to use the `backchannel.logout.url` with the `application.session.host` placeholder. Successful exploitation allows the attacker to make HTTP requests from the Keycloak server’s network context, potentially probing internal networks or internal APIs, leading to information disclosure.</description><pubDate>Thu, 26 Mar 2026 07:51:41 +0000</pubDate></item><item><title>CVE-2026-28760 | The installer of RATOC RAID Monitoring Manager for Windows searches the current directory to load certain DLLs. If a user is directed to pla...</title><link>https://www.cve.org/CVERecord?id=CVE-2026-28760</link><description>The installer of RATOC RAID Monitoring Manager for Windows searches the current directory to load certain DLLs. If a user is directed to place a crafted DLL with the installer, an arbitrary code may be executed with the administrator privilege.</description><pubDate>Thu, 26 Mar 2026 07:51:42 +0000</pubDate></item><item><title>CVE-2026-32680 | The installer of RATOC RAID Monitoring Manager for Windows allows to customize the installation folder. If the installation folder is custom...</title><link>https://www.cve.org/CVERecord?id=CVE-2026-32680</link><description>The installer of RATOC RAID Monitoring Manager for Windows allows to customize the installation folder. If the installation folder is customized to some non-default one, the folder may be left with un-secure ACLs and non-administrative users can alter contents of that folder. It may allow a non-administrative user to execute an arbitrary code with SYSTEM privilege.</description><pubDate>Thu, 26 Mar 2026 07:51:42 +0000</pubDate></item><item><title>CVE-2026-4848 | dameng100 muucmf list.html cross site scripting</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4848</link><description>A vulnerability was determined in dameng100 muucmf 1.9.5.20260309. This affects an unknown function of the file /admin/extend/list.html. Executing a manipulation of the argument Name can lead to cross site scripting. The attack can be launched remotely. The exploit has been publicly disclosed and may be utilized. The vendor was contacted early about this disclosure but did not respond in any way.</description><pubDate>Thu, 26 Mar 2026 07:51:42 +0000</pubDate></item><item><title>CVE-2026-4747 | Remote code execution via RPCSEC_GSS packet validation</title><link>https://www.cve.org/CVERecord?id=CVE-2026-4747</link><description>Each RPCSEC_GSS data packet is validated by a routine which checks a signature in the packet.  This routine copies a portion of the packet into a stack buffer, but fails to ensure that the buffer is sufficiently large, and a malicious client can trigger a stack overflow.  Notably, this does not require the client to authenticate itself first.
 
 As kgssapi.ko's RPCSEC_GSS implementation is vulnerable, remote code execution in the kernel is possible by an authenticated user that is able to send packets to the kernel's NFS server while kgssapi.ko is loaded into the kernel.
