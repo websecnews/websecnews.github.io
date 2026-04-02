@@ -1,5 +1,133 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 02 Apr 2026 11:29:49 +0000</lastBuildDate><item><title>CVE-2026-5326 | SourceCodester Leave Application System User Information index.php authorization</title><link>https://www.cve.org/CVERecord?id=CVE-2026-5326</link><description>A vulnerability was identified in SourceCodester Leave Application System 1.0. Impacted is an unknown function of the file /index.php?page=manage_user of the component User Information Handler. Such manipulation of the argument ID leads to authorization bypass. The attack can be executed remotely. The exploit is publicly available and might be used.</description><pubDate>Thu, 02 Apr 2026 11:29:51 +0000</pubDate></item><item><title>CVE-2026-32145 | Multipart form body parser bypasses body size limits in wisp</title><link>https://www.cve.org/CVERecord?id=CVE-2026-32145</link><description>Allocation of Resources Without Limits or Throttling vulnerability in gleam-wisp wisp allows a denial of service via multipart form body parsing.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>New CVE from cve.org feed</title><link>https://github.com/test.xml</link><description>Last 2 days CVE feed!</description><atom:link href="https://github.com/test.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Thu, 02 Apr 2026 12:09:03 +0000</lastBuildDate><item><title>CVE-2026-23412 | netfilter: bpf: defer hook memory release until rcu readers are done</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23412</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+netfilter: bpf: defer hook memory release until rcu readers are done
+
+Yiming Qian reports UaF when concurrent process is dumping hooks via
+nfnetlink_hooks:
+
+BUG: KASAN: slab-use-after-free in nfnl_hook_dump_one.isra.0+0xe71/0x10f0
+Read of size 8 at addr ffff888003edbf88 by task poc/79
+Call Trace:
+ &lt;TASK&gt;
+ nfnl_hook_dump_one.isra.0+0xe71/0x10f0
+ netlink_dump+0x554/0x12b0
+ nfnl_hook_get+0x176/0x230
+ [..]
+
+Defer release until after concurrent readers have completed.</description><pubDate>Thu, 02 Apr 2026 12:09:05 +0000</pubDate></item><item><title>CVE-2026-23413 | clsact: Fix use-after-free in init/destroy rollback asymmetry</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23413</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+clsact: Fix use-after-free in init/destroy rollback asymmetry
+
+Fix a use-after-free in the clsact qdisc upon init/destroy rollback asymmetry.
+The latter is achieved by first fully initializing a clsact instance, and
+then in a second step having a replacement failure for the new clsact qdisc
+instance. clsact_init() initializes ingress first and then takes care of the
+egress part. This can fail midway, for example, via tcf_block_get_ext(). Upon
+failure, the kernel will trigger the clsact_destroy() callback.
+
+Commit 1cb6f0bae504 ("bpf: Fix too early release of tcx_entry") details the
+way how the transition is happening. If tcf_block_get_ext on the q-&gt;ingress_block
+ends up failing, we took the tcx_miniq_inc reference count on the ingress
+side, but not yet on the egress side. clsact_destroy() tests whether the
+{ingress,egress}_entry was non-NULL. However, even in midway failure on the
+replacement, both are in fact non-NULL with a valid egress_entry from the
+previous clsact instance.
+
+What we really need to test for is whether the qdisc instance-specific ingress
+or egress side previously got initialized. This adds a small helper for checking
+the miniq initialization called mini_qdisc_pair_inited, and utilizes that upon
+clsact_destroy() in order to fix the use-after-free scenario. Convert the
+ingress_destroy() side as well so both are consistent to each other.</description><pubDate>Thu, 02 Apr 2026 12:09:06 +0000</pubDate></item><item><title>CVE-2026-23414 | tls: Purge async_hold in tls_decrypt_async_wait()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23414</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+tls: Purge async_hold in tls_decrypt_async_wait()
+
+The async_hold queue pins encrypted input skbs while
+the AEAD engine references their scatterlist data. Once
+tls_decrypt_async_wait() returns, every AEAD operation
+has completed and the engine no longer references those
+skbs, so they can be freed unconditionally.
+
+A subsequent patch adds batch async decryption to
+tls_sw_read_sock(), introducing a new call site that
+must drain pending AEAD operations and release held
+skbs. Move __skb_queue_purge(&amp;ctx-&gt;async_hold) into
+tls_decrypt_async_wait() so the purge is centralized
+and every caller -- recvmsg's drain path, the -EBUSY
+fallback in tls_do_decryption(), and the new read_sock
+batch path -- releases held skbs on synchronization
+without each site managing the purge independently.
+
+This fixes a leak when tls_strp_msg_hold() fails part-way through,
+after having added some cloned skbs to the async_hold
+queue. tls_decrypt_sg() will then call tls_decrypt_async_wait() to
+process all pending decrypts, and drop back to synchronous mode, but
+tls_sw_recvmsg() only flushes the async_hold queue when one record has
+been processed in "fully-async" mode, which may not be the case here.
+
+[pabeni@redhat.com: added leak comment]</description><pubDate>Thu, 02 Apr 2026 12:09:06 +0000</pubDate></item><item><title>CVE-2026-23415 | futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23415</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()
+
+During futex_key_to_node_opt() execution, vma-&gt;vm_policy is read under
+speculative mmap lock and RCU. Concurrently, mbind() may call
+vma_replace_policy() which frees the old mempolicy immediately via
+kmem_cache_free().
+
+This creates a race where __futex_key_to_node() dereferences a freed
+mempolicy pointer, causing a use-after-free read of mpol-&gt;mode.
+
+[  151.412631] BUG: KASAN: slab-use-after-free in __futex_key_to_node (kernel/futex/core.c:349)
+[  151.414046] Read of size 2 at addr ffff888001c49634 by task e/87
+
+[  151.415969] Call Trace:
+
+[  151.416732]  __asan_load2 (mm/kasan/generic.c:271)
+[  151.416777]  __futex_key_to_node (kernel/futex/core.c:349)
+[  151.416822]  get_futex_key (kernel/futex/core.c:374 kernel/futex/core.c:386 kernel/futex/core.c:593)
+
+Fix by adding rcu to __mpol_put().</description><pubDate>Thu, 02 Apr 2026 12:09:07 +0000</pubDate></item><item><title>CVE-2026-23416 | mm/mseal: update VMA end correctly on merge</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23416</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+mm/mseal: update VMA end correctly on merge
+
+Previously we stored the end of the current VMA in curr_end, and then upon
+iterating to the next VMA updated curr_start to curr_end to advance to the
+next VMA.
+
+However, this doesn't take into account the fact that a VMA might be
+updated due to a merge by vma_modify_flags(), which can result in curr_end
+being stale and thus, upon setting curr_start to curr_end, ending up with
+an incorrect curr_start on the next iteration.
+
+Resolve the issue by setting curr_end to vma-&gt;vm_end unconditionally to
+ensure this value remains updated should this occur.
+
+While we're here, eliminate this entire class of bug by simply setting
+const curr_[start/end] to be clamped to the input range and VMAs, which
+also happens to simplify the logic.</description><pubDate>Thu, 02 Apr 2026 12:09:07 +0000</pubDate></item><item><title>CVE-2026-23417 | bpf: Fix constant blinding for PROBE_MEM32 stores</title><link>https://www.cve.org/CVERecord?id=CVE-2026-23417</link><description>In the Linux kernel, the following vulnerability has been resolved:
+
+bpf: Fix constant blinding for PROBE_MEM32 stores
+
+BPF_ST | BPF_PROBE_MEM32 immediate stores are not handled by
+bpf_jit_blind_insn(), allowing user-controlled 32-bit immediates to
+survive unblinded into JIT-compiled native code when bpf_jit_harden &gt;= 1.
+
+The root cause is that convert_ctx_accesses() rewrites BPF_ST|BPF_MEM
+to BPF_ST|BPF_PROBE_MEM32 for arena pointer stores during verification,
+before bpf_jit_blind_constants() runs during JIT compilation. The
+blinding switch only matches BPF_ST|BPF_MEM (mode 0x60), not
+BPF_ST|BPF_PROBE_MEM32 (mode 0xa0). The instruction falls through
+unblinded.
+
+Add BPF_ST|BPF_PROBE_MEM32 cases to bpf_jit_blind_insn() alongside the
+existing BPF_ST|BPF_MEM cases. The blinding transformation is identical:
+load the blinded immediate into BPF_REG_AX via mov+xor, then convert
+the immediate store to a register store (BPF_STX).
+
+The rewritten STX instruction must preserve the BPF_PROBE_MEM32 mode so
+the architecture JIT emits the correct arena addressing (R12-based on
+x86-64). Cannot use the BPF_STX_MEM() macro here because it hardcodes
+BPF_MEM mode; construct the instruction directly instead.</description><pubDate>Thu, 02 Apr 2026 12:09:07 +0000</pubDate></item><item><title>CVE-2026-5327 | efforthye fast-filesystem-mcp index.ts handleGetDiskUsage command injection</title><link>https://www.cve.org/CVERecord?id=CVE-2026-5327</link><description>A security flaw has been discovered in efforthye fast-filesystem-mcp up to 3.5.1. The affected element is the function handleGetDiskUsage of the file src/index.ts. Performing a manipulation results in command injection. The attack is possible to be carried out remotely. The exploit has been released to the public and may be used for attacks. The project was informed of the problem early through an issue report but has not responded yet.</description><pubDate>Thu, 02 Apr 2026 12:09:08 +0000</pubDate></item><item><title>CVE-2026-5326 | SourceCodester Leave Application System User Information index.php authorization</title><link>https://www.cve.org/CVERecord?id=CVE-2026-5326</link><description>A vulnerability was identified in SourceCodester Leave Application System 1.0. Impacted is an unknown function of the file /index.php?page=manage_user of the component User Information Handler. Such manipulation of the argument ID leads to authorization bypass. The attack can be executed remotely. The exploit is publicly available and might be used.</description><pubDate>Thu, 02 Apr 2026 11:29:51 +0000</pubDate></item><item><title>CVE-2026-32145 | Multipart form body parser bypasses body size limits in wisp</title><link>https://www.cve.org/CVERecord?id=CVE-2026-32145</link><description>Allocation of Resources Without Limits or Throttling vulnerability in gleam-wisp wisp allows a denial of service via multipart form body parsing.
 
 The multipart_body function bypasses configured max_body_size and max_files_size limits. When a multipart boundary is not present in a chunk, the parser takes the MoreRequiredForBody path, which appends the chunk to the output but passes the quota unchanged to the recursive call. Only the final chunk containing the boundary is counted via decrement_quota. The same pattern exists in multipart_headers, where MoreRequiredForHeaders recurses without calling decrement_body_quota.
 
